@@ -39,6 +39,8 @@ namespace MySystem.Data.Models.Business
         public Guid OfficeId { get; set; }
         public virtual Office Office { get; set; }
 
+        public DateTime? ExpireTs { get; set; }
+
         #region ef_functions
         static internal List<Contract> GetContractList(Guid officeid, Guid salesid)
         {

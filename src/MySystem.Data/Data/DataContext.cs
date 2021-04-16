@@ -24,6 +24,7 @@ namespace MySystem.Data.Data
 
         //Basic Schema
         public DbSet<Office> Offices { get; set; }
+        public DbSet<Building> Buildings { get; set; }
 
         //People Schema
         public DbSet<Person> People { get; set; }
@@ -41,6 +42,7 @@ namespace MySystem.Data.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             Office.CreateOfficeModel(this, modelBuilder);
+            Building.CreateBuildingModel(this, modelBuilder);
 
             Person.CreatePersonModel(this, modelBuilder);
             Employee.CreateEmployeeModel(this, modelBuilder);
@@ -48,6 +50,7 @@ namespace MySystem.Data.Data
             Unit.CreateUnitModel(this, modelBuilder);
 
             Contract.CreateUnitModel(this, modelBuilder);
+            ContractUnit.CreateContractUnitModel(this, modelBuilder);
         }
 
         private void SeedBasicDbs()
@@ -55,6 +58,12 @@ namespace MySystem.Data.Data
             if (Offices.Any() == false)
             {
                 Offices.AddRange(Office.GetOfficeList());
+                SaveChanges();
+            }
+
+            if (Buildings.Any() == false)
+            {
+                Buildings.AddRange(Building.GetOfficeList());
                 SaveChanges();
             }
         }
@@ -74,7 +83,7 @@ namespace MySystem.Data.Data
         {
             if (Units.Any() == false)
             {
-                Units.AddRange(Unit.GetUnitList());
+                Units.AddRange(Unit.GetUnitList(Buildings.First().BuildingId));
                 SaveChanges();
             }
         }
