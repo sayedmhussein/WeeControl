@@ -9,7 +9,7 @@ using MySystem.Data.Models.People;
 
 namespace MySystem.Data.Data
 {
-    public partial class DataContext : DbContext
+    public class DataContext : DbContext
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
@@ -23,21 +23,21 @@ namespace MySystem.Data.Data
         }
 
         //Basic Schema
-        public DbSet<Office> Offices { get; set; }
-        public DbSet<Building> Buildings { get; set; }
+        internal DbSet<Office> Offices { get; set; }
+        internal DbSet<Building> Buildings { get; set; }
 
         //People Schema
-        public DbSet<Person> People { get; set; }
-        public DbSet<Employee> Employees { get; set; }
+        internal DbSet<Person> People { get; set; }
+        internal DbSet<Employee> Employees { get; set; }
 
         //Component Schema
-        public DbSet<Unit> Units { get; set; }
+        internal DbSet<Unit> Units { get; set; }
 
         //Business Schema
-        public DbSet<Contract> Contracts { get; set; }
-        public DbSet<ContractUnit> ContractUnits { get; set; }
-        public DbSet<Visit> Visits { get; set; }
-        public DbSet<Material> Materials { get; set; }
+        internal DbSet<Contract> Contracts { get; set; }
+        internal DbSet<ContractUnit> ContractUnits { get; set; }
+        internal DbSet<Visit> Visits { get; set; }
+        internal DbSet<Material> Materials { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -77,13 +77,21 @@ namespace MySystem.Data.Data
                 Contracts.AddRange(Contract.GetContractList(office.OfficeId, sales.PersonId));
                 SaveChanges();
             }
+
+            if (ContractUnits.Any() == false)
+            {
+                var contract = Contracts.First().ContractId;
+                var unit = Units.First().UnitId;
+                ContractUnits.AddRange(ContractUnit.GetContractUnitList(contract, unit));
+                SaveChanges();
+            }
         }
 
         private void SeedComponentDbs()
         {
             if (Units.Any() == false)
             {
-                Units.AddRange(Unit.GetUnitList(Buildings.First().BuildingId));
+                Units.AddRange(Unit.GetUnitList(Buildings.First().Id));
                 SaveChanges();
             }
         }

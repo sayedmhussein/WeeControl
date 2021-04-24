@@ -9,7 +9,7 @@ namespace MySystem.Data.Models.Basic
     [Table(nameof(Office), Schema = nameof(Basic))]
     [Index(nameof(CountryId), nameof(OfficeName), IsUnique = true)]
     [Comment("Offices of corporate.")]
-    public class Office
+    internal class Office
     {
         [Key]
         [Column(nameof(OfficeId))]

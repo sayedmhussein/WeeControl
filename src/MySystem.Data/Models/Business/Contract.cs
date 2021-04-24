@@ -12,7 +12,7 @@ namespace MySystem.Data.Models.Business
     [Index(nameof(ContractNo), IsUnique = true)]
     [Index(nameof(ContractType), IsUnique = false)]
     [Comment("-")]
-    public class Contract
+    internal class Contract
     {
         [Key]
         public Guid ContractId { get; set; }

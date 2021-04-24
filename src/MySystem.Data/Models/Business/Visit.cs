@@ -3,19 +3,23 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using MySystem.Data.Models.Business;
+using MySystem.Data.Models.Component;
 using MySystem.Data.Models.People;
 
 namespace MySystem.Data.Models.Business
 {
     [Table(nameof(Visit), Schema = nameof(Business))]
     [Comment("-")]
-    public class Visit
+    internal class Visit
     {
         [Key]
         public Guid VisitId { get; set; }
 
         public Guid ContractId { get; set; }
         public virtual Contract Contract { get; set; }
+
+        public Guid UnitId { get; set; }
+        public virtual Unit Unit { get; set; }
 
         public bool IsScheduled { get; set; }
 

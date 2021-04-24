@@ -11,7 +11,7 @@ namespace MySystem.Data.Models.Component
     [Index(nameof(UnitNo), IsUnique = true)]
     [Index(nameof(UnitType), IsUnique = false)]
     [Comment("-")]
-    public class Unit
+    internal class Unit
     {
         [Key]
         public Guid UnitId { get; set; }

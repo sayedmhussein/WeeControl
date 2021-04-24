@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +10,7 @@ namespace MySystem.Data.Models.Business
     [Table(nameof(ContractUnit), Schema = nameof(Business))]
     [Index(nameof(ContractId), nameof(UnitId), IsUnique = false)]
     [Comment("-")]
-    public class ContractUnit
+    internal class ContractUnit
     {
         [Key]
         public Guid ContractUnitId { get; set; }
@@ -25,13 +26,13 @@ namespace MySystem.Data.Models.Business
         public DateTime? CancellationTs { get; set; }
 
         #region ef_functions
-        //static internal List<Contract> GetContractList(Guid officeid, Guid salesid)
-        //{
-        //    return new()
-        //    {
-        //        new Contract() { ContractType = 1, ContractNo = "88L12345", ContractName = "This is Contract Name", OfficeId = officeid, SalesId = salesid }
-        //    };
-        //}
+        static internal List<ContractUnit> GetContractUnitList(Guid contractId, Guid unitId)
+        {
+            return new()
+            {
+                new ContractUnit() { ContractId = contractId, UnitId = unitId }
+            };
+        }
 
         static internal void CreateContractUnitModel(DbContext dbContext, ModelBuilder modelBuilder)
         {

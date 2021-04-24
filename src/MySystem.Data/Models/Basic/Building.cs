@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using MySystem.Data.Data;
 
 namespace MySystem.Data.Models.Basic
 {
@@ -11,10 +12,14 @@ namespace MySystem.Data.Models.Basic
     public class Building
     {
         [Key]
-        public Guid BuildingId { get; set; }
+        public Guid Id { get; set; }
 
+        public int? BuildingType { get; set; }
+
+        [Required]
         public string BuildingName { get; set; }
 
+        [Required]
         public string CountryId { get; set; }
 
         public string AddressLine1 { get; set; }
@@ -38,7 +43,7 @@ namespace MySystem.Data.Models.Basic
         #region ef_functions
         static internal List<Building> GetOfficeList()
         {
-            var ho = new Building() { BuildingId = Guid.NewGuid(), CountryId = "SAU", BuildingName = "Saudi Arabia Head Office" };
+            var ho = new Building() { Id = Guid.NewGuid(), CountryId = "SAU", BuildingName = "Saudi Arabia Head Office" };
             return new()
             {
                 ho,
@@ -52,12 +57,12 @@ namespace MySystem.Data.Models.Basic
             {
                 modelBuilder.HasPostgresExtension("uuid-ossp")
                 .Entity<Building>()
-                .Property(p => p.BuildingId)
+                .Property(p => p.Id)
                 .HasDefaultValueSql("uuid_generate_v4()");
             }
             else
             {
-                modelBuilder.Entity<Building>().Property(p => p.BuildingId).ValueGeneratedOnAdd();
+                modelBuilder.Entity<Building>().Property(p => p.Id).ValueGeneratedOnAdd();
             }
         }
         #endregion

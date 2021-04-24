@@ -9,7 +9,7 @@ namespace MySystem.Data.Models.People
     [Table(nameof(Person), Schema = nameof(People))]
     [Index(nameof(LastName), nameof(FirstName), IsUnique = false)]
     [Comment("Table contains any data related to a person.")]
-    public abstract class Person
+    internal abstract class Person
     {
         #region ef_functions
         static internal void CreatePersonModel(DbContext dbContext, ModelBuilder modelBuilder)

@@ -11,7 +11,7 @@ namespace MySystem.Data.Models.People
     [Index(nameof(Username), IsUnique = true)]
     [Index(nameof(OfficeId), IsUnique = false)]
     [Comment("This table inherts from Person table.")]
-    public class Employee : Person
+    internal class Employee : Person
     {
         #region ef_functions
         static internal List<Person> GetPersonList(Guid officeid)

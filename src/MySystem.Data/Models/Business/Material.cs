@@ -7,7 +7,7 @@ namespace MySystem.Data.Models.Business
 {
     [Table(nameof(Material), Schema = nameof(Business))]
     [Comment("-")]
-    public class Material
+    internal class Material
     {
         public Guid MaterialId { get; set; }
 
