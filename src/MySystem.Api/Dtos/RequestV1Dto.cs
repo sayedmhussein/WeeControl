@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace MySystem.Data.V1.Dtos
+namespace MySystem.Api.Dtos
 {
-    public class RequestV1<T>
+    public class RequestV1Dto<T>
     {
         public T Payload { get; set; }
 
@@ -12,7 +12,7 @@ namespace MySystem.Data.V1.Dtos
 
         public DateTime DeviceTs { get; set; }
 
-        public Guid UniqueIdentifier { get; set; }
+        public Guid UUID { get; set; }
 
         public double? Latitude { get; set; }
 

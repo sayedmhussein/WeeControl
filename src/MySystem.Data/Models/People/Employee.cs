@@ -11,29 +11,8 @@ namespace MySystem.Data.Models.People
     [Index(nameof(Username), IsUnique = true)]
     [Index(nameof(OfficeId), IsUnique = false)]
     [Comment("This table inherts from Person table.")]
-    internal class Employee : Person
+    public class Employee : Person
     {
-        #region ef_functions
-        static internal List<Person> GetPersonList(Guid officeid)
-        {
-            var sayed = new Employee() { PersonId = Guid.NewGuid(), Title = "Mr.", FirstName = "Sayed", LastName = "Hussein", Gender = "m", OfficeId = officeid };
-            var اhatem = new Employee() { PersonId = Guid.NewGuid(), Title = "Mr.", FirstName = "Hatem", LastName = "Nagaty", Gender = "m", OfficeId = officeid };
-            return new()
-            {
-                sayed,
-                new Employee("Yasser", "Gamal", officeid) { Supervisor = sayed },
-                new Employee("Mohamed", "Abdelaal", officeid) { SupervisorId = sayed.PersonId }
-            };
-        }
-
-        static internal void CreateEmployeeModel(DbContext dbContext, ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Employee>()
-                .Property(p => p.IsProductive)
-                .HasDefaultValue(false);
-        }
-        #endregion
-
         public Guid? SupervisorId { get; set; }
         public virtual Employee Supervisor { get; set; }
 
@@ -61,6 +40,27 @@ namespace MySystem.Data.Models.People
         {
             OfficeId = officeid;
         }
-    #endregion
-}
+        #endregion
+
+        #region ef_functions
+        static internal List<Person> GetPersonList(Guid officeid)
+        {
+            var sayed = new Employee() { Id = Guid.NewGuid(), Title = "Mr.", FirstName = "Sayed", LastName = "Hussein", Gender = "m", OfficeId = officeid };
+            var اhatem = new Employee() { Id = Guid.NewGuid(), Title = "Mr.", FirstName = "Hatem", LastName = "Nagaty", Gender = "m", OfficeId = officeid };
+            return new()
+            {
+                sayed,
+                new Employee("Yasser", "Gamal", officeid) { Supervisor = sayed },
+                new Employee("Mohamed", "Abdelaal", officeid) { SupervisorId = sayed.Id }
+            };
+        }
+
+        static internal void CreateEmployeeModel(DbContext dbContext, ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Employee>()
+                .Property(p => p.IsProductive)
+                .HasDefaultValue(false);
+        }
+        #endregion
+    }
 }

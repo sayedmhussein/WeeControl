@@ -11,7 +11,7 @@ using MySystem.Data.Models.Component;
 
 namespace MySystem.Data.V1.Dtos
 {
-    public class BuildingV1Dto : Repository<Building, BuildingV1Dto>, IEntity
+    public class BuildingV1Dto : RepositoryV1<BuildingV1Dto, Building>
     {
         public Guid? Id { get; set; }
 

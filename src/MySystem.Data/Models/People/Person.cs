@@ -9,7 +9,7 @@ namespace MySystem.Data.Models.People
     [Table(nameof(Person), Schema = nameof(People))]
     [Index(nameof(LastName), nameof(FirstName), IsUnique = false)]
     [Comment("Table contains any data related to a person.")]
-    internal abstract class Person
+    public abstract class Person
     {
         #region ef_functions
         static internal void CreatePersonModel(DbContext dbContext, ModelBuilder modelBuilder)
@@ -18,18 +18,18 @@ namespace MySystem.Data.Models.People
             {
                 modelBuilder.HasPostgresExtension("uuid-ossp")
                 .Entity<Person>()
-                .Property(p => p.PersonId)
+                .Property(p => p.Id)
                 .HasDefaultValueSql("uuid_generate_v4()");
             }
             else
             {
-                modelBuilder.Entity<Person>().Property(p => p.PersonId).ValueGeneratedOnAdd();
+                modelBuilder.Entity<Person>().Property(p => p.Id).ValueGeneratedOnAdd();
             }
         }
         #endregion
 
         [Key]
-        public Guid PersonId { get; set; }
+        public Guid Id { get; set; }
 
         [StringLength(10, ErrorMessage = "Always use english common titles not exceeding 10 characters.")]
         public string Title { get; set; }

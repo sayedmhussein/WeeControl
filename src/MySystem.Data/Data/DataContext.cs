@@ -29,6 +29,8 @@ namespace MySystem.Data.Data
         //People Schema
         internal DbSet<Person> People { get; set; }
         internal DbSet<Employee> Employees { get; set; }
+        public DbSet<Session> Sessions { get; set; }
+        public DbSet<Claim> Claims { get; set; }
 
         //Component Schema
         internal DbSet<Unit> Units { get; set; }
@@ -46,6 +48,8 @@ namespace MySystem.Data.Data
 
             Person.CreatePersonModel(this, modelBuilder);
             Employee.CreateEmployeeModel(this, modelBuilder);
+            Session.CreateSessionModel(this, modelBuilder);
+            Claim.CreateClaimModel(this, modelBuilder);
 
             Unit.CreateUnitModel(this, modelBuilder);
 
@@ -74,7 +78,7 @@ namespace MySystem.Data.Data
             {
                 var office = Offices.FirstOrDefault(x => x.OfficeName == "Mecca");
                 var sales = Employees.FirstOrDefault();
-                Contracts.AddRange(Contract.GetContractList(office.OfficeId, sales.PersonId));
+                Contracts.AddRange(Contract.GetContractList(office.Id, sales.Id));
                 SaveChanges();
             }
 
@@ -101,7 +105,7 @@ namespace MySystem.Data.Data
             if (Employees.Any() == false)
             {
                 var office = Offices.FirstOrDefault(x => x.OfficeName == "Mecca");
-                People.AddRange(Employee.GetPersonList(office.OfficeId));
+                People.AddRange(Employee.GetPersonList(office.Id));
                 SaveChanges();
             }
         }

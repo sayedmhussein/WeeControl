@@ -8,12 +8,14 @@ using MySystem.Data.V1.Dtos;
 
 namespace MySystem.Data.V1
 {
-    public abstract class Repository<TEntity, TDto> where TEntity : class
+    public abstract class RepositoryV1<TDto, TEntity>
+        where TEntity : class
+        where TDto : class
     {
         protected DataContext context;
         protected IMapper mapper;
 
-        public Repository()
+        public RepositoryV1()
         {
             var config = new MapperConfiguration(c =>
             {
@@ -37,18 +39,22 @@ namespace MySystem.Data.V1
             return list;
         }
 
-        public async Task<TDto> AddAsync(TEntity entity)
+        public async Task<TDto> AddOrUpdateAsync(TDto dto)
         {
-            context.Set<TEntity>().Add(mapper.Map<TEntity>(entity));
+            dynamic _entity = mapper.Map<TEntity>(dto);
+            if (await context.Set<TEntity>().FindAsync(_entity.Id) == null)
+            {
+                context.Set<TEntity>().Add(_entity);
+            }
+            else
+            {
+                context.Update(_entity);
+                //context.Attach(_entity);
+                //context.Entry(_entity).State = EntityState.Modified;
+            }
+            
             await context.SaveChangesAsync();
-            return mapper.Map<TDto>(entity);
-        }
-
-        public async Task<TDto> UpdateAsync(TEntity entity)
-        {
-            context.Entry(mapper.Map<TEntity>(entity)).State = EntityState.Modified;
-            await context.SaveChangesAsync();
-            return mapper.Map<TDto>(entity);
+            return mapper.Map<TDto>(_entity);
         }
 
         public async Task<bool> DeleteAsync(Guid id)

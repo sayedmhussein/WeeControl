@@ -1,18 +1,17 @@
 ﻿using System;
-
-namespace MySystem.Data.V1.Dtos
+namespace MySystem.Api.Dtos
 {
-    public class ResponseV1<T>
+    public class ResponseV1Dto<T>
     {
         public T Payload { get; set; }
 
         public string DebugMsg { get; set; }
 
-        public ResponseV1()
+        public ResponseV1Dto()
         {
         }
 
-        public ResponseV1(T payload)
+        public ResponseV1Dto(T payload)
         {
             Payload = payload;
         }

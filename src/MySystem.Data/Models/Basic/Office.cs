@@ -9,12 +9,12 @@ namespace MySystem.Data.Models.Basic
     [Table(nameof(Office), Schema = nameof(Basic))]
     [Index(nameof(CountryId), nameof(OfficeName), IsUnique = true)]
     [Comment("Offices of corporate.")]
-    internal class Office
+    public class Office
     {
         [Key]
-        [Column(nameof(OfficeId))]
+        [Column(nameof(Id))]
         [Display(Name = "ID")]
-        public Guid OfficeId { get; set; }
+        public Guid Id { get; set; }
 
         [Comment("Local inhertance from this table primay key.")]
         public Guid? ParentId { get; set; }
@@ -48,13 +48,13 @@ namespace MySystem.Data.Models.Basic
         #region ef_functions
         static internal List<Office> GetOfficeList()
         {
-            var ho = new Office() { OfficeId = Guid.NewGuid(), CountryId = "SAU", OfficeName = "Saudi Arabia Head Office" };
+            var ho = new Office() { Id = Guid.NewGuid(), CountryId = "SAU", OfficeName = "Saudi Arabia Head Office" };
             return new()
             {
                 ho,
-                new Office("Jeddah", "SAU", ho.OfficeId),
-                new Office("Riyadh", "SAU", ho.OfficeId),
-                new Office("Mecca", "SAU", ho.OfficeId)
+                new Office("Jeddah", "SAU", ho.Id),
+                new Office("Riyadh", "SAU", ho.Id),
+                new Office("Mecca", "SAU", ho.Id)
             };
         }
 
@@ -64,12 +64,12 @@ namespace MySystem.Data.Models.Basic
             {
                 modelBuilder.HasPostgresExtension("uuid-ossp")
                 .Entity<Office>()
-                .Property(p => p.OfficeId)
+                .Property(p => p.Id)
                 .HasDefaultValueSql("uuid_generate_v4()");
             }
             else
             {
-                modelBuilder.Entity<Office>().Property(p => p.OfficeId).ValueGeneratedOnAdd();
+                modelBuilder.Entity<Office>().Property(p => p.Id).ValueGeneratedOnAdd();
             }
 
             modelBuilder.Entity<Office>().HasOne(e => e.Parent).WithMany();
