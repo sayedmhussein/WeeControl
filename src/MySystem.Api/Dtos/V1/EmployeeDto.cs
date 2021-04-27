@@ -1,12 +1,14 @@
 ﻿using System;
-using MySystem.Data.Data;
+using MySystem.Data;
 using MySystem.Data.Models.People;
 
-namespace MySystem.Data.V1.Dtos
+namespace MySystem.Api.Dtos.V1
 {
-    public class EmployeeV1Dto : RepositoryV1<EmployeeV1Dto, Employee>
+    public class EmployeeDto : RepositoryV1<EmployeeDto, Employee>
     {
         public Guid? Id { get; set; }
+
+        public Guid? OfficeId { get; set; }
 
         public string Title { get; set; }
 
@@ -34,8 +36,6 @@ namespace MySystem.Data.V1.Dtos
 
         public Guid? SupervisorId { get; set; }
 
-        public Guid OfficeId { get; set; }
-
         public string Username { get; set; }
 
         public string Password { get; set; }
@@ -46,11 +46,11 @@ namespace MySystem.Data.V1.Dtos
 
         public bool IsProductive { get; set; }
 
-        public EmployeeV1Dto()
+        public EmployeeDto()
         {
         }
 
-        public EmployeeV1Dto(DataContext context)
+        public EmployeeDto(DataContext context)
         {
             this.context = context;
         }

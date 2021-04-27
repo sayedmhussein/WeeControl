@@ -7,7 +7,7 @@ using MySystem.Data.Models.Business;
 using MySystem.Data.Models.Component;
 using MySystem.Data.Models.People;
 
-namespace MySystem.Data.Data
+namespace MySystem.Data
 {
     public class DataContext : DbContext
     {

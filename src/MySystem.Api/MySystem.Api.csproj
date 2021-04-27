@@ -18,5 +18,8 @@
   <ItemGroup>
     <Folder Include="Dtos\" />
     <Folder Include="Helpers\" />
+    <Folder Include="Dtos\V1\" />
+    <Folder Include="Dtos\Deprecated\" />
+    <Folder Include="Controllers\V1\" />
   </ItemGroup>
 </Project>

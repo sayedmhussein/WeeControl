@@ -5,13 +5,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using MySystem.Data.Data;
+using MySystem.Data;
 using MySystem.Data.Models.Basic;
-using MySystem.Data.Models.Component;
 
-namespace MySystem.Data.V1.Dtos
+namespace MySystem.Api.Dtos.V1
 {
-    public class BuildingV1Dto : RepositoryV1<BuildingV1Dto, Building>
+    public class BuildingDto : RepositoryV1<BuildingDto, Building>
     {
         public Guid? Id { get; set; }
 
@@ -29,11 +28,11 @@ namespace MySystem.Data.V1.Dtos
 
         public double? Longitude { get; set; }
 
-        public BuildingV1Dto()
+        public BuildingDto()
         {
         }
 
-        public BuildingV1Dto(DataContext context)
+        public BuildingDto(DataContext context)
         {
             this.context = context;
         }        

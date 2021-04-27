@@ -6,21 +6,20 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MySystem.Api.Dtos;
-using MySystem.Data.Data;
+using MySystem.Api.Dtos.V1;
+using MySystem.Data;
 using MySystem.Data.Models.Basic;
-using MySystem.Data.V1;
-using MySystem.Data.V1.Dtos;
 
-namespace MySystem.Api.Controllers
+namespace MySystem.Api.Controllers.V1
 {
     [ApiController]
     [Route("Api/[controller]")]
-    public class BuildingController : BaseV1Controller<BuildingV1Dto, BuildingV1Dto, Building>
+    public class BuildingController : BaseController<BuildingDto, BuildingDto, Building>
     {
         private readonly ILogger<BuildingController> logger;
         private readonly DataContext context;
 
-        public BuildingController(ILogger<BuildingController> logger, DataContext context) : base(logger, new BuildingV1Dto(context))
+        public BuildingController(ILogger<BuildingController> logger, DataContext context) : base(logger, new BuildingDto(context))
         {
             this.logger = logger;
             this.context = context;

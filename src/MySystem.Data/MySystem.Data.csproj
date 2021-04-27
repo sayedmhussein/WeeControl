@@ -6,12 +6,10 @@
 
   <ItemGroup>
     <Folder Include="Models\" />
-    <Folder Include="Data\" />
     <Folder Include="Models\Component\" />
     <Folder Include="Models\People\" />
     <Folder Include="Models\Basic\" />
     <Folder Include="Models\Business\" />
-    <Folder Include="V1\" />
     <Folder Include="Exceptions\" />
   </ItemGroup>
   <ItemGroup>

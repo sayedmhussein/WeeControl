@@ -18,7 +18,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MySystem.Api.Helpers;
-using MySystem.Data.Data;
+using MySystem.Data;
 
 namespace MySystem.Api
 {
@@ -76,6 +76,7 @@ namespace MySystem.Api
                 options.DefaultApiVersion = new ApiVersion(1, 0);
                 options.AssumeDefaultVersionWhenUnspecified = true;
                 options.ApiVersionReader = new MediaTypeApiVersionReader();
+                options.ReportApiVersions = true;
             });
         }
 

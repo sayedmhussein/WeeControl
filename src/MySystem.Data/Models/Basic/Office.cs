@@ -48,7 +48,7 @@ namespace MySystem.Data.Models.Basic
         #region ef_functions
         static internal List<Office> GetOfficeList()
         {
-            var ho = new Office() { Id = Guid.NewGuid(), CountryId = "SAU", OfficeName = "Saudi Arabia Head Office" };
+            var ho = new Office() { Id = Guid.Parse("12345678-abcd-1234-abcd-123456789abc"), CountryId = "SAU", OfficeName = "Saudi Arabia Head Office" };
             return new()
             {
                 ho,

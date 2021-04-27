@@ -5,11 +5,11 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using MySystem.Data.Data;
+using MySystem.Data;
 
-namespace MySystem.Data.V1.Dtos
+namespace MySystem.Api.Dtos.V1
 {
-    public class LoginV1Dto
+    public class LoginDto
     {
         [Required]
         public string Username { get; set; }
@@ -21,27 +21,28 @@ namespace MySystem.Data.V1.Dtos
 
         public async Task<Guid?> GetSessionAsync(DataContext context)
         {
-            var employee = context.Employees.FirstOrDefault(e => e.Username == Username && e.Password == Password);
-            if (employee != null)
-            {
+            throw new NotImplementedException();
+            //var employee = context;//context.Set<"">.FirstOrDefault(e => e.Username == Username && e.Password == Password);
+            //if (employee != null)
+            //{
                 
-                var session = context.Sessions.FirstOrDefault(s => s.PersonId == employee.Id && s.DeviceId == Device && s.TerminationTs != null);
-                if (session != null)
-                {
-                    return session.Id;
-                }
-                else
-                {
-                    session = new Models.People.Session() { Person = employee, DeviceId = Device };
-                    await context.Sessions.AddAsync(session);
-                    await context.SaveChangesAsync();
-                    return session.Id;
-                }
-            }
-            else
-            {
-                return null;
-            }
+            //    var session = context.Sessions.FirstOrDefault(s => s.PersonId == employee.Id && s.DeviceId == Device && s.TerminationTs != null);
+            //    if (session != null)
+            //    {
+            //        return session.Id;
+            //    }
+            //    else
+            //    {
+            //        session = new Models.People.Session() { Person = employee, DeviceId = Device };
+            //        await context.Sessions.AddAsync(session);
+            //        await context.SaveChangesAsync();
+            //        return session.Id;
+            //    }
+            //}
+            //else
+            //{
+            //    return null;
+            //}
         }
 
         public static async Task<IEnumerable<Claim>> GetUserClaimsAsync(DataContext context, Guid sessionid)

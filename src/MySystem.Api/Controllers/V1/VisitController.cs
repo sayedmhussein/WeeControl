@@ -1,9 +1,8 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using MySystem.Data.Data;
 
-namespace MySystem.Api.Controllers
+namespace MySystem.Api.Controllers.V1
 {
     [ApiController]
     [Route("Api/[controller]")]

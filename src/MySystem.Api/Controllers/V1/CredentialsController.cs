@@ -5,12 +5,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using MySystem.Api.Dtos;
+using MySystem.Api.Dtos.V1;
 using MySystem.Api.Helpers;
-using MySystem.Data.Data;
-using MySystem.Data.V1.Dtos;
+using MySystem.Data;
 
-namespace MySystem.Api.Controllers
+namespace MySystem.Api.Controllers.V1
 {
     [Route("Api/[controller]")]
     [ApiVersion("1.0")]
@@ -33,14 +32,14 @@ namespace MySystem.Api.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
         [MapToApiVersion("1.0")]
-        public async Task<ActionResult<ResponseV1Dto<string>>> LoginV1([FromBody] RequestV1Dto<LoginV1Dto> requestDto)
+        public async Task<ActionResult<ResponseDto<string>>> LoginV1([FromBody] RequestDto<LoginDto> requestDto)
         {
             var session = await requestDto.Payload.GetSessionAsync(context);
             if (session != null)
             {
-                var claims = await LoginV1Dto.GetUserClaimsAsync(context, (Guid)session);
+                var claims = await LoginDto.GetUserClaimsAsync(context, (Guid)session);
                 var token = new JwtOperation(configuration["Jwt:Key"]).GenerateJwtToken(claims, configuration["Jwt:Issuer"], DateTime.UtcNow.AddMinutes(5));
-                return Ok(new ResponseV1Dto<string>(token));
+                return Ok(new ResponseDto<string>(token));
             }
             else
             {
@@ -52,7 +51,7 @@ namespace MySystem.Api.Controllers
         [HttpPost("token")]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
-        public async Task<ActionResult<ResponseV1Dto<string>>> RefreshTokenV1([FromBody] RequestV1Dto<object> requestDto)
+        public async Task<ActionResult<ResponseDto<string>>> RefreshTokenV1([FromBody] RequestDto<object> requestDto)
         {
             throw new NotImplementedException();
         }
@@ -61,7 +60,7 @@ namespace MySystem.Api.Controllers
         //[Authorize(Policy = Policies.HasRefreshedSession)]
         [HttpPost("logout")]
         [Consumes(MediaTypeNames.Application.Json)]
-        public async Task<ActionResult> LogoutV1([FromBody] RequestV1Dto<object> requestDto)
+        public async Task<ActionResult> LogoutV1([FromBody] RequestDto<object> requestDto)
         {
             throw new NotImplementedException();
         }
