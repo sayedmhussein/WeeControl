@@ -28,8 +28,9 @@ namespace MySystem.Data
 
         //People Schema
         internal DbSet<Person> People { get; set; }
-        internal DbSet<Employee> Employees { get; set; }
+        internal DbSet<Employee> Employees { get; set; }       
         public DbSet<Session> Sessions { get; set; }
+        public DbSet<SessionActivity> SessionActivities { get; set; }
         public DbSet<Claim> Claims { get; set; }
 
         //Component Schema
@@ -49,6 +50,7 @@ namespace MySystem.Data
             Person.CreatePersonModel(this, modelBuilder);
             Employee.CreateEmployeeModel(this, modelBuilder);
             Session.CreateSessionModel(this, modelBuilder);
+            SessionActivity.CreateSessionActivityModel(this, modelBuilder);
             Claim.CreateClaimModel(this, modelBuilder);
 
             Unit.CreateUnitModel(this, modelBuilder);

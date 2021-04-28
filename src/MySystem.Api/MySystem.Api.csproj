@@ -21,5 +21,7 @@
     <Folder Include="Dtos\V1\" />
     <Folder Include="Dtos\Deprecated\" />
     <Folder Include="Controllers\V1\" />
+    <Folder Include="Policies\" />
+    <Folder Include="Policies\Claims\" />
   </ItemGroup>
 </Project>

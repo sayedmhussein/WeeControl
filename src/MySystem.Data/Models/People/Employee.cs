@@ -31,6 +31,8 @@ namespace MySystem.Data.Models.People
 
         public bool IsProductive { get; set; }
 
+        public string LockingReason { get; set; }
+
         #region Constructor
         public Employee() : base()
         {
@@ -45,7 +47,7 @@ namespace MySystem.Data.Models.People
         #region ef_functions
         static internal List<Person> GetPersonList(Guid officeid)
         {
-            var sayed = new Employee() { Id = Guid.NewGuid(), Title = "Mr.", FirstName = "Sayed", LastName = "Hussein", Gender = "m", OfficeId = officeid };
+            var sayed = new Employee() { Id = Guid.NewGuid(), Title = "Mr.", FirstName = "Sayed", LastName = "Hussein", Gender = "m", OfficeId = officeid, Username = "sayed", Password = "pwd" };
             var اhatem = new Employee() { Id = Guid.NewGuid(), Title = "Mr.", FirstName = "Hatem", LastName = "Nagaty", Gender = "m", OfficeId = officeid };
             return new()
             {

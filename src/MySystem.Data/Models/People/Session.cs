@@ -6,15 +6,15 @@ using Microsoft.EntityFrameworkCore;
 namespace MySystem.Data.Models.People
 {
     [Table(nameof(Session), Schema = nameof(People))]
-    [Index(nameof(PersonId), nameof(DeviceId), nameof(TerminationTs), IsUnique = false)]
+    [Index(nameof(EmployeeId), nameof(DeviceId), nameof(TerminationTs), IsUnique = false)]
     [Comment("User Sessions")]
     public class Session
     {
         [Key]
         public Guid Id { get; set; }
 
-        public Guid PersonId { get; set; }
-        public virtual Person Person { get; set; }
+        public Guid EmployeeId { get; set; }
+        public virtual Employee Employee { get; set; }
 
         public string DeviceId { get; set; }
 

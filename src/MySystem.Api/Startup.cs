@@ -7,17 +7,20 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MySystem.Api.Helpers;
+using MySystem.Api.Policies;
 using MySystem.Data;
 
 namespace MySystem.Api
@@ -35,6 +38,7 @@ namespace MySystem.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddHttpContextAccessor();
 
             services.AddDbContextPool<DataContext>(options =>
             {
@@ -42,9 +46,12 @@ namespace MySystem.Api
                 options.EnableSensitiveDataLogging();
             });
 
+            
+
             VersioningConfig(services);
             SwaggerConfig(services);
             AuthenticationConfig(services);
+            AuthorizationConfig(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,6 +68,7 @@ namespace MySystem.Api
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -121,12 +129,12 @@ namespace MySystem.Api
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    TryAllIssuerSigningKeys = true,
+                    //TryAllIssuerSigningKeys = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["Jwt:Key"])),
-                    ValidateIssuer = true,
+                    ValidateIssuer = false,
                     ValidateAudience = false,
                     //ValidAudience = Configuration["Jwt:Audience"],
-                    ValidateLifetime = false,
+                    ValidateLifetime = true,
                 };
 
                 options.Events = new JwtBearerEvents
@@ -144,7 +152,10 @@ namespace MySystem.Api
                     },
                 };
             });
+        }
 
+        private void AuthorizationConfig(IServiceCollection services)
+        {
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("LoggedIn", p =>
@@ -156,11 +167,7 @@ namespace MySystem.Api
                     p.RequireAssertion(context => Guid.TryParse(context.User.Claims.FirstOrDefault(c => c.Type == "ofc")?.Value, out Guid _));
                 });
 
-                options.AddPolicy("Active", p =>
-                {
-                    p.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
-                    p.Requirements.Add(new MaximumPeriodRequirement(TimeSpan.FromMinutes(15)));
-                });
+                options.AddPolicy(HasRefreshedSession.Name, HasRefreshedSession.Policy);
 
                 options.AddPolicy("CanEditEmployee", p =>
                 {
