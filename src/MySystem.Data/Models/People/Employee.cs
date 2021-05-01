@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
-using MySystem.Data.Models.Basic;
+using MySystem.ServerData.Models.Basic;
 
-namespace MySystem.Data.Models.People
+namespace MySystem.ServerData.Models.People
 {
     [Table(nameof(Employee), Schema = nameof(People))]
     [Index(nameof(Username), IsUnique = true)]
@@ -47,11 +47,11 @@ namespace MySystem.Data.Models.People
         #region ef_functions
         static internal List<Person> GetPersonList(Guid officeid)
         {
-            var sayed = new Employee() { Id = Guid.NewGuid(), Title = "Mr.", FirstName = "Sayed", LastName = "Hussein", Gender = "m", OfficeId = officeid, Username = "sayed", Password = "pwd" };
-            var اhatem = new Employee() { Id = Guid.NewGuid(), Title = "Mr.", FirstName = "Hatem", LastName = "Nagaty", Gender = "m", OfficeId = officeid };
+            var sayed = new Employee() { Id = Guid.NewGuid(), Title = "Mr.", FirstName = "Sayed", LastName = "Hussein", Gender = "m", OfficeId = officeid, Username = "username", Password = "password" };
+            var hatem = new Employee() { Id = Guid.NewGuid(), Title = "Mr.", FirstName = "Hatem", LastName = "Nagaty", Gender = "m", OfficeId = officeid, Username = "username1", Password = "password" };
             return new()
             {
-                sayed,
+                sayed, hatem,
                 new Employee("Yasser", "Gamal", officeid) { Supervisor = sayed },
                 new Employee("Mohamed", "Abdelaal", officeid) { SupervisorId = sayed.Id }
             };

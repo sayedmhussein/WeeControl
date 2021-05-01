@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace MySystem.Data.Models.Component
+namespace MySystem.ServerData.Models.Component
 {
     [Table(nameof(Item), Schema = nameof(Component))]
     [Index(nameof(Partnumber), IsUnique = true)]

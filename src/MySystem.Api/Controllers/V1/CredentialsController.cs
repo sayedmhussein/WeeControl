@@ -7,10 +7,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using MySystem.Api.Dtos.V1;
 using MySystem.Api.Helpers;
 using MySystem.Api.Policies;
-using MySystem.Data;
+using MySystem.ServerData;
+using MySystem.SharedDto.V1;
+using MySystem.SharedDto.V1.Custom;
 
 namespace MySystem.Api.Controllers.V1
 {
@@ -37,16 +38,23 @@ namespace MySystem.Api.Controllers.V1
         [MapToApiVersion("1.0")]
         public async Task<ActionResult<ResponseDto<string>>> LoginV1([FromBody] RequestDto<LoginDto> requestDto)
         {
+            if (requestDto.Payload.IsValid == false)
+            {
+                
+                return BadRequest();
+            }
+
             var session = await new CustomFunctionV1(context).GetSessionAsync(requestDto.Payload.Username, requestDto.Payload.Password, requestDto.DeviceId);
             if (session == null)
             {
+                logger.LogInformation("Invalid Attempt to login with invalid username={0}, password={1}.", requestDto.Payload.Username, requestDto.Payload.Password);
                 return NotFound();
-                
             }
 
             var claims = await new CustomFunctionV1(context).GetUserClaimsAsync(context, (Guid)session);
             if (claims == null)
             {
+                logger.LogDebug("User has session while claims were null!");
                 return Unauthorized();
             }
 

@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using MySystem.Api.Dtos.V1;
-using MySystem.Data;
+using MySystem.SharedDto.V1;
 
 namespace MySystem.Api.Controllers.V1
 {
@@ -14,18 +15,25 @@ namespace MySystem.Api.Controllers.V1
     [Route("api/[controller]")]
     [ApiController]
     [ApiVersion("1.0")]
-    public abstract class BaseController<TRepository, TDto, TEntity> : ControllerBase
-        where TEntity : class
+    public abstract class BaseController<TDto, TEntity> : ControllerBase
         where TDto : class
-        where TRepository : RepositoryV1<TDto, TEntity>
+        where TEntity : class
     {
         private readonly ILogger logger;
-        private readonly TRepository repository;
+        private readonly DbContext context;
+        private IMapper mapper;
 
-        public BaseController(ILogger logger, TRepository repository)
+        public BaseController(ILogger logger, DbContext context)
         {
             this.logger = logger;
-            this.repository = repository;
+            this.context = context;
+
+            var config = new MapperConfiguration(c =>
+            {
+                c.CreateMap<TEntity, TDto>().ReverseMap();
+            });
+
+            mapper = config.CreateMapper();
         }
 
         [HttpGet]
@@ -33,8 +41,15 @@ namespace MySystem.Api.Controllers.V1
         [MapToApiVersion("1.0")]
         public async Task<ActionResult<IEnumerable<TDto>>> Get()
         {
-            var response = await repository.GetAllAsync();
-            return response == null ? NotFound() : Ok(new ResponseDto<IEnumerable<TDto>>(response));
+            var list = new List<TDto>();
+            (await context.Set<TEntity>().ToListAsync()).ForEach(x => list.Add(mapper.Map<TDto>(x)));
+
+            if (list.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(new ResponseDto<IEnumerable<TDto>>(list));
         }
 
         [HttpGet("{id}")]
@@ -42,8 +57,14 @@ namespace MySystem.Api.Controllers.V1
         [MapToApiVersion("1.0")]
         public async Task<ActionResult<TDto>> Get(Guid id)
         {
-            var response = await repository.GetAsync(id);
-            return response == null ? NotFound() : Ok(new ResponseDto<TDto>(response));
+            var entity = await context.Set<TEntity>().FindAsync(id);
+            if (entity == null)
+            {
+                return NotFound();
+            }
+
+            var dto = mapper.Map<TDto>(entity);
+            return Ok(new ResponseDto<TDto>(dto));
         }
 
         [HttpPut]
@@ -52,8 +73,24 @@ namespace MySystem.Api.Controllers.V1
         [MapToApiVersion("1.0")]
         public async Task<ActionResult<TDto>> PutBuildingV1([FromBody] RequestDto<TDto> request)
         {
-            var response = await repository.AddOrUpdateAsync(request.Payload);
-            return response != null ? Ok(new ResponseDto<TDto>(response)) : BadRequest();
+            bool id = Guid.TryParse(((dynamic)request.Payload)?.Id?.ToString(), out Guid key);
+            if (id)
+            {
+                var item = await context.Set<TEntity>().FindAsync(key);
+                if (item != null)
+                {
+                    mapper.Map(request.Payload, item);
+                    context.Update(item);
+                    await context.SaveChangesAsync();
+                    return mapper.Map<TDto>(item);
+                }
+            }
+
+            var item_ = mapper.Map<TEntity>(request.Payload);
+            context.Set<TEntity>().Add(item_);
+            await context.SaveChangesAsync();
+
+            return await Get(key);
         }
 
         [HttpPatch]
@@ -61,17 +98,40 @@ namespace MySystem.Api.Controllers.V1
         [MapToApiVersion("1.0")]
         public async Task<ActionResult<TDto>> PatchBuildingV1([FromBody] RequestDto<TDto> request)
         {
-            var response = await repository.PatchAsync(request.Payload);
-            return response != null ? Ok(new ResponseDto<TDto>(response)) : BadRequest();
+            bool id = Guid.TryParse(((dynamic)request.Payload)?.Id?.ToString(), out Guid key);
+            if (id)
+            {
+                var item = await context.Set<TEntity>().FindAsync(key);
+                if (item != null)
+                {
+                    var config = new MapperConfiguration(c =>
+                    {
+                        c.CreateMap<TDto, TEntity>()
+                        .ForAllMembers(opt => opt.Condition((src, dest, srcVal, destVal, c) => srcVal != null));
+                    });
+                    config.CreateMapper().Map(request.Payload, item);
+                    context.Update(item);
+                    await context.SaveChangesAsync();
+                    return mapper.Map<TDto>(item);
+                }
+            }
+
+            return await Get(key);
         }
 
         [HttpDelete("{id}")]
         [Produces(MediaTypeNames.Application.Json)]
         [MapToApiVersion("1.0")]
-        public async Task<ActionResult> DeleteBuildingsV1(Guid id)
+        public async Task<ActionResult<TDto>> DeleteBuildingsV1(Guid id)
         {
-            var response = await repository.DeleteAsync(id);
-            return response ? Ok(new ResponseDto<bool>(response)) : NotFound();
+            var entity = await context.Set<TEntity>().FindAsync(id);
+            if (entity != null)
+            {
+                context.Set<TEntity>().Remove(entity);
+                await context.SaveChangesAsync();
+            }
+
+            return await Get(id);
         }
     }
 }

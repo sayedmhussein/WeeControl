@@ -21,7 +21,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MySystem.Api.Helpers;
 using MySystem.Api.Policies;
-using MySystem.Data;
+using MySystem.ServerData;
 
 namespace MySystem.Api
 {

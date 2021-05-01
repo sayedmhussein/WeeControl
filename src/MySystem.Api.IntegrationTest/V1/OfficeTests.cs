@@ -5,7 +5,8 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Testing;
-using MySystem.Api.Dtos.V1;
+using MySystem.SharedDto.V1;
+using MySystem.SharedDto.V1.Entities;
 using Newtonsoft.Json;
 using Xunit;
 
@@ -28,11 +29,11 @@ namespace MySystem.Api.FunctionalTest.V1
             var client = factory.CreateClient();
             var response = await client.GetAsync(Url);
 
+            response.EnsureSuccessStatusCode();
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
-            var bla = await response.Content.ReadAsStringAsync();
-            var blabla = JsonConvert.DeserializeObject<ResponseDto<List<OfficeDto>>>(bla);
-            return blabla.Payload.Count;
+            var obj = await response.Content.ReadAsAsync<ResponseDto<List<OfficeDto>>>();
+            return obj.Payload.Count;
         }
 
         [Fact]
@@ -61,13 +62,24 @@ namespace MySystem.Api.FunctionalTest.V1
         public async Task WhenDeletingOfficeTheTotalCountShouldBeLess()
         {
             var id = await WhenPostingNewOfficeReturnSameOfficeWithNewId();
-            var count = await WhenGettingAllOfficesReturnListOfOffices();
+            var count = await GetNoOfOffices();
 
             var client = factory.CreateClient();
             var response = await client.DeleteAsync(Url + "/" + id);
 
             response.EnsureSuccessStatusCode();
-            Assert.True(count > await WhenGettingAllOfficesReturnListOfOffices());
+            Assert.True(count > await GetNoOfOffices());
+        }
+
+        private async Task<int> GetNoOfOffices()
+        {
+            var client = factory.CreateClient();
+            var response = await client.GetAsync(Url);
+
+            response.EnsureSuccessStatusCode();
+
+            var offices = await response.Content.ReadAsAsync<ResponseDto<List<OfficeDto>>>();
+            return offices.Payload.Count;
         }
     }
 }

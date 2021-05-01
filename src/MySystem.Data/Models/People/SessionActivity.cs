@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace MySystem.Data.Models.People
+namespace MySystem.ServerData.Models.People
 {
     [Table(nameof(SessionActivity), Schema = nameof(People))]
     [Index(nameof(SessionId), IsUnique = false)]

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
-using MySystem.Data.Models.Component;
+using MySystem.ServerData.Models.Component;
 
-namespace MySystem.Data.Models.Business
+namespace MySystem.ServerData.Models.Business
 {
     [Table(nameof(ContractUnit), Schema = nameof(Business))]
     [Index(nameof(ContractId), nameof(UnitId), IsUnique = false)]

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
-using MySystem.Data.Models.Component;
+using MySystem.ServerData.Models.Component;
 
-namespace MySystem.Data.Models.Business
+namespace MySystem.ServerData.Models.Business
 {
     [Table(nameof(Material), Schema = nameof(Business))]
     [Comment("-")]

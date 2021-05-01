@@ -5,7 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace MySystem.Data
+namespace MySystem.ServerData
 {
     public class CustomFunctionV1
     {

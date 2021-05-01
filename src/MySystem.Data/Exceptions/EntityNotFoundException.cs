@@ -1,5 +1,5 @@
 ﻿using System;
-namespace MySystem.Data.Exceptions
+namespace MySystem.ServerData.Exceptions
 {
     public class EntityNotFoundException : Exception
     {

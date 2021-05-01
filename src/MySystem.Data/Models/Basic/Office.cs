@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using MySystem.SharedDto.BaseEntities;
 
-namespace MySystem.Data.Models.Basic
+namespace MySystem.ServerData.Models.Basic
 {
     [Table(nameof(Office), Schema = nameof(Basic))]
     [Index(nameof(CountryId), nameof(OfficeName), IsUnique = true)]
     [Comment("Offices of corporate.")]
-    public class Office
+    public class Office : OfficeBase
     {
         [Key]
         [Column(nameof(Id))]
@@ -19,14 +20,6 @@ namespace MySystem.Data.Models.Basic
         [Comment("Local inhertance from this table primay key.")]
         public Guid? ParentId { get; set; }
         public virtual Office Parent { get; set; }
-
-        [Required]
-        [StringLength(3, ErrorMessage = "Only ISO 3166-1 alpha-3 Country Codes.")]
-        public string CountryId { get; set; }
-
-        [Required]
-        [StringLength(45, ErrorMessage = "Office name must not exceed 45 character.")]
-        public string OfficeName { get; set; }
 
         #region constructors
         public Office()

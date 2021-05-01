@@ -2,11 +2,11 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
-using MySystem.Data.Models.Business;
-using MySystem.Data.Models.Component;
-using MySystem.Data.Models.People;
+using MySystem.ServerData.Models.Business;
+using MySystem.ServerData.Models.Component;
+using MySystem.ServerData.Models.People;
 
-namespace MySystem.Data.Models.Business
+namespace MySystem.ServerData.Models.Business
 {
     [Table(nameof(Visit), Schema = nameof(Business))]
     [Comment("-")]

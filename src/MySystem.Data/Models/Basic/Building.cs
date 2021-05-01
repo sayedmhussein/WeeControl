@@ -3,31 +3,16 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using MySystem.SharedDto.BaseEntities;
 
-namespace MySystem.Data.Models.Basic
+namespace MySystem.ServerData.Models.Basic
 {
     [Table(nameof(Building), Schema = nameof(Basic))]
     [Comment("Offices of corporate.")]
-    public class Building
+    public class Building : BuildingBase
     {
         [Key]
         public Guid Id { get; set; }
-
-        public int? BuildingType { get; set; }
-
-        [Required]
-        public string BuildingName { get; set; }
-
-        [Required]
-        public string CountryId { get; set; }
-
-        public string AddressLine1 { get; set; }
-
-        public string AddressLine2 { get; set; }
-
-        public double? Latitude { get; set; }
-
-        public double? Longitude { get; set; }
 
         public Building()
         {

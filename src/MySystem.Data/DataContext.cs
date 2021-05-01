@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using MySystem.Data.Models;
-using MySystem.Data.Models.Basic;
-using MySystem.Data.Models.Business;
-using MySystem.Data.Models.Component;
-using MySystem.Data.Models.People;
+using MySystem.ServerData.Models;
+using MySystem.ServerData.Models.Basic;
+using MySystem.ServerData.Models.Business;
+using MySystem.ServerData.Models.Component;
+using MySystem.ServerData.Models.People;
 
-namespace MySystem.Data
+namespace MySystem.ServerData
 {
     public class DataContext : DbContext
     {

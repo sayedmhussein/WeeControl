@@ -7,22 +7,22 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using MySystem.Api.Dtos.V1;
-using MySystem.Data;
-using MySystem.Data.Models.People;
+using MySystem.ServerData;
+using MySystem.ServerData.Models.People;
+using MySystem.SharedDto.V1.Entities;
 
 namespace MySystem.Api.Controllers.V1
 {
     [ApiController]
     [Route("Api/[controller]")]
     [ApiVersion("1.0")]
-    public class EmployeeController : BaseController<EmployeeDto, EmployeeDto, Employee>
+    public class EmployeeController : BaseController<EmployeeDto, Employee>
     {
         private readonly ILogger<EmployeeController> logger;
         private readonly DataContext context;
         private readonly IConfiguration config;
 
-        public EmployeeController(ILogger<EmployeeController> logger, DataContext context, IConfiguration config ) : base(logger, new EmployeeDto(context))
+        public EmployeeController(ILogger<EmployeeController> logger, DataContext context, IConfiguration config ) : base(logger, context)
         {
             this.logger = logger;
             this.context = context;
