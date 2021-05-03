@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using MySystem.SharedDto.V1;
 
 namespace MySystem.ClientService.Interfaces
 {
-    public interface IDeviceResources
+    public interface IDeviceInfo
     {
-        Task<HttpClient> GetHttpClientAsync();
+        bool InternetIsAvailable { get; }
 
-        Task SaveTokenAsync(string token);
+        
     }
 }

@@ -14,11 +14,14 @@ namespace MySystem.XamarinForms
         public App()
         {
             InitializeComponent();
-            ApiService.InitializeClient();
+            DeviceResources.InitializeClient();
             //Services = ConfigureServices();
 
-            DependencyService.Register<MockDataStore>();
-            DependencyService.Register<IDeviceInfoService, Services.Device>();
+            //DependencyService.Register<MockDataStore>();
+            //DependencyService.Register<IDeviceInfo, DeviceInfo>();
+            //DependencyService.Register<DeviceActions>();
+            //DependencyService.Register<IDeviceActions, DeviceActions>();
+            //DependencyService.Register<IApiUri, ApiUri>();
             MainPage = new SplashPage();
         }
 

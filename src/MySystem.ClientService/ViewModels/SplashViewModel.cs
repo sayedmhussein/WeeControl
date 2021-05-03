@@ -1,8 +1,5 @@
-﻿using System;
-using System.Net.Http;
-using System.Windows.Input;
+﻿using System.Net.Http;
 using MySystem.ClientService.Interfaces;
-using MySystem.ClientService.Services;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System.Threading.Tasks;
@@ -12,9 +9,10 @@ namespace MySystem.ClientService.ViewModels
 {
     public class SplashViewModel : ObservableObject
     {
-        public IDeviceInfoService DeviceInfo { get; set; }
-        public IDeviceActionService DeviceAction { get; }
+        public IDeviceInfo DeviceInfo { get; set; }
+        public IDeviceActions DeviceAction { get; set; }
         public IDeviceResources DeviceResources { get; set; }
+        public IApiUri ApiUri { get; set; }
 
         private string splashLabel; 
 
@@ -39,19 +37,21 @@ namespace MySystem.ClientService.ViewModels
 
         private async Task VerifyTokenAsync()
         {
-            if (DeviceInfo.InternetAvailable == false)
+            if (DeviceInfo.InternetIsAvailable == false)
             {
                 await DeviceAction.DisplayMessageAsync("Alert", "Check internet connection then try again.");
             }
 
-            var bla = DeviceInfo.GetRequestDto(new object());
-            var response = await DeviceResources.ApiClient.PostAsJsonAsync("http://142.168.194.107:5000/", bla);
+            var bla = DeviceAction.GetRequestDto(new object());
+            var client = await DeviceResources.GetHttpClientAsync();
+            var response = await client.GetAsync(ApiUri.RefreshToken);
+            //var response = await client.PostAsJsonAsync(ApiUri.RefreshToken, bla);
             switch (response.StatusCode)
             {
                 case System.Net.HttpStatusCode.Accepted:
                 case System.Net.HttpStatusCode.OK:
                     var _response = await response.Content.ReadAsAsync<ResponseDto<string>>();
-                    DeviceInfo.Token = _response.Payload;
+                    await DeviceResources.SaveTokenAsync(_response.Payload);
                     break;
                 default:
                     break;
