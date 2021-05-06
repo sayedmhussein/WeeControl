@@ -11,7 +11,5 @@ namespace MySystem.XamarinForms.Services
     {
         public bool InternetIsAvailable => Connectivity.NetworkAccess == NetworkAccess.Internet;
 
-
-
     }
 }

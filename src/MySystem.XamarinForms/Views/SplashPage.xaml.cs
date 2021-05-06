@@ -9,16 +9,24 @@ namespace MySystem.XamarinForms.Views
 {
     public partial class SplashPage : ContentPage
     {
+        private readonly SplashViewModel vm;
+
         public SplashPage()
         {
             InitializeComponent();
-            var vm = (SplashViewModel)BindingContext;
+            vm = (SplashViewModel)BindingContext;
             vm.DeviceInfo = new DeviceInfo();
             vm.DeviceAction = new DeviceActions();
             vm.DeviceResources = new DeviceResources();
             vm.ApiUri = new ApiUri();
-            vm.RefreshTokenCommand.Execute(null);
+            
             //BindingContext = Application.Current.Services.GetService<ContactsViewModel>();
+        }
+
+        protected override void OnAppearing()
+        {
+            vm.RefreshTokenCommand.Execute(null);
+            base.OnAppearing();
         }
     }
 }

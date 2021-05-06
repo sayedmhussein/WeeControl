@@ -44,14 +44,16 @@ namespace MySystem.ClientService.ViewModels
 
             var bla = DeviceAction.GetRequestDto(new object());
             var client = await DeviceResources.GetHttpClientAsync();
-            var response = await client.GetAsync(ApiUri.RefreshToken);
-            //var response = await client.PostAsJsonAsync(ApiUri.RefreshToken, bla);
+            //throw new System.Exception("test exception");
+            //var client = new HttpClient();
+            //var response = await client.GetAsync(ApiUri.RefreshToken);
+            var response = await client.PostAsJsonAsync(ApiUri.RefreshToken, bla);
             switch (response.StatusCode)
             {
                 case System.Net.HttpStatusCode.Accepted:
                 case System.Net.HttpStatusCode.OK:
-                    var _response = await response.Content.ReadAsAsync<ResponseDto<string>>();
-                    await DeviceResources.SaveTokenAsync(_response.Payload);
+                   //var _response = await response.Content.ReadAsStringAsync<ResponseDto<string>>();
+                    //await DeviceResources.SaveTokenAsync(_response.Payload);
                     break;
                 default:
                     break;
