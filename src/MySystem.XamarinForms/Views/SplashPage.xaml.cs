@@ -14,8 +14,10 @@ namespace MySystem.XamarinForms.Views
         public SplashPage()
         {
             InitializeComponent();
+            
             vm = (SplashViewModel)BindingContext;
-            vm.DeviceInfo = new DeviceInfo();
+            vm.AppSettings = DependencyService.Get<IAppSettings>();
+            vm.DeviceInfo = DependencyService.Get<IDeviceInfo>();
             vm.DeviceAction = new DeviceActions();
             vm.DeviceResources = new DeviceResources();
             vm.ApiUri = new ApiUri();

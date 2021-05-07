@@ -14,7 +14,7 @@ namespace MySystem.XamarinForms.Services
         public static void InitializeClient(bool IsDevelopment = false)
         {
             ApiClient = new HttpClient();
-            ApiClient.BaseAddress = new Uri("https://192.168.140.107:5000/");
+            ApiClient.BaseAddress = new Uri("http://192.168.140.107:5000/");
             ApiClient.DefaultRequestHeaders.Accept.Clear();
             ApiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 

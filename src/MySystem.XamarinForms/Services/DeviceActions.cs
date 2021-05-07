@@ -15,7 +15,7 @@ namespace MySystem.XamarinForms.Services
 
         public async Task DisplayMessageAsync(string title, string message)
         {
-            await Application.Current.MainPage.DisplayAlert(title, message, "bla");
+            await Xamarin.Forms.Application.Current.MainPage.DisplayAlert(title, message, "bla");
         }
 
         public object GetRequestDto<T>(T payload)

@@ -9,6 +9,7 @@ namespace MySystem.ClientService.ViewModels
 {
     public class SplashViewModel : ObservableObject
     {
+        public IAppSettings AppSettings { get; set; }
         public IDeviceInfo DeviceInfo { get; set; }
         public IDeviceActions DeviceAction { get; set; }
         public IDeviceResources DeviceResources { get; set; }
@@ -29,7 +30,7 @@ namespace MySystem.ClientService.ViewModels
         public SplashViewModel()
         {
             RefreshTokenCommand = new AsyncRelayCommand(VerifyTokenAsync);
-            SplashLabel = "Please Wait...";
+            
             AppLogoPath = "MySystem.XamarinForms.Resources.splashlogo.png";
             //https://docs.microsoft.com/en-us/xamarin/xamarin-forms/user-interface/images?tabs=macos#local-images
             //deviceInfo = App.Current.Services.GetService<ContactsViewModel>();
@@ -37,6 +38,8 @@ namespace MySystem.ClientService.ViewModels
 
         private async Task VerifyTokenAsync()
         {
+            SplashLabel = AppSettings.WelComeText;
+
             if (DeviceInfo.InternetIsAvailable == false)
             {
                 await DeviceAction.DisplayMessageAsync("Alert", "Check internet connection then try again.");
@@ -44,10 +47,7 @@ namespace MySystem.ClientService.ViewModels
 
             var bla = DeviceAction.GetRequestDto(new object());
             var client = await DeviceResources.GetHttpClientAsync();
-            //throw new System.Exception("test exception");
-            //var client = new HttpClient();
-            //var response = await client.GetAsync(ApiUri.RefreshToken);
-            var response = await client.PostAsJsonAsync(ApiUri.RefreshToken, bla);
+            var response = await client.PostAsJsonAsync(ApiUri.RefreshToken, bla).ConfigureAwait(false);
             switch (response.StatusCode)
             {
                 case System.Net.HttpStatusCode.Accepted:
