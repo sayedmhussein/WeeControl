@@ -4,13 +4,18 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System.Threading.Tasks;
 using MySystem.SharedDto.V1;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using System.Text;
+using Newtonsoft.Json;
+using System;
 
 namespace MySystem.ClientService.ViewModels
 {
     public class SplashViewModel : ObservableObject
     {
-        public IAppSettings AppSettings { get; set; }
-        public IDeviceInfo DeviceInfo { get; set; }
+        private IAppSettings AppSettings => Ioc.Default.GetService<IAppSettings>();
+        private IDeviceInfo DeviceInfo => Ioc.Default.GetRequiredService<IDeviceInfo>();
+
         public IDeviceActions DeviceAction { get; set; }
         public IDeviceResources DeviceResources { get; set; }
         public IApiUri ApiUri { get; set; }
@@ -43,20 +48,27 @@ namespace MySystem.ClientService.ViewModels
             if (DeviceInfo.InternetIsAvailable == false)
             {
                 await DeviceAction.DisplayMessageAsync("Alert", "Check internet connection then try again.");
+                DeviceAction.TerminateApp();
             }
 
-            var bla = DeviceAction.GetRequestDto(new object());
-            var client = await DeviceResources.GetHttpClientAsync();
-            var response = await client.PostAsJsonAsync(ApiUri.RefreshToken, bla).ConfigureAwait(false);
-            switch (response.StatusCode)
+            try
             {
-                case System.Net.HttpStatusCode.Accepted:
-                case System.Net.HttpStatusCode.OK:
-                   //var _response = await response.Content.ReadAsStringAsync<ResponseDto<string>>();
-                    //await DeviceResources.SaveTokenAsync(_response.Payload);
-                    break;
-                default:
-                    break;
+                var client = await DeviceResources.GetHttpClientAsync();
+                var response = await client.PostAsJsonAsync(ApiUri.RefreshToken, DeviceAction.GetRequestDto(new object()));
+                if (response.IsSuccessStatusCode)
+                {
+                    await DeviceAction.NavigateAsync("MainPage");
+                }
+                else
+                {
+                    await DeviceAction.NavigateAsync("LoginPage");
+                }
+            }
+            catch(Exception e)
+            {
+                await DeviceAction.DisplayMessageAsync("Issue", "Something Unexpected Occured!");
+                DeviceAction.TerminateApp();
+                throw;
             }
         }
     }

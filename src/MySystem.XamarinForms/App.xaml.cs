@@ -10,13 +10,12 @@ using System.IO;
 using System.Reflection;
 using MySystem.XamarinForms.Models;
 using Newtonsoft.Json;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 
 namespace MySystem.XamarinForms
 {
     public partial class Application : Xamarin.Forms.Application
     {
-        //public IServiceProvider Services { get; }
-        //private static Stream resourceStream = GetType().GetTypeInfo().Assembly.GetManifestResourceStream("appsettings.json");
         private static AppSettings appSetting;
         public static AppSettings AppSettings
         {
@@ -32,18 +31,15 @@ namespace MySystem.XamarinForms
         public Application()
         {
             InitializeComponent();
-            DeviceResources.InitializeClient();
-            //Services = ConfigureServices();
-            //LoadAppSetting();
+            
+            Ioc.Default.ConfigureServices(
+                new ServiceCollection()
+                .AddSingleton<IAppSettings, AppSettings>()
+                .AddSingleton<IDeviceInfo, DeviceInfo>()
+                .BuildServiceProvider());
 
-            DependencyService.RegisterSingleton<IAppSettings>(AppSettings);
+            DeviceResources.InitializeClient(AppSettings.ApiBase, appSetting.ApiVersion);
 
-
-            //DependencyService.Register<MockDataStore>();
-            DependencyService.RegisterSingleton<IDeviceInfo>(new DeviceInfo());
-            //DependencyService.Register<DeviceActions>();
-            //DependencyService.Register<IDeviceActions, DeviceActions>();
-            //DependencyService.Register<IApiUri, ApiUri>();
             MainPage = new SplashPage();
         }
 
@@ -61,9 +57,7 @@ namespace MySystem.XamarinForms
 
         private static void LoadAppSetting()
         {
-#if DEBUG
-            var appsettingResouceStream = Assembly.GetAssembly(typeof(AppSettings)).GetManifestResourceStream("MySystem.XamarinForms.Configuration.appsettings.debug.json");
-#endif
+            var appsettingResouceStream = Assembly.GetAssembly(typeof(AppSettings)).GetManifestResourceStream("MySystem.XamarinForms.Configuration.appsettings.json");
             if (appsettingResouceStream == null)
                 return;
 
@@ -74,19 +68,5 @@ namespace MySystem.XamarinForms
             }
             
         }
-
-        //private static IServiceProvider ConfigureServices()
-        //{
-        //    var services = new ServiceCollection();
-
-        //    //services.AddSingleton<IDeviceInfo, DeviceInfo>();
-        //    //Add more services here...
-            
-            
-
-        //    //services.AddTransient<SplashViewModel>();
-
-        //    return services.BuildServiceProvider();
-        //}
     }
 }

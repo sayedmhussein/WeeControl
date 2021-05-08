@@ -23,9 +23,9 @@ namespace MySystem.XamarinForms.Services
             return new ResponseDto<T>(payload);
         }
 
-        public Task NavigateAsync(string pageName)
+        public async Task NavigateAsync(string pageName)
         {
-            throw new NotImplementedException();
+            await DisplayMessageAsync("Opening", pageName);
         }
 
         public void PlacePhoneCall(string number)
@@ -46,6 +46,11 @@ namespace MySystem.XamarinForms.Services
             {
                 // Other error has occurred.
             }
+        }
+
+        public void TerminateApp()
+        {
+            System.Diagnostics.Process.GetCurrentProcess().CloseMainWindow();
         }
     }
 }

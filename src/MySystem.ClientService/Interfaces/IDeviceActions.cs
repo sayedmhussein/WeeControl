@@ -8,6 +8,7 @@ namespace MySystem.ClientService.Interfaces
         void PlacePhoneCall(string number);
 
         Task DisplayMessageAsync(string title, string message);
+        void TerminateApp();
         Task NavigateAsync(string pageName);
 
         object GetRequestDto<T>(T payload);

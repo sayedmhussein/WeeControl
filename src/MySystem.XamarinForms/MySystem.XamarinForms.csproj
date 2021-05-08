@@ -31,5 +31,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>appsettings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Configuration\appsettings.json" />
   </ItemGroup>
 </Project>

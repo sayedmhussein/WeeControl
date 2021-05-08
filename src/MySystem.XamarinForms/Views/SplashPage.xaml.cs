@@ -16,8 +16,8 @@ namespace MySystem.XamarinForms.Views
             InitializeComponent();
             
             vm = (SplashViewModel)BindingContext;
-            vm.AppSettings = DependencyService.Get<IAppSettings>();
-            vm.DeviceInfo = DependencyService.Get<IDeviceInfo>();
+           //vm.AppSettings = DependencyService.Get<IAppSettings>();
+            //vm.DeviceInfo = DependencyService.Get<IDeviceInfo>();
             vm.DeviceAction = new DeviceActions();
             vm.DeviceResources = new DeviceResources();
             vm.ApiUri = new ApiUri();

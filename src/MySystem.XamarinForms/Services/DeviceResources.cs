@@ -11,12 +11,12 @@ namespace MySystem.XamarinForms.Services
     {
         private static HttpClient ApiClient { get; set; }
 
-        public static void InitializeClient(bool IsDevelopment = false)
+        public static void InitializeClient(string baseUri, string apiVersion)
         {
             ApiClient = new HttpClient();
-            ApiClient.BaseAddress = new Uri("http://192.168.140.107:5000/");
+            ApiClient.BaseAddress = new Uri(baseUri);
             ApiClient.DefaultRequestHeaders.Accept.Clear();
-            ApiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            ApiClient.DefaultRequestHeaders.Add("Accept-version", apiVersion);
 
             if (SecureStorage.GetAsync("token").Result == null)
             {
@@ -31,7 +31,7 @@ namespace MySystem.XamarinForms.Services
         public async Task<HttpClient> GetHttpClientAsync()
         {
             ApiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", await SecureStorage.GetAsync("token"));
-            ApiClient.Timeout = TimeSpan.FromSeconds(5);
+            //ApiClient.Timeout = TimeSpan.FromSeconds(5);
             return ApiClient;
         }
 
