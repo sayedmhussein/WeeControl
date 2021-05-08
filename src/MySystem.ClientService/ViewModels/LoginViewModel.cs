@@ -14,7 +14,6 @@ namespace MySystem.ClientService.ViewModels
     {
         private IDeviceInfo DeviceInfo => Ioc.Default.GetRequiredService<IDeviceInfo>();
         private IDeviceActions DeviceAction => Ioc.Default.GetRequiredService<IDeviceActions>();
-        private IDeviceResources DeviceResources => Ioc.Default.GetRequiredService<IDeviceResources>();
 
         private bool isLoading;
         public bool IsLoading
@@ -56,13 +55,12 @@ namespace MySystem.ClientService.ViewModels
             {
                 try
                 {
-                    var client = await DeviceResources.GetHttpClientAsync();
                     var dto = new RequestDto<LoginDto>(new LoginDto() { Username = Username, Password = Password }) { DeviceId = DeviceInfo.DeviceId };
-                    var response = await client.PostAsJsonAsync("/Api/Credentials/login", dto);
+                    var response = await DeviceInfo.HttpClient.PostAsJsonAsync("/Api/Credentials/login", dto);
                     if (response.IsSuccessStatusCode)
                     {
                         var data = await response.Content.ReadAsAsync<ResponseDto<string>>();
-                        await DeviceResources.SaveTokenAsync(data.Payload);
+                        await DeviceInfo.UpdateTokenAsync(data.Payload);
                         await DeviceAction.NavigateAsync("AboutPage");
                     }
                     else

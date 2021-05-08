@@ -17,7 +17,6 @@ namespace MySystem.ClientService.ViewModels
         private IDeviceInfo DeviceInfo => Ioc.Default.GetRequiredService<IDeviceInfo>();
 
         public IDeviceActions DeviceAction { get; set; }
-        public IDeviceResources DeviceResources { get; set; }
         public IApiUri ApiUri { get; set; }
 
         private string splashLabel; 
@@ -52,9 +51,8 @@ namespace MySystem.ClientService.ViewModels
 
             try
             {
-                var client = await DeviceResources.GetHttpClientAsync();
                 var dto = new RequestDto<object>() { DeviceId = DeviceInfo.DeviceId };
-                var response = await client.PostAsJsonAsync(ApiUri.RefreshToken, dto);
+                var response = await DeviceInfo.HttpClient.PostAsJsonAsync(ApiUri.RefreshToken, dto);
                 if (response.IsSuccessStatusCode)
                 {
                     await DeviceAction.NavigateAsync("MainPage");

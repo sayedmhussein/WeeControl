@@ -42,11 +42,10 @@ namespace MySystem.XamarinForms
                     .AddSingleton<IAppSettings, AppSettings>()
                     .AddSingleton<IDeviceInfo, DeviceInfo>()
                     .AddSingleton<IDeviceActions, DeviceActions>()
-                    .AddSingleton<IDeviceResources, DeviceResources>()
                     .BuildServiceProvider());
             }
 
-            DeviceResources.InitializeClient(AppSettings.ApiBase, appSetting.ApiVersion);
+            DeviceInfo.InitializeClient(AppSettings.ApiBase, appSetting.ApiVersion);
 
             MainPage = new AppShell();
         }

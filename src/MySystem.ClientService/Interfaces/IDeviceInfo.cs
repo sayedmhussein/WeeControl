@@ -10,6 +10,9 @@ namespace MySystem.ClientService.Interfaces
         bool InternetIsAvailable { get; }
 
         string DeviceId { get; }
-        
+
+        HttpClient HttpClient { get; }
+
+        Task UpdateTokenAsync(string token);
     }
 }

@@ -20,7 +20,6 @@ namespace MySystem.XamarinForms.Views
             vm = (SplashViewModel)BindingContext;
 
             vm.DeviceAction = new DeviceActions();
-            vm.DeviceResources = new DeviceResources();
             vm.ApiUri = new ApiUri();
             
             //BindingContext = Application.Current.Services.GetService<ContactsViewModel>();
