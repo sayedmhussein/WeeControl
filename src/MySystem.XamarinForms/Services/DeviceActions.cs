@@ -15,17 +15,22 @@ namespace MySystem.XamarinForms.Services
 
         public async Task DisplayMessageAsync(string title, string message)
         {
-            await Xamarin.Forms.Application.Current.MainPage.DisplayAlert(title, message, "bla");
+            await DisplayMessageAsync(title, message, "OK");
         }
 
-        public object GetRequestDto<T>(T payload)
+        public async Task DisplayMessageAsync(string title, string message, string acceptButton)
         {
-            return new ResponseDto<T>(payload);
+            await Application.Current.MainPage.DisplayAlert(title, message, acceptButton);
         }
 
         public async Task NavigateAsync(string pageName)
         {
-            await DisplayMessageAsync("Opening", pageName);
+            await Shell.Current.GoToAsync($"//{pageName}");
+        }
+
+        public async Task OpenWebPageAsync(string url)
+        {
+            await Browser.OpenAsync(url);
         }
 
         public void PlacePhoneCall(string number)

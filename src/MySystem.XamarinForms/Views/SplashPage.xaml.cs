@@ -4,9 +4,11 @@ using MySystem.ClientService.Interfaces;
 using MySystem.ClientService.ViewModels;
 using MySystem.XamarinForms.Services;
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 namespace MySystem.XamarinForms.Views
 {
+    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SplashPage : ContentPage
     {
         private readonly SplashViewModel vm;
@@ -16,8 +18,7 @@ namespace MySystem.XamarinForms.Views
             InitializeComponent();
             
             vm = (SplashViewModel)BindingContext;
-           //vm.AppSettings = DependencyService.Get<IAppSettings>();
-            //vm.DeviceInfo = DependencyService.Get<IDeviceInfo>();
+
             vm.DeviceAction = new DeviceActions();
             vm.DeviceResources = new DeviceResources();
             vm.ApiUri = new ApiUri();

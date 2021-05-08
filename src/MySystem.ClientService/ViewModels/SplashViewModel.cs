@@ -21,7 +21,6 @@ namespace MySystem.ClientService.ViewModels
         public IApiUri ApiUri { get; set; }
 
         private string splashLabel; 
-
         public string SplashLabel
         {
             get => splashLabel;
@@ -54,7 +53,8 @@ namespace MySystem.ClientService.ViewModels
             try
             {
                 var client = await DeviceResources.GetHttpClientAsync();
-                var response = await client.PostAsJsonAsync(ApiUri.RefreshToken, DeviceAction.GetRequestDto(new object()));
+                var dto = new RequestDto<object>() { DeviceId = DeviceInfo.DeviceId };
+                var response = await client.PostAsJsonAsync(ApiUri.RefreshToken, dto);
                 if (response.IsSuccessStatusCode)
                 {
                     await DeviceAction.NavigateAsync("MainPage");

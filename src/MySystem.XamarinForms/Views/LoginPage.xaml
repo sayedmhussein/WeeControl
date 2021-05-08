@@ -3,12 +3,33 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:MySystem.ClientService.ViewModels;assembly=MySystem.ClientService"
              mc:Ignorable="d"
              x:Class="MySystem.XamarinForms.Views.LoginPage"
              Shell.NavBarIsVisible="False">
+
+    <ContentPage.BindingContext>
+        <vm:LoginViewModel />
+    </ContentPage.BindingContext>
+
     <ContentPage.Content>
-        <StackLayout Padding="10,0,10,0" VerticalOptions="Center">
-            <Button VerticalOptions="Center" Text="Login" Command="{Binding LoginCommand}"/>
-        </StackLayout>
+        <ScrollView>
+            <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" Margin="20">
+                <Image x:Name="logoImage" Aspect="AspectFit" HeightRequest="80" Margin="50" VerticalOptions="StartAndExpand"></Image>
+                <StackLayout IsEnabled="{Binding IsNotLoading}" Orientation="Vertical" VerticalOptions="StartAndExpand" Margin="20">
+                    <Entry x:Name="UsernameEntry" Text="{Binding Username}" Placeholder="Username" Keyboard="Plain" Completed="UsernameEntry_Completed"></Entry>
+                    <Entry x:Name="PasswordEntry" Text="{Binding Password}" Placeholder="Password" IsPassword="True" Completed="PasswordEntry_Completed"></Entry>
+                    <StackLayout Orientation="Horizontal" Grid.Row="2" Grid.Column="1">
+                        <Button x:Name="LoginButton" Clicked="LoginButton_Clicked" Text="Login" WidthRequest="100" HorizontalOptions="EndAndExpand"></Button>
+                    </StackLayout>
+                </StackLayout>
+                <ScrollView HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
+                    <StackLayout Orientation="Vertical">
+                        <ActivityIndicator IsRunning="True"></ActivityIndicator>
+                        <Label Text="{Binding Instructions}" VerticalOptions="StartAndExpand"></Label>
+                    </StackLayout>
+                </ScrollView>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

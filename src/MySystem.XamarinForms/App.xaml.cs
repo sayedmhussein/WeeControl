@@ -14,8 +14,9 @@ using Microsoft.Toolkit.Mvvm.DependencyInjection;
 
 namespace MySystem.XamarinForms
 {
-    public partial class Application : Xamarin.Forms.Application
+    public partial class App : Application
     {
+        private readonly bool initialized;
         private static AppSettings appSetting;
         public static AppSettings AppSettings
         {
@@ -28,19 +29,26 @@ namespace MySystem.XamarinForms
             }
         }
 
-        public Application()
+        public App()
         {
             InitializeComponent();
-            
-            Ioc.Default.ConfigureServices(
-                new ServiceCollection()
-                .AddSingleton<IAppSettings, AppSettings>()
-                .AddSingleton<IDeviceInfo, DeviceInfo>()
-                .BuildServiceProvider());
+
+            if (initialized == false)
+            {
+                initialized = true;
+
+                Ioc.Default.ConfigureServices(
+                    new ServiceCollection()
+                    .AddSingleton<IAppSettings, AppSettings>()
+                    .AddSingleton<IDeviceInfo, DeviceInfo>()
+                    .AddSingleton<IDeviceActions, DeviceActions>()
+                    .AddSingleton<IDeviceResources, DeviceResources>()
+                    .BuildServiceProvider());
+            }
 
             DeviceResources.InitializeClient(AppSettings.ApiBase, appSetting.ApiVersion);
 
-            MainPage = new SplashPage();
+            MainPage = new AppShell();
         }
 
         protected override void OnStart()

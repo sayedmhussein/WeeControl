@@ -2,11 +2,11 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MySystem.XamarinForms.Views.AboutPage"
-             xmlns:vm="clr-namespace:MySystem.XamarinForms.ViewModels"
+             xmlns:vm1="clr-namespace:MySystem.ClientService.ViewModels;assembly=MySystem.ClientService"
              Title="{Binding Title}">
     
     <ContentPage.BindingContext>
-        <vm:AboutViewModel />
+        <vm1:AboutViewModel />
     </ContentPage.BindingContext>
     
     <ContentPage.Resources>
