@@ -15,17 +15,22 @@ namespace MySystem.XamarinForms.Services
 
         public async Task DisplayMessageAsync(string title, string message)
         {
-            await Application.Current.MainPage.DisplayAlert(title, message, "bla");
+            await DisplayMessageAsync(title, message, "OK");
         }
 
-        public object GetRequestDto<T>(T payload)
+        public async Task DisplayMessageAsync(string title, string message, string acceptButton)
         {
-            return new ResponseDto<T>(payload);
+            await Application.Current.MainPage.DisplayAlert(title, message, acceptButton);
         }
 
-        public Task NavigateAsync(string pageName)
+        public async Task NavigateAsync(string pageName)
         {
-            throw new NotImplementedException();
+            await Shell.Current.GoToAsync($"//{pageName}");
+        }
+
+        public async Task OpenWebPageAsync(string url)
+        {
+            await Browser.OpenAsync(url);
         }
 
         public void PlacePhoneCall(string number)
@@ -46,6 +51,11 @@ namespace MySystem.XamarinForms.Services
             {
                 // Other error has occurred.
             }
+        }
+
+        public void TerminateApp()
+        {
+            System.Diagnostics.Process.GetCurrentProcess().CloseMainWindow();
         }
     }
 }

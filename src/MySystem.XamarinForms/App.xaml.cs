@@ -4,25 +4,51 @@ using Xamarin.Forms.Xaml;
 using MySystem.XamarinForms.Services;
 using MySystem.XamarinForms.Views;
 using MySystem.ClientService.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
+using MySystem.ClientService.ViewModels;
+using System.IO;
+using System.Reflection;
+using MySystem.XamarinForms.Models;
+using Newtonsoft.Json;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 
 namespace MySystem.XamarinForms
 {
     public partial class App : Application
     {
-        //public IServiceProvider Services { get; }
+        private readonly bool initialized;
+        private static AppSettings appSetting;
+        public static AppSettings AppSettings
+        {
+            get
+            {
+                if (appSetting == null)
+                    LoadAppSetting();
+
+                return appSetting;
+            }
+        }
 
         public App()
         {
             InitializeComponent();
-            DeviceResources.InitializeClient();
-            //Services = ConfigureServices();
 
-            //DependencyService.Register<MockDataStore>();
-            //DependencyService.Register<IDeviceInfo, DeviceInfo>();
-            //DependencyService.Register<DeviceActions>();
-            //DependencyService.Register<IDeviceActions, DeviceActions>();
-            //DependencyService.Register<IApiUri, ApiUri>();
-            MainPage = new SplashPage();
+            if (initialized == false)
+            {
+                initialized = true;
+
+                Ioc.Default.ConfigureServices(
+                    new ServiceCollection()
+                    .AddSingleton<IAppSettings, AppSettings>()
+                    .AddSingleton<IDeviceInfo, DeviceInfo>()
+                    .AddSingleton<IDeviceActions, DeviceActions>()
+                    .AddSingleton<IDeviceResources, DeviceResources>()
+                    .BuildServiceProvider());
+            }
+
+            DeviceResources.InitializeClient(AppSettings.ApiBase, appSetting.ApiVersion);
+
+            MainPage = new AppShell();
         }
 
         protected override void OnStart()
@@ -37,17 +63,18 @@ namespace MySystem.XamarinForms
         {
         }
 
-        //private static IServiceProvider ConfigureServices(this IServiceCollection services)
-        //{
-        //    var services = new ServiceCollection();
+        private static void LoadAppSetting()
+        {
+            var appsettingResouceStream = Assembly.GetAssembly(typeof(AppSettings)).GetManifestResourceStream("MySystem.XamarinForms.Configuration.appsettings.json");
+            if (appsettingResouceStream == null)
+                return;
 
-        //    services.AddSingleton<IFilesService, FilesService>();
-        //    services.AddSingleton<ISettingsService, SettingsService>();
-        //    services.AddSingleton<IClipboardService, ClipboardService>();
-        //    services.AddSingleton<IShareService, ShareService>();
-        //    services.AddSingleton<IEmailService, EmailService>();
-
-        //    return services.BuildServiceProvider();
-        //}
+            using (var streamReader = new StreamReader(appsettingResouceStream))
+            {
+                var jsonStream = streamReader.ReadToEnd();
+                appSetting = JsonConvert.DeserializeObject<AppSettings>(jsonStream);
+            }
+            
+        }
     }
 }

@@ -9,6 +9,7 @@ namespace MySystem.ClientService.Interfaces
     {
         bool InternetIsAvailable { get; }
 
+        string DeviceId { get; }
         
     }
 }

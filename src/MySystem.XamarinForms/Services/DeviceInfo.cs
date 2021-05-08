@@ -11,5 +11,6 @@ namespace MySystem.XamarinForms.Services
     {
         public bool InternetIsAvailable => Connectivity.NetworkAccess == NetworkAccess.Internet;
 
+        public string DeviceId => Xamarin.Essentials.DeviceInfo.Name;
     }
 }
