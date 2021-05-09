@@ -12,9 +12,9 @@ namespace MySystem.ClientService.ViewModels
 {
     public class LoginViewModel : ObservableObject
     {
+        private IAppSettings AppSetting => Ioc.Default.GetRequiredService<IAppSettings>();
         private IDeviceInfo DeviceInfo => Ioc.Default.GetRequiredService<IDeviceInfo>();
-        private IDeviceActions DeviceAction => Ioc.Default.GetRequiredService<IDeviceActions>();
-        private IDeviceResources DeviceResources => Ioc.Default.GetRequiredService<IDeviceResources>();
+        private IDeviceAction DeviceAction => Ioc.Default.GetRequiredService<IDeviceAction>();
 
         private bool isLoading;
         public bool IsLoading
@@ -38,7 +38,7 @@ namespace MySystem.ClientService.ViewModels
             set => SetProperty(ref password, value);
         }
 
-        public string Instructions { get => "Instructions"; }
+        public string Instructions { get => AppSetting.LoginDisclaimer; }
 
         public IAsyncRelayCommand LoginCommand { get; }
 
@@ -56,30 +56,29 @@ namespace MySystem.ClientService.ViewModels
             {
                 try
                 {
-                    var client = await DeviceResources.GetHttpClientAsync();
                     var dto = new RequestDto<LoginDto>(new LoginDto() { Username = Username, Password = Password }) { DeviceId = DeviceInfo.DeviceId };
-                    var response = await client.PostAsJsonAsync("/Api/Credentials/login", dto);
+                    var response = await DeviceInfo.HttpClient.PostAsJsonAsync("/Api/Credentials/login", dto);
                     if (response.IsSuccessStatusCode)
                     {
                         var data = await response.Content.ReadAsAsync<ResponseDto<string>>();
-                        await DeviceResources.SaveTokenAsync(data.Payload);
-                        await DeviceAction.NavigateAsync("AboutPage");
+                        await DeviceInfo.UpdateTokenAsync(data.Payload);
+                        await DeviceAction.NavigateToPageAsync("HomePage");
                     }
                     else
                     {
+                        
                         await DeviceAction.DisplayMessageAsync("Invalid Credentials", "Invalid uername or password, please try again later.");
                     }
                 }
                 catch (Exception e)
                 {
-                    await DeviceAction.DisplayMessageAsync("Issue", "Something Unexpected Occured!");
+                    await DeviceAction.DisplayMessageAsync("Exception", e.Message);
                     throw;
                 }
             }
             else
             {
-                await DeviceAction.DisplayMessageAsync("No Internet!", "Check your internet connection then try again later.");
-                
+                await DeviceAction.DisplayMessageAsync(IDeviceAction.Message.NoInternet);
             }
 
             IsLoading = false;

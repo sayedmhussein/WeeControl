@@ -16,7 +16,6 @@ namespace MySystem.XamarinForms
 {
     public partial class App : Application
     {
-        private readonly bool initialized;
         private static AppSettings appSetting;
         public static AppSettings AppSettings
         {
@@ -33,20 +32,20 @@ namespace MySystem.XamarinForms
         {
             InitializeComponent();
 
-            if (initialized == false)
+            try
             {
-                initialized = true;
-
                 Ioc.Default.ConfigureServices(
                     new ServiceCollection()
-                    .AddSingleton<IAppSettings, AppSettings>()
+                    .AddSingleton<IAppSettings>(AppSettings)
                     .AddSingleton<IDeviceInfo, DeviceInfo>()
-                    .AddSingleton<IDeviceActions, DeviceActions>()
-                    .AddSingleton<IDeviceResources, DeviceResources>()
+                    .AddSingleton<IDeviceAction, DeviceActions>()
+                    .AddSingleton<IApiUri, ApiUri>()
                     .BuildServiceProvider());
             }
+            catch
+            { }
 
-            DeviceResources.InitializeClient(AppSettings.ApiBase, appSetting.ApiVersion);
+            DeviceInfo.InitializeClient(AppSettings.ApiBase, appSetting.ApiVersion);
 
             MainPage = new AppShell();
         }

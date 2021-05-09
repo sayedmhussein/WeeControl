@@ -88,6 +88,10 @@
       <SubType></SubType>
       <Generator></Generator>
     </AndroidResource>
+    <AndroidResource Include="Resources\drawable\company_logo.png">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MySystem.XamarinForms\MySystem.XamarinForms.csproj">

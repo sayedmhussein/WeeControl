@@ -12,9 +12,9 @@
 
     <ContentPage.Content>
         <StackLayout Orientation="Vertical" Margin="5">
-            <Image Source="{Binding AppLogoPath}" Aspect="AspectFit" HeightRequest="100" WidthRequest="100" Margin="100"></Image>
+            <Image Source="company_logo" Aspect="AspectFit" HeightRequest="100" WidthRequest="100" Margin="50"></Image>
             <ActivityIndicator HorizontalOptions="Center" VerticalOptions="Center" IsRunning="True"></ActivityIndicator>
-            <Label Text="{Binding SplashLabel}" x:Name="textLabel" HorizontalOptions="Center" VerticalOptions="Center" ></Label>
+            <Label Text="Please Wait..." HorizontalOptions="Center" VerticalOptions="Center" ></Label>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
