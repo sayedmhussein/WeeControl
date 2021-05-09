@@ -18,17 +18,12 @@ namespace MySystem.XamarinForms.Views
             InitializeComponent();
             
             vm = (SplashViewModel)BindingContext;
-
-            vm.DeviceAction = new DeviceActions();
-            vm.ApiUri = new ApiUri();
-            
-            //BindingContext = Application.Current.Services.GetService<ContactsViewModel>();
         }
 
-        protected override void OnAppearing()
+        async protected override void OnAppearing()
         {
-            vm.RefreshTokenCommand.Execute(null);
             base.OnAppearing();
+            await vm.RefreshTokenCommand.ExecuteAsync(null);
         }
     }
 }

@@ -13,9 +13,11 @@ namespace MySystem.XamarinForms
             Routing.RegisterRoute(nameof(SplashPage), typeof(SplashPage));
             Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
 
+            Routing.RegisterRoute(nameof(HomePage), typeof(HomePage));
+
             //Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));
-            
-            
+
+
         }
 
     }

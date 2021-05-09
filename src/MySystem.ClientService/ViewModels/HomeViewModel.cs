@@ -7,13 +7,24 @@ using MySystem.ClientService.Interfaces;
 
 namespace MySystem.ClientService.ViewModels
 {
-    public class AboutViewModel : ObservableObject
+    public class HomeViewModel : ObservableObject
     {
+        private IAppSettings AppSettings => Ioc.Default.GetService<IAppSettings>();
         private IDeviceAction DeviceAction => Ioc.Default.GetService<IDeviceAction>();
+
+        public string WelComeMessage
+        {
+            get
+            {
+                return "Hello User";
+            }
+        }
+
+        public string Disclaimer { get => AppSettings.HomeDisclaimer; }
 
         public ICommand OpenWebCommand { get; }
 
-        public AboutViewModel()
+        public HomeViewModel()
         {
             OpenWebCommand = new RelayCommand(async () => await DeviceAction.OpenWebPageAsync("http://www.google.com/"));
         }

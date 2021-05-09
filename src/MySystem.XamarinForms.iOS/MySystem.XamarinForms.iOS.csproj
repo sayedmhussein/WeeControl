@@ -126,6 +126,8 @@
     <BundleResource Include="Resources\xamarin_logo%402x.png" />
     <BundleResource Include="Resources\xamarin_logo%403x.png" />
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
+    <ImageAsset Include="Assets.xcassets\company_logo.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\company_logo.imageset\companylogo.png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -144,6 +146,9 @@
       <Project>{EED39460-07EC-41D8-ABC4-3CB4A261278E}</Project>
       <Name>MySystem.XamarinForms</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets.xcassets\company_logo.imageset\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

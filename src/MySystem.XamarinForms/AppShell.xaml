@@ -34,6 +34,8 @@
     
 
     <TabBar>
+        <ShellContent Title="Home" Icon="icon_feed.png" Route="HomePage" ContentTemplate="{DataTemplate local:HomePage}" />
+        <ShellContent Title="Splash" Icon="icon_feed.png" ContentTemplate="{DataTemplate local:SplashPage}" />
         <ShellContent Title="Login" Icon="icon_feed.png" ContentTemplate="{DataTemplate local:LoginPage}" />
         <ShellContent Title="About" Icon="icon_about.png" Route="AboutPage" ContentTemplate="{DataTemplate local:AboutPage}" />
     </TabBar>

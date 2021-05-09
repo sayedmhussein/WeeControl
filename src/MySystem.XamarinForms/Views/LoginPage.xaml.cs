@@ -36,14 +36,14 @@ namespace MySystem.XamarinForms.Views
             {
                 UsernameEntry.Focus();
                 UsernameEntry.BackgroundColor = Color.LightYellow;
-                await DisplayAlert("Username", "You didn't entered a valid username", "ok");
+                await DisplayAlert("Username", "You didn't entered a valid username", "OK");
             }
             else if (string.IsNullOrWhiteSpace(PasswordEntry.Text))
             {
                 UsernameEntry.BackgroundColor = Color.Default;
                 PasswordEntry.Focus();
                 PasswordEntry.BackgroundColor = Color.LightYellow;
-                await DisplayAlert("Password", "You didn't entered a valid password", "ok");
+                await DisplayAlert("Password", "You didn't entered a valid password", "OK");
             }
             else
             {

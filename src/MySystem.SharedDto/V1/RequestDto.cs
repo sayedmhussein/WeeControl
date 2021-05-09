@@ -23,9 +23,19 @@ namespace MySystem.SharedDto.V1
         {
         }
 
+        public RequestDto(string deviceId)
+        {
+            DeviceId = deviceId;
+        }
+
         public RequestDto(T payload)
         {
             Payload = payload;
+        }
+
+        public RequestDto(string deviceId, T payload) : this(payload)
+        {
+            DeviceId = deviceId;
         }
     }
 }

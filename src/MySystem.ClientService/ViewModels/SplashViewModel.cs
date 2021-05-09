@@ -13,36 +13,19 @@ namespace MySystem.ClientService.ViewModels
 {
     public class SplashViewModel : ObservableObject
     {
-        private IAppSettings AppSettings => Ioc.Default.GetService<IAppSettings>();
         private IDeviceInfo DeviceInfo => Ioc.Default.GetRequiredService<IDeviceInfo>();
-
-        public IDeviceActions DeviceAction { get; set; }
-        public IApiUri ApiUri { get; set; }
-
-        private string splashLabel; 
-        public string SplashLabel
-        {
-            get => splashLabel;
-            set => SetProperty(ref splashLabel, value);
-        }
-
-        public string AppLogoPath { get; }
+        private IDeviceAction DeviceAction => Ioc.Default.GetRequiredService<IDeviceAction>();
+        private IApiUri ApiUri => Ioc.Default.GetRequiredService<IApiUri>();
 
         public IAsyncRelayCommand RefreshTokenCommand { get; }
 
         public SplashViewModel()
         {
             RefreshTokenCommand = new AsyncRelayCommand(VerifyTokenAsync);
-            
-            AppLogoPath = "MySystem.XamarinForms.Resources.splashlogo.png";
-            //https://docs.microsoft.com/en-us/xamarin/xamarin-forms/user-interface/images?tabs=macos#local-images
-            //deviceInfo = App.Current.Services.GetService<ContactsViewModel>();
         }
 
         private async Task VerifyTokenAsync()
         {
-            SplashLabel = AppSettings.WelComeText;
-
             if (DeviceInfo.InternetIsAvailable == false)
             {
                 await DeviceAction.DisplayMessageAsync("Alert", "Check internet connection then try again.");
@@ -51,20 +34,20 @@ namespace MySystem.ClientService.ViewModels
 
             try
             {
-                var dto = new RequestDto<object>() { DeviceId = DeviceInfo.DeviceId };
+                var dto = new RequestDto<object>(DeviceInfo.DeviceId);
                 var response = await DeviceInfo.HttpClient.PostAsJsonAsync(ApiUri.RefreshToken, dto);
                 if (response.IsSuccessStatusCode)
                 {
-                    await DeviceAction.NavigateAsync("MainPage");
+                    await DeviceAction.NavigateToPageAsync("HomePage");
                 }
                 else
                 {
-                    await DeviceAction.NavigateAsync("LoginPage");
+                    await DeviceAction.NavigateToPageAsync("LoginPage");
                 }
             }
             catch(Exception e)
             {
-                await DeviceAction.DisplayMessageAsync("Issue", "Something Unexpected Occured!");
+                await DeviceAction.DisplayMessageAsync("Exception", e.Message);
                 DeviceAction.TerminateApp();
                 throw;
             }

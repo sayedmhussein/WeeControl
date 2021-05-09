@@ -12,8 +12,9 @@ namespace MySystem.ClientService.ViewModels
 {
     public class LoginViewModel : ObservableObject
     {
+        private IAppSettings AppSetting => Ioc.Default.GetRequiredService<IAppSettings>();
         private IDeviceInfo DeviceInfo => Ioc.Default.GetRequiredService<IDeviceInfo>();
-        private IDeviceActions DeviceAction => Ioc.Default.GetRequiredService<IDeviceActions>();
+        private IDeviceAction DeviceAction => Ioc.Default.GetRequiredService<IDeviceAction>();
 
         private bool isLoading;
         public bool IsLoading
@@ -37,7 +38,7 @@ namespace MySystem.ClientService.ViewModels
             set => SetProperty(ref password, value);
         }
 
-        public string Instructions { get => "Instructions"; }
+        public string Instructions { get => AppSetting.LoginDisclaimer; }
 
         public IAsyncRelayCommand LoginCommand { get; }
 
@@ -61,23 +62,23 @@ namespace MySystem.ClientService.ViewModels
                     {
                         var data = await response.Content.ReadAsAsync<ResponseDto<string>>();
                         await DeviceInfo.UpdateTokenAsync(data.Payload);
-                        await DeviceAction.NavigateAsync("AboutPage");
+                        await DeviceAction.NavigateToPageAsync("HomePage");
                     }
                     else
                     {
+                        
                         await DeviceAction.DisplayMessageAsync("Invalid Credentials", "Invalid uername or password, please try again later.");
                     }
                 }
                 catch (Exception e)
                 {
-                    await DeviceAction.DisplayMessageAsync("Issue", "Something Unexpected Occured!");
+                    await DeviceAction.DisplayMessageAsync("Exception", e.Message);
                     throw;
                 }
             }
             else
             {
-                await DeviceAction.DisplayMessageAsync("No Internet!", "Check your internet connection then try again later.");
-                
+                await DeviceAction.DisplayMessageAsync(IDeviceAction.Message.NoInternet);
             }
 
             IsLoading = false;

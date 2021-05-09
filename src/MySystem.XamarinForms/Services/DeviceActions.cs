@@ -7,7 +7,7 @@ using Xamarin.Forms;
 
 namespace MySystem.XamarinForms.Services
 {
-    public class DeviceActions : IDeviceActions
+    public class DeviceActions : IDeviceAction
     {
         public DeviceActions()
         {
@@ -23,9 +23,16 @@ namespace MySystem.XamarinForms.Services
             await Application.Current.MainPage.DisplayAlert(title, message, acceptButton);
         }
 
-        public async Task NavigateAsync(string pageName)
+        public async Task NavigateToPageAsync(string pageName)
         {
             await Shell.Current.GoToAsync($"//{pageName}");
+        }
+
+        public async Task NavigateToLocationAsync(double latitude, double longitude)
+        {
+            var location = new Location(latitude, longitude);
+            var options = new MapLaunchOptions { NavigationMode = NavigationMode.Driving };
+            await Map.OpenAsync(location, options);
         }
 
         public async Task OpenWebPageAsync(string url)
@@ -56,6 +63,18 @@ namespace MySystem.XamarinForms.Services
         public void TerminateApp()
         {
             System.Diagnostics.Process.GetCurrentProcess().CloseMainWindow();
+        }
+
+        public async Task DisplayMessageAsync(IDeviceAction.Message message)
+        {
+            switch (message)
+            {
+                case IDeviceAction.Message.NoInternet:
+                    await DisplayMessageAsync("No Internet!", "Check your internet connection then try again later.");
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
