@@ -40,21 +40,21 @@ namespace MySystem.XamarinForms.Services
             await Browser.OpenAsync(url);
         }
 
-        public void PlacePhoneCall(string number)
+        public async void PlacePhoneCall(string number)
         {
             try
             {
                 PhoneDialer.Open(number);
             }
-            catch (ArgumentNullException anEx)
+            catch (ArgumentNullException)
             {
-                // Number was null or white space
+                await DisplayMessageAsync("Alert!", "Invalid Mobile Number!");
             }
-            catch (FeatureNotSupportedException ex)
+            catch (FeatureNotSupportedException)
             {
-                // Phone Dialer is not supported on this device.
+                await DisplayMessageAsync("Alert!","Feature isn't supported on this device.");
             }
-            catch (Exception ex)
+            catch
             {
                 // Other error has occurred.
             }

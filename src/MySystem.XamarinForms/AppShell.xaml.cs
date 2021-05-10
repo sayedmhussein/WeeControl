@@ -10,8 +10,8 @@ namespace MySystem.XamarinForms
         public AppShell()
         {
             InitializeComponent();
-            Routing.RegisterRoute(nameof(SplashPage), typeof(SplashPage));
-            Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
+            //Routing.RegisterRoute(nameof(SplashPage), typeof(SplashPage));
+            //Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
 
             Routing.RegisterRoute(nameof(HomePage), typeof(HomePage));
 

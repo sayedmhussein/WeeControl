@@ -8,8 +8,10 @@ namespace MySystem.ClientService.Interfaces
     public interface IDeviceInfo
     {
         bool InternetIsAvailable { get; }
+        bool TokenIsNull { get; }
 
         string DeviceId { get; }
+        string Token { get; }
 
         HttpClient HttpClient { get; }
 

@@ -6,6 +6,7 @@
              xmlns:vm="clr-namespace:MySystem.ClientService.ViewModels;assembly=MySystem.ClientService"
              mc:Ignorable="d"
              x:Class="MySystem.XamarinForms.Views.LoginPage"
+             Shell.FlyoutBehavior="Disabled"
              Shell.NavBarIsVisible="False">
 
     <ContentPage.BindingContext>
@@ -16,7 +17,7 @@
         <ScrollView>
             <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" Margin="5">
                 <Image Source="company_logo" Aspect="AspectFit" HeightRequest="100" WidthRequest="100" Margin="50"></Image>
-                <StackLayout IsEnabled="{Binding IsNotLoading}" Orientation="Vertical" VerticalOptions="StartAndExpand" Margin="20">
+                <StackLayout x:Name="EntryStack" Orientation="Vertical" VerticalOptions="StartAndExpand" Margin="20">
                     <Entry x:Name="UsernameEntry" Text="{Binding Username}" Placeholder="Username" Keyboard="Plain" Completed="UsernameEntry_Completed"></Entry>
                     <Entry x:Name="PasswordEntry" Text="{Binding Password}" Placeholder="Password" IsPassword="True" Completed="PasswordEntry_Completed"></Entry>
                     <StackLayout Orientation="Horizontal" Margin="0, 10, 0, 10">
@@ -25,7 +26,7 @@
                 </StackLayout>
                 <ScrollView HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
                     <StackLayout Orientation="Vertical">
-                        <ActivityIndicator IsVisible="{Binding IsNotLoading}" IsRunning="True"></ActivityIndicator>
+                        <ActivityIndicator x:Name="IsBusy" IsRunning="True"></ActivityIndicator>
                         <Label Text="{Binding Instructions}" VerticalOptions="StartAndExpand"></Label>
                     </StackLayout>
                 </ScrollView>

@@ -22,10 +22,19 @@ namespace MySystem.XamarinForms.Services
 
         public static void InitializeClient(string baseUri, string apiVersion)
         {
+            string baseAdd;
+#if DEBUG
+            baseAdd = "http://192.168.126.107:5000";
+            //baseAdd = Xamarin.Essentials.DeviceInfo.Platform == DevicePlatform.Android ? "https://10.0.2.2:5001" : "https://localhost:5001";
+#else
+            baseAdd = Devic;
+#endif
             httpClient = new HttpClient
             {
-                BaseAddress = new Uri(baseUri)
+
+                BaseAddress = new Uri(baseAdd)
             };
+
             httpClient.DefaultRequestHeaders.Accept.Clear();
             httpClient.DefaultRequestHeaders.Add("Accept-version", apiVersion);
 
@@ -37,7 +46,12 @@ namespace MySystem.XamarinForms.Services
 
         public bool InternetIsAvailable => Connectivity.NetworkAccess == NetworkAccess.Internet;
 
+
         public string DeviceId => Xamarin.Essentials.DeviceInfo.Name;
+
+        public bool TokenIsNull => string.IsNullOrWhiteSpace(SecureStorage.GetAsync("token").Result);
+
+        public string Token => throw new NotImplementedException();
 
         public async Task UpdateTokenAsync(string token)
         {

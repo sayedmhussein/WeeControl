@@ -16,14 +16,6 @@ namespace MySystem.ClientService.ViewModels
         private IDeviceInfo DeviceInfo => Ioc.Default.GetRequiredService<IDeviceInfo>();
         private IDeviceAction DeviceAction => Ioc.Default.GetRequiredService<IDeviceAction>();
 
-        private bool isLoading;
-        public bool IsLoading
-        {
-            get => IsLoading;
-            set => SetProperty(ref isLoading, value);
-        }
-        public bool IsNotLoading { get => !isLoading; }
-
         private string username;
         public string Username
         {
@@ -45,13 +37,10 @@ namespace MySystem.ClientService.ViewModels
         public LoginViewModel()
         {
             LoginCommand = new AsyncRelayCommand(LoginAsync);
-            IsLoading = false;
         }
 
         private async Task LoginAsync()
         {
-            IsLoading = true;
-
             if (DeviceInfo.InternetIsAvailable)
             {
                 try
@@ -66,7 +55,6 @@ namespace MySystem.ClientService.ViewModels
                     }
                     else
                     {
-                        
                         await DeviceAction.DisplayMessageAsync("Invalid Credentials", "Invalid uername or password, please try again later.");
                     }
                 }
@@ -80,8 +68,6 @@ namespace MySystem.ClientService.ViewModels
             {
                 await DeviceAction.DisplayMessageAsync(IDeviceAction.Message.NoInternet);
             }
-
-            IsLoading = false;
         }
     }
 }

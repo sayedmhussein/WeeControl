@@ -39,7 +39,6 @@ namespace MySystem.XamarinForms
                     .AddSingleton<IAppSettings>(AppSettings)
                     .AddSingleton<IDeviceInfo, DeviceInfo>()
                     .AddSingleton<IDeviceAction, DeviceActions>()
-                    .AddSingleton<IApiUri, ApiUri>()
                     .BuildServiceProvider());
             }
             catch

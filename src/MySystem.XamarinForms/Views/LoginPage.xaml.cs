@@ -18,6 +18,7 @@ namespace MySystem.XamarinForms.Views
         {
             InitializeComponent();
             vm = (LoginViewModel)BindingContext;
+            AppIsBusy = false;
         }
 
         void UsernameEntry_Completed(Object sender, EventArgs e)
@@ -47,7 +48,26 @@ namespace MySystem.XamarinForms.Views
             }
             else
             {
+                AppIsBusy = true;
                 await vm.LoginCommand.ExecuteAsync(new object());
+                AppIsBusy = false;
+            }
+        }
+
+        private bool AppIsBusy
+        {
+            set
+            {
+                if (value)
+                {
+                    IsBusy.IsVisible = true;
+                    EntryStack.IsEnabled = false;
+                }
+                else
+                {
+                    IsBusy.IsVisible = false;
+                    EntryStack.IsEnabled = true;
+                }
             }
         }
     }

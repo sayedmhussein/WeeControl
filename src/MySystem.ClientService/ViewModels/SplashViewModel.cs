@@ -8,6 +8,7 @@ using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using System.Text;
 using Newtonsoft.Json;
 using System;
+using MySystem.ClientService.Services;
 
 namespace MySystem.ClientService.ViewModels
 {
@@ -15,7 +16,6 @@ namespace MySystem.ClientService.ViewModels
     {
         private IDeviceInfo DeviceInfo => Ioc.Default.GetRequiredService<IDeviceInfo>();
         private IDeviceAction DeviceAction => Ioc.Default.GetRequiredService<IDeviceAction>();
-        private IApiUri ApiUri => Ioc.Default.GetRequiredService<IApiUri>();
 
         public IAsyncRelayCommand RefreshTokenCommand { get; }
 
@@ -31,25 +31,39 @@ namespace MySystem.ClientService.ViewModels
                 await DeviceAction.DisplayMessageAsync("Alert", "Check internet connection then try again.");
                 DeviceAction.TerminateApp();
             }
-
-            try
+            else if (DeviceInfo.TokenIsNull)
             {
-                var dto = new RequestDto<object>(DeviceInfo.DeviceId);
-                var response = await DeviceInfo.HttpClient.PostAsJsonAsync(ApiUri.RefreshToken, dto);
-                if (response.IsSuccessStatusCode)
-                {
-                    await DeviceAction.NavigateToPageAsync("HomePage");
-                }
-                else
-                {
-                    await DeviceAction.NavigateToPageAsync("LoginPage");
-                }
+                await DeviceAction.NavigateToPageAsync("LoginPage");
             }
-            catch(Exception e)
+            else
             {
-                await DeviceAction.DisplayMessageAsync("Exception", e.Message);
-                DeviceAction.TerminateApp();
-                throw;
+                await Task.Run(async () =>
+                {
+                    try
+                    {
+                        var dto = new RequestDto<object>(DeviceInfo.DeviceId);
+                        var response = await DeviceInfo.HttpClient.PostAsJsonAsync(ApiClient.GetUri(ApiClient.Route.Authentication_Token), dto);
+                        if (response.IsSuccessStatusCode)
+                        {
+                            await DeviceAction.NavigateToPageAsync("HomePage");
+                        }
+                        else
+                        {
+                            await DeviceAction.NavigateToPageAsync("LoginPage");
+                        }
+                    }
+                    catch (System.Net.WebException)
+                    {
+                        await DeviceAction.DisplayMessageAsync("Server Connection Error", "The Application can't connect to the server, ensure that the applicaiton is updated or try again later.");
+                        DeviceAction.TerminateApp();
+                    }
+                    catch (Exception e)
+                    {
+                        await DeviceAction.DisplayMessageAsync("Exception", e.Message);
+                        DeviceAction.TerminateApp();
+                        throw;
+                    }
+                });
             }
         }
     }
