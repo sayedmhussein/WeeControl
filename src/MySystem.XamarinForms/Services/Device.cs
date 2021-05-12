@@ -1,17 +1,23 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MySystem.ClientService.Interfaces;
-using MySystem.SharedDto.V1;
+using Sayed.MySystem.ClientService.Services;
+using Sayed.MySystem.SharedDto.V1;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
-namespace MySystem.XamarinForms.Services
+namespace Sayed.MySystem.XamarinForms.Services
 {
-    public class DeviceActions : IDeviceAction
+    public class Device : IDevice
     {
-        public DeviceActions()
+        public string DeviceId => Xamarin.Essentials.DeviceInfo.Name;
+
+        public string Token
         {
+            get => SecureStorage.GetAsync("token").GetAwaiter().GetResult();
+            set => SecureStorage.SetAsync("token", value).GetAwaiter().GetResult();
         }
+
+        public bool Internet => Connectivity.NetworkAccess == NetworkAccess.Internet;
 
         public async Task DisplayMessageAsync(string title, string message)
         {
@@ -20,7 +26,8 @@ namespace MySystem.XamarinForms.Services
 
         public async Task DisplayMessageAsync(string title, string message, string acceptButton)
         {
-            await Application.Current.MainPage.DisplayAlert(title, message, acceptButton);
+            await App.Current.MainPage.DisplayAlert(title, message, acceptButton);
+            //await Application.Current.MainPage.DisplayAlert(title, message, acceptButton);
         }
 
         public async Task NavigateToPageAsync(string pageName)
@@ -40,7 +47,7 @@ namespace MySystem.XamarinForms.Services
             await Browser.OpenAsync(url);
         }
 
-        public async void PlacePhoneCall(string number)
+        public async Task PlacePhoneCall(string number)
         {
             try
             {
@@ -65,16 +72,21 @@ namespace MySystem.XamarinForms.Services
             System.Diagnostics.Process.GetCurrentProcess().CloseMainWindow();
         }
 
-        public async Task DisplayMessageAsync(IDeviceAction.Message message)
+        public async Task DisplayMessageAsync(IDevice.Message message)
         {
             switch (message)
             {
-                case IDeviceAction.Message.NoInternet:
+                case IDevice.Message.NoInternet:
                     await DisplayMessageAsync("No Internet!", "Check your internet connection then try again later.");
                     break;
                 default:
                     break;
             }
+        }
+
+        public Task PlacePhoneCallAsync(string number)
+        {
+            throw new NotImplementedException();
         }
     }
 }

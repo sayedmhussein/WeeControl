@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace MySystem.ServerData.Models.People
+namespace Sayed.MySystem.ServerData.Models.People
 {
     [Table(nameof(Person), Schema = nameof(People))]
     [Index(nameof(LastName), nameof(FirstName), IsUnique = false)]

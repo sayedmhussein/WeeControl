@@ -3,34 +3,20 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+    <RootNamespace>Sayed.MySystem.XamarinForms</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />  
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
-    <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.0.1" />
+    <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.0.2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MySystem.ClientService\MySystem.ClientService.csproj" />
     <ProjectReference Include="..\MySystem.SharedDto\MySystem.SharedDto.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\" />
-    <Folder Include="Configuration\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="Resources\splashlogo.png" />
-    <None Remove="Configuration\appsettings.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\splashlogo.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Configuration\appsettings.debug.json">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>appsettings.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Configuration\appsettings.json" />
+    <Folder Include="Models\" />
   </ItemGroup>
 </Project>

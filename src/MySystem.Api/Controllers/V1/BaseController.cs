@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using MySystem.SharedDto.V1;
+using Sayed.MySystem.SharedDto.V1;
 
-namespace MySystem.Api.Controllers.V1
+namespace Sayed.MySystem.Api.Controllers.V1
 {
     //[Authorize(Policy = "Active")]
     [Route("api/[controller]")]

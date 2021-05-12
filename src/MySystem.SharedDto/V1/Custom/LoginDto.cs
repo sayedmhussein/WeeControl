@@ -5,7 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace MySystem.SharedDto.V1.Custom
+namespace Sayed.MySystem.SharedDto.V1.Custom
 {
     public class LoginDto
     {

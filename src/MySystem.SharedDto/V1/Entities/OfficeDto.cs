@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using MySystem.SharedDto.BaseEntities;
-using MySystem.SharedDto.Interfaces;
+using Sayed.MySystem.SharedDto.BaseEntities;
+using Sayed.MySystem.SharedDto.Interfaces;
 
-namespace MySystem.SharedDto.V1.Entities
+namespace Sayed.MySystem.SharedDto.V1.Entities
 {
     public class OfficeDto : OfficeBase
     {

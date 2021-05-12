@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace MySystem.ServerData.Models.People
+namespace Sayed.MySystem.ServerData.Models.People
 {
     [Table(nameof(Claim), Schema = nameof(People))]
     [Index(nameof(PersonId), IsUnique = false)]

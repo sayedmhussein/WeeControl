@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Shell xmlns="http://xamarin.com/schemas/2014/forms" 
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-       xmlns:local="clr-namespace:MySystem.XamarinForms.Views" xmlns:vm="clr-namespace:MySystem.ClientService.ViewModels;assembly=MySystem.ClientService"
+       xmlns:local="clr-namespace:Sayed.MySystem.XamarinForms.Views"
+       xmlns:vm="clr-namespace:MySystem.ClientService.ViewModels;assembly=MySystem.ClientService"
        Title="MySystem.XamarinForms"
-       x:Class="MySystem.XamarinForms.AppShell"
+       x:Class="Sayed.MySystem.XamarinForms.AppShell"
        FlyoutHeaderTemplate="{DataTemplate local:HeaderContentView}"
        FlyoutFooterTemplate="{DataTemplate local:FooterContentView}"
        >

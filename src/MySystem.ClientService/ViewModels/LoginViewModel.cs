@@ -4,17 +4,16 @@ using System.Threading.Tasks;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
-using MySystem.ClientService.Interfaces;
-using MySystem.SharedDto.V1;
-using MySystem.SharedDto.V1.Custom;
+using Sayed.MySystem.ClientService.Services;
+using Sayed.MySystem.SharedDto.V1;
+using Sayed.MySystem.SharedDto.V1.Custom;
 
-namespace MySystem.ClientService.ViewModels
+namespace Sayed.MySystem.ClientService.ViewModels
 {
     public class LoginViewModel : ObservableObject
     {
-        private IAppSettings AppSetting => Ioc.Default.GetRequiredService<IAppSettings>();
-        private IDeviceInfo DeviceInfo => Ioc.Default.GetRequiredService<IDeviceInfo>();
-        private IDeviceAction DeviceAction => Ioc.Default.GetRequiredService<IDeviceAction>();
+        private IDevice Device => Ioc.Default.GetService<IDevice>();
+        private IClientServices ApiClient => Ioc.Default.GetRequiredService<IClientServices>();
 
         private string username;
         public string Username
@@ -30,7 +29,7 @@ namespace MySystem.ClientService.ViewModels
             set => SetProperty(ref password, value);
         }
 
-        public string Instructions { get => AppSetting.LoginDisclaimer; }
+        public string Instructions { get => ApiClient.Settings.Login.Disclaimer; }
 
         public IAsyncRelayCommand LoginCommand { get; }
 
@@ -41,32 +40,32 @@ namespace MySystem.ClientService.ViewModels
 
         private async Task LoginAsync()
         {
-            if (DeviceInfo.InternetIsAvailable)
+            if (Device.Internet)
             {
                 try
                 {
-                    var dto = new RequestDto<LoginDto>(new LoginDto() { Username = Username, Password = Password }) { DeviceId = DeviceInfo.DeviceId };
-                    var response = await DeviceInfo.HttpClient.PostAsJsonAsync("/Api/Credentials/login", dto);
+                    var dto = new RequestDto<LoginDto>(new LoginDto() { Username = Username, Password = Password }) { DeviceId = Device.DeviceId };
+                    var response = await ApiClient.HttpClient.PostAsJsonAsync("/Api/Credentials/login", dto);
                     if (response.IsSuccessStatusCode)
                     {
                         var data = await response.Content.ReadAsAsync<ResponseDto<string>>();
-                        await DeviceInfo.UpdateTokenAsync(data.Payload);
-                        await DeviceAction.NavigateToPageAsync("HomePage");
+                        Device.Token = data.Payload;
+                        await Device.NavigateToPageAsync("HomePage");
                     }
                     else
                     {
-                        await DeviceAction.DisplayMessageAsync("Invalid Credentials", "Invalid uername or password, please try again later.");
+                        await Device.DisplayMessageAsync("Invalid Credentials", "Invalid uername or password, please try again later.");
                     }
                 }
                 catch (Exception e)
                 {
-                    await DeviceAction.DisplayMessageAsync("Exception", e.Message);
+                    await Device.DisplayMessageAsync("Exception", e.Message);
                     throw;
                 }
             }
             else
             {
-                await DeviceAction.DisplayMessageAsync(IDeviceAction.Message.NoInternet);
+                await Device.DisplayMessageAsync(IDevice.Message.NoInternet);
             }
         }
     }

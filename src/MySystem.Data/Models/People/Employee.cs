@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
-using MySystem.ServerData.Models.Basic;
+using Sayed.MySystem.ServerData.Models.Basic;
 
-namespace MySystem.ServerData.Models.People
+namespace Sayed.MySystem.ServerData.Models.People
 {
     [Table(nameof(Employee), Schema = nameof(People))]
     [Index(nameof(Username), IsUnique = true)]

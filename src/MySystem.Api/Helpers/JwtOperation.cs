@@ -5,7 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
-namespace MySystem.Api.Helpers
+namespace Sayed.MySystem.Api.Helpers
 {
     public class JwtOperation
     {

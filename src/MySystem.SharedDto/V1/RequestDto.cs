@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using MySystem.SharedDto.Interfaces;
+using Sayed.MySystem.SharedDto.Interfaces;
 
-namespace MySystem.SharedDto.V1
+namespace Sayed.MySystem.SharedDto.V1
 {
     public class RequestDto<T> : IRequestDto<T>
     {

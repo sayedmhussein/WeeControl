@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Xamarin.Forms;
 
-namespace MySystem.XamarinForms.Views
+namespace Sayed.MySystem.XamarinForms.Views
 {
     public partial class HeaderContentView : ContentView
     {

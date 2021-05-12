@@ -19,11 +19,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using MySystem.Api.Helpers;
-using MySystem.Api.Policies;
-using MySystem.ServerData;
+using Sayed.MySystem.Api.Helpers;
+using Sayed.MySystem.Api.Policies;
+using Sayed.MySystem.ServerData;
 
-namespace MySystem.Api
+namespace Sayed.MySystem.Api
 {
     public class Startup
     {

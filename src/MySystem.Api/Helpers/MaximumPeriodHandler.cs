@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 
-namespace MySystem.Api.Helpers
+namespace Sayed.MySystem.Api.Helpers
 {
     public class MaximumPeriodHandler : AuthorizationHandler<MaximumPeriodRequirement>
     {

@@ -7,13 +7,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using MySystem.Api.Helpers;
-using MySystem.Api.Policies;
-using MySystem.ServerData;
-using MySystem.SharedDto.V1;
-using MySystem.SharedDto.V1.Custom;
+using Sayed.MySystem.Api.Helpers;
+using Sayed.MySystem.Api.Policies;
+using Sayed.MySystem.ServerData;
+using Sayed.MySystem.SharedDto.V1;
+using Sayed.MySystem.SharedDto.V1.Custom;
 
-namespace MySystem.Api.Controllers.V1
+namespace Sayed.MySystem.Api.Controllers.V1
 {
     [Route("Api/[controller]")]
     [ApiVersion("1.0")]

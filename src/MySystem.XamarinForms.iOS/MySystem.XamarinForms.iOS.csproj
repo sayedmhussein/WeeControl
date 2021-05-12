@@ -9,7 +9,7 @@
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TemplateGuid>{89a4fe7c-635d-49c9-8d8c-5cd363c0d68d}</TemplateGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>MySystem.XamarinForms.iOS</RootNamespace>
+    <RootNamespace>Sayed.MySystem.XamarinForms.iOS</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <AssemblyName>MySystem.XamarinForms.iOS</AssemblyName>
     <MtouchEnableSGenConc>true</MtouchEnableSGenConc>

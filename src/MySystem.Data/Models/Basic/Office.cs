@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
-using MySystem.SharedDto.BaseEntities;
+using Sayed.MySystem.SharedDto.BaseEntities;
 
-namespace MySystem.ServerData.Models.Basic
+namespace Sayed.MySystem.ServerData.Models.Basic
 {
     [Table(nameof(Office), Schema = nameof(Basic))]
     [Index(nameof(CountryId), nameof(OfficeName), IsUnique = true)]

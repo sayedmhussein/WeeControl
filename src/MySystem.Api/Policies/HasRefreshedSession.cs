@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using MySystem.Api.Helpers;
+using Sayed.MySystem.Api.Helpers;
 
-namespace MySystem.Api.Policies
+namespace Sayed.MySystem.Api.Policies
 {
     public static class HasRefreshedSession
     {

@@ -3,13 +3,13 @@ using System.Windows.Input;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
-using MySystem.ClientService.Interfaces;
+using Sayed.MySystem.ClientService.Services;
 
-namespace MySystem.ClientService.ViewModels
+namespace Sayed.MySystem.ClientService.ViewModels
 {
     public class AboutViewModel : ObservableObject
     {
-        private IDeviceAction DeviceAction => Ioc.Default.GetService<IDeviceAction>();
+        private IDevice DeviceAction => Ioc.Default.GetService<IDevice>();
 
         public ICommand OpenWebCommand { get; }
 

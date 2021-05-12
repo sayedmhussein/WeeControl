@@ -3,14 +3,14 @@ using System.Windows.Input;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
-using MySystem.ClientService.Interfaces;
+using Sayed.MySystem.ClientService.Services;
 
-namespace MySystem.ClientService.ViewModels
+namespace Sayed.MySystem.ClientService.ViewModels
 {
     public class HomeViewModel : ObservableObject
     {
-        private IAppSettings AppSettings => Ioc.Default.GetService<IAppSettings>();
-        private IDeviceAction DeviceAction => Ioc.Default.GetService<IDeviceAction>();
+        private Setting AppSettings => Ioc.Default.GetService<Setting>();
+        private IDevice DeviceAction => Ioc.Default.GetService<IDevice>();
 
         public string WelComeMessage
         {
@@ -20,7 +20,7 @@ namespace MySystem.ClientService.ViewModels
             }
         }
 
-        public string Disclaimer { get => AppSettings.HomeDisclaimer; }
+        public string Disclaimer { get => AppSettings.Home.Text; }
 
         public ICommand OpenWebCommand { get; }
 

@@ -2,8 +2,8 @@
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:vm="clr-namespace:MySystem.ClientService.ViewModels;assembly=MySystem.ClientService"
-    x:Class="MySystem.XamarinForms.Views.SplashPage"
+    xmlns:vm="clr-namespace:Sayed.MySystem.ClientService.ViewModels;assembly=MySystem.ClientService"
+    x:Class="Sayed.MySystem.XamarinForms.Views.SplashPage"
     Shell.FlyoutBehavior="Disabled"
     Shell.NavBarIsVisible="False">
 

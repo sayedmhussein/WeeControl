@@ -1,7 +1,7 @@
 ﻿using System;
-using MySystem.SharedDto.Interfaces;
+using Sayed.MySystem.SharedDto.Interfaces;
 
-namespace MySystem.SharedDto.V1
+namespace Sayed.MySystem.SharedDto.V1
 {
     public class ResponseDto<T> : IResponseDto<T>
     {

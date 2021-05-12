@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Sayed.MySystem.SharedDto</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

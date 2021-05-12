@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:vm="clr-namespace:MySystem.ClientService.ViewModels;assembly=MySystem.ClientService"
+             xmlns:vm="clr-namespace:Sayed.MySystem.ClientService.ViewModels;assembly=MySystem.ClientService"
              mc:Ignorable="d"
-             x:Class="MySystem.XamarinForms.Views.LoginPage"
+             x:Class="Sayed.MySystem.XamarinForms.Views.LoginPage"
              Shell.FlyoutBehavior="Disabled"
              Shell.NavBarIsVisible="False">
 

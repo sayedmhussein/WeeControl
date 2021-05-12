@@ -1,5 +1,5 @@
 ﻿using System;
-namespace MySystem.SharedDto.Interfaces
+namespace Sayed.MySystem.SharedDto.Interfaces
 {
     public interface IRequestDto<T>
     {

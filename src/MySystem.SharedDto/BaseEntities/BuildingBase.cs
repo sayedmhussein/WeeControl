@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace MySystem.SharedDto.BaseEntities
+namespace Sayed.MySystem.SharedDto.BaseEntities
 {
     public abstract class BuildingBase
     {

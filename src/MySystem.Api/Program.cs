@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace MySystem.Api
+namespace Sayed.MySystem.Api
 {
     public class Program
     {

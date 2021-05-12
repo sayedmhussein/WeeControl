@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using MySystem.XamarinForms.Views;
+using Sayed.MySystem.XamarinForms.Views;
 using Xamarin.Forms;
 
-namespace MySystem.XamarinForms
+namespace Sayed.MySystem.XamarinForms
 {
     public partial class AppShell : Shell
     {

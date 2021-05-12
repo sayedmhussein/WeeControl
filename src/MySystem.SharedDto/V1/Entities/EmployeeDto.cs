@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MySystem.SharedDto.V1.Entities
+namespace Sayed.MySystem.SharedDto.V1.Entities
 {
     public class EmployeeDto
     {

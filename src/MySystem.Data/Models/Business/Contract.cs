@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
-using MySystem.ServerData.Models.Basic;
-using MySystem.ServerData.Models.People;
+using Sayed.MySystem.ServerData.Models.Basic;
+using Sayed.MySystem.ServerData.Models.People;
 
-namespace MySystem.ServerData.Models.Business
+namespace Sayed.MySystem.ServerData.Models.Business
 {
     [Table(nameof(Contract), Schema = nameof(Business))]
     [Index(nameof(ContractNo), IsUnique = true)]

@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using MySystem.ServerData;
-using MySystem.ServerData.Models.People;
-using MySystem.SharedDto.V1.Entities;
+using Sayed.MySystem.ServerData;
+using Sayed.MySystem.ServerData.Models.People;
+using Sayed.MySystem.SharedDto.V1.Entities;
 
-namespace MySystem.Api.Controllers.V1
+namespace Sayed.MySystem.Api.Controllers.V1
 {
     [ApiController]
     [Route("Api/[controller]")]
