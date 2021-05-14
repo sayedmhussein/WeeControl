@@ -1,55 +1,74 @@
 ﻿using System.Net.Http;
-using MySystem.ClientService.Interfaces;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System.Threading.Tasks;
-using MySystem.SharedDto.V1;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
-using System.Text;
-using Newtonsoft.Json;
 using System;
+using Sayed.MySystem.ClientService.Services;
+using Sayed.MySystem.Shared.Dtos.V1;
 
-namespace MySystem.ClientService.ViewModels
+namespace Sayed.MySystem.ClientService.ViewModels
 {
     public class SplashViewModel : ObservableObject
     {
-        private IDeviceInfo DeviceInfo => Ioc.Default.GetRequiredService<IDeviceInfo>();
-        private IDeviceAction DeviceAction => Ioc.Default.GetRequiredService<IDeviceAction>();
-        private IApiUri ApiUri => Ioc.Default.GetRequiredService<IApiUri>();
+        private readonly IDevice device;
+        private readonly IClientServices service;
 
         public IAsyncRelayCommand RefreshTokenCommand { get; }
 
-        public SplashViewModel()
+        public SplashViewModel() : this(Ioc.Default.GetService<IDevice>(), Ioc.Default.GetRequiredService<IClientServices>())
         {
+        }
+
+        public SplashViewModel(IDevice device, IClientServices client)
+        {
+            this.device = device;
+            this.service = client;
             RefreshTokenCommand = new AsyncRelayCommand(VerifyTokenAsync);
         }
 
         private async Task VerifyTokenAsync()
         {
-            if (DeviceInfo.InternetIsAvailable == false)
+            if (device.Internet == false)
             {
-                await DeviceAction.DisplayMessageAsync("Alert", "Check internet connection then try again.");
-                DeviceAction.TerminateApp();
+                await device.DisplayMessageAsync(IDevice.Message.NoInternet);
+                device.TerminateApp();
             }
-
-            try
+            else if (string.IsNullOrEmpty(device.Token))
             {
-                var dto = new RequestDto<object>(DeviceInfo.DeviceId);
-                var response = await DeviceInfo.HttpClient.PostAsJsonAsync(ApiUri.RefreshToken, dto);
-                if (response.IsSuccessStatusCode)
-                {
-                    await DeviceAction.NavigateToPageAsync("HomePage");
-                }
-                else
-                {
-                    await DeviceAction.NavigateToPageAsync("LoginPage");
-                }
+                await device.NavigateToPageAsync("LoginPage");
             }
-            catch(Exception e)
+            else
             {
-                await DeviceAction.DisplayMessageAsync("Exception", e.Message);
-                DeviceAction.TerminateApp();
-                throw;
+                await Task.Run(async () =>
+                {
+                    try
+                    {
+                        var dto = new RequestDto<object>(device.DeviceId);
+                        var response = await service.HttpClient.PostAsJsonAsync(service.Settings.Api.Token, dto);
+                        if (response.IsSuccessStatusCode)
+                        {
+                            var r = await response.Content.ReadAsAsync<ResponseDto<string>>();
+                            device.Token = r.Payload;
+                            await device.NavigateToPageAsync("HomePage");
+                        }
+                        else
+                        {
+                            await device.NavigateToPageAsync("LoginPage");
+                        }
+                    }
+                    catch (System.Net.WebException)
+                    {
+                        await device.DisplayMessageAsync("Server Connection Error", "The Application can't connect to the server, ensure that the applicaiton is updated or try again later.");
+                        device.TerminateApp();
+                    }
+                    catch (Exception e)
+                    {
+                        await device.DisplayMessageAsync("Exception", e.Message);
+                        device.TerminateApp();
+                        service.LogAppend(e.Message);
+                    }
+                });
             }
         }
     }

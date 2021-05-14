@@ -2,27 +2,30 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>Sayed.MySystem.Api</RootNamespace>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'MySystem.Api' " />
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
     <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="Moq" Version="4.16.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\MySystem.SharedDto\MySystem.SharedDto.csproj">
-      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
-    </ProjectReference>
-    <ProjectReference Include="..\MySystem.Data\MySystem.ServerData.csproj">
-      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
-    </ProjectReference>
-  </ItemGroup>
   <ItemGroup>
     <Folder Include="Helpers\" />
     <Folder Include="Controllers\V1\" />
     <Folder Include="Policies\" />
     <Folder Include="Policies\Claims\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MySystem.Shared\MySystem.Shared.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+    <ProjectReference Include="..\MySystem.EntityFramework\MySystem.EntityFramework.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
   </ItemGroup>
 </Project>

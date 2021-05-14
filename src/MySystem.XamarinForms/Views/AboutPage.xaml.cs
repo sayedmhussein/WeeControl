@@ -3,7 +3,7 @@ using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace MySystem.XamarinForms.Views
+namespace Sayed.MySystem.XamarinForms.Views
 {
     public partial class AboutPage : ContentPage
     {

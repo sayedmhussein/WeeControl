@@ -5,7 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
-namespace MySystem.Api.Helpers
+namespace Sayed.MySystem.Api.Helpers
 {
     public class JwtOperation
     {
@@ -13,7 +13,7 @@ namespace MySystem.Api.Helpers
 
         public JwtOperation(string securityKey)
         {
-            this.securityKey = securityKey;
+            this.securityKey = securityKey ?? throw new ArgumentNullException("Security Key must have value.");
         }
 
         public string GenerateJwtToken(IEnumerable<Claim> claims, string issuer, DateTime expire)
@@ -33,6 +33,23 @@ namespace MySystem.Api.Helpers
             return tokenHandler.WriteToken(token);
         }
 
+        public ClaimsPrincipal GetClaims(string token)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            //
+            var key = Encoding.ASCII.GetBytes(securityKey);
+            var validations = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.Zero
+            };
 
+            var claims = handler.ValidateToken(token, validations, out var tokenSecure);
+            return claims;
+        }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Authorization;
 
-namespace MySystem.Api.Helpers
+namespace Sayed.MySystem.Api.Helpers
 {
     public class MaximumPeriodRequirement : IAuthorizationRequirement
     {

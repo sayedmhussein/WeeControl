@@ -1,5 +1,5 @@
 ﻿using System;
-namespace MySystem.Api.Policies.Claims
+namespace Sayed.MySystem.Api.Policies.Claims
 {
     public static class Session
     {

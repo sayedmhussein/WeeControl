@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 
-namespace MySystem.Api.Helpers
+[assembly: InternalsVisibleTo("MySystem.Api.UnitTest")]
+namespace Sayed.MySystem.Api.Helpers
 {
     public class MaximumPeriodHandler : AuthorizationHandler<MaximumPeriodRequirement>
     {
@@ -14,7 +16,7 @@ namespace MySystem.Api.Helpers
             if (_savedDate != null)
             {
                 var __savedDate = Convert.ToDouble(_savedDate);
-                var savedDate = new DateTime(1970, 1, 1).AddSeconds(__savedDate);
+                var savedDate = DateTime.UnixEpoch.AddSeconds(__savedDate);
 
                 var diff = DateTime.UtcNow - savedDate;
                 if (diff < requirement.Period)

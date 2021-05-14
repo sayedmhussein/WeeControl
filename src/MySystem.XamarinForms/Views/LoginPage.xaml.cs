@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MySystem.ClientService.ViewModels;
+using Sayed.MySystem.ClientService.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace MySystem.XamarinForms.Views
+namespace Sayed.MySystem.XamarinForms.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LoginPage : ContentPage
@@ -18,6 +18,7 @@ namespace MySystem.XamarinForms.Views
         {
             InitializeComponent();
             vm = (LoginViewModel)BindingContext;
+            AppIsBusy = false;
         }
 
         void UsernameEntry_Completed(Object sender, EventArgs e)
@@ -47,7 +48,26 @@ namespace MySystem.XamarinForms.Views
             }
             else
             {
+                AppIsBusy = true;
                 await vm.LoginCommand.ExecuteAsync(new object());
+                AppIsBusy = false;
+            }
+        }
+
+        private bool AppIsBusy
+        {
+            set
+            {
+                if (value)
+                {
+                    ActivityIndicatorRunning.IsVisible = true;
+                    EntryStack.IsEnabled = false;
+                }
+                else
+                {
+                    ActivityIndicatorRunning.IsVisible = false;
+                    EntryStack.IsEnabled = true;
+                }
             }
         }
     }

@@ -19,11 +19,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using MySystem.Api.Helpers;
-using MySystem.Api.Policies;
-using MySystem.ServerData;
+using Sayed.MySystem.Api.Helpers;
+using Sayed.MySystem.Api.Policies;
+using Sayed.MySystem.EntityFramework;
 
-namespace MySystem.Api
+namespace Sayed.MySystem.Api
 {
     public class Startup
     {
@@ -63,8 +63,10 @@ namespace MySystem.Api
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MySystem.Api v1"));
             }
-
-            //app.UseHttpsRedirection();
+            else
+            {
+                app.UseHttpsRedirection();
+            }
 
             app.UseRouting();
 

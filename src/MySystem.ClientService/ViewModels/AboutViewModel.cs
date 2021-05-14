@@ -3,19 +3,29 @@ using System.Windows.Input;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
-using MySystem.ClientService.Interfaces;
+using Sayed.MySystem.ClientService.Services;
 
-namespace MySystem.ClientService.ViewModels
+namespace Sayed.MySystem.ClientService.ViewModels
 {
     public class AboutViewModel : ObservableObject
     {
-        private IDeviceAction DeviceAction => Ioc.Default.GetService<IDeviceAction>();
+        private readonly IDevice device;
 
+        #region Commands
         public ICommand OpenWebCommand { get; }
+        #endregion
 
-        public AboutViewModel()
+        #region Constructors
+        public AboutViewModel() : this(Ioc.Default.GetService<IDevice>(), null)
         {
-            OpenWebCommand = new RelayCommand(async () => await DeviceAction.OpenWebPageAsync("http://www.google.com/"));
         }
+
+        public AboutViewModel(IDevice device, IClientServices service)
+        {
+            this.device = device;
+
+            OpenWebCommand = new RelayCommand(async () => await device.OpenWebPageAsync("http://www.google.com/"));
+        }
+        #endregion
     }
 }
