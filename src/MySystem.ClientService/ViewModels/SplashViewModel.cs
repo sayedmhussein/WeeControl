@@ -4,15 +4,15 @@ using Microsoft.Toolkit.Mvvm.Input;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using System;
-using Sayed.MySystem.SharedDto.V1;
 using Sayed.MySystem.ClientService.Services;
+using Sayed.MySystem.Shared.Dtos.V1;
 
 namespace Sayed.MySystem.ClientService.ViewModels
 {
     public class SplashViewModel : ObservableObject
     {
         private readonly IDevice device;
-        private readonly IClientServices client;
+        private readonly IClientServices service;
 
         public IAsyncRelayCommand RefreshTokenCommand { get; }
 
@@ -23,7 +23,7 @@ namespace Sayed.MySystem.ClientService.ViewModels
         public SplashViewModel(IDevice device, IClientServices client)
         {
             this.device = device;
-            this.client = client;
+            this.service = client;
             RefreshTokenCommand = new AsyncRelayCommand(VerifyTokenAsync);
         }
 
@@ -45,7 +45,7 @@ namespace Sayed.MySystem.ClientService.ViewModels
                     try
                     {
                         var dto = new RequestDto<object>(device.DeviceId);
-                        var response = await client.HttpClient.PostAsJsonAsync(client.Settings.Api.Token, dto);
+                        var response = await service.HttpClient.PostAsJsonAsync(service.Settings.Api.Token, dto);
                         if (response.IsSuccessStatusCode)
                         {
                             var r = await response.Content.ReadAsAsync<ResponseDto<string>>();
@@ -66,7 +66,7 @@ namespace Sayed.MySystem.ClientService.ViewModels
                     {
                         await device.DisplayMessageAsync("Exception", e.Message);
                         device.TerminateApp();
-                        throw;
+                        service.LogAppend(e.Message);
                     }
                 });
             }

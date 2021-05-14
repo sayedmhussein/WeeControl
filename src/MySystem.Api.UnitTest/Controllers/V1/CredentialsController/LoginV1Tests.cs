@@ -6,13 +6,12 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Moq;
-using MySystem.ServerData;
-using MySystem.ServerData.Models.People;
-using MySystem.SharedDto.V1;
-using MySystem.SharedDto.V1.Custom;
+using Sayed.MySystem.EntityFramework;
+using Sayed.MySystem.Shared.Dtos.V1;
+using Sayed.MySystem.Shared.Dtos.V1.Custom;
 using Xunit;
 
-namespace MySystem.Api.UnitTest.Controllers.V1.CredentialsController
+namespace Sayed.MySystem.Api.UnitTest.Controllers.V1.CredentialsController
 {
     public class LoginV1Tests
     {
@@ -37,7 +36,7 @@ namespace MySystem.Api.UnitTest.Controllers.V1.CredentialsController
         [Fact]
         public async void LoginWithCorrectCredentials_ReturnOk()
         {
-            var controller = new MySystem.Api.Controllers.V1.CredentialsController(loggerMock.Object, context, configMock.Object);
+            var controller = new Api.Controllers.V1.CredentialsController(loggerMock.Object, context, configMock.Object);
             var dto = new RequestDto<LoginDto>(new LoginDto() { Username = "username", Password = "password" });
 
             var response = await controller.LoginV1(dto);

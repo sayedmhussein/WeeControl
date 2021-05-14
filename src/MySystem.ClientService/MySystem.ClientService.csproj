@@ -6,11 +6,11 @@
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <LangVersion>latestmajor</LangVersion>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>portable</DebugType>
-    <LangVersion>latestmajor</LangVersion>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="ViewModels\" />
@@ -26,13 +26,13 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MySystem.SharedDto\MySystem.SharedDto.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <None Remove="Configuration\appsettings.json" />
     <None Remove="Configuration\api.json" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="**/*" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MySystem.Shared\MySystem.Shared.csproj" />
   </ItemGroup>
 </Project>

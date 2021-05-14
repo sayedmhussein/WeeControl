@@ -9,9 +9,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Sayed.MySystem.Api.Helpers;
 using Sayed.MySystem.Api.Policies;
-using Sayed.MySystem.ServerData;
-using Sayed.MySystem.SharedDto.V1;
-using Sayed.MySystem.SharedDto.V1.Custom;
+using Sayed.MySystem.EntityFramework;
+using Sayed.MySystem.Shared.Dtos.V1;
+using Sayed.MySystem.Shared.Dtos.V1.Custom;
 
 namespace Sayed.MySystem.Api.Controllers.V1
 {

@@ -3,15 +3,21 @@ using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace Sayed.MySystem.ClientService.Services
 {
     public class ClientServices : IClientServices
     {
+        #region Private Properties
         private static HttpClient httpClient;
-        private readonly IDevice device;
 
+        private readonly IDevice device;
+        #endregion
+
+        #region Public Properties
         public Setting Settings { get; private set; }
 
         public HttpClient HttpClient
@@ -24,6 +30,10 @@ namespace Sayed.MySystem.ClientService.Services
             set => httpClient = value;
         }
 
+        public string AppDataPath => Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+        #endregion
+
+        #region Constructors
         public ClientServices(IDevice device) : this(device, null)
         {  
         }
@@ -35,7 +45,54 @@ namespace Sayed.MySystem.ClientService.Services
             ConstructSettingInstance();
             PrepareHttpClient(handler);
         }
+        #endregion
 
+        #region Public Functions
+        public void LogAppend(string arg, string filename = "logger.log")
+        {
+            lock (nameof(filename))
+            {
+                var file = Path.Combine(AppDataPath, filename);
+                if (File.Exists(file) == false)
+                {
+                    File.Create(file);
+                }
+
+                using StreamWriter sw = File.AppendText(file);
+                sw.WriteLine(arg);
+            }
+        }
+
+        public string LogReadAll(string filename = "logger.log")
+        {
+            lock (nameof(filename))
+            {
+                var file = Path.Combine(AppDataPath, filename);
+                if (File.Exists(file))
+                {
+                    return File.ReadAllText(file);
+                }
+                else
+                {
+                    return "No Log File Found.";
+                }
+            }
+        }
+
+        public void LogDeleteAll(string filename = "logger.log")
+        {
+            lock (nameof(filename))
+            {
+                var file = Path.Combine(AppDataPath, filename);
+                if (File.Exists(file))
+                {
+                    File.Delete(file);
+                }
+            }
+        }
+        #endregion
+
+        #region Private Functions
         private void PrepareHttpClient(HttpMessageHandler handler)
         {
             if (httpClient == null)
@@ -62,5 +119,6 @@ namespace Sayed.MySystem.ClientService.Services
             Settings = JsonConvert.DeserializeObject<Setting>(jsonStream);
 
         }
+        #endregion
     }
 }

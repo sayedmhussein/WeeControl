@@ -26,7 +26,7 @@
                 </StackLayout>
                 <ScrollView HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
                     <StackLayout Orientation="Vertical">
-                        <ActivityIndicator x:Name="IsBusy" IsRunning="True"></ActivityIndicator>
+                        <ActivityIndicator x:Name="ActivityIndicatorRunning" IsRunning="True"></ActivityIndicator>
                         <Label Text="{Binding Instructions}" VerticalOptions="StartAndExpand"></Label>
                     </StackLayout>
                 </ScrollView>

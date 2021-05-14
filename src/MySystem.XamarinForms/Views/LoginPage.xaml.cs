@@ -60,12 +60,12 @@ namespace Sayed.MySystem.XamarinForms.Views
             {
                 if (value)
                 {
-                    IsBusy.IsVisible = true;
+                    ActivityIndicatorRunning.IsVisible = true;
                     EntryStack.IsEnabled = false;
                 }
                 else
                 {
-                    IsBusy.IsVisible = false;
+                    ActivityIndicatorRunning.IsVisible = false;
                     EntryStack.IsEnabled = true;
                 }
             }

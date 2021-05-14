@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Net.Http;
 using Moq;
+using Xunit;
 using Sayed.MySystem.ClientService.Services;
 using Sayed.MySystem.ClientService.ViewModels;
-using Xunit;
+using Moq.Protected;
+using System.Threading.Tasks;
+using System.Net;
+using System.Threading;
 
 namespace Sayed.MySystem.ClientService.UnitTest.ViewModels
 {
@@ -51,25 +55,35 @@ namespace Sayed.MySystem.ClientService.UnitTest.ViewModels
             var vm = new SplashViewModel(device.Object, service.Object);
             await vm.RefreshTokenCommand.ExecuteAsync(null);
 
-            Action action = () => device.Verify(x => x.NavigateToPageAsync("SplashPage"), Times.Once);
+            void action() => device.Verify(x => x.NavigateToPageAsync("SplashPage"), Times.Once);
 
-            Assert.Throws<Moq.MockException>(action);
+            Assert.Throws<MockException>(action);
         }
 
         [Fact]
-        public async void WhenConnectingToServerAndExcptionOccures_()
+        public async void WhenConnectingToServerAndExcptionOccures_AppShouldBeTerminatedAsResultOfException()
         {
             var device = new Mock<IDevice>();
             device.Setup(x => x.Token).Returns(new Random().NextDouble().ToString());
             device.Setup(x => x.Internet).Returns(true);
             //
-            var service = new Mock<IClientServices>();
-            service.Setup(x => x.HttpClient.PostAsJsonAsync(It.IsAny<string>(), It.IsAny<It.IsAnyType>())).Throws<Exception>();
+            var handler = new Mock<HttpMessageHandler>();
+            //handler.Protected()
+            //    .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+            //    .ReturnsAsync(new HttpResponseMessage { StatusCode = HttpStatusCode.OK });
 
-            var vm = new SplashViewModel(device.Object, service.Object);
+            handler.Protected()
+                 .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+                 .ReturnsAsync(() => throw new Exception()) ;
+
+            var service = new ClientServices(device.Object, handler.Object);
+            service.HttpClient.Timeout = TimeSpan.FromSeconds(1);
+
+            var vm = new SplashViewModel(device.Object, service);
+            
             await vm.RefreshTokenCommand.ExecuteAsync(null);
 
-            device.Verify(x => x.DisplayMessageAsync("Exception", It.IsAny<string>()), Times.Once);
+            device.Verify(x => x.TerminateApp(), Times.Once);
         }
     }
 }

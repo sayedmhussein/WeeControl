@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Sayed.MySystem.SharedDto.V1;
+using Sayed.MySystem.Shared.Dtos.V1;
 
 namespace Sayed.MySystem.Api.Controllers.V1
 {

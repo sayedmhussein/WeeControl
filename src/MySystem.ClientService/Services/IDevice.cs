@@ -14,6 +14,8 @@ namespace Sayed.MySystem.ClientService.Services
 
         string Token { get; set; }
 
+        string FullUserName { get; set; }
+
         //
         Task PlacePhoneCallAsync(string number);
         Task NavigateToLocationAsync(double latitude, double longitude);

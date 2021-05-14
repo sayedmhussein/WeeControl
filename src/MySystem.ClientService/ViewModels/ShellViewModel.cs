@@ -6,37 +6,58 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
 using Sayed.MySystem.ClientService.Services;
-using Sayed.MySystem.SharedDto.V1;
+using Sayed.MySystem.Shared.Dtos.V1;
 
 namespace MySystem.ClientService.ViewModels
 {
     public class ShellViewModel : ObservableObject
     {
-        private IClientServices ApiClient => Ioc.Default.GetRequiredService<IClientServices>();
-        private IDevice DeviceInfo => Ioc.Default.GetService<IDevice>();
+        #region Private Properties
+        private readonly IDevice device;
+        private readonly IClientServices service;
         
+        #endregion
+
+        #region Public Properties
+        public string NameOfUser => device.FullUserName;
+
+        #endregion
+
+        #region Commands
         public ICommand HelpCommand { get; }
         public ICommand LogoutCommand { get; }
+        #endregion
 
-        public ShellViewModel()
+        #region Constructors
+        public ShellViewModel() : this(Ioc.Default.GetService<IDevice>(), Ioc.Default.GetRequiredService<IClientServices>())
         {
-            HelpCommand = new RelayCommand(async () => await DeviceInfo.OpenWebPageAsync("http://www.google.com/"));
-            LogoutCommand = new AsyncRelayCommand(Logout);
         }
 
+        public ShellViewModel(IDevice device, IClientServices service)
+        {
+            this.device = device;
+            this.service = service;
+
+            HelpCommand = new RelayCommand(async () => await device.OpenWebPageAsync("http://www.google.com/"));
+            LogoutCommand = new AsyncRelayCommand(Logout);
+        }
+        #endregion
+
+        #region Private Functions
         private async Task Logout()
         {
-            DeviceInfo.Token = string.Empty;
+            device.Token = string.Empty;
             await Task.Run(async () =>
             {
                 try
                 {
-                    var dto = new RequestDto<object>(DeviceInfo.DeviceId);
-                    var response = await ApiClient.HttpClient.PostAsJsonAsync("/Api/Credentials/logout", dto);
+                    var dto = new RequestDto<object>(device.DeviceId);
+                    var response = await service.HttpClient.PostAsJsonAsync("/Api/Credentials/logout", dto);
                 }
                 catch
                 { }
             });
         }
+        #endregion
     }
 }

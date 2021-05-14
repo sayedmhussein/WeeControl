@@ -9,13 +9,23 @@ namespace Sayed.MySystem.ClientService.ViewModels
 {
     public class AboutViewModel : ObservableObject
     {
-        private IDevice DeviceAction => Ioc.Default.GetService<IDevice>();
+        private readonly IDevice device;
 
+        #region Commands
         public ICommand OpenWebCommand { get; }
+        #endregion
 
-        public AboutViewModel()
+        #region Constructors
+        public AboutViewModel() : this(Ioc.Default.GetService<IDevice>(), null)
         {
-            OpenWebCommand = new RelayCommand(async () => await DeviceAction.OpenWebPageAsync("http://www.google.com/"));
         }
+
+        public AboutViewModel(IDevice device, IClientServices service)
+        {
+            this.device = device;
+
+            OpenWebCommand = new RelayCommand(async () => await device.OpenWebPageAsync("http://www.google.com/"));
+        }
+        #endregion
     }
 }

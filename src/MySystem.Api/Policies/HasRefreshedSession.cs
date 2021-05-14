@@ -9,7 +9,9 @@ namespace Sayed.MySystem.Api.Policies
     {
         public const string Name = "HasRefreshedSession"; 
 
-        public static AuthorizationPolicy Policy { get
+        public static AuthorizationPolicy Policy
+        {
+            get
             {
                 var p = new AuthorizationPolicyBuilder();
                 p.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
@@ -17,7 +19,7 @@ namespace Sayed.MySystem.Api.Policies
                 p.RequireClaim("sss");
 
                 return p.Build();
-            } }
-        
+            }
+        }
     }
 }

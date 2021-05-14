@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Sayed.MySystem.ClientService.Services;
-using Sayed.MySystem.SharedDto.V1;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -18,6 +17,8 @@ namespace Sayed.MySystem.XamarinForms.Services
         }
 
         public bool Internet => Connectivity.NetworkAccess == NetworkAccess.Internet;
+
+        public string FullUserName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public async Task DisplayMessageAsync(string title, string message)
         {
