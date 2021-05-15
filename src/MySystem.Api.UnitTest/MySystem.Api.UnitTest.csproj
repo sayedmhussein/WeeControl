@@ -26,7 +26,7 @@
   <ItemGroup>
     <Folder Include="Controllers\" />
     <Folder Include="Controllers\V1\" />
-    <Folder Include="Controllers\V1\CredentialsController\" />
+    <Folder Include="Controllers\V1\Credentials\" />
     <Folder Include="Helpers\" />
   </ItemGroup>
   <ItemGroup>
