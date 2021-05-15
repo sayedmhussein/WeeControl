@@ -4,6 +4,7 @@ using Xunit;
 using Moq;
 using Sayed.MySystem.ClientService.Services;
 using System.Threading.Tasks;
+using Sayed.MySystem.Shared.Configuration.Models;
 
 namespace Sayed.MySystem.ClientService.UnitTest.ViewModels
 {
@@ -16,7 +17,7 @@ namespace Sayed.MySystem.ClientService.UnitTest.ViewModels
             device.Setup(x => x.Token).Returns(new Random().NextDouble().ToString());
             device.Setup(x => x.Internet).Returns(true);
             //
-            var service = new ClientServices(device.Object);
+            var service = new ClientServices(device.Object, new Mock<IApi>().Object);
 
             var vm = new LoginViewModel(device.Object, service)
             {

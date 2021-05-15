@@ -5,9 +5,6 @@ namespace Sayed.MySystem.Shared.Entities
 {
     public abstract class PersonBase
     {
-        [Key]
-        public Guid Id { get; set; }
-
         [StringLength(10, ErrorMessage = "Always use english common titles not exceeding 10 characters.")]
         public string Title { get; set; }
 
@@ -38,10 +35,13 @@ namespace Sayed.MySystem.Shared.Entities
         [StringLength(3)]
         public string Language { get; set; }
 
+        [MaxLength(50)]
         public string Email { get; set; }
 
+        [MaxLength(50)]
         public string Mobile { get; set; }
 
+        [MaxLength(50)]
         public string PhotoUrl { get; set; }
     }
 }

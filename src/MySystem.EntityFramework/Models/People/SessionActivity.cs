@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using Sayed.MySystem.Shared.Dbos;
 
 namespace Sayed.MySystem.EntityFramework.Models.People
 {
@@ -14,7 +15,7 @@ namespace Sayed.MySystem.EntityFramework.Models.People
         public Guid Id { get; set; }
 
         public Guid SessionId { get; set; }
-        public Session Session { get; set; }
+        public EmployeeSessionDbo Session { get; set; }
 
         public DateTime ActivityTs { get; set; }
 
@@ -24,7 +25,7 @@ namespace Sayed.MySystem.EntityFramework.Models.People
 
 
         #region ef_functions
-        static internal void CreateSessionActivityModel(DbContext dbContext, ModelBuilder modelBuilder)
+        static internal void CreateModelBuilder(DbContext dbContext, ModelBuilder modelBuilder)
         {
             if (dbContext.Database.IsNpgsql())
             {

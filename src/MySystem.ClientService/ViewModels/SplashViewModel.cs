@@ -45,7 +45,7 @@ namespace Sayed.MySystem.ClientService.ViewModels
                     try
                     {
                         var dto = new RequestDto<object>(device.DeviceId);
-                        var response = await service.HttpClient.PostAsJsonAsync(service.Settings.Api.Token, dto);
+                        var response = await service.HttpClient.PostAsJsonAsync(service.Api.Token, dto);
                         if (response.IsSuccessStatusCode)
                         {
                             var r = await response.Content.ReadAsAsync<ResponseDto<string>>();

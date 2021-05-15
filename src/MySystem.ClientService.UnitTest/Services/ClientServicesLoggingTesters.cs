@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Moq;
 using Sayed.MySystem.ClientService.Services;
+using Sayed.MySystem.Shared.Configuration.Models;
 using Xunit;
 
 namespace Sayed.MySystem.ClientService.UnitTest.Services
@@ -13,7 +15,7 @@ namespace Sayed.MySystem.ClientService.UnitTest.Services
         {
             string file = "_test_log.log";
             string str = "This is Log";
-            var service = new ClientServices(null);
+            var service = new ClientServices(null, new Mock<IApi>().Object);
 
             service.LogAppend(str, file);
 
@@ -25,7 +27,7 @@ namespace Sayed.MySystem.ClientService.UnitTest.Services
         {
             string file = "_test2_log.log";
             string str = "This is Log";
-            var service = new ClientServices(null);
+            var service = new ClientServices(null, new Mock<IApi>().Object);
             var tasks = new List<Task>(); ;
 
             for (int i = 0; i < 10; i++)

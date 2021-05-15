@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Sayed.MySystem.Shared.Dbos;
 
 namespace Sayed.MySystem.EntityFramework
 {
@@ -21,11 +22,11 @@ namespace Sayed.MySystem.EntityFramework
             using var transaction = await context.Database.BeginTransactionAsync();
             try
             {
-                var employee = context.Employees.FirstOrDefault(e => e.Username == username && e.Password == password && e.LockingReason == null);
+                var employee = context.Employees.FirstOrDefault(e => e.Username == username && e.Password == password && e.AccountLockArgument == null);
                 if (employee != null)
                 {
 
-                    var session = context.Sessions.FirstOrDefault(s => s.EmployeeId == employee.Id && s.DeviceId == device && s.TerminationTs != null);
+                    var session = context.EmployeeSessions.FirstOrDefault(s => s.EmployeeId == employee.Id && s.DeviceId == device && s.TerminationTs != null);
                     if (session != null)
                     {
                         await context.SessionActivities.AddAsync(new Models.People.SessionActivity() { SessionId = session.Id, Details =  "Bla"});
@@ -35,8 +36,8 @@ namespace Sayed.MySystem.EntityFramework
                     }
                     else
                     {
-                        session = new Models.People.Session() { Employee = employee, DeviceId = device };
-                        await context.Sessions.AddAsync(session);
+                        session = new EmployeeSessionDbo() { Employee = employee, DeviceId = device };
+                        await context.EmployeeSessions.AddAsync(session);
                         await context.SaveChangesAsync();
                         await transaction.CommitAsync();
                         return session.Id;
@@ -56,11 +57,11 @@ namespace Sayed.MySystem.EntityFramework
         public async Task<IEnumerable<Claim>> GetUserClaimsAsync(DataContext context, Guid sessionid)
         {
             List<Claim> list = null;
-            var person = await context.Sessions.FirstOrDefaultAsync(p => p.Id == sessionid && p.Employee.LockingReason == null);
+            var person = await context.EmployeeSessions.FirstOrDefaultAsync(p => p.Id == sessionid && p.Employee.AccountLockArgument == null);
             if (person != null)
             {
                 list = new List<Claim>();
-                context.Claims.Where(c => c.PersonId == person.Id && c.RevokedTs == null).ToList().ForEach(x => list.Add(new Claim(x.ClaimType, x.ClaimValue)));
+                context.Claims.Where(c => c.EmployeeId == person.Id && c.RevokedTs == null).ToList().ForEach(x => list.Add(new Claim(x.ClaimType, x.ClaimValue)));
                 list.Add(new Claim("sss", sessionid.ToString()));
                 //list.Add(new Claim("ooo", person.Employee.OfficeId.ToString()));
             }
@@ -70,7 +71,7 @@ namespace Sayed.MySystem.EntityFramework
 
         public static async Task<bool> TerminateSessionAsync(DataContext context, Guid sessionid)
         {
-            var session = await context.Sessions.FirstOrDefaultAsync(s => s.Id == sessionid);
+            var session = await context.EmployeeSessions.FirstOrDefaultAsync(s => s.Id == sessionid);
             if (session != null)
             {
                 session.TerminationTs = DateTime.UtcNow;

@@ -4,12 +4,11 @@ using Sayed.MySystem.Shared.Entities;
 
 namespace Sayed.MySystem.Shared.Dbos
 {
-    public class EmployeeDbo : EmployeeBase
+    public class EmployeeClaimDbo : UserClaimBase
     {
         [Key]
         public Guid Id { get; set; }
 
-        public virtual EmployeeDbo Supervisor { get; set; }
-        public virtual OfficeDbo Office { get; set; }
+        public virtual EmployeeDbo Employee { get; set; }
     }
 }

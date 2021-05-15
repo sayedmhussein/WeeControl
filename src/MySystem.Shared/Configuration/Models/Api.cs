@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Sayed.MySystem.Shared.Configuration.Models
 {
-    public class Api
+    public class Api : IApi
     {
         [JsonProperty("Base")]
         public Uri Base { get; set; }

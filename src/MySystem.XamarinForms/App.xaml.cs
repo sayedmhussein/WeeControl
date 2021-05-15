@@ -10,6 +10,8 @@ using System.Reflection;
 using Newtonsoft.Json;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Sayed.MySystem.ClientService.Services;
+using Sayed.MySystem.Shared.Configuration.Models;
+using Sayed.MySystem.Shared.Configuration;
 
 namespace Sayed.MySystem.XamarinForms
 {
@@ -22,12 +24,13 @@ namespace Sayed.MySystem.XamarinForms
             try
             {
                 IDevice device = new Services.Device();
-                IClientServices client = new ClientServices(device);
+                IApi api = AppSettings.GetAppSetting().Api;
+                IClientServices client = new ClientServices(device, api);
 
                 Ioc.Default.ConfigureServices(
                     new ServiceCollection()
-                    .AddSingleton<IDevice>(device)
-                    .AddSingleton<IClientServices>(client)
+                    .AddSingleton(device)
+                    .AddSingleton(client)
                     .BuildServiceProvider());
             }
             catch

@@ -6,42 +6,27 @@ using Sayed.MySystem.Shared.Dbos;
 
 namespace Sayed.MySystem.EntityFramework.Models.People
 {
-    [Table(nameof(Claim), Schema = nameof(People))]
-    [Index(nameof(PersonId), IsUnique = false)]
-    [Comment("User Sessions")]
-    public class Claim
+    public static class EmployeeClaim
     {
-        [Key]
-        public Guid Id { get; set; }
-
-        public Guid PersonId { get; set; }
-        public virtual EmployeeDbo Person { get; set; }
-
-        public DateTime GrantedTs { get; set; }
-
-        public DateTime? RevokedTs { get; set; }
-
-        public string ClaimType { get; set; }
-
-        public string ClaimValue { get; set; }
-
-        #region ef_functions
         static internal void CreateClaimModel(DbContext dbContext, ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<EmployeeClaimDbo>().ToTable(nameof(EmployeeClaim), nameof(People));
+            modelBuilder.Entity<EmployeeClaimDbo>().HasIndex(x => x.EmployeeId).IsUnique(false);
+
             if (dbContext.Database.IsNpgsql())
             {
                 modelBuilder.HasPostgresExtension("uuid-ossp")
-                .Entity<Claim>()
+                .Entity<EmployeeClaimDbo>()
                 .Property(p => p.Id)
                 .HasDefaultValueSql("uuid_generate_v4()");
             }
             else
             {
-                modelBuilder.Entity<Claim>().Property(p => p.Id).ValueGeneratedOnAdd();
+                modelBuilder.Entity<EmployeeClaimDbo>().Property(p => p.Id).ValueGeneratedOnAdd();
             }
 
-            modelBuilder.Entity<Claim>().Property(p => p.GrantedTs).HasDefaultValue(DateTime.UtcNow);
+            modelBuilder.Entity<EmployeeClaimDbo>().Property(p => p.GrantedTs).HasDefaultValue(DateTime.UtcNow);
         }
-        #endregion
+
     }
 }

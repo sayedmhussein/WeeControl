@@ -6,9 +6,6 @@ namespace Sayed.MySystem.ClientService.Services
 {
     public class Setting
     {
-        [JsonProperty("Api")]
-        public Api Api { get; set; }
-
         [JsonProperty("Splash")]
         public Login Splash { get; set; }
 

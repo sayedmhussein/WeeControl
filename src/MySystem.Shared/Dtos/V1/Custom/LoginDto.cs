@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Sayed.MySystem.Shared.Dtos.V1.Custom
 {
@@ -13,9 +8,12 @@ namespace Sayed.MySystem.Shared.Dtos.V1.Custom
         public string Username { get; set; }
 
         [Required]
+        [MinLength(3, ErrorMessage ="Minimum Password is 3 letters")]
         public string Password { get; set; }
 
-        public bool IsValid { get
+        public bool IsValid
+        {
+            get
             {
                 if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password))
                     return false;

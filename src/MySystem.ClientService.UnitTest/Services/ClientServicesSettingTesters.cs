@@ -1,6 +1,7 @@
 ﻿using System;
 using Moq;
 using Sayed.MySystem.ClientService.Services;
+using Sayed.MySystem.Shared.Configuration.Models;
 using Xunit;
 
 namespace Sayed.MySystem.ClientService.UnitTest.Services
@@ -8,17 +9,17 @@ namespace Sayed.MySystem.ClientService.UnitTest.Services
     public class ClientServicesSettingTesters
     {
         [Fact]
-        public void WhenConstructingTheClass_SettingShouldReturnValidApiBaseValue()
+        public void WhenConstructingTheClass_SettingShouldSplashDisclaimer()
         {
-            var service = new ClientServices(null);
+            var service = new ClientServices(null, new Mock<IApi>().Object);
 
-            Assert.Contains("http://", service.Settings.Api.Base.ToString());
+            Assert.NotEmpty(service.Settings.Splash.Disclaimer);
         }
 
         [Fact]
         public void WhenConstructingTheClass_SettingObjectIsnotNull()
         {
-            var service = new ClientServices(null);
+            var service = new ClientServices(null, new Mock<IApi>().Object);
 
             Assert.NotNull(service.Settings);
         }
@@ -31,7 +32,7 @@ namespace Sayed.MySystem.ClientService.UnitTest.Services
             var device = new Mock<IDevice>();
             device.Setup(x => x.Token).Returns(token);
 
-            var service = new ClientServices(device.Object);
+            var service = new ClientServices(device.Object, new Mock<IApi>().Object);
 
             Assert.NotNull(service.HttpClient);
             Assert.Equal(scheme, service.HttpClient.DefaultRequestHeaders.Authorization.Scheme);

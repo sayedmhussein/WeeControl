@@ -4,8 +4,11 @@ using Sayed.MySystem.Shared.Entities;
 
 namespace Sayed.MySystem.Shared.Dbos
 {
-    public class PersonDbo : PersonBase
+    public class UnitDbo : UnitBase
     {
-        
+        [Key]
+        public Guid UnitId { get; set; }
+
+        public virtual BuildingDbo Building { get; set; }
     }
 }

@@ -8,6 +8,7 @@ using Moq.Protected;
 using System.Threading.Tasks;
 using System.Net;
 using System.Threading;
+using Sayed.MySystem.Shared.Configuration.Models;
 
 namespace Sayed.MySystem.ClientService.UnitTest.ViewModels
 {
@@ -65,6 +66,9 @@ namespace Sayed.MySystem.ClientService.UnitTest.ViewModels
         {
             var device = new Mock<IDevice>();
             device.Setup(x => x.Token).Returns(new Random().NextDouble().ToString());
+            //
+            var api = new Mock<IApi>();
+            //
             device.Setup(x => x.Internet).Returns(true);
             //
             var handler = new Mock<HttpMessageHandler>();
@@ -76,7 +80,7 @@ namespace Sayed.MySystem.ClientService.UnitTest.ViewModels
                  .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
                  .ReturnsAsync(() => throw new Exception()) ;
 
-            var service = new ClientServices(device.Object, handler.Object);
+            var service = new ClientServices(device.Object, api.Object, handler.Object);
             service.HttpClient.Timeout = TimeSpan.FromSeconds(1);
 
             var vm = new SplashViewModel(device.Object, service);

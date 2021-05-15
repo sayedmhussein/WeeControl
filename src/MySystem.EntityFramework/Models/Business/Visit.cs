@@ -17,10 +17,10 @@ namespace Sayed.MySystem.EntityFramework.Models.Business
         public Guid VisitId { get; set; }
 
         public Guid ContractId { get; set; }
-        public virtual Contract Contract { get; set; }
+        public virtual ContractDbo Contract { get; set; }
 
         public Guid UnitId { get; set; }
-        public virtual Unit Unit { get; set; }
+        public virtual UnitDbo Unit { get; set; }
 
         public bool IsScheduled { get; set; }
 

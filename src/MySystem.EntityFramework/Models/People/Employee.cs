@@ -25,9 +25,6 @@ namespace Sayed.MySystem.EntityFramework.Models.People
                 modelBuilder.Entity<EmployeeDbo>().Property(p => p.Id).ValueGeneratedOnAdd();
             }
 
-            //modelBuilder.Entity<EmployeeDbo>().HasKey(x => x.Id);
-            //modelBuilder.Entity<EmployeeBase>().HasNoKey();
-            //modelBuilder.Entity<EmployeeDbo>().HasBaseType((Type)null);
             modelBuilder.Entity<EmployeeDbo>().Property(p => p.IsProductive).HasDefaultValue(false);
 
             modelBuilder.Entity<EmployeeDbo>().ToTable(nameof(Employee), nameof(People));
@@ -38,14 +35,14 @@ namespace Sayed.MySystem.EntityFramework.Models.People
 
         static internal List<EmployeeDbo> GetPersonList(Guid officeid)
         {
-            var sayed = new EmployeeDbo() { Id = Guid.NewGuid(), Title = "Mr.", FirstName = "Sayed", LastName = "Hussein", Gender = "m", OfficeId = officeid, Username = "username", Password = "password" };
-            var hatem = new EmployeeDbo() { Id = Guid.NewGuid(), Title = "Mr.", FirstName = "Hatem", LastName = "Nagaty", Gender = "m", OfficeId = officeid, Username = "username1", Password = "password" };
+            var sayed = new EmployeeDbo() { Id = Guid.NewGuid(), Title = "Mr.", FirstName = "Sayed", LastName = "Hussein", Gender = "m", OfficeId = officeid, Username = "sayed", Password = "sayed" };
+            var hatem = new EmployeeDbo() { Id = Guid.NewGuid(), Title = "Mr.", FirstName = "Hatem", LastName = "Nagaty", Gender = "m", OfficeId = officeid, Username = "hatem", Password = "hatem" };
             return new()
             {
                 sayed,
                 hatem,
-                new EmployeeDbo() { FirstName = "Yasser", LastName = "Gamal", OfficeId = officeid, Supervisor = sayed },
-                new EmployeeDbo() { FirstName = "Yasser", LastName = "Gamal", OfficeId = officeid, SupervisorId = sayed.Id }
+                new EmployeeDbo() { FirstName = "Yasser", LastName = "Gamal", OfficeId = officeid, Supervisor = sayed, Username = "sayed1", Password = "sayed" }, //
+                new EmployeeDbo() { FirstName = "Yasser", LastName = "Gamal", OfficeId = officeid, SupervisorId = sayed.Id, Username = "sayed2", Password = "sayed" } //, SupervisorId = sayed.Id
             };
         }
     }

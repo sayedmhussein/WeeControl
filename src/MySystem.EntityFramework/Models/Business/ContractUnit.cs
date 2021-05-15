@@ -4,52 +4,44 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using Sayed.MySystem.EntityFramework.Models.Component;
+using Sayed.MySystem.Shared.Dbos;
 
 namespace Sayed.MySystem.EntityFramework.Models.Business
 {
-    [Table(nameof(ContractUnit), Schema = nameof(Business))]
-    [Index(nameof(ContractId), nameof(UnitId), IsUnique = false)]
-    [Comment("-")]
-    internal class ContractUnit
+    internal static class ContractUnit
     {
-        [Key]
-        public Guid ContractUnitId { get; set; }
-
-        public Guid ContractId { get; set; }
-        public virtual Contract Contract { get; set; }
-
-        public Guid UnitId { get; set; }
-        public virtual Unit Unit { get; set; }
-
-        public DateTime ActivationTs { get; set; }
-
-        public DateTime? CancellationTs { get; set; }
-
-        #region ef_functions
-        static internal List<ContractUnit> GetContractUnitList(Guid contractId, Guid unitId)
-        {
-            return new()
-            {
-                new ContractUnit() { ContractId = contractId, UnitId = unitId }
-            };
-        }
-
         static internal void CreateContractUnitModel(DbContext dbContext, ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<ContractUnitDbo>().ToTable(nameof(ContractUnit), nameof(Business));
+            modelBuilder.Entity<ContractUnitDbo>().HasIndex(x => new { x.ContractId, x.UnitId }).IsUnique(false);
+
             if (dbContext.Database.IsNpgsql())
             {
                 modelBuilder.HasPostgresExtension("uuid-ossp")
-                .Entity<ContractUnit>()
+                .Entity<ContractUnitDbo>()
                 .Property(p => p.ContractUnitId)
                 .HasDefaultValueSql("uuid_generate_v4()");
             }
             else
             {
-                modelBuilder.Entity<ContractUnit>().Property(p => p.ContractUnitId).ValueGeneratedOnAdd();
+                modelBuilder.Entity<ContractUnitDbo>().Property(p => p.ContractUnitId).ValueGeneratedOnAdd();
             }
 
-            modelBuilder.Entity<ContractUnit>().Property(p => p.ActivationTs).HasDefaultValue(DateTime.Now);
+            modelBuilder.Entity<ContractUnitDbo>().Property(p => p.ActivationTs).HasDefaultValue(DateTime.Now);
         }
+
+
+
+        #region ef_functions
+        static internal List<ContractUnitDbo> GetContractUnitList(Guid contractId, Guid unitId)
+        {
+            return new()
+            {
+                new ContractUnitDbo() { ContractId = contractId, UnitId = unitId }
+            };
+        }
+
+        
         #endregion
     }
 }

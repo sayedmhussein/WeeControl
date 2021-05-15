@@ -29,16 +29,18 @@ namespace Sayed.MySystem.EntityFramework
 
         //Employee Schema
         internal DbSet<EmployeeDbo> Employees { get; set; }       
-        public DbSet<Session> Sessions { get; set; }
+        public DbSet<EmployeeSessionDbo> EmployeeSessions { get; set; }
+        public DbSet<EmployeeClaimDbo> Claims { get; set; }
+        //
         public DbSet<SessionActivity> SessionActivities { get; set; }
-        public DbSet<Claim> Claims { get; set; }
+        
 
         //Component Schema
-        internal DbSet<Unit> Units { get; set; }
+        internal DbSet<UnitDbo> Units { get; set; }
 
         //Business Schema
-        internal DbSet<Contract> Contracts { get; set; }
-        internal DbSet<ContractUnit> ContractUnits { get; set; }
+        internal DbSet<ContractDbo> Contracts { get; set; }
+        internal DbSet<ContractUnitDbo> ContractUnits { get; set; }
         internal DbSet<Visit> Visits { get; set; }
         internal DbSet<Material> Materials { get; set; }
 
@@ -48,13 +50,13 @@ namespace Sayed.MySystem.EntityFramework
             Building.CreateModelBuilder(this, modelBuilder);
 
             Employee.CreateModelBuilder(this, modelBuilder);
-            Session.CreateSessionModel(this, modelBuilder);
-            SessionActivity.CreateSessionActivityModel(this, modelBuilder);
-            Claim.CreateClaimModel(this, modelBuilder);
+            EmployeeSession.CreateSessionModel(this, modelBuilder);
+            SessionActivity.CreateModelBuilder(this, modelBuilder);
+            EmployeeClaim.CreateClaimModel(this, modelBuilder);
 
-            Unit.CreateUnitModel(this, modelBuilder);
+            Unit.CreateModelBuilder(this, modelBuilder);
 
-            Contract.CreateUnitModel(this, modelBuilder);
+            Contract.CreateModelBuilder(this, modelBuilder);
             ContractUnit.CreateContractUnitModel(this, modelBuilder);
         }
 
@@ -85,7 +87,7 @@ namespace Sayed.MySystem.EntityFramework
 
             if (ContractUnits.Any() == false)
             {
-                var contract = Contracts.First().ContractId;
+                var contract = Contracts.First().Id;
                 var unit = Units.First().UnitId;
                 ContractUnits.AddRange(ContractUnit.GetContractUnitList(contract, unit));
                 SaveChanges();

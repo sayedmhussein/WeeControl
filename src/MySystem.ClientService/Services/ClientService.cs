@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Sayed.MySystem.Shared.Configuration.Models;
 
 namespace Sayed.MySystem.ClientService.Services
 {
@@ -19,12 +20,13 @@ namespace Sayed.MySystem.ClientService.Services
 
         #region Public Properties
         public Setting Settings { get; private set; }
+        public IApi Api { get; private set; }
 
         public HttpClient HttpClient
         {
             get
             {
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", device.Token);
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", device?.Token);
                 return httpClient;
             }
             set => httpClient = value;
@@ -34,14 +36,14 @@ namespace Sayed.MySystem.ClientService.Services
         #endregion
 
         #region Constructors
-        public ClientServices(IDevice device) : this(device, null)
+        public ClientServices(IDevice device, IApi api) : this(device, api, null)
         {  
         }
 
-        public ClientServices(IDevice device, HttpMessageHandler handler)
+        public ClientServices(IDevice device, IApi api, HttpMessageHandler handler)
         {
             this.device = device;
-
+            Api = api;
             ConstructSettingInstance();
             PrepareHttpClient(handler);
         }
@@ -99,12 +101,9 @@ namespace Sayed.MySystem.ClientService.Services
             {
                 httpClient = handler == null ? new HttpClient() : new HttpClient(handler);
             }
-#if DEBUG
-            httpClient.BaseAddress = new Uri("http://192.168.126.107:5000");
-#else
-            HttpClient.BaseAddress = new Uri(Setting.Api.Base);
-#endif
-            httpClient.DefaultRequestHeaders.Add("Accept-version", Settings.Api.Version);
+
+            HttpClient.BaseAddress = Api.Base;
+            httpClient.DefaultRequestHeaders.Add("Accept-version", Api.Version);
 
         }
 
