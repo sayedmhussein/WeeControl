@@ -45,7 +45,7 @@ namespace Sayed.MySystem.ClientService.ViewModels
                     try
                     {
                         var dto = new RequestDto<object>(device.DeviceId);
-                        var response = await service.HttpClient.PostAsJsonAsync(service.Api.Token, dto);
+                        var response = await service.HttpClientInstance.PostAsJsonAsync(service.Api.Token, dto);
                         if (response.IsSuccessStatusCode)
                         {
                             var r = await response.Content.ReadAsAsync<ResponseDto<string>>();
@@ -66,7 +66,7 @@ namespace Sayed.MySystem.ClientService.ViewModels
                     {
                         await device.DisplayMessageAsync("Exception", e.Message);
                         device.TerminateApp();
-                        service.LogAppend(e.Message);
+                        //service.Logger.Log(Microsoft.Extensions.Logging.LogLevel.Error, null, null, e, null);
                     }
                 });
             }

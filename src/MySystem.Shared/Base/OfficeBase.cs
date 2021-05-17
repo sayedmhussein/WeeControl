@@ -1,14 +1,15 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Sayed.MySystem.Shared.Entities
+namespace Sayed.MySystem.Shared.Base
 {
     public abstract class OfficeBase
     {
-        [StringLength(3, ErrorMessage = "Only ISO 3166-1 alpha-3 Country Codes.")]
-        [MinLength(3), MaxLength(3)]
+        [Required]
+        [StringLength(3, MinimumLength = 3, ErrorMessage = "Only ISO 3166-1 alpha-3 Country Codes.")]
         public string CountryId { get; set; }
 
+        [Required]
         [StringLength(45, ErrorMessage = "Office name must not exceed 45 character.")]
         public string OfficeName { get; set; }
     }

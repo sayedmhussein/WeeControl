@@ -1,5 +1,5 @@
 ﻿using System;
-using Sayed.MySystem.Shared.Entities;
+using Sayed.MySystem.Shared.Base;
 
 namespace Sayed.MySystem.Shared.Dtos.V1.Entities
 {

@@ -2,10 +2,11 @@
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Reflection;
-using System.Threading;
+using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Sayed.MySystem.ClientService.Configuration;
 using Sayed.MySystem.Shared.Configuration.Models;
 
 namespace Sayed.MySystem.ClientService.Services
@@ -13,110 +14,84 @@ namespace Sayed.MySystem.ClientService.Services
     public class ClientServices : IClientServices
     {
         #region Private Properties
-        private static HttpClient httpClient;
-
-        private readonly IDevice device;
+        private static HttpClient httpClientInstance;
+        private readonly bool systemUnderTest;
+        private readonly HttpMessageHandler handler;
         #endregion
 
         #region Public Properties
-        public Setting Settings { get; private set; }
+        public Config Settings { get; private set; }
         public IApi Api { get; private set; }
+        public IDevice Device { get; private set; }
+        public ILogger Logger { get; private set; }
 
-        public HttpClient HttpClient
+        public HttpClient HttpClientInstance
         {
             get
             {
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", device?.Token);
-                return httpClient;
+                if (systemUnderTest)
+                {
+                    var c = handler == null ?  new HttpClient() : new HttpClient(handler);
+                    c.BaseAddress = Api?.Base;
+                    c.DefaultRequestHeaders.Add("Accept-version", Api?.Version);
+                    return c;
+
+                }
+                else
+                {
+                    return httpClientInstance;
+                }
             }
-            set => httpClient = value;
         }
 
         public string AppDataPath => Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         #endregion
 
+        #region Public Functions
+        public Task<HttpResponseMessage> GetResponseAsync(HttpMethod method, Uri uri)
+        {
+            return GetResponseAsync<object>(method, uri, null);
+        }
+
+        public Task<HttpResponseMessage> GetResponseAsync<TRequest>(HttpMethod method, Uri uri, TRequest request)
+        {
+            var requestMessage = new HttpRequestMessage(method, uri);
+            requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", Device.Token);
+            if (request != null)
+            {
+                var jsonObject = JsonConvert.SerializeObject(request);
+                var content = new StringContent(jsonObject.ToString(), Encoding.UTF8, "application/json");
+                requestMessage.Content = content;
+            }
+
+            var response = HttpClientInstance.SendAsync(requestMessage);
+            return response;
+        }
+        #endregion
+
         #region Constructors
-        public ClientServices(IDevice device, IApi api) : this(device, api, null)
+        public ClientServices(IDevice device, IApi api, ILogger logger, bool systemUnderTest = false)
+            : this(device, api, logger, null, systemUnderTest)
         {  
         }
 
-        public ClientServices(IDevice device, IApi api, HttpMessageHandler handler)
+        public ClientServices(IDevice device, IApi api, ILogger logger, HttpMessageHandler handler, bool systemUnderTest = false)
         {
-            this.device = device;
-            Api = api;
-            ConstructSettingInstance();
-            PrepareHttpClient(handler);
-        }
-        #endregion
+            Device = device ?? throw new ArgumentNullException("You must pass device to constructor.");
+            Api = api ?? throw new ArgumentNullException("You must pass api to constructor.");
+            Logger = logger ?? throw new ArgumentNullException("You must pass logger to constructor.");
 
-        #region Public Functions
-        public void LogAppend(string arg, string filename = "logger.log")
-        {
-            lock (nameof(filename))
+            this.systemUnderTest = systemUnderTest;
+            this.handler = handler;
+
+            Settings = Config.GetInstance();
+
+            if (httpClientInstance == null)
             {
-                var file = Path.Combine(AppDataPath, filename);
-                if (File.Exists(file) == false)
-                {
-                    File.Create(file);
-                }
-
-                using StreamWriter sw = File.AppendText(file);
-                sw.WriteLine(arg);
+                httpClientInstance = handler == null ? new HttpClient() : new HttpClient(handler);
+                httpClientInstance.BaseAddress = Api?.Base;
+                httpClientInstance.DefaultRequestHeaders.Add("Accept-version", Api?.Version);
             }
-        }
-
-        public string LogReadAll(string filename = "logger.log")
-        {
-            lock (nameof(filename))
-            {
-                var file = Path.Combine(AppDataPath, filename);
-                if (File.Exists(file))
-                {
-                    return File.ReadAllText(file);
-                }
-                else
-                {
-                    return "No Log File Found.";
-                }
-            }
-        }
-
-        public void LogDeleteAll(string filename = "logger.log")
-        {
-            lock (nameof(filename))
-            {
-                var file = Path.Combine(AppDataPath, filename);
-                if (File.Exists(file))
-                {
-                    File.Delete(file);
-                }
-            }
-        }
-        #endregion
-
-        #region Private Functions
-        private void PrepareHttpClient(HttpMessageHandler handler)
-        {
-            if (httpClient == null)
-            {
-                httpClient = handler == null ? new HttpClient() : new HttpClient(handler);
-            }
-
-            HttpClient.BaseAddress = Api.Base;
-            httpClient.DefaultRequestHeaders.Add("Accept-version", Api.Version);
-
-        }
-
-        private void ConstructSettingInstance()
-        {
-            var appsettingResouceStream = Assembly.GetAssembly(typeof(Setting)).GetManifestResourceStream("Sayed.MySystem.ClientService.Configuration.values.json");
-            if (appsettingResouceStream == null)
-                return;
-
-            using var streamReader = new StreamReader(appsettingResouceStream);
-            var jsonStream = streamReader.ReadToEnd();
-            Settings = JsonConvert.DeserializeObject<Setting>(jsonStream);
-
         }
         #endregion
     }

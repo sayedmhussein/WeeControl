@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using Sayed.MySystem.EntityFramework.Models.Basic;
 using Sayed.MySystem.Shared.Dbos;
-using Sayed.MySystem.Shared.Entities;
+using Sayed.MySystem.Shared.Base;
 
 namespace Sayed.MySystem.EntityFramework.Models.People
 {

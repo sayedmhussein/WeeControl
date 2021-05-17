@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Threading;
 using Sayed.MySystem.Shared.Configuration.Models;
+using Microsoft.Extensions.Logging;
 
 namespace Sayed.MySystem.ClientService.UnitTest.ViewModels
 {
@@ -80,8 +81,8 @@ namespace Sayed.MySystem.ClientService.UnitTest.ViewModels
                  .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
                  .ReturnsAsync(() => throw new Exception()) ;
 
-            var service = new ClientServices(device.Object, api.Object, handler.Object);
-            service.HttpClient.Timeout = TimeSpan.FromSeconds(1);
+            var service = new ClientServices(device.Object, api.Object, new Mock<ILogger>().Object, handler.Object);
+            service.HttpClientInstance.Timeout = TimeSpan.FromSeconds(1);
 
             var vm = new SplashViewModel(device.Object, service);
             

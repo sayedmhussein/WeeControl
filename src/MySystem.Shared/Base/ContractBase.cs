@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Sayed.MySystem.Shared.Entities
+namespace Sayed.MySystem.Shared.Base
 {
     public class ContractBase
     {

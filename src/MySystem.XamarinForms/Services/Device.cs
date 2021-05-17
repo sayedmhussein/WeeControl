@@ -18,7 +18,7 @@ namespace Sayed.MySystem.XamarinForms.Services
 
         public bool Internet => Connectivity.NetworkAccess == NetworkAccess.Internet;
 
-        public string FullUserName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string FullUserName { get; set; }
 
         public async Task DisplayMessageAsync(string title, string message)
         {
@@ -27,7 +27,8 @@ namespace Sayed.MySystem.XamarinForms.Services
 
         public async Task DisplayMessageAsync(string title, string message, string acceptButton)
         {
-            await App.Current.MainPage.DisplayAlert(title, message, acceptButton);
+            //await Shell.Current.DisplayAlert(title, message, acceptButton);
+            //await App.Current.MainPage.DisplayAlert(title, message, acceptButton);
             //await Application.Current.MainPage.DisplayAlert(title, message, acceptButton);
         }
 

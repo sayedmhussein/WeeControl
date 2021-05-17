@@ -52,7 +52,7 @@ namespace MySystem.ClientService.ViewModels
                 try
                 {
                     var dto = new RequestDto<object>(device.DeviceId);
-                    var response = await service.HttpClient.PostAsJsonAsync("/Api/Credentials/logout", dto);
+                    var response = await service.HttpClientInstance.PostAsJsonAsync("/Api/Credentials/logout", dto);
                 }
                 catch
                 { }

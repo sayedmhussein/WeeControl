@@ -63,7 +63,7 @@ namespace Sayed.MySystem.ClientService.ViewModels
                 try
                 {
                     var dto = new RequestDto<LoginDto>(new LoginDto() { Username = Username, Password = Password }) { DeviceId = device.DeviceId };
-                    var response = await service.HttpClient.PostAsJsonAsync("/Api/Credentials/login", dto);
+                    var response = await service.HttpClientInstance.PostAsJsonAsync("/Api/Credentials/login", dto);
                     if (response.IsSuccessStatusCode)
                     {
                         var data = await response.Content.ReadAsAsync<ResponseDto<string>>();

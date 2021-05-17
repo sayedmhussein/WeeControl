@@ -5,6 +5,7 @@ using Moq;
 using Sayed.MySystem.ClientService.Services;
 using System.Threading.Tasks;
 using Sayed.MySystem.Shared.Configuration.Models;
+using Microsoft.Extensions.Logging;
 
 namespace Sayed.MySystem.ClientService.UnitTest.ViewModels
 {
@@ -17,7 +18,7 @@ namespace Sayed.MySystem.ClientService.UnitTest.ViewModels
             device.Setup(x => x.Token).Returns(new Random().NextDouble().ToString());
             device.Setup(x => x.Internet).Returns(true);
             //
-            var service = new ClientServices(device.Object, new Mock<IApi>().Object);
+            var service = new ClientServices(new Mock<IDevice>().Object, new Mock<IApi>().Object, new Mock<ILogger>().Object);
 
             var vm = new LoginViewModel(device.Object, service)
             {

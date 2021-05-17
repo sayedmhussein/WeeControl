@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using Sayed.MySystem.EntityFramework.Models.Basic;
 using Sayed.MySystem.Shared.Dbos;
-using static Sayed.MySystem.Shared.Entities.UnitBase;
+using static Sayed.MySystem.Shared.Base.UnitBase;
 
 namespace Sayed.MySystem.EntityFramework.Models.Component
 {

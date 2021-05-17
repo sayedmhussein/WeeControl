@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Sayed.MySystem.Shared.Entities;
+using Sayed.MySystem.Shared.Base;
 
 namespace Sayed.MySystem.Shared.Dbos
 {

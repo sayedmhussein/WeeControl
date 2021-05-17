@@ -10,15 +10,26 @@ using Sayed.MySystem.Api.Controllers.V1;
 
 namespace Sayed.MySystem.Api.UnitTest.Controllers.V1.Credentials
 {
-    public class LoginV1Tests
+    public class LoginV1Tests : IDisposable
     {
-        private readonly ILogger<CredentialsController> logger = new Mock<ILogger<CredentialsController>>().Object;
+        private ILogger<CredentialsController> logger;
+        private CredentialsController controller;
 
+        public LoginV1Tests()
+        {
+            logger = new Mock<ILogger<CredentialsController>>().Object;
+            controller = new CredentialsController(logger, TestObjects.DataContext, TestObjects.Configuration, TestObjects.HttpContextAccessor);
+        }
+
+        public void Dispose()
+        {
+            controller = null;
+            logger = null;
+        }
 
         [Fact]
         public async void LoginWithCorrectCredentials_ReturnOk()
         {
-            var controller = new CredentialsController(logger, TestObjects.DataContext, TestObjects.Configuration);
             var dto = new RequestDto<LoginDto>(new LoginDto() { Username = "sayed", Password = "sayed" });
 
             var response = await controller.LoginV1(dto);
@@ -30,7 +41,6 @@ namespace Sayed.MySystem.Api.UnitTest.Controllers.V1.Credentials
         [Fact]
         public async void LoginWithInvalidCredentials_ReturnNotFound()
         {
-            var controller = new CredentialsController(logger, TestObjects.DataContext, TestObjects.Configuration);
             var dto = new RequestDto<LoginDto>(new LoginDto() { Username = "bla", Password = "password" });
 
             var response = await controller.LoginV1(dto);
@@ -42,7 +52,6 @@ namespace Sayed.MySystem.Api.UnitTest.Controllers.V1.Credentials
         [Fact]
         public async void LoginWithInvalidDto_ReturnBadRequest()
         {
-            var controller = new CredentialsController(logger, TestObjects.DataContext, TestObjects.Configuration);
             var dto = new RequestDto<LoginDto>(new LoginDto() { Username = null, Password = null });
 
             var response = await controller.LoginV1(dto);

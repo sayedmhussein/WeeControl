@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Sayed.MySystem.Shared.Dbos;
 
-namespace Sayed.MySystem.Shared.Entities
+namespace Sayed.MySystem.Shared.Base
 {
     public abstract class EmployeeBase : PersonBase
     {

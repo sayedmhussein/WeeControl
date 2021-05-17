@@ -23,12 +23,22 @@ namespace Sayed.MySystem.Api.Controllers.V1
         private readonly ILogger<CredentialsController> logger;
         private readonly DataContext context;
         private readonly IConfiguration configuration;
+        private readonly IHttpContextAccessor httpContext;
 
-        public CredentialsController(ILogger<CredentialsController> logger, DataContext context, IConfiguration configuration)
+        //public CredentialsController(ILogger<CredentialsController> logger, DataContext context, IConfiguration configuration)
+        //{
+        //    this.logger = logger;
+        //    this.context = context;
+        //    this.configuration = configuration;
+        //}
+
+        public CredentialsController(ILogger<CredentialsController> logger, DataContext context, IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
+            //: this (logger, context, configuration)
         {
             this.logger = logger;
             this.context = context;
             this.configuration = configuration;
+            httpContext = httpContextAccessor;
         }
 
         [AllowAnonymous]
@@ -69,7 +79,8 @@ namespace Sayed.MySystem.Api.Controllers.V1
         [Produces(MediaTypeNames.Application.Json)]
         public async Task<ActionResult<ResponseDto<string>>> RefreshTokenV1([FromBody] RequestDto<object> requestDto)
         {
-            var session = Guid.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type == Policies.Claims.Session.Name)?.Value?? Guid.Empty.ToString());
+            //var session = Guid.Parse((httpContext?.HttpContext ?? HttpContext).User.Claims.FirstOrDefault(c => c.Type == Policies.Claims.Session.Name)?.Value ?? Guid.Empty.ToString());
+            var session = Guid.Parse(httpContext.HttpContext.User.Claims.FirstOrDefault(c => c.Type == Policies.Claims.Session.Name)?.Value?? Guid.Empty.ToString());
 
             var claims = await new CustomFunctionV1(context).GetUserClaimsAsync(context, session);
             if (claims == null)

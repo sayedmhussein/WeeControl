@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Sayed.MySystem.Shared.Entities
+namespace Sayed.MySystem.Shared.Base
 {
     public class UserClaimBase
     {

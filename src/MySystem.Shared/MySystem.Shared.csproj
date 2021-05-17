@@ -12,7 +12,7 @@
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="Entities\" />
+    <Folder Include="Base\" />
     <Folder Include="Configuration\" />
     <Folder Include="Configuration\Models\" />
     <Folder Include="Dtos\" />

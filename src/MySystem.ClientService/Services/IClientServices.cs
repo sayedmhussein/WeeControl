@@ -1,18 +1,26 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
+using Sayed.MySystem.ClientService.Configuration;
 using Sayed.MySystem.Shared.Configuration.Models;
+using Microsoft.Extensions.Logging;
 
 namespace Sayed.MySystem.ClientService.Services
 {
     public interface IClientServices
     {
-        Setting Settings { get; }
+        #region Constructor Injections
+        IDevice Device { get; }
         IApi Api { get; }
-        HttpClient HttpClient { get; set; }
-        string AppDataPath { get; }
+        ILogger Logger { get; }
+        #endregion
 
-        void LogAppend(string argument, string filename = "logger.log");
-        string LogReadAll(string filename = "logger.log");
-        void LogDeleteAll(string filename = "logger.log");
+        #region Self Created
+        string AppDataPath { get; }
+        Config Settings { get; }
+        #endregion
+
+        [Obsolete]
+        HttpClient HttpClientInstance { get; }
     }
 }

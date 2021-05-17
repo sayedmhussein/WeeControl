@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Sayed.MySystem.Shared.Entities
+namespace Sayed.MySystem.Shared.Base
 {
     public abstract class PersonBase
     {
@@ -36,9 +36,11 @@ namespace Sayed.MySystem.Shared.Entities
         public string Language { get; set; }
 
         [MaxLength(50)]
+        [EmailAddress]
         public string Email { get; set; }
 
         [MaxLength(50)]
+        [Phone]
         public string Mobile { get; set; }
 
         [MaxLength(50)]
