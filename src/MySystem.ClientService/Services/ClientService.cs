@@ -15,21 +15,21 @@ namespace Sayed.MySystem.ClientService.Services
     {
         #region Private Properties
         private static HttpClient httpClientInstance;
-        private readonly bool systemUnderTest;
+        
         private readonly HttpMessageHandler handler;
         #endregion
 
         #region Public Properties
         public Config Settings { get; private set; }
         public IApi Api { get; private set; }
-        public IDevice Device { get; private set; }
         public ILogger Logger { get; private set; }
-
+        public IDevice Device { get; private set; }
+        
         public HttpClient HttpClientInstance
         {
             get
             {
-                if (systemUnderTest)
+                if (SystemUnderTest)
                 {
                     var c = handler == null ?  new HttpClient() : new HttpClient(handler);
                     c.BaseAddress = Api?.Base;
@@ -39,12 +39,21 @@ namespace Sayed.MySystem.ClientService.Services
                 }
                 else
                 {
+                    if (httpClientInstance == null)
+                    {
+                        httpClientInstance = handler == null ? new HttpClient() : new HttpClient(handler);
+                        httpClientInstance.BaseAddress = Api?.Base;
+                        httpClientInstance.DefaultRequestHeaders.Add("Accept-version", Api?.Version);
+                    }
+                    Logger.LogTrace("static HttClient was called.");
                     return httpClientInstance;
                 }
             }
         }
 
         public string AppDataPath => Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+
+        public bool SystemUnderTest { get; set; } = false;
         #endregion
 
         #region Public Functions
@@ -70,28 +79,25 @@ namespace Sayed.MySystem.ClientService.Services
         #endregion
 
         #region Constructors
-        public ClientServices(IDevice device, IApi api, ILogger logger, bool systemUnderTest = false)
-            : this(device, api, logger, null, systemUnderTest)
+        public ClientServices(IDevice device, IApi api)
+            : this(device, api, null)
+        {
+        }
+
+        public ClientServices(IDevice device, IApi api, ILogger logger)
+            : this(device, api, logger, null)
         {  
         }
 
-        public ClientServices(IDevice device, IApi api, ILogger logger, HttpMessageHandler handler, bool systemUnderTest = false)
+        public ClientServices(IDevice device, IApi api, ILogger logger, HttpMessageHandler handler)
         {
             Device = device ?? throw new ArgumentNullException("You must pass device to constructor.");
             Api = api ?? throw new ArgumentNullException("You must pass api to constructor.");
-            Logger = logger ?? throw new ArgumentNullException("You must pass logger to constructor.");
 
-            this.systemUnderTest = systemUnderTest;
+            this.Logger = logger;
             this.handler = handler;
 
             Settings = Config.GetInstance();
-
-            if (httpClientInstance == null)
-            {
-                httpClientInstance = handler == null ? new HttpClient() : new HttpClient(handler);
-                httpClientInstance.BaseAddress = Api?.Base;
-                httpClientInstance.DefaultRequestHeaders.Add("Accept-version", Api?.Version);
-            }
         }
         #endregion
     }

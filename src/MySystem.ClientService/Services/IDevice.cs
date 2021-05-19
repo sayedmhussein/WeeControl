@@ -29,6 +29,6 @@ namespace Sayed.MySystem.ClientService.Services
 
         //Navigation
         Task NavigateToPageAsync(string pageName);
-        void TerminateApp();
+        Task TerminateAppAsync();
     }
 }

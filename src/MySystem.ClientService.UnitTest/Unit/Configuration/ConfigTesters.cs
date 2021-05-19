@@ -1,11 +1,8 @@
 ﻿using System;
 using Xunit;
-using Moq;
-using Sayed.MySystem.ClientService.Services;
-using Sayed.MySystem.Shared.Configuration.Models;
 using Sayed.MySystem.ClientService.Configuration;
 
-namespace Sayed.MySystem.ClientService.UnitTest.Configuration
+namespace Sayed.MySystem.ClientService.Test.Unit.Configuration
 {
     public class ConfigTesters
     {

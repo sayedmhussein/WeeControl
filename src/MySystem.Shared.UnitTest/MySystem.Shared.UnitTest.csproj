@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <Folder Include="Configuration\" />
+    <Folder Include="Dtos\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MySystem.Shared\MySystem.Shared.csproj" />

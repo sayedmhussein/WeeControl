@@ -6,6 +6,7 @@ using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using System;
 using Sayed.MySystem.ClientService.Services;
 using Sayed.MySystem.Shared.Dtos.V1;
+using Microsoft.Extensions.Logging;
 
 namespace Sayed.MySystem.ClientService.ViewModels
 {
@@ -13,62 +14,78 @@ namespace Sayed.MySystem.ClientService.ViewModels
     {
         private readonly IDevice device;
         private readonly IClientServices service;
+        private readonly ILogger logger;
 
         public IAsyncRelayCommand RefreshTokenCommand { get; }
 
-        public SplashViewModel() : this(Ioc.Default.GetService<IDevice>(), Ioc.Default.GetRequiredService<IClientServices>())
+        public SplashViewModel()
+            : this(Ioc.Default.GetRequiredService<IClientServices>())
         {
         }
 
-        public SplashViewModel(IDevice device, IClientServices client)
+        public SplashViewModel(IClientServices client)
         {
-            this.device = device;
-            this.service = client;
+            this.service = client ?? throw new ArgumentNullException();
+            this.device = service.Device;
+            this.logger = service.Logger;
+
             RefreshTokenCommand = new AsyncRelayCommand(VerifyTokenAsync);
         }
 
         private async Task VerifyTokenAsync()
         {
+            if (string.IsNullOrEmpty(device.Token))
+            {
+                await device.NavigateToPageAsync("LoginPage");
+                return;
+            }
+
             if (device.Internet == false)
             {
                 await device.DisplayMessageAsync(IDevice.Message.NoInternet);
-                device.TerminateApp();
+                await device.TerminateAppAsync();
+                return;
             }
-            else if (string.IsNullOrEmpty(device.Token))
+
+            RequestDto<object> requestDto = new RequestDto<object>(device.DeviceId);
+            ResponseDto<string> responseDto = null;
+
+            try
+            {
+                var response = await service.HttpClientInstance.PostAsJsonAsync(service.Api.Token, requestDto);
+                if (response.IsSuccessStatusCode)
+                {
+                    responseDto = await response.Content.ReadAsAsync<ResponseDto<string>>();
+                }
+                else
+                {
+                    await device.NavigateToPageAsync("LoginPage");
+                }
+            }
+            catch (System.Net.WebException)
+            {
+                logger?.LogWarning("Server Issue! {0}/{1} - V{2}.", service.Api.Base, service.Api.Token, service.Api.Version);
+                await device.DisplayMessageAsync("Server Connection Error", "The Application can't connect to the server, ensure that the applicaiton is updated or try again later.");
+                await device.TerminateAppAsync();
+                return;
+            }
+            catch (Exception e)
+            {
+                logger?.LogCritical(e.Message);
+                await device.DisplayMessageAsync("Exception", e.Message);
+                await device.TerminateAppAsync();
+                return;
+            }
+
+            device.Token = responseDto?.Payload ?? string.Empty;
+
+            if (device.Token == string.Empty)
             {
                 await device.NavigateToPageAsync("LoginPage");
             }
             else
             {
-                await Task.Run(async () =>
-                {
-                    try
-                    {
-                        var dto = new RequestDto<object>(device.DeviceId);
-                        var response = await service.HttpClientInstance.PostAsJsonAsync(service.Api.Token, dto);
-                        if (response.IsSuccessStatusCode)
-                        {
-                            var r = await response.Content.ReadAsAsync<ResponseDto<string>>();
-                            device.Token = r.Payload;
-                            await device.NavigateToPageAsync("HomePage");
-                        }
-                        else
-                        {
-                            await device.NavigateToPageAsync("LoginPage");
-                        }
-                    }
-                    catch (System.Net.WebException)
-                    {
-                        await device.DisplayMessageAsync("Server Connection Error", "The Application can't connect to the server, ensure that the applicaiton is updated or try again later.");
-                        device.TerminateApp();
-                    }
-                    catch (Exception e)
-                    {
-                        await device.DisplayMessageAsync("Exception", e.Message);
-                        device.TerminateApp();
-                        //service.Logger.Log(Microsoft.Extensions.Logging.LogLevel.Error, null, null, e, null);
-                    }
-                });
+                await device.NavigateToPageAsync("HomePage");
             }
         }
     }

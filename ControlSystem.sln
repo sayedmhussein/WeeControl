@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MySystem.XamarinForms", "sr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MySystem.ClientService", "src\MySystem.ClientService\MySystem.ClientService.csproj", "{88552468-9C25-44C5-A388-34E4203EF194}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MySystem.ClientService.UnitTest", "src\MySystem.ClientService.UnitTest\MySystem.ClientService.UnitTest.csproj", "{FDC6AF1C-3EA2-4C3B-9AA5-248DB0EE73BA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MySystem.ClientService.Test", "src\MySystem.ClientService.UnitTest\MySystem.ClientService.Test.csproj", "{FDC6AF1C-3EA2-4C3B-9AA5-248DB0EE73BA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MySystem.Api.FunctionalTest", "src\MySystem.Api.FunctionalTest\MySystem.Api.FunctionalTest.csproj", "{88F56B30-2EA6-498D-AA3D-CDFA385EDCEA}"
 EndProject

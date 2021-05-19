@@ -28,8 +28,12 @@
     <ProjectReference Include="..\MySystem.ClientService\MySystem.ClientService.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ViewModels\" />
-    <Folder Include="Services\" />
-    <Folder Include="Configuration\" />
+    <Folder Include="Unit\" />
+    <Folder Include="Unit\Configuration\" />
+    <Folder Include="Unit\Services\" />
+    <Folder Include="Unit\ViewModels\" />
+    <Folder Include="Integration\" />
+    <Folder Include="Functional\" />
+    <Folder Include="Tools\" />
   </ItemGroup>
 </Project>

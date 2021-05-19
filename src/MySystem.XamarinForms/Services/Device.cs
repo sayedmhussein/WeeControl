@@ -69,9 +69,10 @@ namespace Sayed.MySystem.XamarinForms.Services
             }
         }
 
-        public void TerminateApp()
+        public Task TerminateAppAsync()
         {
             System.Diagnostics.Process.GetCurrentProcess().CloseMainWindow();
+            return Task.Delay(1);
         }
 
         public async Task DisplayMessageAsync(IDevice.Message message)

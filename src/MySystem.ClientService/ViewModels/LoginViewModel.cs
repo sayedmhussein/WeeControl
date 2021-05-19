@@ -1,6 +1,8 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -15,6 +17,7 @@ namespace Sayed.MySystem.ClientService.ViewModels
         #region Private Properties
         private readonly IDevice device;
         private readonly IClientServices service;
+        private readonly ILogger logger;
         #endregion
 
         #region Public Properties
@@ -40,14 +43,16 @@ namespace Sayed.MySystem.ClientService.ViewModels
         #endregion
 
         #region Constructors
-        public LoginViewModel() : this(Ioc.Default.GetService<IDevice>(), Ioc.Default.GetRequiredService<IClientServices>())
+        public LoginViewModel()
+            : this(Ioc.Default.GetRequiredService<IClientServices>())
         {
         }
 
-        public LoginViewModel(IDevice device, IClientServices service)
+        public LoginViewModel(IClientServices service)
         {
-            this.device = device;
-            this.service = service;
+            this.service = service ?? throw new ArgumentNullException();
+            this.device = service.Device;
+            this.logger = service.Logger;
 
             LoginCommand = new AsyncRelayCommand(LoginAsync);
         }
@@ -58,12 +63,14 @@ namespace Sayed.MySystem.ClientService.ViewModels
         {
             if (device.Internet)
             {
-                VerifyUserInputs();
+                //VerifyUserInputs();
+                var loginDto = new LoginDto() { Username = Username, Password = Password };
+                //Validator.ValidateObject(loginDto, new ValidationContext(this, null, null));
+                var dto = new RequestDto<LoginDto>(deviceId: device.DeviceId, payload: loginDto);
 
                 try
                 {
-                    var dto = new RequestDto<LoginDto>(new LoginDto() { Username = Username, Password = Password }) { DeviceId = device.DeviceId };
-                    var response = await service.HttpClientInstance.PostAsJsonAsync("/Api/Credentials/login", dto);
+                    var response = await service.HttpClientInstance.PostAsJsonAsync(service.Api.Login, dto);
                     if (response.IsSuccessStatusCode)
                     {
                         var data = await response.Content.ReadAsAsync<ResponseDto<string>>();

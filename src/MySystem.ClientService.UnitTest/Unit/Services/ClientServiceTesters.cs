@@ -11,15 +11,17 @@ using System.Threading;
 using System.Net;
 using Newtonsoft.Json;
 using System.Text;
+using Sayed.MySystem.ClientService.Test.Tools;
 
-namespace Sayed.MySystem.ClientService.UnitTest.Services
+namespace Sayed.MySystem.ClientService.Test.Unit.Services
 {
     public class ClientServiceTesters
     {
+        #region Constructors
         [Fact]
         public void Constructor_WhenDeviceIsNull_ThrowArgumentNullException()
         {
-            Action action = new(() => new ClientServices(null, new Mock<IApi>().Object, new Mock<ILogger>().Object));
+            Action action = new(() => new ClientServices(null, new Mock<IApi>().Object));
 
             Assert.Throws<ArgumentNullException>(action);
         }
@@ -27,23 +29,17 @@ namespace Sayed.MySystem.ClientService.UnitTest.Services
         [Fact]
         public void Constructor_WhenApiIsNull_ThrowArgumentNullException()
         {
-            Action action = new(() => new ClientServices(new Mock<IDevice>().Object, null, new Mock<ILogger>().Object));
+            Action action = new(() => new ClientServices(new Mock<IDevice>().Object, null));
 
             Assert.Throws<ArgumentNullException>(action);
         }
+        #endregion
 
-        [Fact]
-        public void Constructor_WhenLoggerIsNull_ThrowArgumentNullException()
-        {
-            Action action = new(() => new ClientServices(new Mock<IDevice>().Object, new Mock<IApi>().Object, null));
-
-            Assert.Throws<ArgumentNullException>(action);
-        }
-
+        #region Properties
         [Fact]
         public void Properity_AppDataPath_MustNotNullOrEmpty()
         {
-            var service = new ClientServices(new Mock<IDevice>().Object, new Mock<IApi>().Object, new Mock<ILogger>().Object);
+            var service = new ClientServices(new Mock<IDevice>().Object, new Mock<IApi>().Object);
             Assert.NotNull(service.AppDataPath);
             Assert.NotEmpty(service.AppDataPath);
         }
@@ -55,7 +51,8 @@ namespace Sayed.MySystem.ClientService.UnitTest.Services
             var apiMock = new Mock<IApi>();
             apiMock.Setup(x => x.Base).Returns(baseUri);
 
-            var service = new ClientServices(new Mock<IDevice>().Object, apiMock.Object, new Mock<ILogger>().Object, true);
+            var service = new ClientServices(TestMocks.GetDeviceMock().Object, apiMock.Object, new Mock<ILogger<ClientServices>>().Object);
+            service.SystemUnderTest = true;
 
             Assert.Equal(baseUri, service.HttpClientInstance.BaseAddress);
         }
@@ -69,24 +66,25 @@ namespace Sayed.MySystem.ClientService.UnitTest.Services
             var apiMock = new Mock<IApi>();
             apiMock.Setup(x => x.Base).Returns(correctBaseUri);
 
-            var service = new ClientServices(new Mock<IDevice>().Object, apiMock.Object, new Mock<ILogger>().Object, true);
+            var service = new ClientServices(new Mock<IDevice>().Object, apiMock.Object, new Mock<ILogger<ClientServices>>().Object);
+            service.SystemUnderTest = true;
+
             service.HttpClientInstance.BaseAddress = newBaseUri;
 
             Assert.NotEqual(newBaseUri, service.HttpClientInstance.BaseAddress);
         }
+        #endregion
 
+        #region Functions
         [Fact]
         public async void Function_GetResponseAsync_WhenGettingSomeData_ReturnTheData()
         {
             var stringContent = new StringContent("SomeString");
 
-            var handler = new Mock<HttpMessageHandler>();
-            handler.Protected()
-                 .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-                 .Returns(Task<HttpResponseMessage>.Factory.StartNew(() => new HttpResponseMessage(HttpStatusCode.Accepted) { Content = stringContent }));
+            var handler = TestMocks.GetHttpMessageHandlerMock(new HttpResponseMessage(HttpStatusCode.Accepted) { Content = stringContent });
 
-            var service = new ClientServices(new Mock<IDevice>().Object, new Mock<IApi>().Object, new Mock<ILogger>().Object, handler.Object, true);
-            
+            var service = new ClientServices(new Mock<IDevice>().Object, new Mock<IApi>().Object, new Mock<ILogger<ClientServices>>().Object, handler.Object);
+            service.SystemUnderTest = true;
 
             var response = await service.GetResponseAsync(HttpMethod.Get, new Uri("http://google.com"));
             response.EnsureSuccessStatusCode();
@@ -98,12 +96,10 @@ namespace Sayed.MySystem.ClientService.UnitTest.Services
         [Fact]
         public async void Function_GetResponseAsync_WhenServerReturn500_ResponseShouldBe500()
         {
-            var handler = new Mock<HttpMessageHandler>();
-            handler.Protected()
-                 .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-                 .Returns(Task<HttpResponseMessage>.Factory.StartNew(() => new HttpResponseMessage(HttpStatusCode.InternalServerError)));
+            var handler = TestMocks.GetHttpMessageHandlerMock(new HttpResponseMessage(HttpStatusCode.InternalServerError));
 
-            var service = new ClientServices(new Mock<IDevice>().Object, new Mock<IApi>().Object, new Mock<ILogger>().Object, handler.Object, true);
+            var service = new ClientServices(new Mock<IDevice>().Object, new Mock<IApi>().Object, new Mock<ILogger<ClientServices>>().Object, handler.Object);
+            service.SystemUnderTest = true;
 
             var response = await service.GetResponseAsync(HttpMethod.Get, new Uri("http://google.com"));
 
@@ -117,17 +113,16 @@ namespace Sayed.MySystem.ClientService.UnitTest.Services
             var obj = JsonConvert.SerializeObject(x);
             var content = new StringContent(obj.ToString(), Encoding.UTF8, "application/json");
 
-            var handler = new Mock<HttpMessageHandler>();
-            handler.Protected()
-                 .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-                 .Returns(Task<HttpResponseMessage>.Factory.StartNew(() => new HttpResponseMessage(HttpStatusCode.OK) { Content = content }));
+            var handler = TestMocks.GetHttpMessageHandlerMock(new HttpResponseMessage(HttpStatusCode.OK) { Content = content });
 
-            var service = new ClientServices(new Mock<IDevice>().Object, new Mock<IApi>().Object, new Mock<ILogger>().Object, handler.Object, true);
+            var service = new ClientServices(new Mock<IDevice>().Object, new Mock<IApi>().Object, new Mock<ILogger<ClientServices>>().Object, handler.Object);
+            service.SystemUnderTest = true;
 
             var response = await service.GetResponseAsync(HttpMethod.Post, new Uri("http://google.com"), obj);
 
             Assert.Equal(x.Bla, (await response.Content.ReadAsAsync<SomeType>()).Bla);
         }
+        #endregion
 
         private class SomeType
         {

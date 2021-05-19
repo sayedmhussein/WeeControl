@@ -11,8 +11,12 @@ namespace Sayed.MySystem.ClientService.Services
     {
         #region Constructor Injections
         IDevice Device { get; }
-        IApi Api { get; }
         ILogger Logger { get; }
+        IApi Api { get; }
+        #endregion
+
+        #region Debugging and Testing
+        bool SystemUnderTest { get; set; }
         #endregion
 
         #region Self Created
@@ -20,7 +24,6 @@ namespace Sayed.MySystem.ClientService.Services
         Config Settings { get; }
         #endregion
 
-        [Obsolete]
         HttpClient HttpClientInstance { get; }
     }
 }
