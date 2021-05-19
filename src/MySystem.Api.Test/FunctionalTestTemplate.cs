@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Sayed.MySystem.Api;
 using Xunit;
 
-namespace Sayed.MySystem.Api.FunctionalTest
+namespace MySystem.Api.Test
 {
     public class FunctionalTestTemplate : IClassFixture<WebApplicationFactory<Startup>>
     {

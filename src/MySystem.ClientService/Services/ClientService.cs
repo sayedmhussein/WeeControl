@@ -90,6 +90,11 @@ namespace Sayed.MySystem.ClientService.Services
         }
 
         public ClientServices(IDevice device, IApi api, ILogger logger, HttpMessageHandler handler)
+            : this(device, api, logger, handler, false)
+        {
+        }
+
+        public ClientServices(IDevice device, IApi api, ILogger logger, HttpMessageHandler handler, bool systemUnderTest)
         {
             Device = device ?? throw new ArgumentNullException("You must pass device to constructor.");
             Api = api ?? throw new ArgumentNullException("You must pass api to constructor.");
@@ -98,6 +103,7 @@ namespace Sayed.MySystem.ClientService.Services
             this.handler = handler;
 
             Settings = Config.GetInstance();
+            SystemUnderTest = systemUnderTest;
         }
         #endregion
     }

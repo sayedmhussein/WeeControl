@@ -48,7 +48,7 @@ namespace Sayed.MySystem.Api.Controllers.V1
         [MapToApiVersion("1.0")]
         public async Task<ActionResult<ResponseDto<string>>> LoginV1([FromBody] RequestDto<LoginDto> requestDto)
         {
-            if (requestDto.Payload.IsValid == false)
+            if (false)//requestDto.Payload == false)
             {
                 
                 return BadRequest();

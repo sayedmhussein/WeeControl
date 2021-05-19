@@ -61,6 +61,7 @@ namespace Sayed.MySystem.ClientService.Test.Unit.ViewModels
         public async void LoginCommand_WhenNoInternet_DisplayMessage()
         {
             var device = TestMocks.DeviceMock;
+            device.Setup(x => x.Internet).Returns(false);
             var api = TestMocks.ApiMock;
             var logger = TestMocks.LoggerMock;
             var handler = TestMocks.GetHttpMessageHandlerMock(System.Net.HttpStatusCode.OK, new ResponseDto<string>("token").SerializeToJson());
@@ -76,7 +77,7 @@ namespace Sayed.MySystem.ClientService.Test.Unit.ViewModels
 
             await vm.LoginCommand.ExecuteAsync(new object());
 
-            device.Verify(x => x.DisplayMessageAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            device.Verify(x => x.DisplayMessageAsync(IDevice.Message.NoInternet), Times.Once);
         }
 
         [Fact]
@@ -87,9 +88,10 @@ namespace Sayed.MySystem.ClientService.Test.Unit.ViewModels
             var logger = TestMocks.LoggerMock;
             var handler = TestMocks.GetHttpMessageHandlerMock(System.Net.HttpStatusCode.OK, new ResponseDto<string>("token").SerializeToJson());
             //
-            var service = new ClientServices(device.Object, api.Object, logger.Object, handler.Object);
+            //var service = new ClientServices(device.Object, api.Object, logger.Object, handler.Object);
+            var service = TestMocks.GetClientServicesMock(device.Object, api.Object, handler.Object);
 
-            var vm = new LoginViewModel(service)
+            var vm = new LoginViewModel(service.Object)
             {
                 Username = "username",
                 Password = "password"
@@ -108,9 +110,9 @@ namespace Sayed.MySystem.ClientService.Test.Unit.ViewModels
             var logger = TestMocks.LoggerMock;
             var handler = TestMocks.GetHttpMessageHandlerMock(System.Net.HttpStatusCode.Unauthorized, new ResponseDto<string>("token").SerializeToJson());
             //
-            var service = new ClientServices(device.Object, api.Object, logger.Object, handler.Object);
+            var service = TestMocks.GetClientServicesMock(handler.Object);
 
-            var vm = new LoginViewModel(service)
+            var vm = new LoginViewModel(service.Object)
             {
                 Username = "username",
                 Password = "password"

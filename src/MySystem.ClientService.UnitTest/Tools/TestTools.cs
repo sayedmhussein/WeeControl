@@ -54,11 +54,30 @@ namespace Sayed.MySystem.ClientService.Test.Tools
             return device;
         }
 
-        public static Mock<IClientServices> GetClientServicesMock(IDevice device = null)
+        public static Mock<IClientServices> GetClientServicesMock()
+        {
+            return GetClientServicesMock(null, null, null);
+        }
+
+        public static Mock<IClientServices> GetClientServicesMock(IDevice device)
+        {
+            return GetClientServicesMock(null, null, null);
+        }
+
+        public static Mock<IClientServices> GetClientServicesMock(HttpMessageHandler httpMessageHandler)
+        {
+            return GetClientServicesMock(null, null, httpMessageHandler);
+        }
+
+        public static Mock<IClientServices> GetClientServicesMock(IDevice device, IApi api, HttpMessageHandler httpMessageHandler)
         {
             var service = new Mock<IClientServices>();
             service.SetupProperty(p => p.SystemUnderTest, true);
             service.SetupGet(p => p.Device).Returns(device ?? GetDeviceMock().Object);
+            service.SetupGet(p => p.Api).Returns(api ?? ApiMock.Object);
+
+            service.SetupGet(p => p.HttpClientInstance).Returns(new HttpClient(httpMessageHandler) { BaseAddress = new Uri("http://test.com") }); ;
+
             return service;
         }
 
@@ -66,6 +85,7 @@ namespace Sayed.MySystem.ClientService.Test.Tools
         {
             var apiMock = new Mock<IApi>();
             apiMock.Setup(p => p.Base).Returns(new Uri("http://bla.com"));
+            //
             apiMock.Setup(p => p.Login).Returns("Api");
             apiMock.Setup(p => p.Token).Returns("Api");
             return apiMock;
