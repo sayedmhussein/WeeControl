@@ -19,12 +19,12 @@ namespace MySystem.Web.EfRepository.Models.Business
             {
                 modelBuilder.HasPostgresExtension("uuid-ossp")
                 .Entity<ContractUnitDbo>()
-                .Property(p => p.ContractUnitId)
+                .Property(p => p.Id)
                 .HasDefaultValueSql("uuid_generate_v4()");
             }
             else
             {
-                modelBuilder.Entity<ContractUnitDbo>().Property(p => p.ContractUnitId).ValueGeneratedOnAdd();
+                modelBuilder.Entity<ContractUnitDbo>().Property(p => p.Id).ValueGeneratedOnAdd();
             }
 
             modelBuilder.Entity<ContractUnitDbo>().Property(p => p.ActivationTs).HasDefaultValue(DateTime.Now);

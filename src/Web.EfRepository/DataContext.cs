@@ -88,7 +88,7 @@ namespace MySystem.Web.EfRepository
             if (ContractUnits.Any() == false)
             {
                 var contract = Contracts.First().Id;
-                var unit = Units.First().UnitId;
+                var unit = Units.First().Id;
                 ContractUnits.AddRange(ContractUnit.GetContractUnitList(contract, unit));
                 SaveChanges();
             }

@@ -10,17 +10,15 @@ namespace Web.EfRepository.Test
         [Fact]
         public void WhenCreatingDataContextWithInvalidConnectionString_ThrowArgumentException()
         {
-            var optionsBuilder = new DbContextOptionsBuilder<DataContext>();
-            optionsBuilder.UseNpgsql("dfdf");
+            var options = ContextOptions.GetPostgresOptions("blabla");
 
-            Assert.Throws<ArgumentException>(() => new DataContext(optionsBuilder.Options));
+            Assert.Throws<ArgumentException>(() => new DataContext(options.Options));
         }
 
         [Fact]
         public void WhenCreatingDataContextWithLocalPostgres_ContextNotNull()
         {
-            var optionsBuilder = new DbContextOptionsBuilder<DataContext>();
-            optionsBuilder.UseNpgsql("Server=127.0.0.1;Port=5432;Database=dbdatax;Username=sayed;Include Error Detail = true");
+            var optionsBuilder = ContextOptions.GetPostgresOptions();
 
             var context = new DataContext(optionsBuilder.Options);
 
@@ -30,8 +28,7 @@ namespace Web.EfRepository.Test
         [Fact]
         public async void WhenCreatingDataContextWithLocalPostgresAndGetFirstOffice_OfficeNotNull()
         {
-            var optionsBuilder = new DbContextOptionsBuilder<DataContext>();
-            optionsBuilder.UseNpgsql("Server=127.0.0.1;Port=5432;Database=dbdatax;Username=sayed;Include Error Detail = true");
+            var optionsBuilder = ContextOptions.GetPostgresOptions();
             var context = new DataContext(optionsBuilder.Options);
 
             var office = await context.Offices.FirstOrDefaultAsync();

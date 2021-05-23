@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Net.Http;
 using System.Text;
+using MySystem.Shared.Library.Dtos;
 using Newtonsoft.Json;
 
-namespace MySystem.Shared.Library.Dtos
+namespace MySystem.Shared.Library.ExtensionMethods
 {
     public static class RequestResponseExtension
     {

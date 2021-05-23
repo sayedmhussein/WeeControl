@@ -13,4 +13,7 @@
     <ProjectReference Include="..\Web.Domain\Web.Domain.csproj" />
     <ProjectReference Include="..\Web.EfRepository\Web.EfRepository.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.6" />
+  </ItemGroup>
 </Project>

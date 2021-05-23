@@ -4,7 +4,7 @@ using MySystem.Shared.Library.Base;
 
 namespace MySystem.Shared.Library.Dbos
 {
-    public class EmployeeDbo : EmployeeBase
+    public class EmployeeDbo : EmployeeBase, IDbo
     {
         [Key]
         public Guid Id { get; set; }

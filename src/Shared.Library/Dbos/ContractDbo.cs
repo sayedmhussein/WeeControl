@@ -6,7 +6,7 @@ using MySystem.Shared.Library.Base;
 
 namespace MySystem.Shared.Library.Dbos
 {
-    public class ContractDbo : ContractBase
+    public class ContractDbo : ContractBase, IDbo
     {
         [Key]
         public Guid Id { get; set; }

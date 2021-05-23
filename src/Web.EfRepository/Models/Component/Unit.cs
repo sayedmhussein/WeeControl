@@ -22,12 +22,12 @@ namespace MySystem.Web.EfRepository.Models.Component
             {
                 modelBuilder.HasPostgresExtension("uuid-ossp")
                 .Entity<UnitDbo>()
-                .Property(p => p.UnitId)
+                .Property(p => p.Id)
                 .HasDefaultValueSql("uuid_generate_v4()");
             }
             else
             {
-                modelBuilder.Entity<UnitDbo>().Property(p => p.UnitId).ValueGeneratedOnAdd();
+                modelBuilder.Entity<UnitDbo>().Property(p => p.Id).ValueGeneratedOnAdd();
             }
         }
 

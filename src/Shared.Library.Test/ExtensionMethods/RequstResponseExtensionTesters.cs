@@ -1,10 +1,11 @@
 ﻿using System;
 using MySystem.Shared.Library.Dtos;
 using MySystem.Shared.Library.Dtos.V1;
+using MySystem.Shared.Library.ExtensionMethods;
 using Newtonsoft.Json;
 using Xunit;
 
-namespace MySystem.Shared.Library.Test.Dtos
+namespace MySystem.Shared.Library.Test.ExtensionMethods
 {
     public class RequstResponseExtensionTesters
     {

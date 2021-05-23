@@ -8,6 +8,7 @@ using MySystem.Shared.Library.Dbos;
 
 namespace MySystem.Web.EfRepository
 {
+    [Obsolete]
     public class CustomFunctionV1
     {
         private readonly DataContext context;

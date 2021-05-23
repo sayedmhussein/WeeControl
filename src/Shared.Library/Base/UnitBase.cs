@@ -5,8 +5,6 @@ namespace MySystem.Shared.Library.Base
 {
     public abstract class UnitBase
     {
-       
-
         [StringLength(10, ErrorMessage = "Always follow conventions ie. 88NB1234.")]
         public string UnitNo { get; set; }
 

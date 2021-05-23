@@ -17,10 +17,12 @@
     <Folder Include="Dtos\" />
     <Folder Include="Dtos\V1\" />
     <Folder Include="Dbos\" />
+    <Folder Include="ExtensionMethods\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Configuration\apisetting.json" />

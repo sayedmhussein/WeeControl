@@ -7,7 +7,7 @@ using MySystem.Shared.Library.Base;
 
 namespace MySystem.Shared.Library.Dtos.V1
 {
-    public class BuildingDto : BuildingBase
+    public class BuildingDto : BuildingBase, IDto
     {
         public Guid? Id { get; set; }  
     }

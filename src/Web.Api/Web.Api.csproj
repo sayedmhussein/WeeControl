@@ -23,13 +23,13 @@
     <Folder Include="Security\Handler\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MySystem.Shared\MySystem.Shared.csproj">
+    <ProjectReference Include="..\Shared.Library\Shared.Library.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
-    <ProjectReference Include="..\MySystem.EntityFramework\MySystem.EntityFramework.csproj">
+    <ProjectReference Include="..\Web.Domain\Web.Domain.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
-    <ProjectReference Include="..\MySystem.Api.Domain\MySystem.Api.Domain.csproj">
+    <ProjectReference Include="..\Web.Infrastructure\Web.Infrastructure.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
   </ItemGroup>

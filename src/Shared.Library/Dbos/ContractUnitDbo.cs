@@ -4,10 +4,10 @@ using MySystem.Shared.Library.Base;
 
 namespace MySystem.Shared.Library.Dbos
 {
-    public class ContractUnitDbo : ContractUnitBase
+    public class ContractUnitDbo : ContractUnitBase, IDbo
     {
         [Key]
-        public Guid ContractUnitId { get; set; }
+        public Guid Id { get; set; }
 
 
         public virtual ContractDbo Contract { get; set; }

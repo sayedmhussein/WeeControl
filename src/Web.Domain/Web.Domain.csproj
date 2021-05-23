@@ -6,9 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="User\" />
+    <Folder Include="Employee\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MySystem.Shared\MySystem.Shared.csproj" />
+    <ProjectReference Include="..\Shared.Library\Shared.Library.csproj" />
   </ItemGroup>
 </Project>

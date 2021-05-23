@@ -4,7 +4,7 @@ using MySystem.Shared.Library.Base;
 
 namespace MySystem.Shared.Library.Dbos
 {
-    public class OfficeDbo : OfficeBase
+    public class OfficeDbo : OfficeBase, IDbo
     {
         [Key]
         [Display(Name = "ID")]

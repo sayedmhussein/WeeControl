@@ -3,11 +3,8 @@ namespace MySystem.Shared.Library.Base
 {
     public class UserClaimBase
     {
-        
-
         public Guid EmployeeId { get; set; }
         
-
         public DateTime GrantedTs { get; set; }
 
         public DateTime? RevokedTs { get; set; }

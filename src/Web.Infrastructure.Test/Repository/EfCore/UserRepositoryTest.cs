@@ -1,19 +1,10 @@
 ﻿using System;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-using MySystem.Web.EfRepository;
 using Web.Infrastructure.Repository.EfCore;
 using Xunit;
 namespace Web.Infrastructure.Test.Repository.EfCore
 {
     public class UserRepositoryTest
     {
-        private static DbContextOptionsBuilder<DataContext> InMemoryOptions => new DbContextOptionsBuilder<DataContext>()
-                .UseInMemoryDatabase(databaseName: new Random().NextDouble().ToString())
-                .ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning))
-                ;
-
         #region Constructor
         [Fact]
         public void WhenNullOptions_ThrowNullReferenceException()
@@ -26,7 +17,7 @@ namespace Web.Infrastructure.Test.Repository.EfCore
         [Fact]
         public async void WhenValidUsernameAndPasswordCompination_ReturnUserId()
         {
-            var repo = new UserRepository(InMemoryOptions);
+            var repo = new UserRepository(EfCoreOptions.GetInMemoryOptions());
 
             var id = await repo.GetUserId("username", "password");
 
@@ -36,7 +27,7 @@ namespace Web.Infrastructure.Test.Repository.EfCore
         [Fact]
         public async void WhenInValidUsernameAndPasswordCompination_ReturnNullId()
         {
-            var repo = new UserRepository(InMemoryOptions);
+            var repo = new UserRepository(EfCoreOptions.GetInMemoryOptions());
 
             var id = await repo.GetUserId("username1", "password");
 
@@ -48,7 +39,7 @@ namespace Web.Infrastructure.Test.Repository.EfCore
         [Fact]
         public async void WhenValidUserName_ReturnNewSessionId()
         {
-            var repo = new UserRepository(InMemoryOptions);
+            var repo = new UserRepository(EfCoreOptions.GetInMemoryOptions());
 
             var session = await repo.CreateOrGetSessionAsync("username", "device");
 
@@ -59,7 +50,7 @@ namespace Web.Infrastructure.Test.Repository.EfCore
         [Fact]
         public async void WhenInValidUserName_ReturnNullSession()
         {
-            var repo = new UserRepository(InMemoryOptions);
+            var repo = new UserRepository(EfCoreOptions.GetInMemoryOptions());
 
             var session = await repo.CreateOrGetSessionAsync("username1", "device");
 
@@ -71,7 +62,7 @@ namespace Web.Infrastructure.Test.Repository.EfCore
         [Fact]
         public async void WhenValidSessionId_ReturnTrue()
         {
-            var repo = new UserRepository(InMemoryOptions);
+            var repo = new UserRepository(EfCoreOptions.GetInMemoryOptions());
             var id = await repo.CreateOrGetSessionAsync("username", "device");
 
             var exist = await repo.TerminateSessionAsync((Guid)id);
@@ -82,7 +73,7 @@ namespace Web.Infrastructure.Test.Repository.EfCore
         [Fact]
         public async void WhenInValidSessionId_ReturnFalse()
         {
-            var repo = new UserRepository(InMemoryOptions);
+            var repo = new UserRepository(EfCoreOptions.GetInMemoryOptions());
 
             var exist = await repo.TerminateSessionAsync(Guid.NewGuid());
 
@@ -94,7 +85,7 @@ namespace Web.Infrastructure.Test.Repository.EfCore
         [Fact]
         public async void WhenLoggingToSession_()
         {
-            var repo = new UserRepository(InMemoryOptions);
+            var repo = new UserRepository(EfCoreOptions.GetInMemoryOptions());
             Guid id = (Guid)await repo.CreateOrGetSessionAsync("username", "device");
 
             string arg = "Some Text";

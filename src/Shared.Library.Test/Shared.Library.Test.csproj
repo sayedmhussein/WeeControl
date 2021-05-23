@@ -29,7 +29,7 @@
 
   <ItemGroup>
     <Folder Include="Configuration\" />
-    <Folder Include="Dtos\" />
+    <Folder Include="ExtensionMethods\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Shared.Library\Shared.Library.csproj" />
