@@ -1,0 +1,8 @@
+﻿{
+  "Base": "http://192.168.1.107:5000/",
+  "Version": "1.0",
+
+  "Login": "/Api/Credentials/login/",
+  "Token": "/Api/Credentials/token/",
+  "Logout": "/Api/Credentials/logout/"
+}

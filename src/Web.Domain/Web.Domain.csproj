@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>MySystem.Api.Domain</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="User\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MySystem.Shared\MySystem.Shared.csproj" />
+  </ItemGroup>
+</Project>
