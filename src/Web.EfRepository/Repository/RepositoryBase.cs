@@ -5,14 +5,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MySystem.Web.EfRepository.Repository
 {
-    public class EntityRepository<TEntity> :
+    public class RepositoryBase<TEntity> :
         IRepository<TEntity>,
         IRepositoryAsync<TEntity> where TEntity : class
     {
         private readonly DataContext _dbContext;
         private readonly DbSet<TEntity> _dbSet;
 
-        public EntityRepository(DataContext dbContext)
+        public RepositoryBase(DataContext dbContext)
         {
             _dbContext = dbContext;
             _dbSet = _dbContext.Set<TEntity>();
