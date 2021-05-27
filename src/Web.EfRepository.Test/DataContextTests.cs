@@ -28,7 +28,7 @@ namespace Web.EfRepository.Test
         [Fact]
         public async void WhenCreatingDataContextWithLocalPostgresAndGetFirstOffice_OfficeNotNull()
         {
-            var optionsBuilder = ContextOptions.GetPostgresOptions();
+            var optionsBuilder = ContextOptions.GetInMemoryOptions();
             var context = new DataContext(optionsBuilder.Options);
 
             var office = await context.Offices.FirstOrDefaultAsync();

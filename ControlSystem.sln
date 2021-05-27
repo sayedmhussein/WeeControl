@@ -31,13 +31,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.Infrastructure.Test", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.Domain.Test", "src\Web.Domain.Test\Web.Domain.Test.csproj", "{A99B28C9-D5E3-441B-854F-98FC84251F92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.EfRepository", "src\Web.EfRepository\Web.EfRepository.csproj", "{2D92A64F-2331-4135-944C-05E3A50766A7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.Infrastructure.EfRepository", "src\Web.EfRepository\Web.Infrastructure.EfRepository.csproj", "{2D92A64F-2331-4135-944C-05E3A50766A7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Library", "src\Shared.Library\Shared.Library.csproj", "{53CD17D3-CCAE-4D94-9C34-B1AD298CE44B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Library.Test", "src\Shared.Library.Test\Shared.Library.Test.csproj", "{66B031A7-BB34-4AA6-9314-48AD436DD6C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.EfRepository.Test", "src\Web.EfRepository.Test\Web.EfRepository.Test.csproj", "{7AA81A85-2D9C-4599-9EFE-4E985C73B7EB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.Infrastructure.EfRepository.Test", "src\Web.EfRepository.Test\Web.Infrastructure.EfRepository.Test.csproj", "{7AA81A85-2D9C-4599-9EFE-4E985C73B7EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
-namespace MySystem.Web.EfRepository
+namespace MySystem.Web.Infrastructure.EfRepository
 {
     public static class ContextOptions
     {

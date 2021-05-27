@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
-using MySystem.Shared.Library.Dbos;
-using MySystem.Web.EfRepository.Models.Basic;
-using MySystem.Web.EfRepository.Models.People;
+using MySystem.Shared.Library.Dbo.Entity;
 
-namespace MySystem.Web.EfRepository.Models.Business
+namespace MySystem.Web.Infrastructure.EfRepository.Models.Business
 {
     internal static class Contract
     {

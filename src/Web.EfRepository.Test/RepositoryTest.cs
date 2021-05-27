@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
-using MySystem.Shared.Library.Dbos;
+using MySystem.Shared.Library.Dbo;
+using MySystem.Shared.Library.Definition;
 using MySystem.Web.EfRepository;
+using MySystem.Web.EfRepository.Repository;
 using Xunit;
 
 namespace Web.EfRepository.Test
@@ -33,6 +35,23 @@ namespace Web.EfRepository.Test
 
             var count2 = (await repo.FindAllAsync()).Count();
             Assert.True(count1 == count2 - 1);
+        }
+
+        [Fact]
+        public async void WhenAddingNewOffice_NewIdMustBeCreated()
+        {
+            var optionsBuilder = ContextOptions.GetPostgresOptions();
+            var context = new DataContext(optionsBuilder.Options);
+
+            var name = new Random().NextDouble().ToString();
+            var repo = new OfficeRepo(context);
+
+            await repo.InsertAsync(new OfficeDbo() { CountryId = Country.SaudiArabia, OfficeName = name});
+
+            var employee = (await repo.FindAllAsync()).FirstOrDefault(x => x.OfficeName == name);
+
+            Assert.IsType<Guid>(employee.Id);
+            Assert.NotEqual(Guid.Empty, employee.Id);
         }
 
         [Fact]
@@ -73,9 +92,16 @@ namespace Web.EfRepository.Test
         }
     }
 
-    public class EmployeeRepo : EntityRepository<EmployeeDbo>
+    public class EmployeeRepo : RepositoryBase<EmployeeDbo>
     {
         public EmployeeRepo(DataContext context) : base(context)
+        {
+        }
+    }
+
+    public class OfficeRepo : RepositoryBase<OfficeDbo>
+    {
+        public OfficeRepo(DataContext context) : base(context)
         {
         }
     }

@@ -6,7 +6,8 @@
 
   <ItemGroup>
     <Folder Include="Repository\" />
-    <Folder Include="Repository\EfCore\" />
+    <Folder Include="Repository\Employee\" />
+    <Folder Include="Service\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Shared.Library\Shared.Library.csproj" />

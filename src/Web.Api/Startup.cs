@@ -17,12 +17,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using MySystem.Web.Api.Service;
 using MySystem.Web.Api.Security.Handler;
-using MySystem.Web.EntityFramework;
 using MySystem.Web.Api.Security.Policy;
+using MySystem.Web.Api.Domain.Employee;
+using MySystem.Web.EfRepository;
+using Web.Infrastructure.Repository.Employee;
+using Sayed.MySystem.Api.Service;
 
 namespace MySystem.Web.Api
 {
@@ -35,20 +36,28 @@ namespace MySystem.Web.Api
 
         public IConfiguration Configuration { get; }
 
+        private DbContextOptions DbContextOptions
+        {
+            get
+            {
+                var builder = new DbContextOptionsBuilder<DataContext>();
+                builder.UseNpgsql(Configuration.GetConnectionString("DbConnection"));
+                builder.EnableSensitiveDataLogging();
+
+                return builder.Options;
+            }
+        }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
             services.AddHttpContextAccessor();
 
-            services.AddDbContextPool<DataContext>(options =>
-            {
-                options.UseNpgsql(Configuration.GetConnectionString("DbConnection"));
-                options.EnableSensitiveDataLogging();
-            });
+            services.AddScoped<IEmployeeService>(provider => new EmployeeService(new EmployeeEfCore(DbContextOptions)));
 
-            VersioningConfig(services);
-            SwaggerConfig(services);
+            services.AddApiVersioning(ApiVersionService.ConfigureApiVersioning); //VersioningConfig(services);
+            services.AddSwaggerGen(SwaggerService.ConfigureSwaggerGen);
             AuthenticationConfig(services);
             AuthorizationConfig(services);
         }
@@ -60,7 +69,7 @@ namespace MySystem.Web.Api
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MySystem.Api v1"));
+                app.UseSwaggerUI(SwaggerService.ConfigureSwaggerUI);
             }
             else
             {
@@ -70,6 +79,9 @@ namespace MySystem.Web.Api
             app.UseRouting();
 
             app.UseAuthentication();
+
+            app.UseMiddleware<UserInfoMiddleware>();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -80,43 +92,13 @@ namespace MySystem.Web.Api
 
         private static void VersioningConfig(IServiceCollection services)
         {
-            services.AddApiVersioning(options =>
-            {
-                options.DefaultApiVersion = new ApiVersion(1, 0);
-                options.AssumeDefaultVersionWhenUnspecified = true;
-                options.ApiVersionReader = new MediaTypeApiVersionReader();
-                options.ReportApiVersions = true;
-            });
-        }
-
-        private static void SwaggerConfig(IServiceCollection services)
-        {
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "MySystem.Api", Version = "v1" });
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                {
-                    Description = "JWT Authorization header using the Bearer scheme (Example: 'Bearer 12345abcdef')",
-                    Name = "Authorization",
-                    In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey,
-                    Scheme = "Bearer"
-                });
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
-                    {
-                    new OpenApiSecurityScheme
-                    {
-                        Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            }
-                        },
-                        Array.Empty<string>()
-                    }
-                });
-            });
+            //services.AddApiVersioning(options =>
+            //{
+            //    options.DefaultApiVersion = new ApiVersion(1, 0);
+            //    options.AssumeDefaultVersionWhenUnspecified = true;
+            //    options.ApiVersionReader = new MediaTypeApiVersionReader();
+            //    options.ReportApiVersions = true;
+            //});
         }
 
         private void AuthenticationConfig(IServiceCollection services)
@@ -137,9 +119,6 @@ namespace MySystem.Web.Api
                         {
                             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
                             context.Token = token;
-
-                            //var session = context.HttpContext.User.Claims.FirstOrDefault(c => c.Type == "sss")?.Value;
-                            //context.HttpContext.Session.Set("Id", Encoding.ASCII.GetBytes(session));
                         }
                         catch { }
 
@@ -153,11 +132,11 @@ namespace MySystem.Web.Api
         {
             services.AddAuthorization(options =>
             {
-                options.AddPolicy(HasActiveCredentials.Name, HasActiveCredentials.Policy);
+                options.AddPolicy(SessionNotBlockedPolicy.Name, SessionNotBlockedPolicy.Policy);
             });
 
-            services.AddSingleton<IAuthorizationHandler, MaximumPeriodHandler>();
-            services.AddScoped<IAuthorizationHandler, SessionAndUserValidHandler>();
+            services.AddSingleton<IAuthorizationHandler, TokenRefreshmentHandler>();
+            services.AddScoped<IAuthorizationHandler, SessionNotBlockedHandler>();
         }
     }
 }

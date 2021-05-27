@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using MySystem.Shared.Library.Dbo;
+using MySystem.Shared.Library.Dbo.Entity;
 
-namespace MySystem.Web.EfRepository.EntityTypeConfiguration
+namespace MySystem.Web.Infrastructure.EfRepository.EntityTypeConfiguration
 {
     public class OfficeEntityTypeConfiguration : IEntityTypeConfiguration<OfficeDbo>
     {

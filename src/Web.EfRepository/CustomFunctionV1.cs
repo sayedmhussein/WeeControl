@@ -4,9 +4,9 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using MySystem.Shared.Library.Dbos;
+using MySystem.Shared.Library.Dbo.Entity;
 
-namespace MySystem.Web.EfRepository
+namespace MySystem.Web.Infrastructure.EfRepository
 {
     [Obsolete]
     public class CustomFunctionV1
@@ -62,7 +62,7 @@ namespace MySystem.Web.EfRepository
             if (person != null)
             {
                 list = new List<Claim>();
-                context.Claims.Where(c => c.EmployeeId == person.Id && c.RevokedTs == null).ToList().ForEach(x => list.Add(new Claim(x.ClaimType, x.ClaimValue)));
+                context.EmployeeClaims.Where(c => c.EmployeeId == person.Id && c.RevokedTs == null).ToList().ForEach(x => list.Add(new Claim(x.ClaimType, x.ClaimValue)));
                 list.Add(new Claim("sss", sessionid.ToString()));
                 //list.Add(new Claim("ooo", person.Employee.OfficeId.ToString()));
             }

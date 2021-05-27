@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.AspNetCore.Authorization;
 
-namespace MySystem.Web.Api.Security.Requirement
+namespace MySystem.Web.Domain.Security.Requirement
 {
-    public class SessionAndUserValidRequirement : IAuthorizationRequirement
+    public class SessionNotBlockedRequirement : IAuthorizationRequirement
     {
     }
 }

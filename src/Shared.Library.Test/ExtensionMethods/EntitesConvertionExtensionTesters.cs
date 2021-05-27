@@ -1,7 +1,6 @@
-﻿using System;
-using MySystem.Shared.Library.Dbos;
-using MySystem.Shared.Library.Dtos.V1;
-using MySystem.Shared.Library.ExtensionMethods;
+﻿using MySystem.Shared.Library.Dbo.Entity;
+using MySystem.Shared.Library.Dto.EntityV1;
+using MySystem.Shared.Library.ExtensionMethod;
 using Xunit;
 
 namespace MySystem.Shared.Library.Test.ExtensionMethods

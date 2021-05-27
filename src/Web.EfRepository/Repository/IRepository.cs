@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MySystem.Web.EfRepository.Repository
+namespace MySystem.Web.Infrastructure.EfRepository.Repository
 {
     public interface IRepository<TEntity>
     {

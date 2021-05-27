@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace MySystem.Web.EfRepository.Repository
+namespace MySystem.Web.Infrastructure.EfRepository.Repository
 {
     public class RepositoryBase<TEntity> :
         IRepository<TEntity>,

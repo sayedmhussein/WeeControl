@@ -1,26 +1,29 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using MySystem.Shared.Library.Dbos;
-using MySystem.Web.EfRepository.Models;
-using MySystem.Web.EfRepository.Models.Basic;
-using MySystem.Web.EfRepository.Models.Business;
-using MySystem.Web.EfRepository.Models.Component;
-using MySystem.Web.EfRepository.Models.People;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using MySystem.Shared.Library.Dbo.Entity;
+using MySystem.Web.Infrastructure.EfRepository.EntityTypeConfiguration;
+using MySystem.Web.Infrastructure.EfRepository.Models.Business;
+using MySystem.Web.Infrastructure.EfRepository.Models.People;
 
-namespace MySystem.Web.EfRepository
+namespace MySystem.Web.Infrastructure.EfRepository
 {
     public class DataContext : DbContext
     {
+        internal static DatabaseFacade DbFacade { get; private set; }
+
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
+            DbFacade = Database;
+
             //Database.EnsureDeleted(); //During Initial Development Only
             Database.EnsureCreated(); //During Initial Development Only
 
             SeedBasicDbs();
             SeedPeople();
             SeedComponentDbs();
-            SeedBusinessDbs();
+            SeedBusinessDbs(); 
         }
 
         //Basic Schema
@@ -30,7 +33,7 @@ namespace MySystem.Web.EfRepository
         //Employee Schema
         public DbSet<EmployeeDbo> Employees { get; set; }       
         public DbSet<EmployeeSessionDbo> EmployeeSessions { get; set; }
-        public DbSet<EmployeeClaimDbo> Claims { get; set; }
+        public DbSet<EmployeeClaimDbo> EmployeeClaims { get; set; }
         //
         public DbSet<SessionActivity> SessionActivities { get; set; }
         
@@ -42,19 +45,25 @@ namespace MySystem.Web.EfRepository
         internal DbSet<ContractDbo> Contracts { get; set; }
         internal DbSet<ContractUnitDbo> ContractUnits { get; set; }
         internal DbSet<Visit> Visits { get; set; }
-        internal DbSet<Material> Materials { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            Office.CreateModelBuilder(this, modelBuilder);
-            Building.CreateModelBuilder(this, modelBuilder);
+            if (Database.IsNpgsql())
+            {
+                modelBuilder.HasPostgresExtension("uuid-ossp");
+            }
 
-            Employee.CreateModelBuilder(this, modelBuilder);
-            EmployeeSession.CreateSessionModel(this, modelBuilder);
+            new BuildingEntityTypeConfiguration().Configure(modelBuilder.Entity<BuildingDbo>());
+            new OfficeEntityTypeConfiguration().Configure(modelBuilder.Entity<OfficeDbo>());
+
+            new EmployeeEntityTypeConfiguration().Configure(modelBuilder.Entity<EmployeeDbo>());
+            new EmployeeClaimEntityTypeConfiguration().Configure(modelBuilder.Entity<EmployeeClaimDbo>());
+            new EmployeeSessionClaimEntityTypeConfiguration().Configure(modelBuilder.Entity<EmployeeSessionDbo>());
+
+            //Employee.CreateModelBuilder(this, modelBuilder);
             SessionActivity.CreateModelBuilder(this, modelBuilder);
-            EmployeeClaim.CreateClaimModel(this, modelBuilder);
 
-            Unit.CreateModelBuilder(this, modelBuilder);
+            //Unit.CreateModelBuilder(this, modelBuilder);
 
             Contract.CreateModelBuilder(this, modelBuilder);
             ContractUnit.CreateContractUnitModel(this, modelBuilder);
@@ -64,13 +73,13 @@ namespace MySystem.Web.EfRepository
         {
             if (Offices.Any() == false)
             {
-                Offices.AddRange(Office.GetOfficeList());
+                Offices.AddRange(OfficeDbo.InitializeList());
                 SaveChanges();
             }
 
             if (Buildings.Any() == false)
             {
-                Buildings.AddRange(Building.GetOfficeList());
+                Buildings.AddRange(BuildingDbo.InitializeList());
                 SaveChanges();
             }
         }
@@ -98,7 +107,7 @@ namespace MySystem.Web.EfRepository
         {
             if (Units.Any() == false)
             {
-                Units.AddRange(Unit.GetUnitList(Buildings.First().Id));
+                //Units.AddRange(Unit.GetUnitList(Buildings.First().Id));
                 SaveChanges();
             }
         }
@@ -108,7 +117,12 @@ namespace MySystem.Web.EfRepository
             if (Employees.Any() == false)
             {
                 var office = Offices.FirstOrDefault(x => x.OfficeName == "Mecca");
-                Employees.AddRange(Employee.GetPersonList(office.Id));
+                Employees.AddRange(EmployeeDbo.InitializeList(office.Id));
+                SaveChanges();
+
+                var employee = Employees.FirstOrDefault(x => x.Username == "username");
+                EmployeeClaims.AddRange(EmployeeClaimDbo.InitializeList(employee.Id));
+
                 SaveChanges();
             }
         }

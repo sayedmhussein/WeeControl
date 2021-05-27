@@ -7,19 +7,19 @@ namespace MySystem.Shared.Library.Test.Configuration
     public class ConfigurationSettingsTesters
     {
         [Fact]
-        public void WhenConstructingTheClass_SettingShouldReturnValidApiBaseValue()
+        public void WhenConstructingTheClass_ApiShouldReturnValidApiBaseValue()
         {
-            var settings = Api.GetAppSetting();
+            var api = Api.GetAppSetting();
 
-            Assert.Contains("http://", settings.Base.ToString());
+            Assert.Contains("http://", api.Base.ToString());
         }
 
         [Fact]
         public void WhenConstructingTheClass_SettingObjectIsnotNull()
         {
-            var settings = Api.GetAppSetting();
+            var api = Api.GetAppSetting();
 
-            Assert.NotNull(settings);
+            Assert.NotNull(api);
         }
     }
 }

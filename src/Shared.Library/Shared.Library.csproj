@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>MySystem.Shared.Library</RootNamespace>
+    <Description>This library</Description>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -14,10 +15,13 @@
   <ItemGroup>
     <Folder Include="Base\" />
     <Folder Include="Configuration\" />
-    <Folder Include="Dtos\" />
-    <Folder Include="Dtos\V1\" />
-    <Folder Include="Dbos\" />
-    <Folder Include="ExtensionMethods\" />
+    <Folder Include="Dto\" />
+    <Folder Include="Dto\EntityV1\" />
+    <Folder Include="Dbo\" />
+    <Folder Include="ExtensionMethod\" />
+    <Folder Include="Definition\" />
+    <Folder Include="Dbo\Entity\" />
+    <Folder Include="Base\Entity\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
