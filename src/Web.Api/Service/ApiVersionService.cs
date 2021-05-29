@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 
-namespace Sayed.MySystem.Api.Service
+namespace MySystem.Web.Api.Service
 {
     public class ApiVersionService
     {

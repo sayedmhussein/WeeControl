@@ -1,6 +1,6 @@
 using System;
 using Microsoft.AspNetCore.Mvc.Testing;
-using MySystem.Web.Api;
+using MySystem.Persistence.Api;
 using Xunit;
 
 namespace MySystem.Api.Test

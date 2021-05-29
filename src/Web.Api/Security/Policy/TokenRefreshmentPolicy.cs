@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using MySystem.Web.Domain.Security.Requirement;
+using MySystem.Web.Api.Security.Requirement;
 
-namespace MySystem.Web.Domain.Security.Policy
+namespace MySystem.Web.Api.Security.Policy
 {
     public static class TokenRefreshmentPolicy
     {

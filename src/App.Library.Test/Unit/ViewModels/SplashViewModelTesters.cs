@@ -2,20 +2,20 @@
 using System.Net.Http;
 using Moq;
 using Xunit;
-using MySystem.Web.ClientService.Services;
-using MySystem.Web.ClientService.ViewModels;
+using MySystem.Persistence.ClientService.Services;
+using MySystem.Persistence.ClientService.ViewModels;
 using Moq.Protected;
 using System.Threading.Tasks;
 using System.Net;
 using System.Threading;
-using MySystem.Web.Shared.Configuration.Models;
+using MySystem.Persistence.Shared.Configuration.Models;
 using Microsoft.Extensions.Logging;
 using System.Text;
-using MySystem.Web.Shared.Dtos.V1;
-using MySystem.Web.Shared.Dtos;
-using MySystem.Web.ClientService.Test.Tools;
+using MySystem.Persistence.Shared.Dtos.V1;
+using MySystem.Persistence.Shared.Dtos;
+using MySystem.Persistence.ClientService.Test.Tools;
 
-namespace MySystem.Web.ClientService.Test.Unit.ViewModels
+namespace MySystem.Persistence.ClientService.Test.Unit.ViewModels
 {
     public class SplashViewModelTesters
     {

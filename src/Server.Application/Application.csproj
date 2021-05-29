@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Employee\" />
+    <Folder Include="Contract\" />
+    <Folder Include="Employee\Command\" />
+    <Folder Include="Employee\Query\" />
+    <Folder Include="Employee\Command\CreateEmployee\" />
+    <Folder Include="Common\" />
+    <Folder Include="Common\Interfaces\" />
+    <Folder Include="NotificationModel\" />
+    <Folder Include="Employee\Command\DeleteEmployee\" />
+    <Folder Include="Employee\Command\UpdateEmployee\" />
+    <Folder Include="Employee\Query\GetEmployeeDetail\" />
+    <Folder Include="Employee\Command\CreateEmployee\V1\" />
+    <Folder Include="Employee\Command\DeleteEmployee\V1\" />
+    <Folder Include="Employee\Command\UpdateEmployee\V1\" />
+    <Folder Include="Employee\Query\GetEmployeeDetail\V1\" />
+    <Folder Include="Common\Exceptions\" />
+    <Folder Include="Employee\Command\LoginEmployee\" />
+    <Folder Include="Employee\Command\LoginEmployee\V1\" />
+    <Folder Include="Employee\Command\RefreshEmployeeToken\" />
+    <Folder Include="Employee\Command\RefreshEmployeeToken\V1\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.6" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Shared.Library\SharedKernel.csproj" />
+    <ProjectReference Include="..\Server.Domain\Domain.csproj" />
+  </ItemGroup>
+</Project>

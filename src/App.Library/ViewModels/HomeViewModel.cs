@@ -3,9 +3,9 @@ using System.Windows.Input;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
-using MySystem.Web.ClientService.Services;
+using MySystem.Persistence.ClientService.Services;
 
-namespace MySystem.Web.ClientService.ViewModels
+namespace MySystem.Persistence.ClientService.ViewModels
 {
     public class HomeViewModel : ObservableObject
     {

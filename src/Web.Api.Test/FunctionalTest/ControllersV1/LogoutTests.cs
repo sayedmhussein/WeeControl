@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 
-namespace MySystem.Web.Api.Test.FunctionalTest.ControllersV1
+namespace MySystem.Persistence.Api.Test.FunctionalTest.ControllersV1
 {
     public class LogoutTests : IClassFixture<WebApplicationFactory<Startup>>
     {

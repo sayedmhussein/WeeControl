@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Net;
 using Moq;
-using MySystem.Web.ClientService.Services;
-using MySystem.Web.ClientService.Test.Tools;
-using MySystem.Web.ClientService.ViewModels;
-using MySystem.Web.Shared.Configuration;
-using MySystem.Web.Shared.Configuration.Models;
-using MySystem.Web.Shared.Dtos;
-using MySystem.Web.Shared.Dtos.V1;
+using MySystem.Persistence.ClientService.Services;
+using MySystem.Persistence.ClientService.Test.Tools;
+using MySystem.Persistence.ClientService.ViewModels;
+using MySystem.Persistence.Shared.Configuration;
+using MySystem.Persistence.Shared.Configuration.Models;
+using MySystem.Persistence.Shared.Dtos;
+using MySystem.Persistence.Shared.Dtos.V1;
 using Xunit;
-namespace MySystem.Web.ClientService.UnitTest.Integration
+namespace MySystem.Persistence.ClientService.UnitTest.Integration
 {
     public class SplashPageTests
     {

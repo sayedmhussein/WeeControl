@@ -6,11 +6,11 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
-using MySystem.Web.ClientService.Services;
-using MySystem.Web.Shared.Dtos.V1;
-using MySystem.Web.Shared.Dtos.V1.Custom;
+using MySystem.Persistence.ClientService.Services;
+using MySystem.Persistence.Shared.Dtos.V1;
+using MySystem.Persistence.Shared.Dtos.V1.Custom;
 
-namespace MySystem.Web.ClientService.ViewModels
+namespace MySystem.Persistence.ClientService.ViewModels
 {
     public class LoginViewModel : ObservableObject
     {

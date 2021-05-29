@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace MySystem.Web.ClientService.Configuration.Models
+namespace MySystem.Persistence.ClientService.Configuration.Models
 {
     public class Splash
     {

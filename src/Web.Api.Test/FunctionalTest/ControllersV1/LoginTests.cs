@@ -4,12 +4,12 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Testing;
-using MySystem.Web.Shared.Configuration;
-using MySystem.Web.Shared.Dtos.V1;
-using MySystem.Web.Shared.Dtos.V1.Custom;
+using MySystem.Persistence.Shared.Configuration;
+using MySystem.Persistence.Shared.Dtos.V1;
+using MySystem.Persistence.Shared.Dtos.V1.Custom;
 using Xunit;
 
-namespace MySystem.Web.Api.Test.FunctionalTest.ControllersV1
+namespace MySystem.Persistence.Api.Test.FunctionalTest.ControllersV1
 {
     public class LoginTests : IClassFixture<WebApplicationFactory<Startup>>
     {

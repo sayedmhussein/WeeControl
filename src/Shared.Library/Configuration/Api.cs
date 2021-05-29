@@ -3,7 +3,7 @@ using System.IO;
 using System.Reflection;
 using Newtonsoft.Json;
 
-namespace MySystem.Shared.Library.Configuration
+namespace MySystem.SharedKernel.Configuration
 {
     public class Api : IApi
     {

@@ -1,9 +1,9 @@
-﻿using MySystem.Shared.Library.Dbo.Entity;
-using MySystem.Shared.Library.Dto.EntityV1;
-using MySystem.Shared.Library.ExtensionMethod;
+﻿
+using MySystem.SharedKernel.Dto.V1;
+using MySystem.SharedKernel.ExtensionMethod;
 using Xunit;
 
-namespace MySystem.Shared.Library.Test.ExtensionMethods
+namespace MySystem.SharedKernel.Test.ExtensionMethods
 {
     public class EntitesConvertionExtensionTesters
     {

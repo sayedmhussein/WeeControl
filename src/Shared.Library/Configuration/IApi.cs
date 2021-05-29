@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MySystem.Shared.Library.Configuration
+namespace MySystem.SharedKernel.Configuration
 {
     public interface IApi
     {

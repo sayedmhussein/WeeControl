@@ -2,9 +2,9 @@
 using System.IO;
 using System.Reflection;
 using Newtonsoft.Json;
-using MySystem.Web.ClientService.Configuration.Models;
+using MySystem.Persistence.ClientService.Configuration.Models;
 
-namespace MySystem.Web.ClientService.Configuration
+namespace MySystem.Persistence.ClientService.Configuration
 {
     public class Config
     {

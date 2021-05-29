@@ -1,8 +1,8 @@
 ﻿using System;
-using MySystem.Shared.Library.Configuration;
+using MySystem.SharedKernel.Configuration;
 using Xunit;
 
-namespace MySystem.Shared.Library.Test.Configuration
+namespace MySystem.SharedKernel.Library.Test.Configuration
 {
     public class ConfigurationSettingsTesters
     {

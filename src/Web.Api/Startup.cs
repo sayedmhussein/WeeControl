@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Application;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -17,13 +20,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using MySystem.Web.Api.Service;
+using MySystem.Infrastructure;
+using MySystem.Infrastructure.Service;
+using MySystem.Persistence;
 using MySystem.Web.Api.Security.Handler;
 using MySystem.Web.Api.Security.Policy;
-using MySystem.Web.Api.Domain.Employee;
-using MySystem.Web.EfRepository;
-using Web.Infrastructure.Repository.Employee;
-using Sayed.MySystem.Api.Service;
+using MySystem.Web.Api.Service;
+using MySystem.MySystem.Api.Middleware;
 
 namespace MySystem.Web.Api
 {
@@ -36,25 +39,18 @@ namespace MySystem.Web.Api
 
         public IConfiguration Configuration { get; }
 
-        private DbContextOptions DbContextOptions
-        {
-            get
-            {
-                var builder = new DbContextOptionsBuilder<DataContext>();
-                builder.UseNpgsql(Configuration.GetConnectionString("DbConnection"));
-                builder.EnableSensitiveDataLogging();
-
-                return builder.Options;
-            }
-        }
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            //services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
             services.AddHttpContextAccessor();
 
-            services.AddScoped<IEmployeeService>(provider => new EmployeeService(new EmployeeEfCore(DbContextOptions)));
+            services.AddApplication();
+            services.AddInfrastructure(Configuration);
+            services.AddPersistence(Configuration);
 
             services.AddApiVersioning(ApiVersionService.ConfigureApiVersioning); //VersioningConfig(services);
             services.AddSwaggerGen(SwaggerService.ConfigureSwaggerGen);
@@ -76,6 +72,8 @@ namespace MySystem.Web.Api
                 app.UseHttpsRedirection();
             }
 
+            app.UseCustomExceptionHandler();
+
             app.UseRouting();
 
             app.UseAuthentication();
@@ -88,17 +86,6 @@ namespace MySystem.Web.Api
             {
                 endpoints.MapControllers();
             });
-        }
-
-        private static void VersioningConfig(IServiceCollection services)
-        {
-            //services.AddApiVersioning(options =>
-            //{
-            //    options.DefaultApiVersion = new ApiVersion(1, 0);
-            //    options.AssumeDefaultVersionWhenUnspecified = true;
-            //    options.ApiVersionReader = new MediaTypeApiVersionReader();
-            //    options.ReportApiVersions = true;
-            //});
         }
 
         private void AuthenticationConfig(IServiceCollection services)

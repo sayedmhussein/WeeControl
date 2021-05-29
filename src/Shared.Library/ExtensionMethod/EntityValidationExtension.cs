@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using MySystem.Shared.Library.Dto;
+using MySystem.SharedKernel.Interface;
 
-namespace MySystem.Shared.Library.ExtensionMethod
+namespace MySystem.SharedKernel.ExtensionMethod
 {
     public static class EntityValidationExtension
     {

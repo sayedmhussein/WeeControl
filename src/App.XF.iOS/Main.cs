@@ -5,7 +5,7 @@ using System.Linq;
 using Foundation;
 using UIKit;
 
-namespace MySystem.Web.XamarinForms.iOS
+namespace MySystem.Persistence.XamarinForms.iOS
 {
     public class Application
     {

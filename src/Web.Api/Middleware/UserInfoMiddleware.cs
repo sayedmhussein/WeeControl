@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using MySystem.Shared.Library.Definition;
+using MySystem.SharedKernel.Definition;
 
-namespace Sayed.MySystem.Api.Middleware
+namespace MySystem.MySystem.Api.Middleware
 {
     public class UserInfoMiddleware
     {

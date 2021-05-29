@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using MySystem.Shared.Library.Definition;
+using MySystem.SharedKernel.Definition;
 
-namespace MySystem.Web.Domain.Security.Policy
+namespace MySystem.Web.Api.Security.Policy
 {
     public static class SessionNotBlockedPolicy
     {

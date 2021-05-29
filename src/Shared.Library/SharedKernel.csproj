@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>MySystem.SharedKernel</RootNamespace>
+    <Description>This library</Description>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="EntityBase\" />
+    <Folder Include="Configuration\" />
+    <Folder Include="Dto\" />
+    <Folder Include="Dto\V1\" />
+    <Folder Include="ExtensionMethod\" />
+    <Folder Include="Definition\" />
+    <Folder Include="Interface\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Configuration\apisetting.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Configuration\appsettings.json" />
+  </ItemGroup>
+</Project>

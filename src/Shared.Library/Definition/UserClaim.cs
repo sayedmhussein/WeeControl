@@ -1,5 +1,5 @@
 ﻿using System;
-namespace MySystem.Shared.Library.Definition
+namespace MySystem.SharedKernel.Definition
 {
     public static class UserClaim
     {

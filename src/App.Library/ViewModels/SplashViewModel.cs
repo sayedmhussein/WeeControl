@@ -4,11 +4,11 @@ using Microsoft.Toolkit.Mvvm.Input;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using System;
-using MySystem.Web.ClientService.Services;
-using MySystem.Web.Shared.Dtos.V1;
+using MySystem.Persistence.ClientService.Services;
+using MySystem.Persistence.Shared.Dtos.V1;
 using Microsoft.Extensions.Logging;
 
-namespace MySystem.Web.ClientService.ViewModels
+namespace MySystem.Persistence.ClientService.ViewModels
 {
     public class SplashViewModel : ObservableObject
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Xamarin.Forms;
 
-namespace MySystem.Web.XamarinForms.Views
+namespace MySystem.Persistence.XamarinForms.Views
 {
     public partial class FooterContentView : ContentView
     {

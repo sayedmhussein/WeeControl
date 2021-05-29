@@ -1,8 +1,8 @@
 ﻿using System;
-using MySystem.Web.Api.Controllers.V1;
-using MySystem.Web.Api.UnitTest;
-using MySystem.Web.Shared.Dtos.V1;
-using MySystem.Web.Shared.Dtos.V1.Custom;
+using MySystem.Persistence.Api.Controllers.V1;
+using MySystem.Persistence.Api.UnitTest;
+using MySystem.Persistence.Shared.Dtos.V1;
+using MySystem.Persistence.Shared.Dtos.V1.Custom;
 using Xunit;
 namespace MySystem.Api.Test.UnitTest.Controllers.V1.Credentials
 {

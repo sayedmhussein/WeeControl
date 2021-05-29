@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.Protected;
-using MySystem.Web.ClientService.Services;
-using MySystem.Web.Shared.Configuration.Models;
+using MySystem.Persistence.ClientService.Services;
+using MySystem.Persistence.Shared.Configuration.Models;
 
-namespace MySystem.Web.ClientService.Test.Tools
+namespace MySystem.Persistence.ClientService.Test.Tools
 {
     public static class TestMocks
     {

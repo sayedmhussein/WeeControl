@@ -7,9 +7,9 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Moq;
-using MySystem.Web.EntityFramework;
+using MySystem.Persistence.EntityFramework;
 
-namespace MySystem.Web.Api.UnitTest
+namespace MySystem.Persistence.Api.UnitTest
 {
     public static class TestObjects
     {

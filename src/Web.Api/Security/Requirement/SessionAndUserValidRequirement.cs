@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Authorization;
 
-namespace MySystem.Web.Domain.Security.Requirement
+namespace MySystem.Web.Api.Security.Requirement
 {
     public class SessionNotBlockedRequirement : IAuthorizationRequirement
     {

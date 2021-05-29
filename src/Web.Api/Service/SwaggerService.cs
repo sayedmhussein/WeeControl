@@ -6,7 +6,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
-namespace Sayed.MySystem.Api.Service
+namespace MySystem.Web.Api.Service
 {
     public class SwaggerService
     {

@@ -3,20 +3,17 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using MySystem.Shared.Library.Definition;
-using MySystem.Web.Api.Domain.Employee;
-using MySystem.Web.Domain.Security.Requirement;
+using MySystem.SharedKernel.Definition;
+using MySystem.Web.Api.Security.Requirement;
 
 //[assembly: InternalsVisibleTo("MySystem.Api.UnitTest")]
-namespace MySystem.Web.Domain.Security.Handler
+namespace MySystem.Web.Api.Security.Handler
 {
     public class SessionNotBlockedHandler : AuthorizationHandler<SessionNotBlockedRequirement>
     {
-        private readonly IEmployeeService employeeService;
 
-        public SessionNotBlockedHandler(IEmployeeService employeeService)
+        public SessionNotBlockedHandler()
         {
-            this.employeeService = employeeService;
         }
 
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,

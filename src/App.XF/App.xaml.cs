@@ -1,19 +1,19 @@
 ﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using MySystem.Web.XamarinForms.Services;
-using MySystem.Web.XamarinForms.Views;
+using MySystem.Persistence.XamarinForms.Services;
+using MySystem.Persistence.XamarinForms.Views;
 using Microsoft.Extensions.DependencyInjection;
-using MySystem.Web.ClientService.ViewModels;
+using MySystem.Persistence.ClientService.ViewModels;
 using System.IO;
 using System.Reflection;
 using Newtonsoft.Json;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
-using MySystem.Web.ClientService.Services;
-using MySystem.Web.Shared.Configuration.Models;
-using MySystem.Web.Shared.Configuration;
+using MySystem.Persistence.ClientService.Services;
+using MySystem.Persistence.Shared.Configuration.Models;
+using MySystem.Persistence.Shared.Configuration;
 
-namespace MySystem.Web.XamarinForms
+namespace MySystem.Persistence.XamarinForms
 {
     public partial class App : Application
     {

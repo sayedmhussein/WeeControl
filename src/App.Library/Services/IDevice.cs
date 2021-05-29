@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace MySystem.Web.ClientService.Services
+namespace MySystem.Persistence.ClientService.Services
 {
     /// <summary>
     /// To be implemented on each device, then registered as singleton.

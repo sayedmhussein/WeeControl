@@ -4,9 +4,9 @@ using System.Reflection.Metadata;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using MySystem.Web.Api.Service;
-using MySystem.Web.Api.Security.Handler;
-using MySystem.Web.Api.Security.Requirement;
+using MySystem.Persistence.Api.Service;
+using MySystem.Persistence.Api.Security.Handler;
+using MySystem.Persistence.Api.Security.Requirement;
 using Xunit;
 
 namespace MySystem.Api.Test.UnitTest.Security

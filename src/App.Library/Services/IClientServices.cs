@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using MySystem.Web.ClientService.Configuration;
-using MySystem.Web.Shared.Configuration.Models;
+using MySystem.Persistence.ClientService.Configuration;
+using MySystem.Persistence.Shared.Configuration.Models;
 using Microsoft.Extensions.Logging;
 
-namespace MySystem.Web.ClientService.Services
+namespace MySystem.Persistence.ClientService.Services
 {
     public interface IClientServices
     {

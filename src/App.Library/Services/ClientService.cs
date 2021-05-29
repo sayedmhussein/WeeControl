@@ -6,10 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using MySystem.Web.ClientService.Configuration;
-using MySystem.Web.Shared.Configuration.Models;
+using MySystem.Persistence.ClientService.Configuration;
+using MySystem.Persistence.Shared.Configuration.Models;
 
-namespace MySystem.Web.ClientService.Services
+namespace MySystem.Persistence.ClientService.Services
 {
     public class ClientServices : IClientServices
     {

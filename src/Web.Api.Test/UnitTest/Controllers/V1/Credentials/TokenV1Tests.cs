@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Moq;
-using MySystem.Web.Api.Controllers.V1;
-using MySystem.Web.Api.UnitTest;
-using MySystem.Web.EntityFramework;
+using MySystem.Persistence.Api.Controllers.V1;
+using MySystem.Persistence.Api.UnitTest;
+using MySystem.Persistence.EntityFramework;
 using Xunit;
 
-namespace MySystem.Web.Api.Test.UnitTest.Controllers.V1.Credentials
+namespace MySystem.Persistence.Api.Test.UnitTest.Controllers.V1.Credentials
 {
     public class TokenV1Tests : IDisposable
     {

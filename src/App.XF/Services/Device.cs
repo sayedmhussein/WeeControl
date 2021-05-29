@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MySystem.Web.ClientService.Services;
+using MySystem.Persistence.ClientService.Services;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
-namespace MySystem.Web.XamarinForms.Services
+namespace MySystem.Persistence.XamarinForms.Services
 {
     public class Device : IDevice
     {

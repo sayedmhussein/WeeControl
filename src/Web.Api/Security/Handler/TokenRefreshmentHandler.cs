@@ -3,10 +3,10 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using MySystem.Web.Domain.Security.Requirement;
+using MySystem.Web.Api.Security.Requirement;
 
 //[assembly: InternalsVisibleTo("MySystem.Api.UnitTest")]
-namespace MySystem.Web.Domain.Security.Handler
+namespace MySystem.Web.Api.Security.Handler
 {
     public class TokenRefreshmentHandler : AuthorizationHandler<TokenRefreshmentRequirement>
     {

@@ -1,8 +1,8 @@
 ﻿using System;
 using Xunit;
 using Moq;
-using MySystem.Web.ClientService.Services;
-using MySystem.Web.Shared.Configuration.Models;
+using MySystem.Persistence.ClientService.Services;
+using MySystem.Persistence.Shared.Configuration.Models;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;
 using Moq.Protected;
@@ -11,9 +11,9 @@ using System.Threading;
 using System.Net;
 using Newtonsoft.Json;
 using System.Text;
-using MySystem.Web.ClientService.Test.Tools;
+using MySystem.Persistence.ClientService.Test.Tools;
 
-namespace MySystem.Web.ClientService.Test.Unit.Services
+namespace MySystem.Persistence.ClientService.Test.Unit.Services
 {
     public class ClientServiceTesters
     {

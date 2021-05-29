@@ -5,8 +5,8 @@ using System.Windows.Input;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
-using MySystem.Web.ClientService.Services;
-using MySystem.Web.Shared.Dtos.V1;
+using MySystem.Persistence.ClientService.Services;
+using MySystem.Persistence.Shared.Dtos.V1;
 
 namespace MySystem.ClientService.ViewModels
 {
