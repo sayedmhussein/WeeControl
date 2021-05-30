@@ -61,6 +61,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application.Test", "Applica
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server.Test", "Server.Test", "{283E8FCF-D3E8-4EA5-A18E-8A5C407CB871}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Test", "src\Server.Application.Test\Application.Test.csproj", "{F6F07FA0-8509-4FE8-93F9-C7261EA0A6B4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -263,6 +265,18 @@ Global
 		{1B0C04C6-E21B-4899-B47D-8724EB6DF445}.Debug|iPhone.Build.0 = Debug|Any CPU
 		{1B0C04C6-E21B-4899-B47D-8724EB6DF445}.Release|iPhone.ActiveCfg = Release|Any CPU
 		{1B0C04C6-E21B-4899-B47D-8724EB6DF445}.Release|iPhone.Build.0 = Release|Any CPU
+		{F6F07FA0-8509-4FE8-93F9-C7261EA0A6B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6F07FA0-8509-4FE8-93F9-C7261EA0A6B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6F07FA0-8509-4FE8-93F9-C7261EA0A6B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6F07FA0-8509-4FE8-93F9-C7261EA0A6B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6F07FA0-8509-4FE8-93F9-C7261EA0A6B4}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{F6F07FA0-8509-4FE8-93F9-C7261EA0A6B4}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{F6F07FA0-8509-4FE8-93F9-C7261EA0A6B4}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{F6F07FA0-8509-4FE8-93F9-C7261EA0A6B4}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{F6F07FA0-8509-4FE8-93F9-C7261EA0A6B4}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{F6F07FA0-8509-4FE8-93F9-C7261EA0A6B4}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{F6F07FA0-8509-4FE8-93F9-C7261EA0A6B4}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{F6F07FA0-8509-4FE8-93F9-C7261EA0A6B4}.Release|iPhone.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -294,5 +308,6 @@ Global
 		{1B0C04C6-E21B-4899-B47D-8724EB6DF445} = {00B6CAFF-F37C-430C-9980-3D7968E70CA5}
 		{AFB2F41E-40E6-42CA-8F3E-E5119F5E98AA} = {283E8FCF-D3E8-4EA5-A18E-8A5C407CB871}
 		{F36C366B-FC27-4009-B4B6-C0C371A15208} = {283E8FCF-D3E8-4EA5-A18E-8A5C407CB871}
+		{F6F07FA0-8509-4FE8-93F9-C7261EA0A6B4} = {AFB2F41E-40E6-42CA-8F3E-E5119F5E98AA}
 	EndGlobalSection
 EndGlobal

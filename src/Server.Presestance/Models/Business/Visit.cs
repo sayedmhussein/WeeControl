@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using MySystem.Domain.EntityDbo;
+using MySystem.Domain.EntityDbo.ContractSchema;
+using MySystem.Domain.EntityDbo.EmployeeSchema;
+using MySystem.Domain.EntityDbo.UnitSchema;
 
 namespace MySystem.Persistence.Infrastructure.EfRepository.Models.Business
 {

@@ -21,7 +21,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MySystem.Infrastructure;
-using MySystem.Infrastructure.Service;
+using MySystem.Infrastructure.SecurityService;
 using MySystem.Persistence;
 using MySystem.Web.Api.Security.Handler;
 using MySystem.Web.Api.Security.Policy;

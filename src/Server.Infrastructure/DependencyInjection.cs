@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MySystem.Application.Common.Interfaces;
 using MySystem.Infrastructure.NotificationService;
-using MySystem.Infrastructure.Service;
+using MySystem.Infrastructure.SecurityService;
 
 namespace MySystem.Infrastructure
 {
@@ -11,8 +11,8 @@ namespace MySystem.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddScoped<INotificationService, EmailService>();
             services.AddSingleton<IJwtService>(provider => new JwtService(configuration["Jwt:Key"]));
+            services.AddSingleton<IEmailNotificationService>(provider => new EmailService(configuration["Notification:EmailConfigurationString"]));
 
             return services;
         }

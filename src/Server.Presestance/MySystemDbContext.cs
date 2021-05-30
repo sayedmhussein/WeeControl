@@ -5,7 +5,12 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using MySystem.Application.Common.Interfaces;
 using MySystem.Persistence.Infrastructure.EfRepository.Models.Business;
 using MySystem.Persistence.EntityTypeConfiguration;
-using MySystem.Domain.EntityDbo;
+using MySystem.Domain.EntityDbo.EmployeeSchema;
+using MySystem.Persistence.EntityTypeConfiguration.EmployeeSchema;
+using MySystem.Persistence.EntityTypeConfiguration.PublicSchema;
+using MySystem.Domain.EntityDbo.PublicSchema;
+using MySystem.Domain.EntityDbo.UnitSchema;
+using MySystem.Domain.EntityDbo.ContractSchema;
 
 namespace MySystem.Persistence
 {
@@ -27,12 +32,15 @@ namespace MySystem.Persistence
         }
 
         //Basic Schema
-        public DbSet<OfficeDbo> Offices { get; set; }
-        public DbSet<BuildingDbo> Buildings { get; set; }
+        public DbSet<TerritoryDbo> Territories { get; set; }
+        
 
         //Employee Schema
-        public DbSet<EmployeeDbo> Employees { get; set; }       
+        public DbSet<EmployeeDbo> Employees { get; set; }
+        //
         public DbSet<EmployeeClaimDbo> EmployeeClaims { get; set; }
+        public DbSet<EmployeeIdentityDbo> EmployeeIdentities { get; set; }
+        //
         public DbSet<EmployeeSessionDbo> EmployeeSessions { get; set; }
         public DbSet<EmployeeSessionLogDbo> EmployeeSessionLogs { get; set; }
         
@@ -41,8 +49,10 @@ namespace MySystem.Persistence
         public DbSet<UnitDbo> Units { get; set; }
 
         //Business Schema
+        public DbSet<BuildingDbo> Buildings { get; set; }
         public DbSet<ContractDbo> Contracts { get; set; }
         public DbSet<ContractUnitDbo> ContractUnits { get; set; }
+        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -51,15 +61,22 @@ namespace MySystem.Persistence
                 modelBuilder.HasPostgresExtension("uuid-ossp");
             }
 
-            new BuildingEntityTypeConfiguration().Configure(modelBuilder.Entity<BuildingDbo>());
-            new OfficeEntityTypeConfiguration().Configure(modelBuilder.Entity<OfficeDbo>());
+            //Public Schema
+            new TerritoryEntityTypeConfiguration().Configure(modelBuilder.Entity<TerritoryDbo>());
 
+            //Employee Schema
             new EmployeeEntityTypeConfiguration().Configure(modelBuilder.Entity<EmployeeDbo>());
+            //
             new EmployeeClaimEntityTypeConfiguration().Configure(modelBuilder.Entity<EmployeeClaimDbo>());
+            new EmployeeIdentityEntityTypeConfiguration().Configure(modelBuilder.Entity<EmployeeIdentityDbo>());
+            //
             new EmployeeSessionClaimEntityTypeConfiguration().Configure(modelBuilder.Entity<EmployeeSessionDbo>());
             new EmployeeSessionLogEntityTypeConfiguration().Configure(modelBuilder.Entity<EmployeeSessionLogDbo>());
 
 
+
+
+            new BuildingEntityTypeConfiguration().Configure(modelBuilder.Entity<BuildingDbo>());
             //Unit.CreateModelBuilder(this, modelBuilder);
 
             Contract.CreateModelBuilder(this, modelBuilder);
@@ -68,9 +85,9 @@ namespace MySystem.Persistence
 
         private void SeedBasicDbs()
         {
-            if (Offices.Any() == false)
+            if (Territories.Any() == false)
             {
-                Offices.AddRange(OfficeDbo.InitializeList());
+                Territories.AddRange(TerritoryDbo.InitializeList());
                 SaveChanges();
             }
 
@@ -85,19 +102,19 @@ namespace MySystem.Persistence
         {
             if (Contracts.Any() == false)
             {
-                var office = Offices.FirstOrDefault(x => x.OfficeName == "Mecca");
+                var office = Territories.FirstOrDefault();
                 var sales = Employees.FirstOrDefault();
                 Contracts.AddRange(Contract.GetContractList(office.Id, sales.Id));
                 SaveChanges();
             }
 
-            if (ContractUnits.Any() == false)
-            {
-                var contract = Contracts.First().Id;
-                var unit = Units.First().Id;
-                ContractUnits.AddRange(ContractUnit.GetContractUnitList(contract, unit));
-                SaveChanges();
-            }
+            //if (ContractUnits.Any() == false)
+            //{
+            //    var contract = Contracts.First().Id;
+            //    var unit = Units.First().Id;
+            //    ContractUnits.AddRange(ContractUnit.GetContractUnitList(contract, unit));
+            //    SaveChanges();
+            //}
         }
 
         private void SeedComponentDbs()
@@ -113,7 +130,7 @@ namespace MySystem.Persistence
         {
             if (Employees.Any() == false)
             {
-                var office = Offices.FirstOrDefault(x => x.OfficeName == "Mecca");
+                var office = Territories.FirstOrDefault();
                 Employees.AddRange(EmployeeDbo.InitializeList(office.Id));
                 SaveChanges();
 

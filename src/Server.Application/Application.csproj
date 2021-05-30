@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <Folder Include="Employee\" />
-    <Folder Include="Contract\" />
     <Folder Include="Employee\Command\" />
     <Folder Include="Employee\Query\" />
     <Folder Include="Employee\Command\CreateEmployee\" />
@@ -25,6 +24,9 @@
     <Folder Include="Employee\Command\LoginEmployee\V1\" />
     <Folder Include="Employee\Command\RefreshEmployeeToken\" />
     <Folder Include="Employee\Command\RefreshEmployeeToken\V1\" />
+    <Folder Include="Common\Behaviours\" />
+    <Folder Include="Employee\Command\LogoutEmployee\" />
+    <Folder Include="Employee\Command\LogoutEmployee\V1\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="9.0.0" />

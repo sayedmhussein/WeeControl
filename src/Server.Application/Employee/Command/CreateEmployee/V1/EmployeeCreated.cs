@@ -13,9 +13,9 @@ namespace MySystem.Application.Employee.Command.CreateEmployee.V1
 
         public class EmployeeCreatedHandler : INotificationHandler<EmployeeCreated>
         {
-            private readonly INotificationService _notification;
+            private readonly IEmailNotificationService _notification;
 
-            public EmployeeCreatedHandler(INotificationService notification)
+            public EmployeeCreatedHandler(IEmailNotificationService notification)
             {
                 _notification = notification;
             }

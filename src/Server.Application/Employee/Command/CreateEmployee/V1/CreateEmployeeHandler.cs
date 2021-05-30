@@ -5,6 +5,7 @@ using MediatR;
 using MySystem.Application.Common.Interfaces;
 using MySystem.Application.Employee.Command.CreateEmployee.V1;
 using MySystem.Domain.EntityDbo;
+using MySystem.Domain.EntityDbo.EmployeeSchema;
 using MySystem.Domain.Extensions;
 using MySystem.SharedKernel.Dto.V1;
 

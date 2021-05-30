@@ -6,6 +6,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using MySystem.Application.Common.Interfaces;
 using MySystem.Domain.EntityDbo;
+using MySystem.Domain.EntityDbo.EmployeeSchema;
 using MySystem.Domain.Extensions;
 using MySystem.SharedKernel.Dto.V1;
 

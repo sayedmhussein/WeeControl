@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Service\" />
+    <Folder Include="SecurityService\" />
     <Folder Include="NotificationService\" />
   </ItemGroup>
   <ItemGroup>
@@ -15,5 +15,6 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.6" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
+    <PackageReference Include="MailKit" Version="2.12.0" />
   </ItemGroup>
 </Project>

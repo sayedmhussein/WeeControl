@@ -27,7 +27,7 @@ namespace MySystem.Persistence
             services.AddDbContext<MySystemDbContext>(options =>
             {
                 options.EnableSensitiveDataLogging();
-                options.UseInMemoryDatabase(configuration.GetConnectionString("DbConnection"));
+                options.UseInMemoryDatabase(configuration?.GetConnectionString("DbConnection")?? "InMemoryDbName");
                 options.ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning));
             });
 

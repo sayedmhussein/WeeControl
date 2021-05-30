@@ -47,7 +47,7 @@ namespace Application.Employee.Command.RefreshEmployeeToken.V1
             }
 
             var isAllowedToLogin = await context.Employees.FirstOrDefaultAsync(x => x.Id == employee.Id && x.AccountLockArgument == null);
-            if (isAllowedToLogin == null)
+            if (isAllowedToLogin != null)
             {
                 return new ResponseDto<string>(string.Empty);
                 //Todo: Log here please

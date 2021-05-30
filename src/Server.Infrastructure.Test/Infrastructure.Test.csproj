@@ -23,11 +23,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Repository\" />
-    <Folder Include="Repository\Employee\" />
+    <ProjectReference Include="..\Server.Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Web.Infrastructure\Web.Infrastructure.csproj" />
-    <ProjectReference Include="..\Web.EfRepository\Web.EfRepository.csproj" />
+    <Folder Include="NotificationService\" />
+    <Folder Include="SecurityService\" />
   </ItemGroup>
 </Project>

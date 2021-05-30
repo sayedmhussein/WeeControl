@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using MySystem.SharedKernel.Interface;
 using Newtonsoft.Json;
 
 namespace MySystem.SharedKernel.Configuration
@@ -9,7 +10,7 @@ namespace MySystem.SharedKernel.Configuration
     {
         public static Api GetAppSetting()
         {
-            var stream = Assembly.GetAssembly(typeof(Api)).GetManifestResourceStream("MySystem.Shared.Library.Configuration.apisetting.json");
+            var stream = Assembly.GetAssembly(typeof(Api)).GetManifestResourceStream("MySystem.SharedKernel.Configuration.apisetting.json");
             if (stream == null)
                 return null;
 

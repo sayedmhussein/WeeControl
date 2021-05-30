@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using MySystem.Domain.EntityDbo;
+using MySystem.Domain.EntityDbo.ContractSchema;
 
 namespace MySystem.Persistence.Infrastructure.EfRepository.Models.Business
 {

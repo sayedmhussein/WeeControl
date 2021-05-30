@@ -5,7 +5,7 @@ using MySystem.SharedKernel.Interface;
 
 namespace MySystem.SharedKernel.Dto.V1
 {
-    public class OfficeDto : OfficeBase, IEntityDto
+    public class OfficeDto : TerritoryBase, IEntityDto
     {
         public Guid? Id { get; set; }
 

@@ -9,6 +9,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using MySystem.Application.Common.Interfaces;
 using MySystem.SharedKernel.Dto.V1;
+using MySystem.SharedKernel.ExtensionMethod;
 
 namespace Application.Employee.Command.LoginEmployee.V1
 {
@@ -16,18 +17,25 @@ namespace Application.Employee.Command.LoginEmployee.V1
     {
         private readonly IMySystemDbContext context;
         private readonly IJwtService jwtService;
-        private readonly IMediator mediator;
 
-        public LoginEmployeeHandler(IMySystemDbContext context, IJwtService jwtService, IMediator mediator)
+        public LoginEmployeeHandler(IMySystemDbContext context, IJwtService jwtService)
         {
             this.context = context;
             this.jwtService = jwtService;
-            this.mediator = mediator;
         }
 
         public async Task<ResponseDto<string>> Handle(LoginEmployeeCommand request, CancellationToken cancellationToken)
         {
-            var employee = await context.Employees.FirstOrDefaultAsync(x => x.Username == request.Payload.Username && x.Password == request.Payload.Password && x.AccountLockArgument == null);
+            if (request == null)
+            {
+                throw new ArgumentNullException();
+            }
+            else if (request.Payload == null || string.IsNullOrWhiteSpace(request.DeviceId) || request.Payload.IsValid() == false)
+            {
+                throw new BadRequestException();
+            }
+
+            var employee = await context.Employees.FirstOrDefaultAsync(x => x.Username == request.Payload.Username && x.Password == request.Payload.Password && x.AccountLockArgument == null, cancellationToken);
             if (employee == null)
             {
                 throw new NotFoundException("Username or password are not matching");
@@ -36,8 +44,10 @@ namespace Application.Employee.Command.LoginEmployee.V1
             var session = await context.EmployeeSessions.FirstOrDefaultAsync(x => x.Employee == employee && x.TerminationTs == null, cancellationToken);
             if (session == null)
             {
-                session.Employee = employee;
+                session = new ();
+                session.EmployeeId = employee.Id;
                 session.DeviceId = request.DeviceId;
+                await context.EmployeeSessions.AddAsync(session, cancellationToken);
                 await context.SaveChangesAsync(cancellationToken);
             }
 

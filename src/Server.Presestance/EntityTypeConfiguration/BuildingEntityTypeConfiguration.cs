@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MySystem.Domain.EntityDbo;
+using MySystem.Domain.EntityDbo.UnitSchema;
 
 namespace MySystem.Persistence.EntityTypeConfiguration
 {

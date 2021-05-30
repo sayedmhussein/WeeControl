@@ -25,7 +25,6 @@
   <ItemGroup>
     <Folder Include="UnitTest\" />
     <Folder Include="FunctionalTest\" />
-    <Folder Include="IntegrationTest\" />
     <Folder Include="Tools\" />
     <Folder Include="FunctionalTest\ControllersV1\" />
     <Folder Include="UnitTest\Security\" />

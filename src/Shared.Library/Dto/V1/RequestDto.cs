@@ -9,7 +9,7 @@ namespace MySystem.SharedKernel.Dto.V1
     {
         public T Payload { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Must Provide unique device id to the request.")]
         public string DeviceId { get; set; }
 
         public DateTime DeviceTs { get; set; } = DateTime.UtcNow;

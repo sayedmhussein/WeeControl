@@ -22,9 +22,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Web.Domain\Web.Domain.csproj" />
+    <ProjectReference Include="..\Server.Domain\Domain.csproj" />
+    <ProjectReference Include="..\Shared.Library\SharedKernel.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Service\" />
+    <Folder Include="Extensions\" />
   </ItemGroup>
 </Project>

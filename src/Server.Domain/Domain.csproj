@@ -6,9 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Service\" />
     <Folder Include="EntityDbo\" />
     <Folder Include="Extensions\" />
+    <Folder Include="EntityDbo\EmployeeSchema\" />
+    <Folder Include="EntityDbo\PublicSchema\" />
+    <Folder Include="EntityDbo\UnitSchema\" />
+    <Folder Include="EntityDbo\ContractSchema\" />
+    <Folder Include="EntityDbo\CustomerSchema\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Shared.Library\SharedKernel.csproj" />
