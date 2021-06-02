@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MySystem.Application.NotificationModel;
+using MySystem.Application.Models;
 
 namespace MySystem.Application.Common.Interfaces
 {

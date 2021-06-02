@@ -30,6 +30,9 @@
   <ItemGroup>
     <Folder Include="Configuration\" />
     <Folder Include="ExtensionMethods\" />
+    <Folder Include="Entites\" />
+    <Folder Include="Entites\Public\" />
+    <Folder Include="Entites\Public\Constants\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Shared.Library\SharedKernel.csproj" />

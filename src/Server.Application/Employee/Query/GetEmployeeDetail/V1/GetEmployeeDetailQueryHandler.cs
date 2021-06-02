@@ -7,6 +7,7 @@ using MySystem.Domain.EntityDbo;
 using MySystem.Domain.EntityDbo.EmployeeSchema;
 using MySystem.Domain.Extensions;
 using MySystem.SharedKernel.Dto.V1;
+using MySystem.SharedKernel.Entities.Employee.V1Dto;
 
 namespace Application.Employee.Query.GetEmployeeDetail.V1
 {

@@ -2,31 +2,32 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>MySystem.Application</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
     <Folder Include="Employee\" />
     <Folder Include="Employee\Command\" />
     <Folder Include="Employee\Query\" />
-    <Folder Include="Employee\Command\CreateEmployee\" />
+    <Folder Include="Employee\Command\AddEmployee\" />
     <Folder Include="Common\" />
     <Folder Include="Common\Interfaces\" />
-    <Folder Include="NotificationModel\" />
     <Folder Include="Employee\Command\DeleteEmployee\" />
     <Folder Include="Employee\Command\UpdateEmployee\" />
     <Folder Include="Employee\Query\GetEmployeeDetail\" />
-    <Folder Include="Employee\Command\CreateEmployee\V1\" />
+    <Folder Include="Employee\Command\AddEmployee\V1\" />
     <Folder Include="Employee\Command\DeleteEmployee\V1\" />
     <Folder Include="Employee\Command\UpdateEmployee\V1\" />
     <Folder Include="Employee\Query\GetEmployeeDetail\V1\" />
     <Folder Include="Common\Exceptions\" />
-    <Folder Include="Employee\Command\LoginEmployee\" />
-    <Folder Include="Employee\Command\LoginEmployee\V1\" />
-    <Folder Include="Employee\Command\RefreshEmployeeToken\" />
-    <Folder Include="Employee\Command\RefreshEmployeeToken\V1\" />
     <Folder Include="Common\Behaviours\" />
-    <Folder Include="Employee\Command\LogoutEmployee\" />
-    <Folder Include="Employee\Command\LogoutEmployee\V1\" />
+    <Folder Include="Models\" />
+    <Folder Include="Employee\Command\AddEmployeeClaim\" />
+    <Folder Include="Employee\Command\AddEmployeeClaim\V1\" />
+    <Folder Include="Employee\Query\GetNewToken\" />
+    <Folder Include="Employee\Query\GetRefreshedToken\" />
+    <Folder Include="Employee\Command\TerminateSession\" />
+    <Folder Include="Employee\Command\TerminateSession\V1\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="9.0.0" />

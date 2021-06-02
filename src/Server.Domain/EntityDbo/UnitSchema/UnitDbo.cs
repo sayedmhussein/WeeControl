@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using MySystem.SharedKernel.EntityBase;
-using MySystem.SharedKernel.Interface;
+using MySystem.SharedKernel.Interfaces;
 
 namespace MySystem.Domain.EntityDbo.UnitSchema
 {

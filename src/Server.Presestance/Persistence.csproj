@@ -16,8 +16,8 @@
     <Folder Include="Models\Business\" />
     <Folder Include="Repository\" />
     <Folder Include="EntityTypeConfiguration\" />
-    <Folder Include="EntityTypeConfiguration\EmployeeSchema\" />
-    <Folder Include="EntityTypeConfiguration\PublicSchema\" />
+    <Folder Include="EntityTypeConfiguration\Employee\" />
+    <Folder Include="EntityTypeConfiguration\Public\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.6" />

@@ -1,6 +1,6 @@
 ﻿using System;
 using AutoMapper;
-using MySystem.SharedKernel.Interface;
+using MySystem.SharedKernel.Interfaces;
 
 namespace MySystem.Domain.Extensions
 {

@@ -26,4 +26,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Server.Presestance\Persistence.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Employee\" />
+  </ItemGroup>
 </Project>

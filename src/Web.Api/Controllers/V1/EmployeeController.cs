@@ -1,66 +1,70 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.IO;
-//using System.Linq;
-//using System.Threading.Tasks;
-//using Microsoft.AspNetCore.Http;
-//using Microsoft.AspNetCore.Mvc;
-//using Microsoft.Extensions.Configuration;
-//using Microsoft.Extensions.Logging;
-//using MySystem.Web.EntityFramework;
-//using MySystem.Web.EntityFramework.Models.People;
-//using MySystem.Web.Shared.Dbos;
-//using MySystem.Web.Shared.Dtos.V1.Entities;
+﻿using System;
+using System.Net;
+using System.Net.Mime;
+using System.Threading.Tasks;
+using Application.Employee.Command.GetRefreshedToken.V1;
+using Application.Employee.Query.GetNewToken.V1;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using MySystem.Application.Employee.Command.TerminateSession.V1;
+using MySystem.SharedKernel.Dto.V1;
+using MySystem.SharedKernel.Interfaces;
+using MySystem.Web.Api.Security.Policy;
 
-//namespace MySystem.Web.Api.Controllers.V1
-//{
-//    [ApiController]
-//    [Route("Api/[controller]")]
-//    [ApiVersion("1.0")]
-//    public class EmployeeController : BaseController<EmployeeDto, EmployeeDbo>
-//    {
-//        private readonly ILogger<EmployeeController> logger;
-//        private readonly DataContext context;
-//        private readonly IConfiguration config;
+namespace MySystem.Web.Api.Controllers.V1
+{
+    [Route("Api/[controller]")]
+    [ApiVersion("1.0")]
+    [ApiController]
+    public class EmployeeController : Controller
+    {
+        private readonly IMediator mediatR;
 
-//        public EmployeeController(ILogger<EmployeeController> logger, DataContext context, IConfiguration config ) : base(logger, context)
-//        {
-//            this.logger = logger;
-//            this.context = context;
-//            this.config = config;
-//        }
+        public EmployeeController(IMediator mediatR)
+        {
+            this.mediatR = mediatR;
+        }
 
-//        [HttpPost("photo")]
-//        public async Task<IActionResult> OnPostUploadAsync(List<IFormFile> files)
-//        {
-//            string[] permittedExtensions = { ".jpg", ".png", ".pdf" };
+        [AllowAnonymous]
+        [HttpPost("Credentials/login")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(ResponseDto<string>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IResponseDto<>), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(IResponseDto<>), (int)HttpStatusCode.NotFound)]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<ResponseDto<string>>> LoginV1([FromBody] GetNewTokenQuery query)
+        {
+            var response = await mediatR.Send(query);
+            return Ok(response);
+        }
 
-//            if (files.TrueForAll(x => permittedExtensions.Contains(Path.GetExtension(x.FileName).ToLowerInvariant())))
-//            {
-//                long size = files.Sum(f => f.Length);
-//                string path = String.Empty;
+        [Authorize(Policy = SessionNotBlockedPolicy.Name)]
+        [HttpPost("Credentials/token")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(ResponseDto<string>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IResponseDto<>), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(IResponseDto<>), (int)HttpStatusCode.NotFound)]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<ResponseDto<string>>> RefreshTokenV1([FromBody] GetRefreshedTokenQuery query)
+        {
+            var response = await mediatR.Send(query);
+            return Ok(response);
+        }
 
-//                foreach (var formFile in files)
-//                {
-//                    if (formFile.Length > 0)
-//                    {
-//                        var filePath = Path.Combine(config["StoredFilesPath"], "EmployeePhotos",
-//                            Guid.NewGuid().ToString() + Path.GetExtension(formFile.FileName).ToLowerInvariant());
-//                        //Directory.CreateDirectory(filePath);
-//                        path = filePath;
-
-//                        using var stream = System.IO.File.Create(filePath);
-//                        await formFile.CopyToAsync(stream);
-//                    }
-//                }
-
-//                // Process uploaded files
-//                // Don't rely on or trust the FileName property without validation.
-
-//                return Ok(new { count = files.Count, size, path });
-//            }
-
-//            return BadRequest();
-//        }
-//    }
-//}
+        [Authorize(Policy = TokenRefreshmentPolicy.Name)]
+        [HttpPost("Credentials/logout")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(ResponseDto<string>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IResponseDto<>), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(IResponseDto<>), (int)HttpStatusCode.NotFound)]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult> LogoutV1([FromBody] TerminateSessionCommand command)
+        {
+            await mediatR.Send(command);
+            return Ok();
+        }
+    }
+}

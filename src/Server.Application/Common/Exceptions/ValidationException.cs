@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Application.Common.Exceptions
 {
@@ -9,6 +10,12 @@ namespace Application.Common.Exceptions
 
         public ValidationException() : base("One or more validation failures have occurred.")
         {
+        }
+
+        public ValidationException(List<string> failures)
+            : this()
+        {
+            
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using MySystem.SharedKernel.Interface;
+using MySystem.SharedKernel.Interfaces;
 using Newtonsoft.Json;
 
 namespace MySystem.SharedKernel.Configuration

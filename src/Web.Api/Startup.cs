@@ -27,6 +27,8 @@ using MySystem.Web.Api.Security.Handler;
 using MySystem.Web.Api.Security.Policy;
 using MySystem.Web.Api.Service;
 using MySystem.MySystem.Api.Middleware;
+using MySystem.Application.Common.Interfaces;
+using MySystem.Api.Service;
 
 namespace MySystem.Web.Api
 {
@@ -42,7 +44,6 @@ namespace MySystem.Web.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddControllers();
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
@@ -56,6 +57,8 @@ namespace MySystem.Web.Api
             services.AddSwaggerGen(SwaggerService.ConfigureSwaggerGen);
             AuthenticationConfig(services);
             AuthorizationConfig(services);
+
+            services.AddScoped<ICurrentUserInfo, CurrentUserInfoService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -77,8 +80,6 @@ namespace MySystem.Web.Api
             app.UseRouting();
 
             app.UseAuthentication();
-
-            app.UseMiddleware<UserInfoMiddleware>();
 
             app.UseAuthorization();
 

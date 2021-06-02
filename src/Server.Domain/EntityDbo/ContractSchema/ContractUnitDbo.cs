@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using MySystem.SharedKernel.Interface;
+using MySystem.SharedKernel.Interfaces;
 using MySystem.SharedKernel.EntityBase;
 using MySystem.Domain.EntityDbo.UnitSchema;
 

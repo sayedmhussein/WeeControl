@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using MySystem.SharedKernel.Interface;
+using MySystem.SharedKernel.Interfaces;
 using MySystem.SharedKernel.EntityBase;
 
 namespace MySystem.Domain.EntityDbo.UnitSchema

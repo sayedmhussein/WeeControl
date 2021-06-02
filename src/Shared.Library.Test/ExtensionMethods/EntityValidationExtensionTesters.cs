@@ -1,7 +1,8 @@
 ﻿using System;
-using MySystem.SharedKernel.Definition;
 using MySystem.SharedKernel.Dto.V1;
-using MySystem.SharedKernel.ExtensionMethod;
+using MySystem.SharedKernel.Entities.Public.Constants;
+using MySystem.SharedKernel.Entities.Public.V1Dto;
+using MySystem.SharedKernel.ExtensionMethods;
 using Xunit;
 
 namespace MySystem.SharedKernel.Test.ExtensionMethods
@@ -11,11 +12,13 @@ namespace MySystem.SharedKernel.Test.ExtensionMethods
         [Fact]
         public void WhenValidDto_ReturnIsValid()
         {
-            var dto = new BuildingDto() { BuildingName = "Home", CountryId = Country.Egypt };
+            var dto = new BuildingDto() { BuildingName = "Home", CountryId = Counties.List[Counties.Name.EGYPT] };
 
             var isValid = dto.IsValid();
+            var errors = dto.GetErrorMessages();
 
             Assert.True(isValid);
+            Assert.Empty(errors);
         }
 
         [Fact]
@@ -24,10 +27,10 @@ namespace MySystem.SharedKernel.Test.ExtensionMethods
             var dto = new BuildingDto() { BuildingName = "Home" };
 
             var isValid = dto.IsValid();
-            var error = dto.ErrorMessage();
+            var errors = dto.GetErrorMessages();
 
             Assert.False(isValid);
-            Assert.NotNull(error);
+            Assert.NotEmpty(errors);
         }
     }
 }

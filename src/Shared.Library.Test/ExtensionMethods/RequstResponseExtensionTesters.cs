@@ -1,6 +1,5 @@
-﻿using System;
-using MySystem.SharedKernel.Dto.V1;
-using MySystem.SharedKernel.ExtensionMethod;
+﻿using MySystem.SharedKernel.Entities.Public.V1Dto;
+using MySystem.SharedKernel.ExtensionMethods;
 using Newtonsoft.Json;
 using Xunit;
 

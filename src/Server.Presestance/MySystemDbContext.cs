@@ -6,7 +6,7 @@ using MySystem.Application.Common.Interfaces;
 using MySystem.Persistence.Infrastructure.EfRepository.Models.Business;
 using MySystem.Persistence.EntityTypeConfiguration;
 using MySystem.Domain.EntityDbo.EmployeeSchema;
-using MySystem.Persistence.EntityTypeConfiguration.EmployeeSchema;
+using MySystem.Persistence.EntityTypeConfiguration.Employee;
 using MySystem.Persistence.EntityTypeConfiguration.PublicSchema;
 using MySystem.Domain.EntityDbo.PublicSchema;
 using MySystem.Domain.EntityDbo.UnitSchema;
@@ -134,7 +134,7 @@ namespace MySystem.Persistence
                 Employees.AddRange(EmployeeDbo.InitializeList(office.Id));
                 SaveChanges();
 
-                var employee = Employees.FirstOrDefault(x => x.Username == "username");
+                var employee = Employees.FirstOrDefault(x => x.Username == "admin");
                 EmployeeClaims.AddRange(EmployeeClaimDbo.InitializeList(employee.Id));
 
                 SaveChanges();

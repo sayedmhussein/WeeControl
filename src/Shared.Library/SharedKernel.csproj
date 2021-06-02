@@ -13,13 +13,19 @@
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="EntityBase\" />
     <Folder Include="Configuration\" />
-    <Folder Include="Dto\" />
-    <Folder Include="Dto\V1\" />
-    <Folder Include="ExtensionMethod\" />
-    <Folder Include="Definition\" />
-    <Folder Include="Interface\" />
+    <Folder Include="Entites\Temp\Dto\" />
+    <Folder Include="ExtensionMethods\" />
+    <Folder Include="Interfaces\" />
+    <Folder Include="Entites\" />
+    <Folder Include="Entites\Employee\" />
+    <Folder Include="Entites\Employee\Base\" />
+    <Folder Include="Entites\Employee\V1Dto\" />
+    <Folder Include="Entites\Public\" />
+    <Folder Include="Entites\Public\Base\" />
+    <Folder Include="Entites\Public\V1Dto\" />
+    <Folder Include="Entites\Temp\" />
+    <Folder Include="Entites\Public\Constants\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />

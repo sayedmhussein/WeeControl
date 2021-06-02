@@ -4,7 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
-    <RootNamespace>Sayed.MySystem.Api.Test</RootNamespace>
+    <RootNamespace>MySystem.Web.Api.Test</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,15 +23,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="UnitTest\" />
-    <Folder Include="FunctionalTest\" />
-    <Folder Include="Tools\" />
-    <Folder Include="FunctionalTest\ControllersV1\" />
-    <Folder Include="UnitTest\Security\" />
+    <Folder Include="Temp\" />
+    <Folder Include="Temp\Security\" />
+    <Folder Include="Controller\" />
+    <Folder Include="Controller\V1\" />
+    <Folder Include="Controller\V1\Employee\" />
+    <Folder Include="Controller\V1\Employee\Credentials\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MySystem.Api\MySystem.Api.csproj" />
-    <ProjectReference Include="..\MySystem.Shared\MySystem.Shared.csproj" />
-    <ProjectReference Include="..\MySystem.EntityFramework\MySystem.EntityFramework.csproj" />
+    <ProjectReference Include="..\Web.Api\Web.Api.csproj" />
+    <ProjectReference Include="..\Shared.Library\SharedKernel.csproj" />
   </ItemGroup>
 </Project>

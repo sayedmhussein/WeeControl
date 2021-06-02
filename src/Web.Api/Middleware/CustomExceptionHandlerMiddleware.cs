@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Application.Common.Exceptions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using MySystem.Application.Common.Exceptions;
 using Newtonsoft.Json;
 
 namespace MySystem.MySystem.Api.Middleware
@@ -47,6 +48,9 @@ namespace MySystem.MySystem.Api.Middleware
                     break;
                 case NotFoundException _:
                     code = HttpStatusCode.NotFound;
+                    break;
+                case NotAllowedException:
+                    code = HttpStatusCode.Forbidden;
                     break;
             }
 

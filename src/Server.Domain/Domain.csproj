@@ -8,7 +8,7 @@
   <ItemGroup>
     <Folder Include="EntityDbo\" />
     <Folder Include="Extensions\" />
-    <Folder Include="EntityDbo\EmployeeSchema\" />
+    <Folder Include="EntityDbo\Employee\" />
     <Folder Include="EntityDbo\PublicSchema\" />
     <Folder Include="EntityDbo\UnitSchema\" />
     <Folder Include="EntityDbo\ContractSchema\" />

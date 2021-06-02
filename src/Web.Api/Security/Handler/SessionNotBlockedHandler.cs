@@ -1,9 +1,6 @@
-﻿using System;
-using System.Linq;
-using System.Runtime.CompilerServices;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using MySystem.SharedKernel.Definition;
 using MySystem.Web.Api.Security.Requirement;
 
 //[assembly: InternalsVisibleTo("MySystem.Api.UnitTest")]

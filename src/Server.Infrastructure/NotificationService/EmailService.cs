@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using MimeKit;
 using MySystem.Application.Common.Interfaces;
-using MySystem.Application.NotificationModel;
+using MySystem.Application.Models;
 
 namespace MySystem.Infrastructure.NotificationService
 {
