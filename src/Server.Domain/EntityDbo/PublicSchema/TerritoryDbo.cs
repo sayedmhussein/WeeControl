@@ -13,6 +13,7 @@ namespace MySystem.Domain.EntityDbo.PublicSchema
         public Guid Id { get; set; }
 
         public virtual TerritoryDbo ReportTo { get; set; }
+        public ICollection<TerritoryDbo> ReportingFrom { get; set; }
 
         public TerritoryDbo()
         {

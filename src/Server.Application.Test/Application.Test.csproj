@@ -35,5 +35,8 @@
     <Folder Include="Employee\Command\RefreshEmployeeToken\V1\" />
     <Folder Include="Employee\Command\AddEmployee\" />
     <Folder Include="Employee\Command\AddEmployee\V1\" />
+    <Folder Include="Employee\Query\" />
+    <Folder Include="Employee\Query\GetEmployeeTerritories\" />
+    <Folder Include="Employee\Query\GetEmployeeTerritories\V1\" />
   </ItemGroup>
 </Project>

@@ -15,6 +15,8 @@ namespace MySystem.Persistence.EntityTypeConfiguration.PublicSchema
             builder.HasComment("Offices of corporate.");
             builder.HasIndex(x => new { x.CountryId, x.OfficeName }).IsUnique(true);
 
+            builder.HasMany(x => x.ReportingFrom).WithOne(x => x.ReportTo).HasForeignKey(x => x.ReportToId);
+
             builder.Property(x => x.ReportToId).HasComment("Local inhertance from this table primay key.");
 
             if (MySystemDbContext.DbFacade.IsNpgsql())

@@ -5,7 +5,7 @@ using System.Security.Claims;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using MySystem.Application.Common.Interfaces;
-using MySystem.Application.Employee.Query.GetEmployeeTerritories;
+using MySystem.Application.Employee.Query.GetEmployeeTerritories.V1;
 
 namespace MySystem.Api.Service
 {
@@ -33,7 +33,12 @@ namespace MySystem.Api.Service
             {
                 if (officeIds == null)
                 {
-                    officeIds = mediatR.Send(new GetEmployeeTerritoriesQuery() { SessionId = (Guid)SessionId }).GetAwaiter().GetResult();
+                    var bla = mediatR.Send(new GetEmployeeTerritoriesQuery() { SessionId = (Guid)SessionId }).GetAwaiter().GetResult()?.Payload;
+                    officeIds = new List<Guid>();
+                    foreach (var shit in bla)
+                    {
+                        officeIds.Append(shit.TerritoryId);
+                    }
                 }
 
                 return officeIds;

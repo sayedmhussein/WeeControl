@@ -1,34 +1,21 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using Application;
-using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Versioning;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using MySystem.Api.Service;
+using MySystem.Application.Common.Interfaces;
 using MySystem.Infrastructure;
-using MySystem.Infrastructure.SecurityService;
+using MySystem.MySystem.Api.Middleware;
 using MySystem.Persistence;
 using MySystem.Web.Api.Security.Handler;
 using MySystem.Web.Api.Security.Policy;
 using MySystem.Web.Api.Service;
-using MySystem.MySystem.Api.Middleware;
-using MySystem.Application.Common.Interfaces;
-using MySystem.Api.Service;
 
 namespace MySystem.Web.Api
 {
@@ -59,6 +46,7 @@ namespace MySystem.Web.Api
             AuthorizationConfig(services);
 
             services.AddScoped<ICurrentUserInfo, CurrentUserInfoService>();
+            services.AddSingleton<IJwtService>(provider => new JwtService(Configuration["Jwt:Key"]));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
