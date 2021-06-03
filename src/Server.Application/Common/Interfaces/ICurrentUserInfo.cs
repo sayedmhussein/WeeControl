@@ -8,7 +8,7 @@ namespace MySystem.Application.Common.Interfaces
     {
         Guid? SessionId { get; }
 
-        Lazy<IEnumerable<Guid>> OfficeIds { get; }
+        IEnumerable<Guid> TerritoriesId { get; }
 
         IEnumerable<Claim> Claims { get; }
     }

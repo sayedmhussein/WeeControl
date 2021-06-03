@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Testing;
-using MySystem.SharedKernel.Dto.V1;
+using MySystem.SharedKernel.Entities.Public.V1Dto;
 using Xunit;
 
 namespace MySystem.Web.Api.Test.Controller.V1.Employee.Credentials

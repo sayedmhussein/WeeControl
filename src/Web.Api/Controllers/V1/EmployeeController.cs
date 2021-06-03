@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using Application.Employee.Command.GetRefreshedToken.V1;
@@ -7,8 +6,10 @@ using Application.Employee.Query.GetNewToken.V1;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MySystem.Application.Employee.Command.AddEmployee.V1;
 using MySystem.Application.Employee.Command.TerminateSession.V1;
-using MySystem.SharedKernel.Dto.V1;
+using MySystem.SharedKernel.Entities.Employee.V1Dto;
+using MySystem.SharedKernel.Entities.Public.V1Dto;
 using MySystem.SharedKernel.Interfaces;
 using MySystem.Web.Api.Security.Policy;
 
@@ -26,6 +27,22 @@ namespace MySystem.Web.Api.Controllers.V1
             this.mediatR = mediatR;
         }
 
+        [Authorize(Policy = AbleToAddNewEmployeePolicy.Name)]
+        [HttpPost]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(ResponseDto<string>), (int)HttpStatusCode.Created)]
+        [ProducesResponseType(typeof(IResponseDto<>), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(IResponseDto<>), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(IResponseDto<>), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(IResponseDto<>), (int)HttpStatusCode.Forbidden)]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<ResponseDto<EmployeeDto>>> AddEmployeeV1([FromBody] AddEmployeeCommand command)
+        {
+            var response = await mediatR.Send(command);
+            return Created("Api/Employee/" + response.Payload.Id, response);
+        }
+
         [AllowAnonymous]
         [HttpPost("Credentials/login")]
         [Consumes(MediaTypeNames.Application.Json)]
@@ -40,7 +57,7 @@ namespace MySystem.Web.Api.Controllers.V1
             return Ok(response);
         }
 
-        [Authorize(Policy = SessionNotBlockedPolicy.Name)]
+        //[Authorize(Policy = SessionNotBlockedPolicy.Name)]
         [HttpPost("Credentials/token")]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
@@ -54,7 +71,7 @@ namespace MySystem.Web.Api.Controllers.V1
             return Ok(response);
         }
 
-        [Authorize(Policy = TokenRefreshmentPolicy.Name)]
+        //[Authorize(Policy = TokenRefreshmentPolicy.Name)]
         [HttpPost("Credentials/logout")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResponseDto<string>), (int)HttpStatusCode.OK)]

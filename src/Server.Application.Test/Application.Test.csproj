@@ -29,8 +29,8 @@
   <ItemGroup>
     <Folder Include="Employee\" />
     <Folder Include="Employee\Command\" />
-    <Folder Include="Employee\Command\LoginEmployee\" />
-    <Folder Include="Employee\Command\LoginEmployee\V1\" />
+    <Folder Include="Employee\Command\AddEmployeeSession\" />
+    <Folder Include="Employee\Command\AddEmployeeSession\V1\" />
     <Folder Include="Employee\Command\RefreshEmployeeToken\" />
     <Folder Include="Employee\Command\RefreshEmployeeToken\V1\" />
     <Folder Include="Employee\Command\AddEmployee\" />

@@ -1,16 +1,13 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
-using Application.Common.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using MySystem.Application.Common.Exceptions;
 using MySystem.Application.Common.Interfaces;
-using MySystem.Domain.EntityDbo;
 using MySystem.Domain.EntityDbo.EmployeeSchema;
 using MySystem.Domain.Extensions;
-using MySystem.SharedKernel.Dto.V1;
-using MySystem.SharedKernel.Entities.Public.V1Dto;
 using MySystem.SharedKernel.Entities.Employee.V1Dto;
+using MySystem.SharedKernel.Entities.Public.V1Dto;
 
 namespace Application.Employee.Command.UpdateEmployee.V1
 {

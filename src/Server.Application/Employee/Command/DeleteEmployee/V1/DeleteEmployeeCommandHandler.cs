@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Common.Exceptions;
 using MediatR;
+using MySystem.Application.Common.Exceptions;
 using MySystem.Application.Common.Interfaces;
 
 namespace Application.Employee.Command.DeleteEmployee.V1

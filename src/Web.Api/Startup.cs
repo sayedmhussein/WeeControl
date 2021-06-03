@@ -120,7 +120,7 @@ namespace MySystem.Web.Api
         {
             services.AddAuthorization(options =>
             {
-                options.AddPolicy(SessionNotBlockedPolicy.Name, SessionNotBlockedPolicy.Policy);
+                options.AddPolicy(AbleToAddNewEmployeePolicy.Name, AbleToAddNewEmployeePolicy.Policy);
             });
 
             services.AddSingleton<IAuthorizationHandler, TokenRefreshmentHandler>();

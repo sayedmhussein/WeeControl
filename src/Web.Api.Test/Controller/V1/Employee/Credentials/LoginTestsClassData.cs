@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Net;
-using MySystem.SharedKernel.Dto.V1;
+using MySystem.SharedKernel.Entities.Employee.V1Dto;
+using MySystem.SharedKernel.Entities.Public.V1Dto;
 
 namespace MySystem.Web.Api.Test.Controller.V1.Employee.Credentials
 {

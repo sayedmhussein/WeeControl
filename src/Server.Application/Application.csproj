@@ -28,6 +28,9 @@
     <Folder Include="Employee\Query\GetRefreshedToken\" />
     <Folder Include="Employee\Command\TerminateSession\" />
     <Folder Include="Employee\Command\TerminateSession\V1\" />
+    <Folder Include="Employee\Query\GetEmployeeTerritories\" />
+    <Folder Include="Employee\Command\AddEmployeeSession\" />
+    <Folder Include="Employee\Command\AddEmployeeSession\V1\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="9.0.0" />

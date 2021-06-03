@@ -8,7 +8,9 @@ namespace MySystem.SharedKernel.Entities.Public.Constants
         public static IDictionary<ClaimType, string> Types => new Dictionary<ClaimType, string>()
         {
             { ClaimType.Session, "sss" },
-            { ClaimType.Office, "ofc" }
+            { ClaimType.Office, "ofc" },
+
+            { ClaimType.HumanResources, "hr" }
         };
 
         public static IDictionary<ClaimTag, string> Tags => new Dictionary<ClaimTag, string>()
@@ -24,7 +26,9 @@ namespace MySystem.SharedKernel.Entities.Public.Constants
         public enum ClaimType
         {
             Session,
-            Office
+            Office,
+
+            HumanResources
         }
 
         public enum ClaimTag

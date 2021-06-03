@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Application.Common.Exceptions
+namespace MySystem.Application.Common.Exceptions
 {
     public class DeleteFailureException : Exception
     {
