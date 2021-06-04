@@ -11,6 +11,7 @@ using MySystem.Persistence.EntityTypeConfiguration.PublicSchema;
 using MySystem.Domain.EntityDbo.PublicSchema;
 using MySystem.Domain.EntityDbo.UnitSchema;
 using MySystem.Domain.EntityDbo.ContractSchema;
+using MySystem.SharedKernel.Entities.Public.Constants;
 
 namespace MySystem.Persistence
 {
@@ -25,10 +26,7 @@ namespace MySystem.Persistence
             //Database.EnsureDeleted(); //During Initial Development Only
             Database.EnsureCreated(); //During Initial Development Only
 
-            SeedBasicDbs();
-            SeedPeople();
-            SeedComponentDbs();
-            SeedBusinessDbs(); 
+            AddSuperUser();
         }
 
         //Basic Schema
@@ -83,62 +81,28 @@ namespace MySystem.Persistence
             ContractUnit.CreateContractUnitModel(this, modelBuilder);
         }
 
-        private void SeedBasicDbs()
+        private void AddSuperUser()
         {
-            if (Territories.Any() == false)
+            var territory = new TerritoryDbo()
             {
-                Territories.AddRange(TerritoryDbo.InitializeList());
-                SaveChanges();
-            }
+                CountryId = Counties.List[Counties.Name.USA],
+                OfficeName = "Head Office in USA"
+            };
+            Territories.Add(territory);
+            SaveChanges();
 
-            if (Buildings.Any() == false)
+            var superuser = new EmployeeDbo()
             {
-                Buildings.AddRange(BuildingDbo.InitializeList());
-                SaveChanges();
-            }
-        }
-
-        private void SeedBusinessDbs()
-        {
-            if (Contracts.Any() == false)
-            {
-                var office = Territories.FirstOrDefault();
-                var sales = Employees.FirstOrDefault();
-                Contracts.AddRange(Contract.GetContractList(office.Id, sales.Id));
-                SaveChanges();
-            }
-
-            //if (ContractUnits.Any() == false)
-            //{
-            //    var contract = Contracts.First().Id;
-            //    var unit = Units.First().Id;
-            //    ContractUnits.AddRange(ContractUnit.GetContractUnitList(contract, unit));
-            //    SaveChanges();
-            //}
-        }
-
-        private void SeedComponentDbs()
-        {
-            //if (Units.Any() == false)
-            //{
-            //    //Units.AddRange(Unit.GetUnitList(Buildings.First().Id));
-            //    SaveChanges();
-            //}
-        }
-
-        private void SeedPeople()
-        {
-            if (Employees.Any() == false)
-            {
-                var office = Territories.FirstOrDefault();
-                Employees.AddRange(EmployeeDbo.InitializeList(office.Id));
-                SaveChanges();
-
-                var employee = Employees.FirstOrDefault(x => x.Username == "admin");
-                EmployeeClaims.AddRange(EmployeeClaimDbo.InitializeList(employee.Id));
-
-                SaveChanges();
-            }
+                EmployeeTitle = Titles.List[Titles.Title.Mr],
+                FirstName = "Admin",
+                LastName = "Admin",
+                Gender = Genders.List[Genders.Gender.Male],
+                TerritoryId = territory.Id,
+                Username = "admin",
+                Password = "admin"
+            };
+            Employees.Add(superuser);
+            SaveChanges();
         }
     }
 }

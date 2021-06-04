@@ -25,6 +25,7 @@
     <Folder Include="Controllers\V1\" />
     <Folder Include="Middleware\" />
     <Folder Include="Security\" />
+    <Folder Include="Security\Policy\Employee\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Shared.Library\SharedKernel.csproj">
@@ -42,5 +43,8 @@
     <ProjectReference Include="..\Server.Infrastructure\Infrastructure.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Security\Policy\Employee\" />
   </ItemGroup>
 </Project>

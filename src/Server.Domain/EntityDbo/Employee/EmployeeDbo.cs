@@ -19,23 +19,6 @@ namespace MySystem.Domain.EntityDbo.EmployeeSchema
         public virtual ICollection<EmployeeClaimDbo> Claims { get; set; }
         public virtual ICollection<EmployeeIdentityDbo> Identities { get; set; }
         public virtual ICollection<EmployeeSessionDbo> Sessions { get; set; }
-
-        public static IEnumerable<EmployeeDbo> InitializeList(Guid officeid)
-        {
-            return new List<EmployeeDbo>()
-            {
-                new EmployeeDbo()
-                {
-                    EmployeeTitle = Titles.List[Titles.Title.Mr],
-                    FirstName = "Admin",
-                    LastName = "Admin",
-                    Gender = Genders.List[Genders.Gender.Male],
-                    TerritoryId = officeid,
-                    Username = "admin",
-                    Password = "admin"
-                }
-            };
-        }
     }
    
 }

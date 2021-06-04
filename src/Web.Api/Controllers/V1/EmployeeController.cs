@@ -17,6 +17,7 @@ using MySystem.SharedKernel.Entities.Employee.V1Dto;
 using MySystem.SharedKernel.Entities.Public.V1Dto;
 using MySystem.SharedKernel.Interfaces;
 using MySystem.Web.Api.Security.Policy;
+using MySystem.Web.Api.Security.Policy.Employee;
 
 namespace MySystem.Web.Api.Controllers.V1
 {
@@ -34,21 +35,57 @@ namespace MySystem.Web.Api.Controllers.V1
             this.jwtService = jwtService;
         }
 
+        #region Employee
         [Authorize(Policy = AbleToAddNewEmployeePolicy.Name)]
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(ResponseDto<string>), (int)HttpStatusCode.Created)]
-        [ProducesResponseType(typeof(IResponseDto<>), (int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(IResponseDto<>), (int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(IResponseDto<>), (int)HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(IResponseDto<>), (int)HttpStatusCode.Forbidden)]
+        [ProducesResponseType((int)HttpStatusCode.Created)]
+        [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.Conflict)]
+        [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.Forbidden)]
         [MapToApiVersion("1.0")]
         public async Task<ActionResult<ResponseDto<EmployeeDto>>> AddEmployeeV1([FromBody] AddEmployeeCommand command)
         {
             var response = await mediatR.Send(command);
             return Created("Api/[controller]/" + response.Payload.Id, response);
         }
+
+        [Authorize(Policy = AbleToEditExisingEmployeePolicy.Name)]
+        [HttpPut]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.Forbidden)]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<ResponseDto<EmployeeDto>>> EditEmployeeV1([FromBody] AddEmployeeCommand command)
+        {
+            throw new NotImplementedException();
+        }
+
+        [Authorize(Policy = AbleToDeleteExisingEmployeePolicy.Name)]
+        [HttpDelete("{id}")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.Forbidden)]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<ResponseDto<EmployeeDto>>> DeleteEmployeeV1(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #region Session
+        #endregion
+
 
         [HttpGet("Territories")]
         [Consumes(MediaTypeNames.Application.Json)]

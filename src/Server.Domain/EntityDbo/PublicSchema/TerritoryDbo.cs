@@ -29,17 +29,5 @@ namespace MySystem.Domain.EntityDbo.PublicSchema
         {
             ReportToId = parentid;
         }
-
-        public static IEnumerable<TerritoryDbo> InitializeList()
-        {
-            return new List<TerritoryDbo>()
-            {
-                new TerritoryDbo()
-                {
-                CountryId = Counties.List[Counties.Name.USA],
-                OfficeName = "Head Office in USA"
-                }
-            };
-        }
     }
 }

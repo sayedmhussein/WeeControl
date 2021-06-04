@@ -9,12 +9,12 @@ namespace MySystem.SharedKernel.ExtensionMethods
     public static class RequestResponseExtension
     {
         #region RequestDto
-        public static string SerializeToJson<T>(this IRequestDto<T> requestDto)
+        public static string SerializeToJson<T>(this IPayload<T> requestDto)
         {
             return JsonConvert.SerializeObject(requestDto);
         }
 
-        public static HttpContent SerializeToHttpContent<T>(this IRequestDto<T> requestDto)
+        public static HttpContent SerializeToHttpContent<T>(this IPayload<T> requestDto)
         {
             var json = SerializeToJson(requestDto);
             return new StringContent(json, Encoding.UTF8, "application/json");

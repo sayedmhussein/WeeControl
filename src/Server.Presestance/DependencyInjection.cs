@@ -22,12 +22,12 @@ namespace MySystem.Persistence
             return services;
         }
 
-        public static IServiceCollection AddPersistenceAsInMemory(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddPersistenceAsInMemory(this IServiceCollection services, string databaseName)
         {
             services.AddDbContext<MySystemDbContext>(options =>
             {
                 options.EnableSensitiveDataLogging();
-                options.UseInMemoryDatabase(configuration?.GetConnectionString("DbConnection")?? "InMemoryDbName");
+                options.UseInMemoryDatabase(databaseName ?? "InMemoryDatabase");
                 options.ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning));
             });
 

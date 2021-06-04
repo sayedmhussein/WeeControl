@@ -17,7 +17,7 @@ namespace MySystem.Persistence.Test
             configMock.Setup(x => x["DbConnection"]).Returns("Connection");
 
             var services = new ServiceCollection();
-            services.AddPersistenceAsInMemory(configMock.Object);
+            services.AddPersistenceAsInMemory("Name");
             var provider = services.BuildServiceProvider();
             var service = provider.GetService<IMySystemDbContext>();
 

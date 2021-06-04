@@ -12,18 +12,31 @@ namespace MySystem.Api.Service
     public class CurrentUserInfoService : ICurrentUserInfo
     {
         private readonly IMediator mediatR;
+        private Guid? sessionid;
         private IEnumerable<Guid> officeIds;
+        
 
         public CurrentUserInfoService(IHttpContextAccessor httpContextAccessor, IMediator mediatR)
         {
             Claims = httpContextAccessor.HttpContext.User.Claims;
 
-            var sessionid = Claims.FirstOrDefault(c => c.Type == SharedKernel.Entities.Public.Constants.Claims.Types[SharedKernel.Entities.Public.Constants.Claims.ClaimType.Session])?.Value;
-            _ = Guid.TryParse(sessionid, out Guid SessionId);
             this.mediatR = mediatR;
         }
 
-        public Guid? SessionId { get; private set; }
+        public Guid? SessionId
+        {
+            get
+            {
+                if (sessionid == null || sessionid == Guid.Empty)
+                {
+                    var sessionid_ = Claims.FirstOrDefault(c => c.Type == SharedKernel.Entities.Public.Constants.Claims.Types[SharedKernel.Entities.Public.Constants.Claims.ClaimType.Session])?.Value;
+                    _ = Guid.TryParse(sessionid_, out Guid sessionId__);
+                    sessionid = sessionId__;
+                }
+
+                return sessionid;
+            }
+        }
 
         public IEnumerable<Claim> Claims { get; private set; }
 

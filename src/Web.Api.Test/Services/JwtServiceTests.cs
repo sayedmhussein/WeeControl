@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using MySystem.Infrastructure.SecurityService;
+using MySystem.Web.Api.Service;
 using Xunit;
 
-namespace MySystem.Infrastructure.Test.SecurityService
+namespace MySystem.Api.Test.Services
 {
     public class JwtServiceTests
     {

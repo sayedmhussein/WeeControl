@@ -29,9 +29,14 @@
     <Folder Include="Controller\V1\" />
     <Folder Include="Controller\V1\Employee\" />
     <Folder Include="Controller\V1\Employee\Credentials\" />
+    <Folder Include="Services\" />
+    <Folder Include="Controller\Employee\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Web.Api\Web.Api.csproj" />
     <ProjectReference Include="..\Shared.Library\SharedKernel.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Controller\Employee\" />
   </ItemGroup>
 </Project>

@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Authorization;
 using MySystem.SharedKernel.Entities.Public.Constants;
 using MySystem.Web.Api.Security.Requirement;
 
-namespace MySystem.Web.Api.Security.Policy
+namespace MySystem.Web.Api.Security.Policy.Employee
 {
-    public static class AbleToAddNewEmployeePolicy
+    public static class AbleToDeleteExisingEmployeePolicy
     {
-        public const string Name = "AbleToAddNewEmployeePolicy"; 
+        public const string Name = "AbleToDeleteExisingEmployeePolicy"; 
 
         public static AuthorizationPolicy Policy
         {

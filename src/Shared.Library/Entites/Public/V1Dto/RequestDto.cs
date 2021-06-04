@@ -4,10 +4,8 @@ using MySystem.SharedKernel.Interfaces;
 
 namespace MySystem.SharedKernel.Entities.Public.V1Dto
 {
-    public class RequestDto<T> : IRequestDto<T>
+    public class RequestDto : IDto
     {
-        public T Payload { get; set; }
-
         [Required]
         public string DeviceId { get; set; }
 
@@ -18,6 +16,11 @@ namespace MySystem.SharedKernel.Entities.Public.V1Dto
         public double? Latitude { get; set; }
 
         public double? Longitude { get; set; }
+    }
+
+    public class RequestDto<T> : RequestDto, IPayload<T>
+    {
+        public T Payload { get; set; }
 
         public RequestDto()
         {

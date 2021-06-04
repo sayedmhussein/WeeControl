@@ -15,6 +15,7 @@ using MySystem.MySystem.Api.Middleware;
 using MySystem.Persistence;
 using MySystem.Web.Api.Security.Handler;
 using MySystem.Web.Api.Security.Policy;
+using MySystem.Web.Api.Security.Policy.Employee;
 using MySystem.Web.Api.Service;
 
 namespace MySystem.Web.Api
@@ -42,11 +43,12 @@ namespace MySystem.Web.Api
 
             services.AddApiVersioning(ApiVersionService.ConfigureApiVersioning); //VersioningConfig(services);
             services.AddSwaggerGen(SwaggerService.ConfigureSwaggerGen);
-            AuthenticationConfig(services);
-            AuthorizationConfig(services);
 
             services.AddScoped<ICurrentUserInfo, CurrentUserInfoService>();
             services.AddSingleton<IJwtService>(provider => new JwtService(Configuration["Jwt:Key"]));
+
+            AuthenticationConfig(services);
+            AuthorizationConfig(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -112,7 +114,6 @@ namespace MySystem.Web.Api
             });
 
             services.AddSingleton<IAuthorizationHandler, TokenRefreshmentHandler>();
-            services.AddScoped<IAuthorizationHandler, SessionNotBlockedHandler>();
         }
     }
 }
