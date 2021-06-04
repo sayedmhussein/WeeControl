@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
@@ -12,7 +14,23 @@ namespace MySystem.Web.Api.Service
     {
         public static void ConfigureSwaggerGen(SwaggerGenOptions swaggerOptions)
         {
-            swaggerOptions.SwaggerDoc("v1", new OpenApiInfo { Title = "MySystem.Api", Version = "v1" });
+            swaggerOptions.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Title = "MySystem.Api",
+                Version = "v1",
+                Description = "Api for MySystem Application to serve clients.",
+                Contact = new OpenApiContact()
+                {
+                    Name = "Sayed M. Hussein",
+                    Email = "Sayed.Hussein@gmx.com"
+                }
+            });
+
+            // Set the comments path for the Swagger JSON and UI.
+            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+            swaggerOptions.IncludeXmlComments(xmlPath);
+
             swaggerOptions.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 Description = "JWT Authorization header using the Bearer scheme (Example: 'Bearer 12345abcdef')",

@@ -32,6 +32,8 @@
     <Folder Include="Employee\Command\AddEmployeeSession\" />
     <Folder Include="Employee\Command\AddEmployeeSession\V1\" />
     <Folder Include="Employee\Query\GetEmployeeTerritories\V1\" />
+    <Folder Include="Employee\Query\GetEmployeeClaims\" />
+    <Folder Include="Employee\Query\GetEmployeeClaims\V1\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="9.0.0" />
@@ -41,5 +43,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Shared.Library\SharedKernel.csproj" />
     <ProjectReference Include="..\Server.Domain\Domain.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Employee\Query\GetEmployeeClaims\" />
+    <None Remove="Employee\Query\GetEmployeeClaims\V1\" />
   </ItemGroup>
 </Project>

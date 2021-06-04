@@ -26,7 +26,10 @@ namespace MySystem.Persistence
             //Database.EnsureDeleted(); //During Initial Development Only
             Database.EnsureCreated(); //During Initial Development Only
 
-            AddSuperUser();
+            if (Territories.Any() == false)
+            {
+                AddSuperUser();
+            }
         }
 
         //Basic Schema
