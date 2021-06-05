@@ -23,6 +23,10 @@ namespace MySystem.Web.Api.Service
                 {
                     Name = "Sayed M. Hussein",
                     Email = "Sayed.Hussein@gmx.com"
+                },
+                License = new OpenApiLicense()
+                {
+                    Name = "MIT License"
                 }
             });
 
