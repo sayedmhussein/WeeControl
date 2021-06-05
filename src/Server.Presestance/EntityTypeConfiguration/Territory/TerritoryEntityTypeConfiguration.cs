@@ -13,7 +13,7 @@ namespace MySystem.Persistence.EntityTypeConfiguration.Territory
             builder.HasComment("Territory of corporate.");
             builder.HasIndex(x => new { x.CountryId, x.Name }).IsUnique(true);
 
-            builder.HasMany(x => x.ReportingFrom).WithOne(x => x.ReportTo).HasForeignKey(x => x.ReportToId);
+            builder.HasMany(x => x.ReportingFrom).WithOne(x => x.ReportTo).HasForeignKey(x => x.ReportToId).OnDelete(DeleteBehavior.Restrict);
 
             builder.Property(x => x.ReportToId).HasComment("Local inhertance from this table primay key.");
 

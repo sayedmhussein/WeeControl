@@ -6,9 +6,9 @@ using MySystem.Web.Api.Security.TokenRefreshment;
 
 namespace MySystem.Web.Api.Security.Policies.Territory
 {
-    public static class CanAddEditTerritoryPolicy
+    public static class CanDeleteTerritoryPolicy
     {
-        public const string Name = "CanEditTerritoryPolicy"; 
+        public const string Name = "CanDeleteTerritoryPolicy"; 
 
         public static AuthorizationPolicy Policy
         {

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using MediatR;
 
-namespace MySystem.Application.Territory.Command.DeleteTerritory
+namespace MySystem.Application.Territory.Command.DeleteTerritories
 {
-    public class DeleteTerritoryV1Command : IRequest
+    public class DeleteTerritoriesV1Command : IRequest
     {
         public List<Guid> TerritoryIds { get; set; }
     }

@@ -14,7 +14,6 @@ using MySystem.Infrastructure;
 using MySystem.MySystem.Api.Middleware;
 using MySystem.MySystem.Api.Service;
 using MySystem.Persistence;
-using MySystem.Web.Api.Security.Policies.Employee;
 using MySystem.Web.Api.Security.TokenRefreshment;
 using MySystem.Web.Api.Service;
 
@@ -110,17 +109,6 @@ namespace MySystem.Web.Api
                     },
                 };
             });
-        }
-
-        
-        private void AuthorizationConfig(IServiceCollection services)
-        {
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy(AbleToAddNewEmployeePolicy.Name, AbleToAddNewEmployeePolicy.Policy);
-            });
-
-            services.AddSingleton<IAuthorizationHandler, TokenRefreshmentHandler>();
         }
     }
 }

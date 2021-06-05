@@ -9,18 +9,18 @@ using MySystem.Domain.EntityDbo.PublicSchema;
 using MySystem.Domain.Extensions;
 using MySystem.SharedKernel.Entities.Territory.V1Dto;
 
-namespace MySystem.Application.Territory.Command.AddTerritory
+namespace MySystem.Application.Territory.Command.AddOrEditTerritories
 {
-    public class AddTerritoryV1Handler : IRequestHandler<AddTerritoryV1Command, IEnumerable<TerritoryDto>>
+    public class AddOrEditTerritoriesV1Handler : IRequestHandler<AddOrEditTerritoriesV1Command, IEnumerable<TerritoryDto>>
     {
         private readonly IMySystemDbContext context;
 
-        public AddTerritoryV1Handler(IMySystemDbContext context)
+        public AddOrEditTerritoriesV1Handler(IMySystemDbContext context)
         {
             this.context = context;
         }
 
-        public async Task<IEnumerable<TerritoryDto>> Handle(AddTerritoryV1Command request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<TerritoryDto>> Handle(AddOrEditTerritoriesV1Command request, CancellationToken cancellationToken)
         {
             var responses = new List<TerritoryDto>();
 
