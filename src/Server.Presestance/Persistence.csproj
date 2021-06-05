@@ -12,12 +12,9 @@
     <LangVersion>9.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="Models\Business\" />
-    <Folder Include="Repository\" />
     <Folder Include="EntityTypeConfiguration\" />
     <Folder Include="EntityTypeConfiguration\Employee\" />
-    <Folder Include="EntityTypeConfiguration\Public\" />
+    <Folder Include="EntityTypeConfiguration\Territory\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.6" />
@@ -33,5 +30,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Shared.Library\SharedKernel.csproj" />
     <ProjectReference Include="..\Server.Application\Application.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="EntityTypeConfiguration\Territory\" />
   </ItemGroup>
 </Project>

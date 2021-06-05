@@ -11,9 +11,8 @@ namespace MySystem.Application.Common.Interfaces
 {
     public interface IMySystemDbContext
     {
-        //Basic Schema
+        //Territory Schema
         DbSet<TerritoryDbo> Territories { get; set; }
-        DbSet<BuildingDbo> Buildings { get; set; }
 
         //Employee Schema
         DbSet<EmployeeDbo> Employees { get; set; }
@@ -23,13 +22,6 @@ namespace MySystem.Application.Common.Interfaces
         DbSet<EmployeeSessionDbo> EmployeeSessions { get; set; }
         DbSet<EmployeeSessionLogDbo> EmployeeSessionLogs { get; set; }
 
-
-        //Component Schema
-        DbSet<UnitDbo> Units { get; set; }
-
-        //Business Schema
-        DbSet<ContractDbo> Contracts { get; set; }
-        DbSet<ContractUnitDbo> ContractUnits { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }

@@ -12,10 +12,10 @@ using MySystem.Api.Service;
 using MySystem.Application.Common.Interfaces;
 using MySystem.Infrastructure;
 using MySystem.MySystem.Api.Middleware;
+using MySystem.MySystem.Api.Service;
 using MySystem.Persistence;
-using MySystem.Web.Api.Security.Handler;
-using MySystem.Web.Api.Security.Policy;
-using MySystem.Web.Api.Security.Policy.Employee;
+using MySystem.Web.Api.Security.Policies.Employee;
+using MySystem.Web.Api.Security.TokenRefreshment;
 using MySystem.Web.Api.Service;
 
 namespace MySystem.Web.Api
@@ -41,14 +41,18 @@ namespace MySystem.Web.Api
             services.AddInfrastructure(Configuration);
             services.AddPersistence(Configuration);
 
-            services.AddApiVersioning(ApiVersionService.ConfigureApiVersioning); //VersioningConfig(services);
+            services.AddApiVersioning(ApiVersionService.ConfigureApiVersioning);
             services.AddSwaggerGen(SwaggerService.ConfigureSwaggerGen);
 
-            services.AddScoped<ICurrentUserInfo, CurrentUserInfoService>();
+            services.AddScoped<ICurrentUserInfo, UserInfoService>();
             services.AddSingleton<IJwtService>(provider => new JwtService(Configuration["Jwt:Key"]));
 
             AuthenticationConfig(services);
-            AuthorizationConfig(services);
+
+
+            //AuthorizationConfig(services);
+            services.AddSingleton<IAuthorizationHandler, TokenRefreshmentHandler>();
+            services.AddAuthorization(AuthorizationService.ConfigureAuthorizationOptions);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,6 +70,8 @@ namespace MySystem.Web.Api
             }
 
             app.UseCustomExceptionHandler();
+
+            app.UseExternalMessagingHandler();
 
             app.UseRouting();
 
@@ -106,6 +112,7 @@ namespace MySystem.Web.Api
             });
         }
 
+        
         private void AuthorizationConfig(IServiceCollection services)
         {
             services.AddAuthorization(options =>

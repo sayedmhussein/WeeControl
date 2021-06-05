@@ -6,7 +6,6 @@ using System.Net;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using Application.Employee.Command.GetRefreshedToken.V1;
-using Application.Employee.Query.GetNewToken.V1;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -16,13 +15,11 @@ using MySystem.Application.Employee.Command.AddEmployee.V1;
 using MySystem.Application.Employee.Command.AddEmployeeSession.V1;
 using MySystem.Application.Employee.Command.TerminateSession.V1;
 using MySystem.Application.Employee.Query.GetEmployeeClaims.V1;
-using MySystem.Application.Employee.Query.GetEmployeeTerritories.V1;
-using MySystem.SharedKernel.Entites.Employee.V1Dto;
 using MySystem.SharedKernel.Entities.Employee.V1Dto;
 using MySystem.SharedKernel.Entities.Public.Constants;
 using MySystem.SharedKernel.Entities.Public.V1Dto;
 using MySystem.SharedKernel.Interfaces;
-using MySystem.Web.Api.Security.Policy.Employee;
+using MySystem.Web.Api.Security.Policies.Employee;
 
 namespace MySystem.Web.Api.Controllers.V1
 {
@@ -202,6 +199,7 @@ namespace MySystem.Web.Api.Controllers.V1
         }
 
         [HttpPut("Identity/{employeeid}/Attachment")]
+        //[Consumes("multipart / form - data")]
         public async Task<ActionResult> PutEmployeeIdentity(Guid employeeid, List<IFormFile> files)
         {
             throw new NotImplementedException();

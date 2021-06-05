@@ -28,12 +28,16 @@
     <Folder Include="Employee\Query\GetRefreshedToken\" />
     <Folder Include="Employee\Command\TerminateSession\" />
     <Folder Include="Employee\Command\TerminateSession\V1\" />
-    <Folder Include="Employee\Query\GetEmployeeTerritories\" />
     <Folder Include="Employee\Command\AddEmployeeSession\" />
     <Folder Include="Employee\Command\AddEmployeeSession\V1\" />
-    <Folder Include="Employee\Query\GetEmployeeTerritories\V1\" />
     <Folder Include="Employee\Query\GetEmployeeClaims\" />
     <Folder Include="Employee\Query\GetEmployeeClaims\V1\" />
+    <Folder Include="Territory\" />
+    <Folder Include="Territory\Command\" />
+    <Folder Include="Territory\Query\" />
+    <Folder Include="Territory\Query\GetTerritories\" />
+    <Folder Include="Territory\Command\AddTerritory\" />
+    <Folder Include="Territory\Command\DeleteTerritory\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="9.0.0" />
@@ -47,5 +51,11 @@
   <ItemGroup>
     <None Remove="Employee\Query\GetEmployeeClaims\" />
     <None Remove="Employee\Query\GetEmployeeClaims\V1\" />
+    <None Remove="Territory\" />
+    <None Remove="Territory\Command\" />
+    <None Remove="Territory\Query\" />
+    <None Remove="Territory\Query\GetTerritories\" />
+    <None Remove="Territory\Command\AddTerritory\" />
+    <None Remove="Territory\Command\DeleteTerritory\" />
   </ItemGroup>
 </Project>

@@ -1,16 +1,9 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using MySystem.Application.Common.Interfaces;
-using MySystem.Persistence.Infrastructure.EfRepository.Models.Business;
-using MySystem.Persistence.EntityTypeConfiguration;
 using MySystem.Domain.EntityDbo.EmployeeSchema;
-using MySystem.Persistence.EntityTypeConfiguration.Employee;
-using MySystem.Persistence.EntityTypeConfiguration.PublicSchema;
 using MySystem.Domain.EntityDbo.PublicSchema;
-using MySystem.Domain.EntityDbo.UnitSchema;
-using MySystem.Domain.EntityDbo.ContractSchema;
 using MySystem.SharedKernel.Entities.Public.Constants;
 
 namespace MySystem.Persistence
@@ -32,9 +25,8 @@ namespace MySystem.Persistence
             }
         }
 
-        //Basic Schema
+        //Territory Schema
         public DbSet<TerritoryDbo> Territories { get; set; }
-        
 
         //Employee Schema
         public DbSet<EmployeeDbo> Employees { get; set; }
@@ -46,15 +38,6 @@ namespace MySystem.Persistence
         public DbSet<EmployeeSessionLogDbo> EmployeeSessionLogs { get; set; }
         
 
-        //Component Schema
-        public DbSet<UnitDbo> Units { get; set; }
-
-        //Business Schema
-        public DbSet<BuildingDbo> Buildings { get; set; }
-        public DbSet<ContractDbo> Contracts { get; set; }
-        public DbSet<ContractUnitDbo> ContractUnits { get; set; }
-        
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             if (Database.IsNpgsql())
@@ -62,26 +45,7 @@ namespace MySystem.Persistence
                 modelBuilder.HasPostgresExtension("uuid-ossp");
             }
 
-            //Public Schema
-            new TerritoryEntityTypeConfiguration().Configure(modelBuilder.Entity<TerritoryDbo>());
-
-            //Employee Schema
-            new EmployeeEntityTypeConfiguration().Configure(modelBuilder.Entity<EmployeeDbo>());
-            //
-            new EmployeeClaimEntityTypeConfiguration().Configure(modelBuilder.Entity<EmployeeClaimDbo>());
-            new EmployeeIdentityEntityTypeConfiguration().Configure(modelBuilder.Entity<EmployeeIdentityDbo>());
-            //
-            new EmployeeSessionClaimEntityTypeConfiguration().Configure(modelBuilder.Entity<EmployeeSessionDbo>());
-            new EmployeeSessionLogEntityTypeConfiguration().Configure(modelBuilder.Entity<EmployeeSessionLogDbo>());
-
-
-
-
-            new BuildingEntityTypeConfiguration().Configure(modelBuilder.Entity<BuildingDbo>());
-            //Unit.CreateModelBuilder(this, modelBuilder);
-
-            Contract.CreateModelBuilder(this, modelBuilder);
-            ContractUnit.CreateContractUnitModel(this, modelBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(MySystemDbContext).Assembly);
         }
 
         private void AddSuperUser()
@@ -89,7 +53,7 @@ namespace MySystem.Persistence
             var territory = new TerritoryDbo()
             {
                 CountryId = Counties.List[Counties.Name.USA],
-                OfficeName = "Head Office in USA"
+                Name = "Head Office in USA"
             };
             Territories.Add(territory);
             SaveChanges();
@@ -105,6 +69,16 @@ namespace MySystem.Persistence
                 Password = "admin"
             };
             Employees.Add(superuser);
+            SaveChanges();
+
+            var superuserclaim = new EmployeeClaimDbo()
+            {
+                Employee = superuser,
+                GrantedById = superuser.Id,
+                ClaimType = Claims.Types[Claims.ClaimType.HumanResources],
+                ClaimValue = string.Join(";", Claims.Tags.Values)
+            };
+            EmployeeClaims.Add(superuserclaim);
             SaveChanges();
         }
     }

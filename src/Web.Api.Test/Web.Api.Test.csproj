@@ -31,6 +31,7 @@
     <Folder Include="Controller\V1\Employee\Credentials\" />
     <Folder Include="Services\" />
     <Folder Include="Controller\Employee\" />
+    <Folder Include="Controller\Territory\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Web.Api\Web.Api.csproj" />
@@ -38,5 +39,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Controller\Employee\" />
+    <None Remove="Controller\Territory\" />
   </ItemGroup>
 </Project>

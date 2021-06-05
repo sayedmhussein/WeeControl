@@ -30,7 +30,9 @@
     <Folder Include="Controllers\V1\" />
     <Folder Include="Middleware\" />
     <Folder Include="Security\" />
-    <Folder Include="Security\Policy\Employee\" />
+    <Folder Include="Security\Policies\Employee\" />
+    <Folder Include="Security\Policies\Territory\" />
+    <Folder Include="Security\TokenRefreshment\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Shared.Library\SharedKernel.csproj">
@@ -51,5 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Security\Policy\Employee\" />
+    <None Remove="Security\Policy\Territory\" />
+    <None Remove="Security\TokenRefreshment\" />
   </ItemGroup>
 </Project>

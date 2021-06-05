@@ -36,7 +36,19 @@
     <Folder Include="Employee\Command\AddEmployee\" />
     <Folder Include="Employee\Command\AddEmployee\V1\" />
     <Folder Include="Employee\Query\" />
-    <Folder Include="Employee\Query\GetEmployeeTerritories\" />
-    <Folder Include="Employee\Query\GetEmployeeTerritories\V1\" />
+    <Folder Include="Territory\" />
+    <Folder Include="Territory\Command\" />
+    <Folder Include="Territory\Query\" />
+    <Folder Include="Territory\Query\GetTerritories\" />
+    <Folder Include="Territory\Command\AddTerritory\" />
+    <Folder Include="Territory\Command\DeleteTerritory\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Territory\" />
+    <None Remove="Territory\Command\" />
+    <None Remove="Territory\Query\" />
+    <None Remove="Territory\Query\GetTerritories\" />
+    <None Remove="Territory\Command\AddTerritory\" />
+    <None Remove="Territory\Command\DeleteTerritory\" />
   </ItemGroup>
 </Project>

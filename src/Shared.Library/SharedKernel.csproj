@@ -26,6 +26,9 @@
     <Folder Include="Entites\Public\V1Dto\" />
     <Folder Include="Entites\Temp\" />
     <Folder Include="Entites\Public\Constants\" />
+    <Folder Include="Entites\Territory\" />
+    <Folder Include="Entites\Territory\Base\" />
+    <Folder Include="Entites\Territory\V1Dto\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
@@ -37,5 +40,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Configuration\appsettings.json" />
+    <None Remove="Entites\Territory\" />
+    <None Remove="Entites\Territory\Base\" />
+    <None Remove="Entites\Territory\V1Dto\" />
   </ItemGroup>
 </Project>

@@ -6,15 +6,17 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MySystem.Application.Employee.Query.GetEmployeeTerritories.V1;
-using MySystem.SharedKernel.Entites.Employee.V1Dto;
-using MySystem.SharedKernel.Entities.Public.Constants;
+using MySystem.Application.Territory.Command.AddTerritory;
+using MySystem.Application.Territory.Command.DeleteTerritory;
+using MySystem.Application.Territory.Query.GetTerritories;
+using MySystem.SharedKernel.Entites.Public.V1Dto;
 using MySystem.SharedKernel.Entities.Public.V1Dto;
+using MySystem.SharedKernel.Entities.Territory.V1Dto;
+using MySystem.Web.Api.Security.Policies.Employee;
 
 namespace MySystem.MySystem.Api.Controllers.V1
 {
     [Route("Api/[controller]")]
-    //[Authorize(Policy = AbleToAddNewEmployeePolicy.Name)]
     [ApiVersion("1.0")]
     [ApiController]
     public class TerritoryController : Controller
@@ -26,60 +28,97 @@ namespace MySystem.MySystem.Api.Controllers.V1
             this.mediatR = mediatR;
         }
 
-        [HttpGet]
-        [ProducesResponseType(typeof(ResponseDto<Guid>), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.Forbidden)]
-        [MapToApiVersion("1.0")]
-        public Task<ActionResult> GetAllTerritoriesV1()
-        {
-            throw new NotImplementedException();
-        }
-
         /// <summary>
-        ///     Get List of Territoreis which are related to specific employee
+        ///     Get List of Territories in Organization
         /// </summary>
-        ///
         /// <remarks>
-        /// Authorized User:
-        ///
-        ///     1. Must provide brear token issued 15 minutes ago or less.
-        ///     2. Only Human Resource User with tag "get" and working in office which belong to the added employee or higher.
-        /// 
+        /// Any user can use this route
         /// </remarks>
-        /// 
-        /// <param name="employeeid">Employee UUID</param>
-        /// <param name="sessionid">Employee's session UUID</param>
-        /// 
-        /// <returns>
-        ///     Response DTO with List of EmployeeTerritory DTOs
-        /// </returns>
-        [HttpGet("Employee")]
+        /// <param name="territoryid">Optional to get the children of the supplied territory id</param>
+        /// <param name="employeeid">Optional to get the children of the supplied employee id</param>
+        /// <param name="sessionid">Optional to get the children of the supplied employee's session id</param>
+        /// <returns>List of Territory DTOs</returns>
+        [Authorize(AuthenticationSchemes = "Brear")]
+        [HttpGet]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(ResponseDto<IEnumerable<EmployeeTerritoriesDto>>), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.Forbidden)]
+        [ProducesResponseType(typeof(IEnumerable<TerritoryDto>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorDto), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(ErrorDto), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ErrorDto), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorDto), (int)HttpStatusCode.Forbidden)]
         [MapToApiVersion("1.0")]
-        public async Task<ActionResult<ResponseDto<IEnumerable<EmployeeTerritoriesDto>>>> GetTerritoriesV1(Guid? employeeid, Guid? sessionid)
+        public async Task<ActionResult<IEnumerable<TerritoryDto>>> GetAllTerritoriesV1(Guid? territoryid, Guid? employeeid, Guid? sessionid)
         {
-            var response = await mediatR.Send(new GetEmployeeTerritoriesQuery() { EmployeeId = employeeid, SessionId = sessionid });
+            var response =
+                await mediatR.Send(new GetTerritoriesV1Query()
+                {
+                    TerritoryId = territoryid,
+                    EmployeeId = employeeid,
+                    SessionId = sessionid
+                });
+
             return Ok(response);
         }
 
+        /// <summary>
+        /// Insert or update territory within the organization
+        /// </summary>
+        /// <param name="requestDto">The territory DTO, if ID was supplied then this will be update</param>
+        /// <returns>If insert then it will return the territory DTO</returns>
+        //[Authorize(Policy = CanEditTerritoryPolicy.Name)]
         [HttpPut]
-        public Task<ActionResult> PutTerritoryV1()
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(TerritoryDto), (int)HttpStatusCode.Created)]
+        [ProducesResponseType(typeof(ErrorDto), (int)HttpStatusCode.NoContent)]
+        [ProducesResponseType(typeof(ErrorDto), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ErrorDto), (int)HttpStatusCode.Conflict)]
+        [ProducesResponseType(typeof(ErrorDto), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(ErrorDto), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorDto), (int)HttpStatusCode.Forbidden)]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<TerritoryDto>> PutTerritoryV1([FromBody] RequestDto<TerritoryDto> requestDto)
         {
-            throw new NotImplementedException();
+            var response =
+                await mediatR.Send(new AddTerritoryV1Command()
+                {
+                    TerritoryDtos = new List<TerritoryDto>()
+                    {
+                        requestDto.Payload
+                    }
+                });
+
+            return Created("", response);
         }
 
-        [HttpPut("{territoryid}")]
-        public Task<ActionResult> DeleteTerritoryV1(Guid territoryid)
+        /// <summary>
+        /// Delete existing territory
+        /// </summary>
+        /// <param name="territoryid"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [Authorize(Policy = CanEditTerritoryPolicy.Name)]
+        [HttpDelete("{territoryid}")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        [ProducesResponseType(typeof(ErrorDto), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(ErrorDto), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ErrorDto), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorDto), (int)HttpStatusCode.Forbidden)]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult> DeleteTerritoryV1(Guid territoryid)
         {
-            throw new NotImplementedException();
+            await mediatR.Send(new DeleteTerritoryV1Command()
+            {
+                TerritoryIds = new List<Guid>()
+                {
+                    territoryid
+                }
+            });
+
+            return NoContent();
         }
     }
 }

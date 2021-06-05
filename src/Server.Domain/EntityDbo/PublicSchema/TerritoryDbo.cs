@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using MySystem.SharedKernel.Entities.Public.Constants;
-using MySystem.SharedKernel.Entities.Base;
+using MySystem.SharedKernel.Entities.Territory.Base;
 using MySystem.SharedKernel.Interfaces;
 
 namespace MySystem.Domain.EntityDbo.PublicSchema
@@ -21,7 +20,7 @@ namespace MySystem.Domain.EntityDbo.PublicSchema
 
         public TerritoryDbo(string name, string country) : this()
         {
-            OfficeName = name.ToUpper();
+            Name = name.ToUpper();
             CountryId = country.ToUpper();
         }
 
