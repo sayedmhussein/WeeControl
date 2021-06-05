@@ -1,0 +1,27 @@
+﻿{
+  "Base": "http://192.168.1.107:5000/",
+  "Version": "1.0",
+
+  "Employee": {
+    "Get": {
+      "Verp": "POST",
+      "Route": "/Api/Employee"
+    },
+    "Add": {
+      "Verp": "POST",
+      "Route": "/Api/Employee"
+    },
+    "Edit": {
+      "Verp": "POST",
+      "Route": "/Api/Employee"
+    },
+    "Delete": {
+      "Verp": "POST",
+      "Route": "/Api/Employee"
+    }
+  },
+
+  "Login": "/Api/Employee/Credentials/login/",
+  "Token": "/Api/Employee/Credentials/token/",
+  "Logout": "/Api/Employee/Credentials/logout/"
+}

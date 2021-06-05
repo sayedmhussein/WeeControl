@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>MySystem.SharedKernel</RootNamespace>
+    <Description>This library</Description>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Configuration\" />
+    <Folder Include="Entites\Temp\Dto\" />
+    <Folder Include="ExtensionMethods\" />
+    <Folder Include="Interfaces\" />
+    <Folder Include="Entites\" />
+    <Folder Include="Entites\Employee\" />
+    <Folder Include="Entites\Employee\Base\" />
+    <Folder Include="Entites\Employee\V1Dto\" />
+    <Folder Include="Entites\Public\" />
+    <Folder Include="Entites\Public\Base\" />
+    <Folder Include="Entites\Public\V1Dto\" />
+    <Folder Include="Entites\Temp\" />
+    <Folder Include="Entites\Public\Constants\" />
+    <Folder Include="Entites\Territory\" />
+    <Folder Include="Entites\Territory\Base\" />
+    <Folder Include="Entites\Territory\V1Dto\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Configuration\apisetting.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Configuration\appsettings.json" />
+    <None Remove="Entites\Territory\" />
+    <None Remove="Entites\Territory\Base\" />
+    <None Remove="Entites\Territory\V1Dto\" />
+  </ItemGroup>
+</Project>
