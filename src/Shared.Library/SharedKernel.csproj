@@ -14,34 +14,39 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Configuration\" />
-    <Folder Include="Entites\Temp\Dto\" />
     <Folder Include="ExtensionMethods\" />
     <Folder Include="Interfaces\" />
-    <Folder Include="Entites\" />
-    <Folder Include="Entites\Employee\" />
-    <Folder Include="Entites\Employee\Base\" />
-    <Folder Include="Entites\Employee\V1Dto\" />
-    <Folder Include="Entites\Public\" />
-    <Folder Include="Entites\Public\Base\" />
-    <Folder Include="Entites\Public\V1Dto\" />
-    <Folder Include="Entites\Temp\" />
-    <Folder Include="Entites\Public\Constants\" />
-    <Folder Include="Entites\Territory\" />
-    <Folder Include="Entites\Territory\Base\" />
-    <Folder Include="Entites\Territory\V1Dto\" />
+    <Folder Include="Enumerators\" />
+    <Folder Include="Services\" />
+    <Folder Include="EntitiyV1Dtos\" />
+    <Folder Include="EntitiyV1Dtos\Employee\" />
+    <Folder Include="EntitiyV1Dtos\Territory\" />
+    <Folder Include="EntityBases\" />
+    <Folder Include="EntityBases\Employee\" />
+    <Folder Include="EntityBases\Territory\" />
+    <Folder Include="EntitiyV1Dtos\Common\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="AutoMapper" Version="10.1.1" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Configuration\apisetting.json" />
+    <PackageReference Include="System.Collections.Immutable" Version="5.0.0" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Configuration\appsettings.json" />
-    <None Remove="Entites\Territory\" />
-    <None Remove="Entites\Territory\Base\" />
-    <None Remove="Entites\Territory\V1Dto\" />
+    <None Remove="System.Collections.Immutable" />
+    <None Remove="Enumerators\" />
+    <None Remove="Services\" />
+    <None Remove="Configuration\appsettings.json" />
+    <None Remove="EntitiyDtos\" />
+    <None Remove="EntitiyDtos\Employee\" />
+    <None Remove="EntitiyDtos\Territory\" />
+    <None Remove="EntityBases\" />
+    <None Remove="EntityBases\Employee\" />
+    <None Remove="EntityBases\Territory\" />
+    <None Remove="EntitiyV1Dtos\Common\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Configuration\appsettings.json" />
   </ItemGroup>
 </Project>

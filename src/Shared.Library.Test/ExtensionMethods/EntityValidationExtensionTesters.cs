@@ -1,18 +1,25 @@
-﻿using System;
-using MySystem.SharedKernel.Dto.V1;
-using MySystem.SharedKernel.Entities.Public.Constants;
-using MySystem.SharedKernel.Entities.Public.V1Dto;
+﻿using MySystem.SharedKernel.EntityV1Dtos.Territory;
+using MySystem.SharedKernel.Enumerators;
 using MySystem.SharedKernel.ExtensionMethods;
+using MySystem.SharedKernel.Interfaces;
+using MySystem.SharedKernel.Services;
 using Xunit;
 
 namespace MySystem.SharedKernel.Test.ExtensionMethods
 {
     public class EntityValidationExtensionTesters
     {
+        private readonly IValuesService values;
+
+        public EntityValidationExtensionTesters()
+        {
+            values = new ValueService();
+        }
+
         [Fact]
         public void WhenValidDto_ReturnIsValid()
         {
-            var dto = new BuildingDto() { BuildingName = "Home", CountryId = Counties.List[Counties.Name.EGYPT] };
+            var dto = new TerritoryDto() { Name = "Home", CountryId = values.Country[CountryEnum.Egypt]};
 
             var isValid = dto.IsValid();
             var errors = dto.GetErrorMessages();
@@ -24,7 +31,7 @@ namespace MySystem.SharedKernel.Test.ExtensionMethods
         [Fact]
         public void WhenInValidDto_ReturnIsValidAsFalseAndErrorMessage()
         {
-            var dto = new BuildingDto() { BuildingName = "Home" };
+            var dto = new TerritoryDto() { Name = "Home" };
 
             var isValid = dto.IsValid();
             var errors = dto.GetErrorMessages();

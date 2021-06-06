@@ -1,52 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using MySystem.SharedKernel.Entities.Public.Constants;
-using Xunit;
-using static MySystem.SharedKernel.Entities.Public.Constants.Claims;
+﻿//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using MySystem.SharedKernel.Enumerators;
+//using Xunit;
 
-namespace MySystem.SharedKernel.Test.Entites.Public.Constants
-{
-    public class ClaimsTests
-    {
-        [Fact]
-        public void ForEachClaimTypeInEnum_TypesShouldBeInDictionary()
-        {
-            foreach (var claimType in Enum.GetValues(typeof(ClaimType)).Cast<ClaimType>())
-            {
-                Assert.NotEmpty(Claims.Types[claimType]);
-            }
-        }
+//namespace MySystem.SharedKernel.Test.Entites.Public.Constants
+//{
+//    public class ClaimsTests
+//    {
+//        [Fact]
+//        public void ForEachClaimTypeInEnum_TypesShouldBeInDictionary()
+//        {
+//            foreach (var claimType in Enum.GetValues(typeof(ClaimTypeEnum)).Cast<ClaimTypeEnum>())
+//            {
+//                Assert.NotEmpty(ClaimService.Types[claimType]);
+//            }
+//        }
 
-        [Fact]
-        public void ForEachClaimTypeInList_EachTypeValueMustBeUnique()
-        {
-            var dict = new Dictionary<string, string>();
+//        [Fact]
+//        public void ForEachClaimTypeInList_EachTypeValueMustBeUnique()
+//        {
+//            var dict = new Dictionary<string, string>();
 
-            foreach (var type in Claims.Types)
-            {
-                dict.Add(type.Value, "");
-            }
-        }
+//            foreach (var type in ClaimService.Types)
+//            {
+//                dict.Add(type.Value, "");
+//            }
+//        }
 
-        [Fact]
-        public void ForEachClaimTagInEnum_TagsShouldBeInDictionary()
-        {
-            foreach (var claimTag in Enum.GetValues(typeof(ClaimTag)).Cast<ClaimTag>())
-            {
-                Assert.NotEmpty(Claims.Tags[claimTag]);
-            }
-        }
+//        [Fact]
+//        public void ForEachClaimTagInEnum_TagsShouldBeInDictionary()
+//        {
+//            foreach (var claimTag in Enum.GetValues(typeof(ClaimTagEnum)).Cast<ClaimTagEnum>())
+//            {
+//                Assert.NotEmpty(ClaimService.Tags[claimTag]);
+//            }
+//        }
 
-        [Fact]
-        public void ForEachClaimTagInList_EachTagValueMustBeUnique()
-        {
-            var dict = new Dictionary<string, string>();
+//        [Fact]
+//        public void ForEachClaimTagInList_EachTagValueMustBeUnique()
+//        {
+//            var dict = new Dictionary<string, string>();
 
-            foreach (var type in Claims.Tags)
-            {
-                dict.Add(type.Value, "");
-            }
-        }
-    }
-}
+//            foreach (var type in ClaimService.Tags)
+//            {
+//                dict.Add(type.Value, "");
+//            }
+//        }
+//    }
+//}

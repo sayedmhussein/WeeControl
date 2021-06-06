@@ -3,7 +3,9 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Testing;
+using MySystem.SharedKernel.Configuration;
 using MySystem.SharedKernel.Entities.Public.V1Dto;
+using MySystem.SharedKernel.Interfaces;
 using Xunit;
 
 namespace MySystem.Web.Api.Test.Controller.V1.Employee.Credentials
@@ -11,10 +13,12 @@ namespace MySystem.Web.Api.Test.Controller.V1.Employee.Credentials
     public class TokenTests : IClassFixture<WebApplicationFactory<Startup>>
     {
         private readonly WebApplicationFactory<Startup> factory;
+        private readonly string tokenUrl;
 
         public TokenTests(WebApplicationFactory<Startup> factory)
         {
             this.factory = factory;
+            tokenUrl = new ApiService().Route[RouteEnum.EmployeeSession];
         }
 
         [Fact]
@@ -46,10 +50,9 @@ namespace MySystem.Web.Api.Test.Controller.V1.Employee.Credentials
             await Task.Delay(6000);
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(oldToken);
 
-            var uri = SharedKernel.Configuration.Api.GetAppSetting().Token;
             var requestDto = new RequestDto<object>("DeviceId", null);
 
-            var response = await client.PostAsJsonAsync(uri, requestDto);
+            var response = await client.PostAsJsonAsync(tokenUrl, requestDto);
 
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
@@ -61,10 +64,9 @@ namespace MySystem.Web.Api.Test.Controller.V1.Employee.Credentials
             var firstToken = await LoginTests.GetTokenAsValidUserAsync(client);
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(firstToken);
 
-            var uri = SharedKernel.Configuration.Api.GetAppSetting().Token;
             var requestDto = new RequestDto<object>("DeviceId_", null);
 
-            var response = await client.PostAsJsonAsync(uri, requestDto);
+            var response = await client.PostAsJsonAsync(tokenUrl, requestDto);
 
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
@@ -74,10 +76,9 @@ namespace MySystem.Web.Api.Test.Controller.V1.Employee.Credentials
         {
             var client = factory.CreateClient();
 
-            var uri = SharedKernel.Configuration.Api.GetAppSetting().Token;
             var requestDto = new RequestDto<object>("DeviceId", null);
 
-            var response = await client.PostAsJsonAsync(uri, requestDto);
+            var response = await client.PostAsJsonAsync(tokenUrl, requestDto);
 
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
@@ -88,10 +89,9 @@ namespace MySystem.Web.Api.Test.Controller.V1.Employee.Credentials
             var client = factory.CreateClient();
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("bla");
 
-            var uri = SharedKernel.Configuration.Api.GetAppSetting().Token;
             var requestDto = new RequestDto<object>("DeviceId", null);
 
-            var response = await client.PostAsJsonAsync(uri, requestDto);
+            var response = await client.PostAsJsonAsync(tokenUrl, requestDto);
 
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
@@ -106,11 +106,11 @@ namespace MySystem.Web.Api.Test.Controller.V1.Employee.Credentials
         {
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(oldToken);
 
-            var uri = SharedKernel.Configuration.Api.GetAppSetting().Token;
+            var tokenUrl = new ApiService().Route[RouteEnum.EmployeeSession];
             var requestDto = new RequestDto<object>("DeviceId", null);
 
             await Task.Delay(1500);
-            var response = await client.PostAsJsonAsync(uri, requestDto);
+            var response = await client.PostAsJsonAsync(tokenUrl, requestDto);
 
             response.EnsureSuccessStatusCode();
 
