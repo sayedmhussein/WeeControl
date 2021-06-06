@@ -1,11 +1,8 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using MySystem.Domain.EntityDbo.ContractSchema;
 using MySystem.Domain.EntityDbo.EmployeeSchema;
-using MySystem.Domain.EntityDbo.PublicSchema;
-using MySystem.Domain.EntityDbo.UnitSchema;
+using MySystem.Domain.EntityDbo.Territory;
 
 namespace MySystem.Application.Common.Interfaces
 {

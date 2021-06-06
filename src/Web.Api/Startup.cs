@@ -14,6 +14,8 @@ using MySystem.Infrastructure;
 using MySystem.MySystem.Api.Middleware;
 using MySystem.MySystem.Api.Service;
 using MySystem.Persistence;
+using MySystem.SharedKernel.Interfaces;
+using MySystem.SharedKernel.Services;
 using MySystem.Web.Api.Security.TokenRefreshment;
 using MySystem.Web.Api.Service;
 
@@ -43,6 +45,8 @@ namespace MySystem.Web.Api
             services.AddApiVersioning(ApiVersionService.ConfigureApiVersioning);
             services.AddSwaggerGen(SwaggerService.ConfigureSwaggerGen);
 
+            services.AddSingleton<IValuesService, ValueService>();
+
             services.AddScoped<ICurrentUserInfo, UserInfoService>();
             services.AddSingleton<IJwtService>(provider => new JwtService(Configuration["Jwt:Key"]));
 
@@ -69,8 +73,6 @@ namespace MySystem.Web.Api
             }
 
             app.UseCustomExceptionHandler();
-
-            app.UseExternalMessagingHandler();
 
             app.UseRouting();
 

@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using MediatR;
 using MySystem.Application.Common.Exceptions;
 using MySystem.Application.Common.Interfaces;
-using MySystem.Domain.EntityDbo.PublicSchema;
+using MySystem.Domain.EntityDbo.Territory;
 using MySystem.Domain.Extensions;
-using MySystem.SharedKernel.Entities.Territory.V1Dto;
+using MySystem.SharedKernel.EntityV1Dtos.Territory;
 
 namespace MySystem.Application.Territory.Command.AddOrEditTerritories
 {

@@ -3,8 +3,10 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Testing;
+using MySystem.SharedKernel.Configuration;
 using MySystem.SharedKernel.Entities.Employee.V1Dto;
 using MySystem.SharedKernel.Entities.Public.V1Dto;
+using MySystem.SharedKernel.Interfaces;
 using Xunit;
 
 namespace MySystem.Web.Api.Test.Controller.V1.Employee.Credentials
@@ -13,11 +15,12 @@ namespace MySystem.Web.Api.Test.Controller.V1.Employee.Credentials
     {
         internal static async Task<string> GetTokenAsValidUserAsync(HttpClient client)
         {
-            var uri = SharedKernel.Configuration.Api.GetAppSetting().Login;
-            var loginDto = new LoginDto() { Username = "username", Password = "password" };
+            var loginUrl = new ApiService().Route[RouteEnum.EmployeeSession];
+
+            var loginDto = new LoginDto() { Username = "admin", Password = "admin" };
             var requestDto = new RequestDto<LoginDto>("DeviceId", loginDto);
 
-            var response = await client.PostAsJsonAsync(uri, requestDto);
+            var response = await client.PostAsJsonAsync(loginUrl, requestDto);
 
             response.EnsureSuccessStatusCode();
 
@@ -26,12 +29,12 @@ namespace MySystem.Web.Api.Test.Controller.V1.Employee.Credentials
         }
 
         private readonly WebApplicationFactory<Startup> factory;
-        private readonly SharedKernel.Configuration.Api api;
+        private readonly string loginUrl;
 
         public LoginTests(WebApplicationFactory<Startup> factory)
         {
             this.factory = factory;
-            api = SharedKernel.Configuration.Api.GetAppSetting();
+            loginUrl = new ApiService().Route[RouteEnum.EmployeeSession];
         }
 
         [Fact]
@@ -47,7 +50,7 @@ namespace MySystem.Web.Api.Test.Controller.V1.Employee.Credentials
         public async void LoginTheoryTests(object requestDto, HttpStatusCode statusCode, bool requireResponse)
         {
             var client = factory.CreateClient();
-            var response = await client.PostAsJsonAsync(api.Login, requestDto);
+            var response = await client.PostAsJsonAsync(loginUrl, requestDto);
 
             Assert.Equal(statusCode, response.StatusCode);
 

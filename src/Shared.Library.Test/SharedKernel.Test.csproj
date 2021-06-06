@@ -33,8 +33,12 @@
     <Folder Include="Entites\" />
     <Folder Include="Entites\Public\" />
     <Folder Include="Entites\Public\Constants\" />
+    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Shared.Library\SharedKernel.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Services\" />
   </ItemGroup>
 </Project>

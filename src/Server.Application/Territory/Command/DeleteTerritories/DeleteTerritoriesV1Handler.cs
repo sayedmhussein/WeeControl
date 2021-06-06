@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using MySystem.Application.Common.Exceptions;
 using MySystem.Application.Common.Interfaces;
-using MySystem.SharedKernel.Entities.Public.Constants;
+using MySystem.SharedKernel.Enumerators;
+using MySystem.SharedKernel.Interfaces;
 
 namespace MySystem.Application.Territory.Command.DeleteTerritories
 {
@@ -14,11 +14,13 @@ namespace MySystem.Application.Territory.Command.DeleteTerritories
     {
         private readonly IMySystemDbContext context;
         private readonly ICurrentUserInfo userInfo;
+        private readonly IValuesService values;
 
-        public DeleteTerritoriesV1Handler(IMySystemDbContext context, ICurrentUserInfo userInfo)
+        public DeleteTerritoriesV1Handler(IMySystemDbContext context, ICurrentUserInfo userInfo, IValuesService values)
         {
             this.context = context ?? throw new ArgumentNullException("Db Context can't be Null!");
             this.userInfo = userInfo ?? throw new ArgumentNullException("User Info can't be Null!");
+            this.values = values;
         }
 
         public Task<Unit> Handle(DeleteTerritoriesV1Command request, CancellationToken cancellationToken)
@@ -33,7 +35,7 @@ namespace MySystem.Application.Territory.Command.DeleteTerritories
                 throw new BadRequestException("");
             }
 
-            var tag = userInfo.Claims.FirstOrDefault(x => x.Type == Claims.Types[Claims.ClaimType.HumanResources])?.Value?.Contains(Claims.Tags[Claims.ClaimTag.Delete]);
+            var tag = userInfo.Claims.FirstOrDefault(x => x.Type == values.ClaimType[ClaimTypeEnum.HumanResources])?.Value?.Contains(values.ClaimTag[ClaimTagEnum.Delete]);
             if (tag == false || tag == null)
             {
                 throw new NotAllowedException("");
