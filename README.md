@@ -20,9 +20,7 @@ The project herachy is as following:
 Business domain groups are planned as following:
 1. Territory.
 2. Employee.
-.
-.
-.
+3. ...
 
 While constructing, two things were into considration:
 1. Unit Testing as much as possible.
