@@ -14,7 +14,7 @@ The project herachy is as following:
         - Presistence Library.
     - Presentation Folder:
         - Web API ASP.NET Core.
--Shared Folder:
+- Shared Folder:
     - Shared Kernel Library.
 
 Business domain groups are planned as following:
