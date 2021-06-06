@@ -42,6 +42,7 @@
     <Folder Include="Territory\Query\GetTerritories\" />
     <Folder Include="Territory\Command\AddTerritory\" />
     <Folder Include="Territory\Command\DeleteTerritory\" />
+    <Folder Include="Employee\Query\GetEmployeeClaims\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Territory\" />
@@ -50,5 +51,6 @@
     <None Remove="Territory\Query\GetTerritories\" />
     <None Remove="Territory\Command\AddTerritory\" />
     <None Remove="Territory\Command\DeleteTerritory\" />
+    <None Remove="Employee\Query\GetEmployeeClaims\" />
   </ItemGroup>
 </Project>

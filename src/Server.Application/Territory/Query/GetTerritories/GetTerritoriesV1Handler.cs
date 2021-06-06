@@ -18,9 +18,9 @@ namespace MySystem.Application.Territory.Query.GetTerritories
     {
         private readonly IMySystemDbContext context;
         private readonly ICurrentUserInfo userInfo;
-        private readonly IValuesService values;
+        private readonly ISharedValues values;
 
-        public GetTerritoriesV1Handler(IMySystemDbContext context, ICurrentUserInfo userInfo, IValuesService values)
+        public GetTerritoriesV1Handler(IMySystemDbContext context, ICurrentUserInfo userInfo, ISharedValues values)
         {
             this.context = context ?? throw new ArgumentNullException("Db Context can't be Null!");
             this.userInfo = userInfo ?? throw new ArgumentNullException("User Info can't be Null!");

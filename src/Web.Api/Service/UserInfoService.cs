@@ -14,12 +14,12 @@ namespace MySystem.Api.Service
     public class UserInfoService : ICurrentUserInfo
     {
         private readonly IMediator mediatR;
-        private readonly IValuesService values;
+        private readonly ISharedValues values;
         private Guid? sessionid;
         private IEnumerable<Guid> officeIds;
         
 
-        public UserInfoService(IHttpContextAccessor httpContextAccessor, IMediator mediatR, IValuesService values)
+        public UserInfoService(IHttpContextAccessor httpContextAccessor, IMediator mediatR, ISharedValues values)
         {
             Claims = httpContextAccessor.HttpContext.User.Claims;
 

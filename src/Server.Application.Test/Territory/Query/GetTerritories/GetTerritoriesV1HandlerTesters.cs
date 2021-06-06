@@ -22,7 +22,7 @@ namespace MySystem.Application.Test.Territory.Query.GetTerritories
     {
         private IMySystemDbContext dbContext;
         private Mock<ICurrentUserInfo> userInfoMock;
-        private IValuesService values = new ValueService();
+        private readonly ISharedValues values = new SharedValues();
 
         public GetTerritoriesV1HandlerTesters()
         {
@@ -51,13 +51,21 @@ namespace MySystem.Application.Test.Territory.Query.GetTerritories
         {
             Assert.Throws<ArgumentNullException>(() => new GetTerritoriesV1Handler(dbContext, null, values));
         }
+
+        [Fact]
+        public void WhenSharedValueIsNull_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new GetTerritoriesV1Handler(dbContext, userInfoMock.Object, null));
+        }
         #endregion
 
         #region Handle Parameters Unit Tests
         [Fact]
         public async void WhenQueryIsNull_ThrowArgumentNullException()
         {
-            await Assert.ThrowsAsync<ArgumentNullException>(async () => await new GetTerritoriesV1Handler(dbContext, userInfoMock.Object, values).Handle(null, default));
+            var handler = new GetTerritoriesV1Handler(dbContext, userInfoMock.Object, values);
+
+            await Assert.ThrowsAsync<ArgumentNullException>(async () => await handler.Handle(null, default));
         }
 
         [Fact]
@@ -69,12 +77,13 @@ namespace MySystem.Application.Test.Territory.Query.GetTerritories
             var list = await new GetTerritoriesV1Handler(dbContext, userInfoMock.Object, values).Handle(new GetTerritoriesV1Query(), default);
 
             Assert.NotEmpty(list);
+            Assert.Contains(admin.TerritoryId, list.Select(x => x.Id));
         }
         #endregion
 
         #region Scenarios Unit Tests
         [Theory]
-        [ClassData(typeof(AuthorizationScenariosTestData))]
+        [ClassData(typeof(GetTerritoriesV1HandlerTestData))]
         public async void AuthorizationScenariosUnitTest(string claimType, string claimValue, bool willThrowException)
         {
             var territory = dbContext.Territories.FirstOrDefault();

@@ -8,7 +8,7 @@ using MySystem.SharedKernel.Interfaces;
 
 namespace MySystem.SharedKernel.Services
 {
-    public class ValueService : IValuesService
+    public class SharedValues : ISharedValues
     {
         public ImmutableDictionary<ApiRouteEnum, string> ApiRoute { get; private set; }
 
@@ -22,7 +22,7 @@ namespace MySystem.SharedKernel.Services
 
         public ImmutableDictionary<CountryEnum, string> Country { get; private set; }
 
-        public ValueService()
+        public SharedValues()
         {
             dynamic obj = Config.AppSettingObject;
 

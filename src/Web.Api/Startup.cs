@@ -45,7 +45,7 @@ namespace MySystem.Web.Api
             services.AddApiVersioning(ApiVersionService.ConfigureApiVersioning);
             services.AddSwaggerGen(SwaggerService.ConfigureSwaggerGen);
 
-            services.AddSingleton<IValuesService, ValueService>();
+            services.AddSingleton<ISharedValues, SharedValues>();
 
             services.AddScoped<ICurrentUserInfo, UserInfoService>();
             services.AddSingleton<IJwtService>(provider => new JwtService(Configuration["Jwt:Key"]));

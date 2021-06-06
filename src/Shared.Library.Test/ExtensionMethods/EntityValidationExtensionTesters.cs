@@ -9,15 +9,15 @@ namespace MySystem.SharedKernel.Test.ExtensionMethods
 {
     public class EntityValidationExtensionTesters
     {
-        private readonly IValuesService values;
+        private readonly ISharedValues values;
 
         public EntityValidationExtensionTesters()
         {
-            values = new ValueService();
+            values = new SharedValues();
         }
 
         [Fact]
-        public void WhenValidDto_ReturnIsValid()
+        public void WhenValidTerritoryDto_IsValidIsTrue()
         {
             var dto = new TerritoryDto() { Name = "Home", CountryId = values.Country[CountryEnum.Egypt]};
 
@@ -29,7 +29,7 @@ namespace MySystem.SharedKernel.Test.ExtensionMethods
         }
 
         [Fact]
-        public void WhenInValidDto_ReturnIsValidAsFalseAndErrorMessage()
+        public void WhenInValidTerritoryDto_IsValidIsFalseErrorMessageIsNotEmpty()
         {
             var dto = new TerritoryDto() { Name = "Home" };
 

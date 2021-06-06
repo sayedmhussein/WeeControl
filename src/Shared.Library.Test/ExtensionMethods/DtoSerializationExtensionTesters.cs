@@ -5,7 +5,7 @@ using Xunit;
 
 namespace MySystem.SharedKernel.Test.ExtensionMethods
 {
-    public class RequstResponseExtensionTesters
+    public class DtoSerializationExtensionTesters
     {
         [Fact]
         public void WhenSerializingARequest_JsonStringShouldBeProduced()
