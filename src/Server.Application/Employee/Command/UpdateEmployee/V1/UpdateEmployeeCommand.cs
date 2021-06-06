@@ -1,16 +1,10 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using MySystem.Application.Common.Interfaces;
-using MySystem.SharedKernel.Dto.V1;
-using MySystem.SharedKernel.Entities.Public.V1Dto;
-using MySystem.SharedKernel.Entities.Employee.V1Dto;
+using MySystem.SharedKernel.EntityV1Dtos.Employee;
 
 namespace Application.Employee.Command.UpdateEmployee.V1
 {
-    public class UpdateEmployeeCommand : EmployeeDto, IRequest<ResponseDto<EmployeeDto>>
+    public class UpdateEmployeeCommand : IRequest<IEnumerable<EmployeeDto>>
     {
     }
 }

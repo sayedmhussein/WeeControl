@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using MySystem.SharedKernel.Entities.Employee.Base;
+using MySystem.SharedKernel.EntityBases.Employee;
 using MySystem.SharedKernel.Interfaces;
 
 namespace MySystem.Domain.EntityDbo.EmployeeSchema

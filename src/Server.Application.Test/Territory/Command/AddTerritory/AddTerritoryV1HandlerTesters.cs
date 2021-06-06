@@ -6,7 +6,7 @@ using MySystem.Application.Common.Exceptions;
 using MySystem.Application.Common.Interfaces;
 using MySystem.Application.Territory.Command.AddOrEditTerritories;
 using MySystem.Persistence;
-using MySystem.SharedKernel.Entities.Territory.V1Dto;
+using MySystem.SharedKernel.EntityV1Dtos.Territory;
 using Xunit;
 
 namespace MySystem.Application.Test.Territory.Command.AddTerritory

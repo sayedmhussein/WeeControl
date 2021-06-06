@@ -37,7 +37,6 @@
     <Folder Include="Territory\Query\" />
     <Folder Include="Territory\Query\GetTerritories\" />
     <Folder Include="Territory\Command\AddOrEditTerritories\" />
-    <Folder Include="Territory\Command\DeleteTerritory\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="9.0.0" />
@@ -56,6 +55,5 @@
     <None Remove="Territory\Query\" />
     <None Remove="Territory\Query\GetTerritories\" />
     <None Remove="Territory\Command\AddTerritory\" />
-    <None Remove="Territory\Command\DeleteTerritory\" />
   </ItemGroup>
 </Project>

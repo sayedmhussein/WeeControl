@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using MySystem.SharedKernel.Entities.Territory.Base;
+using MySystem.SharedKernel.EntityBases.Territory;
 using MySystem.SharedKernel.Interfaces;
 
-namespace MySystem.Domain.EntityDbo.PublicSchema
+namespace MySystem.Domain.EntityDbo.Territory
 {
     public class TerritoryDbo : TerritoryBase, IEntityDbo
     {

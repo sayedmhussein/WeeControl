@@ -6,21 +6,25 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using MySystem.Application.Common.Interfaces;
 using MySystem.Application.Territory.Query.GetTerritories;
+using MySystem.SharedKernel.Enumerators;
+using MySystem.SharedKernel.Interfaces;
 
 namespace MySystem.Api.Service
 {
     public class UserInfoService : ICurrentUserInfo
     {
         private readonly IMediator mediatR;
+        private readonly IValuesService values;
         private Guid? sessionid;
         private IEnumerable<Guid> officeIds;
         
 
-        public UserInfoService(IHttpContextAccessor httpContextAccessor, IMediator mediatR)
+        public UserInfoService(IHttpContextAccessor httpContextAccessor, IMediator mediatR, IValuesService values)
         {
             Claims = httpContextAccessor.HttpContext.User.Claims;
 
             this.mediatR = mediatR;
+            this.values = values;
         }
 
         public Guid? SessionId
@@ -29,7 +33,7 @@ namespace MySystem.Api.Service
             {
                 if (sessionid == null || sessionid == Guid.Empty)
                 {
-                    var sessionid_ = Claims.FirstOrDefault(c => c.Type == SharedKernel.Entities.Public.Constants.Claims.Types[SharedKernel.Entities.Public.Constants.Claims.ClaimType.Session])?.Value;
+                    var sessionid_ = Claims.FirstOrDefault(c => c.Type == values.ClaimType[ClaimTypeEnum.Session])?.Value;
                     _ = Guid.TryParse(sessionid_, out Guid sessionId__);
                     sessionid = sessionId__;
                 }

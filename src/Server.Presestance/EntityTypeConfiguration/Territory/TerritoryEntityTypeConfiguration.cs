@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using MySystem.Domain.EntityDbo.PublicSchema;
+using MySystem.Domain.EntityDbo.Territory;
 
 namespace MySystem.Persistence.EntityTypeConfiguration.Territory
 {

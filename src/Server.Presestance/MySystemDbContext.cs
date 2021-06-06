@@ -3,8 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using MySystem.Application.Common.Interfaces;
 using MySystem.Domain.EntityDbo.EmployeeSchema;
-using MySystem.Domain.EntityDbo.PublicSchema;
-using MySystem.SharedKernel.Entities.Public.Constants;
+using MySystem.Domain.EntityDbo.Territory;
+using MySystem.SharedKernel.Enumerators;
+using MySystem.SharedKernel.Interfaces;
+using MySystem.SharedKernel.Services;
 
 namespace MySystem.Persistence
 {
@@ -50,9 +52,11 @@ namespace MySystem.Persistence
 
         private void AddSuperUser()
         {
+            IValuesService values = new ValueService();
+
             var territory = new TerritoryDbo()
             {
-                CountryId = Counties.List[Counties.Name.USA],
+                CountryId = values.Country[CountryEnum.USA],
                 Name = "Head Office in USA"
             };
             Territories.Add(territory);
@@ -60,10 +64,10 @@ namespace MySystem.Persistence
 
             var superuser = new EmployeeDbo()
             {
-                EmployeeTitle = Titles.List[Titles.Title.Mr],
+                EmployeeTitle = values.PersonTitle[PersonalTitleEnum.Mr],
                 FirstName = "Admin",
                 LastName = "Admin",
-                Gender = Genders.List[Genders.Gender.Male],
+                Gender = values.PersonGender[PersonalGenderEnum.Male],
                 TerritoryId = territory.Id,
                 Username = "admin",
                 Password = "admin"
@@ -75,8 +79,8 @@ namespace MySystem.Persistence
             {
                 Employee = superuser,
                 GrantedById = superuser.Id,
-                ClaimType = Claims.Types[Claims.ClaimType.HumanResources],
-                ClaimValue = string.Join(";", Claims.Tags.Values)
+                ClaimType = values.ClaimType[ClaimTypeEnum.HumanResources],
+                ClaimValue = string.Join(";", values.ClaimTag.Values)
             };
             EmployeeClaims.Add(superuserclaim);
             SaveChanges();

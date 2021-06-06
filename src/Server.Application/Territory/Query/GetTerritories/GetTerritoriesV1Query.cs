@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MediatR;
-using MySystem.SharedKernel.Entities.Territory.V1Dto;
+using MySystem.SharedKernel.EntityV1Dtos.Territory;
 
 namespace MySystem.Application.Territory.Query.GetTerritories
 {

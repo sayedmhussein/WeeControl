@@ -10,9 +10,6 @@
     <Folder Include="Extensions\" />
     <Folder Include="EntityDbo\Employee\" />
     <Folder Include="EntityDbo\PublicSchema\" />
-    <Folder Include="EntityDbo\UnitSchema\" />
-    <Folder Include="EntityDbo\ContractSchema\" />
-    <Folder Include="EntityDbo\CustomerSchema\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Shared.Library\SharedKernel.csproj" />

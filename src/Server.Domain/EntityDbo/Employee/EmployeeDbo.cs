@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using MySystem.Domain.EntityDbo.PublicSchema;
-using MySystem.SharedKernel.Entities.Public.Constants;
-using MySystem.SharedKernel.Entities.Employee.Base;
+using MySystem.Domain.EntityDbo.Territory;
+using MySystem.SharedKernel.EntityBases.Employee;
 using MySystem.SharedKernel.Interfaces;
 
 namespace MySystem.Domain.EntityDbo.EmployeeSchema

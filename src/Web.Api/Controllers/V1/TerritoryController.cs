@@ -9,9 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 using MySystem.Application.Territory.Command.AddOrEditTerritories;
 using MySystem.Application.Territory.Command.DeleteTerritories;
 using MySystem.Application.Territory.Query.GetTerritories;
-using MySystem.SharedKernel.Entites.Public.V1Dto;
-using MySystem.SharedKernel.Entities.Public.V1Dto;
-using MySystem.SharedKernel.Entities.Territory.V1Dto;
+using MySystem.MySystem.Api.Security.Policies;
+using MySystem.SharedKernel.EntityV1Dtos.Common;
+using MySystem.SharedKernel.EntityV1Dtos.Territory;
 using MySystem.Web.Api.Security.Policies.Territory;
 
 namespace MySystem.MySystem.Api.Controllers.V1
@@ -35,7 +35,8 @@ namespace MySystem.MySystem.Api.Controllers.V1
         /// <param name="employeeid">Optional to get the children of the supplied employee id</param>
         /// <param name="sessionid">Optional to get the children of the supplied employee's session id</param>
         /// <returns>List of Territory DTOs</returns>
-        [Authorize(Policy = CanGetTerritoryPolicy.Name)]
+        //[Authorize(Policy = CanGetTerritoryPolicy.Name)]
+        [Authorize(Policy = nameof(TerritoryPolicies.PolicyName.CanGetPolicy))]
         [HttpGet]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]

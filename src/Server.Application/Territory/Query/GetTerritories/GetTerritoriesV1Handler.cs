@@ -8,8 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using MySystem.Application.Common.Exceptions;
 using MySystem.Application.Common.Interfaces;
 using MySystem.Domain.EntityDbo.EmployeeSchema;
-using MySystem.SharedKernel.Entities.Public.Constants;
-using MySystem.SharedKernel.Entities.Territory.V1Dto;
+using MySystem.SharedKernel.EntityV1Dtos.Territory;
+using MySystem.SharedKernel.Enumerators;
+using MySystem.SharedKernel.Interfaces;
 
 namespace MySystem.Application.Territory.Query.GetTerritories
 {
@@ -17,11 +18,13 @@ namespace MySystem.Application.Territory.Query.GetTerritories
     {
         private readonly IMySystemDbContext context;
         private readonly ICurrentUserInfo userInfo;
+        private readonly IValuesService values;
 
-        public GetTerritoriesV1Handler(IMySystemDbContext context, ICurrentUserInfo userInfo)
+        public GetTerritoriesV1Handler(IMySystemDbContext context, ICurrentUserInfo userInfo, IValuesService values)
         {
             this.context = context ?? throw new ArgumentNullException("Db Context can't be Null!");
             this.userInfo = userInfo ?? throw new ArgumentNullException("User Info can't be Null!");
+            this.values = values ?? throw new ArgumentNullException();
         }
 
         public async Task<IEnumerable<TerritoryDto>> Handle(GetTerritoriesV1Query request, CancellationToken cancellationToken)
@@ -36,7 +39,7 @@ namespace MySystem.Application.Territory.Query.GetTerritories
                 return GetListOfTerritores(userInfo.TerritoriesId);
             }
 
-            var tag = userInfo.Claims.FirstOrDefault(x=>x.Type == Claims.Types[Claims.ClaimType.HumanResources])?.Value?.Contains(Claims.Tags[Claims.ClaimTag.Read]);
+            var tag = userInfo.Claims.FirstOrDefault(x=>x.Type == values.ClaimType[ClaimTypeEnum.HumanResources])?.Value?.Contains(values.ClaimTag[ClaimTagEnum.Read]);
             if (tag == false || tag == null)
             {
                 throw new NotAllowedException("");

@@ -23,6 +23,7 @@
     </PackageReference>
     <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.6" />
+    <PackageReference Include="System.Collections.Immutable" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -55,5 +56,6 @@
     <None Remove="Security\Policy\Employee\" />
     <None Remove="Security\Policy\Territory\" />
     <None Remove="Security\TokenRefreshment\" />
+    <None Remove="System.Collections.Immutable" />
   </ItemGroup>
 </Project>

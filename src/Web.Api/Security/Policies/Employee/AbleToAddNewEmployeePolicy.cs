@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using MySystem.SharedKernel.Entities.Public.Constants;
 using MySystem.Web.Api.Security.TokenRefreshment;
 
 namespace MySystem.Web.Api.Security.Policies.Employee

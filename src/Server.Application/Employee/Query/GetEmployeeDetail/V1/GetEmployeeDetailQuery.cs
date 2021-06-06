@@ -1,6 +1,6 @@
 ﻿using System;
 using MediatR;
-using MySystem.SharedKernel.Entities.Employee.V1Dto;
+using MySystem.SharedKernel.EntityV1Dtos.Employee;
 
 namespace Application.Employee.Query.GetEmployeeDetail.V1
 {
