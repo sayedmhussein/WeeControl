@@ -1,27 +1,27 @@
-# ControlSystem
-This project is created using .NET technology, the aim is to create a software applications which can be used to digitalize activities of an company.
+﻿# ControlSystem
+This project is created using .NET technology, the aim is to create a software applications which can be used to digitalize activities of a company.
 
-The project herachy is as following:
+The project structure is as following:
 - Client Folder:
-    - Xamarin Forms Application.
-    - Application Library (Serve Client Applications).
+    - Xamarin Forms Application. [Not Yet Ready]
+    - Application Library (Serve Client Applications) [Not Yet Ready].
 - Server Folder:
     - Core Folder:
-        - Application Library.
-        - Domain Library.
+        - Application Library [Development Ongoing].
+        - Domain Library [Development Ongoing].
     - Infrastructure Folder:
-        - Infrastructure Library.
-        - Presistence Library.
+        - Infrastructure Library [Development Ongoing].
+        - Persistence Library [Development Ongoing].
     - Presentation Folder:
-        - Web API ASP.NET Core.
+        - Web API ASP.NET Core [Development Ongoing].
 - Shared Folder:
-    - Shared Kernel Library.
+    - Shared Kernel Library [Development Ongoing].
 
 Business domain groups are planned as following:
 1. Territory.
 2. Employee.
-3. ...
+3. [To be developed later]
 
-While constructing, two things were into considration:
+While constructing, two things were into consideration:
 1. Unit Testing as much as possible.
 2. Authentication and Authorization of users.
