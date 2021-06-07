@@ -55,13 +55,13 @@ namespace MySystem.Application.Employee.Query.GetEmployeeClaims
                     throw new BadRequestException("Either employee id or credentials or device!");
                 }
 
-                throw new NotImplementedException();
+                return await GetClaimsByEmployeeId((Guid)request.EmployeeId);
             }
         }
 
         private async Task<Guid> GetEmployeeSession(Guid employeeid, string device, CancellationToken cancellationToken)
         {
-            var session = await context.EmployeeSessions.FirstOrDefaultAsync(x => x.EmployeeId == employeeid && x.TerminationTs == null, cancellationToken);
+            var session = await context.EmployeeSessions.FirstOrDefaultAsync(x => x.EmployeeId == employeeid && x.DeviceId == device && x.TerminationTs == null, cancellationToken);
             if (session == null)
             {
                 session = new();
@@ -87,7 +87,7 @@ namespace MySystem.Application.Employee.Query.GetEmployeeClaims
             }
             else
             {
-                var session = GetEmployeeSession(employee.Id, device, cancellationToken);
+                var session = await GetEmployeeSession(employee.Id, device, cancellationToken);
                 var claims = new List<Claim>()
                 {
                     new Claim(sharedValues.ClaimType[ClaimTypeEnum.Session], session.ToString())
@@ -117,12 +117,35 @@ namespace MySystem.Application.Employee.Query.GetEmployeeClaims
 
             var claims = new List<Claim>()
             {
-                 new Claim(sharedValues.ClaimType[ClaimTypeEnum.Session], session.ToString())
+                 new Claim(sharedValues.ClaimType[ClaimTypeEnum.Session], session.Id.ToString())
             };
 
             var employeeClaims = await context.EmployeeClaims.Where(x => x.EmployeeId == employee.Id && x.RevokedTs == null).ToListAsync(cancellationToken);
             employeeClaims.ForEach(x => claims.Add(new Claim(x.ClaimType, x.ClaimValue)));
 
+            return claims;
+        }
+
+        private async Task<IEnumerable<Claim>> GetClaimsByEmployeeId(Guid employeeid)
+        {
+            var isAuthorized = currentUser.Claims.FirstOrDefault(x => x.Type == sharedValues.ClaimType[ClaimTypeEnum.HumanResources])?.Value?.Contains(sharedValues.ClaimTag[ClaimTagEnum.Read]);
+            if (isAuthorized == null || isAuthorized == false)
+            {
+                throw new NotAllowedException("");
+            }
+
+            var employee = await context.Employees.FirstOrDefaultAsync(x => x.Id == employeeid);
+            if (employee == null)
+            {
+                throw new NotFoundException("","");
+            }
+
+            // check if user is within same terrritory
+            //
+            var claims = new List<Claim>();
+
+            var employeeClaims = await context.EmployeeClaims.Where(x => x.EmployeeId == employee.Id && x.RevokedTs == null).ToListAsync(default);
+            employeeClaims.ForEach(x => claims.Add(new Claim(x.ClaimType, x.ClaimValue)));
             return claims;
         }
     }

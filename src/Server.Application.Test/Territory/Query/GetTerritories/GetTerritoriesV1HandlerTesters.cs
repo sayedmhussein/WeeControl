@@ -37,7 +37,7 @@ namespace MySystem.Application.Test.Territory.Query.GetTerritories
             userInfoMock = null;
         }
 
-        #region Constructor Unit Tests
+        #region Constructor
         [Fact]
         public void WhenDbContextIsNull_ThrowsArgumentNullException()
         {
@@ -59,7 +59,7 @@ namespace MySystem.Application.Test.Territory.Query.GetTerritories
         }
         #endregion
 
-        #region Handle Parameters Unit Tests
+        #region Query
         [Fact]
         public async void WhenQueryIsNull_ThrowArgumentNullException()
         {
@@ -78,6 +78,19 @@ namespace MySystem.Application.Test.Territory.Query.GetTerritories
 
             Assert.NotEmpty(list);
             Assert.Contains(admin.TerritoryId, list.Select(x => x.Id));
+        }
+
+        [Fact]
+        public async void WhenSessionIdIsNotNullWhileOthersAreNull_ReturnListIgnoringSafetyRules()
+        {
+            var admin = dbContext.Employees.FirstOrDefault();
+            var session = new EmployeeSessionDbo() { Employee = admin, DeviceId = "device" };
+            await dbContext.EmployeeSessions.AddAsync(session);
+            await dbContext.SaveChangesAsync(default);
+
+            var responseDto = await new GetTerritoriesV1Handler(dbContext, userInfoMock.Object, values).Handle(new GetTerritoriesV1Query() { SessionId = session.Id }, default);
+
+            Assert.Single(responseDto);
         }
         #endregion
 

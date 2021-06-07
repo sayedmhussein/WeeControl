@@ -44,14 +44,13 @@ namespace MySystem.MySystem.Api.Controllers.V1
         [ProducesResponseType(typeof(ErrorDto), (int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(ErrorDto), (int)HttpStatusCode.Forbidden)]
         [MapToApiVersion("1.0")]
-        public async Task<ActionResult<IEnumerable<TerritoryDto>>> GetAllTerritoriesV1(Guid? territoryid, Guid? employeeid, Guid? sessionid)
+        public async Task<ActionResult<IEnumerable<TerritoryDto>>> GetAllTerritoriesV1(Guid? territoryid, Guid? employeeid)
         {
             var response =
                 await mediatR.Send(new GetTerritoriesV1Query()
                 {
                     TerritoryId = territoryid,
-                    EmployeeId = employeeid,
-                    SessionId = sessionid
+                    EmployeeId = employeeid
                 });
 
             return Ok(response);

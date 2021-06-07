@@ -14,6 +14,6 @@ namespace MySystem.SharedKernel.EntityV1Dtos.Employee
         [StringLength(50, MinimumLength = 3, ErrorMessage ="Minimum Password is 3 letters")]
         public string Password { get; set; }
 
-        public Guid? Id { get; set; }
+        public string Device { get; set; }
     }
 }

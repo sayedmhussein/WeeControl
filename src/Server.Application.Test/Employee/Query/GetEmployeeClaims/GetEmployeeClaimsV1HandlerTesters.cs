@@ -12,6 +12,9 @@ using MySystem.Application.Common.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using MySystem.Domain.EntityDbo.EmployeeSchema;
 using System.Linq;
+using System.Collections.Generic;
+using System.Security.Claims;
+using MySystem.SharedKernel.Enumerators;
 
 namespace MySystem.Application.Test.Employee.Query.GetEmployeeClaims
 {
@@ -191,17 +194,41 @@ namespace MySystem.Application.Test.Employee.Query.GetEmployeeClaims
         [Fact]
         public async void WhenInvalidEmployeeIdIsSupplied_ThrowNotFoundException()
         {
-            throw new NotImplementedException();
+            var query = new GetEmployeeClaimsV1Query() { EmployeeId = Guid.NewGuid()};
+            var claim = new Claim(sharedValues.ClaimType[ClaimTypeEnum.HumanResources], sharedValues.ClaimTag[ClaimTagEnum.Read]);
+            userInfoMock.Setup(x => x.Claims).Returns(new List<Claim>() { claim });
+
+            var handler = new GetEmployeeClaimsV1Handler(dbContext, userInfoMock.Object, sharedValues, mediatRMock.Object);
+
+            await Assert.ThrowsAsync<NotFoundException>(async () => await handler.Handle(query, default));
         }
 
         [Theory]
-        [InlineData(true, true, true, false)]
-        [InlineData(true, true, false, true)]
-        [InlineData(true, false, true, true)]
-        [InlineData(false, true, true, true)]
-        public async void WhenEmployeeIdIsSuppliedTheories(bool sameTerritory, bool hasCorrectClaimType, bool hasCorrectClaimTag, bool throwNotFoundException)
+        [InlineData(true, true, false)]
+        [InlineData(true, false, true)]
+        [InlineData(false, true, true)]
+        public async void WhenEmployeeIdIsSuppliedTheories(bool hasCorrectClaimType, bool hasCorrectClaimTag, bool throwNotFoundException)
         {
-            throw new NotImplementedException();
+            var employee = await dbContext.Employees.FirstOrDefaultAsync(x => x.Username == "admin");
+            var query = new GetEmployeeClaimsV1Query() { EmployeeId = employee.Id };
+
+            string type = hasCorrectClaimType ? sharedValues.ClaimType[ClaimTypeEnum.HumanResources] : sharedValues.ClaimType[ClaimTypeEnum.Territory];
+            string tag = hasCorrectClaimTag ? sharedValues.ClaimTag[ClaimTagEnum.Read] : sharedValues.ClaimTag[ClaimTagEnum.Senior];
+            var claim = new Claim(type, tag);
+            userInfoMock.Setup(x => x.Claims).Returns(new List<Claim>() { claim });
+
+            var handler = new GetEmployeeClaimsV1Handler(dbContext, userInfoMock.Object, sharedValues, mediatRMock.Object);
+
+            if (throwNotFoundException)
+            {
+                await Assert.ThrowsAsync<NotAllowedException>(async () => await handler.Handle(query, default));
+            }
+            else
+            {
+                var list = await handler.Handle(query, default);
+
+                Assert.NotEmpty(list);
+            }
         }
         #endregion
     }

@@ -13,6 +13,8 @@ namespace MySystem.MySystem.Api.Service
             options.AddPolicy(CanDeleteTerritoryPolicy.Name, CanDeleteTerritoryPolicy.Policy);
 
             options.AddPolicy(AbleToAddNewEmployeePolicy.Name, AbleToAddNewEmployeePolicy.Policy);
+
+            options.AddPolicy(AbleToRefreshTokenPolicy.Name, AbleToRefreshTokenPolicy.Policy);
         }
     }
 }
