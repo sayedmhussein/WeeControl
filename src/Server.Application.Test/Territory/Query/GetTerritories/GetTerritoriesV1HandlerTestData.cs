@@ -6,9 +6,9 @@ using MySystem.SharedKernel.Services;
 
 namespace MySystem.Application.Test.Territory.Query.GetTerritories
 {
-    public class AuthorizationScenariosTestData : IEnumerable<object[]>
+    public class GetTerritoriesV1HandlerTestData : IEnumerable<object[]>
     {
-        private readonly IValuesService values = new ValueService();
+        private readonly ISharedValues values = new SharedValues();
 
         public IEnumerator<object[]> GetEnumerator()
         {

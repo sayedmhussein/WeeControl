@@ -19,7 +19,7 @@ namespace MySystem.Application.Test.Territory.Command.DeleteTerritory
     {
         private IMySystemDbContext dbContext;
         private Mock<ICurrentUserInfo> userInfoMock;
-        private readonly IValuesService values = new ValueService();
+        private readonly ISharedValues values = new SharedValues();
 
         public DeleteTerritoryV1HandlerTesters()
         {

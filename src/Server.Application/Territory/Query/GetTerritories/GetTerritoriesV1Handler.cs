@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using MySystem.Application.Common.Exceptions;
 using MySystem.Application.Common.Interfaces;
 using MySystem.Domain.EntityDbo.EmployeeSchema;
+using MySystem.Domain.EntityDbo.Territory;
+using MySystem.Domain.Extensions;
 using MySystem.SharedKernel.EntityV1Dtos.Territory;
 using MySystem.SharedKernel.Enumerators;
 using MySystem.SharedKernel.Interfaces;
@@ -18,9 +20,9 @@ namespace MySystem.Application.Territory.Query.GetTerritories
     {
         private readonly IMySystemDbContext context;
         private readonly ICurrentUserInfo userInfo;
-        private readonly IValuesService values;
+        private readonly ISharedValues values;
 
-        public GetTerritoriesV1Handler(IMySystemDbContext context, ICurrentUserInfo userInfo, IValuesService values)
+        public GetTerritoriesV1Handler(IMySystemDbContext context, ICurrentUserInfo userInfo, ISharedValues values)
         {
             this.context = context ?? throw new ArgumentNullException("Db Context can't be Null!");
             this.userInfo = userInfo ?? throw new ArgumentNullException("User Info can't be Null!");
@@ -34,12 +36,18 @@ namespace MySystem.Application.Territory.Query.GetTerritories
                 throw new ArgumentNullException("Query can't be null!");
             }
 
-            if (request.EmployeeId == null && request.SessionId == null && request.TerritoryId == null)
+            if (request.SessionId != null)
             {
-                return GetListOfTerritores(userInfo.TerritoriesId);
+                return await GetListOfTerritoriesBySessionId((Guid)request.SessionId);
             }
 
-            var tag = userInfo.Claims.FirstOrDefault(x=>x.Type == values.ClaimType[ClaimTypeEnum.HumanResources])?.Value?.Contains(values.ClaimTag[ClaimTagEnum.Read]);
+
+            else if (request.EmployeeId == null && request.SessionId == null && request.TerritoryId == null)
+            {
+                return GetListOfTerritoresByTerritoryId(userInfo.TerritoriesId.First());
+            }
+
+            var tag = userInfo.Claims.FirstOrDefault(x => x.Type == values.ClaimType[ClaimTypeEnum.HumanResources])?.Value?.Contains(values.ClaimTag[ClaimTagEnum.Read]);
             if (tag == false || tag == null)
             {
                 throw new NotAllowedException("");
@@ -53,7 +61,8 @@ namespace MySystem.Application.Territory.Query.GetTerritories
             }
             else if (request.SessionId != null)
             {
-                employee = (await context.EmployeeSessions.FirstOrDefaultAsync(s => s.Id == request.SessionId, cancellationToken))?.Employee;
+                var session = await context.EmployeeSessions.FirstOrDefaultAsync(s => s.Id == request.SessionId, cancellationToken);
+                employee = await context.Employees.FirstOrDefaultAsync(x=>x.Id == session.EmployeeId);
             }
 
             if (employee == null)
@@ -76,15 +85,35 @@ namespace MySystem.Application.Territory.Query.GetTerritories
             return ids;
         }
 
-        private List<TerritoryDto> GetListOfTerritores(IEnumerable<Guid> listOfTerritores)
+        private List<TerritoryDto> GetListOfTerritoresByTerritoryId(Guid territoryid)
         {
             var ids = new List<TerritoryDto>();
 
-            var par = context.Territories.FirstOrDefault(x => listOfTerritores.Contains(x.Id));
-            var chd = context.Territories.Where(x => listOfTerritores.Contains(x.Id)).SelectMany(x => x.ReportingFrom).ToList();
+            var par = context.Territories.FirstOrDefault(x => x.Id == territoryid);
+            var chd = context.Territories.Where(x => x.Id == territoryid).SelectMany(x => x.ReportingFrom).ToList();
             chd.Add(par);
 
-            chd.ForEach(x => ids.Add(new TerritoryDto() { Id = x.Id, Name = x.Name }));
+            chd.ForEach(x => ids.Add(x.ToDto<TerritoryDbo, TerritoryDto>()));
+
+            return ids;
+        }
+
+        private async Task<List<TerritoryDto>> GetListOfTerritoriesBySessionId(Guid sessiondid)
+        {
+            var session = await context.EmployeeSessions.FirstOrDefaultAsync(s => s.Id == sessiondid);
+            if (session == null)
+            {
+                throw new NotFoundException("", "");
+            }
+
+            var employee = await context.Employees.FirstOrDefaultAsync(x => x.Id == session.EmployeeId);
+
+            var ids = new List<TerritoryDto>();
+            var par = context.Territories.FirstOrDefault(x => x.Id == employee.TerritoryId);
+            var chd = context.Territories.Where(x => x.Id == employee.TerritoryId).SelectMany(x => x.ReportingFrom).ToList();
+            chd.Add(par);
+
+            chd.ForEach(x => ids.Add(x.ToDto<TerritoryDbo, TerritoryDto>()));
 
             return ids;
         }

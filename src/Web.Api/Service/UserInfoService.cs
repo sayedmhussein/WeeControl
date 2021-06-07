@@ -14,33 +14,20 @@ namespace MySystem.Api.Service
     public class UserInfoService : ICurrentUserInfo
     {
         private readonly IMediator mediatR;
-        private readonly IValuesService values;
-        private Guid? sessionid;
-        private IEnumerable<Guid> officeIds;
+        private readonly ICollection<Guid> officeIds = new List<Guid>();
         
-
-        public UserInfoService(IHttpContextAccessor httpContextAccessor, IMediator mediatR, IValuesService values)
+        public UserInfoService(IHttpContextAccessor httpContextAccessor, IMediator mediatR, ISharedValues values)
         {
             Claims = httpContextAccessor.HttpContext.User.Claims;
 
+            var sessionid_ = Claims.FirstOrDefault(c => c.Type == values.ClaimType[ClaimTypeEnum.Session])?.Value;
+            _ = Guid.TryParse(sessionid_, out Guid sessionId__);
+            SessionId = sessionId__;
+
             this.mediatR = mediatR;
-            this.values = values;
         }
 
-        public Guid? SessionId
-        {
-            get
-            {
-                if (sessionid == null || sessionid == Guid.Empty)
-                {
-                    var sessionid_ = Claims.FirstOrDefault(c => c.Type == values.ClaimType[ClaimTypeEnum.Session])?.Value;
-                    _ = Guid.TryParse(sessionid_, out Guid sessionId__);
-                    sessionid = sessionId__;
-                }
-
-                return sessionid;
-            }
-        }
+        public Guid? SessionId { get; private set; }
 
         public IEnumerable<Claim> Claims { get; private set; }
 
@@ -48,15 +35,18 @@ namespace MySystem.Api.Service
         {
             get
             {
-                if (officeIds == null)
+                if (officeIds.Any() == false)
                 {
-                    var bla = mediatR.Send(new GetTerritoriesV1Query() { SessionId = (Guid)SessionId }).GetAwaiter().GetResult();
-                    officeIds = new List<Guid>();
-                    foreach (var shit in bla)
+                    var cla = mediatR.Send(new GetTerritoriesV1Query() { SessionId = (Guid)SessionId });
+                    var bla = cla.GetAwaiter().GetResult();
+
+                    foreach (var bra in bla)
                     {
-                        officeIds.Append((Guid)shit.Id);
+                        officeIds.Add((Guid)bra.Id);
                     }
                 }
+
+                _ = officeIds;
 
                 return officeIds;
             }

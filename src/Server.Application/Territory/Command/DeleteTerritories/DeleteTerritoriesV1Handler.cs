@@ -14,9 +14,9 @@ namespace MySystem.Application.Territory.Command.DeleteTerritories
     {
         private readonly IMySystemDbContext context;
         private readonly ICurrentUserInfo userInfo;
-        private readonly IValuesService values;
+        private readonly ISharedValues values;
 
-        public DeleteTerritoriesV1Handler(IMySystemDbContext context, ICurrentUserInfo userInfo, IValuesService values)
+        public DeleteTerritoriesV1Handler(IMySystemDbContext context, ICurrentUserInfo userInfo, ISharedValues values)
         {
             this.context = context ?? throw new ArgumentNullException("Db Context can't be Null!");
             this.userInfo = userInfo ?? throw new ArgumentNullException("User Info can't be Null!");
@@ -41,7 +41,7 @@ namespace MySystem.Application.Territory.Command.DeleteTerritories
                 throw new NotAllowedException("");
             }
 
-            //Below bad performance in large
+            //todo: refactor as below is very bad performance!
             try
             {
                 foreach (var territoryid in request.TerritoryIds)

@@ -3,7 +3,7 @@ using MySystem.SharedKernel.Enumerators;
 
 namespace MySystem.SharedKernel.Interfaces
 {
-    public interface IValuesService
+    public interface ISharedValues
     {
         public ImmutableDictionary<ApiRouteEnum, string> ApiRoute { get; }
 

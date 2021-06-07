@@ -6,25 +6,17 @@ using Newtonsoft.Json;
 
 namespace MySystem.SharedKernel.ExtensionMethods
 {
-    public static class RequestResponseExtension
+    public static class DtoSerializationExtension
     {
-        #region RequestDto
-        public static string SerializeToJson<T>(this IPayload<T> requestDto)
+        public static string SerializeToJson(this IDto requestDto)
         {
             return JsonConvert.SerializeObject(requestDto);
         }
 
-        public static HttpContent SerializeToHttpContent<T>(this IPayload<T> requestDto)
+        public static HttpContent SerializeToHttpContent(this IDto requestDto)
         {
             var json = SerializeToJson(requestDto);
             return new StringContent(json, Encoding.UTF8, "application/json");
-        }
-        #endregion
-
-        #region ResponseDto
-        public static string SerializeToJson<T>(this IResponseDto<T> responseDto)
-        {
-            return JsonConvert.SerializeObject(responseDto);
         }
 
         public static T DeserializeFromJson<T>(string responseDto)
@@ -32,6 +24,5 @@ namespace MySystem.SharedKernel.ExtensionMethods
             var obj = JsonConvert.DeserializeObject<T>(responseDto);
             return obj;
         }
-        #endregion
     }
 }

@@ -8,11 +8,11 @@ namespace MySystem.SharedKernel.Test.Services
 {
     public class ValueServiceTesters
     {
-        private readonly IValuesService uriService;
+        private readonly ISharedValues uriService;
 
         public ValueServiceTesters()
         {
-            uriService = new ValueService();
+            uriService = new SharedValues();
         }
 
         [Fact]

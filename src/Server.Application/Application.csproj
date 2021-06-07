@@ -14,24 +14,15 @@
     <Folder Include="Common\Interfaces\" />
     <Folder Include="Employee\Command\DeleteEmployee\" />
     <Folder Include="Employee\Command\UpdateEmployee\" />
-    <Folder Include="Employee\Query\GetEmployeeDetail\" />
     <Folder Include="Employee\Command\AddEmployee\V1\" />
     <Folder Include="Employee\Command\DeleteEmployee\V1\" />
     <Folder Include="Employee\Command\UpdateEmployee\V1\" />
-    <Folder Include="Employee\Query\GetEmployeeDetail\V1\" />
     <Folder Include="Common\Exceptions\" />
     <Folder Include="Common\Behaviours\" />
     <Folder Include="Models\" />
     <Folder Include="Employee\Command\AddEmployeeClaim\" />
     <Folder Include="Employee\Command\AddEmployeeClaim\V1\" />
-    <Folder Include="Employee\Query\GetNewToken\" />
-    <Folder Include="Employee\Query\GetRefreshedToken\" />
-    <Folder Include="Employee\Command\TerminateSession\" />
-    <Folder Include="Employee\Command\TerminateSession\V1\" />
-    <Folder Include="Employee\Command\AddEmployeeSession\" />
-    <Folder Include="Employee\Command\AddEmployeeSession\V1\" />
     <Folder Include="Employee\Query\GetEmployeeClaims\" />
-    <Folder Include="Employee\Query\GetEmployeeClaims\V1\" />
     <Folder Include="Territory\" />
     <Folder Include="Territory\Command\" />
     <Folder Include="Territory\Query\" />
@@ -49,7 +40,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Employee\Query\GetEmployeeClaims\" />
-    <None Remove="Employee\Query\GetEmployeeClaims\V1\" />
     <None Remove="Territory\" />
     <None Remove="Territory\Command\" />
     <None Remove="Territory\Query\" />

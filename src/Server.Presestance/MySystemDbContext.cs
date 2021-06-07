@@ -52,7 +52,7 @@ namespace MySystem.Persistence
 
         private void AddSuperUser()
         {
-            IValuesService values = new ValueService();
+            ISharedValues values = new SharedValues();
 
             var territory = new TerritoryDbo()
             {
