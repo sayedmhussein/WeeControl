@@ -72,14 +72,14 @@ namespace MySystem.MySystem.Api.Controllers.V1
         [ProducesResponseType(typeof(ErrorDto), (int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(ErrorDto), (int)HttpStatusCode.Forbidden)]
         [MapToApiVersion("1.0")]
-        public async Task<ActionResult<IEnumerable<TerritoryDto>>> PutTerritoryV1([FromBody] RequestDto<TerritoryDto> requestDto)
+        public async Task<ActionResult<IEnumerable<TerritoryDto>>> PutTerritoryV1([FromBody] TerritoryDto requestDto)
         {
             var response =
                 await mediatR.Send(new AddOrEditTerritoriesV1Command()
                 {
                     TerritoryDtos = new List<TerritoryDto>()
                     {
-                        requestDto.Payload
+                        requestDto
                     }
                 });
 

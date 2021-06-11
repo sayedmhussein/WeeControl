@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Claims;
 using MediatR;
+using MySystem.SharedKernel.Interfaces;
 
 namespace MySystem.Application.Employee.Query.GetEmployeeClaims
 {
@@ -11,8 +12,11 @@ namespace MySystem.Application.Employee.Query.GetEmployeeClaims
 
         public string Password { get; set; }
 
-        public string Device { get; set; }
+        [Obsolete]
+        public string Device => Metadata?.Device;
 
         public Guid? EmployeeId { get; set; }
+
+        public IRequestMetadata Metadata { get; set; }
     }
 }

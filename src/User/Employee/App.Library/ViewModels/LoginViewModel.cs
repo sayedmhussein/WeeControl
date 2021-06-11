@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
@@ -7,8 +6,9 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
 using MySystem.Persistence.ClientService.Services;
-using MySystem.Persistence.Shared.Dtos.V1;
-using MySystem.Persistence.Shared.Dtos.V1.Custom;
+using MySystem.SharedKernel.EntityV1Dtos.Common;
+using MySystem.SharedKernel.EntityV1Dtos.Employee;
+using MySystem.SharedKernel.Enumerators;
 
 namespace MySystem.Persistence.ClientService.ViewModels
 {
@@ -64,17 +64,17 @@ namespace MySystem.Persistence.ClientService.ViewModels
             if (device.Internet)
             {
                 //VerifyUserInputs();
-                var loginDto = new LoginDto() { Username = Username, Password = Password };
+                var loginDto = new CreateLoginDto() { Username = Username, Password = Password };
                 //Validator.ValidateObject(loginDto, new ValidationContext(this, null, null));
-                var dto = new RequestDto<LoginDto>(deviceId: device.DeviceId, payload: loginDto);
+                var dto = new RequestDto<CreateLoginDto>(deviceId: device.DeviceId, payload: loginDto);
 
                 try
                 {
-                    var response = await service.HttpClientInstance.PostAsJsonAsync(service.Api.Login, dto);
+                    var response = await service.HttpClientInstance.PostAsJsonAsync(service.SharedValues.ApiRoute[ApiRouteEnum.EmployeeSession], dto);
                     if (response.IsSuccessStatusCode)
                     {
-                        var data = await response.Content.ReadAsAsync<ResponseDto<string>>();
-                        device.Token = data.Payload;
+                        var data = await response.Content.ReadAsAsync<EmployeeTokenDto>();
+                        device.Token = data.Token;
                         await device.NavigateToPageAsync("HomePage");
                     }
                     else

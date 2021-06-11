@@ -8,12 +8,12 @@ namespace MySystem.SharedKernel.ExtensionMethods
 {
     public static class EntityValidationExtension
     {
-        public static bool IsValid(this IDto dto)
+        public static bool IsValid(this IRequestDto dto)
         {
             return Validator.TryValidateObject(dto, new ValidationContext(dto), null, true);
         }
 
-        public static ICollection<ValidationResult> GetErrorMessages(this IDto dto)
+        public static ICollection<ValidationResult> GetErrorMessages(this IRequestDto dto)
         {
             ICollection<ValidationResult> results = new List<ValidationResult>();
             Validator.TryValidateObject(dto, new ValidationContext(dto), results, true);

@@ -8,7 +8,6 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using MySystem.Application.Common.Exceptions;
 using MySystem.Application.Common.Interfaces;
-using MySystem.Domain.EntityDbo.EmployeeSchema;
 using MySystem.SharedKernel.Enumerators;
 using MySystem.SharedKernel.Interfaces;
 

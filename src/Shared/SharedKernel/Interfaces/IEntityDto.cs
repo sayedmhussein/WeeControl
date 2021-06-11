@@ -1,7 +1,7 @@
 ﻿using System;
 namespace MySystem.SharedKernel.Interfaces
 {
-    public interface IEntityDto : IDto
+    public interface IEntityDto : IRequestDto
     {
         Guid? Id { get; set; }
     }

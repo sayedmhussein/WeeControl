@@ -5,7 +5,7 @@ using MySystem.SharedKernel.Interfaces;
 
 namespace MySystem.Domain.EntityDbo.EmployeeSchema
 {
-    public class EmployeeSessionLogDbo : EmployeeSessionBase, IEntityDbo
+    public class EmployeeSessionLogDbo : EmployeeSessionLogBase, IEntityDbo
     {
         [Key]
         public Guid Id { get; set; }

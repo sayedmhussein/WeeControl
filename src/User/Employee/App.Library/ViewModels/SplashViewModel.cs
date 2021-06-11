@@ -1,12 +1,14 @@
-﻿using System.Net.Http;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
+﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
-using System;
-using MySystem.Persistence.ClientService.Services;
-using MySystem.Persistence.Shared.Dtos.V1;
 using Microsoft.Extensions.Logging;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using Microsoft.Toolkit.Mvvm.Input;
+using MySystem.Persistence.ClientService.Services;
+using MySystem.SharedKernel.EntityV1Dtos.Common;
+using MySystem.SharedKernel.EntityV1Dtos.Employee;
+using MySystem.SharedKernel.Enumerators;
 
 namespace MySystem.Persistence.ClientService.ViewModels
 {
@@ -48,14 +50,14 @@ namespace MySystem.Persistence.ClientService.ViewModels
             }
 
             RequestDto<object> requestDto = new RequestDto<object>(device.DeviceId);
-            ResponseDto<string> responseDto = null;
+            EmployeeTokenDto responseDto = null;
 
             try
             {
-                var response = await service.HttpClientInstance.PostAsJsonAsync(service.Api.Token, requestDto);
+                var response = await service.HttpClientInstance.PutAsJsonAsync(service.SharedValues.ApiRoute[ApiRouteEnum.EmployeeSession], requestDto);
                 if (response.IsSuccessStatusCode)
                 {
-                    responseDto = await response.Content.ReadAsAsync<ResponseDto<string>>();
+                    responseDto = await response.Content.ReadAsAsync<EmployeeTokenDto>();
                 }
                 else
                 {
@@ -64,7 +66,7 @@ namespace MySystem.Persistence.ClientService.ViewModels
             }
             catch (System.Net.WebException)
             {
-                logger?.LogWarning("Server Issue! {0}/{1} - V{2}.", service.Api.Base, service.Api.Token, service.Api.Version);
+                //logger?.LogWarning("Server Issue! {0}/{1} - V{2}.", service.SharedValues.Base, service.SharedValues.Token, service.SharedValues.Version);
                 await device.DisplayMessageAsync("Server Connection Error", "The Application can't connect to the server, ensure that the applicaiton is updated or try again later.");
                 await device.TerminateAppAsync();
                 return;
@@ -77,7 +79,7 @@ namespace MySystem.Persistence.ClientService.ViewModels
                 return;
             }
 
-            device.Token = responseDto?.Payload ?? string.Empty;
+            device.Token = responseDto?.Token ?? string.Empty;
 
             if (device.Token == string.Empty)
             {

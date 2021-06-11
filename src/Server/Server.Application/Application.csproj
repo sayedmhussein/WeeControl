@@ -28,10 +28,11 @@
     <Folder Include="Territory\Query\" />
     <Folder Include="Territory\Query\GetTerritories\" />
     <Folder Include="Territory\Command\AddOrEditTerritories\" />
+    <Folder Include="Employee\Command\TerminateSession\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="9.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.7" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
   </ItemGroup>
   <ItemGroup>
@@ -41,6 +42,7 @@
     <None Remove="Territory\Query\" />
     <None Remove="Territory\Query\GetTerritories\" />
     <None Remove="Territory\Command\AddTerritory\" />
+    <None Remove="Employee\Command\TerminateSession\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Server.Domain\Domain.csproj" />

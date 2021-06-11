@@ -6,6 +6,7 @@ namespace MySystem.SharedKernel.EntityBases.Employee
     public class EmployeeClaimBase
     {
         [Required]
+        [StringLength(5)]
         public string ClaimType { get; set; }
 
         public string ClaimValue { get; set; }
@@ -17,20 +18,5 @@ namespace MySystem.SharedKernel.EntityBases.Employee
         public DateTime? RevokedTs { get; set; }
 
         public Guid? RevokedById { get; set; }
-    }
-
-    [Flags]
-    public enum ClaimTypes
-    {
-        Session,
-        Office
-
-
-    }
-
-    [Flags]
-    public enum ClaimTags
-    {
-        Add, Edit, Delete, Read
     }
 }

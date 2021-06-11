@@ -1,9 +1,12 @@
 ﻿using System;
+using MySystem.SharedKernel.EntityV1Dtos.Common;
+using MySystem.SharedKernel.Interfaces;
+
 namespace MySystem.SharedKernel.EntityV1Dtos.Employee
 {
-    public class LoginRefreshDto
+    public class RefreshLoginDto : IRequestDto
     {
-        public string Device { get; set; }
+        public RequestMetadata Metadata { get; set; }
     }
 }
 

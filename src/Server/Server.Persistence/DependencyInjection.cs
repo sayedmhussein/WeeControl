@@ -14,7 +14,11 @@ namespace MySystem.Persistence
             services.AddDbContext<MySystemDbContext>(options =>
             {
                 options.EnableSensitiveDataLogging();
-                options.UseNpgsql(configuration.GetConnectionString("DbConnection"));
+                options.UseNpgsql(configuration.GetConnectionString("DbConnection"), b =>
+                {
+                    b.MigrationsAssembly("WebApi");
+                });
+                
             });
 
             services.AddScoped<IMySystemDbContext>(provider => provider.GetService<MySystemDbContext>());

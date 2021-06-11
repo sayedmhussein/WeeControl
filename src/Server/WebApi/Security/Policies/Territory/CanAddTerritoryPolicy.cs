@@ -22,6 +22,7 @@ namespace MySystem.Web.Api.Security.Policies.Territory
                 var p = new AuthorizationPolicyBuilder();
                 p.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
                 p.RequireClaim(values.ClaimType[ClaimTypeEnum.Session]);
+                p.RequireClaim(values.ClaimType[ClaimTypeEnum.HumanResources], values.ClaimTag[ClaimTagEnum.Add]);
                 p.Requirements.Add(new TokenRefreshmentRequirement(TimeSpan.FromMinutes(5)));
 
                 return p.Build();

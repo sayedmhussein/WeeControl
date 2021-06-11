@@ -24,6 +24,7 @@ namespace MySystem.Persistence
             if (Territories.Any() == false)
             {
                 AddSuperUser();
+                AddStandardUser();
             }
         }
 
@@ -83,6 +84,24 @@ namespace MySystem.Persistence
                 ClaimValue = string.Join(";", values.ClaimTag.Values)
             };
             EmployeeClaims.Add(superuserclaim);
+            SaveChanges();
+        }
+
+        private void AddStandardUser()
+        {
+            ISharedValues values = new SharedValues();
+
+            var standardUser = new EmployeeDbo()
+            {
+                EmployeeTitle = values.PersonTitle[PersonalTitleEnum.Mr],
+                FirstName = "User",
+                LastName = "User",
+                Gender = values.PersonGender[PersonalGenderEnum.Male],
+                TerritoryId = Territories.FirstOrDefault().Id,
+                Username = "user",
+                Password = "user"
+            };
+            Employees.Add(standardUser);
             SaveChanges();
         }
     }

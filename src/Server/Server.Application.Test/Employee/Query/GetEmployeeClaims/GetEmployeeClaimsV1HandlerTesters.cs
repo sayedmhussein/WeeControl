@@ -15,6 +15,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Security.Claims;
 using MySystem.SharedKernel.Enumerators;
+using MySystem.SharedKernel.EntityV1Dtos.Common;
 
 namespace MySystem.Application.Test.Employee.Query.GetEmployeeClaims
 {
@@ -24,6 +25,7 @@ namespace MySystem.Application.Test.Employee.Query.GetEmployeeClaims
         private IMySystemDbContext dbContext;
         private Mock<ICurrentUserInfo> userInfoMock;
         private Mock<IMediator> mediatRMock;
+        private IRequestMetadata Metadata;
 
         private GetEmployeeClaimsV1Handler handler;
 
@@ -36,6 +38,8 @@ namespace MySystem.Application.Test.Employee.Query.GetEmployeeClaims
             mediatRMock = new Mock<IMediator>();
 
             handler = new GetEmployeeClaimsV1Handler(dbContext, userInfoMock.Object, sharedValues, mediatRMock.Object);
+
+            Metadata = new RequestMetadata() { Device = "device" };
         }
 
         public void Dispose()
@@ -82,7 +86,7 @@ namespace MySystem.Application.Test.Employee.Query.GetEmployeeClaims
         [Fact]
         public async void WhenAllQueryPropertiesWhereSupplied_ThrowBadRequest()
         {
-            var query = new GetEmployeeClaimsV1Query() { Username = "admin", Password = "admin", Device = "device", EmployeeId = Guid.NewGuid() };
+            var query = new GetEmployeeClaimsV1Query() { Username = "admin", Password = "admin", Metadata = Metadata, EmployeeId = Guid.NewGuid() };
 
             await Assert.ThrowsAsync<BadRequestException>(async () => await handler.Handle(query, default));
         }
@@ -104,7 +108,7 @@ namespace MySystem.Application.Test.Employee.Query.GetEmployeeClaims
         [InlineData("", "password", "device")]
         public async void WhenCombinationOfUsernameAndPasswordAndDeviceAreNotSuppliedTogether_ThrowBadRequestException(string username, string password, string device)
         {
-            var query = new GetEmployeeClaimsV1Query() { Username = username, Password = password, Device = device };
+            var query = new GetEmployeeClaimsV1Query() { Username = username, Password = password, Metadata = new RequestMetadata() { Device = device } };
 
             await Assert.ThrowsAsync<BadRequestException>(async () => await handler.Handle(query, default));
         }
@@ -117,7 +121,7 @@ namespace MySystem.Application.Test.Employee.Query.GetEmployeeClaims
         [InlineData("admin1", "admin", false)]
         public async void UsernameAndPasswordTheoryTests(string username, string password, bool isCorrect)
         {
-            var query = new GetEmployeeClaimsV1Query() { Username = username, Password = password, Device = "Device"};
+            var query = new GetEmployeeClaimsV1Query() { Username = username, Password = password, Metadata = Metadata };
 
             if (isCorrect)
             {
@@ -137,7 +141,7 @@ namespace MySystem.Application.Test.Employee.Query.GetEmployeeClaims
             employee.AccountLockArgument = "locked";
             await dbContext.SaveChangesAsync(default);
 
-            var query = new GetEmployeeClaimsV1Query() { Username = "admin", Password = "admin", Device = "Device" };
+            var query = new GetEmployeeClaimsV1Query() { Username = "admin", Password = "admin", Metadata = Metadata };
 
             await Assert.ThrowsAsync<NotAllowedException>(async () => await handler.Handle(query, default));
         }
@@ -147,7 +151,7 @@ namespace MySystem.Application.Test.Employee.Query.GetEmployeeClaims
         [Fact]
         public async void WhenDeviceIsSuppliedButTokenDoNotCarryValidSessionId_ThrowNotFoundException()
         {
-            var query = new GetEmployeeClaimsV1Query() { Device = "device" };
+            var query = new GetEmployeeClaimsV1Query() { Metadata = Metadata };
 
             await Assert.ThrowsAsync<NotAllowedException>(async () => await handler.Handle(query, default));
         }
@@ -160,7 +164,7 @@ namespace MySystem.Application.Test.Employee.Query.GetEmployeeClaims
         public async void WhenDeviceOnlyIsSuppliedTheoryTests(bool isSessionActive, bool isSameDevice, bool isEmployeeNotLocked, bool throwNotAllowedException)
         {
             var device = "device";
-            var query = new GetEmployeeClaimsV1Query() { Device = device};
+            var query = new GetEmployeeClaimsV1Query() { Metadata = Metadata };
             var employee = await dbContext.Employees.FirstOrDefaultAsync(x => x.Username == "admin");
 
             var session = new EmployeeSessionDbo() { DeviceId = isSameDevice ? device : device + "other", EmployeeId = employee.Id };

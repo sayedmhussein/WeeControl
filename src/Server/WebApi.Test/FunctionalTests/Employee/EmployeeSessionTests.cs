@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using Microsoft.AspNetCore.Mvc.Testing;
+using MySystem.SharedKernel.EntityV1Dtos.Common;
 using MySystem.SharedKernel.EntityV1Dtos.Employee;
 using MySystem.SharedKernel.Enumerators;
 using MySystem.SharedKernel.Interfaces;
@@ -15,14 +16,15 @@ namespace MySystem.Web.Api.Test.FunctionalTests.Employee
     {
         private const string ADMIN_USERNAME = "admin";
         private const string ADMIN_PASSWORD = "admin";
+        private readonly string ROUTE;
 
         private readonly WebApplicationFactory<Startup> factory;
-        private readonly ISharedValues sharedValues;
 
         public EmployeeSessionTests(WebApplicationFactory<Startup> factory)
         {
             this.factory = factory;
-            sharedValues = new SharedValues();
+            var sharedValues = new SharedValues();
+            ROUTE = sharedValues.ApiRoute[ApiRouteEnum.Employee] + "Session/";
         }
 
         [Fact]
@@ -67,7 +69,7 @@ namespace MySystem.Web.Api.Test.FunctionalTests.Employee
         }
 
         [Fact]
-        public async void WhenRefreshTokenWithValidTokenButDifferentDevice_ReturnUnAuthorized()
+        public async void WhenRefreshTokenWithValidTokenButDifferentDevice_ReturnForbidden()
         {
             var token1Response = GetLoginHttpResponseMessage(ADMIN_USERNAME, ADMIN_PASSWORD, "device");
             token1Response.EnsureSuccessStatusCode();
@@ -75,7 +77,7 @@ namespace MySystem.Web.Api.Test.FunctionalTests.Employee
 
             var token2Response = GetNewTokenHttpResponseMessage(token1Dto.Token, "device1");
 
-            Assert.Equal(HttpStatusCode.Unauthorized, token2Response.StatusCode);
+            Assert.Equal(HttpStatusCode.Forbidden, token2Response.StatusCode);
         }
 
         [Fact]
@@ -86,23 +88,48 @@ namespace MySystem.Web.Api.Test.FunctionalTests.Employee
             Assert.Equal(HttpStatusCode.Unauthorized, token2Response.StatusCode);
         }
 
+        [Fact]
+        public async void WhenLogout_NoErrorOccure()
+        {
+            var token1Response = GetLoginHttpResponseMessage(ADMIN_USERNAME, ADMIN_PASSWORD, "device");
+            token1Response.EnsureSuccessStatusCode();
+            var token1Dto = await token1Response.Content.ReadFromJsonAsync<EmployeeTokenDto>();
+
+            var token2Response = GetNewTokenHttpResponseMessage(token1Dto.Token, "device");
+            token2Response.EnsureSuccessStatusCode();
+            var token2Dto = await token2Response.Content.ReadFromJsonAsync<EmployeeTokenDto>();
+
+            var logoutResponse = TerminateTokenHttpResponseMessage(token2Dto.Token, "device");
+
+            Assert.Equal(HttpStatusCode.OK, logoutResponse.StatusCode);
+        }
+
         private HttpResponseMessage GetLoginHttpResponseMessage(string username, string password, string device)
         {
             var client = factory.CreateClient();
-            var loginDto = new LoginDto() { Username = username, Password = password, Device = device };
-            var route = sharedValues.ApiRoute[ApiRouteEnum.Employee] + "Session/";
 
-            return client.PostAsJsonAsync(route, loginDto).GetAwaiter().GetResult();
+            var metadata = new RequestMetadata() { Device = device };
+            var loginDto = new CreateLoginDto() { Username = username, Password = password, Metadata = metadata };
+
+            return client.PostAsJsonAsync(ROUTE, loginDto).GetAwaiter().GetResult();
         }
 
         private HttpResponseMessage GetNewTokenHttpResponseMessage(string token, string device)
         {
             var client = factory.CreateClient();
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(token);
-            var loginDto = new LoginRefreshDto() { Device = device };
-            var route = sharedValues.ApiRoute[ApiRouteEnum.Employee] + "Session/";
+            var metadata = new RequestMetadata() { Device = device };
+            var loginDto = new RefreshLoginDto() { Metadata = metadata };
 
-            return client.PutAsJsonAsync(route, loginDto).GetAwaiter().GetResult();
+            return client.PutAsJsonAsync(ROUTE, loginDto).GetAwaiter().GetResult();
+        }
+
+        private HttpResponseMessage TerminateTokenHttpResponseMessage(string token, string device)
+        {
+            var client = factory.CreateClient();
+            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(token);
+
+            return client.DeleteAsync(ROUTE).GetAwaiter().GetResult();
         }
     }
 }

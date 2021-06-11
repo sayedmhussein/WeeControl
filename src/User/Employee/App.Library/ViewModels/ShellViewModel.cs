@@ -1,12 +1,11 @@
-﻿using System;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
 using MySystem.Persistence.ClientService.Services;
-using MySystem.Persistence.Shared.Dtos.V1;
+using MySystem.SharedKernel.EntityV1Dtos.Common;
 
 namespace MySystem.ClientService.ViewModels
 {
@@ -51,7 +50,7 @@ namespace MySystem.ClientService.ViewModels
             {
                 try
                 {
-                    var dto = new RequestDto<object>(device.DeviceId);
+                    var dto = new RequestDto() { DeviceId = device.DeviceId };
                     var response = await service.HttpClientInstance.PostAsJsonAsync("/Api/Credentials/logout", dto);
                 }
                 catch
