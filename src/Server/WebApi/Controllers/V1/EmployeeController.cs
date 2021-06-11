@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MySystem.Application.Common.Interfaces;
 using MySystem.Application.Employee.Command.AddEmployee.V1;
+using MySystem.Application.Employee.Command.TerminateSession;
 using MySystem.Application.Employee.Query.GetEmployeeClaims;
 using MySystem.SharedKernel.EntityV1Dtos.Common;
 using MySystem.SharedKernel.EntityV1Dtos.Employee;
@@ -103,9 +104,9 @@ namespace MySystem.Web.Api.Controllers.V1
         [ProducesResponseType(typeof(ErrorDto), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ErrorDto), (int)HttpStatusCode.NotFound)]
         [MapToApiVersion("1.0")]
-        public async Task<ActionResult<EmployeeTokenDto>> LoginV1([FromBody] LoginDto loginDto)
+        public async Task<ActionResult<EmployeeTokenDto>> LoginV1([FromBody] CreateLoginDto loginDto)
         {
-            var query = new GetEmployeeClaimsV1Query() { Username = loginDto.Username, Password = loginDto.Password, Device = loginDto.Device };
+            var query = new GetEmployeeClaimsV1Query() { Username = loginDto.Username, Password = loginDto.Password, Metadata = loginDto.Metadata };
             var response = await mediatR.Send(query);
             var token = jwtService.GenerateJwtToken(response, "", DateTime.UtcNow.AddMinutes(5));
             return Ok(new EmployeeTokenDto() { Token = token });
@@ -119,15 +120,15 @@ namespace MySystem.Web.Api.Controllers.V1
         [ProducesResponseType(typeof(ErrorDto), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ErrorDto), (int)HttpStatusCode.NotFound)]
         [MapToApiVersion("1.0")]
-        public async Task<ActionResult<EmployeeTokenDto>> RefreshTokenV1([FromBody] LoginRefreshDto loginRefreshDto)
+        public async Task<ActionResult<EmployeeTokenDto>> RefreshTokenV1([FromBody] RefreshLoginDto loginRefreshDto)
         {
-            var query = new GetEmployeeClaimsV1Query() { Device = loginRefreshDto.Device };
+            var query = new GetEmployeeClaimsV1Query() { Metadata = loginRefreshDto.Metadata };
             var response = await mediatR.Send(query);
             var token = jwtService.GenerateJwtToken(response, "", DateTime.UtcNow.AddDays(5));
             return Ok(new EmployeeTokenDto() { Token = token });
         }
 
-        //[Authorize(Policy = TokenRefreshmentPolicy.Name)]
+        [Authorize(Policy = AbleToRefreshTokenPolicy.Name)]
         [HttpDelete("Session")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType((int)HttpStatusCode.OK)]
@@ -136,7 +137,8 @@ namespace MySystem.Web.Api.Controllers.V1
         [MapToApiVersion("1.0")]
         public async Task<ActionResult> LogoutV1()
         {
-            //await mediatR.Send(command);
+            var command = new TerminateSessionV1Command();
+            await mediatR.Send(command);
             return Ok();
         }
         #endregion
@@ -194,9 +196,37 @@ namespace MySystem.Web.Api.Controllers.V1
         }
 
         [HttpPut("Identity/{employeeid}/Attachment")]
-        public Task<ActionResult> PutEmployeeIdentity(Guid employeeid, List<IFormFile> files)
+        public async Task<ActionResult> PutEmployeeIdentity(Guid employeeid, List<IFormFile> files)
         {
-            throw new NotImplementedException();
+            string[] permittedExtensions = { ".jpg", ".png", ".pdf" };
+
+            if (files.TrueForAll(x => permittedExtensions.Contains(Path.GetExtension(x.FileName).ToLowerInvariant())))
+            {
+                long size = files.Sum(f => f.Length);
+                string path = String.Empty;
+
+                foreach (var formFile in files)
+                {
+                    if (formFile.Length > 0)
+                    {
+                        await Task.Delay(1);
+                        //var filePath = Path.Combine(config["StoredFilesPath"], "EmployeePhotos",
+                        //    Guid.NewGuid().ToString() + Path.GetExtension(formFile.FileName).ToLowerInvariant());
+                        
+                        //path = filePath;
+
+                        //using var stream = System.IO.File.Create(filePath);
+                        //await formFile.CopyToAsync(stream);
+                    }
+                }
+
+                // Process uploaded files
+                // Don't rely on or trust the FileName property without validation.
+
+                return Ok(new { count = files.Count, size, path });
+            }
+
+            return BadRequest();
         }
 
         [HttpDelete("Identity/{employeeid}/{identityid}")]

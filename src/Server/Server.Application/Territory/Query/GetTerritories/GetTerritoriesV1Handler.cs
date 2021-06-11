@@ -29,78 +29,53 @@ namespace MySystem.Application.Territory.Query.GetTerritories
             this.values = values ?? throw new ArgumentNullException();
         }
 
-        public async Task<IEnumerable<TerritoryDto>> Handle(GetTerritoriesV1Query request, CancellationToken cancellationToken)
+        public Task<IEnumerable<TerritoryDto>> Handle(GetTerritoriesV1Query request, CancellationToken cancellationToken)
         {
             if (request == null)
             {
                 throw new ArgumentNullException("Query can't be null!");
             }
 
-            if (request.SessionId != null)
+            if (request.TerritoryId != null && request.SessionId == null && request.EmployeeId == null)
             {
-                return await GetListOfTerritoriesBySessionId((Guid)request.SessionId);
+                return GetListOfTerritoresByTerritoryIdAsync((Guid)request.TerritoryId, cancellationToken);
             }
-
-
-            else if (request.EmployeeId == null && request.SessionId == null && request.TerritoryId == null)
+            else if (request.TerritoryId == null && request.SessionId != null && request.EmployeeId == null)
             {
-                return GetListOfTerritoresByTerritoryId(userInfo.TerritoriesId.First());
+                return GetListOfTerritoriesBySessionIdAsync((Guid)request.SessionId, cancellationToken);
             }
-
-            var tag = userInfo.Claims.FirstOrDefault(x => x.Type == values.ClaimType[ClaimTypeEnum.HumanResources])?.Value?.Contains(values.ClaimTag[ClaimTagEnum.Read]);
-            if (tag == false || tag == null)
+            else if (request.TerritoryId == null && request.SessionId == null && request.EmployeeId != null)
             {
-                throw new NotAllowedException("");
+                return GetListOfTerritoriesByEmployeeIdAsync((Guid)request.EmployeeId, cancellationToken);
             }
-
-            EmployeeDbo employee = null;
-
-            if (request.EmployeeId != null)
+            else
             {
-                employee = await context.Employees.FirstOrDefaultAsync(s => s.Id == request.EmployeeId, cancellationToken);
+                throw new BadRequestException("Didn't provide correct query!");
             }
-            else if (request.SessionId != null)
-            {
-                var session = await context.EmployeeSessions.FirstOrDefaultAsync(s => s.Id == request.SessionId, cancellationToken);
-                employee = await context.Employees.FirstOrDefaultAsync(x=>x.Id == session.EmployeeId);
-            }
-
-            if (employee == null)
-            {
-                throw new NotFoundException("Employee Not Found!", "");
-            }
-
-
-
-            var ids = new List<TerritoryDto>();
-
-            //List<Guid> childrens = new List<Guid>() { employee.TerritoryId };
-
-            var par = context.Territories.FirstOrDefault(x => x.Id == employee.TerritoryId);
-            var chd = context.Territories.Where(x => x.Id == employee.TerritoryId).SelectMany(x => x.ReportingFrom).ToList();
-            chd.Add(par);
-            
-            chd.ForEach(x => ids.Add(new TerritoryDto() { Id = x.Id, Name = x.Name }));
-
-            return ids;
         }
 
-        private List<TerritoryDto> GetListOfTerritoresByTerritoryId(Guid territoryid)
+        private async Task<IEnumerable<TerritoryDto>> GetListOfTerritoresByTerritoryIdAsync(Guid territoryid, CancellationToken cancellationToken)
         {
             var ids = new List<TerritoryDto>();
 
-            var par = context.Territories.FirstOrDefault(x => x.Id == territoryid);
-            var chd = context.Territories.Where(x => x.Id == territoryid).SelectMany(x => x.ReportingFrom).ToList();
+            var allTerritories = await context.Territories.ToListAsync(cancellationToken);
+
+            var par = allTerritories.FirstOrDefault(x => x.Id == territoryid);
+            var chd = GetChildrenFromList(territoryid, allTerritories);
             chd.Add(par);
+
+            //var par = context.Territories.FirstOrDefault(x => x.Id == territoryid);
+            //var chd = context.Territories.Where(x => x.Id == territoryid).SelectMany(x => x.ReportingFrom).ToList();
+            //chd.Add(par);
 
             chd.ForEach(x => ids.Add(x.ToDto<TerritoryDbo, TerritoryDto>()));
 
             return ids;
         }
 
-        private async Task<List<TerritoryDto>> GetListOfTerritoriesBySessionId(Guid sessiondid)
+        private async Task<IEnumerable<TerritoryDto>> GetListOfTerritoriesBySessionIdAsync(Guid sessiondid, CancellationToken cancellationToken)
         {
-            var session = await context.EmployeeSessions.FirstOrDefaultAsync(s => s.Id == sessiondid);
+            var session = await context.EmployeeSessions.FirstOrDefaultAsync(s => s.Id == sessiondid && s.TerminationTs == null);
             if (session == null)
             {
                 throw new NotFoundException("", "");
@@ -108,14 +83,40 @@ namespace MySystem.Application.Territory.Query.GetTerritories
 
             var employee = await context.Employees.FirstOrDefaultAsync(x => x.Id == session.EmployeeId);
 
-            var ids = new List<TerritoryDto>();
-            var par = context.Territories.FirstOrDefault(x => x.Id == employee.TerritoryId);
-            var chd = context.Territories.Where(x => x.Id == employee.TerritoryId).SelectMany(x => x.ReportingFrom).ToList();
-            chd.Add(par);
+            return await GetListOfTerritoriesByEmployeeIdAsync(employee.Id, cancellationToken);
+        }
 
-            chd.ForEach(x => ids.Add(x.ToDto<TerritoryDbo, TerritoryDto>()));
+        private async Task<IEnumerable<TerritoryDto>> GetListOfTerritoriesByEmployeeIdAsync(Guid employeeid, CancellationToken cancellationToken)
+        {
+            var employee = await context.Employees.FirstOrDefaultAsync(e => e.Id == employeeid, cancellationToken);
+            if (employee == null)
+            {
+                throw new NotFoundException("Employee Not Found!", "");
+            }
 
-            return ids;
+            return await GetListOfTerritoresByTerritoryIdAsync(employee.TerritoryId, cancellationToken);
+        }
+
+        private List<TerritoryDbo> GetChildrenFromList(Guid parent, List<TerritoryDbo> dbos)
+        {
+            var list = new List<TerritoryDbo>();
+
+            var children = dbos.Where(x => x.ReportToId == parent).ToList();
+            if (children.Count == 0)
+            {
+                return list;
+            }
+            else
+            {
+                list.AddRange(children);
+                foreach (var child in children)
+                {
+                    dbos.Remove(child);
+                    list.AddRange(GetChildrenFromList(child.Id, dbos));
+                }
+                
+                return list;
+            }
         }
     }
 }

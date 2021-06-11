@@ -1,5 +1,6 @@
 ﻿using System;
 using MySystem.SharedKernel.EntityBases.Employee;
+using MySystem.SharedKernel.EntityV1Dtos.Common;
 using MySystem.SharedKernel.Interfaces;
 
 namespace MySystem.SharedKernel.EntityV1Dtos.Employee
@@ -9,5 +10,7 @@ namespace MySystem.SharedKernel.EntityV1Dtos.Employee
         public Guid? Id { get; set; }
 
         public Guid? EmployeeId { get; set; }
+
+        public RequestMetadata Metadata { get; set; }
     }
 }

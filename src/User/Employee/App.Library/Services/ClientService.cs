@@ -1,13 +1,13 @@
 ﻿using System;
-using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using MySystem.Persistence.ClientService.Configuration;
-using MySystem.Persistence.Shared.Configuration.Models;
+using MySystem.SharedKernel.Enumerators;
+using MySystem.SharedKernel.Interfaces;
+using Newtonsoft.Json;
 
 namespace MySystem.Persistence.ClientService.Services
 {
@@ -15,13 +15,15 @@ namespace MySystem.Persistence.ClientService.Services
     {
         #region Private Properties
         private static HttpClient httpClientInstance;
-        
         private readonly HttpMessageHandler handler;
+        private readonly Uri apiBaseUri;
+        private readonly string apiVersion;
+
         #endregion
 
         #region Public Properties
         public Config Settings { get; private set; }
-        public IApi Api { get; private set; }
+        public ISharedValues SharedValues { get; private set; }
         public ILogger Logger { get; private set; }
         public IDevice Device { get; private set; }
         
@@ -32,8 +34,8 @@ namespace MySystem.Persistence.ClientService.Services
                 if (SystemUnderTest)
                 {
                     var c = handler == null ?  new HttpClient() : new HttpClient(handler);
-                    c.BaseAddress = Api?.Base;
-                    c.DefaultRequestHeaders.Add("Accept-version", Api?.Version);
+                    c.BaseAddress = apiBaseUri;
+                    c.DefaultRequestHeaders.Add("Accept-version", apiVersion);
                     return c;
 
                 }
@@ -42,8 +44,8 @@ namespace MySystem.Persistence.ClientService.Services
                     if (httpClientInstance == null)
                     {
                         httpClientInstance = handler == null ? new HttpClient() : new HttpClient(handler);
-                        httpClientInstance.BaseAddress = Api?.Base;
-                        httpClientInstance.DefaultRequestHeaders.Add("Accept-version", Api?.Version);
+                        httpClientInstance.BaseAddress = apiBaseUri;
+                        httpClientInstance.DefaultRequestHeaders.Add("Accept-version", apiVersion);
                     }
                     Logger.LogTrace("static HttClient was called.");
                     return httpClientInstance;
@@ -79,28 +81,31 @@ namespace MySystem.Persistence.ClientService.Services
         #endregion
 
         #region Constructors
-        public ClientServices(IDevice device, IApi api)
+        public ClientServices(IDevice device, ISharedValues api)
             : this(device, api, null)
         {
         }
 
-        public ClientServices(IDevice device, IApi api, ILogger logger)
+        public ClientServices(IDevice device, ISharedValues api, ILogger logger)
             : this(device, api, logger, null)
         {  
         }
 
-        public ClientServices(IDevice device, IApi api, ILogger logger, HttpMessageHandler handler)
+        public ClientServices(IDevice device, ISharedValues api, ILogger logger, HttpMessageHandler handler)
             : this(device, api, logger, handler, false)
         {
         }
 
-        public ClientServices(IDevice device, IApi api, ILogger logger, HttpMessageHandler handler, bool systemUnderTest)
+        public ClientServices(IDevice device, ISharedValues api, ILogger logger, HttpMessageHandler handler, bool systemUnderTest)
         {
             Device = device ?? throw new ArgumentNullException("You must pass device to constructor.");
-            Api = api ?? throw new ArgumentNullException("You must pass api to constructor.");
+            SharedValues = api ?? throw new ArgumentNullException("You must pass api to constructor.");
 
             this.Logger = logger;
             this.handler = handler;
+
+            apiBaseUri = new Uri(SharedValues.ApiRoute[ApiRouteEnum.Base]);
+            apiVersion = SharedValues.ApiRoute[ApiRouteEnum.Version];
 
             Settings = Config.GetInstance();
             SystemUnderTest = systemUnderTest;

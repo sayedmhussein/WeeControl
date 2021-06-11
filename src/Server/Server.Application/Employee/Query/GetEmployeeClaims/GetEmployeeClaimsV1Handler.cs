@@ -8,7 +8,6 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using MySystem.Application.Common.Exceptions;
 using MySystem.Application.Common.Interfaces;
-using MySystem.Domain.EntityDbo.EmployeeSchema;
 using MySystem.SharedKernel.Enumerators;
 using MySystem.SharedKernel.Interfaces;
 
@@ -33,50 +32,34 @@ namespace MySystem.Application.Employee.Query.GetEmployeeClaims
         {
             _ = request ?? throw new ArgumentNullException();
 
-            if (request.EmployeeId == null)
+            if (request.EmployeeId == null && request.Username != null && request.Password != null && request.Metadata != null)
             {
-                if (string.IsNullOrWhiteSpace(request.Username) && string.IsNullOrWhiteSpace(request.Password) && string.IsNullOrEmpty(request.Device) == false)
+                if (string.IsNullOrWhiteSpace(request.Username) || string.IsNullOrWhiteSpace(request.Password) || string.IsNullOrWhiteSpace(request.Metadata.Device))
                 {
-                    return await GetClaimsByRefreshingToken(request.Device, cancellationToken);
+                    throw new BadRequestException("Must Provide Username, Password and Device!");
                 }
-                else if (string.IsNullOrWhiteSpace(request.Username) == false && string.IsNullOrWhiteSpace(request.Password) == false && string.IsNullOrWhiteSpace(request.Device) == false)
-                {
-                    return await GetClaimsByUsernameAndPassword(request.Username, request.Password, request.Device, cancellationToken);
-                }
-                else
-                {
-                    throw new BadRequestException("Must provide any of query properties!");
-                }
+
+                return await GetClaimsByUsernameAndPassword(request.Username, request.Password, request.Metadata.Device, cancellationToken);
+            }
+
+            else if (request.EmployeeId != null && request.Username == null && request.Password == null && request.Metadata == null)
+            {
+                return await GetClaimsByEmployeeId((Guid)request.EmployeeId);
+            }
+            
+            else if (request.EmployeeId == null && request.Username == null && request.Password == null && request.Metadata != null)
+            {
+                return await GetClaimsByRefreshingToken(request.Metadata.Device, cancellationToken);
             }
             else
             {
-                if (string.IsNullOrWhiteSpace(request.Username) != true || string.IsNullOrWhiteSpace(request.Username) != true || string.IsNullOrWhiteSpace(request.Username) != true)
-                {
-                    throw new BadRequestException("Either employee id or credentials or device!");
-                }
-
-                return await GetClaimsByEmployeeId((Guid)request.EmployeeId);
+                throw new BadRequestException("Invalid request!");
             }
-        }
-
-        private async Task<Guid> GetEmployeeSession(Guid employeeid, string device, CancellationToken cancellationToken)
-        {
-            var session = await context.EmployeeSessions.FirstOrDefaultAsync(x => x.EmployeeId == employeeid && x.DeviceId == device && x.TerminationTs == null, cancellationToken);
-            if (session == null)
-            {
-                session = new();
-                session.EmployeeId = employeeid;
-                session.DeviceId = device;
-                await context.EmployeeSessions.AddAsync(session, cancellationToken);
-                await context.SaveChangesAsync(cancellationToken);
-            }
-
-            return session.Id;
         }
 
         private async Task<IEnumerable<Claim>> GetClaimsByUsernameAndPassword(string username, string password, string device, CancellationToken cancellationToken)
         {
-            var employee = await context.Employees.FirstOrDefaultAsync(x => x.Username == username && x.Password == password);
+            var employee = await context.Employees.FirstOrDefaultAsync(x => x.Username == username && x.Password == password, cancellationToken);
             if (employee == null)
             {
                 throw new NotFoundException("", "");
@@ -94,6 +77,29 @@ namespace MySystem.Application.Employee.Query.GetEmployeeClaims
                 };
                 return claims;
             }
+        }
+
+        private async Task<IEnumerable<Claim>> GetClaimsByEmployeeId(Guid employeeid)
+        {
+            var isAuthorized = currentUser.Claims.FirstOrDefault(x => x.Type == sharedValues.ClaimType[ClaimTypeEnum.HumanResources])?.Value?.Contains(sharedValues.ClaimTag[ClaimTagEnum.Read]);
+            if (isAuthorized == null || isAuthorized == false)
+            {
+                throw new NotAllowedException("");
+            }
+
+            var employee = await context.Employees.FirstOrDefaultAsync(x => x.Id == employeeid);
+            if (employee == null)
+            {
+                throw new NotFoundException("", "");
+            }
+
+            // check if user is within same terrritory
+            //
+            var claims = new List<Claim>();
+
+            var employeeClaims = await context.EmployeeClaims.Where(x => x.EmployeeId == employee.Id && x.RevokedTs == null).ToListAsync(default);
+            employeeClaims.ForEach(x => claims.Add(new Claim(x.ClaimType, x.ClaimValue)));
+            return claims;
         }
 
         private async Task<IEnumerable<Claim>> GetClaimsByRefreshingToken(string device, CancellationToken cancellationToken)
@@ -126,27 +132,19 @@ namespace MySystem.Application.Employee.Query.GetEmployeeClaims
             return claims;
         }
 
-        private async Task<IEnumerable<Claim>> GetClaimsByEmployeeId(Guid employeeid)
+        private async Task<Guid> GetEmployeeSession(Guid employeeid, string device, CancellationToken cancellationToken)
         {
-            var isAuthorized = currentUser.Claims.FirstOrDefault(x => x.Type == sharedValues.ClaimType[ClaimTypeEnum.HumanResources])?.Value?.Contains(sharedValues.ClaimTag[ClaimTagEnum.Read]);
-            if (isAuthorized == null || isAuthorized == false)
+            var session = await context.EmployeeSessions.FirstOrDefaultAsync(x => x.EmployeeId == employeeid && x.DeviceId == device && x.TerminationTs == null, cancellationToken);
+            if (session == null)
             {
-                throw new NotAllowedException("");
+                session = new();
+                session.EmployeeId = employeeid;
+                session.DeviceId = device;
+                await context.EmployeeSessions.AddAsync(session, cancellationToken);
+                await context.SaveChangesAsync(cancellationToken);
             }
 
-            var employee = await context.Employees.FirstOrDefaultAsync(x => x.Id == employeeid);
-            if (employee == null)
-            {
-                throw new NotFoundException("","");
-            }
-
-            // check if user is within same terrritory
-            //
-            var claims = new List<Claim>();
-
-            var employeeClaims = await context.EmployeeClaims.Where(x => x.EmployeeId == employee.Id && x.RevokedTs == null).ToListAsync(default);
-            employeeClaims.ForEach(x => claims.Add(new Claim(x.ClaimType, x.ClaimValue)));
-            return claims;
+            return session.Id;
         }
     }
 }

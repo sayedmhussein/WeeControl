@@ -68,17 +68,17 @@ namespace MySystem.Application.Test.Territory.Query.GetTerritories
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await handler.Handle(null, default));
         }
 
-        [Fact]
-        public async void WhenAllQueryParametersAreNull_ReturnCurrentUserTerritories()
-        {
-            var admin = dbContext.Employees.FirstOrDefault();
-            userInfoMock.Setup(x => x.TerritoriesId).Returns(new List<Guid>() { admin.TerritoryId });
+        //[Fact]
+        //public async void WhenAllQueryParametersAreNull_ReturnCurrentUserTerritories()
+        //{
+        //    var admin = dbContext.Employees.FirstOrDefault();
+        //    userInfoMock.Setup(x => x.TerritoriesId).Returns(new List<Guid>() { admin.TerritoryId });
 
-            var list = await new GetTerritoriesV1Handler(dbContext, userInfoMock.Object, values).Handle(new GetTerritoriesV1Query(), default);
+        //    var list = await new GetTerritoriesV1Handler(dbContext, userInfoMock.Object, values).Handle(new GetTerritoriesV1Query(), default);
 
-            Assert.NotEmpty(list);
-            Assert.Contains(admin.TerritoryId, list.Select(x => x.Id));
-        }
+        //    Assert.NotEmpty(list);
+        //    Assert.Contains(admin.TerritoryId, list.Select(x => x.Id));
+        //}
 
         [Fact]
         public async void WhenSessionIdIsNotNullWhileOthersAreNull_ReturnListIgnoringSafetyRules()
@@ -95,7 +95,7 @@ namespace MySystem.Application.Test.Territory.Query.GetTerritories
         #endregion
 
         #region Scenarios Unit Tests
-        [Theory]
+        [Theory(Skip = "Authorization was execluded from this query")]
         [ClassData(typeof(GetTerritoriesV1HandlerTestData))]
         public async void AuthorizationScenariosUnitTest(string claimType, string claimValue, bool willThrowException)
         {
@@ -154,7 +154,7 @@ namespace MySystem.Application.Test.Territory.Query.GetTerritories
             Assert.Single(responseDto);
         }
 
-        [Fact(Skip = "This feature not implemented yet!")]
+        [Fact]
         public async void WhenGettingTerritoriesByTerritoryId_ReturnSingleOffice()
         {
             var admin = dbContext.Employees.FirstOrDefault();
@@ -221,7 +221,7 @@ namespace MySystem.Application.Test.Territory.Query.GetTerritories
             Assert.Equal(3, responseDto.Count());
         }
 
-        [Fact(Skip = "This test produce a known bug, it will be solved soon.")]
+        [Fact]
         public async void WhenGettingAdminTerritoriesByEmployeeIdWhichHasTwoMoreTerritoryTwoLevelsDown_ReturnTripleTerritories()
         {
             var admin = dbContext.Employees.FirstOrDefault();

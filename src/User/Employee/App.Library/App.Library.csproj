@@ -34,6 +34,6 @@
     <EmbeddedResource Include="**/*" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MySystem.Shared\MySystem.Shared.csproj" />
+    <ProjectReference Include="..\..\..\Shared\SharedKernel\SharedKernel.csproj" />
   </ItemGroup>
 </Project>

@@ -3,6 +3,7 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Testing;
+using MySystem.SharedKernel.EntityV1Dtos.Common;
 using MySystem.SharedKernel.EntityV1Dtos.Employee;
 using MySystem.SharedKernel.Enumerators;
 using MySystem.SharedKernel.Services;
@@ -15,8 +16,9 @@ namespace MySystem.Web.Api.Test.FunctionalTests
         internal async static Task<string> GetNewAdminTokenAsync(HttpClient client)
         {
             var route = new SharedValues().ApiRoute[ApiRouteEnum.Employee] + "Session/";
+            var metadata = new RequestMetadata() { Device = "device" };
 
-            var dto1 = new LoginDto() { Username = "admin", Password = "admin", Device = "device" };
+            var dto1 = new CreateLoginDto() { Username = "admin", Password = "admin", Metadata = metadata };
             //
             var response1 = await client.PostAsJsonAsync(route, dto1);
             response1.EnsureSuccessStatusCode();
@@ -25,7 +27,7 @@ namespace MySystem.Web.Api.Test.FunctionalTests
             //
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(token1);
 
-            var dto2 = new LoginRefreshDto() { Device = "device" };
+            var dto2 = new RefreshLoginDto() { Metadata = metadata};
             //
             var response2 = await client.PutAsJsonAsync(route, dto2);
             response2.EnsureSuccessStatusCode();

@@ -8,14 +8,14 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.Protected;
 using MySystem.Persistence.ClientService.Services;
-using MySystem.Persistence.Shared.Configuration.Models;
+using MySystem.SharedKernel.Interfaces;
 
 namespace MySystem.Persistence.ClientService.Test.Tools
 {
     public static class TestMocks
     {
         public static Mock<IDevice> DeviceMock => GetDeviceMock();
-        public static Mock<IApi> ApiMock => GetApiMock();
+        public static Mock<ISharedValues> ApiMock => GetApiMock();
         public static Mock<ILogger> LoggerMock => GetLoggerMock();
 
         public static Mock<HttpMessageHandler> GetHttpMessageHandlerMock(HttpResponseMessage httpResponseMessage)
@@ -79,16 +79,6 @@ namespace MySystem.Persistence.ClientService.Test.Tools
             service.SetupGet(p => p.HttpClientInstance).Returns(new HttpClient(httpMessageHandler) { BaseAddress = new Uri("http://test.com") }); ;
 
             return service;
-        }
-
-        public static Mock<IApi> GetApiMock()
-        {
-            var apiMock = new Mock<IApi>();
-            apiMock.Setup(p => p.Base).Returns(new Uri("http://bla.com"));
-            //
-            apiMock.Setup(p => p.Login).Returns("Api");
-            apiMock.Setup(p => p.Token).Returns("Api");
-            return apiMock;
         }
 
         public static Mock<ILogger> GetLoggerMock()

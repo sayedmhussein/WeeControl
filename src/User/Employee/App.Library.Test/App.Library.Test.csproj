@@ -25,15 +25,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MySystem.ClientService\MySystem.ClientService.csproj" />
+    <ProjectReference Include="..\App.Library\App.Library.csproj" />
+    <ProjectReference Include="..\..\..\Shared\SharedKernel\SharedKernel.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Unit\" />
     <Folder Include="Unit\Configuration\" />
     <Folder Include="Unit\Services\" />
     <Folder Include="Unit\ViewModels\" />
-    <Folder Include="Integration\" />
-    <Folder Include="Functional\" />
     <Folder Include="Tools\" />
   </ItemGroup>
 </Project>
