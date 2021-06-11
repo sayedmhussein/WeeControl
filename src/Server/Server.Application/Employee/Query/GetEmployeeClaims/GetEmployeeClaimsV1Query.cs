@@ -5,7 +5,7 @@ using MediatR;
 using MySystem.SharedKernel.Interfaces;
 
 namespace MySystem.Application.Employee.Query.GetEmployeeClaims
-{
+{ 
     public class GetEmployeeClaimsV1Query : IRequest<IEnumerable<Claim>>
     {
         public string Username { get; set; }
