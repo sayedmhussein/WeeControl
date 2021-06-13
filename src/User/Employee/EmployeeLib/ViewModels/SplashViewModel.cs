@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -75,6 +76,7 @@ namespace MySystem.User.Employee.ViewModels
                     case System.Net.HttpStatusCode.OK:
                         var responseDto = await response.Content.ReadAsAsync<EmployeeTokenDto>();
                         device.Token = responseDto?.Token;
+                        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(device.Token);
                         await device.NavigateToPageAsync("HomePage");
                         break;
                     case System.Net.HttpStatusCode.NotFound:

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -16,6 +17,7 @@ namespace MySystem.User.Employee.ViewModels
     public class LoginViewModel : ObservableObject
     {
         #region Private Properties
+        private readonly HttpClient httpClient;
         private readonly IDevice device;
         private readonly IViewModelDependencyFactory service;
         private readonly ILogger logger;
@@ -52,6 +54,7 @@ namespace MySystem.User.Employee.ViewModels
 
         public LoginViewModel(IViewModelDependencyFactory dependencyFactory)
         {
+            httpClient = dependencyFactory.HttpClientInstance;
             this.service = dependencyFactory ?? throw new ArgumentNullException();
             this.device = dependencyFactory.Device;
             this.logger = dependencyFactory.Logger;
@@ -85,7 +88,7 @@ namespace MySystem.User.Employee.ViewModels
             HttpResponseMessage response;
             try
             {
-                response = await service.HttpClientInstance.PostAsJsonAsync(
+                response = await httpClient.PostAsJsonAsync(
                     service.SharedValues.ApiRoute[ApiRouteEnum.EmployeeSession], dto);
 
                 switch (response.StatusCode)
@@ -93,6 +96,7 @@ namespace MySystem.User.Employee.ViewModels
                     case System.Net.HttpStatusCode.OK:
                         var data = await response.Content.ReadAsAsync<EmployeeTokenDto>();
                         device.Token = data.Token;
+                        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(device.Token);
                         await device.NavigateToPageAsync("HomePage");
                         break;
                     case System.Net.HttpStatusCode.NotFound:

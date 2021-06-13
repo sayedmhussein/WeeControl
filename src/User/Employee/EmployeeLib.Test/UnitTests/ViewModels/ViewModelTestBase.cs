@@ -11,7 +11,6 @@ using MySystem.SharedKernel.EntityV1Dtos.Common;
 using MySystem.SharedKernel.Interfaces;
 using MySystem.SharedKernel.Services;
 using MySystem.User.Employee.Interfaces;
-using MySystem.User.Employee.Services;
 
 namespace MySystem.User.Employee.Test.UnitTests.ViewModels
 {
@@ -41,7 +40,6 @@ namespace MySystem.User.Employee.Test.UnitTests.ViewModels
             clientServicesMock.Setup(x => x.Device).Returns(deviceMock.Object);
             clientServicesMock.Setup(x => x.Logger).Returns(loggerMock.Object);
             clientServicesMock.Setup(x => x.SharedValues).Returns(sharedValues);
-            clientServicesMock.Setup(x => x.SystemUnderTest).Returns(true);
             clientServicesMock.Setup(x => x.AppDataPath).Returns("");
             //clientServicesMock.Setup(x => x.Settings).Returns(Employee.Configuration.Config.GetInstance());
         }

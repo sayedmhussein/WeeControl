@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http;
 using Moq;
 using MySystem.SharedKernel.Interfaces;
 using MySystem.SharedKernel.Services;
@@ -12,9 +13,25 @@ namespace MySystem.User.Employee.Test.UnitTests.Services
     {
         #region Constructors
         [Fact]
+        public void Constructor_WhenHttpClientIsNull_ThrowArgumentNullException()
+        {
+            Action action = new(() => new ViewModelDependencyFactory(null, new Mock<IDevice>().Object, "path",new Mock<ISharedValues>().Object));
+
+            Assert.Throws<ArgumentNullException>(action);
+        }
+
+        [Fact]
         public void Constructor_WhenDeviceIsNull_ThrowArgumentNullException()
         {
-            Action action = new(() => new ViewModelDependencyFactory(null, new Mock<ISharedValues>().Object));
+            Action action = new(() => new ViewModelDependencyFactory(new HttpClient(), null, "path", new Mock<ISharedValues>().Object));
+
+            Assert.Throws<ArgumentNullException>(action);
+        }
+
+        [Fact]
+        public void Constructor_WhenDataPathtIsNull_ThrowArgumentNullException()
+        {
+            Action action = new(() => new ViewModelDependencyFactory(new HttpClient(), new Mock<IDevice>().Object, null, new Mock<ISharedValues>().Object));
 
             Assert.Throws<ArgumentNullException>(action);
         }
@@ -22,25 +39,25 @@ namespace MySystem.User.Employee.Test.UnitTests.Services
         [Fact]
         public void Constructor_WhenSharedValuesIsNull_ThrowArgumentNullException()
         {
-            Action action = new(() => new ViewModelDependencyFactory(new Mock<IDevice>().Object, null));
+            Action action = new(() => new ViewModelDependencyFactory(new HttpClient(), new Mock<IDevice>().Object, "datapath", null));
 
             Assert.Throws<ArgumentNullException>(action);
         }
         #endregion
 
         #region Properties
-        [Fact]
-        public void Properity_AppDataPath_MustNotNullOrEmpty()
-        {
-            var deviceMock = new Mock<IDevice>();
-            deviceMock.SetupAllProperties();
+        //[Fact]
+        //public void Properity_AppDataPath_MustNotNullOrEmpty()
+        //{
+        //    var deviceMock = new Mock<IDevice>();
+        //    deviceMock.SetupAllProperties();
 
-            var sharedValues = new SharedValues();
+        //    var sharedValues = new SharedValues();
 
-            var service = new ViewModelDependencyFactory(deviceMock.Object, sharedValues);
-            Assert.NotNull(service.AppDataPath);
-            Assert.NotEmpty(service.AppDataPath);
-        }
+        //    var service = new ViewModelDependencyFactory(deviceMock.Object, sharedValues);
+        //    Assert.NotNull(service.AppDataPath);
+        //    Assert.NotEmpty(service.AppDataPath);
+        //}
 
         //[Fact]
         //public void Properity_HttpClientInstance_SetUpBaseAddress_ShouldBeSame()
