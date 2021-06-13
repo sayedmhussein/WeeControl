@@ -70,7 +70,7 @@ namespace MySystem.User.Employee.Test.UnitTests.ViewModels
         }
 
         [Fact]
-        public async void LoginCommand_WhenValidCredentials_OpenHomePage()
+        public async void LoginCommand_WhenValidCredentials_OpenSplashPage()
         {
             var handler = GetHttpMessageHandlerMock(System.Net.HttpStatusCode.OK, new EmployeeTokenDto() { Token = "token" }.SerializeToJson());
             clientServicesMock.Setup(x => x.HttpClientInstance).Returns(GetNewHttpClient(handler.Object));
@@ -83,11 +83,11 @@ namespace MySystem.User.Employee.Test.UnitTests.ViewModels
 
             await vm.LoginCommand.ExecuteAsync(new object());
 
-            deviceMock.Verify(x => x.NavigateToPageAsync("HomePage"), Times.Once);
+            deviceMock.Verify(x => x.NavigateToPageAsync("SplashPage"), Times.Once);
         }
 
         [Fact]
-        public async void LoginCommand_WhenInvalidCredentials_DisplayMessageAndNeverOpenHomePage()
+        public async void LoginCommand_WhenInvalidCredentials_DisplayMessageAndNeverOpenSplashPage()
         {
             var handler = GetHttpMessageHandlerMock(System.Net.HttpStatusCode.NotFound, new EmployeeTokenDto() { Token = "token" }.SerializeToJson());
             clientServicesMock.Setup(x => x.HttpClientInstance).Returns(GetNewHttpClient(handler.Object));
@@ -100,7 +100,7 @@ namespace MySystem.User.Employee.Test.UnitTests.ViewModels
 
             await vm.LoginCommand.ExecuteAsync(new object());
 
-            deviceMock.Verify(x => x.NavigateToPageAsync("HomePage"), Times.Never);
+            deviceMock.Verify(x => x.NavigateToPageAsync("SplashPage"), Times.Never);
             deviceMock.Verify(x => x.DisplayMessageAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
         }
 

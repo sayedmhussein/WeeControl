@@ -52,7 +52,7 @@ namespace MySystem.User.Employee.Test.FunctionalTests.Employee
         }
 
         [Fact]
-        public async void WhenLoginWithValidCredentails_OpenHomePage()
+        public async void WhenLoginWithValidCredentails_OpenSplashPage()
         {
             var vm = new LoginViewModel(dependencyFactory)
             {
@@ -62,7 +62,7 @@ namespace MySystem.User.Employee.Test.FunctionalTests.Employee
 
             await vm.LoginCommand.ExecuteAsync(null);
 
-            deviceMock.Verify(x => x.NavigateToPageAsync(nameof(ApplicationPageEnum.HomePage)), Times.Once);
+            deviceMock.Verify(x => x.NavigateToPageAsync(nameof(ApplicationPageEnum.SplashPage)), Times.Once);
             Assert.NotEmpty(deviceMock.Object.Token);
         }
 
@@ -93,7 +93,8 @@ namespace MySystem.User.Employee.Test.FunctionalTests.Employee
             var splashVm = new SplashViewModel(dependencyFactory);
             await splashVm.RefreshTokenCommand.ExecuteAsync(null);
 
-            deviceMock.Verify(x => x.NavigateToPageAsync(nameof(ApplicationPageEnum.HomePage)), Times.Exactly(2));
+            deviceMock.Verify(x => x.NavigateToPageAsync(nameof(ApplicationPageEnum.HomePage)), Times.Once);
+            deviceMock.Verify(x => x.NavigateToPageAsync(nameof(ApplicationPageEnum.SplashPage)), Times.Once);
             deviceMock.Verify(x => x.NavigateToPageAsync(nameof(ApplicationPageEnum.LoginPage)), Times.Never);
         }
 

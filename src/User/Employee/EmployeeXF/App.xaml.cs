@@ -35,7 +35,6 @@ namespace MySystem.User.Employee.XF
 
                 Ioc.Default.ConfigureServices(
                     new ServiceCollection()
-                    .AddSingleton(device)
                     .AddSingleton(client)
                     .BuildServiceProvider());
             }

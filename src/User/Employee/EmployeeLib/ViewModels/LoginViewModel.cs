@@ -10,6 +10,7 @@ using MySystem.SharedKernel.EntityV1Dtos.Common;
 using MySystem.SharedKernel.EntityV1Dtos.Employee;
 using MySystem.SharedKernel.Enumerators;
 using MySystem.SharedKernel.ExtensionMethods;
+using MySystem.User.Employee.Enumerators;
 using MySystem.User.Employee.Interfaces;
 
 namespace MySystem.User.Employee.ViewModels
@@ -54,8 +55,9 @@ namespace MySystem.User.Employee.ViewModels
 
         public LoginViewModel(IViewModelDependencyFactory dependencyFactory)
         {
-            httpClient = dependencyFactory.HttpClientInstance;
             this.service = dependencyFactory ?? throw new ArgumentNullException();
+
+            httpClient = dependencyFactory.HttpClientInstance;
             this.device = dependencyFactory.Device;
             this.logger = dependencyFactory.Logger;
             this.metadata = (RequestMetadata)device.Metadata;
@@ -97,7 +99,7 @@ namespace MySystem.User.Employee.ViewModels
                         var data = await response.Content.ReadAsAsync<EmployeeTokenDto>();
                         device.Token = data.Token;
                         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(device.Token);
-                        await device.NavigateToPageAsync("HomePage");
+                        await device.NavigateToPageAsync(nameof(ApplicationPageEnum.SplashPage));
                         break;
                     case System.Net.HttpStatusCode.NotFound:
                         await device.DisplayMessageAsync("Invalid Credentials", "Username and Password are not matched.");

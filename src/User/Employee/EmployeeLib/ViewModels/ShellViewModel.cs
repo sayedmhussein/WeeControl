@@ -28,13 +28,13 @@ namespace MySystem.User.Employee.ViewModels
         #endregion
 
         #region Constructors
-        public ShellViewModel() : this(Ioc.Default.GetService<IDevice>(), Ioc.Default.GetRequiredService<IViewModelDependencyFactory>())
+        public ShellViewModel() : this(Ioc.Default.GetRequiredService<IViewModelDependencyFactory>())
         {
         }
 
-        public ShellViewModel(IDevice device, IViewModelDependencyFactory service)
+        public ShellViewModel(IViewModelDependencyFactory service)
         {
-            this.device = device;
+            this.device = service.Device;
             this.service = service;
 
             HelpCommand = new RelayCommand(async () => await device.OpenWebPageAsync("http://www.google.com/"));
