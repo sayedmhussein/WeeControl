@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+    <RootNamespace>MySystem.User.Employee.XF</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <LangVersion>latestmajor</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <LangVersion>latestmajor</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />  
+    <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
+    <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\SharedKernel\SharedKernel.csproj" />
+    <ProjectReference Include="..\EmployeeLib\EmployeeLib.csproj" />
+  </ItemGroup>
+</Project>

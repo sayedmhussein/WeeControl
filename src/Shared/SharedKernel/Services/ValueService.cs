@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using MySystem.SharedKernel.Configuration;
+using System.Reflection;
 using MySystem.SharedKernel.Enumerators;
 using MySystem.SharedKernel.Interfaces;
 
@@ -24,7 +24,9 @@ namespace MySystem.SharedKernel.Services
 
         public SharedValues()
         {
-            dynamic obj = Config.AppSettingObject;
+            dynamic obj = new EmbeddedResourcesManager(
+                Assembly.GetExecutingAssembly())
+                .GetSerializedAsJson("MySystem.SharedKernel.Configuration.appsettings.json");
 
             var apiRoute = new Dictionary<ApiRouteEnum, string>();
             foreach (var e in Enum.GetValues(typeof(ApiRouteEnum)).Cast<ApiRouteEnum>())
