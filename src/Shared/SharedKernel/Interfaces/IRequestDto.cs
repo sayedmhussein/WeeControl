@@ -3,7 +3,7 @@ using MySystem.SharedKernel.EntityV1Dtos.Common;
 
 namespace MySystem.SharedKernel.Interfaces
 {
-    public interface IRequestDto
+    public interface IRequestDto : IDto
     {
         RequestMetadata Metadata { get; set; }
     }

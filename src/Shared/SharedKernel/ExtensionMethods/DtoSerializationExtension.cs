@@ -8,12 +8,12 @@ namespace MySystem.SharedKernel.ExtensionMethods
 {
     public static class DtoSerializationExtension
     {
-        public static string SerializeToJson(this IRequestDto requestDto)
+        public static string SerializeToJson(this IDto requestDto)
         {
             return JsonConvert.SerializeObject(requestDto);
         }
 
-        public static HttpContent SerializeToHttpContent(this IRequestDto requestDto)
+        public static HttpContent SerializeToHttpContent(this IDto requestDto)
         {
             var json = SerializeToJson(requestDto);
             return new StringContent(json, Encoding.UTF8, "application/json");
