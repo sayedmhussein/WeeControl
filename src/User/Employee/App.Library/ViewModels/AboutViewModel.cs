@@ -1,11 +1,10 @@
-﻿using System;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
-using MySystem.Persistence.ClientService.Services;
+using MySystem.User.Employee.Services;
 
-namespace MySystem.Persistence.ClientService.ViewModels
+namespace MySystem.User.Employee.ViewModels
 {
     public class AboutViewModel : ObservableObject
     {

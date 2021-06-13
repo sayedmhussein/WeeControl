@@ -4,6 +4,7 @@
   },
 
   "Login": {
+    "InvalidCredentialsMessage": "Invalid uername or password, please try again later.",
     "Disclaimer": "This Application is intended to be used only by authorized persons, if you are not authorized please close this application now."
   },
 

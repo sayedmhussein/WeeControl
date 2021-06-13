@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Threading.Tasks;
+using MySystem.SharedKernel.Interfaces;
 
-namespace MySystem.Persistence.ClientService.Services
+namespace MySystem.User.Employee.Services
 {
     /// <summary>
     /// To be implemented on each device, then registered as singleton.
     /// </summary>
     public interface IDevice
     {
+        IRequestMetadata Metadata { get; }
+
         bool Internet { get; }
 
+        [Obsolete]
         string DeviceId { get; }
 
         string Token { get; set; }

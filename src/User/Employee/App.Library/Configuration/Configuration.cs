@@ -1,10 +1,9 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
+using MySystem.User.Employee.Configuration.Models;
 using Newtonsoft.Json;
-using MySystem.Persistence.ClientService.Configuration.Models;
 
-namespace MySystem.Persistence.ClientService.Configuration
+namespace MySystem.User.Employee.Configuration
 {
     public class Config
     {
@@ -19,7 +18,7 @@ namespace MySystem.Persistence.ClientService.Configuration
 
         public static Config GetInstance()
         {
-            var appsettingResouceStream = Assembly.GetAssembly(typeof(Config)).GetManifestResourceStream("Sayed.MySystem.ClientService.Configuration.values.json");
+            var appsettingResouceStream = Assembly.GetAssembly(typeof(Config)).GetManifestResourceStream("MySystem.User.Employee.Configuration.values.json");
             if (appsettingResouceStream == null)
                 return null;
 

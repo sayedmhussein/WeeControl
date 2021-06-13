@@ -4,21 +4,21 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using MySystem.Persistence.ClientService.Configuration;
 using MySystem.SharedKernel.Enumerators;
 using MySystem.SharedKernel.Interfaces;
+using MySystem.User.Employee.Configuration;
 using Newtonsoft.Json;
 
-namespace MySystem.Persistence.ClientService.Services
+namespace MySystem.User.Employee.Services
 {
     public class ClientServices : IClientServices
     {
         #region Private Properties
         private static HttpClient httpClientInstance;
+        //
         private readonly HttpMessageHandler handler;
         private readonly Uri apiBaseUri;
         private readonly string apiVersion;
-
         #endregion
 
         #region Public Properties
@@ -47,7 +47,7 @@ namespace MySystem.Persistence.ClientService.Services
                         httpClientInstance.BaseAddress = apiBaseUri;
                         httpClientInstance.DefaultRequestHeaders.Add("Accept-version", apiVersion);
                     }
-                    Logger.LogTrace("static HttClient was called.");
+                    Logger?.LogTrace("static HttClient was called.");
                     return httpClientInstance;
                 }
             }
@@ -81,25 +81,25 @@ namespace MySystem.Persistence.ClientService.Services
         #endregion
 
         #region Constructors
-        public ClientServices(IDevice device, ISharedValues api)
-            : this(device, api, null)
+        public ClientServices(IDevice device, ISharedValues sharedValues)
+            : this(device, sharedValues, null)
         {
         }
 
-        public ClientServices(IDevice device, ISharedValues api, ILogger logger)
-            : this(device, api, logger, null)
+        public ClientServices(IDevice device, ISharedValues sharedValues, ILogger logger)
+            : this(device, sharedValues, logger, null)
         {  
         }
 
-        public ClientServices(IDevice device, ISharedValues api, ILogger logger, HttpMessageHandler handler)
-            : this(device, api, logger, handler, false)
+        public ClientServices(IDevice device, ISharedValues sharedValues, ILogger logger, HttpMessageHandler handler)
+            : this(device, sharedValues, logger, handler, false)
         {
         }
 
-        public ClientServices(IDevice device, ISharedValues api, ILogger logger, HttpMessageHandler handler, bool systemUnderTest)
+        public ClientServices(IDevice device, ISharedValues sharedValues, ILogger logger, HttpMessageHandler handler, bool systemUnderTest)
         {
             Device = device ?? throw new ArgumentNullException("You must pass device to constructor.");
-            SharedValues = api ?? throw new ArgumentNullException("You must pass api to constructor.");
+            SharedValues = sharedValues ?? throw new ArgumentNullException("You must pass Shared Values Object to constructor.");
 
             this.Logger = logger;
             this.handler = handler;

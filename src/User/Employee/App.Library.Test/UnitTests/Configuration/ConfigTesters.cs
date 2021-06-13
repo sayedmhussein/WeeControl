@@ -1,8 +1,7 @@
-﻿using System;
+﻿using MySystem.User.Employee.Configuration;
 using Xunit;
-using MySystem.Persistence.ClientService.Configuration;
 
-namespace MySystem.Persistence.ClientService.Test.Unit.Configuration
+namespace MySystem.User.Employee.Test.UnitTests.Configuration
 {
     public class ConfigTesters
     {

@@ -5,18 +5,19 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
-using MySystem.Persistence.ClientService.Services;
 using MySystem.SharedKernel.EntityV1Dtos.Common;
 using MySystem.SharedKernel.EntityV1Dtos.Employee;
 using MySystem.SharedKernel.Enumerators;
+using MySystem.User.Employee.Services;
 
-namespace MySystem.Persistence.ClientService.ViewModels
+namespace MySystem.User.Employee.ViewModels
 {
     public class SplashViewModel : ObservableObject
     {
         private readonly IDevice device;
         private readonly IClientServices service;
         private readonly ILogger logger;
+        private readonly RequestMetadata metadata;
 
         public IAsyncRelayCommand RefreshTokenCommand { get; }
 
@@ -30,6 +31,7 @@ namespace MySystem.Persistence.ClientService.ViewModels
             this.service = client ?? throw new ArgumentNullException();
             this.device = service.Device;
             this.logger = service.Logger;
+            this.metadata = (RequestMetadata)device.Metadata;
 
             RefreshTokenCommand = new AsyncRelayCommand(VerifyTokenAsync);
         }
@@ -49,19 +51,30 @@ namespace MySystem.Persistence.ClientService.ViewModels
                 return;
             }
 
-            RequestDto<object> requestDto = new RequestDto<object>(device.DeviceId);
-            EmployeeTokenDto responseDto = null;
+            var dto = new RefreshLoginDto() { Metadata = metadata };
 
+            await CommunicateWithServer(dto);
+        }
+
+        private async Task CommunicateWithServer(RefreshLoginDto dto)
+        {
             try
             {
-                var response = await service.HttpClientInstance.PutAsJsonAsync(service.SharedValues.ApiRoute[ApiRouteEnum.EmployeeSession], requestDto);
-                if (response.IsSuccessStatusCode)
+                var response = await service.HttpClientInstance.PutAsJsonAsync(service.SharedValues.ApiRoute[ApiRouteEnum.EmployeeSession], dto);
+
+                switch (response.StatusCode)
                 {
-                    responseDto = await response.Content.ReadAsAsync<EmployeeTokenDto>();
-                }
-                else
-                {
-                    await device.NavigateToPageAsync("LoginPage");
+                    case System.Net.HttpStatusCode.OK:
+                        var responseDto = await response.Content.ReadAsAsync<EmployeeTokenDto>();
+                        device.Token = responseDto?.Token;
+                        await device.NavigateToPageAsync("HomePage");
+                        break;
+                    case System.Net.HttpStatusCode.NotFound:
+                        await device.NavigateToPageAsync("LoginPage");
+                        break;
+                    default:
+                        await device.NavigateToPageAsync("LoginPage");
+                        break;
                 }
             }
             catch (System.Net.WebException)
@@ -77,17 +90,6 @@ namespace MySystem.Persistence.ClientService.ViewModels
                 await device.DisplayMessageAsync("Exception", e.Message);
                 await device.TerminateAppAsync();
                 return;
-            }
-
-            device.Token = responseDto?.Token ?? string.Empty;
-
-            if (device.Token == string.Empty)
-            {
-                await device.NavigateToPageAsync("LoginPage");
-            }
-            else
-            {
-                await device.NavigateToPageAsync("HomePage");
             }
         }
     }

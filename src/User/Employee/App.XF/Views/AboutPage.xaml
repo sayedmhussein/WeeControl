@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Sayed.MySystem.XamarinForms.Views.AboutPage"
-             xmlns:vm1="clr-namespace:Sayed.MySystem.ClientService.ViewModels;assembly=MySystem.ClientService"
+             x:Class="MySystem.User.Employee.XF.Views.AboutPage"
+             xmlns:vm="clr-namespace:MySystem.User.Employee.ViewModels;assembly=App.Library"
              Title="{Binding Title}">
     
     <ContentPage.BindingContext>
-        <vm1:AboutViewModel />
+        <vm:AboutViewModel />
     </ContentPage.BindingContext>
     
     <ContentPage.Resources>

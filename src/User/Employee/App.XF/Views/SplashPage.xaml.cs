@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using MySystem.Persistence.ClientService.ViewModels;
-using MySystem.Persistence.XamarinForms.Services;
+﻿using MySystem.User.Employee.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace MySystem.Persistence.XamarinForms.Views
+namespace MySystem.User.Employee.XF.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SplashPage : ContentPage

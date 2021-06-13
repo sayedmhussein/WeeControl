@@ -4,10 +4,9 @@ using System.Windows.Input;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
-using MySystem.Persistence.ClientService.Services;
-using MySystem.SharedKernel.EntityV1Dtos.Common;
+using MySystem.User.Employee.Services;
 
-namespace MySystem.ClientService.ViewModels
+namespace MySystem.User.Employee.ViewModels
 {
     public class ShellViewModel : ObservableObject
     {
@@ -50,8 +49,8 @@ namespace MySystem.ClientService.ViewModels
             {
                 try
                 {
-                    var dto = new RequestDto() { DeviceId = device.DeviceId };
-                    var response = await service.HttpClientInstance.PostAsJsonAsync("/Api/Credentials/logout", dto);
+                    //var dto = new RequestDto() { DeviceId = device.DeviceId };
+                    //var response = await service.HttpClientInstance.PostAsJsonAsync("/Api/Credentials/logout", dto);
                 }
                 catch
                 { }

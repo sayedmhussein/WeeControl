@@ -1,14 +1,22 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MySystem.Persistence.ClientService.Services;
+using MySystem.SharedKernel.EntityV1Dtos.Common;
+using MySystem.SharedKernel.Interfaces;
+using MySystem.User.Employee.Services;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
-namespace MySystem.Persistence.XamarinForms.Services
+namespace MySystem.User.Employee.XF.Services
 {
     public class Device : IDevice
     {
-        public string DeviceId => Xamarin.Essentials.DeviceInfo.Name;
+        public IRequestMetadata Metadata => new RequestMetadata()
+        {
+            Device = Xamarin.Essentials.DeviceInfo.Name
+        };
+
+        [Obsolete]
+        public string DeviceId => DeviceInfo.Name;
 
         public string Token
         {
@@ -19,6 +27,8 @@ namespace MySystem.Persistence.XamarinForms.Services
         public bool Internet => Connectivity.NetworkAccess == NetworkAccess.Internet;
 
         public string FullUserName { get; set; }
+
+        
 
         public async Task DisplayMessageAsync(string title, string message)
         {

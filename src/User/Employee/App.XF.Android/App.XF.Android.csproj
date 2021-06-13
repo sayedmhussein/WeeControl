@@ -7,7 +7,7 @@
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TemplateGuid>{6968b3a4-1835-46a3-ac5c-1ae33b475983}</TemplateGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Sayed.MySystem.XamarinForms.Droid</RootNamespace>
+    <RootNamespace>MySystem.User.Employee.XF.Droid</RootNamespace>
     <AssemblyName>MySystem.XamarinForms.Android</AssemblyName>
     <Deterministic>True</Deterministic>
     <AndroidApplication>True</AndroidApplication>
@@ -90,15 +90,10 @@
       <SubType></SubType>
       <Generator></Generator>
     </AndroidResource>
-    <AndroidResource Include="Resources\drawable\company_logo.png">
-      <SubType></SubType>
-      <Generator></Generator>
-    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MySystem.XamarinForms\MySystem.XamarinForms.csproj">
-      <Project>{EED39460-07EC-41D8-ABC4-3CB4A261278E}</Project>
-      <Name>MySystem.XamarinForms</Name>
+    <ProjectReference Include="..\App.XF\App.XF.csproj">
+      <Name>App.XF</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

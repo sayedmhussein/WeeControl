@@ -2,7 +2,7 @@
 <ContentView
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="Sayed.MySystem.XamarinForms.Views.FooterContentView">
+    x:Class="MySystem.User.Employee.XF.Views.FooterContentView">
     <ContentView.Content>
         <StackLayout Orientation="Vertical">
             <Label Text="OTIS Company" FontSize="Large" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"></Label>

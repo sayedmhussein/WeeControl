@@ -5,12 +5,13 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
-using MySystem.Persistence.ClientService.Services;
 using MySystem.SharedKernel.EntityV1Dtos.Common;
 using MySystem.SharedKernel.EntityV1Dtos.Employee;
 using MySystem.SharedKernel.Enumerators;
+using MySystem.SharedKernel.ExtensionMethods;
+using MySystem.User.Employee.Services;
 
-namespace MySystem.Persistence.ClientService.ViewModels
+namespace MySystem.User.Employee.ViewModels
 {
     public class LoginViewModel : ObservableObject
     {
@@ -18,6 +19,7 @@ namespace MySystem.Persistence.ClientService.ViewModels
         private readonly IDevice device;
         private readonly IClientServices service;
         private readonly ILogger logger;
+        private readonly RequestMetadata metadata;
         #endregion
 
         #region Public Properties
@@ -53,6 +55,7 @@ namespace MySystem.Persistence.ClientService.ViewModels
             this.service = service ?? throw new ArgumentNullException();
             this.device = service.Device;
             this.logger = service.Logger;
+            this.metadata = (RequestMetadata)device.Metadata;
 
             LoginCommand = new AsyncRelayCommand(LoginAsync);
         }
@@ -63,30 +66,13 @@ namespace MySystem.Persistence.ClientService.ViewModels
         {
             if (device.Internet)
             {
-                //VerifyUserInputs();
-                var loginDto = new CreateLoginDto() { Username = Username, Password = Password };
-                //Validator.ValidateObject(loginDto, new ValidationContext(this, null, null));
-                var dto = new RequestDto<CreateLoginDto>(deviceId: device.DeviceId, payload: loginDto);
+                var loginDto = new CreateLoginDto() { Username = Username, Password = Password, Metadata = metadata };
+                if (loginDto.IsValid() == false)
+                {
+                    throw new ArgumentException("Invalid Username or Password");
+                }
 
-                try
-                {
-                    var response = await service.HttpClientInstance.PostAsJsonAsync(service.SharedValues.ApiRoute[ApiRouteEnum.EmployeeSession], dto);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var data = await response.Content.ReadAsAsync<EmployeeTokenDto>();
-                        device.Token = data.Token;
-                        await device.NavigateToPageAsync("HomePage");
-                    }
-                    else
-                    {
-                        await device.DisplayMessageAsync("Invalid Credentials", "Invalid uername or password, please try again later.");
-                    }
-                }
-                catch (Exception e)
-                {
-                    await device.DisplayMessageAsync("Exception", e.Message);
-                    throw;
-                }
+                await CommunicateWithServer(loginDto);
             }
             else
             {
@@ -94,11 +80,41 @@ namespace MySystem.Persistence.ClientService.ViewModels
             }
         }
 
-        private void VerifyUserInputs()
+        private async Task CommunicateWithServer(CreateLoginDto dto)
         {
-            if (string.IsNullOrWhiteSpace(Username) || string.IsNullOrWhiteSpace(Password))
+            HttpResponseMessage response;
+            try
             {
-                throw new ArgumentNullException("Invalid Username or Password");
+                response = await service.HttpClientInstance.PostAsJsonAsync(
+                    service.SharedValues.ApiRoute[ApiRouteEnum.EmployeeSession], dto);
+
+                switch (response.StatusCode)
+                {
+                    case System.Net.HttpStatusCode.OK:
+                        var data = await response.Content.ReadAsAsync<EmployeeTokenDto>();
+                        device.Token = data.Token;
+                        await device.NavigateToPageAsync("HomePage");
+                        break;
+                    case System.Net.HttpStatusCode.NotFound:
+                        await device.DisplayMessageAsync("Invalid Credentials", service.Settings.Login.InvalidCredentialsMessage);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            catch (System.Net.WebException)
+            {
+                //logger?.LogWarning("Server Issue! {0}/{1} - V{2}.", service.SharedValues.Base, service.SharedValues.Token, service.SharedValues.Version);
+                await device.DisplayMessageAsync("Server Connection Error", "The Application can't connect to the server, ensure that the applicaiton is updated or try again later.");
+                return;
+            }
+            catch (Exception e)
+            {
+                logger?.LogWarning(e.StackTrace);
+#if DEBUG
+                await device.DisplayMessageAsync("Unexpected Error Occured!", e.Message);
+                throw;
+#endif
             }
         }
         #endregion

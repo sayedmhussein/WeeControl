@@ -1,9 +1,9 @@
 ﻿using System.Net.Http;
 using Microsoft.Extensions.Logging;
-using MySystem.Persistence.ClientService.Configuration;
 using MySystem.SharedKernel.Interfaces;
+using MySystem.User.Employee.Configuration;
 
-namespace MySystem.Persistence.ClientService.Services
+namespace MySystem.User.Employee.Services
 {
     public interface IClientServices
     {
