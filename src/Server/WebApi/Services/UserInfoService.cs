@@ -6,8 +6,8 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using MySystem.Application.Common.Interfaces;
 using MySystem.Application.Territory.Query.GetTerritories;
-using MySystem.SharedKernel.Enumerators;
-using MySystem.SharedKernel.Interfaces;
+using MySystem.SharedKernel.Enumerators.Employee;
+using MySystem.SharedKernel.Interfaces.Values;
 
 namespace MySystem.Api.Services
 {
@@ -16,7 +16,7 @@ namespace MySystem.Api.Services
         private readonly IMediator mediatR;
         private readonly ICollection<Guid> officeIds = new List<Guid>();
         
-        public UserInfoService(IHttpContextAccessor httpContextAccessor, IMediator mediatR, ISharedValues values)
+        public UserInfoService(IHttpContextAccessor httpContextAccessor, IMediator mediatR, IEmployeeValues values)
         {
             Claims = httpContextAccessor.HttpContext.User.Claims;
 

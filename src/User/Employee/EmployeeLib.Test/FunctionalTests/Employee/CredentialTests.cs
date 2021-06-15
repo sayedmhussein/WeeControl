@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Moq;
 using MySystem.SharedKernel.EntityV1Dtos.Common;
 using MySystem.SharedKernel.Enumerators;
+using MySystem.SharedKernel.Enumerators.Common;
 using MySystem.SharedKernel.Interfaces;
+using MySystem.SharedKernel.Interfaces.Values;
 using MySystem.SharedKernel.Services;
 using MySystem.User.Employee.Enumerators;
 using MySystem.User.Employee.Interfaces;
@@ -20,7 +22,7 @@ namespace MySystem.User.Employee.Test.FunctionalTests.Employee
         private const string USERNAME = "admin";
         private const string PASSWORD = "admin";
 
-        private ISharedValues sharedValues;
+        private ICommonValues sharedValues;
         private Mock<IDevice> deviceMock;
 
         private HttpClient client;
@@ -30,7 +32,7 @@ namespace MySystem.User.Employee.Test.FunctionalTests.Employee
 
         public CredentialTests(WebApplicationFactory<Startup> factory)
         {
-            sharedValues = new SharedValues();
+            sharedValues = new CommonValues();
 
             deviceMock = new Mock<IDevice>();
             deviceMock.SetupProperty(x => x.Token);
@@ -41,7 +43,7 @@ namespace MySystem.User.Employee.Test.FunctionalTests.Employee
             client.BaseAddress = new Uri(sharedValues.ApiRoute[ApiRouteEnum.Base]);
             client.DefaultRequestVersion = new Version(sharedValues.ApiRoute[ApiRouteEnum.Version]);
 
-            dependencyFactory = new ViewModelDependencyFactory(client, deviceMock.Object, appDataPath, sharedValues);
+            dependencyFactory = new ViewModelDependencyFactory(client, deviceMock.Object, appDataPath);
         }
 
         public void Dispose()
@@ -54,7 +56,7 @@ namespace MySystem.User.Employee.Test.FunctionalTests.Employee
         [Fact]
         public async void WhenLoginWithValidCredentails_OpenSplashPage()
         {
-            var vm = new LoginViewModel(dependencyFactory)
+            var vm = new LoginViewModel(dependencyFactory, sharedValues)
             {
                 Username = USERNAME,
                 Password = PASSWORD
@@ -69,7 +71,7 @@ namespace MySystem.User.Employee.Test.FunctionalTests.Employee
         [Fact]
         public async void WhenLoginWithInValidCredentails_DonNotOpenHomePage()
         {
-            var vm = new LoginViewModel(dependencyFactory)
+            var vm = new LoginViewModel(dependencyFactory, sharedValues)
             {
                 Username = "admin1",
                 Password = "admin"
@@ -83,14 +85,14 @@ namespace MySystem.User.Employee.Test.FunctionalTests.Employee
         [Fact]
         public async void WhenSplashFindCorrectToken_OpenHomePage()
         {
-            var loginVm = new LoginViewModel(dependencyFactory)
+            var loginVm = new LoginViewModel(dependencyFactory, sharedValues)
             {
                 Username = USERNAME,
                 Password = PASSWORD
             };
             await loginVm.LoginCommand.ExecuteAsync(null);
 
-            var splashVm = new SplashViewModel(dependencyFactory);
+            var splashVm = new SplashViewModel(dependencyFactory, sharedValues);
             await splashVm.RefreshTokenCommand.ExecuteAsync(null);
 
             deviceMock.Verify(x => x.NavigateToPageAsync(nameof(ApplicationPageEnum.HomePage)), Times.Once);
@@ -106,7 +108,7 @@ namespace MySystem.User.Employee.Test.FunctionalTests.Employee
         public async void WhenSplashFindInvalidToken_OpenLoginPage(string token)
         {
             deviceMock.Setup(x => x.Token).Returns(token);
-            var vm = new SplashViewModel(dependencyFactory);
+            var vm = new SplashViewModel(dependencyFactory, sharedValues);
 
             await vm.RefreshTokenCommand.ExecuteAsync(null);
 

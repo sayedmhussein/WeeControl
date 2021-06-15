@@ -2,7 +2,7 @@
 
 namespace MySystem.SharedKernel.EntityBases.Employee
 {
-    public class EmployeeSessionBase
+    public abstract class EmployeeSessionBase
     {
         public Guid EmployeeId { get; set; }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MySystem.Application.Common.Interfaces;
 using MySystem.Domain.EntityDbo.EmployeeSchema;
@@ -13,6 +14,14 @@ namespace MySystem.Persistence.Test.Employee
         public EmployeeDboTests()
         {
             context = new ServiceCollection().AddPersistenceAsInMemory(null).BuildServiceProvider().GetService<IMySystemDbContext>();
+        }
+
+        [Fact]
+        public async void WhenQueryingEmployees_ListNotEmpty()
+        {
+            var employees = await context.Employees.ToListAsync();
+
+            Assert.NotEmpty(employees);
         }
 
         [Fact]

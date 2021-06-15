@@ -9,7 +9,9 @@ using Microsoft.EntityFrameworkCore;
 using MySystem.Application.Common.Exceptions;
 using MySystem.Application.Common.Interfaces;
 using MySystem.SharedKernel.Enumerators;
+using MySystem.SharedKernel.Enumerators.Employee;
 using MySystem.SharedKernel.Interfaces;
+using MySystem.SharedKernel.Interfaces.Values;
 
 namespace MySystem.Application.Employee.Query.GetEmployeeClaims
 {
@@ -17,10 +19,10 @@ namespace MySystem.Application.Employee.Query.GetEmployeeClaims
     {
         private readonly IMySystemDbContext context;
         private readonly ICurrentUserInfo currentUser;
-        private readonly ISharedValues sharedValues;
+        private readonly IEmployeeValues sharedValues;
         private readonly IMediator mediator;
 
-        public GetEmployeeClaimsV1Handler(IMySystemDbContext context, ICurrentUserInfo currentUser, ISharedValues sharedValues, IMediator mediator)
+        public GetEmployeeClaimsV1Handler(IMySystemDbContext context, ICurrentUserInfo currentUser, IEmployeeValues sharedValues, IMediator mediator)
         {
             this.context = context ?? throw new ArgumentNullException();
             this.currentUser = currentUser ?? throw new ArgumentNullException();

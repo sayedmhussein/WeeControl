@@ -5,12 +5,14 @@ using MySystem.SharedKernel.Interfaces;
 using MySystem.SharedKernel.Services;
 using MySystem.SharedKernel.Enumerators;
 using MySystem.Web.Api.Security.TokenRefreshment;
+using MySystem.SharedKernel.Interfaces.Values;
+using MySystem.SharedKernel.Enumerators.Employee;
 
 namespace MySystem.Web.Api.Security.Policies.Territory
 {
     public static class CanAddTerritoryPolicy
     {
-        private static ISharedValues values = new SharedValues();
+        private static IEmployeeValues values = new EmployeeValues();
 
         public const string Name = "CanAddTerritoryPolicy"; 
 

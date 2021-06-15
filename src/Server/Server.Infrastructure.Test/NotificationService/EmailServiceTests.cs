@@ -8,9 +8,9 @@ namespace MySystem.Infrastructure.Test.NotificationService
         [Fact(Skip = "Require External communications")]
         public async void WhenSendingAnEmailToDeveloper_DeveloperShouldReceiveTheEmail()
         {
-            var connString = "host=mail.gmx.com;port=587;useSSL=true;username=sayed.hussein@gmx.com;password=";
+            var connString = "host=mail.gmx.com;port=587;useSSL=true;username=sayed.hussein@gmx.com;password=, name=Sayed Hussein, email=sayed.hussein@gmx.com";
 
-            await new EmailService(connString).SendAsync("sayed.hussein@gmx.com", "sayed.otis@gmail.com", "Test Message", "This is test Message");
+            await new EmailService(connString).SendAsync("sayed.hussein@gmx.com", "sayed.hussein@gmx.com", "Test Message", "This is test Message");
         }
     }
 }

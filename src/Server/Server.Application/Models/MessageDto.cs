@@ -1,6 +1,7 @@
 ﻿using System;
 namespace MySystem.Application.Models
 {
+    [Obsolete]
     public class MessageDto
     {
         public string From { get; set; }

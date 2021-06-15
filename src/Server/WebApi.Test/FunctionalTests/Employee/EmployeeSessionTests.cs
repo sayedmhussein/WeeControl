@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using MySystem.SharedKernel.EntityV1Dtos.Common;
 using MySystem.SharedKernel.EntityV1Dtos.Employee;
 using MySystem.SharedKernel.Enumerators;
+using MySystem.SharedKernel.Enumerators.Common;
 using MySystem.SharedKernel.Interfaces;
 using MySystem.SharedKernel.Services;
 using Xunit;
@@ -23,7 +24,7 @@ namespace MySystem.Web.Api.Test.FunctionalTests.Employee
         public EmployeeSessionTests(WebApplicationFactory<Startup> factory)
         {
             this.factory = factory;
-            var sharedValues = new SharedValues();
+            var sharedValues = new CommonValues();
             ROUTE = sharedValues.ApiRoute[ApiRouteEnum.Employee] + "Session/";
         }
 

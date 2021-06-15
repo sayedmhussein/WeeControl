@@ -7,12 +7,10 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using MySystem.Application.Common.Exceptions;
 using MySystem.Application.Common.Interfaces;
-using MySystem.Domain.EntityDbo.EmployeeSchema;
 using MySystem.Domain.EntityDbo.Territory;
 using MySystem.Domain.Extensions;
 using MySystem.SharedKernel.EntityV1Dtos.Territory;
-using MySystem.SharedKernel.Enumerators;
-using MySystem.SharedKernel.Interfaces;
+using MySystem.SharedKernel.Interfaces.Values;
 
 namespace MySystem.Application.Territory.Query.GetTerritories
 {
@@ -20,9 +18,9 @@ namespace MySystem.Application.Territory.Query.GetTerritories
     {
         private readonly IMySystemDbContext context;
         private readonly ICurrentUserInfo userInfo;
-        private readonly ISharedValues values;
+        private readonly ITerritoryValues values;
 
-        public GetTerritoriesV1Handler(IMySystemDbContext context, ICurrentUserInfo userInfo, ISharedValues values)
+        public GetTerritoriesV1Handler(IMySystemDbContext context, ICurrentUserInfo userInfo, ITerritoryValues values)
         {
             this.context = context ?? throw new ArgumentNullException("Db Context can't be Null!");
             this.userInfo = userInfo ?? throw new ArgumentNullException("User Info can't be Null!");

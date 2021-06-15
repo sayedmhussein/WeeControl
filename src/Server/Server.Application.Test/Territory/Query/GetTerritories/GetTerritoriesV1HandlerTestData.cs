@@ -1,14 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using MySystem.SharedKernel.Enumerators;
-using MySystem.SharedKernel.Interfaces;
+using MySystem.SharedKernel.Enumerators.Employee;
+using MySystem.SharedKernel.Interfaces.Values;
 using MySystem.SharedKernel.Services;
 
 namespace MySystem.Application.Test.Territory.Query.GetTerritories
 {
     public class GetTerritoriesV1HandlerTestData : IEnumerable<object[]>
     {
-        private readonly ISharedValues values = new SharedValues();
+        private readonly IEmployeeValues values = new EmployeeValues();
 
         public IEnumerator<object[]> GetEnumerator()
         {

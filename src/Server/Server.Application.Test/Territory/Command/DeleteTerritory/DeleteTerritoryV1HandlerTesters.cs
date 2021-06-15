@@ -8,8 +8,8 @@ using MySystem.Application.Common.Exceptions;
 using MySystem.Application.Common.Interfaces;
 using MySystem.Application.Territory.Command.DeleteTerritories;
 using MySystem.Persistence;
-using MySystem.SharedKernel.Enumerators;
-using MySystem.SharedKernel.Interfaces;
+using MySystem.SharedKernel.Enumerators.Employee;
+using MySystem.SharedKernel.Interfaces.Values;
 using MySystem.SharedKernel.Services;
 using Xunit;
 
@@ -19,7 +19,8 @@ namespace MySystem.Application.Test.Territory.Command.DeleteTerritory
     {
         private IMySystemDbContext dbContext;
         private Mock<ICurrentUserInfo> userInfoMock;
-        private readonly ISharedValues values = new SharedValues();
+        private readonly IEmployeeValues employeeValues = new EmployeeValues();
+        private readonly ITerritoryValues values = new TerritoryValues();
 
         public DeleteTerritoryV1HandlerTesters()
         {
@@ -27,7 +28,7 @@ namespace MySystem.Application.Test.Territory.Command.DeleteTerritory
 
             userInfoMock = new Mock<ICurrentUserInfo>();
             userInfoMock.Setup(x => x.TerritoriesId).Returns(new List<Guid>() { dbContext.Employees.FirstOrDefault().Id });
-            userInfoMock.Setup(x => x.Claims).Returns(new List<Claim>() { new Claim(values.ClaimType[ClaimTypeEnum.HumanResources], values.ClaimTag[ClaimTagEnum.Delete]) });
+            userInfoMock.Setup(x => x.Claims).Returns(new List<Claim>() { new Claim(employeeValues.ClaimType[ClaimTypeEnum.HumanResources], employeeValues.ClaimTag[ClaimTagEnum.Delete]) });
         }
 
         public void Dispose()
@@ -42,13 +43,13 @@ namespace MySystem.Application.Test.Territory.Command.DeleteTerritory
         {
             userInfoMock = new Mock<ICurrentUserInfo>();
 
-            Assert.Throws<ArgumentNullException>(() => new DeleteTerritoriesV1Handler(null, userInfoMock.Object, values));
+            Assert.Throws<ArgumentNullException>(() => new DeleteTerritoriesV1Handler(null, userInfoMock.Object, values, employeeValues));
         }
 
         [Fact]
         public void WhenUserInfoIsNull_ThrowsArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new DeleteTerritoriesV1Handler(dbContext, null, values));
+            Assert.Throws<ArgumentNullException>(() => new DeleteTerritoriesV1Handler(dbContext, null, values, employeeValues));
         }
         #endregion
 
@@ -56,19 +57,19 @@ namespace MySystem.Application.Test.Territory.Command.DeleteTerritory
         [Fact]
         public async void WhenCommandIsNull_ThrowArgumentNullException()
         {
-            await Assert.ThrowsAsync<ArgumentNullException>(async () => await new DeleteTerritoriesV1Handler(dbContext, userInfoMock.Object, values).Handle(null, default));
+            await Assert.ThrowsAsync<ArgumentNullException>(async () => await new DeleteTerritoriesV1Handler(dbContext, userInfoMock.Object, values, employeeValues).Handle(null, default));
         }
 
         [Fact]
         public async void WhenAllCommandClassPropertyIsNull_ThrowBadRequestException()
         {
-            await Assert.ThrowsAsync<BadRequestException>(async () => await new DeleteTerritoriesV1Handler(dbContext, userInfoMock.Object, values).Handle(new DeleteTerritoriesV1Command(), default));
+            await Assert.ThrowsAsync<BadRequestException>(async () => await new DeleteTerritoriesV1Handler(dbContext, userInfoMock.Object, values, employeeValues).Handle(new DeleteTerritoriesV1Command(), default));
         }
 
         [Fact]
         public async void WhenAllCommandClassPropertyIsEmpty_ThrowBadRequestException()
         {
-            await Assert.ThrowsAsync<BadRequestException>(async () => await new DeleteTerritoriesV1Handler(dbContext, userInfoMock.Object, values).Handle(new DeleteTerritoriesV1Command() { TerritoryIds = new List<Guid>() }, default));
+            await Assert.ThrowsAsync<BadRequestException>(async () => await new DeleteTerritoriesV1Handler(dbContext, userInfoMock.Object, values, employeeValues).Handle(new DeleteTerritoriesV1Command() { TerritoryIds = new List<Guid>() }, default));
         }
         #endregion
 
@@ -76,7 +77,7 @@ namespace MySystem.Application.Test.Territory.Command.DeleteTerritory
         [Fact]
         public async void WhenDeletingNonExistedTerritory_ThrowNotFoundException()
         {
-            await Assert.ThrowsAsync<NotFoundException>(async () => await new DeleteTerritoriesV1Handler(dbContext, userInfoMock.Object, values).Handle(new DeleteTerritoriesV1Command() { TerritoryIds = new List<Guid>() { Guid.NewGuid() } }, default));
+            await Assert.ThrowsAsync<NotFoundException>(async () => await new DeleteTerritoriesV1Handler(dbContext, userInfoMock.Object, values, employeeValues).Handle(new DeleteTerritoriesV1Command() { TerritoryIds = new List<Guid>() { Guid.NewGuid() } }, default));
         }
 
         [Fact(Skip = "This test isn't applying for ImMemory DB Tests.")]
@@ -84,7 +85,7 @@ namespace MySystem.Application.Test.Territory.Command.DeleteTerritory
         {
             var adminTerritory = dbContext.Territories.FirstOrDefault();
 
-            await Assert.ThrowsAsync<DeleteFailureException>(async () => await new DeleteTerritoriesV1Handler(dbContext, userInfoMock.Object, values).Handle(new DeleteTerritoriesV1Command() { TerritoryIds = new List<Guid>() { adminTerritory.Id } }, default));
+            await Assert.ThrowsAsync<DeleteFailureException>(async () => await new DeleteTerritoriesV1Handler(dbContext, userInfoMock.Object, values, employeeValues).Handle(new DeleteTerritoriesV1Command() { TerritoryIds = new List<Guid>() { adminTerritory.Id } }, default));
         }
 
         public async void AuthorizationScenariosUnitTest(string claimType, string claimValue, bool willThrowException)

@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Reflection;
-using MySystem.SharedKernel.Enumerators;
-using MySystem.SharedKernel.Interfaces;
+using MySystem.SharedKernel.Enumerators.Employee;
+using MySystem.SharedKernel.Interfaces.Values;
 
 namespace MySystem.SharedKernel.Services
 {
-    public class SharedValues : ISharedValues
+    public class EmployeeValues : IEmployeeValues
     {
-        public ImmutableDictionary<ApiRouteEnum, string> ApiRoute { get; private set; }
-
         public ImmutableDictionary<ClaimTypeEnum, string> ClaimType { get; private set; }
 
         public ImmutableDictionary<ClaimTagEnum, string> ClaimTag { get; private set; }
@@ -20,21 +18,13 @@ namespace MySystem.SharedKernel.Services
 
         public ImmutableDictionary<PersonalGenderEnum, string> PersonGender { get; private set; }
 
-        public ImmutableDictionary<CountryEnum, string> Country { get; private set; }
+        public ImmutableDictionary<IdentityTypeEnum, string> IdentityType { get; private set; }
 
-        public SharedValues()
+        public EmployeeValues()
         {
             dynamic obj = new EmbeddedResourcesManager(
                 Assembly.GetExecutingAssembly())
                 .GetSerializedAsJson("MySystem.SharedKernel.Configuration.appsettings.json");
-
-            var apiRoute = new Dictionary<ApiRouteEnum, string>();
-            foreach (var e in Enum.GetValues(typeof(ApiRouteEnum)).Cast<ApiRouteEnum>())
-            {
-                string value = obj.ApiRoute[e.ToString()];
-                apiRoute.Add(e, value);
-            }
-            ApiRoute = apiRoute.ToImmutableDictionary();
 
             var claimType = new Dictionary<ClaimTypeEnum, string>();
             foreach (var e in Enum.GetValues(typeof(ClaimTypeEnum)).Cast<ClaimTypeEnum>())
@@ -68,13 +58,13 @@ namespace MySystem.SharedKernel.Services
             }
             PersonGender = personGender.ToImmutableDictionary();
 
-            var country = new Dictionary<CountryEnum, string>();
-            foreach (var e in Enum.GetValues(typeof(CountryEnum)).Cast<CountryEnum>())
+            var identityType = new Dictionary<IdentityTypeEnum, string>();
+            foreach (var e in Enum.GetValues(typeof(IdentityTypeEnum)).Cast<IdentityTypeEnum>())
             {
-                string value = obj.Country[e.ToString()];
-                country.Add(e, value);
+                string value = obj.IdentityType[e.ToString()];
+                identityType.Add(e, value);
             }
-            Country = country.ToImmutableDictionary();
+            IdentityType = identityType.ToImmutableDictionary();
         }
     }
 }

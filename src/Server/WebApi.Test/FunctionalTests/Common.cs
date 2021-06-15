@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Testing;
 using MySystem.SharedKernel.EntityV1Dtos.Common;
 using MySystem.SharedKernel.EntityV1Dtos.Employee;
-using MySystem.SharedKernel.Enumerators;
+using MySystem.SharedKernel.Enumerators.Common;
 using MySystem.SharedKernel.Services;
 using Xunit;
 
@@ -15,7 +15,7 @@ namespace MySystem.Web.Api.Test.FunctionalTests
     {
         internal async static Task<string> GetNewAdminTokenAsync(HttpClient client)
         {
-            var route = new SharedValues().ApiRoute[ApiRouteEnum.Employee] + "Session/";
+            var route = new CommonValues().ApiRoute[ApiRouteEnum.Employee] + "Session/";
             var metadata = new RequestMetadata() { Device = "device" };
 
             var dto1 = new CreateLoginDto() { Username = "admin", Password = "admin", Metadata = metadata };

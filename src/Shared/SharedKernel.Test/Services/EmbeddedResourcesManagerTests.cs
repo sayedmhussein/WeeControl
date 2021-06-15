@@ -6,7 +6,6 @@ namespace MySystem.SharedKernel.Test.Services
 {
     public class EmbeddedResourcesManagerTests
     {
-
         [Fact]
         public void WhenGettingAppSettingObject_MustNotBeNull()
         {
@@ -16,6 +15,14 @@ namespace MySystem.SharedKernel.Test.Services
             dynamic obj = new EmbeddedResourcesManager(assembly).GetSerializedAsJson(resource);
 
             Assert.NotNull(obj);
+        }
+
+        [Fact]
+        public void GetCurrentNamespace()
+        {
+            var bla = MethodBase.GetCurrentMethod().DeclaringType.Namespace;
+
+            Assert.NotEmpty(bla);
         }
     }
 }

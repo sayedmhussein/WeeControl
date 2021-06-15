@@ -16,12 +16,14 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using MySystem.SharedKernel.Enumerators;
 using MySystem.SharedKernel.EntityV1Dtos.Common;
+using MySystem.SharedKernel.Interfaces.Values;
+using MySystem.SharedKernel.Enumerators.Employee;
 
 namespace MySystem.Application.Test.Employee.Query.GetEmployeeClaims
 {
     public class GetEmployeeClaimsV1HandlerTesters : IDisposable
     {
-        private readonly ISharedValues sharedValues = new SharedValues();
+        private readonly IEmployeeValues sharedValues = new EmployeeValues();
         private IMySystemDbContext dbContext;
         private Mock<ICurrentUserInfo> userInfoMock;
         private Mock<IMediator> mediatRMock;

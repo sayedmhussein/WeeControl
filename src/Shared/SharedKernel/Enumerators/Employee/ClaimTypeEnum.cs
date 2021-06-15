@@ -1,5 +1,5 @@
 ﻿using System;
-namespace MySystem.SharedKernel.Enumerators
+namespace MySystem.SharedKernel.Enumerators.Employee
 {
     public enum ClaimTypeEnum
     {

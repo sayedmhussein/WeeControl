@@ -8,8 +8,9 @@ using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
 using MySystem.SharedKernel.EntityV1Dtos.Common;
 using MySystem.SharedKernel.EntityV1Dtos.Employee;
-using MySystem.SharedKernel.Enumerators;
+using MySystem.SharedKernel.Enumerators.Common;
 using MySystem.SharedKernel.ExtensionMethods;
+using MySystem.SharedKernel.Interfaces.Values;
 using MySystem.User.Employee.Enumerators;
 using MySystem.User.Employee.Interfaces;
 
@@ -20,7 +21,7 @@ namespace MySystem.User.Employee.ViewModels
         #region Private Properties
         private readonly HttpClient httpClient;
         private readonly IDevice device;
-        private readonly IViewModelDependencyFactory service;
+        private readonly ICommonValues commonValues;
         private readonly ILogger logger;
         private readonly RequestMetadata metadata;
         #endregion
@@ -49,14 +50,18 @@ namespace MySystem.User.Employee.ViewModels
 
         #region Constructors
         public LoginViewModel()
-            : this(Ioc.Default.GetRequiredService<IViewModelDependencyFactory>())
+            : this(Ioc.Default.GetRequiredService<IViewModelDependencyFactory>(), Ioc.Default.GetRequiredService<ICommonValues>())
         {
         }
 
-        public LoginViewModel(IViewModelDependencyFactory dependencyFactory)
+        public LoginViewModel(IViewModelDependencyFactory dependencyFactory, ICommonValues commonValues)
         {
-            this.service = dependencyFactory ?? throw new ArgumentNullException();
+            if (dependencyFactory == null || commonValues == null)
+            {
+                throw new ArgumentNullException();
+            }
 
+            this.commonValues = commonValues;
             httpClient = dependencyFactory.HttpClientInstance;
             this.device = dependencyFactory.Device;
             this.logger = dependencyFactory.Logger;
@@ -91,7 +96,7 @@ namespace MySystem.User.Employee.ViewModels
             try
             {
                 response = await httpClient.PostAsJsonAsync(
-                    service.SharedValues.ApiRoute[ApiRouteEnum.EmployeeSession], dto);
+                    commonValues.ApiRoute[ApiRouteEnum.EmployeeSession], dto);
 
                 switch (response.StatusCode)
                 {

@@ -4,7 +4,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using MySystem.SharedKernel.EntityV1Dtos.Common;
 using MySystem.SharedKernel.Enumerators;
+using MySystem.SharedKernel.Enumerators.Common;
 using MySystem.SharedKernel.Interfaces;
+using MySystem.SharedKernel.Interfaces.Values;
 using MySystem.SharedKernel.Services;
 using MySystem.User.Employee.Interfaces;
 using MySystem.User.Employee.Services;
@@ -24,18 +26,21 @@ namespace MySystem.User.Employee.XF
 
             try
             {
-                ISharedValues sharedValues = new SharedValues();
+                ICommonValues sharedValues = new CommonValues();
                 var device = new Services.Device(new RequestMetadata());
 
                 httpClient.BaseAddress = new Uri(sharedValues.ApiRoute[ApiRouteEnum.Base]);
                 httpClient.DefaultRequestHeaders.Add("Accept-version", sharedValues.ApiRoute[ApiRouteEnum.Version]);
 
 
-                IViewModelDependencyFactory client = new ViewModelDependencyFactory(httpClient, device, appDataPath, sharedValues);
+                IViewModelDependencyFactory client = new ViewModelDependencyFactory(httpClient, device, appDataPath);
 
                 Ioc.Default.ConfigureServices(
                     new ServiceCollection()
                     .AddSingleton(client)
+                    .AddSingleton<ITerritoryValues>(new TerritoryValues())
+                    .AddSingleton<IEmployeeValues>(new EmployeeValues())
+                    .AddSingleton(sharedValues)
                     .BuildServiceProvider());
             }
             catch

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MySystem.SharedKernel.EntityBases.Employee
 {
-    public class EmployeeClaimBase
+    public abstract class EmployeeClaimBase
     {
         [Required]
         [StringLength(5)]
