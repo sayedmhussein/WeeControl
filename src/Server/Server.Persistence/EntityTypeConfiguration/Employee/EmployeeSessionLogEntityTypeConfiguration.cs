@@ -9,7 +9,7 @@ namespace MySystem.Persistence.EntityTypeConfiguration.Employee
     {
         public void Configure(EntityTypeBuilder<EmployeeSessionLogDbo> builder)
         {
-            builder.ToTable("EmployeeSessionLog", nameof(Employee));
+            builder.ToTable("EmployeeSessionLog".ToSnakeCase(), nameof(Employee).ToSnakeCase());
             builder.HasIndex(x => x.SessionId ).IsUnique(false);
             builder.Property(p => p.LogTs).HasDefaultValue(DateTime.UtcNow);
 

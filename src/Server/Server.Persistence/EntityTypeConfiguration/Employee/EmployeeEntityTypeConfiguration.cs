@@ -8,7 +8,7 @@ namespace MySystem.Persistence.EntityTypeConfiguration.Employee
     {
         public void Configure(EntityTypeBuilder<EmployeeDbo> builder)
         {
-            builder.ToTable("Employee", nameof(Employee));
+            builder.ToTable("Employee".ToSnakeCase(), nameof(Employee).ToSnakeCase());
             builder.HasComment("-");
 
             if (MySystemDbContext.DbFacade.IsNpgsql())

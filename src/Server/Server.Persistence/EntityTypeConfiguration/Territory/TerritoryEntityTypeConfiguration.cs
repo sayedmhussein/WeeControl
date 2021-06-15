@@ -9,7 +9,7 @@ namespace MySystem.Persistence.EntityTypeConfiguration.Territory
         public void Configure(EntityTypeBuilder<TerritoryDbo> builder)
         {
             builder.HasOne(e => e.ReportTo).WithMany();
-            builder.ToTable("Territory", nameof(Territory));
+            builder.ToTable("Territory".ToSnakeCase(), nameof(Territory).ToSnakeCase());
             builder.HasComment("Territory of corporate.");
             builder.HasIndex(x => new { x.CountryId, x.Name }).IsUnique(true);
 

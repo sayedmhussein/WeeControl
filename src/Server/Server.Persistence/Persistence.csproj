@@ -34,6 +34,7 @@
   <ItemGroup>
     <None Remove="EntityTypeConfiguration\Territory\" />
     <None Remove="Microsoft.EntityFrameworkCore.Tools" />
+    <None Remove="EFCore.NamingConventions" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\SharedKernel\SharedKernel.csproj" />

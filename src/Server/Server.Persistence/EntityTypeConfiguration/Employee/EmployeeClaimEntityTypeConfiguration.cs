@@ -9,7 +9,7 @@ namespace MySystem.Persistence.EntityTypeConfiguration.Employee
     {
         public void Configure(EntityTypeBuilder<EmployeeClaimDbo> builder)
         {
-            builder.ToTable("EmployeeClaim", nameof(Employee));
+            builder.ToTable("EmployeeClaim".ToSnakeCase(), nameof(Employee).ToSnakeCase());
             builder.HasIndex(x => x.EmployeeId).IsUnique(false);
             builder.Property(p => p.GrantedTs).HasDefaultValue(DateTime.UtcNow);
             builder.HasOne(x => x.Employee).WithMany(x => x.Claims).HasForeignKey(x => x.EmployeeId);

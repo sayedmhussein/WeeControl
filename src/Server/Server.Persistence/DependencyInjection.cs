@@ -9,16 +9,18 @@ namespace MySystem.Persistence
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration, string migrationAssemblyName)
+        public static IServiceCollection AddPersistenceAsPostgreSQL(this IServiceCollection services, IConfiguration configuration, string migrationAssemblyName)
         {
-            services.AddDbContext<MySystemDbContext>(options =>
+            services.AddEntityFrameworkNpgsql()
+                //.AddEntityFrameworkNamingConventions()
+                .AddDbContextPool<MySystemDbContext>(options =>
             {
                 options.EnableSensitiveDataLogging();
                 options.UseNpgsql(configuration.GetConnectionString("DbConnection"), b =>
                 {
                     b.MigrationsAssembly(migrationAssemblyName);
                 });
-                
+                //options.UseSnakeCaseNamingConvention();
             });
 
             services.AddScoped<IMySystemDbContext>(provider => provider.GetService<MySystemDbContext>());

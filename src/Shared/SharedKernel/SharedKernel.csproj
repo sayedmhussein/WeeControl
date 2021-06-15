@@ -25,6 +25,7 @@
     <Folder Include="Enumerators\Employee\" />
     <Folder Include="Enumerators\Territory\" />
     <Folder Include="Interfaces\Values\" />
+    <Folder Include="Services\Values\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
@@ -49,6 +50,7 @@
     <None Remove="Enumerators\Employee\" />
     <None Remove="Enumerators\Territory\" />
     <None Remove="Interfaces\Services\" />
+    <None Remove="Services\Values\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Configuration\appsettings.json" />

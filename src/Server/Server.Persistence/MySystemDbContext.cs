@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Text.RegularExpressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using MySystem.Application.Common.Interfaces;
@@ -11,6 +12,17 @@ using MySystem.SharedKernel.Services;
 
 namespace MySystem.Persistence
 {
+    public static class StringExtensions
+    {
+        public static string ToSnakeCase(this string input)
+        {
+            if (string.IsNullOrEmpty(input)) { return input; }
+
+            var startUnderscores = Regex.Match(input, @"^_+");
+            return startUnderscores + Regex.Replace(input, @"([a-z0-9])([A-Z])", "$1_$2").ToLower();
+        }
+    }
+
     public class MySystemDbContext : DbContext, IMySystemDbContext
     {
         internal static DatabaseFacade DbFacade { get; private set; }
@@ -44,9 +56,34 @@ namespace MySystem.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             if (Database.IsNpgsql())
             {
                 modelBuilder.HasPostgresExtension("uuid-ossp");
+
+                foreach (var entity in modelBuilder.Model.GetEntityTypes())
+                {        
+                    foreach (var property in entity.GetProperties())
+                    {
+                        property.SetColumnName(property.Name.ToSnakeCase());
+                    }
+
+                    foreach (var key in entity.GetKeys())
+                    {
+                        key.SetName(key.GetName().ToSnakeCase());
+                    }
+
+                    foreach (var key in entity.GetForeignKeys())
+                    {
+                        key.SetConstraintName(key.GetConstraintName().ToSnakeCase());
+                    }
+
+                    foreach (var index in entity.GetIndexes())
+                    {
+                        index.SetDatabaseName(index.Name.ToSnakeCase());
+                    }
+                }
             }
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(MySystemDbContext).Assembly);

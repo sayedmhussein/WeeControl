@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using MySystem.Application.Common.Interfaces;
-using MySystem.Application.Models;
 
 namespace MySystem.Application.Employee.Command.AddEmployee.V1
 {
@@ -22,7 +21,7 @@ namespace MySystem.Application.Employee.Command.AddEmployee.V1
 
             public async Task Handle(EmployeeCreated notification, CancellationToken cancellationToken)
             {
-                await _notification.SendAsync(new MessageDto());
+                //await _notification.SendAsync(new MessageDto());
             }
         }
     }

@@ -1,5 +1,5 @@
 ﻿using System;
-using MySystem.Infrastructure.NotificationService;
+using MySystem.Infrastructure.NotificationServices;
 using Xunit;
 namespace MySystem.Infrastructure.Test.NotificationService
 {

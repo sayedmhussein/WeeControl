@@ -12,14 +12,14 @@ using Microsoft.Extensions.Hosting;
 using MySystem.Api.Services;
 using MySystem.Application.Common.Interfaces;
 using MySystem.Infrastructure;
-using MySystem.MySystem.Api.Middleware;
+using MySystem.MySystem.Api.Middlewares;
 using MySystem.MySystem.Api.Service;
 using MySystem.Persistence;
 using MySystem.SharedKernel.Interfaces.Values;
 using MySystem.SharedKernel.Services;
-using MySystem.Web.Api.Options;
-using MySystem.Web.Api.Security.TokenRefreshment;
+using MySystem.Web.Api.Security.TokenRefreshment.CustomHandlers;
 using MySystem.Web.Api.Services;
+using MySystem.Web.Api.StartupOptions;
 
 namespace MySystem.Web.Api
 {
@@ -32,7 +32,6 @@ namespace MySystem.Web.Api
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddNewtonsoftJson(options =>
@@ -42,7 +41,7 @@ namespace MySystem.Web.Api
 
             services.AddApplication();
             services.AddInfrastructure(Configuration);
-            services.AddPersistence(Configuration, Assembly.GetExecutingAssembly().GetName().Name);
+            services.AddPersistenceAsPostgreSQL(Configuration, Assembly.GetExecutingAssembly().GetName().Name);
 
             services.AddApiVersioning(ApiVersionOptions.ConfigureApiVersioning);
             services.AddSwaggerGen(SwaggerOptions.ConfigureSwaggerGen);
@@ -54,13 +53,31 @@ namespace MySystem.Web.Api
             services.AddScoped<ICurrentUserInfo, UserInfoService>();
             services.AddSingleton<IJwtService>(provider => new JwtService(Configuration["Jwt:Key"]));
 
-            AuthenticationConfig(services);
+
+            services.AddAuthentication(AuthenOptions.ConfigureAuthorizationService).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new JwtService(Configuration["Jwt:Key"]).ValidationParameters;
+
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        try
+                        {
+                            var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+                            context.Token = token;
+                        }
+                        catch { }
+
+                        return Task.CompletedTask;
+                    },
+                };
+            });
 
             services.AddSingleton<IAuthorizationHandler, TokenRefreshmentHandler>();
             services.AddAuthorization(AuthorOptions.ConfigureAuthOptions);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -85,33 +102,6 @@ namespace MySystem.Web.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-            });
-        }
-
-        private void AuthenticationConfig(IServiceCollection services)
-        {
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-
-            }).AddJwtBearer(options =>
-            {
-                options.TokenValidationParameters = new JwtService(Configuration["Jwt:Key"]).ValidationParameters;
-
-                options.Events = new JwtBearerEvents
-                {
-                    OnMessageReceived = context =>
-                    {
-                        try
-                        {
-                            var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-                            context.Token = token;
-                        }
-                        catch { }
-
-                        return Task.CompletedTask;
-                    },
-                };
             });
         }
     }

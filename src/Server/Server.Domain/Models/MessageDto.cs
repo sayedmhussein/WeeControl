@@ -1,8 +1,9 @@
 ﻿using System;
-namespace MySystem.Application.Models
+using MySystem.SharedKernel.Interfaces;
+
+namespace MySystem.Domain.Models
 {
-    [Obsolete]
-    public class MessageDto
+    public class MessageDto : IMessage
     {
         public string From { get; set; }
         public string To { get; set; }

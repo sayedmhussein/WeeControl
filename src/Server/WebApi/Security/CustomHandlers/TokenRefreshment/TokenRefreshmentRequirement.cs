@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Authorization;
 
-namespace MySystem.Web.Api.Security.TokenRefreshment
+namespace MySystem.Web.Api.Security.TokenRefreshment.CustomHandlers
 {
     public class TokenRefreshmentRequirement : IAuthorizationRequirement
     {

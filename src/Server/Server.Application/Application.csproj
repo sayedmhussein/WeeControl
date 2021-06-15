@@ -19,7 +19,6 @@
     <Folder Include="Employee\Command\UpdateEmployee\V1\" />
     <Folder Include="Common\Exceptions\" />
     <Folder Include="Common\Behaviours\" />
-    <Folder Include="Models\" />
     <Folder Include="Employee\Command\AddEmployeeClaim\" />
     <Folder Include="Employee\Command\AddEmployeeClaim\V1\" />
     <Folder Include="Employee\Query\GetEmployeeClaims\" />

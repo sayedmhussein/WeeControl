@@ -9,7 +9,7 @@ namespace MySystem.Persistence.EntityTypeConfiguration.Employee
     {
         public void Configure(EntityTypeBuilder<EmployeeIdentityDbo> builder)
         {
-            builder.ToTable("EmployeeIdentity", nameof(Employee));
+            builder.ToTable("EmployeeIdentity".ToSnakeCase(), nameof(Employee).ToSnakeCase());
             builder.HasIndex(x => x.EmployeeId).IsUnique(false);
 
             if (MySystemDbContext.DbFacade.IsNpgsql())

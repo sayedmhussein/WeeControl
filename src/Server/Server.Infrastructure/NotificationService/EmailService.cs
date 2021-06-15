@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using MimeKit;
 using MySystem.Application.Common.Interfaces;
-using MySystem.Application.Models;
+using MySystem.SharedKernel.Interfaces;
 
-namespace MySystem.Infrastructure.NotificationService
+namespace MySystem.Infrastructure.NotificationServices
 {
     public class EmailService : IEmailNotificationService
     {
@@ -54,7 +54,7 @@ namespace MySystem.Infrastructure.NotificationService
             }
         }
 
-        public Task SendAsync(MessageDto message)
+        public Task SendAsync(IMessage message)
         {
             return SendAsync(message.From, message.To, message.Subject, message.Body);
         }
@@ -80,7 +80,7 @@ namespace MySystem.Infrastructure.NotificationService
             await client.DisconnectAsync(true);
         }
 
-        public Task SendAsync(IEnumerable<MessageDto> messages)
+        public Task SendAsync(IEnumerable<IMessage> messages)
         {
             throw new NotImplementedException();
         }

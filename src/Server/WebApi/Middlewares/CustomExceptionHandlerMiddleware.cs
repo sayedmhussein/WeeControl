@@ -3,11 +3,10 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.IdentityModel.Tokens;
 using MySystem.Application.Common.Exceptions;
 using Newtonsoft.Json;
 
-namespace MySystem.MySystem.Api.Middleware
+namespace MySystem.MySystem.Api.Middlewares
 {
     public class CustomExceptionHandlerMiddleware
     {

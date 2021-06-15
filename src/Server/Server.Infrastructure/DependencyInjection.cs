@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MySystem.Application.Common.Interfaces;
-using MySystem.Infrastructure.NotificationService;
+using MySystem.Infrastructure.NotificationServices;
 
 namespace MySystem.Infrastructure
 {

@@ -10,7 +10,7 @@ namespace MySystem.Persistence.EntityTypeConfiguration.Employee
     {
         public void Configure(EntityTypeBuilder<EmployeeSessionDbo> builder)
         {
-            builder.ToTable("EmployeeSession", nameof(Employee));
+            builder.ToTable("EmployeeSession".ToSnakeCase(), nameof(Employee).ToSnakeCase());
             builder.HasIndex(x => new { x.EmployeeId, x.DeviceId, x.TerminationTs }).IsUnique(false);
             builder.Property(p => p.CreationTs).HasDefaultValue(DateTime.UtcNow);
 

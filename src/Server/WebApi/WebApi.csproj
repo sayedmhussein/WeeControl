@@ -33,15 +33,17 @@
     <Folder Include="Security\" />
     <Folder Include="Security\Policies\Employee\" />
     <Folder Include="Security\Policies\Territory\" />
-    <Folder Include="Security\TokenRefreshment\" />
-    <Folder Include="Options\" />
+    <Folder Include="StartupOptions\" />
+    <Folder Include="Security\CustomHandlers\" />
+    <Folder Include="Security\CustomHandlers\TokenRefreshment\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Security\Policy\Employee\" />
     <None Remove="Security\Policy\Territory\" />
-    <None Remove="Security\TokenRefreshment\" />
     <None Remove="System.Collections.Immutable" />
     <None Remove="Options\" />
+    <None Remove="Security\CustomHandlers\" />
+    <None Remove="Security\CustomHandlers\TokenRefreshment\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Server.Application\Application.csproj">
