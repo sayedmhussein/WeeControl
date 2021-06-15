@@ -1,12 +1,14 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using MySystem.SharedKernel.Enumerators.Employee;
 
 namespace MySystem.SharedKernel.EntityBases.Employee
 {
-    public class EmployeeIdentityBase
+    public abstract class EmployeeIdentityBase
     {
-        public IdentityTypes IdentityType { get; set; }
+        public IdentityTypeEnum IdentityType { get; set; }
 
+        [Required]
         public string IdentityValue { get; set; }
 
         [Required]
@@ -16,11 +18,5 @@ namespace MySystem.SharedKernel.EntityBases.Employee
         public DateTime? DateIssed { get; set; }
 
         public DateTime? DateExpired { get; set; }
-
-        public enum IdentityTypes
-        {
-            LocalId,
-            Passport
-        }
     }
 }

@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using MediatR;
 using MySystem.Application.Common.Exceptions;
 using MySystem.Application.Common.Interfaces;
-using MySystem.SharedKernel.Enumerators;
-using MySystem.SharedKernel.Interfaces;
+using MySystem.SharedKernel.Enumerators.Employee;
+using MySystem.SharedKernel.Interfaces.Values;
 
 namespace MySystem.Application.Territory.Command.DeleteTerritories
 {
@@ -14,13 +14,15 @@ namespace MySystem.Application.Territory.Command.DeleteTerritories
     {
         private readonly IMySystemDbContext context;
         private readonly ICurrentUserInfo userInfo;
-        private readonly ISharedValues values;
+        private readonly ITerritoryValues values;
+        private readonly IEmployeeValues employeeValues;
 
-        public DeleteTerritoriesV1Handler(IMySystemDbContext context, ICurrentUserInfo userInfo, ISharedValues values)
+        public DeleteTerritoriesV1Handler(IMySystemDbContext context, ICurrentUserInfo userInfo, ITerritoryValues values, IEmployeeValues employeeValues)
         {
             this.context = context ?? throw new ArgumentNullException("Db Context can't be Null!");
             this.userInfo = userInfo ?? throw new ArgumentNullException("User Info can't be Null!");
             this.values = values;
+            this.employeeValues = employeeValues;
         }
 
         public Task<Unit> Handle(DeleteTerritoriesV1Command request, CancellationToken cancellationToken)
@@ -35,7 +37,7 @@ namespace MySystem.Application.Territory.Command.DeleteTerritories
                 throw new BadRequestException("");
             }
 
-            var tag = userInfo.Claims.FirstOrDefault(x => x.Type == values.ClaimType[ClaimTypeEnum.HumanResources])?.Value?.Contains(values.ClaimTag[ClaimTagEnum.Delete]);
+            var tag = userInfo.Claims.FirstOrDefault(x => x.Type == employeeValues.ClaimType[ClaimTypeEnum.HumanResources])?.Value?.Contains(employeeValues.ClaimTag[ClaimTagEnum.Delete]);
             if (tag == false || tag == null)
             {
                 throw new NotAllowedException("");

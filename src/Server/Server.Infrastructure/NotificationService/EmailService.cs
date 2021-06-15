@@ -33,12 +33,18 @@ namespace MySystem.Infrastructure.NotificationService
                             port = short.Parse(item[1].Trim());
                             break;
                         case "useSSL":
-                            useSSL = item[1].Trim() == "true" ? true : false;
+                            useSSL = item[1].Trim() == "true";
                             break;
                         case "username":
                             username = item[1].Trim();
                             break;
                         case "password":
+                            password = item[1].Trim();
+                            break;
+                        case "name":
+                            password = item[1].Trim();
+                            break;
+                        case "email":
                             password = item[1].Trim();
                             break;
                     }

@@ -12,7 +12,9 @@ using MySystem.Domain.EntityDbo.Territory;
 using MySystem.Persistence;
 using MySystem.SharedKernel.EntityV1Dtos.Territory;
 using MySystem.SharedKernel.Enumerators;
+using MySystem.SharedKernel.Enumerators.Employee;
 using MySystem.SharedKernel.Interfaces;
+using MySystem.SharedKernel.Interfaces.Values;
 using MySystem.SharedKernel.Services;
 using Xunit;
 
@@ -22,7 +24,8 @@ namespace MySystem.Application.Test.Territory.Query.GetTerritories
     {
         private IMySystemDbContext dbContext;
         private Mock<ICurrentUserInfo> userInfoMock;
-        private readonly ISharedValues values = new SharedValues();
+        private readonly ITerritoryValues values = new TerritoryValues();
+        private readonly IEmployeeValues employeeValues = new EmployeeValues();
 
         public GetTerritoriesV1HandlerTesters()
         {
@@ -131,7 +134,7 @@ namespace MySystem.Application.Test.Territory.Query.GetTerritories
             var admin = dbContext.Employees.FirstOrDefault();
 
             userInfoMock.Setup(x => x.TerritoriesId).Returns(new List<Guid>() { admin.TerritoryId });
-            userInfoMock.Setup(x => x.Claims).Returns(new List<Claim>() { new Claim(values.ClaimType[ClaimTypeEnum.HumanResources], values.ClaimTag[ClaimTagEnum.Read]) });
+            userInfoMock.Setup(x => x.Claims).Returns(new List<Claim>() { new Claim(employeeValues.ClaimType[ClaimTypeEnum.HumanResources], employeeValues.ClaimTag[ClaimTagEnum.Read]) });
 
             var responseDto = await new GetTerritoriesV1Handler(dbContext, userInfoMock.Object, values).Handle(new GetTerritoriesV1Query() { EmployeeId = admin.Id }, default);
 
@@ -147,7 +150,7 @@ namespace MySystem.Application.Test.Territory.Query.GetTerritories
             await dbContext.SaveChangesAsync(default);
 
             userInfoMock.Setup(x => x.TerritoriesId).Returns(new List<Guid>() { admin.TerritoryId });
-            userInfoMock.Setup(x => x.Claims).Returns(new List<Claim>() { new Claim(values.ClaimType[ClaimTypeEnum.HumanResources], values.ClaimTag[ClaimTagEnum.Read]) });
+            userInfoMock.Setup(x => x.Claims).Returns(new List<Claim>() { new Claim(employeeValues.ClaimType[ClaimTypeEnum.HumanResources], employeeValues.ClaimTag[ClaimTagEnum.Read]) });
 
             var responseDto = await new GetTerritoriesV1Handler(dbContext, userInfoMock.Object, values).Handle(new GetTerritoriesV1Query() { SessionId = session.Id }, default);
 
@@ -159,7 +162,7 @@ namespace MySystem.Application.Test.Territory.Query.GetTerritories
         {
             var admin = dbContext.Employees.FirstOrDefault();
             userInfoMock.Setup(x => x.TerritoriesId).Returns(new List<Guid>() { admin.TerritoryId });
-            userInfoMock.Setup(x => x.Claims).Returns(new List<Claim>() { new Claim(values.ClaimType[ClaimTypeEnum.HumanResources], values.ClaimTag[ClaimTagEnum.Read]) });
+            userInfoMock.Setup(x => x.Claims).Returns(new List<Claim>() { new Claim(employeeValues.ClaimType[ClaimTypeEnum.HumanResources], employeeValues.ClaimTag[ClaimTagEnum.Read]) });
 
             var territory = dbContext.Territories.FirstOrDefault();
 
@@ -173,7 +176,7 @@ namespace MySystem.Application.Test.Territory.Query.GetTerritories
         {
             var admin = dbContext.Employees.FirstOrDefault();
             userInfoMock.Setup(x => x.TerritoriesId).Returns(new List<Guid>() { admin.TerritoryId });
-            userInfoMock.Setup(x => x.Claims).Returns(new List<Claim>() { new Claim(values.ClaimType[ClaimTypeEnum.HumanResources], values.ClaimTag[ClaimTagEnum.Read]) });
+            userInfoMock.Setup(x => x.Claims).Returns(new List<Claim>() { new Claim(employeeValues.ClaimType[ClaimTypeEnum.HumanResources], employeeValues.ClaimTag[ClaimTagEnum.Read]) });
 
             await Assert.ThrowsAsync<NotFoundException>(async () => await new GetTerritoriesV1Handler(dbContext, userInfoMock.Object, values).Handle(new GetTerritoriesV1Query() { EmployeeId = Guid.NewGuid() }, default));
         }
@@ -183,7 +186,7 @@ namespace MySystem.Application.Test.Territory.Query.GetTerritories
         {
             var admin = dbContext.Employees.FirstOrDefault();
             userInfoMock.Setup(x => x.TerritoriesId).Returns(new List<Guid>() { admin.TerritoryId });
-            userInfoMock.Setup(x => x.Claims).Returns(new List<Claim>() { new Claim(values.ClaimType[ClaimTypeEnum.HumanResources], values.ClaimTag[ClaimTagEnum.Read]) });
+            userInfoMock.Setup(x => x.Claims).Returns(new List<Claim>() { new Claim(employeeValues.ClaimType[ClaimTypeEnum.HumanResources], employeeValues.ClaimTag[ClaimTagEnum.Read]) });
 
             await Assert.ThrowsAsync<NotFoundException>(async () => await new GetTerritoriesV1Handler(dbContext, userInfoMock.Object, values).Handle(new GetTerritoriesV1Query() { SessionId = Guid.NewGuid() }, default));
         }
@@ -193,7 +196,7 @@ namespace MySystem.Application.Test.Territory.Query.GetTerritories
         {
             var admin = dbContext.Employees.FirstOrDefault();
             userInfoMock.Setup(x => x.TerritoriesId).Returns(new List<Guid>() { admin.TerritoryId });
-            userInfoMock.Setup(x => x.Claims).Returns(new List<Claim>() { new Claim(values.ClaimType[ClaimTypeEnum.HumanResources], values.ClaimTag[ClaimTagEnum.Read]) });
+            userInfoMock.Setup(x => x.Claims).Returns(new List<Claim>() { new Claim(employeeValues.ClaimType[ClaimTypeEnum.HumanResources], employeeValues.ClaimTag[ClaimTagEnum.Read]) });
 
             var territory = dbContext.Territories.FirstOrDefault();
             await dbContext.Territories.AddAsync(new TerritoryDbo() { ReportTo = territory, CountryId = "sss", Name = "name" });
@@ -209,7 +212,7 @@ namespace MySystem.Application.Test.Territory.Query.GetTerritories
         {
             var admin = dbContext.Employees.FirstOrDefault();
             userInfoMock.Setup(x => x.TerritoriesId).Returns(new List<Guid>() { admin.TerritoryId });
-            userInfoMock.Setup(x => x.Claims).Returns(new List<Claim>() { new Claim(values.ClaimType[ClaimTypeEnum.HumanResources], values.ClaimTag[ClaimTagEnum.Read]) });
+            userInfoMock.Setup(x => x.Claims).Returns(new List<Claim>() { new Claim(employeeValues.ClaimType[ClaimTypeEnum.HumanResources], employeeValues.ClaimTag[ClaimTagEnum.Read]) });
 
             var territory = dbContext.Territories.FirstOrDefault();
             await dbContext.Territories.AddAsync(new TerritoryDbo() { ReportTo = territory, CountryId = "sss", Name = "name1" });
@@ -226,7 +229,7 @@ namespace MySystem.Application.Test.Territory.Query.GetTerritories
         {
             var admin = dbContext.Employees.FirstOrDefault();
             userInfoMock.Setup(x => x.TerritoriesId).Returns(new List<Guid>() { admin.TerritoryId });
-            userInfoMock.Setup(x => x.Claims).Returns(new List<Claim>() { new Claim(values.ClaimType[ClaimTypeEnum.HumanResources], values.ClaimTag[ClaimTagEnum.Read]) });
+            userInfoMock.Setup(x => x.Claims).Returns(new List<Claim>() { new Claim(employeeValues.ClaimType[ClaimTypeEnum.HumanResources], employeeValues.ClaimTag[ClaimTagEnum.Read]) });
 
             var territory1 = dbContext.Territories.FirstOrDefault();
             //

@@ -4,8 +4,9 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using MySystem.Application.Common.Interfaces;
 using MySystem.Domain.EntityDbo.EmployeeSchema;
 using MySystem.Domain.EntityDbo.Territory;
-using MySystem.SharedKernel.Enumerators;
-using MySystem.SharedKernel.Interfaces;
+using MySystem.SharedKernel.Enumerators.Employee;
+using MySystem.SharedKernel.Enumerators.Territory;
+using MySystem.SharedKernel.Interfaces.Values;
 using MySystem.SharedKernel.Services;
 
 namespace MySystem.Persistence
@@ -53,11 +54,12 @@ namespace MySystem.Persistence
 
         private void AddSuperUser()
         {
-            ISharedValues values = new SharedValues();
+            ITerritoryValues territoryValues = new TerritoryValues();
+            IEmployeeValues values = new EmployeeValues();
 
             var territory = new TerritoryDbo()
             {
-                CountryId = values.Country[CountryEnum.USA],
+                CountryId = territoryValues.Country[CountryEnum.USA],
                 Name = "Head Office in USA"
             };
             Territories.Add(territory);
@@ -89,7 +91,7 @@ namespace MySystem.Persistence
 
         private void AddStandardUser()
         {
-            ISharedValues values = new SharedValues();
+            IEmployeeValues values = new EmployeeValues();
 
             var standardUser = new EmployeeDbo()
             {

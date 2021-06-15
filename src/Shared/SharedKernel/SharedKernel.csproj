@@ -21,6 +21,10 @@
     <Folder Include="EntityBases\" />
     <Folder Include="EntityBases\Employee\" />
     <Folder Include="EntityBases\Territory\" />
+    <Folder Include="Enumerators\Common\" />
+    <Folder Include="Enumerators\Employee\" />
+    <Folder Include="Enumerators\Territory\" />
+    <Folder Include="Interfaces\Values\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
@@ -41,6 +45,10 @@
     <None Remove="EntityBases\Employee\" />
     <None Remove="EntityBases\Territory\" />
     <None Remove="AutoMapper" />
+    <None Remove="Enumerators\Common\" />
+    <None Remove="Enumerators\Employee\" />
+    <None Remove="Enumerators\Territory\" />
+    <None Remove="Interfaces\Services\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Configuration\appsettings.json" />

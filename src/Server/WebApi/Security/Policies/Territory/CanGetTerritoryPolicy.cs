@@ -1,8 +1,8 @@
 ﻿using System;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using MySystem.SharedKernel.Enumerators;
-using MySystem.SharedKernel.Interfaces;
+using MySystem.SharedKernel.Enumerators.Employee;
+using MySystem.SharedKernel.Interfaces.Values;
 using MySystem.SharedKernel.Services;
 using MySystem.Web.Api.Security.TokenRefreshment;
 
@@ -10,7 +10,7 @@ namespace MySystem.Web.Api.Security.Policies.Territory
 {
     public static class CanGetTerritoryPolicy
     {
-        private static ISharedValues values = new SharedValues();
+        private static IEmployeeValues values = new EmployeeValues();
 
         public const string Name = "CanGetTerritoryPolicy"; 
 

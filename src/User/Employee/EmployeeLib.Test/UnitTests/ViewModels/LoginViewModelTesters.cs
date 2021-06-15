@@ -3,6 +3,7 @@ using System.Net.Http;
 using Moq;
 using MySystem.SharedKernel.EntityV1Dtos.Employee;
 using MySystem.SharedKernel.ExtensionMethods;
+using MySystem.SharedKernel.Interfaces.Values;
 using MySystem.User.Employee.Interfaces;
 using MySystem.User.Employee.Services;
 using MySystem.User.Employee.ViewModels;
@@ -14,9 +15,15 @@ namespace MySystem.User.Employee.Test.UnitTests.ViewModels
     {
         #region Constructor
         [Fact]
-        public void Constructor_WhenNullService_ThrowArgumentNullException()
+        public void Constructor_WhenFirstParameter_ThrowArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new LoginViewModel(null));
+            Assert.Throws<ArgumentNullException>(() => new LoginViewModel(null, new Mock<ICommonValues>().Object));
+        }
+
+        [Fact]
+        public void Constructor_WhenNullSecondParameter_ThrowArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new LoginViewModel(new Mock<IViewModelDependencyFactory>().Object, null));
         }
         #endregion
 
@@ -26,7 +33,7 @@ namespace MySystem.User.Employee.Test.UnitTests.ViewModels
         {
             var service = clientServicesMock.Object;
 
-            var vm = new LoginViewModel(service)
+            var vm = new LoginViewModel(service, commonValues)
             {
                 Username = string.Empty,
                 Password = "SomePassword"
@@ -40,7 +47,7 @@ namespace MySystem.User.Employee.Test.UnitTests.ViewModels
         {
             var service = clientServicesMock.Object;
 
-            var vm = new LoginViewModel(service)
+            var vm = new LoginViewModel(service, commonValues)
             {
                 Username = "SomeUsername",
                 Password = null
@@ -58,7 +65,7 @@ namespace MySystem.User.Employee.Test.UnitTests.ViewModels
             clientServicesMock.Setup(x => x.HttpClientInstance).Returns(new System.Net.Http.HttpClient(handler.Object));
             
 
-            var vm = new LoginViewModel(clientServicesMock.Object)
+            var vm = new LoginViewModel(clientServicesMock.Object, commonValues)
             {
                 Username = "username",
                 Password = "password"
@@ -70,12 +77,12 @@ namespace MySystem.User.Employee.Test.UnitTests.ViewModels
         }
 
         [Fact]
-        public async void LoginCommand_WhenValidCredentials_OpenHomePage()
+        public async void LoginCommand_WhenValidCredentials_OpenSplashPage()
         {
             var handler = GetHttpMessageHandlerMock(System.Net.HttpStatusCode.OK, new EmployeeTokenDto() { Token = "token" }.SerializeToJson());
             clientServicesMock.Setup(x => x.HttpClientInstance).Returns(GetNewHttpClient(handler.Object));
 
-            var vm = new LoginViewModel(clientServicesMock.Object)
+            var vm = new LoginViewModel(clientServicesMock.Object, commonValues)
             {
                 Username = "username",
                 Password = "password"
@@ -83,16 +90,16 @@ namespace MySystem.User.Employee.Test.UnitTests.ViewModels
 
             await vm.LoginCommand.ExecuteAsync(new object());
 
-            deviceMock.Verify(x => x.NavigateToPageAsync("HomePage"), Times.Once);
+            deviceMock.Verify(x => x.NavigateToPageAsync("SplashPage"), Times.Once);
         }
 
         [Fact]
-        public async void LoginCommand_WhenInvalidCredentials_DisplayMessageAndNeverOpenHomePage()
+        public async void LoginCommand_WhenInvalidCredentials_DisplayMessageAndNeverOpenSplashPage()
         {
             var handler = GetHttpMessageHandlerMock(System.Net.HttpStatusCode.NotFound, new EmployeeTokenDto() { Token = "token" }.SerializeToJson());
             clientServicesMock.Setup(x => x.HttpClientInstance).Returns(GetNewHttpClient(handler.Object));
 
-            var vm = new LoginViewModel(clientServicesMock.Object)
+            var vm = new LoginViewModel(clientServicesMock.Object, commonValues)
             {
                 Username = "admin",
                 Password = "admin"
@@ -100,7 +107,7 @@ namespace MySystem.User.Employee.Test.UnitTests.ViewModels
 
             await vm.LoginCommand.ExecuteAsync(new object());
 
-            deviceMock.Verify(x => x.NavigateToPageAsync("HomePage"), Times.Never);
+            deviceMock.Verify(x => x.NavigateToPageAsync("SplashPage"), Times.Never);
             deviceMock.Verify(x => x.DisplayMessageAsync(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
         }
 

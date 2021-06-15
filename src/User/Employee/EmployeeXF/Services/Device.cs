@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MySystem.SharedKernel.EntityV1Dtos.Common;
 using MySystem.SharedKernel.Interfaces;
 using MySystem.User.Employee.Interfaces;
-using MySystem.User.Employee.Services;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -11,23 +9,25 @@ namespace MySystem.User.Employee.XF.Services
 {
     public class Device : IDevice
     {
+        private readonly IRequestMetadata metadata;
+
+        public Device(IRequestMetadata metadata)
+        {
+            this.metadata = metadata;
+        }
+
         public IRequestMetadata Metadata
         {
             get
             {
                 var location = GetLocation().GetAwaiter().GetResult();
-                return new RequestMetadata()
-                {
-                    Device = DeviceInfo.Name,
-                    Latitude = location.latitude,
-                    Longitude = location.longitude
-                };
+                metadata.Device = DeviceInfo.Name;
+                metadata.Latitude = location.latitude;
+                metadata.Longitude = location.longitude;
+
+                return metadata;
             }
         }
-        
-
-        [Obsolete]
-        public string DeviceId => DeviceInfo.Name;
 
         public string Token
         {
@@ -38,8 +38,6 @@ namespace MySystem.User.Employee.XF.Services
         public bool Internet => Connectivity.NetworkAccess == NetworkAccess.Internet;
 
         public string FullUserName { get; set; }
-
-        
 
         public async Task DisplayMessageAsync(string title, string message)
         {

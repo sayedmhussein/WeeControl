@@ -19,14 +19,18 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.7" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.6" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.7" />
     <PackageReference Include="Moq" Version="4.16.1" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Employee\" />
+    <Folder Include="Territory\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Server.Persistence\Persistence.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Territory\" />
   </ItemGroup>
 </Project>

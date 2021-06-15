@@ -9,7 +9,7 @@ namespace MySystem.SharedKernel.EntityBases.Employee
         public string EmployeeTitle { get; set; }
 
         [Required]
-        [StringLength(45, ErrorMessage = "First name cannot be longer than 50 characters.")]
+        [StringLength(45, MinimumLength = 3, ErrorMessage = "First name cannot be less than 3 chars or longer than 45 characters.")]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
@@ -20,7 +20,7 @@ namespace MySystem.SharedKernel.EntityBases.Employee
         public string ThirdName { get; set; }
 
         [Required]
-        [StringLength(45, ErrorMessage = "Last name cannot be longer than 50 characters.")]
+        [StringLength(45, MinimumLength = 3, ErrorMessage = "Last name cannot be less than 3 chars or longer than 45 characters.")]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
@@ -29,29 +29,30 @@ namespace MySystem.SharedKernel.EntityBases.Employee
 
         public DateTime? DateOfBirth { get; set; }
 
-        [StringLength(3)]
+        [StringLength(3, MinimumLength = 3)]
         public string Nationality { get; set; }
 
-        [StringLength(3)]
+        [StringLength(3, MinimumLength = 3)]
         public string Language { get; set; }
 
-        [MaxLength(50)]
+        [MaxLength(45)]
         [EmailAddress]
         public string Email { get; set; }
 
-        [MaxLength(50)]
+        [MaxLength(45)]
         [Phone]
         public string Mobile { get; set; }
 
-        [MaxLength(50)]
+        [MaxLength(45)]
         public string PhotoUrl { get; set; }
 
         [Required]
-        [StringLength(45)]
+        [StringLength(45, MinimumLength = 3, ErrorMessage = "Username length must be between 3 and 45 characher")]
+        [RegularExpression(@"^\S*$", ErrorMessage = "No white space allowed")]
         public string Username { get; set; }
 
         [Required]
-        [StringLength(45)]
+        [StringLength(45, ErrorMessage = "Maximum password length is 45 character.")]
         public string Password { get; set; }
 
         public Position EmployeePosition { get; set; }

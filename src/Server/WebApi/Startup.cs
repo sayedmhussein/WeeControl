@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Application;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -14,7 +15,7 @@ using MySystem.Infrastructure;
 using MySystem.MySystem.Api.Middleware;
 using MySystem.MySystem.Api.Service;
 using MySystem.Persistence;
-using MySystem.SharedKernel.Interfaces;
+using MySystem.SharedKernel.Interfaces.Values;
 using MySystem.SharedKernel.Services;
 using MySystem.Web.Api.Options;
 using MySystem.Web.Api.Security.TokenRefreshment;
@@ -41,20 +42,20 @@ namespace MySystem.Web.Api
 
             services.AddApplication();
             services.AddInfrastructure(Configuration);
-            services.AddPersistence(Configuration);
+            services.AddPersistence(Configuration, Assembly.GetExecutingAssembly().GetName().Name);
 
             services.AddApiVersioning(ApiVersionOptions.ConfigureApiVersioning);
             services.AddSwaggerGen(SwaggerOptions.ConfigureSwaggerGen);
 
-            services.AddSingleton<ISharedValues, SharedValues>();
+            services.AddSingleton<ICommonValues, CommonValues>();
+            services.AddSingleton<ITerritoryValues, TerritoryValues>();
+            services.AddSingleton<IEmployeeValues, EmployeeValues>();
 
             services.AddScoped<ICurrentUserInfo, UserInfoService>();
             services.AddSingleton<IJwtService>(provider => new JwtService(Configuration["Jwt:Key"]));
 
             AuthenticationConfig(services);
 
-
-            //AuthorizationConfig(services);
             services.AddSingleton<IAuthorizationHandler, TokenRefreshmentHandler>();
             services.AddAuthorization(AuthorOptions.ConfigureAuthOptions);
         }

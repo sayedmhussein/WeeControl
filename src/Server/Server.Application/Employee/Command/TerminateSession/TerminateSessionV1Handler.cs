@@ -6,6 +6,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using MySystem.Application.Common.Interfaces;
 using MySystem.SharedKernel.Interfaces;
+using MySystem.SharedKernel.Interfaces.Values;
 
 namespace MySystem.Application.Employee.Command.TerminateSession
 {
@@ -13,9 +14,9 @@ namespace MySystem.Application.Employee.Command.TerminateSession
     {
         private readonly IMySystemDbContext context;
         private readonly ICurrentUserInfo currentUser;
-        private readonly ISharedValues sharedValues;
+        private readonly ITerritoryValues sharedValues;
 
-        public TerminateSessionV1Handler(IMySystemDbContext context, ICurrentUserInfo currentUser, ISharedValues sharedValues)
+        public TerminateSessionV1Handler(IMySystemDbContext context, ICurrentUserInfo currentUser, ITerritoryValues sharedValues)
         {
             this.context = context;
             this.currentUser = currentUser;

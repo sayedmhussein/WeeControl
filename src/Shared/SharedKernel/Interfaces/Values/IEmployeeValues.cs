@@ -1,12 +1,11 @@
-﻿using System.Collections.Immutable;
-using MySystem.SharedKernel.Enumerators;
+﻿using System;
+using System.Collections.Immutable;
+using MySystem.SharedKernel.Enumerators.Employee;
 
-namespace MySystem.SharedKernel.Interfaces
+namespace MySystem.SharedKernel.Interfaces.Values
 {
-    public interface ISharedValues
+    public interface IEmployeeValues
     {
-        ImmutableDictionary<ApiRouteEnum, string> ApiRoute { get; }
-
         ImmutableDictionary<ClaimTypeEnum, string> ClaimType { get; }
 
         ImmutableDictionary<ClaimTagEnum, string> ClaimTag { get; }
@@ -15,6 +14,6 @@ namespace MySystem.SharedKernel.Interfaces
 
         ImmutableDictionary<PersonalGenderEnum, string> PersonGender { get; }
 
-        ImmutableDictionary<CountryEnum, string> Country { get; }
+        ImmutableDictionary<IdentityTypeEnum, string> IdentityType { get; }
     }
 }

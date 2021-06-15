@@ -13,9 +13,6 @@ namespace MySystem.User.Employee.Interfaces
 
         bool Internet { get; }
 
-        [Obsolete]
-        string DeviceId { get; }
-
         string Token { get; set; }
 
         string FullUserName { get; set; }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using MySystem.SharedKernel.Enumerators;
-using MySystem.SharedKernel.Interfaces;
+using MySystem.SharedKernel.Enumerators.Employee;
+using MySystem.SharedKernel.Interfaces.Values;
 using MySystem.SharedKernel.Services;
 
 namespace MySystem.Web.Api.Security.Policies.Employee
@@ -9,7 +9,7 @@ namespace MySystem.Web.Api.Security.Policies.Employee
     public static class AbleToRefreshTokenPolicy
     {
         public const string Name = "AbleToRefreshTokenPolicy";
-        private static ISharedValues values = new SharedValues();
+        private static IEmployeeValues values = new EmployeeValues();
 
         public static AuthorizationPolicy Policy
         {

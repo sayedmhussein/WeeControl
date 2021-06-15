@@ -17,7 +17,7 @@ namespace MySystem.User.Employee.ViewModels
         {
             get
             {
-                return "Hello " + device.FullUserName;
+                return "Hello " + device?.FullUserName;
             }
         }
 

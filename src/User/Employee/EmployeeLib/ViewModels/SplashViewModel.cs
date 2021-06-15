@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -7,7 +8,8 @@ using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
 using MySystem.SharedKernel.EntityV1Dtos.Common;
 using MySystem.SharedKernel.EntityV1Dtos.Employee;
-using MySystem.SharedKernel.Enumerators;
+using MySystem.SharedKernel.Enumerators.Common;
+using MySystem.SharedKernel.Interfaces.Values;
 using MySystem.User.Employee.Enumerators;
 using MySystem.User.Employee.Interfaces;
 
@@ -24,19 +26,19 @@ namespace MySystem.User.Employee.ViewModels
         public IAsyncRelayCommand RefreshTokenCommand { get; }
 
         public SplashViewModel()
-            : this(Ioc.Default.GetRequiredService<IViewModelDependencyFactory>())
+            : this(Ioc.Default.GetRequiredService<IViewModelDependencyFactory>(), Ioc.Default.GetRequiredService<ICommonValues>())
         {
         }
 
-        public SplashViewModel(IViewModelDependencyFactory dependencyFactory)
+        public SplashViewModel(IViewModelDependencyFactory dependencyFactory, ICommonValues commonValues)
         {
-            if (dependencyFactory == null)
+            if (dependencyFactory == null || commonValues == null)
             {
                 throw new ArgumentNullException();
             }
 
             httpClient = dependencyFactory.HttpClientInstance;
-            route = dependencyFactory.SharedValues.ApiRoute[ApiRouteEnum.EmployeeSession];
+            route = commonValues.ApiRoute[ApiRouteEnum.EmployeeSession];
             device = dependencyFactory.Device;
             logger = dependencyFactory.Logger;
             metadata = (RequestMetadata)device.Metadata;
@@ -75,6 +77,7 @@ namespace MySystem.User.Employee.ViewModels
                     case System.Net.HttpStatusCode.OK:
                         var responseDto = await response.Content.ReadAsAsync<EmployeeTokenDto>();
                         device.Token = responseDto?.Token;
+                        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(device.Token);
                         await device.NavigateToPageAsync("HomePage");
                         break;
                     case System.Net.HttpStatusCode.NotFound:
