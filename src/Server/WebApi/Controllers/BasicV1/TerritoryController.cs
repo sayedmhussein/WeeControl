@@ -102,7 +102,6 @@ namespace WeeControl.Server.WebApi.Controllers.BasicV1
         /// Delete existing territory
         /// </summary>
         /// <param name="territoryid"></param>
-        /// <param name="dto"></param>
         /// <returns></returns>
         [Authorize(Policy = CanDeleteTerritoryPolicy.Name)]
         [HttpDelete("{territoryid}")]

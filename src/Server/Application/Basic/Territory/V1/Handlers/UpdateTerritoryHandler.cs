@@ -51,6 +51,7 @@ namespace WeeControl.Server.Application.Territory.V1.Handlers
             catch (Exception ex)
             {
                 _ = ex.Message;
+                throw;
             }
 
             

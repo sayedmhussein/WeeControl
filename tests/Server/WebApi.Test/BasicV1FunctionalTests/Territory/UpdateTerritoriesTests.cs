@@ -11,12 +11,12 @@ using Xunit;
 
 namespace WeeControl.Server.WebApi.Test.BasicV1FunctionalTests.Territory
 {
-    public class UpdateTerritoriesTest : BaseFunctionalTest, IClassFixture<WebApplicationFactory<Startup>>
+    public class UpdateTerritoriesTests : BaseFunctionalTest, IClassFixture<WebApplicationFactory<Startup>>
     {
         private readonly Uri RequstUri;
         private readonly WebApplicationFactory<Startup> factory;
 
-        public UpdateTerritoriesTest(WebApplicationFactory<Startup> factory)
+        public UpdateTerritoriesTests(WebApplicationFactory<Startup> factory)
             : base(factory.CreateClient(), EmployeeName.Admin)
         {
             RequstUri = new Uri(BaseUri, ApiRoute[ApiRouteEnum.Territory]);
