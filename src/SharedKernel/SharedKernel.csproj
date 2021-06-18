@@ -14,17 +14,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Configurations\" />
-    <Folder Include="CommonSchemas\" />
-    <Folder Include="CommonSchemas\Employee\" />
-    <Folder Include="CommonSchemas\Territory\" />
-    <Folder Include="CommonSchemas\Territory\Interfaces\" />
-    <Folder Include="CommonSchemas\Territory\Dicts\" />
-    <Folder Include="CommonSchemas\Common\" />
-    <Folder Include="CommonSchemas\Common\Dicts\" />
-    <Folder Include="CommonSchemas\Common\Interfaces\" />
-    <Folder Include="CommonSchemas\Common\DtosV1\" />
-    <Folder Include="CommonSchemas\Common\Enums\" />
-    <Folder Include="CommonSchemas\Common\Extensions\" />
+    <Folder Include="BasicSchemas\" />
+    <Folder Include="BasicSchemas\Employee\" />
+    <Folder Include="BasicSchemas\Territory\" />
+    <Folder Include="BasicSchemas\Territory\Interfaces\" />
+    <Folder Include="BasicSchemas\Territory\Dicts\" />
+    <Folder Include="BasicSchemas\Common\" />
+    <Folder Include="BasicSchemas\Common\Dicts\" />
+    <Folder Include="BasicSchemas\Common\Interfaces\" />
+    <Folder Include="BasicSchemas\Common\DtosV1\" />
+    <Folder Include="BasicSchemas\Common\Enums\" />
+    <Folder Include="BasicSchemas\Common\Extensions\" />
     <Folder Include="CustomSchemas\" />
   </ItemGroup>
   <ItemGroup>

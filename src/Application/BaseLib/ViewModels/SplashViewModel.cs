@@ -8,10 +8,10 @@ using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
 using WeeControl.Applications.BaseLib.Enumerators;
 using WeeControl.Applications.BaseLib.Interfaces;
-using WeeControl.SharedKernel.CommonSchemas.Common.DtosV1;
-using WeeControl.SharedKernel.CommonSchemas.Common.Enums;
-using WeeControl.SharedKernel.CommonSchemas.Common.Interfaces;
-using WeeControl.SharedKernel.CommonSchemas.Employee.DtosV1;
+using WeeControl.SharedKernel.BasicSchemas.Common.DtosV1;
+using WeeControl.SharedKernel.BasicSchemas.Common.Enums;
+using WeeControl.SharedKernel.BasicSchemas.Common.Interfaces;
+using WeeControl.SharedKernel.BasicSchemas.Employee.DtosV1;
 
 namespace WeeControl.Applications.BaseLib.ViewModels
 {

@@ -2,9 +2,9 @@
 using Moq;
 using WeeControl.Applications.BaseLib.Interfaces;
 using WeeControl.Applications.BaseLib.ViewModels;
-using WeeControl.SharedKernel.CommonSchemas.Common.Extensions;
-using WeeControl.SharedKernel.CommonSchemas.Common.Interfaces;
-using WeeControl.SharedKernel.CommonSchemas.Employee.DtosV1;
+using WeeControl.SharedKernel.BasicSchemas.Common.Extensions;
+using WeeControl.SharedKernel.BasicSchemas.Common.Interfaces;
+using WeeControl.SharedKernel.BasicSchemas.Employee.DtosV1;
 using Xunit;
 
 namespace WeeControl.User.Employee.Test.UnitTests.ViewModels

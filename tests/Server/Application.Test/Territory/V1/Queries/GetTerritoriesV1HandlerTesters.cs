@@ -8,14 +8,14 @@ using WeeControl.Server.Application.Common.Exceptions;
 using WeeControl.Server.Application.Common.Interfaces;
 using WeeControl.Server.Application.Territory.Handlers.V1;
 using WeeControl.Server.Application.Territory.V1.Queries;
-using WeeControl.Server.Domain.EntityDbo.EmployeeSchema;
-using WeeControl.Server.Domain.EntityDbo.Territory;
+using WeeControl.Server.Domain.BasicDbos.EmployeeSchema;
+using WeeControl.Server.Domain.BasicDbos.Territory;
 using WeeControl.Server.Persistence;
-using WeeControl.SharedKernel.CommonSchemas.Employee.Dicts;
-using WeeControl.SharedKernel.CommonSchemas.Employee.Enums;
-using WeeControl.SharedKernel.CommonSchemas.Territory.Dicts;
-using WeeControl.SharedKernel.CommonSchemas.Territory.DtosV1;
-using WeeControl.SharedKernel.CommonSchemas.Territory.Interfaces;
+using WeeControl.SharedKernel.BasicSchemas.Employee.Dicts;
+using WeeControl.SharedKernel.BasicSchemas.Employee.Enums;
+using WeeControl.SharedKernel.BasicSchemas.Territory.Dicts;
+using WeeControl.SharedKernel.BasicSchemas.Territory.DtosV1;
+using WeeControl.SharedKernel.BasicSchemas.Territory.Interfaces;
 using Xunit;
 
 namespace WeeControl.Server.Application.Test.Territory.V1.Queries

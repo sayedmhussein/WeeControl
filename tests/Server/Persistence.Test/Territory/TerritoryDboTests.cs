@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using WeeControl.Server.Application.Common.Interfaces;
-using WeeControl.Server.Domain.EntityDbo.Territory;
+using WeeControl.Server.Domain.BasicDbos.Territory;
 using Xunit;
 
 namespace WeeControl.Server.Persistence.Test.Territory

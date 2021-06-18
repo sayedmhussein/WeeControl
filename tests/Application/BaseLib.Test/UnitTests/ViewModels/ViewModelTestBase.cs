@@ -8,10 +8,10 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.Protected;
 using WeeControl.Applications.BaseLib.Interfaces;
-using WeeControl.SharedKernel.CommonSchemas.Common.Dicts;
-using WeeControl.SharedKernel.CommonSchemas.Common.DtosV1;
-using WeeControl.SharedKernel.CommonSchemas.Common.Enums;
-using WeeControl.SharedKernel.CommonSchemas.Common.Interfaces;
+using WeeControl.SharedKernel.BasicSchemas.Common.Dicts;
+using WeeControl.SharedKernel.BasicSchemas.Common.DtosV1;
+using WeeControl.SharedKernel.BasicSchemas.Common.Enums;
+using WeeControl.SharedKernel.BasicSchemas.Common.Interfaces;
 
 namespace WeeControl.User.Employee.Test.UnitTests.ViewModels
 {

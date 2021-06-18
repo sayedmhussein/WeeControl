@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using WeeControl.SharedKernel.CommonSchemas.Common.Interfaces;
+using WeeControl.SharedKernel.BasicSchemas.Common.Interfaces;
 
 namespace WeeControl.Applications.BaseLib.Interfaces
 {

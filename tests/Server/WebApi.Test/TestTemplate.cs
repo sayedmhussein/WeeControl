@@ -13,7 +13,7 @@ namespace WeeControl.Server.WebApi.Test
         }
 
         [Fact]
-        public void LoginWithValidCredentials_ReturnSuccessWithToken()
+        public void Example()
         {
             Assert.NotNull(factory.CreateClient());
         }

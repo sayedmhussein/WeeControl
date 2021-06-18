@@ -9,12 +9,12 @@ using Moq;
 using WeeControl.Server.Application.Common.Exceptions;
 using WeeControl.Server.Application.Common.Interfaces;
 using WeeControl.Server.Application.Employee.Query.GetEmployeeClaims;
-using WeeControl.Server.Domain.EntityDbo.EmployeeSchema;
+using WeeControl.Server.Domain.BasicDbos.EmployeeSchema;
 using WeeControl.Server.Persistence;
-using WeeControl.SharedKernel.CommonSchemas.Common.DtosV1;
-using WeeControl.SharedKernel.CommonSchemas.Common.Interfaces;
-using WeeControl.SharedKernel.CommonSchemas.Employee.Dicts;
-using WeeControl.SharedKernel.CommonSchemas.Employee.Enums;
+using WeeControl.SharedKernel.BasicSchemas.Common.DtosV1;
+using WeeControl.SharedKernel.BasicSchemas.Common.Interfaces;
+using WeeControl.SharedKernel.BasicSchemas.Employee.Dicts;
+using WeeControl.SharedKernel.BasicSchemas.Employee.Enums;
 using Xunit;
 
 namespace WeeControl.Server.Application.Test.Employee.V1.Queries

@@ -7,7 +7,7 @@ using WeeControl.Server.Application.Common.Interfaces;
 using WeeControl.Server.Application.Territory.V1.Commands;
 using WeeControl.Server.Application.Territory.V1.Handlers;
 using WeeControl.Server.Persistence;
-using WeeControl.SharedKernel.CommonSchemas.Territory.DtosV1;
+using WeeControl.SharedKernel.BasicSchemas.Territory.DtosV1;
 using Xunit;
 
 namespace WeeControl.Server.Application.Test.Territory.V1.Commands

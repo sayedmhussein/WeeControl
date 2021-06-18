@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using WeeControl.Applications.BaseLib.Interfaces;
-using WeeControl.SharedKernel.CommonSchemas.Common.Interfaces;
+using WeeControl.SharedKernel.BasicSchemas.Common.Interfaces;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 

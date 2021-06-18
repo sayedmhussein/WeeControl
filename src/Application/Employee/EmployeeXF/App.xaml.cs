@@ -4,10 +4,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using WeeControl.Applications.BaseLib.Interfaces;
 using WeeControl.Applications.BaseLib.Services;
-using WeeControl.SharedKernel.CommonSchemas.Common.Dicts;
-using WeeControl.SharedKernel.CommonSchemas.Common.DtosV1;
-using WeeControl.SharedKernel.CommonSchemas.Common.Enums;
-using WeeControl.SharedKernel.CommonSchemas.Common.Interfaces;
+using WeeControl.SharedKernel.BasicSchemas.Common.Dicts;
+using WeeControl.SharedKernel.BasicSchemas.Common.DtosV1;
+using WeeControl.SharedKernel.BasicSchemas.Common.Enums;
+using WeeControl.SharedKernel.BasicSchemas.Common.Interfaces;
 using Xamarin.Forms;
 
 namespace WeeControl.Applications.Employee.XF

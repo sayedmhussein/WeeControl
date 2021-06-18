@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using WeeControl.Server.Domain.EntityDbo.Territory;
+using WeeControl.Server.Domain.BasicDbos.Territory;
 
 namespace WeeControl.Server.Persistence.EntityTypeConfiguration.Territory
 {

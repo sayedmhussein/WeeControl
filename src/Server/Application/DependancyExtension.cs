@@ -3,9 +3,9 @@ using System.Reflection;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using WeeControl.Server.Application.Common.Interfaces;
-using WeeControl.SharedKernel.CommonSchemas.Employee.Dicts;
-using WeeControl.SharedKernel.CommonSchemas.Territory.Dicts;
-using WeeControl.SharedKernel.CommonSchemas.Territory.Interfaces;
+using WeeControl.SharedKernel.BasicSchemas.Employee.Dicts;
+using WeeControl.SharedKernel.BasicSchemas.Territory.Dicts;
+using WeeControl.SharedKernel.BasicSchemas.Territory.Interfaces;
 
 namespace WeeControl.Server.Application
 {

@@ -3,13 +3,13 @@ using System.Text.RegularExpressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using WeeControl.Server.Application.Common.Interfaces;
-using WeeControl.Server.Domain.EntityDbo.EmployeeSchema;
-using WeeControl.Server.Domain.EntityDbo.Territory;
-using WeeControl.SharedKernel.CommonSchemas.Employee.Dicts;
-using WeeControl.SharedKernel.CommonSchemas.Employee.Enums;
-using WeeControl.SharedKernel.CommonSchemas.Territory.Dicts;
-using WeeControl.SharedKernel.CommonSchemas.Territory.Enums;
-using WeeControl.SharedKernel.CommonSchemas.Territory.Interfaces;
+using WeeControl.Server.Domain.BasicDbos.EmployeeSchema;
+using WeeControl.Server.Domain.BasicDbos.Territory;
+using WeeControl.SharedKernel.BasicSchemas.Employee.Dicts;
+using WeeControl.SharedKernel.BasicSchemas.Employee.Enums;
+using WeeControl.SharedKernel.BasicSchemas.Territory.Dicts;
+using WeeControl.SharedKernel.BasicSchemas.Territory.Enums;
+using WeeControl.SharedKernel.BasicSchemas.Territory.Interfaces;
 
 namespace WeeControl.Server.Persistence
 {
