@@ -28,16 +28,18 @@
 
   <ItemGroup>
     <Folder Include="Services\" />
-    <Folder Include="BasicFunctionalTests\" />
-    <Folder Include="BasicFunctionalTests\Employee\" />
+    <Folder Include="BasicV1FunctionalTests\" />
+    <Folder Include="BasicV1FunctionalTests\Employee\" />
     <Folder Include="BusinessFunctionalTests\" />
     <Folder Include="Security\" />
+    <Folder Include="BasicV1FunctionalTests\Territory\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="FunctionalTests\" />
     <None Remove="FunctionalTests\Employee\" />
     <None Remove="BusinessFunctionalTests\" />
     <None Remove="Security\" />
+    <None Remove="BasicFunctionalTests\Territory\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Server\WebApi\WebApi.csproj" />

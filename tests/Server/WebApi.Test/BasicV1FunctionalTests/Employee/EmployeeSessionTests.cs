@@ -3,27 +3,23 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using Microsoft.AspNetCore.Mvc.Testing;
-using WeeControl.SharedKernel.BasicSchemas.Common.Dicts;
 using WeeControl.SharedKernel.BasicSchemas.Common.DtosV1;
 using WeeControl.SharedKernel.BasicSchemas.Common.Enums;
 using WeeControl.SharedKernel.BasicSchemas.Employee.DtosV1;
 using Xunit;
 
-namespace WeeControl.Server.WebApi.Test.FunctionalTests.Employee
+namespace WeeControl.Server.WebApi.Test.BasicV1FunctionalTests.Employee
 {
     public class EmployeeSessionTests : BaseFunctionalTest, IClassFixture<WebApplicationFactory<Startup>>
     {
+        private readonly Uri RequstUri;
+
         private const string ADMIN_USERNAME = "admin";
         private const string ADMIN_PASSWORD = "admin";
-        private readonly Uri RequstUri;
 
         public EmployeeSessionTests(WebApplicationFactory<Startup> factory) : base(factory.CreateClient(), EmployeeName.Admin)
         {
-            var apiUris = new ApiDicts();
-            var baseUri = new Uri(apiUris.ApiRoute[ApiRouteEnum.Base]);
-            var relativeUri = new Uri(apiUris.ApiRoute[ApiRouteEnum.Employee] + "Session/", UriKind.Relative);
-
-            RequstUri = new Uri(baseUri, relativeUri);
+            RequstUri = new Uri(BaseUri, ApiRoute[ApiRouteEnum.EmployeeSession]);
         }
 
         [Fact]

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Immutable;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -21,11 +22,19 @@ namespace WeeControl.Server.WebApi.Test
         internal string Token { get; }
         internal string Device { get; private set; }
 
+        internal ImmutableDictionary<ApiRouteEnum, string> ApiRoute { get; private set; }
+        internal Uri BaseUri { get; private set; }
+
+
         internal BaseFunctionalTest(HttpClient client, EmployeeName name)
         {
             Device = typeof(BaseFunctionalTest).Namespace;
             Token = GetTokenAsync(client, name).GetAwaiter().GetResult();
             this.client = client;
+
+            var apiRoutes = new ApiDicts();
+            ApiRoute = apiRoutes.ApiRoute;
+            BaseUri = new Uri(ApiRoute[ApiRouteEnum.Base]);
         }
 
         internal HttpContent GetHttpContentAsJson(IDto dto)
