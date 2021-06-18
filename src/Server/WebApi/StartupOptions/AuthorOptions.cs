@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using MySystem.Web.Api.Security.Policies.Employee;
-using MySystem.Web.Api.Security.Policies.Territory;
+using WeeControl.Server.WebApi.Security.Policies.Employee;
+using WeeControl.Server.WebApi.Security.Policies.Territory;
 
-namespace MySystem.MySystem.Api.Service
+namespace WeeControl.Server.WebApi.StartupOptions
 {
     public class AuthorOptions
     {

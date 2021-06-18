@@ -1,10 +1,9 @@
 ﻿using System;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using MySystem.Web.Api.Security.TokenRefreshment;
-using MySystem.Web.Api.Security.TokenRefreshment.CustomHandlers;
+using WeeControl.Server.WebApi.Security.TokenRefreshment.CustomHandlers;
 
-namespace MySystem.Web.Api.Security.Policies.Employee
+namespace WeeControl.Server.WebApi.Security.Policies.Employee
 {
     public static class AbleToEditExisingEmployeePolicy
     {

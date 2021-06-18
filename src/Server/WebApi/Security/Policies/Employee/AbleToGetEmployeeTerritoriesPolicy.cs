@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 
-namespace MySystem.Web.Api.Security.Policies.Employee
+namespace WeeControl.Server.WebApi.Security.Policies.Employee
 {
     public static class AbleToGetEmployeeTerritoriesPolicy
     {

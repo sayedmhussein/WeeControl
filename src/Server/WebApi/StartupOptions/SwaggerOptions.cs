@@ -8,7 +8,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
-namespace MySystem.Web.Api.StartupOptions
+namespace WeeControl.Server.WebApi.StartupOptions
 {
     public class SwaggerOptions
     {

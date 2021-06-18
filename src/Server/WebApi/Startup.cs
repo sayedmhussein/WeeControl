@@ -1,7 +1,6 @@
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Application;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -9,19 +8,16 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MySystem.Api.Services;
-using MySystem.Application.Common.Interfaces;
-using MySystem.Infrastructure;
-using MySystem.MySystem.Api.Middlewares;
-using MySystem.MySystem.Api.Service;
-using MySystem.Persistence;
-using MySystem.SharedKernel.Interfaces.Values;
-using MySystem.SharedKernel.Services;
-using MySystem.Web.Api.Security.TokenRefreshment.CustomHandlers;
-using MySystem.Web.Api.Services;
-using MySystem.Web.Api.StartupOptions;
+using WeeControl.Server.Application;
+using WeeControl.Server.Application.Common.Interfaces;
+using WeeControl.Server.Infrastructure;
+using WeeControl.Server.Persistence;
+using WeeControl.Server.WebApi.Middlewares;
+using WeeControl.Server.WebApi.Security.TokenRefreshment.CustomHandlers;
+using WeeControl.Server.WebApi.Services;
+using WeeControl.Server.WebApi.StartupOptions;
 
-namespace MySystem.Web.Api
+namespace WeeControl.Server.WebApi
 {
     public class Startup
     {
@@ -45,10 +41,6 @@ namespace MySystem.Web.Api
 
             services.AddApiVersioning(ApiVersionOptions.ConfigureApiVersioning);
             services.AddSwaggerGen(SwaggerOptions.ConfigureSwaggerGen);
-
-            services.AddSingleton<ICommonValues, CommonValues>();
-            services.AddSingleton<ITerritoryValues, TerritoryValues>();
-            services.AddSingleton<IEmployeeValues, EmployeeValues>();
 
             services.AddScoped<ICurrentUserInfo, UserInfoService>();
             services.AddSingleton<IJwtService>(provider => new JwtService(Configuration["Jwt:Key"]));

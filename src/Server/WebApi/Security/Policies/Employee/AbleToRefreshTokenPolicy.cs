@@ -1,15 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using MySystem.SharedKernel.Enumerators.Employee;
-using MySystem.SharedKernel.Interfaces.Values;
-using MySystem.SharedKernel.Services;
+using WeeControl.SharedKernel.CommonSchemas.Employee.Dicts;
+using WeeControl.SharedKernel.CommonSchemas.Employee.Enums;
 
-namespace MySystem.Web.Api.Security.Policies.Employee
+namespace WeeControl.Server.WebApi.Security.Policies.Employee
 {
     public static class AbleToRefreshTokenPolicy
     {
         public const string Name = "AbleToRefreshTokenPolicy";
-        private static IEmployeeValues values = new EmployeeValues();
+        private static IClaimDicts values = new ClaimDicts();
 
         public static AuthorizationPolicy Policy
         {

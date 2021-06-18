@@ -1,19 +1,15 @@
 ﻿using System;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using MySystem.SharedKernel.Enumerators;
-using MySystem.SharedKernel.Enumerators.Employee;
-using MySystem.SharedKernel.Interfaces;
-using MySystem.SharedKernel.Interfaces.Values;
-using MySystem.SharedKernel.Services;
-using MySystem.Web.Api.Security.TokenRefreshment;
-using MySystem.Web.Api.Security.TokenRefreshment.CustomHandlers;
+using WeeControl.Server.WebApi.Security.TokenRefreshment.CustomHandlers;
+using WeeControl.SharedKernel.CommonSchemas.Employee.Dicts;
+using WeeControl.SharedKernel.CommonSchemas.Employee.Enums;
 
-namespace MySystem.Web.Api.Security.Policies.Territory
+namespace WeeControl.Server.WebApi.Security.Policies.Territory
 {
     public static class CanDeleteTerritoryPolicy
     {
-        private static IEmployeeValues values = new EmployeeValues();
+        private static IClaimDicts values = new ClaimDicts();
 
         public const string Name = "CanDeleteTerritoryPolicy"; 
 

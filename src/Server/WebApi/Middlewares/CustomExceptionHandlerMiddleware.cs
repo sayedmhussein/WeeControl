@@ -3,10 +3,10 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using MySystem.Application.Common.Exceptions;
 using Newtonsoft.Json;
+using WeeControl.Server.Application.Common.Exceptions;
 
-namespace MySystem.MySystem.Api.Middlewares
+namespace WeeControl.Server.WebApi.Middlewares
 {
     public class CustomExceptionHandlerMiddleware
     {

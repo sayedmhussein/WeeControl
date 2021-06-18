@@ -1,13 +1,11 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
-using MySystem.Web.Api.Services;
-using MySystem.Web.Api.StartupOptions;
+using WeeControl.Server.WebApi.Services;
 
-namespace MySystem.Web.Api.StartupOptions
+namespace WeeControl.Server.WebApi.StartupOptions
 {
     public class AuthenOptions
     {

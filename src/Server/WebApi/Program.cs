@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace MySystem.Web.Api
+namespace WeeControl.Server.WebApi
 {
     public class Program
     {

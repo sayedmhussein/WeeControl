@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 
-namespace MySystem.Web.Api.StartupOptions
+namespace WeeControl.Server.WebApi.StartupOptions
 {
     public class ApiVersionOptions
     {
