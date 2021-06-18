@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+    <RootNamespace>WeeControl.Server.WebApi.Test</RootNamespace>
+    <Configurations>Release;Debug</Configurations>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.10.0" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.collector" Version="3.0.3">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="5.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Temp\" />
+    <Folder Include="Temp\Security\" />
+    <Folder Include="Controller\" />
+    <Folder Include="Controller\V1\" />
+    <Folder Include="Controller\V1\Employee\" />
+    <Folder Include="Controller\V1\Employee\Credentials\" />
+    <Folder Include="Services\" />
+    <Folder Include="FunctionalTests\" />
+    <Folder Include="FunctionalTests\Employee\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="FunctionalTests\" />
+    <None Remove="FunctionalTests\Employee\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Server\WebApi\WebApi.csproj" />
+  </ItemGroup>
+</Project>

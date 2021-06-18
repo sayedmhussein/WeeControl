@@ -4,9 +4,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
-using MySystem.Application.Common.Interfaces;
+using WeeControl.Server.Application.Common.Interfaces;
 
-namespace MySystem.Web.Api.Services
+namespace WeeControl.Server.WebApi.Services
 {
     public class JwtService : IJwtService
     {

@@ -1,18 +1,15 @@
 ﻿using System;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using MySystem.SharedKernel.Interfaces;
-using MySystem.SharedKernel.Services;
-using MySystem.SharedKernel.Enumerators;
-using MySystem.Web.Api.Security.TokenRefreshment;
-using MySystem.SharedKernel.Interfaces.Values;
-using MySystem.SharedKernel.Enumerators.Employee;
+using WeeControl.Server.WebApi.Security.TokenRefreshment.CustomHandlers;
+using WeeControl.SharedKernel.CommonSchemas.Employee.Dicts;
+using WeeControl.SharedKernel.CommonSchemas.Employee.Enums;
 
-namespace MySystem.Web.Api.Security.Policies.Territory
+namespace WeeControl.Server.WebApi.Security.Policies.Territory
 {
     public static class CanAddTerritoryPolicy
     {
-        private static IEmployeeValues values = new EmployeeValues();
+        private static IClaimDicts values = new ClaimDicts();
 
         public const string Name = "CanAddTerritoryPolicy"; 
 
@@ -20,7 +17,6 @@ namespace MySystem.Web.Api.Security.Policies.Territory
         {
             get
             {
-
                 var p = new AuthorizationPolicyBuilder();
                 p.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
                 p.RequireClaim(values.ClaimType[ClaimTypeEnum.Session]);

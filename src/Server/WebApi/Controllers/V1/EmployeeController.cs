@@ -9,15 +9,15 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MySystem.Application.Common.Interfaces;
-using MySystem.Application.Employee.Command.AddEmployee.V1;
-using MySystem.Application.Employee.Command.TerminateSession;
-using MySystem.Application.Employee.Query.GetEmployeeClaims;
-using MySystem.SharedKernel.EntityV1Dtos.Common;
-using MySystem.SharedKernel.EntityV1Dtos.Employee;
-using MySystem.Web.Api.Security.Policies.Employee;
+using WeeControl.Server.Application.Common.Interfaces;
+using WeeControl.Server.Application.Employee.Command.AddEmployee.V1;
+using WeeControl.Server.Application.Employee.Command.TerminateSession;
+using WeeControl.Server.Application.Employee.Query.GetEmployeeClaims;
+using WeeControl.Server.WebApi.Security.Policies.Employee;
+using WeeControl.SharedKernel.CommonSchemas.Common.DtosV1;
+using WeeControl.SharedKernel.CommonSchemas.Employee.DtosV1;
 
-namespace MySystem.Web.Api.Controllers.V1
+namespace WeeControl.Server.WebApi.Controllers.V1
 {
     [Route("Api/[controller]")]
     [ApiVersion("1.0")]
@@ -137,7 +137,7 @@ namespace MySystem.Web.Api.Controllers.V1
         [MapToApiVersion("1.0")]
         public async Task<ActionResult> LogoutV1()
         {
-            var command = new TerminateSessionV1Command();
+            var command = new TerminateSessionCommand();
             await mediatR.Send(command);
             return Ok();
         }

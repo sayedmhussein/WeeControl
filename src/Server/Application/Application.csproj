@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>WeeControl.Server.Application</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Employee\" />
+    <Folder Include="Common\" />
+    <Folder Include="Common\Interfaces\" />
+    <Folder Include="Common\Exceptions\" />
+    <Folder Include="Common\Behaviours\" />
+    <Folder Include="Territory\" />
+    <Folder Include="Territory\V1\" />
+    <Folder Include="Territory\V1\Commands\" />
+    <Folder Include="Territory\V1\Handlers\" />
+    <Folder Include="Territory\V1\Queries\" />
+    <Folder Include="Employee\V1\" />
+    <Folder Include="Employee\V1\Commands\" />
+    <Folder Include="Employee\V1\Handlers\" />
+    <Folder Include="Employee\V1\Queries\" />
+    <Folder Include="Employee\V1\Notifications\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.7" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Territory\" />
+    <None Remove="Territory\Command\" />
+    <None Remove="Territory\Query\" />
+    <None Remove="Territory\Query\GetTerritories\" />
+    <None Remove="Territory\Command\AddTerritory\" />
+    <None Remove="Territory\V1\" />
+    <None Remove="Territory\V1\Commands\" />
+    <None Remove="Territory\V1\Handlers\" />
+    <None Remove="Territory\V1\Queries\" />
+    <None Remove="Employee\V1\" />
+    <None Remove="Employee\V1\Commands\" />
+    <None Remove="Employee\V1\Handlers\" />
+    <None Remove="Employee\V1\Queries\" />
+    <None Remove="Employee\V1\Notifications\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\..\SharedKernel\SharedKernel.csproj" />
+  </ItemGroup>
+</Project>

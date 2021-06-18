@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>MySystem.MySystem.Api</RootNamespace>
+    <RootNamespace>WeeControl.Server.WebApi</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -29,34 +29,35 @@
   <ItemGroup>
     <Folder Include="Services\" />
     <Folder Include="Controllers\V1\" />
-    <Folder Include="Middleware\" />
     <Folder Include="Security\" />
     <Folder Include="Security\Policies\Employee\" />
     <Folder Include="Security\Policies\Territory\" />
-    <Folder Include="Security\TokenRefreshment\" />
-    <Folder Include="Options\" />
+    <Folder Include="StartupOptions\" />
+    <Folder Include="Security\CustomHandlers\" />
+    <Folder Include="Security\CustomHandlers\TokenRefreshment\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Security\Policy\Employee\" />
     <None Remove="Security\Policy\Territory\" />
-    <None Remove="Security\TokenRefreshment\" />
     <None Remove="System.Collections.Immutable" />
     <None Remove="Options\" />
+    <None Remove="Security\CustomHandlers\" />
+    <None Remove="Security\CustomHandlers\TokenRefreshment\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Server.Application\Application.csproj">
+    <ProjectReference Include="..\Application\Application.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
-    <ProjectReference Include="..\Server.Domain\Domain.csproj">
+    <ProjectReference Include="..\Domain\Domain.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
-    <ProjectReference Include="..\Server.Infrastructure\Infrastructure.csproj">
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
-    <ProjectReference Include="..\Server.Persistence\Persistence.csproj">
+    <ProjectReference Include="..\Persistence\Persistence.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
-    <ProjectReference Include="..\..\Shared\SharedKernel\SharedKernel.csproj">
+    <ProjectReference Include="..\..\SharedKernel\SharedKernel.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
   </ItemGroup>

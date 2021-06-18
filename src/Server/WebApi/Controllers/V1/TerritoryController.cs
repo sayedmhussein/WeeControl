@@ -6,14 +6,13 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MySystem.Application.Territory.Command.AddOrEditTerritories;
-using MySystem.Application.Territory.Command.DeleteTerritories;
-using MySystem.Application.Territory.Query.GetTerritories;
-using MySystem.SharedKernel.EntityV1Dtos.Common;
-using MySystem.SharedKernel.EntityV1Dtos.Territory;
-using MySystem.Web.Api.Security.Policies.Territory;
+using WeeControl.Server.Application.Territory.V1.Commands;
+using WeeControl.Server.Application.Territory.V1.Queries;
+using WeeControl.Server.WebApi.Security.Policies.Territory;
+using WeeControl.SharedKernel.CommonSchemas.Common.DtosV1;
+using WeeControl.SharedKernel.CommonSchemas.Territory.DtosV1;
 
-namespace MySystem.MySystem.Api.Controllers.V1
+namespace WeeControl.Server.WebApi.Controllers.V1
 {
     [Route("Api/[controller]")]
     [ApiVersion("1.0")]
@@ -47,7 +46,7 @@ namespace MySystem.MySystem.Api.Controllers.V1
         public async Task<ActionResult<IEnumerable<TerritoryDto>>> GetAllTerritoriesV1(Guid? territoryid, Guid? employeeid)
         {
             var response =
-                await mediatR.Send(new GetTerritoriesV1Query()
+                await mediatR.Send(new GetTerritoriesQuery()
                 {
                     TerritoryId = territoryid,
                     EmployeeId = employeeid
@@ -75,7 +74,7 @@ namespace MySystem.MySystem.Api.Controllers.V1
         public async Task<ActionResult<IEnumerable<TerritoryDto>>> PutTerritoryV1([FromBody] TerritoryDto requestDto)
         {
             var response =
-                await mediatR.Send(new AddOrEditTerritoriesV1Command()
+                await mediatR.Send(new AddOrEditTerritoriesCommand()
                 {
                     TerritoryDtos = new List<TerritoryDto>()
                     {
@@ -104,7 +103,7 @@ namespace MySystem.MySystem.Api.Controllers.V1
         [MapToApiVersion("1.0")]
         public async Task<ActionResult> DeleteTerritoryV1(Guid territoryid)
         {
-            await mediatR.Send(new DeleteTerritoriesV1Command()
+            await mediatR.Send(new DeleteTerritoriesCommand()
             {
                 TerritoryIds = new List<Guid>()
                 {

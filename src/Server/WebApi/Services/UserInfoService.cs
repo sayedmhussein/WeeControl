@@ -4,19 +4,19 @@ using System.Linq;
 using System.Security.Claims;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using MySystem.Application.Common.Interfaces;
-using MySystem.Application.Territory.Query.GetTerritories;
-using MySystem.SharedKernel.Enumerators.Employee;
-using MySystem.SharedKernel.Interfaces.Values;
+using WeeControl.Server.Application.Common.Interfaces;
+using WeeControl.Server.Application.Territory.V1.Queries;
+using WeeControl.SharedKernel.CommonSchemas.Employee.Dicts;
+using WeeControl.SharedKernel.CommonSchemas.Employee.Enums;
 
-namespace MySystem.Api.Services
+namespace WeeControl.Server.WebApi.Services
 {
     public class UserInfoService : ICurrentUserInfo
     {
         private readonly IMediator mediatR;
         private readonly ICollection<Guid> officeIds = new List<Guid>();
         
-        public UserInfoService(IHttpContextAccessor httpContextAccessor, IMediator mediatR, IEmployeeValues values)
+        public UserInfoService(IHttpContextAccessor httpContextAccessor, IMediator mediatR, IClaimDicts values)
         {
             Claims = httpContextAccessor.HttpContext.User.Claims;
 
@@ -37,7 +37,7 @@ namespace MySystem.Api.Services
             {
                 if (officeIds.Any() == false)
                 {
-                    var cla = mediatR.Send(new GetTerritoriesV1Query() { SessionId = (Guid)SessionId });
+                    var cla = mediatR.Send(new GetTerritoriesQuery() { SessionId = (Guid)SessionId });
                     var bla = cla.GetAwaiter().GetResult();
 
                     foreach (var bra in bla)
