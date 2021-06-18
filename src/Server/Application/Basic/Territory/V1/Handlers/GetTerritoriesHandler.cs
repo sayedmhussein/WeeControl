@@ -49,8 +49,17 @@ namespace WeeControl.Server.Application.Territory.Handlers.V1
             }
             else
             {
-                throw new BadRequestException("Didn't provide correct query!");
+                return GetListOfTerritores(cancellationToken);
             }
+        }
+
+        private async Task<IEnumerable<TerritoryDto>> GetListOfTerritores(CancellationToken cancellationToken)
+        {
+            var list = new List<TerritoryDto>();
+            var territories = await context.Territories.ToListAsync(cancellationToken);
+            territories.ForEach(x => list.Add(x.ToDto<TerritoryDbo, TerritoryDto>()));
+
+            return list;
         }
 
         private async Task<IEnumerable<TerritoryDto>> GetListOfTerritoresByTerritoryIdAsync(Guid territoryid, CancellationToken cancellationToken)
@@ -68,6 +77,11 @@ namespace WeeControl.Server.Application.Territory.Handlers.V1
             //chd.Add(par);
 
             chd.ForEach(x => ids.Add(x.ToDto<TerritoryDbo, TerritoryDto>()));
+
+            if (ids.FirstOrDefault() == null)
+            {
+                throw new NotFoundException();
+            }
 
             return ids;
         }

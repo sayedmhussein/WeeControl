@@ -51,6 +51,9 @@ namespace WeeControl.Server.WebApi.Middlewares
                 case NotAllowedException:
                     code = HttpStatusCode.Forbidden;
                     break;
+                case ConflictFailureException:
+                    code = HttpStatusCode.Conflict;
+                    break;
             }
 
             context.Response.ContentType = "application/json";

@@ -9,7 +9,8 @@ namespace WeeControl.Server.WebApi.StartupOptions
         public static void ConfigureAuthOptions(AuthorizationOptions options)
         {
             options.AddPolicy(CanGetTerritoryPolicy.Name, CanGetTerritoryPolicy.Policy);
-            options.AddPolicy(CanAddEditTerritoryPolicy.Name, CanAddEditTerritoryPolicy.Policy);
+            options.AddPolicy(CanAddTerritoryPolicy.Name, CanAddTerritoryPolicy.Policy);
+            options.AddPolicy(CanEditTerritoryPolicy.Name, CanEditTerritoryPolicy.Policy);
             options.AddPolicy(CanDeleteTerritoryPolicy.Name, CanDeleteTerritoryPolicy.Policy);
 
             options.AddPolicy(AbleToAddNewEmployeePolicy.Name, AbleToAddNewEmployeePolicy.Policy);

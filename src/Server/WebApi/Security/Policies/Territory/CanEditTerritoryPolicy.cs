@@ -7,7 +7,7 @@ using WeeControl.SharedKernel.BasicSchemas.Employee.Enums;
 
 namespace WeeControl.Server.WebApi.Security.Policies.Territory
 {
-    public static class CanAddEditTerritoryPolicy
+    public static class CanEditTerritoryPolicy
     {
         private static IClaimDicts values = new ClaimDicts();
 

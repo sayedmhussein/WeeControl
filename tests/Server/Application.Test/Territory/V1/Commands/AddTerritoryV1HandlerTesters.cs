@@ -29,13 +29,13 @@ namespace WeeControl.Server.Application.Test.Territory.V1.Commands
         [Fact]
         public async void WhenNullCommandPayload_ThrowBadRequest()
         {
-            await Assert.ThrowsAsync<BadRequestException>(async () => await new AddOrEditTerritoriesHandler(dbContext).Handle(new AddOrEditTerritoriesCommand() { TerritoryDtos = null }, default));
+            await Assert.ThrowsAsync<BadRequestException>(async () => await new UpdateTerritoryHandler(dbContext).Handle(new UpdateTerritoryCommand() { TerritoryDtos = null }, default));
         }
 
         [Fact]
         public async void WhenEmptyCommandPayload_ThrowBadRequest()
         {
-            await Assert.ThrowsAsync<BadRequestException>(async () => await new AddOrEditTerritoriesHandler(dbContext).Handle(new AddOrEditTerritoriesCommand() { TerritoryDtos = new List<TerritoryDto>() }, default));
+            await Assert.ThrowsAsync<BadRequestException>(async () => await new UpdateTerritoryHandler(dbContext).Handle(new UpdateTerritoryCommand() { TerritoryDtos = new List<TerritoryDto>() }, default));
         }
 
         [Fact]
@@ -43,7 +43,7 @@ namespace WeeControl.Server.Application.Test.Territory.V1.Commands
         {
             var territory = new TerritoryDto() { Name = "Test Territory", CountryId = "usa" };
 
-            var response = await new AddOrEditTerritoriesHandler(dbContext).Handle(new AddOrEditTerritoriesCommand() { TerritoryDtos = new List<TerritoryDto>() { territory } }, default);
+            var response = await new UpdateTerritoryHandler(dbContext).Handle(new UpdateTerritoryCommand() { TerritoryDtos = new List<TerritoryDto>() { territory } }, default);
 
             Assert.NotNull(response.FirstOrDefault(x => x.Name == "Test Territory").Id);
         }
@@ -53,7 +53,7 @@ namespace WeeControl.Server.Application.Test.Territory.V1.Commands
         {
             var territory = new TerritoryDto() { Name = "Test Territory", CountryId = "usa" };
 
-            var response = await new AddOrEditTerritoriesHandler(dbContext).Handle(new AddOrEditTerritoriesCommand() { TerritoryDtos = new List<TerritoryDto>() { territory } }, default);
+            var response = await new UpdateTerritoryHandler(dbContext).Handle(new UpdateTerritoryCommand() { TerritoryDtos = new List<TerritoryDto>() { territory } }, default);
 
             Assert.NotNull(response.FirstOrDefault(x => x.Name == "Test Territory").Id);
         }

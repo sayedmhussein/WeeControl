@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WeeControl.Server.Application.Basic.Territory.V1.Commands;
 using WeeControl.Server.Application.Territory.V1.Commands;
 using WeeControl.Server.Application.Territory.V1.Queries;
 using WeeControl.Server.WebApi.Security.Policies.Territory;
@@ -30,8 +31,6 @@ namespace WeeControl.Server.WebApi.Controllers.BasicV1
         ///     Get List of Territories in Organization
         /// </summary>
         /// <param name="territoryid">Optional to get the children of the supplied territory id</param>
-        /// <param name="employeeid">Optional to get the children of the supplied employee id</param>
-        /// <param name="sessionid">Optional to get the children of the supplied employee's session id</param>
         /// <returns>List of Territory DTOs</returns>
         [Authorize(Policy = CanGetTerritoryPolicy.Name)]
         [HttpGet]
@@ -43,13 +42,12 @@ namespace WeeControl.Server.WebApi.Controllers.BasicV1
         [ProducesResponseType(typeof(ErrorDto), (int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(ErrorDto), (int)HttpStatusCode.Forbidden)]
         [MapToApiVersion("1.0")]
-        public async Task<ActionResult<IEnumerable<TerritoryDto>>> GetAllTerritoriesV1(Guid? territoryid, Guid? employeeid)
+        public async Task<ActionResult<IEnumerable<TerritoryDto>>> GetAllTerritoriesV1(Guid? territoryid)
         {
             var response =
                 await mediatR.Send(new GetTerritoriesQuery()
                 {
-                    TerritoryId = territoryid,
-                    EmployeeId = employeeid
+                    TerritoryId = territoryid
                 });
 
             return Ok(response);
@@ -59,12 +57,34 @@ namespace WeeControl.Server.WebApi.Controllers.BasicV1
         /// Insert or update territory within the organization
         /// </summary>
         /// <param name="requestDto">The territory DTO, if ID was supplied then this will be update</param>
+        /// <returns>Insert a territory DTO</returns>
+        [Authorize(Policy = CanAddTerritoryPolicy.Name)]
+        [HttpPost]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(IEnumerable<TerritoryDto>), (int)HttpStatusCode.Created)]
+        [ProducesResponseType(typeof(ErrorDto), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ErrorDto), (int)HttpStatusCode.Conflict)]
+        [ProducesResponseType(typeof(ErrorDto), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorDto), (int)HttpStatusCode.Forbidden)]
+        [MapToApiVersion("1.0")]
+        public async Task<ActionResult<IEnumerable<TerritoryDto>>> AddTerritoryV1([FromBody] TerritoryDto requestDto)
+        {
+            await mediatR.Send(new AddTerritoryCommand() { TerritoryDto = requestDto });
+
+            return Created("", null);
+        }
+
+        /// <summary>
+        /// Insert or update territory within the organization
+        /// </summary>
+        /// <param name="requestDto">The territory DTO, if ID was supplied then this will be update</param>
         /// <returns>If insert then it will return the territory DTO</returns>
-        [Authorize(Policy = CanAddEditTerritoryPolicy.Name)]
+        [Authorize(Policy = CanEditTerritoryPolicy.Name)]
         [HttpPut]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(IEnumerable<TerritoryDto>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<TerritoryDto>), (int)HttpStatusCode.NoContent)]
         [ProducesResponseType(typeof(ErrorDto), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ErrorDto), (int)HttpStatusCode.Conflict)]
         [ProducesResponseType(typeof(ErrorDto), (int)HttpStatusCode.NotFound)]
@@ -73,16 +93,9 @@ namespace WeeControl.Server.WebApi.Controllers.BasicV1
         [MapToApiVersion("1.0")]
         public async Task<ActionResult<IEnumerable<TerritoryDto>>> PutTerritoryV1([FromBody] TerritoryDto requestDto)
         {
-            var response =
-                await mediatR.Send(new AddOrEditTerritoriesCommand()
-                {
-                    TerritoryDtos = new List<TerritoryDto>()
-                    {
-                        requestDto
-                    }
-                });
+            await mediatR.Send(new UpdateTerritoryCommand() { TerritoryDto = requestDto });
 
-            return Ok(response);
+            return NoContent();
         }
 
         /// <summary>
