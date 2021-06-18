@@ -27,19 +27,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Temp\" />
-    <Folder Include="Temp\Security\" />
-    <Folder Include="Controller\" />
-    <Folder Include="Controller\V1\" />
-    <Folder Include="Controller\V1\Employee\" />
-    <Folder Include="Controller\V1\Employee\Credentials\" />
     <Folder Include="Services\" />
-    <Folder Include="FunctionalTests\" />
-    <Folder Include="FunctionalTests\Employee\" />
+    <Folder Include="BasicV1FunctionalTests\" />
+    <Folder Include="BasicV1FunctionalTests\Employee\" />
+    <Folder Include="BusinessFunctionalTests\" />
+    <Folder Include="Security\" />
+    <Folder Include="BasicV1FunctionalTests\Territory\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="FunctionalTests\" />
     <None Remove="FunctionalTests\Employee\" />
+    <None Remove="BusinessFunctionalTests\" />
+    <None Remove="Security\" />
+    <None Remove="BasicFunctionalTests\Territory\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Server\WebApi\WebApi.csproj" />

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using WeeControl.Server.Domain.EntityDbo.EmployeeSchema;
+using WeeControl.Server.Domain.BasicDbos.EmployeeSchema;
 
 namespace WeeControl.Server.Persistence.EntityTypeConfiguration.Employee
 {

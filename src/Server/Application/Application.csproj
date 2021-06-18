@@ -21,6 +21,8 @@
     <Folder Include="Employee\V1\Handlers\" />
     <Folder Include="Employee\V1\Queries\" />
     <Folder Include="Employee\V1\Notifications\" />
+    <Folder Include="Basic\" />
+    <Folder Include="Business\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="9.0.0" />
@@ -42,6 +44,8 @@
     <None Remove="Employee\V1\Handlers\" />
     <None Remove="Employee\V1\Queries\" />
     <None Remove="Employee\V1\Notifications\" />
+    <None Remove="Basic\" />
+    <None Remove="Business\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />

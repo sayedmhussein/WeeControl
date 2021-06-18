@@ -6,10 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="EntityDbo\" />
+    <Folder Include="BasicDbos\" />
     <Folder Include="Extensions\" />
-    <Folder Include="EntityDbo\Employee\" />
+    <Folder Include="BasicDbos\Employee\" />
     <Folder Include="Models\" />
+    <Folder Include="CustomDbos\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
@@ -19,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Models\" />
+    <None Remove="CustomDbos\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\SharedKernel\SharedKernel.csproj" />

@@ -28,7 +28,6 @@
 
   <ItemGroup>
     <Folder Include="Services\" />
-    <Folder Include="Controllers\V1\" />
     <Folder Include="Security\" />
     <Folder Include="Security\Policies\Employee\" />
     <Folder Include="Security\Policies\Territory\" />

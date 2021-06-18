@@ -1,4 +1,4 @@
-﻿# ControlSystem
+﻿# WeeControl
 This project is created using .NET technology, the aim is to create a software applications which can be used to digitalize activities of a company.
 
 The project structure is as following:

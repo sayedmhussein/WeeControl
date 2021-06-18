@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WeeControl.Server.Application.Common.Interfaces;
-using WeeControl.SharedKernel.CommonSchemas.Common.Interfaces;
+using WeeControl.SharedKernel.BasicSchemas.Common.Interfaces;
 
 namespace WeeControl.Server.Infrastructure.NotificationServices
 {

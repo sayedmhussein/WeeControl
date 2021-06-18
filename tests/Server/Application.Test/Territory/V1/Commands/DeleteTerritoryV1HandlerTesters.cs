@@ -9,10 +9,10 @@ using WeeControl.Server.Application.Common.Interfaces;
 using WeeControl.Server.Application.Territory.Commands.DeleteTerritories;
 using WeeControl.Server.Application.Territory.V1.Commands;
 using WeeControl.Server.Persistence;
-using WeeControl.SharedKernel.CommonSchemas.Employee.Dicts;
-using WeeControl.SharedKernel.CommonSchemas.Employee.Enums;
-using WeeControl.SharedKernel.CommonSchemas.Territory.Dicts;
-using WeeControl.SharedKernel.CommonSchemas.Territory.Interfaces;
+using WeeControl.SharedKernel.BasicSchemas.Employee.Dicts;
+using WeeControl.SharedKernel.BasicSchemas.Employee.Enums;
+using WeeControl.SharedKernel.BasicSchemas.Territory.Dicts;
+using WeeControl.SharedKernel.BasicSchemas.Territory.Interfaces;
 using Xunit;
 
 namespace WeeControl.Server.Application.Test.Territory.V1.Commands

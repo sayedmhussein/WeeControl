@@ -1,8 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using WeeControl.Server.Domain.EntityDbo.EmployeeSchema;
-using WeeControl.Server.Domain.EntityDbo.Territory;
+using WeeControl.Server.Domain.BasicDbos.EmployeeSchema;
+using WeeControl.Server.Domain.BasicDbos.Territory;
 
 namespace WeeControl.Server.Application.Common.Interfaces
 {
