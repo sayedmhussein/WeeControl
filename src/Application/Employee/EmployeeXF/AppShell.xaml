@@ -50,7 +50,7 @@
     </FlyoutItem>
 
     <MenuItem Text="Help" IconImageSource="help.png" Command="{Binding HelpCommand}"
-              CommandParameter="https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell" />
+              CommandParameter="https://github.com/sayedmhussein/WeeControl" />
 
     <MenuItem Text="Logout" IconImageSource="xamarin_logo" Command="{Binding LogoutCommand}"></MenuItem>
 

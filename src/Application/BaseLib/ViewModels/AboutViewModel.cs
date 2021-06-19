@@ -15,15 +15,15 @@ namespace WeeControl.Applications.BaseLib.ViewModels
         #endregion
 
         #region Constructors
-        public AboutViewModel() : this(Ioc.Default.GetService<IDevice>(), null)
+        public AboutViewModel() : this(Ioc.Default.GetService<IViewModelDependencyFactory>())
         {
         }
 
-        public AboutViewModel(IDevice device, IViewModelDependencyFactory service)
+        public AboutViewModel(IViewModelDependencyFactory service)
         {
-            this.device = device;
+            device = service.Device;
 
-            OpenWebCommand = new RelayCommand(async () => await device.OpenWebPageAsync("http://www.google.com/"));
+            OpenWebCommand = new RelayCommand(async () => await device.OpenWebPageAsync("https://github.com/sayedmhussein/WeeControl"));
         }
         #endregion
     }

@@ -3,8 +3,8 @@ This project is created using .NET technology, the aim is to create a software a
 
 The project structure is as following:
 - Client Folder:
-    - Xamarin Forms Application. [Not Yet Ready]
-    - Application Library (Serve Client Applications) [Not Yet Ready].
+    - Xamarin Forms Application [Development Ongoing].
+    - Application Library (Serve Client Applications) [Development Ongoing].
 - Server Folder:
     - Core Folder:
         - Application Library [Development Ongoing].

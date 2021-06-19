@@ -10,6 +10,7 @@ namespace WeeControl.Applications.Employee.XF.Views
         public AboutPage()
         {
             InitializeComponent();
+            Title = "About WeeControl";
         }
     }
 }

@@ -8,7 +8,7 @@ namespace WeeControl.Applications.Employee.XF
         public AppShell()
         {
             InitializeComponent();
-            //Routing.RegisterRoute(nameof(SplashPage), typeof(SplashPage));
+            Routing.RegisterRoute(nameof(SplashPage), typeof(SplashPage));
             //Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
 
             Routing.RegisterRoute(nameof(HomePage), typeof(HomePage));

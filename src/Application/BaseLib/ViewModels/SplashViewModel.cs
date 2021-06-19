@@ -70,6 +70,7 @@ namespace WeeControl.Applications.BaseLib.ViewModels
         {
             try
             {
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(device.Token);
                 var response = await httpClient.PutAsJsonAsync(route, dto);
 
                 switch (response.StatusCode)
@@ -79,9 +80,6 @@ namespace WeeControl.Applications.BaseLib.ViewModels
                         device.Token = responseDto?.Token;
                         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(device.Token);
                         await device.NavigateToPageAsync("HomePage");
-                        break;
-                    case System.Net.HttpStatusCode.NotFound:
-                        await device.NavigateToPageAsync("LoginPage");
                         break;
                     default:
                         await device.NavigateToPageAsync("LoginPage");
