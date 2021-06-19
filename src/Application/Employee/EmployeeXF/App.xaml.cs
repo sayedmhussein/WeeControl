@@ -8,6 +8,9 @@ using WeeControl.SharedKernel.BasicSchemas.Common.Dicts;
 using WeeControl.SharedKernel.BasicSchemas.Common.DtosV1;
 using WeeControl.SharedKernel.BasicSchemas.Common.Enums;
 using WeeControl.SharedKernel.BasicSchemas.Common.Interfaces;
+using WeeControl.SharedKernel.BasicSchemas.Employee.Dicts;
+using WeeControl.SharedKernel.BasicSchemas.Territory.Dicts;
+using WeeControl.SharedKernel.BasicSchemas.Territory.Interfaces;
 using Xamarin.Forms;
 
 namespace WeeControl.Applications.Employee.XF
@@ -31,14 +34,19 @@ namespace WeeControl.Applications.Employee.XF
                 httpClient.DefaultRequestHeaders.Add("Accept-version", apiDicts.ApiRoute[ApiRouteEnum.Version]);
 
 
-                IViewModelDependencyFactory client = new ViewModelDependencyFactory(httpClient, device, appDataPath);
+                IViewModelDependencyFactory debFactory = new ViewModelDependencyFactory(httpClient, device, appDataPath);
 
                 Ioc.Default.ConfigureServices(
                     new ServiceCollection()
-                    .AddSingleton(client)
-                    //.AddSingleton<ITerritoryValues>(new TerritoryValues())
-                    //.AddSingleton<IEmployeeValues>(new EmployeeValues())
+                    .AddSingleton(debFactory)
                     .AddSingleton(apiDicts)
+
+                    .AddSingleton<ITerritoryDicts, TerritoryDicts>()
+                    //
+                    .AddSingleton<IClaimDicts, ClaimDicts>()
+                    .AddSingleton<IIdentityDicts, IdentityDicts>()
+                    .AddSingleton<IPersonalAttribDicts, PersonalAttribDicts>()
+
                     .BuildServiceProvider());
             }
             catch

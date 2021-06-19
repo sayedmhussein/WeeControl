@@ -4,8 +4,8 @@ using WeeControl.SharedKernel.BasicSchemas.Territory.DtosV1;
 
 namespace WeeControl.Server.Application.Territory.V1.Commands
 {
-    public class AddOrEditTerritoriesCommand : IRequest<IEnumerable<TerritoryDto>>
+    public class UpdateTerritoryCommand : IRequest<Unit>
     {
-        public ICollection<TerritoryDto> TerritoryDtos { get; set; }
+        public TerritoryDto TerritoryDto { get; set; }
     }
 }

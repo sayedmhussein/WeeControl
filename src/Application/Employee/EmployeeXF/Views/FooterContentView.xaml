@@ -5,7 +5,7 @@
     x:Class="WeeControl.Applications.Employee.XF.Views.FooterContentView">
     <ContentView.Content>
         <StackLayout Orientation="Vertical">
-            <Label Text="OTIS Company" FontSize="Large" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"></Label>
+            <Label Text="WeeControl Application" FontSize="Large" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"></Label>
             <Label Text="2021" FontSize="Small" HorizontalOptions="CenterAndExpand"></Label>
         </StackLayout>
     </ContentView.Content>

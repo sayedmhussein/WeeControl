@@ -103,7 +103,6 @@ namespace WeeControl.Applications.BaseLib.ViewModels
                     case System.Net.HttpStatusCode.OK:
                         var data = await response.Content.ReadAsAsync<EmployeeTokenDto>();
                         device.Token = data.Token;
-                        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(device.Token);
                         await device.NavigateToPageAsync(nameof(ApplicationPageEnum.SplashPage));
                         break;
                     case System.Net.HttpStatusCode.NotFound:

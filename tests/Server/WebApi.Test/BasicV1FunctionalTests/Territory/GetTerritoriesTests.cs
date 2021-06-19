@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -34,18 +35,43 @@ namespace WeeControl.Server.WebApi.Test.BasicV1FunctionalTests.Territory
         }
 
         [Fact]
-        public async void WhenGettingAllTerritoriesWithTokenButWithoutQuery_ResponseIsUnauthorized()
+        public async void WhenGettingAllTerritoriesWithToken_ReturnListOfTerritores()
         {
             var client = factory.CreateClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Token);
 
             var response = await client.GetAsync(RequstUri);
 
-            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+            response.EnsureSuccessStatusCode();
+
+            var list = await response.Content.ReadFromJsonAsync<IEnumerable<TerritoryDto>>();
+            Assert.NotEmpty(list);
         }
 
         [Fact]
-        public async void WhenGettingAllTerritoriesWithTokenAndWithRandomTerritoryIdQuery_ResponseOk()
+        public async void WhenGettingAllTerritoriesWithTokenAndWithKnownTerritoryIdQuery_ReturnListOfTerritores()
+        {
+            var client = factory.CreateClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Token);
+
+            var response1 = await client.GetAsync(RequstUri);
+            response1.EnsureSuccessStatusCode();
+            var list1 = await response1.Content.ReadFromJsonAsync<IEnumerable<TerritoryDto>>();
+
+            var builder = new UriBuilder(RequstUri);
+            var query = HttpUtility.ParseQueryString(string.Empty);
+            query["territoryid"] = list1.FirstOrDefault().Id.ToString();
+            builder.Query = query.ToString();
+
+            var response2 = await client.GetAsync(builder.ToString());
+            response2.EnsureSuccessStatusCode();
+            var list2 = await response2.Content.ReadFromJsonAsync<IEnumerable<TerritoryDto>>();
+
+            Assert.NotEmpty(list2);
+        }
+
+        [Fact]
+        public async void WhenGettingAllTerritoriesWithTokenAndWithRandomTerritoryIdQuery_ReturnNotFoundHttpStatuesCode()
         {
             var client = factory.CreateClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Token);
@@ -53,40 +79,6 @@ namespace WeeControl.Server.WebApi.Test.BasicV1FunctionalTests.Territory
             var builder = new UriBuilder(RequstUri);
             var query = HttpUtility.ParseQueryString(string.Empty);
             query["territoryid"] = Guid.NewGuid().ToString();
-            builder.Query = query.ToString();
-
-            var response = await client.GetAsync(builder.ToString());
-
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        }
-
-        [Fact(Skip = "Territory Is is hand written which may be differet from acutal in database")]
-        public async void WhenGettingAllTerritoriesWithTokenAndWithKnownTerritoryIdQuery_ResponseOkAndListOfTerritores()
-        {
-            var client = factory.CreateClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Token);
-
-            var builder = new UriBuilder(RequstUri);
-            var query = HttpUtility.ParseQueryString(string.Empty);
-            query["territoryid"] = "aa1a5745-b69d-46cf-b3e8-b21e8d76be5a";
-            builder.Query = query.ToString();
-
-            var response = await client.GetAsync(builder.ToString());
-
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-            var list = await response.Content.ReadFromJsonAsync<IEnumerable<TerritoryDto>>();
-            Assert.NotEmpty(list);
-        }
-
-        [Fact]
-        public async void WhenGettingAllTerritoriesWithTokenAndWithRandomEmployeeIdQuery_ResponseOk()
-        {
-            var client = factory.CreateClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Token);
-
-            var builder = new UriBuilder(RequstUri);
-            var query = HttpUtility.ParseQueryString(string.Empty);
-            query["employeeid"] = Guid.NewGuid().ToString();
             builder.Query = query.ToString();
 
             var response = await client.GetAsync(builder.ToString());

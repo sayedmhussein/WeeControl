@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Employee\" />
     <Folder Include="Common\" />
     <Folder Include="Common\Interfaces\" />
     <Folder Include="Common\Exceptions\" />
@@ -16,11 +15,6 @@
     <Folder Include="Territory\V1\Commands\" />
     <Folder Include="Territory\V1\Handlers\" />
     <Folder Include="Territory\V1\Queries\" />
-    <Folder Include="Employee\V1\" />
-    <Folder Include="Employee\V1\Commands\" />
-    <Folder Include="Employee\V1\Handlers\" />
-    <Folder Include="Employee\V1\Queries\" />
-    <Folder Include="Employee\V1\Notifications\" />
     <Folder Include="Basic\" />
     <Folder Include="Business\" />
   </ItemGroup>
@@ -39,11 +33,6 @@
     <None Remove="Territory\V1\Commands\" />
     <None Remove="Territory\V1\Handlers\" />
     <None Remove="Territory\V1\Queries\" />
-    <None Remove="Employee\V1\" />
-    <None Remove="Employee\V1\Commands\" />
-    <None Remove="Employee\V1\Handlers\" />
-    <None Remove="Employee\V1\Queries\" />
-    <None Remove="Employee\V1\Notifications\" />
     <None Remove="Basic\" />
     <None Remove="Business\" />
   </ItemGroup>

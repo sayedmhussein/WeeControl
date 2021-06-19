@@ -6,7 +6,7 @@
     HeightRequest="170">
     <ContentView.Content>
         <StackLayout BackgroundColor="SkyBlue">
-            <Label Text="this is header"></Label>
+            <Label Text="Welcome User" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"></Label>
         </StackLayout>
     </ContentView.Content>
 </ContentView>
