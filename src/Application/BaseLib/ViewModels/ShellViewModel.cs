@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Immutable;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -7,8 +8,11 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
 using WeeControl.Applications.BaseLib.Interfaces;
+using WeeControl.Applications.BaseLib.Services;
 using WeeControl.SharedKernel.BasicSchemas.Common.Enums;
 using WeeControl.SharedKernel.BasicSchemas.Common.Interfaces;
+using WeeControl.SharedKernel.BasicSchemas.Employee.Dicts;
+using WeeControl.SharedKernel.BasicSchemas.Employee.Enums;
 
 namespace WeeControl.Applications.BaseLib.ViewModels
 {
@@ -18,10 +22,13 @@ namespace WeeControl.Applications.BaseLib.ViewModels
         private readonly HttpClient httpClient;
         private readonly IDevice device;
         private readonly ImmutableDictionary<ApiRouteEnum, string> routes;
+        private readonly ImmutableDictionary<ClaimTypeEnum, string> claimTypes;
         #endregion
 
         #region Public Properties
         public string NameOfUser => device.FullUserName;
+
+        public bool IsHumanResourcesFlyoutItemVisible { get; set; } = false;
 
         #endregion
 
@@ -31,11 +38,16 @@ namespace WeeControl.Applications.BaseLib.ViewModels
         #endregion
 
         #region Constructors
-        public ShellViewModel() : this(Ioc.Default.GetRequiredService<IViewModelDependencyFactory>(), Ioc.Default.GetRequiredService<IApiDicts>())
+        public ShellViewModel()
+            : this(
+                  Ioc.Default.GetRequiredService<IViewModelDependencyFactory>(),
+                  Ioc.Default.GetRequiredService<IApiDicts>(),
+                  Ioc.Default.GetRequiredService<IClaimDicts>()
+                  )
         {
         }
 
-        public ShellViewModel(IViewModelDependencyFactory service, IApiDicts commonValues)
+        public ShellViewModel(IViewModelDependencyFactory service, IApiDicts commonValues, IClaimDicts claimDicts)
         {
             if (service == null || commonValues == null)
             {
@@ -48,8 +60,29 @@ namespace WeeControl.Applications.BaseLib.ViewModels
 
             HelpCommand = new RelayCommand(async () => await device.OpenWebPageAsync("http://www.google.com/"));
             LogoutCommand = new AsyncRelayCommand(Logout);
+
+            claimTypes = claimDicts.ClaimType;
+
+            ScaffoldFlyoutItemsVisibility();
         }
         #endregion
+
+        public void ScaffoldFlyoutItemsVisibility()
+        {
+            var claims = JwtTokenService.GetClaims(device.Token);
+            if (claims == null)
+            {
+                return;
+            }
+
+            foreach (var claim in claims)
+            {
+                if (claim.Type == claimTypes[ClaimTypeEnum.HumanResources])
+                {
+                    IsHumanResourcesFlyoutItemVisible = true;
+                }
+            }
+        }
 
         #region Private Functions
         private async Task Logout()

@@ -18,9 +18,17 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.0.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="sqlite-net-pcl" Version="1.7.335" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BaseLib\BaseLib.csproj" />
     <ProjectReference Include="..\..\..\SharedKernel\SharedKernel.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Views\HumanResource\" />
+    <None Remove="sqlite-net-pcl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\HumanResource\" />
   </ItemGroup>
 </Project>
