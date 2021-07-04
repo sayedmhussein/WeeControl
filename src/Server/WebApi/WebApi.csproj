@@ -34,6 +34,7 @@
     <Folder Include="StartupOptions\" />
     <Folder Include="Security\CustomHandlers\" />
     <Folder Include="Security\CustomHandlers\TokenRefreshment\" />
+    <Folder Include="Security\Policies\Common\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Security\Policy\Employee\" />
@@ -42,6 +43,7 @@
     <None Remove="Options\" />
     <None Remove="Security\CustomHandlers\" />
     <None Remove="Security\CustomHandlers\TokenRefreshment\" />
+    <None Remove="Security\Policies\Common\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj">

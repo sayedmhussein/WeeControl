@@ -10,11 +10,6 @@
     <Folder Include="Common\Interfaces\" />
     <Folder Include="Common\Exceptions\" />
     <Folder Include="Common\Behaviours\" />
-    <Folder Include="Territory\" />
-    <Folder Include="Territory\V1\" />
-    <Folder Include="Territory\V1\Commands\" />
-    <Folder Include="Territory\V1\Handlers\" />
-    <Folder Include="Territory\V1\Queries\" />
     <Folder Include="Basic\" />
     <Folder Include="Business\" />
   </ItemGroup>
@@ -24,15 +19,10 @@
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="Territory\" />
     <None Remove="Territory\Command\" />
     <None Remove="Territory\Query\" />
     <None Remove="Territory\Query\GetTerritories\" />
     <None Remove="Territory\Command\AddTerritory\" />
-    <None Remove="Territory\V1\" />
-    <None Remove="Territory\V1\Commands\" />
-    <None Remove="Territory\V1\Handlers\" />
-    <None Remove="Territory\V1\Queries\" />
     <None Remove="Basic\" />
     <None Remove="Business\" />
   </ItemGroup>

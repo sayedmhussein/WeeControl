@@ -21,7 +21,7 @@ namespace WeeControl.User.Employee.Test.UnitTests.ViewModels
         [Fact]
         public void Constructor_WhenNullSecondParameter_ThrowArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new LoginViewModel(new Mock<IViewModelDependencyFactory>().Object, null));
+            Assert.Throws<ArgumentNullException>(() => new LoginViewModel(new Mock<IDevice>().Object, null));
         }
         #endregion
 
@@ -29,7 +29,7 @@ namespace WeeControl.User.Employee.Test.UnitTests.ViewModels
         [Fact]
         public async void LoginCommand_WhenEmptyUsername_ThrowInvalidArgumentException()
         {
-            var service = clientServicesMock.Object;
+            var service = deviceMock.Object;
 
             var vm = new LoginViewModel(service, commonValues)
             {
@@ -43,7 +43,7 @@ namespace WeeControl.User.Employee.Test.UnitTests.ViewModels
         [Fact]
         public async void LoginCommand_WhenNullPassword_ThrowInvalidArgumentException()
         {
-            var service = clientServicesMock.Object;
+            var service = deviceMock.Object;
 
             var vm = new LoginViewModel(service, commonValues)
             {
@@ -60,10 +60,10 @@ namespace WeeControl.User.Employee.Test.UnitTests.ViewModels
             deviceMock.Setup(x => x.Internet).Returns(false);
             var handler = GetHttpMessageHandlerMock(System.Net.HttpStatusCode.OK, new EmployeeTokenDto() { Token = "token" }.SerializeToJson());
             //
-            clientServicesMock.Setup(x => x.HttpClientInstance).Returns(new System.Net.Http.HttpClient(handler.Object));
+            deviceMock.Setup(x => x.HttpClientInstance).Returns(new System.Net.Http.HttpClient(handler.Object));
             
 
-            var vm = new LoginViewModel(clientServicesMock.Object, commonValues)
+            var vm = new LoginViewModel(deviceMock.Object, commonValues)
             {
                 Username = "username",
                 Password = "password"
@@ -78,9 +78,9 @@ namespace WeeControl.User.Employee.Test.UnitTests.ViewModels
         public async void LoginCommand_WhenValidCredentials_OpenSplashPage()
         {
             var handler = GetHttpMessageHandlerMock(System.Net.HttpStatusCode.OK, new EmployeeTokenDto() { Token = "token" }.SerializeToJson());
-            clientServicesMock.Setup(x => x.HttpClientInstance).Returns(GetNewHttpClient(handler.Object));
+            deviceMock.Setup(x => x.HttpClientInstance).Returns(GetNewHttpClient(handler.Object));
 
-            var vm = new LoginViewModel(clientServicesMock.Object, commonValues)
+            var vm = new LoginViewModel(deviceMock.Object, commonValues)
             {
                 Username = "username",
                 Password = "password"
@@ -95,9 +95,9 @@ namespace WeeControl.User.Employee.Test.UnitTests.ViewModels
         public async void LoginCommand_WhenInvalidCredentials_DisplayMessageAndNeverOpenSplashPage()
         {
             var handler = GetHttpMessageHandlerMock(System.Net.HttpStatusCode.NotFound, new EmployeeTokenDto() { Token = "token" }.SerializeToJson());
-            clientServicesMock.Setup(x => x.HttpClientInstance).Returns(GetNewHttpClient(handler.Object));
+            deviceMock.Setup(x => x.HttpClientInstance).Returns(GetNewHttpClient(handler.Object));
 
-            var vm = new LoginViewModel(clientServicesMock.Object, commonValues)
+            var vm = new LoginViewModel(deviceMock.Object, commonValues)
             {
                 Username = "admin",
                 Password = "admin"

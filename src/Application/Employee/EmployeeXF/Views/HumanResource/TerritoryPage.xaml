@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:WeeControl.Applications.BaseLib.ViewModels.HumanResource;assembly=BaseLib"
+    x:Class="WeeControl.Applications.Employee.XF.Views.HumanResource.TerritoryPage"
+    Title="Territories">
+
+    <ContentPage.BindingContext>
+        <vm:TerritoryViewModel />
+    </ContentPage.BindingContext>
+
+
+    <ContentPage.Content>
+        <StackLayout Margin="10">
+            <Label Text="Territory Details" FontAttributes="Bold" FontSize="Title"></Label>
+            <Picker Title="Country" SelectedItem="{Binding TerritoryCountry}" ItemsSource="{Binding CountryList}"></Picker>
+            <Picker Title="Report To"></Picker>
+            <Entry Placeholder="Territory Name"></Entry>
+            <Button Text="Save Changes"></Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

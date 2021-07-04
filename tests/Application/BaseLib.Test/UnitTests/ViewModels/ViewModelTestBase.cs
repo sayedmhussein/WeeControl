@@ -21,7 +21,6 @@ namespace WeeControl.User.Employee.Test.UnitTests.ViewModels
 
         protected Mock<IDevice> deviceMock;
         protected Mock<ILogger> loggerMock;
-        protected Mock<IViewModelDependencyFactory> clientServicesMock;
 
         public ViewModelTestBase()
         {
@@ -35,18 +34,12 @@ namespace WeeControl.User.Employee.Test.UnitTests.ViewModels
             deviceMock.SetupProperty(x => x.FullUserName);
 
             loggerMock = new Mock<ILogger>();
-
-            clientServicesMock = new Mock<IViewModelDependencyFactory>();
-            clientServicesMock.Setup(x => x.Device).Returns(deviceMock.Object);
-            clientServicesMock.Setup(x => x.Logger).Returns(loggerMock.Object);
-            clientServicesMock.Setup(x => x.AppDataPath).Returns("");
         }
 
         public void Dispose()
         {
             deviceMock = null;
             loggerMock = null;
-            clientServicesMock = null;
         }
 
         protected HttpClient GetNewHttpClient(HttpMessageHandler handler)

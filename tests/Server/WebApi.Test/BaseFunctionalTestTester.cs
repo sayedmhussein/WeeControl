@@ -1,5 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc.Testing;
+using WeeControl.SharedKernel.BasicSchemas.Common.DtosV1;
+using WeeControl.SharedKernel.BasicSchemas.Employee.DtosV1;
 using Xunit;
 
 namespace WeeControl.Server.WebApi.Test
@@ -13,24 +15,20 @@ namespace WeeControl.Server.WebApi.Test
             this.factory = factory;
         }
 
-        [Fact]
-        public void WhenGetTokenOfAdmin_TokenStringNotNull()
+        [Theory]
+        [InlineData("admin", "admin")]
+        [InlineData("user", "user")]
+        public async void GetToken_TokenMustNotBeEmpty(string username, string password)
         {
-            var client = factory.CreateClient();
+            var baseTestClass = new BaseFunctionalTest(factory.CreateClient());
+            var metadata = new RequestMetadata() { Device = nameof(BaseFunctionalTestTester) };
+            var dto = new CreateLoginDto()
+            { Username = username, Password = password, Metadata = metadata };
 
-            var token = new BaseFunctionalTest(client, EmployeeName.Admin).Token;
+            await baseTestClass.CreateTokenAsync(dto);
+            await baseTestClass.RefreshTokenAsync();
 
-            Assert.NotEmpty(token);
-        }
-
-        [Fact]
-        public void WhenGetTokenOfUser_TokenStringNotNull()
-        {
-            var client = factory.CreateClient();
-
-            var token = new BaseFunctionalTest(client, EmployeeName.User).Token;
-
-            Assert.NotEmpty(token);
+            Assert.NotEmpty(baseTestClass.Token);
         }
     }
 }

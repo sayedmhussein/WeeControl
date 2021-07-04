@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
+using System;
 using WeeControl.SharedKernel.BasicSchemas.Common.Interfaces;
 
 namespace WeeControl.Server.Domain.Extensions
 {
+    [Obsolete]
     public static class EntityMappingExtension
     {
+        [Obsolete]
         public static TDbo ToDbo<TDto, TDbo>(this IEntityDto dto)
         {
             var config = new MapperConfiguration(c =>
@@ -17,6 +20,7 @@ namespace WeeControl.Server.Domain.Extensions
             return mapper.Map<TDbo>(dto);
         }
 
+        [Obsolete]
         public static TDto ToDto<TDbo, TDto>(this IEntityDbo dbo)
         {
             var config = new MapperConfiguration(c =>

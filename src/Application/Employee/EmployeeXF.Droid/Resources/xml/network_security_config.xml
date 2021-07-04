@@ -6,6 +6,7 @@
     <domain includeSubdomains="true">192.168.126.107</domain>
     <domain includeSubdomains="true">192.168.1.107</domain>
     <domain includeSubdomains="true">192.168.*.107</domain>
+    <domain includeSubdomains="true">192.168.68.107</domain>
     <domain includeSubdomains="true">xamarin.com</domain>
   </domain-config>
 </network-security-config>

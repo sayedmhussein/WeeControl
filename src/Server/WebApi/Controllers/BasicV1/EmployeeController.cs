@@ -24,6 +24,7 @@ namespace WeeControl.Server.WebApi.Controllers.BasicV1
     [ApiController]
     public class EmployeeController : Controller
     {
+        #region privates, ctor
         private readonly IMediator mediatR;
         private readonly IJwtService jwtService;
 
@@ -32,6 +33,7 @@ namespace WeeControl.Server.WebApi.Controllers.BasicV1
             this.mediatR = mediatR;
             this.jwtService = jwtService;
         }
+        #endregion
 
         #region Employee
         [HttpGet]
@@ -107,9 +109,9 @@ namespace WeeControl.Server.WebApi.Controllers.BasicV1
         public async Task<ActionResult<EmployeeTokenDto>> LoginV1([FromBody] CreateLoginDto loginDto)
         {
             var query = new GetEmployeeClaimsV1Query() { Username = loginDto.Username, Password = loginDto.Password, Metadata = loginDto.Metadata };
-            var response = await mediatR.Send(query);
-            var token = jwtService.GenerateJwtToken(response, "", DateTime.UtcNow.AddMinutes(5));
-            return Ok(new EmployeeTokenDto() { Token = token });
+            var claims = await mediatR.Send(query);
+            var token = jwtService.GenerateJwtToken(claims, "", DateTime.UtcNow.AddMinutes(5));
+            return Ok(new EmployeeTokenDto() { Token = token, FullName = "User Full Name :)" });
         }
 
         [Authorize(Policy = AbleToRefreshTokenPolicy.Name)]

@@ -14,108 +14,31 @@ namespace WeeControl.Server.WebApi.Test.BasicV1FunctionalTests.Employee
     {
         private readonly Uri RequstUri;
 
-        private const string ADMIN_USERNAME = "admin";
-        private const string ADMIN_PASSWORD = "admin";
-
-        public EmployeeSessionTests(WebApplicationFactory<Startup> factory) : base(factory.CreateClient(), EmployeeName.Admin)
+        public EmployeeSessionTests(WebApplicationFactory<Startup> factory)
+            : base(factory.CreateClient())
         {
-            RequstUri = new Uri(BaseUri, ApiRoute[ApiRouteEnum.EmployeeSession]);
-        }
-
-        [Fact]
-        public async void WhenLoginWithAdminCredentials_ReturnValidToken()
-        {
-            var request = GetLoginRequest(ADMIN_USERNAME, ADMIN_PASSWORD, new Random().NextDouble().ToString());
-
-            var response = GetResponseMessage(request);
-            response.EnsureSuccessStatusCode();
-
-            var tokenDto = await response.Content.ReadFromJsonAsync<EmployeeTokenDto>();
-
-            Assert.NotEmpty(tokenDto.Token);
+            RequstUri = new Uri(new Uri(ApiRoute[ApiRouteEnum.Base]), ApiRoute[ApiRouteEnum.EmployeeSession]);
         }
 
         [Theory]
+        [InlineData("admin", "admin", HttpStatusCode.OK)]
+        [InlineData("user", "user", HttpStatusCode.OK)]
         [InlineData(null, null, HttpStatusCode.BadRequest)]
         [InlineData("", null, HttpStatusCode.BadRequest)]
         [InlineData(null, "", HttpStatusCode.BadRequest)]
         [InlineData("", "", HttpStatusCode.BadRequest)]
         [InlineData("bla", "bla", HttpStatusCode.NotFound)]
         [InlineData("admin1", "admin1", HttpStatusCode.NotFound)]
-        public void WhenLoginWithInvalidCredentials_Return(string username, string password, HttpStatusCode statusCode)
-        {
-            var request = GetLoginRequest(username, password, new Random().NextDouble().ToString());
-
-            var response = GetResponseMessage(request);
-
-            Assert.Equal(statusCode, response.StatusCode);
-        }
-
-        [Fact]
-        public async void WhenRefreshTokenWithValidTokenAndSameDevice_ReturnNewToken()
-        {
-            var request1 = GetLoginRequest(ADMIN_USERNAME, ADMIN_PASSWORD, "device");
-            var response1 = GetResponseMessage(request1);
-            response1.EnsureSuccessStatusCode();
-            var token1 = (await response1.Content.ReadFromJsonAsync<EmployeeTokenDto>()).Token;
-
-            var request2 = GetTokenRequest("device");
-            var response2 = GetResponseMessage(request2, token1);
-            response2.EnsureSuccessStatusCode();
-            var token2 = (await response2.Content.ReadFromJsonAsync<EmployeeTokenDto>()).Token;
-
-            Assert.NotEmpty(token2);
-        }
-
-        [Fact]
-        public async void WhenRefreshTokenWithValidTokenButDifferentDevice_ReturnForbidden()
-        {
-            var request1 = GetLoginRequest(ADMIN_USERNAME, ADMIN_PASSWORD, "device");
-            var response1 = GetResponseMessage(request1);
-            response1.EnsureSuccessStatusCode();
-            var token1 = (await response1.Content.ReadFromJsonAsync<EmployeeTokenDto>()).Token;
-
-            var request2 = GetTokenRequest("otherdevice");
-            var response2 = GetResponseMessage(request2, token1);
-
-            Assert.Equal(HttpStatusCode.Forbidden, response2.StatusCode);
-        }
-
-        [Fact]
-        public void WhenRefreshTokenIsInvalid_ReturnUnAuthorized()
-        {
-            var request2 = GetTokenRequest("device");
-            var response2 = GetResponseMessage(request2, "Invlaid");
-
-            Assert.Equal(HttpStatusCode.Unauthorized, response2.StatusCode);
-        }
-
-        [Fact]
-        public async void WhenLogout_NoErrorOccure()
-        {
-            var request1 = GetLoginRequest(ADMIN_USERNAME, ADMIN_PASSWORD, "device");
-            var response1 = GetResponseMessage(request1);
-            response1.EnsureSuccessStatusCode();
-            var token1 = (await response1.Content.ReadFromJsonAsync<EmployeeTokenDto>()).Token;
-
-            var request2 = GetTokenRequest("device");
-            var response2 = GetResponseMessage(request2, token1);
-            response2.EnsureSuccessStatusCode();
-            var token2 = (await response2.Content.ReadFromJsonAsync<EmployeeTokenDto>()).Token;
-
-            var request3 = GetLogoutRequest();
-            var response3 = GetResponseMessage(request3, token2);
-
-            Assert.Equal(HttpStatusCode.OK, response3.StatusCode);
-        }
-
-        private HttpRequestMessage GetLoginRequest(string username, string password, string device)
+        public async void LoginTheoryTests(string username, string password, HttpStatusCode statusCode)
         {
             var loginDto = new CreateLoginDto()
             {
                 Username = username,
                 Password = password,
-                Metadata = new RequestMetadata() { Device = device }
+                Metadata = new RequestMetadata()
+                {
+                    Device = typeof(EmployeeSessionTests).Namespace
+                }
             };
 
             var request = new HttpRequestMessage
@@ -126,14 +49,43 @@ namespace WeeControl.Server.WebApi.Test.BasicV1FunctionalTests.Employee
                 RequestUri = RequstUri
             };
 
-            return request;
+            var response = await GetResponseMessageAsync(request);
+
+            Assert.Equal(statusCode, response.StatusCode);
+
+            if (statusCode == HttpStatusCode.OK)
+            {
+                response.EnsureSuccessStatusCode();
+
+                var tokenDto = await response.Content.ReadFromJsonAsync<EmployeeTokenDto>();
+
+                Assert.NotEmpty(tokenDto.Token);
+            }
         }
 
-        private HttpRequestMessage GetTokenRequest(string device)
+        [Theory]
+        [InlineData(false, false, HttpStatusCode.OK)]
+        [InlineData(true, false, HttpStatusCode.Unauthorized)]
+        [InlineData(false, true, HttpStatusCode.Forbidden)]
+        [InlineData(true, true, HttpStatusCode.Unauthorized)]
+        public async void RefreshTokenTheoryTests(bool changeToken, bool changeMetadata, HttpStatusCode statusCode)
         {
+            var dto = new CreateLoginDto() { Username = "admin", Password = "admin", Metadata = Metadata };
+            await CreateTokenAsync(dto);
+
+            if (changeToken)
+            {
+                Token = new Random().NextDouble().ToString();
+            }
+
+            if (changeMetadata)
+            {
+                Metadata = new RequestMetadata() { Device = new Random().NextDouble().ToString() };
+            }
+
             var loginDto = new RefreshLoginDto()
             {
-                Metadata = new RequestMetadata() { Device = device }
+                Metadata = Metadata
             };
 
             var request = new HttpRequestMessage
@@ -144,11 +96,34 @@ namespace WeeControl.Server.WebApi.Test.BasicV1FunctionalTests.Employee
                 RequestUri = RequstUri
             };
 
-            return request;
+            var response = await GetResponseMessageAsync(request);
+
+            Assert.Equal(statusCode, response.StatusCode);
+
+            if (statusCode == HttpStatusCode.OK)
+            {
+                response.EnsureSuccessStatusCode();
+
+                var tokenDto = await response.Content.ReadFromJsonAsync<EmployeeTokenDto>();
+
+                Assert.NotEmpty(tokenDto.Token);
+            }
         }
 
-        private HttpRequestMessage GetLogoutRequest()
+        [Theory]
+        [InlineData(false, HttpStatusCode.OK)]
+        [InlineData(true, HttpStatusCode.Unauthorized)]
+        public async void LogoutTheoryTests(bool changeToken, HttpStatusCode statusCode)
         {
+            var dto = new CreateLoginDto() { Username = "admin", Password = "admin", Metadata = Metadata };
+            await CreateTokenAsync(dto);
+            await RefreshTokenAsync();
+
+            if (changeToken)
+            {
+                Token = new Random().NextDouble().ToString();
+            }
+
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Delete,
@@ -156,35 +131,9 @@ namespace WeeControl.Server.WebApi.Test.BasicV1FunctionalTests.Employee
                 RequestUri = RequstUri
             };
 
-            return request;
+            var response = await GetResponseMessageAsync(request);
+
+            Assert.Equal(statusCode, response.StatusCode);
         }
-
-        //private HttpResponseMessage GetLoginHttpResponseMessage(string username, string password, string device)
-        //{
-        //    var client = factory.CreateClient();
-
-        //    var metadata = new RequestMetadata() { Device = device };
-        //    var loginDto = new CreateLoginDto() { Username = username, Password = password, Metadata = metadata };
-
-        //    return client.PostAsJsonAsync(ROUTE, loginDto).GetAwaiter().GetResult();
-        //}
-
-        //private HttpResponseMessage GetNewTokenHttpResponseMessage(string token, string device)
-        //{
-        //    var client = factory.CreateClient();
-        //    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(token);
-        //    var metadata = new RequestMetadata() { Device = device };
-        //    var loginDto = new RefreshLoginDto() { Metadata = metadata };
-
-        //    return client.PutAsJsonAsync(ROUTE, loginDto).GetAwaiter().GetResult();
-        //}
-
-        //private HttpResponseMessage TerminateTokenHttpResponseMessage(string token, string device)
-        //{
-        //    var client = factory.CreateClient();
-        //    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(token);
-
-        //    return client.DeleteAsync(ROUTE).GetAwaiter().GetResult();
-        //}
     }
 }

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Shell xmlns="http://xamarin.com/schemas/2014/forms" 
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:common="clr-namespace:WeeControl.Applications.Employee.XF.Views.Common"
+       xmlns:vm="clr-namespace:WeeControl.Applications.BaseLib.ViewModels.Common;assembly=BaseLib"
+       xmlns:humanResources="clr-namespace:WeeControl.Applications.Employee.XF.Views.HumanResource"
+
+       Title="WeeControl Mobile App"
+       x:Class="WeeControl.Applications.Employee.XF.Views.Common.AppShell"
+       FlyoutVerticalScrollMode="Enabled"
+       >
+
+
+    <Shell.FlyoutHeader>
+        <AbsoluteLayout HeightRequest="170" BackgroundColor="LightCyan">
+            <Image Source="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Papio_anubis_%28Serengeti%2C_2009%29.jpg/200px-Papio_anubis_%28Serengeti%2C_2009%29.jpg" Aspect="Fill" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" HeightRequest="170"></Image>
+            <ProgressBar Progress="{Binding UpdateProgress}" AbsoluteLayout.LayoutBounds="0.0, 0.0, 1, 0.1" AbsoluteLayout.LayoutFlags="All"></ProgressBar>
+            <Label Text="{Binding NameOfUser}" FontAttributes="Bold" AbsoluteLayout.LayoutBounds="0.05, 1, 0.9, 0.25" AbsoluteLayout.LayoutFlags="All"></Label>
+        </AbsoluteLayout>
+    </Shell.FlyoutHeader>
+
+    <Shell.FlyoutFooter>
+        <StackLayout Orientation="Vertical">
+            <Label Text="WeeControl Application" FontSize="Large" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"></Label>
+            <Label Text="2021" FontSize="Small" HorizontalOptions="CenterAndExpand"></Label>
+        </StackLayout>
+    </Shell.FlyoutFooter>
+
+
+      
+    <Shell.BindingContext>
+        <vm:ShellViewModel />
+    </Shell.BindingContext>
+
+    <Shell.Resources>
+        <ResourceDictionary>
+            <Style x:Key="BaseStyle" TargetType="Element">
+                <Setter Property="Shell.BackgroundColor" Value="{StaticResource Primary}" />
+                <Setter Property="Shell.ForegroundColor" Value="White" />
+                <Setter Property="Shell.TitleColor" Value="White" />
+                <Setter Property="Shell.DisabledColor" Value="#B4FFFFFF" />
+                <Setter Property="Shell.UnselectedColor" Value="#95FFFFFF" />
+                <Setter Property="Shell.TabBarBackgroundColor" Value="{StaticResource Primary}" />
+                <Setter Property="Shell.TabBarForegroundColor" Value="White"/>
+                <Setter Property="Shell.TabBarUnselectedColor" Value="#95FFFFFF"/>
+                <Setter Property="Shell.TabBarTitleColor" Value="White"/>
+            </Style>
+            <Style TargetType="TabBar" BasedOn="{StaticResource BaseStyle}" />
+            <Style TargetType="FlyoutItem" BasedOn="{StaticResource BaseStyle}" />
+        </ResourceDictionary>
+    </Shell.Resources>
+
+
+    <FlyoutItem Route="SplashPage" FlyoutItemIsVisible="False">
+        <ShellContent ContentTemplate="{DataTemplate common:SplashPage}"></ShellContent>
+    </FlyoutItem>
+
+    <FlyoutItem Route="LoginPage" FlyoutItemIsVisible="False">
+        <ShellContent ContentTemplate="{DataTemplate common:LoginPage}"></ShellContent>
+    </FlyoutItem>
+
+    <FlyoutItem Route="HomePage" Title="Home" Icon="icon_feed.png" Shell.TabBarIsVisible="False">
+        <ShellContent Title="Home" ContentTemplate="{DataTemplate common:HomePage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Route="HumanResource" Title="Human Resources" Icon="icon_feed.png" Shell.TabBarIsVisible="False" IsVisible="{Binding IsHumanResourcesFlyoutItemVisible}" FlyoutDisplayOptions="AsSingleItem">
+        <Tab>
+            <ShellContent Title="Employee" ContentTemplate="{DataTemplate humanResources:EmployeeListPage}" />
+            <ShellContent Title="Territory" ContentTemplate="{DataTemplate humanResources:TerritoryListPage}" />
+        </Tab>  
+    </FlyoutItem>
+
+    <FlyoutItem Title="About" Icon="icon_about.png" Shell.TabBarIsVisible="True">
+        <ShellContent Title="About" ContentTemplate="{DataTemplate common:AboutPage}" />
+    </FlyoutItem>
+
+    <MenuItem Text="Refresh" IconImageSource="icon_about.png" Command="{Binding RefreshCommand}"></MenuItem>
+
+    <MenuItem Text="Help" IconImageSource="help.png" Command="{Binding HelpCommand}"
+              CommandParameter="https://github.com/sayedmhussein/WeeControl" />
+
+    <MenuItem Text="Logout" IconImageSource="xamarin_logo" Command="{Binding LogoutCommand}"></MenuItem>
+    
+
+</Shell>
