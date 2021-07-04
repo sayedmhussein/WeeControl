@@ -23,7 +23,7 @@ namespace WeeControl.User.Employee.Test.UnitTests.ViewModels
         [Fact]
         public void Constructor_WhenSecondParameter_ThrowArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new SplashViewModel(new Mock<IViewModelDependencyFactory>().Object, null));
+            Assert.Throws<ArgumentNullException>(() => new SplashViewModel(new Mock<IDevice>().Object, null));
         }
         #endregion
 
@@ -34,7 +34,7 @@ namespace WeeControl.User.Employee.Test.UnitTests.ViewModels
             deviceMock.Setup(x => x.Internet).Returns(false);
             deviceMock.Setup(x => x.Token).Returns("storedtoken");
 
-            await new SplashViewModel(clientServicesMock.Object, commonValues).RefreshTokenCommand.ExecuteAsync(null);
+            await new SplashViewModel(deviceMock.Object, commonValues).RefreshTokenCommand.ExecuteAsync(null);
 
             deviceMock.Verify(x => x.DisplayMessageAsync(IDevice.Message.NoInternet), Times.AtLeastOnce);
             deviceMock.Verify(x => x.TerminateAppAsync(), Times.AtLeastOnce);
@@ -45,7 +45,7 @@ namespace WeeControl.User.Employee.Test.UnitTests.ViewModels
         {
             deviceMock.Setup(x => x.Token).Returns(string.Empty) ;
 
-            await new SplashViewModel(clientServicesMock.Object, commonValues).RefreshTokenCommand.ExecuteAsync(null);
+            await new SplashViewModel(deviceMock.Object, commonValues).RefreshTokenCommand.ExecuteAsync(null);
 
             deviceMock.Verify(x => x.NavigateToPageAsync("LoginPage"), Times.Once);
         }
@@ -55,9 +55,9 @@ namespace WeeControl.User.Employee.Test.UnitTests.ViewModels
         {
             deviceMock.Setup(x => x.Token).Returns("storedtoken");
             var handlerMock = GetHttpMessageHandlerMock(HttpStatusCode.OK, new EmployeeTokenDto() { Token = "token" }.SerializeToJson());
-            clientServicesMock.Setup(x => x.HttpClientInstance).Returns(GetNewHttpClient(handlerMock.Object));
+            deviceMock.Setup(x => x.HttpClientInstance).Returns(GetNewHttpClient(handlerMock.Object));
 
-            await new SplashViewModel(clientServicesMock.Object, commonValues).RefreshTokenCommand.ExecuteAsync(null);
+            await new SplashViewModel(deviceMock.Object, commonValues).RefreshTokenCommand.ExecuteAsync(null);
 
             deviceMock.Verify(x => x.NavigateToPageAsync("HomePage"), Times.Once);
             deviceMock.Verify(x => x.Token, Times.AtLeastOnce);
@@ -70,13 +70,13 @@ namespace WeeControl.User.Employee.Test.UnitTests.ViewModels
             deviceMock.Setup(x => x.Internet).Returns(true);
             //
             var handlerMock = GetHttpMessageHandlerMock(new HttpResponseMessage(HttpStatusCode.InternalServerError));
-            clientServicesMock.Setup(x => x.HttpClientInstance).Returns(GetNewHttpClient(handlerMock.Object));
+            deviceMock.Setup(x => x.HttpClientInstance).Returns(GetNewHttpClient(handlerMock.Object));
 
-            var vm = new SplashViewModel(clientServicesMock.Object, commonValues);
+            var vm = new SplashViewModel(deviceMock.Object, commonValues);
 
             await vm.RefreshTokenCommand.ExecuteAsync(null);
 
-            deviceMock.Verify(x => x.NavigateToPageAsync("LoginPage"), Times.Once);
+            deviceMock.Verify(x => x.NavigateToPageAsync("LoginPage"), Times.AtLeastOnce);
         }
 
         [Fact(Skip = "Unexplained Failure!")]
@@ -87,9 +87,9 @@ namespace WeeControl.User.Employee.Test.UnitTests.ViewModels
             deviceMock.Setup(x => x.Internet).Returns(true);
             //
             var handlerMock = GetHttpMessageHandlerMock(() => throw new WebException());
-            clientServicesMock.Setup(x => x.HttpClientInstance).Returns(GetNewHttpClient(handlerMock.Object));
+            deviceMock.Setup(x => x.HttpClientInstance).Returns(GetNewHttpClient(handlerMock.Object));
 
-            var vm = new SplashViewModel(clientServicesMock.Object, commonValues);
+            var vm = new SplashViewModel(deviceMock.Object, commonValues);
             
             await vm.RefreshTokenCommand.ExecuteAsync(null);
 
@@ -105,7 +105,7 @@ namespace WeeControl.User.Employee.Test.UnitTests.ViewModels
             //
             var handler = GetHttpMessageHandlerMock(() => throw new Exception());
 
-            var vm = new SplashViewModel(clientServicesMock.Object, commonValues);
+            var vm = new SplashViewModel(deviceMock.Object, commonValues);
 
             await vm.RefreshTokenCommand.ExecuteAsync(null);
 

@@ -26,7 +26,6 @@ namespace WeeControl.User.Employee.Test.FunctionalTests.Employee
         private HttpClient client;
         private readonly string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
-        private IViewModelDependencyFactory dependencyFactory;
 
         public CredentialTests(WebApplicationFactory<Startup> factory)
         {
@@ -41,20 +40,19 @@ namespace WeeControl.User.Employee.Test.FunctionalTests.Employee
             client.BaseAddress = new Uri(sharedValues.ApiRoute[ApiRouteEnum.Base]);
             client.DefaultRequestVersion = new Version(sharedValues.ApiRoute[ApiRouteEnum.Version]);
 
-            dependencyFactory = new ViewModelDependencyFactory(client, deviceMock.Object, appDataPath);
+            deviceMock.Setup(x => x.HttpClientInstance).Returns(client);
         }
 
         public void Dispose()
         {
             deviceMock = null;
             client = null;
-            dependencyFactory = null;
         }
 
         [Fact]
         public async void WhenLoginWithValidCredentails_OpenSplashPage()
         {
-            var vm = new LoginViewModel(dependencyFactory, sharedValues)
+            var vm = new LoginViewModel(deviceMock.Object, sharedValues)
             {
                 Username = USERNAME,
                 Password = PASSWORD
@@ -69,7 +67,7 @@ namespace WeeControl.User.Employee.Test.FunctionalTests.Employee
         [Fact]
         public async void WhenLoginWithInValidCredentails_DonNotOpenHomePage()
         {
-            var vm = new LoginViewModel(dependencyFactory, sharedValues)
+            var vm = new LoginViewModel(deviceMock.Object, sharedValues)
             {
                 Username = "admin1",
                 Password = "admin"
@@ -83,14 +81,14 @@ namespace WeeControl.User.Employee.Test.FunctionalTests.Employee
         [Fact]
         public async void WhenSplashFindCorrectToken_OpenHomePage()
         {
-            var loginVm = new LoginViewModel(dependencyFactory, sharedValues)
+            var loginVm = new LoginViewModel(deviceMock.Object, sharedValues)
             {
                 Username = USERNAME,
                 Password = PASSWORD
             };
             await loginVm.LoginCommand.ExecuteAsync(null);
 
-            var splashVm = new SplashViewModel(dependencyFactory, sharedValues);
+            var splashVm = new SplashViewModel(deviceMock.Object, sharedValues);
             await splashVm.RefreshTokenCommand.ExecuteAsync(null);
 
             deviceMock.Verify(x => x.NavigateToPageAsync(nameof(ApplicationPageEnum.HomePage)), Times.Once);
@@ -106,7 +104,7 @@ namespace WeeControl.User.Employee.Test.FunctionalTests.Employee
         public async void WhenSplashFindInvalidToken_OpenLoginPage(string token)
         {
             deviceMock.Setup(x => x.Token).Returns(token);
-            var vm = new SplashViewModel(dependencyFactory, sharedValues);
+            var vm = new SplashViewModel(deviceMock.Object, sharedValues);
 
             await vm.RefreshTokenCommand.ExecuteAsync(null);
 

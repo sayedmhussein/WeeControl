@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 
 namespace WeeControl.Applications.BaseLib.Services
 {
@@ -19,6 +20,19 @@ namespace WeeControl.Applications.BaseLib.Services
             {
                 return null;
             }
+        }
+
+        private IEnumerable<Claim> claims;
+
+        public JwtTokenService(string token)
+        {
+            claims = GetClaims(token);
+        }
+
+        public bool IsIssuedBefore(DateTime dateTime)
+        {
+            var iat = claims.FirstOrDefault(x => x.Type == "iat");
+            return true;
         }
     }
 }

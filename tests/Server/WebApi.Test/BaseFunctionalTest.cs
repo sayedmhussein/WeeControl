@@ -14,27 +14,28 @@ using WeeControl.SharedKernel.BasicSchemas.Employee.DtosV1;
 
 namespace WeeControl.Server.WebApi.Test
 {
-    public enum EmployeeName { Admin, User };
-
     public class BaseFunctionalTest
     {
         private readonly HttpClient client;
-        internal string Token { get; }
-        internal string Device { get; private set; }
+        private readonly string sessionRoute;
+
 
         internal ImmutableDictionary<ApiRouteEnum, string> ApiRoute { get; private set; }
-        internal Uri BaseUri { get; private set; }
 
+        internal string Token { get; set; }
+        internal RequestMetadata Metadata { get; set; }
 
-        internal BaseFunctionalTest(HttpClient client, EmployeeName name)
+        internal BaseFunctionalTest(HttpClient client)
         {
-            Device = typeof(BaseFunctionalTest).Namespace;
-            Token = GetTokenAsync(client, name).GetAwaiter().GetResult();
             this.client = client;
 
             var apiRoutes = new ApiDicts();
             ApiRoute = apiRoutes.ApiRoute;
-            BaseUri = new Uri(ApiRoute[ApiRouteEnum.Base]);
+
+            sessionRoute = apiRoutes.ApiRoute[ApiRouteEnum.Employee] + "Session/";
+
+            Token = string.Empty;
+            Metadata = new RequestMetadata() { Device = typeof(BaseFunctionalTest).Namespace };
         }
 
         internal HttpContent GetHttpContentAsJson(IDto dto)
@@ -43,50 +44,42 @@ namespace WeeControl.Server.WebApi.Test
             return new StringContent(content, Encoding.UTF8, "application/json");
         }
 
-        internal HttpResponseMessage GetResponseMessage(HttpRequestMessage requestMessage, string token = null)
+        internal Task<HttpResponseMessage> GetResponseMessageAsync(HttpRequestMessage requestMessage)
         {
-            if (string.IsNullOrEmpty(token) == false)
+            if (string.IsNullOrEmpty(Token) == false)
             {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", Token);
             }
 
-            return client.SendAsync(requestMessage).GetAwaiter().GetResult();
+            return client.SendAsync(requestMessage);
         }
 
-        private Task<string> GetTokenAsync(HttpClient client, EmployeeName name)
+        internal async Task CreateTokenAsync(CreateLoginDto loginDto)
         {
-            return name switch
-            {
-                EmployeeName.Admin => GetTokenAsync(client, "admin", "admin"),
-                EmployeeName.User => GetTokenAsync(client, "user", "user"),
-                _ => Task.FromResult(string.Empty),
-            };
+            var response = await client.PostAsJsonAsync(sessionRoute, loginDto);
+            response.EnsureSuccessStatusCode();
+            var tokenDto = await response.Content.ReadFromJsonAsync<EmployeeTokenDto>();
+
+            Token = tokenDto.Token;
+            Metadata = loginDto.Metadata;
+
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Token);
         }
 
-        private async Task<string> GetTokenAsync(HttpClient client, string username, string password)
+        internal async Task RefreshTokenAsync()
         {
-            var route = new ApiDicts().ApiRoute[ApiRouteEnum.Employee] + "Session/";
-            var metadata = new RequestMetadata() { Device = Device };
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Token);
 
-            var dto1 = new CreateLoginDto() { Username = username, Password = password, Metadata = metadata };
+            var dto2 = new RefreshLoginDto() { Metadata = Metadata };
             //
-            var response1 = await client.PostAsJsonAsync(route, dto1);
-            response1.EnsureSuccessStatusCode();
-            var tokenDto1 = await response1.Content.ReadFromJsonAsync<EmployeeTokenDto>();
-            var token1 = tokenDto1.Token;
-            //
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(token1);
-
-            var dto2 = new RefreshLoginDto() { Metadata = metadata };
-            //
-            var response2 = await client.PutAsJsonAsync(route, dto2);
+            var response2 = await client.PutAsJsonAsync(sessionRoute, dto2);
             response2.EnsureSuccessStatusCode();
             var tokenDto2 = await response2.Content.ReadFromJsonAsync<EmployeeTokenDto>();
             var token2 = tokenDto2.Token;
             //
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(token2);
 
-            return token2;
+            Token = token2;
         }
     }
 }

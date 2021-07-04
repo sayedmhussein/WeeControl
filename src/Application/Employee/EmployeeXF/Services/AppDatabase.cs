@@ -7,7 +7,7 @@ using WeeControl.Applications.BaseLib.Interfaces;
 
 namespace WeeControl.Applications.Employee.XF.Services
 {
-    public class AppDatabase : IAppDatabase
+    public class AppDatabase : IBasicDatabase
     {
         readonly SQLiteAsyncConnection database;
 
@@ -16,19 +16,12 @@ namespace WeeControl.Applications.Employee.XF.Services
             database = new SQLiteAsyncConnection(dbPath);
         }
 
-        public async Task InitalizeTerritory()
+        public async Task InitAsync<T>() where T : new()
         {
-            await database.CreateTableAsync<TerritoryDbo>();
-
-            await database.InsertAsync(new TerritoryDbo() { Id = new Guid(), CountryId = "EGP", Name = "Territory" + new Random().NextDouble().ToString() });
-            //await database.
-            if (await database.Table<TerritoryDbo>().CountAsync() == 0)
-            {
-                
-            }
+            await database.CreateTableAsync<T>();
         }
 
-        public Task<List<T>> GetAsync<T>() where T : new()
+        public Task<List<T>> GetAllAsync<T>() where T : new()
         {
             return database.Table<T>().ToListAsync();
         }
@@ -57,9 +50,17 @@ namespace WeeControl.Applications.Employee.XF.Services
 
         public Task<int> DeleteAsync<T>(T entity) where T : new()
         {
-            throw new NotImplementedException();
-            // Delete a note.
-            //return database.DeleteAsync(note);
+            return database.DeleteAsync(entity);
+        }
+
+        public Task<int> DeleteAllAsync<T>() where T : new()
+        {
+            return database.DeleteAllAsync<T>();
+        }
+
+        public Task<int> InsertAsync<T>(IEnumerable<T> entities) where T : new()
+        {
+            return database.InsertAllAsync(entities);
         }
     }
 }
