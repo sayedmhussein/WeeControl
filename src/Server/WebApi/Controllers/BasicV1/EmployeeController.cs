@@ -13,9 +13,9 @@ using WeeControl.Server.Application.Common.Interfaces;
 using WeeControl.Server.Application.Employee.Command.AddEmployee.V1;
 using WeeControl.Server.Application.Employee.Command.TerminateSession;
 using WeeControl.Server.Application.Employee.Query.GetEmployeeClaims;
-using WeeControl.Server.WebApi.Security.Policies.Employee;
+using WeeControl.Server.WebApi.Security.Policies;
 using WeeControl.SharedKernel.BasicSchemas.Common.DtosV1;
-using WeeControl.SharedKernel.BasicSchemas.Employee.DtosV1;
+using WeeControl.SharedKernel.BasicSchemas.Employee.Entities.DtosV1;
 
 namespace WeeControl.Server.WebApi.Controllers.BasicV1
 {
@@ -64,7 +64,7 @@ namespace WeeControl.Server.WebApi.Controllers.BasicV1
         /// 
         /// <response code="201">Returns the newly created item</response>
         /// <response code="400">DTO has missing/invalid values</response>  
-        [Authorize(Policy = AbleToAddNewEmployeePolicy.Name)]
+        [Authorize(Policy = BasicPolicies.CanAddNewEmployee)]
         [HttpPut]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
@@ -81,7 +81,7 @@ namespace WeeControl.Server.WebApi.Controllers.BasicV1
             return Created("Api/[controller]/", response);
         }
 
-        [Authorize(Policy = AbleToDeleteExisingEmployeePolicy.Name)]
+        [Authorize(Policy = BasicPolicies.CanEditEmployeeDetails)]
         [HttpDelete("{id}")]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
@@ -114,7 +114,7 @@ namespace WeeControl.Server.WebApi.Controllers.BasicV1
             return Ok(new EmployeeTokenDto() { Token = token, FullName = "User Full Name :)" });
         }
 
-        [Authorize(Policy = AbleToRefreshTokenPolicy.Name)]
+        [Authorize(Policy = BasicPolicies.HasActiveSession)]
         [HttpPut("Session")]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
@@ -130,7 +130,7 @@ namespace WeeControl.Server.WebApi.Controllers.BasicV1
             return Ok(new EmployeeTokenDto() { Token = token });
         }
 
-        [Authorize(Policy = AbleToRefreshTokenPolicy.Name)]
+        [Authorize(Policy = BasicPolicies.HasActiveSession)]
         [HttpDelete("Session")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType((int)HttpStatusCode.OK)]

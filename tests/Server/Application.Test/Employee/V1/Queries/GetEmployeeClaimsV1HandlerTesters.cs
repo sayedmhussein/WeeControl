@@ -39,7 +39,7 @@ namespace WeeControl.Server.Application.Test.Employee.V1.Queries
 
             handler = new GetEmployeeClaimsV1Handler(dbContext, userInfoMock.Object, sharedValues, mediatRMock.Object);
 
-            Metadata = new RequestMetadata() { Device = "device" };
+            Metadata = new RequestMetadataV1() { Device = "device" };
         }
 
         public void Dispose()
@@ -108,7 +108,7 @@ namespace WeeControl.Server.Application.Test.Employee.V1.Queries
         [InlineData("", "password", "device")]
         public async void WhenCombinationOfUsernameAndPasswordAndDeviceAreNotSuppliedTogether_ThrowBadRequestException(string username, string password, string device)
         {
-            var query = new GetEmployeeClaimsV1Query() { Username = username, Password = password, Metadata = new RequestMetadata() { Device = device } };
+            var query = new GetEmployeeClaimsV1Query() { Username = username, Password = password, Metadata = new RequestMetadataV1() { Device = device } };
 
             await Assert.ThrowsAsync<BadRequestException>(async () => await handler.Handle(query, default));
         }

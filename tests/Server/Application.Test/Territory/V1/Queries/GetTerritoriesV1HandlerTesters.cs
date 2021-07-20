@@ -14,7 +14,7 @@ using WeeControl.Server.Persistence;
 using WeeControl.SharedKernel.BasicSchemas.Employee.Dicts;
 using WeeControl.SharedKernel.BasicSchemas.Employee.Enums;
 using WeeControl.SharedKernel.BasicSchemas.Territory.Dicts;
-using WeeControl.SharedKernel.BasicSchemas.Territory.DtosV1;
+using WeeControl.SharedKernel.BasicSchemas.Territory.Entities;
 using WeeControl.SharedKernel.BasicSchemas.Territory.Interfaces;
 using Xunit;
 

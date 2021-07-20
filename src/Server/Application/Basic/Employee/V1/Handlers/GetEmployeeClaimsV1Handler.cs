@@ -8,7 +8,8 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using WeeControl.Server.Application.Common.Exceptions;
 using WeeControl.Server.Application.Common.Interfaces;
-using WeeControl.SharedKernel.BasicSchemas.Employee.Dicts;
+using WeeControl.Server.Domain.Interfaces;
+using WeeControl.SharedKernel.BasicSchemas.Employee;
 using WeeControl.SharedKernel.BasicSchemas.Employee.Enums;
 
 namespace WeeControl.Server.Application.Employee.Query.GetEmployeeClaims
@@ -17,10 +18,10 @@ namespace WeeControl.Server.Application.Employee.Query.GetEmployeeClaims
     {
         private readonly IMySystemDbContext context;
         private readonly ICurrentUserInfo currentUser;
-        private readonly IClaimDicts sharedValues;
+        private readonly IEmployeeLists sharedValues;
         private readonly IMediator mediator;
 
-        public GetEmployeeClaimsV1Handler(IMySystemDbContext context, ICurrentUserInfo currentUser, IClaimDicts sharedValues, IMediator mediator)
+        public GetEmployeeClaimsV1Handler(IMySystemDbContext context, ICurrentUserInfo currentUser, IEmployeeLists sharedValues, IMediator mediator)
         {
             this.context = context ?? throw new ArgumentNullException();
             this.currentUser = currentUser ?? throw new ArgumentNullException();
@@ -73,7 +74,7 @@ namespace WeeControl.Server.Application.Employee.Query.GetEmployeeClaims
                 var session = await GetEmployeeSession(employee.Id, device, cancellationToken);
                 var claims = new List<Claim>()
                 {
-                    new Claim(sharedValues.ClaimType[ClaimTypeEnum.Session], session.ToString())
+                    new Claim(sharedValues.GetClaimType(ClaimTypeEnum.Session), session.ToString())
                 };
                 return claims;
             }
@@ -81,7 +82,7 @@ namespace WeeControl.Server.Application.Employee.Query.GetEmployeeClaims
 
         private async Task<IEnumerable<Claim>> GetClaimsByEmployeeId(Guid employeeid)
         {
-            var isAuthorized = currentUser.Claims.FirstOrDefault(x => x.Type == sharedValues.ClaimType[ClaimTypeEnum.HumanResources])?.Value?.Contains(sharedValues.ClaimTag[ClaimTagEnum.Read]);
+            var isAuthorized = currentUser.Claims.FirstOrDefault(x => x.Type == sharedValues.GetClaimType(ClaimTypeEnum.HumanResources))?.Value?.Contains(sharedValues.GetClaimTag(ClaimTagEnum.Read));
             if (isAuthorized == null || isAuthorized == false)
             {
                 throw new NotAllowedException("");
@@ -123,7 +124,7 @@ namespace WeeControl.Server.Application.Employee.Query.GetEmployeeClaims
 
             var claims = new List<Claim>()
             {
-                 new Claim(sharedValues.ClaimType[ClaimTypeEnum.Session], session.Id.ToString())
+                 new Claim(sharedValues.GetClaimType(ClaimTypeEnum.Session), session.Id.ToString())
             };
 
             var employeeClaims = await context.EmployeeClaims.Where(x => x.EmployeeId == employee.Id && x.RevokedTs == null).ToListAsync(cancellationToken);

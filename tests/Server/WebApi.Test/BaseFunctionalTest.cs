@@ -23,7 +23,7 @@ namespace WeeControl.Server.WebApi.Test
         internal ImmutableDictionary<ApiRouteEnum, string> ApiRoute { get; private set; }
 
         internal string Token { get; set; }
-        internal RequestMetadata Metadata { get; set; }
+        internal RequestMetadataV1 Metadata { get; set; }
 
         internal BaseFunctionalTest(HttpClient client)
         {
@@ -35,7 +35,7 @@ namespace WeeControl.Server.WebApi.Test
             sessionRoute = apiRoutes.ApiRoute[ApiRouteEnum.Employee] + "Session/";
 
             Token = string.Empty;
-            Metadata = new RequestMetadata() { Device = typeof(BaseFunctionalTest).Namespace };
+            Metadata = new RequestMetadataV1() { Device = typeof(BaseFunctionalTest).Namespace };
         }
 
         internal HttpContent GetHttpContentAsJson(IDto dto)

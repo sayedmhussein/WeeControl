@@ -9,9 +9,10 @@ using WeeControl.Server.Application.Common.Exceptions;
 using WeeControl.Server.Application.Common.Interfaces;
 using WeeControl.Server.Application.Territory.V1.Queries;
 using WeeControl.Server.Domain.BasicDbos.Territory;
-using WeeControl.Server.Domain.Extensions;
-using WeeControl.SharedKernel.BasicSchemas.Territory.DtosV1;
-using WeeControl.SharedKernel.BasicSchemas.Territory.Interfaces;
+using WeeControl.Server.Domain.Interfaces;
+using WeeControl.SharedKernel.BasicSchemas.Territory;
+using WeeControl.SharedKernel.BasicSchemas.Territory.Entities.DtosV1;
+using WeeControl.SharedKernel.Extensions;
 
 namespace WeeControl.Server.Application.Territory.Handlers.V1
 {
@@ -19,9 +20,9 @@ namespace WeeControl.Server.Application.Territory.Handlers.V1
     {
         private readonly IMySystemDbContext context;
         private readonly ICurrentUserInfo userInfo;
-        private readonly ITerritoryDicts values;
+        private readonly ITerritoryLists values;
 
-        public GetTerritoriesHandler(IMySystemDbContext context, ICurrentUserInfo userInfo, ITerritoryDicts values)
+        public GetTerritoriesHandler(IMySystemDbContext context, ICurrentUserInfo userInfo, ITerritoryLists values)
         {
             this.context = context ?? throw new ArgumentNullException("Db Context can't be Null!");
             this.userInfo = userInfo ?? throw new ArgumentNullException("User Info can't be Null!");

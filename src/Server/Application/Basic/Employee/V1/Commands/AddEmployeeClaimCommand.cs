@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using MediatR;
-using WeeControl.SharedKernel.BasicSchemas.Employee.DtosV1;
+using WeeControl.SharedKernel.BasicSchemas.Employee.Entities.DtosV1;
 
 namespace WeeControl.Server.Application.Employee.Command.AddEmployeeClaim.V1
 {

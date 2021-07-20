@@ -34,7 +34,7 @@ namespace WeeControl.User.Employee.Test.FunctionalTests.Employee
             deviceMock = new Mock<IDevice>();
             deviceMock.SetupProperty(x => x.Token);
             deviceMock.Setup(x => x.Internet).Returns(true);
-            deviceMock.Setup(x => x.Metadata).Returns(new RequestMetadata() { Device = "Somedevice" });
+            deviceMock.Setup(x => x.Metadata).Returns(new RequestMetadataV1() { Device = "Somedevice" });
 
             client = factory.CreateClient();
             client.BaseAddress = new Uri(sharedValues.ApiRoute[ApiRouteEnum.Base]);

@@ -99,7 +99,7 @@ namespace WeeControl.Applications.BaseLib.ViewModels.Common
         {
             var dto = new CreateLoginDto()
             {
-                Metadata = (RequestMetadata)metadata,
+                Metadata = (RequestMetadataV1)metadata,
                 Username = Username,
                 Password = Password
             };

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.Server.Application.Common.Interfaces;
+using WeeControl.Server.Domain.Interfaces;
 
 namespace WeeControl.Server.Persistence
 {

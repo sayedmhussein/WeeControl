@@ -22,9 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Extensions\" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\..\src\Server\Domain\Domain.csproj" />
     <ProjectReference Include="..\..\..\src\SharedKernel\SharedKernel.csproj" />
   </ItemGroup>

@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using WeeControl.Server.Application.Common.Exceptions;
-using WeeControl.Server.Application.Common.Interfaces;
+using WeeControl.Server.Domain.Interfaces;
 
 namespace WeeControl.Server.Application.Employee.Command.DeleteEmployee.V1
 {

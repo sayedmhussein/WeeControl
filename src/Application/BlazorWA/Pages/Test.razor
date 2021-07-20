@@ -1,0 +1,41 @@
+﻿@page "/fetch-data-via-factory"
+@using System.Net.Http
+@using System.Net.Http.Json
+@using System.Threading.Tasks
+@using WeeControl.SharedKernel.BasicSchemas.Territory.DtosV1;
+@using WeeControl.SharedKernel.BasicSchemas.Common.Dicts;
+@using WeeControl.SharedKernel.BasicSchemas.Common.Enums;
+@inject IHttpClientFactory ClientFactory
+
+<h1>Fetch data via <code>IHttpClientFactory</code></h1>
+
+@if (forecasts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h2>Temperatures by Date</h2>
+
+    <ul>
+        @foreach (var forecast in forecasts)
+        {
+            <li>
+                @forecast.Id
+                @forecast.CountryId &#8451;
+                @forecast.Name &#8457;
+            </li>
+        }
+    </ul>
+}
+
+@code {
+    private TerritoryDto[] forecasts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var client = ClientFactory.CreateClient("WebAPI");
+
+        forecasts = await client.GetFromJsonAsync<TerritoryDto[]>(new ApiDicts().ApiRoute[ApiRouteEnum.Territory]);
+    }
+}

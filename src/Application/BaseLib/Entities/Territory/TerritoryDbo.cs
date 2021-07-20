@@ -1,7 +1,7 @@
 ﻿using System;
 using SQLite;
 using WeeControl.SharedKernel.BasicSchemas.Common.Interfaces;
-using WeeControl.SharedKernel.BasicSchemas.Territory.Bases;
+using WeeControl.SharedKernel.BasicSchemas.Territory.Entities;
 
 namespace WeeControl.Applications.BaseLib.Entities.Territory
 {

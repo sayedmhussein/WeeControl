@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using WeeControl.Server.Application.Common.Interfaces;
 using WeeControl.Server.Application.Territory.V1.Queries;
-using WeeControl.SharedKernel.BasicSchemas.Employee.Dicts;
+using WeeControl.SharedKernel.BasicSchemas.Employee;
 using WeeControl.SharedKernel.BasicSchemas.Employee.Enums;
 
 namespace WeeControl.Server.WebApi.Services
@@ -16,11 +16,11 @@ namespace WeeControl.Server.WebApi.Services
         private readonly IMediator mediatR;
         private readonly ICollection<Guid> officeIds = new List<Guid>();
         
-        public UserInfoService(IHttpContextAccessor httpContextAccessor, IMediator mediatR, IClaimDicts values)
+        public UserInfoService(IHttpContextAccessor httpContextAccessor, IMediator mediatR, IEmployeeLists values)
         {
             Claims = httpContextAccessor.HttpContext.User.Claims;
 
-            var sessionid_ = Claims.FirstOrDefault(c => c.Type == values.ClaimType[ClaimTypeEnum.Session])?.Value;
+            var sessionid_ = Claims.FirstOrDefault(c => c.Type == values.GetClaimType(ClaimTypeEnum.Session))?.Value;
             _ = Guid.TryParse(sessionid_, out Guid sessionId__);
             SessionId = sessionId__;
 

@@ -6,9 +6,10 @@ using MediatR;
 using WeeControl.Server.Application.Common.Exceptions;
 using WeeControl.Server.Application.Common.Interfaces;
 using WeeControl.Server.Application.Territory.V1.Commands;
-using WeeControl.SharedKernel.BasicSchemas.Employee.Dicts;
+using WeeControl.Server.Domain.Interfaces;
+using WeeControl.SharedKernel.BasicSchemas.Employee;
 using WeeControl.SharedKernel.BasicSchemas.Employee.Enums;
-using WeeControl.SharedKernel.BasicSchemas.Territory.Interfaces;
+using WeeControl.SharedKernel.BasicSchemas.Territory;
 
 namespace WeeControl.Server.Application.Territory.Commands.DeleteTerritories
 {
@@ -16,10 +17,10 @@ namespace WeeControl.Server.Application.Territory.Commands.DeleteTerritories
     {
         private readonly IMySystemDbContext context;
         private readonly ICurrentUserInfo userInfo;
-        private readonly ITerritoryDicts values;
-        private readonly IClaimDicts employeeValues;
+        private readonly ITerritoryLists values;
+        private readonly IEmployeeLists employeeValues;
 
-        public DeleteTerritoriesHandler(IMySystemDbContext context, ICurrentUserInfo userInfo, ITerritoryDicts values, IClaimDicts employeeValues)
+        public DeleteTerritoriesHandler(IMySystemDbContext context, ICurrentUserInfo userInfo, ITerritoryLists values, IEmployeeLists employeeValues)
         {
             this.context = context ?? throw new ArgumentNullException("Db Context can't be Null!");
             this.userInfo = userInfo ?? throw new ArgumentNullException("User Info can't be Null!");
@@ -39,7 +40,7 @@ namespace WeeControl.Server.Application.Territory.Commands.DeleteTerritories
                 throw new BadRequestException("");
             }
 
-            var tag = userInfo.Claims.FirstOrDefault(x => x.Type == employeeValues.ClaimType[ClaimTypeEnum.HumanResources])?.Value?.Contains(employeeValues.ClaimTag[ClaimTagEnum.Delete]);
+            var tag = userInfo.Claims.FirstOrDefault(x => x.Type == employeeValues.GetClaimType(ClaimTypeEnum.HumanResources))?.Value?.Contains(employeeValues.GetClaimTag(ClaimTagEnum.Delete));
             if (tag == false || tag == null)
             {
                 throw new NotAllowedException("");
