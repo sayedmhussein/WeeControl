@@ -120,7 +120,7 @@ namespace WeeControl.Applications.Employee.XF.Services
 
         public async Task<IRequestMetadata> GetMetadataAsync(bool exactLocation = false)
         {
-            IRequestMetadata metadata = new RequestMetadata();
+            IRequestMetadata metadata = new RequestMetadataV1();
 
             try
             {

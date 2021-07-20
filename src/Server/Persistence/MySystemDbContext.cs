@@ -2,14 +2,13 @@
 using System.Text.RegularExpressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using WeeControl.Server.Application.Common.Interfaces;
 using WeeControl.Server.Domain.BasicDbos.EmployeeSchema;
 using WeeControl.Server.Domain.BasicDbos.Territory;
-using WeeControl.SharedKernel.BasicSchemas.Employee.Dicts;
+using WeeControl.Server.Domain.Interfaces;
+using WeeControl.SharedKernel.BasicSchemas.Employee;
 using WeeControl.SharedKernel.BasicSchemas.Employee.Enums;
-using WeeControl.SharedKernel.BasicSchemas.Territory.Dicts;
+using WeeControl.SharedKernel.BasicSchemas.Territory;
 using WeeControl.SharedKernel.BasicSchemas.Territory.Enums;
-using WeeControl.SharedKernel.BasicSchemas.Territory.Interfaces;
 
 namespace WeeControl.Server.Persistence
 {
@@ -92,13 +91,12 @@ namespace WeeControl.Server.Persistence
 
         private void AddSuperUser()
         {
-            ITerritoryDicts territoryValues = new TerritoryDicts();
-            IClaimDicts values = new ClaimDicts();
-            IPersonalAttribDicts personalAttrib = new PersonalAttribDicts();
+            ITerritoryLists territories = new TerritoryLists();
+            IEmployeeLists employeeLists = new EmployeeLists();
 
             var territory = new TerritoryDbo()
             {
-                CountryId = territoryValues.Country[CountryEnum.USA],
+                CountryId = territories.GetCountryName(CountryEnum.USA),
                 Name = "Head Office in USA"
             };
             Territories.Add(territory);
@@ -106,10 +104,10 @@ namespace WeeControl.Server.Persistence
 
             var superuser = new EmployeeDbo()
             {
-                EmployeeTitle = personalAttrib.PersonTitle[PersonalTitleEnum.Mr],
+                EmployeeTitle = employeeLists.GetPersonalTitle(PersonalTitleEnum.Mr),
                 FirstName = "Admin",
                 LastName = "Admin",
-                Gender = personalAttrib.PersonGender[PersonalGenderEnum.Male],
+                Gender = employeeLists.GetPersonalGender(PersonalGenderEnum.Male),
                 TerritoryId = territory.Id,
                 Username = "admin",
                 Password = "admin"
@@ -121,8 +119,8 @@ namespace WeeControl.Server.Persistence
             {
                 Employee = superuser,
                 GrantedById = superuser.Id,
-                ClaimType = values.ClaimType[ClaimTypeEnum.HumanResources],
-                ClaimValue = string.Join(";", values.ClaimTag.Values)
+                ClaimType = employeeLists.GetClaimType(ClaimTypeEnum.HumanResources),
+                ClaimValue = string.Join(";", employeeLists.GetClaimTag(ClaimTagEnum.Add))
             };
             EmployeeClaims.Add(superuserclaim);
             SaveChanges();
@@ -130,14 +128,14 @@ namespace WeeControl.Server.Persistence
 
         private void AddStandardUser()
         {
-            IPersonalAttribDicts values = new PersonalAttribDicts();
+            IEmployeeLists employeeLists = new EmployeeLists();
 
             var standardUser = new EmployeeDbo()
             {
-                EmployeeTitle = values.PersonTitle[PersonalTitleEnum.Mr],
+                EmployeeTitle = employeeLists.GetPersonalTitle(PersonalTitleEnum.Mr),
                 FirstName = "User",
                 LastName = "User",
-                Gender = values.PersonGender[PersonalGenderEnum.Male],
+                Gender = employeeLists.GetPersonalGender(PersonalGenderEnum.Male),
                 TerritoryId = Territories.FirstOrDefault().Id,
                 Username = "user",
                 Password = "user"

@@ -27,7 +27,7 @@ namespace WeeControl.User.Employee.Test.UnitTests.ViewModels
             commonValues = new ApiDicts();
 
             deviceMock = new Mock<IDevice>();
-            deviceMock.Setup(x => x.Metadata).Returns(new RequestMetadata() { Device = "DeviceUnitTests" });
+            deviceMock.Setup(x => x.Metadata).Returns(new RequestMetadataV1() { Device = "DeviceUnitTests" });
             deviceMock.Setup(x => x.Internet).Returns(true);
             deviceMock.SetupProperty(x => x.Token);
             deviceMock.Setup(x => x.Token).Returns("storedtoken");

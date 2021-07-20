@@ -97,7 +97,7 @@ namespace WeeControl.Applications.BaseLib.Services
 
             var dto = new RefreshLoginDto()
             {
-                Metadata = (RequestMetadata)metadata
+                Metadata = (RequestMetadataV1)metadata
             };
 
             var request = new HttpRequestMessage

@@ -5,10 +5,10 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using WeeControl.Server.Application.Basic.Territory.V1.Commands;
 using WeeControl.Server.Application.Common.Exceptions;
-using WeeControl.Server.Application.Common.Interfaces;
 using WeeControl.Server.Domain.BasicDbos.Territory;
-using WeeControl.Server.Domain.Extensions;
-using WeeControl.SharedKernel.BasicSchemas.Territory.DtosV1;
+using WeeControl.Server.Domain.Interfaces;
+using WeeControl.SharedKernel.BasicSchemas.Territory.Entities.DtosV1;
+using WeeControl.SharedKernel.Extensions;
 
 namespace WeeControl.Server.Application.Basic.Territory.V1.Handlers
 {

@@ -28,26 +28,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Schemas\" />
     <Folder Include="Configurations\" />
-    <Folder Include="Schemas\Common\" />
-    <Folder Include="Schemas\Common\Extensions\" />
-    <Folder Include="Schemas\Common\Dicts\" />
-    <Folder Include="Schemas\Employee\" />
-    <Folder Include="Schemas\Employee\Dicts\" />
-    <Folder Include="Schemas\Territory\" />
-    <Folder Include="Schemas\Territory\Dicts\" />
+    <Folder Include="Extensions\" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="Schemas\" />
     <None Remove="Configurations\" />
-    <None Remove="Schemas\Common\" />
-    <None Remove="Schemas\Common\Extensions\" />
-    <None Remove="Schemas\Common\Dicts\" />
-    <None Remove="Schemas\Employee\" />
-    <None Remove="Schemas\Employee\Dicts\" />
-    <None Remove="Schemas\Territory\" />
-    <None Remove="Schemas\Territory\Dicts\" />
+    <None Remove="Extensions\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\SharedKernel\SharedKernel.csproj" />

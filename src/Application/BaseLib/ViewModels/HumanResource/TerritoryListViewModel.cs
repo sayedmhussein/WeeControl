@@ -11,7 +11,7 @@ using WeeControl.Applications.BaseLib.Entities.Territory;
 using WeeControl.Applications.BaseLib.Interfaces;
 using WeeControl.SharedKernel.BasicSchemas.Common.Enums;
 using WeeControl.SharedKernel.BasicSchemas.Common.Extensions;
-using WeeControl.SharedKernel.BasicSchemas.Territory.DtosV1;
+using WeeControl.SharedKernel.BasicSchemas.Territory.Entities;
 
 namespace WeeControl.Applications.BaseLib.ViewModels.HumanResource
 {

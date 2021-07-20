@@ -35,7 +35,7 @@ namespace WeeControl.Server.WebApi.Test.BasicV1FunctionalTests.Employee
             {
                 Username = username,
                 Password = password,
-                Metadata = new RequestMetadata()
+                Metadata = new RequestMetadataV1()
                 {
                     Device = typeof(EmployeeSessionTests).Namespace
                 }
@@ -80,7 +80,7 @@ namespace WeeControl.Server.WebApi.Test.BasicV1FunctionalTests.Employee
 
             if (changeMetadata)
             {
-                Metadata = new RequestMetadata() { Device = new Random().NextDouble().ToString() };
+                Metadata = new RequestMetadataV1() { Device = new Random().NextDouble().ToString() };
             }
 
             var loginDto = new RefreshLoginDto()

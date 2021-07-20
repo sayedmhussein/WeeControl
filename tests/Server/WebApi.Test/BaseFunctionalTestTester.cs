@@ -21,7 +21,7 @@ namespace WeeControl.Server.WebApi.Test
         public async void GetToken_TokenMustNotBeEmpty(string username, string password)
         {
             var baseTestClass = new BaseFunctionalTest(factory.CreateClient());
-            var metadata = new RequestMetadata() { Device = nameof(BaseFunctionalTestTester) };
+            var metadata = new RequestMetadataV1() { Device = nameof(BaseFunctionalTestTester) };
             var dto = new CreateLoginDto()
             { Username = username, Password = password, Metadata = metadata };
 

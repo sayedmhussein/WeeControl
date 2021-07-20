@@ -13,28 +13,25 @@
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'MySystem.Api' " />
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="Moq" Version="4.16.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.7">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.8">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="MediatR" Version="9.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.8" />
     <PackageReference Include="System.Collections.Immutable" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Services\" />
     <Folder Include="Security\" />
-    <Folder Include="Security\Policies\Employee\" />
-    <Folder Include="Security\Policies\Territory\" />
     <Folder Include="StartupOptions\" />
     <Folder Include="Security\CustomHandlers\" />
     <Folder Include="Security\CustomHandlers\TokenRefreshment\" />
-    <Folder Include="Security\Policies\Common\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Security\Policy\Employee\" />
@@ -43,7 +40,6 @@
     <None Remove="Options\" />
     <None Remove="Security\CustomHandlers\" />
     <None Remove="Security\CustomHandlers\TokenRefreshment\" />
-    <None Remove="Security\Policies\Common\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj">

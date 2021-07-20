@@ -4,6 +4,6 @@ namespace WeeControl.SharedKernel.BasicSchemas.Common.Interfaces
 {
     public interface IRequestDto : IDto
     {
-        RequestMetadata Metadata { get; set; }
+        RequestMetadataV1 Metadata { get; set; }
     }
 }

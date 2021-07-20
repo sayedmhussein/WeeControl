@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using MimeKit;
-using WeeControl.Server.Application.Common.Interfaces;
+using WeeControl.Server.Domain.Interfaces;
 using WeeControl.SharedKernel.BasicSchemas.Common.Interfaces;
 
 namespace WeeControl.Server.Infrastructure.NotificationServices

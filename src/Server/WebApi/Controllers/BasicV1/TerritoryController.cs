@@ -9,14 +9,13 @@ using Microsoft.AspNetCore.Mvc;
 using WeeControl.Server.Application.Basic.Territory.V1.Commands;
 using WeeControl.Server.Application.Territory.V1.Commands;
 using WeeControl.Server.Application.Territory.V1.Queries;
-using WeeControl.Server.WebApi.Security.Policies.Common;
-using WeeControl.Server.WebApi.Security.Policies.Territory;
+using WeeControl.Server.WebApi.Security.Policies;
 using WeeControl.SharedKernel.BasicSchemas.Common.DtosV1;
-using WeeControl.SharedKernel.BasicSchemas.Territory.DtosV1;
+using WeeControl.SharedKernel.BasicSchemas.Territory.Entities.DtosV1;
 
 namespace WeeControl.Server.WebApi.Controllers.BasicV1
 {
-    [Authorize(Policy = HasSessionPolicy.Name)]
+    [Authorize(Policy = BasicPolicies.HasActiveSession)]
     [Route("Api/[controller]")]
     [ApiVersion("1.0")]
     [ApiController]
@@ -59,7 +58,7 @@ namespace WeeControl.Server.WebApi.Controllers.BasicV1
         /// </summary>
         /// <param name="requestDto">The territory DTO, if ID was supplied then this will be update</param>
         /// <returns>Insert a territory DTO</returns>
-        [Authorize(Policy = CanAlterTerritories.Name)]
+        [Authorize(Policy = BasicPolicies.CanAlterTerritories)]
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
@@ -81,7 +80,7 @@ namespace WeeControl.Server.WebApi.Controllers.BasicV1
         /// </summary>
         /// <param name="requestDto">The territory DTO, if ID was supplied then this will be update</param>
         /// <returns>If insert then it will return the territory DTO</returns>
-        [Authorize(Policy = CanAlterTerritories.Name)]
+        [Authorize(Policy = BasicPolicies.CanAlterTerritories)]
         [HttpPut]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
@@ -104,7 +103,7 @@ namespace WeeControl.Server.WebApi.Controllers.BasicV1
         /// </summary>
         /// <param name="territoryid"></param>
         /// <returns></returns>
-        [Authorize(Policy = CanAlterTerritories.Name)]
+        [Authorize(Policy = BasicPolicies.CanAlterTerritories)]
         [HttpDelete("{territoryid}")]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]

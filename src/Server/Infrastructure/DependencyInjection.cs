@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.Server.Application.Common.Interfaces;
+using WeeControl.Server.Domain.Interfaces;
 using WeeControl.Server.Infrastructure.NotificationServices;
 
 namespace WeeControl.Server.Infrastructure

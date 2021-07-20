@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using WeeControl.Server.Application.Common.Interfaces;
-using WeeControl.SharedKernel.BasicSchemas.Territory.Interfaces;
+using WeeControl.Server.Domain.Interfaces;
+using WeeControl.SharedKernel.BasicSchemas.Territory;
 
 namespace WeeControl.Server.Application.Employee.Command.TerminateSession
 {
@@ -13,9 +14,9 @@ namespace WeeControl.Server.Application.Employee.Command.TerminateSession
     {
         private readonly IMySystemDbContext context;
         private readonly ICurrentUserInfo currentUser;
-        private readonly ITerritoryDicts sharedValues;
+        private readonly ITerritoryLists sharedValues;
 
-        public TerminateSessionV1Handler(IMySystemDbContext context, ICurrentUserInfo currentUser, ITerritoryDicts sharedValues)
+        public TerminateSessionV1Handler(IMySystemDbContext context, ICurrentUserInfo currentUser, ITerritoryLists sharedValues)
         {
             this.context = context;
             this.currentUser = currentUser;

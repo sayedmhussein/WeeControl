@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using WeeControl.Server.WebApi.Security.Policies.Common;
-using WeeControl.Server.WebApi.Security.Policies.Employee;
-using WeeControl.Server.WebApi.Security.Policies.Territory;
+using WeeControl.Server.WebApi.Security.Policies;
+using WeeControl.SharedKernel.BasicSchemas.Employee;
 
 namespace WeeControl.Server.WebApi.StartupOptions
 {
@@ -9,13 +8,7 @@ namespace WeeControl.Server.WebApi.StartupOptions
     {
         public static void ConfigureAuthOptions(AuthorizationOptions options)
         {
-            options.AddPolicy(HasSessionPolicy.Name, HasSessionPolicy.Policy);
-
-            options.AddPolicy(CanAlterTerritories.Name, CanAlterTerritories.Policy);
-
-            options.AddPolicy(AbleToAddNewEmployeePolicy.Name, AbleToAddNewEmployeePolicy.Policy);
-
-            options.AddPolicy(AbleToRefreshTokenPolicy.Name, AbleToRefreshTokenPolicy.Policy);
+            new BasicPolicies(new EmployeeLists()).BuildOptions(options);
         }
     }
 }

@@ -17,15 +17,14 @@
     <Folder Include="BasicSchemas\" />
     <Folder Include="BasicSchemas\Employee\" />
     <Folder Include="BasicSchemas\Territory\" />
-    <Folder Include="BasicSchemas\Territory\Interfaces\" />
-    <Folder Include="BasicSchemas\Territory\Dicts\" />
     <Folder Include="BasicSchemas\Common\" />
-    <Folder Include="BasicSchemas\Common\Dicts\" />
-    <Folder Include="BasicSchemas\Common\Interfaces\" />
-    <Folder Include="BasicSchemas\Common\DtosV1\" />
     <Folder Include="BasicSchemas\Common\Enums\" />
-    <Folder Include="BasicSchemas\Common\Extensions\" />
-    <Folder Include="CustomSchemas\" />
+    <Folder Include="BasicSchemas\Territory\Entities\DtosV1\" />
+    <Folder Include="BasicSchemas\Employee\Entities\DtosV1\" />
+    <Folder Include="BasicSchemas\Common\Entities\" />
+    <Folder Include="BasicSchemas\Common\Entities\DtosV1\" />
+    <Folder Include="BasicSchemas\Common\Interfaces\" />
+    <Folder Include="Extensions\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
@@ -54,7 +53,15 @@
     <None Remove="Schemas\Common\DtosV1\" />
     <None Remove="Schemas\Common\Enums\" />
     <None Remove="Schemas\Common\Extensions\" />
-    <None Remove="CustomSchemas\" />
+    <None Remove="BasicSchemas\Territory\Bases\DtosV1\" />
+    <None Remove="BasicSchemas\Territory\Dicts\Interfaces\" />
+    <None Remove="BasicSchemas\Common\Dicts\Interfaces\" />
+    <None Remove="BasicSchemas\Employee\Dicts\Interfaces\" />
+    <None Remove="BasicSchemas\Employee\Bases\DtosV1\" />
+    <None Remove="BasicSchemas\Common\Entities\" />
+    <None Remove="BasicSchemas\Common\Entities\DtosV1\" />
+    <None Remove="BasicSchemas\Common\Interfaces\" />
+    <None Remove="Extensions\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Configurations\appsettings.json" />

@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using WeeControl.Server.Application.Common.Exceptions;
-using WeeControl.Server.Application.Common.Interfaces;
 using WeeControl.Server.Application.Territory.V1.Commands;
-using WeeControl.Server.Domain.BasicDbos.Territory;
-using WeeControl.Server.Domain.Extensions;
-using WeeControl.SharedKernel.BasicSchemas.Territory.DtosV1;
+using WeeControl.Server.Domain.Interfaces;
 
 namespace WeeControl.Server.Application.Territory.V1.Handlers
 {
