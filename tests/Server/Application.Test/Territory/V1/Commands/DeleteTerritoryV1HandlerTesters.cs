@@ -8,11 +8,11 @@ using WeeControl.Server.Application.Common.Exceptions;
 using WeeControl.Server.Application.Common.Interfaces;
 using WeeControl.Server.Application.Territory.Commands.DeleteTerritories;
 using WeeControl.Server.Application.Territory.V1.Commands;
+using WeeControl.Server.Domain.Interfaces;
 using WeeControl.Server.Persistence;
-using WeeControl.SharedKernel.BasicSchemas.Employee.Dicts;
+using WeeControl.SharedKernel.BasicSchemas.Employee;
 using WeeControl.SharedKernel.BasicSchemas.Employee.Enums;
-using WeeControl.SharedKernel.BasicSchemas.Territory.Dicts;
-using WeeControl.SharedKernel.BasicSchemas.Territory.Interfaces;
+using WeeControl.SharedKernel.BasicSchemas.Territory;
 using Xunit;
 
 namespace WeeControl.Server.Application.Test.Territory.V1.Commands
@@ -21,8 +21,8 @@ namespace WeeControl.Server.Application.Test.Territory.V1.Commands
     {
         private IMySystemDbContext dbContext;
         private Mock<ICurrentUserInfo> userInfoMock;
-        private readonly IClaimDicts employeeValues = new ClaimDicts();
-        private readonly ITerritoryDicts values = new TerritoryDicts();
+        private readonly IEmployeeLists employeeValues = new EmployeeLists();
+        private readonly ITerritoryLists values = new TerritoryLists();
 
         public DeleteTerritoryV1HandlerTesters()
         {
@@ -30,7 +30,7 @@ namespace WeeControl.Server.Application.Test.Territory.V1.Commands
 
             userInfoMock = new Mock<ICurrentUserInfo>();
             userInfoMock.Setup(x => x.TerritoriesId).Returns(new List<Guid>() { dbContext.Employees.FirstOrDefault().Id });
-            userInfoMock.Setup(x => x.Claims).Returns(new List<Claim>() { new Claim(employeeValues.ClaimType[ClaimTypeEnum.HumanResources], employeeValues.ClaimTag[ClaimTagEnum.Delete]) });
+            userInfoMock.Setup(x => x.Claims).Returns(new List<Claim>() { new Claim(employeeValues.GetClaimType(ClaimTypeEnum.HumanResources), employeeValues.GetClaimTag(ClaimTagEnum.Delete)) });
         }
 
         public void Dispose()

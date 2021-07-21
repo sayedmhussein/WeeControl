@@ -1,10 +1,8 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Collections.Generic;
 using System.Security.Claims;
-using WeeControl.User.Employee.Services;
-using Xunit;
 using WeeControl.Applications.BaseLib.Services;
+using Xunit;
 
 namespace WeeControl.User.Employee.Test.UnitTests.Services
 {

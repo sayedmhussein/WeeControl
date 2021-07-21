@@ -11,7 +11,7 @@ using Microsoft.Toolkit.Mvvm.Input;
 using WeeControl.Applications.BaseLib.Interfaces;
 using WeeControl.Applications.BaseLib.Services;
 using WeeControl.SharedKernel.BasicSchemas.Common.Enums;
-using WeeControl.SharedKernel.BasicSchemas.Employee.Dicts;
+using WeeControl.SharedKernel.BasicSchemas.Employee;
 using WeeControl.SharedKernel.BasicSchemas.Employee.Enums;
 
 namespace WeeControl.Applications.BaseLib.ViewModels.Common
@@ -21,8 +21,7 @@ namespace WeeControl.Applications.BaseLib.ViewModels.Common
         #region Private Properties
         private readonly IDevice device;
         private readonly IServerService server;
-        //
-        private readonly ImmutableDictionary<ClaimTypeEnum, string> claimTypes;
+        private readonly IEmployeeLists employeeLists;
         #endregion
 
         #region Public Properties
@@ -51,22 +50,20 @@ namespace WeeControl.Applications.BaseLib.ViewModels.Common
             : this(
                   Ioc.Default.GetRequiredService<IDevice>(),
                   Ioc.Default.GetRequiredService<IServerService>(),
-                  Ioc.Default.GetRequiredService<IClaimDicts>()
+                  Ioc.Default.GetRequiredService<IEmployeeLists>()
                   )
         {
         }
 
-        public ShellViewModel(IDevice device, IServerService server, IClaimDicts claimDicts)
+        public ShellViewModel(IDevice device, IServerService server, IEmployeeLists employeeLists)
         {
             this.device = device ?? throw new ArgumentNullException();
             this.server = server ?? throw new ArgumentNullException();
- 
+            this.employeeLists = employeeLists ?? throw new ArgumentNullException();
 
             RefreshCommand = new AsyncRelayCommand(Refresh);
             HelpCommand = new AsyncRelayCommand(async () => await this.device.OpenWebPageAsync("http://www.google.com/"));
             LogoutCommand = new AsyncRelayCommand(Logout);
-
-            claimTypes = claimDicts.ClaimType;
         }
         #endregion
 
@@ -97,7 +94,7 @@ namespace WeeControl.Applications.BaseLib.ViewModels.Common
         {
             var types = claims?.Select(x => x.Type).ToList();
 
-            IsHumanResourcesFlyoutItemVisible = types.Contains(claimTypes[ClaimTypeEnum.HumanResources]);
+            IsHumanResourcesFlyoutItemVisible = types.Contains(employeeLists.GetClaimType(ClaimTypeEnum.HumanResources));
         }
         #endregion
     }

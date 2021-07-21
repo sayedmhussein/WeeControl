@@ -2,15 +2,12 @@
 using System.Net.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Moq;
-using WeeControl.Applications.BaseLib.Enumerators;
 using WeeControl.Applications.BaseLib.Interfaces;
-using WeeControl.Applications.BaseLib.Services;
-using WeeControl.Applications.BaseLib.ViewModels;
+using WeeControl.Applications.BaseLib.ViewModels.Common;
 using WeeControl.Server.WebApi;
-using WeeControl.SharedKernel.BasicSchemas.Common.Dicts;
+using WeeControl.SharedKernel.BasicSchemas.Common;
 using WeeControl.SharedKernel.BasicSchemas.Common.DtosV1;
 using WeeControl.SharedKernel.BasicSchemas.Common.Enums;
-using WeeControl.SharedKernel.BasicSchemas.Common.Interfaces;
 using Xunit;
 
 namespace WeeControl.User.Employee.Test.FunctionalTests.Employee
@@ -20,7 +17,7 @@ namespace WeeControl.User.Employee.Test.FunctionalTests.Employee
         private const string USERNAME = "admin";
         private const string PASSWORD = "admin";
 
-        private IApiDicts sharedValues;
+        private ICommonLists sharedValues;
         private Mock<IDevice> deviceMock;
 
         private HttpClient client;
@@ -29,7 +26,7 @@ namespace WeeControl.User.Employee.Test.FunctionalTests.Employee
 
         public CredentialTests(WebApplicationFactory<Startup> factory)
         {
-            sharedValues = new ApiDicts();
+            sharedValues = new CommonLists();
 
             deviceMock = new Mock<IDevice>();
             deviceMock.SetupProperty(x => x.Token);

@@ -10,8 +10,8 @@ using Microsoft.Toolkit.Mvvm.Input;
 using WeeControl.Applications.BaseLib.Entities.Territory;
 using WeeControl.Applications.BaseLib.Interfaces;
 using WeeControl.SharedKernel.BasicSchemas.Common.Enums;
-using WeeControl.SharedKernel.BasicSchemas.Common.Extensions;
-using WeeControl.SharedKernel.BasicSchemas.Territory.Entities;
+using WeeControl.SharedKernel.BasicSchemas.Territory.Entities.DtosV1;
+using WeeControl.SharedKernel.Extensions;
 
 namespace WeeControl.Applications.BaseLib.ViewModels.HumanResource
 {

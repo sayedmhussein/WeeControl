@@ -5,7 +5,7 @@ using System.Net.Http.Json;
 using Microsoft.AspNetCore.Mvc.Testing;
 using WeeControl.SharedKernel.BasicSchemas.Common.DtosV1;
 using WeeControl.SharedKernel.BasicSchemas.Common.Enums;
-using WeeControl.SharedKernel.BasicSchemas.Employee.DtosV1;
+using WeeControl.SharedKernel.BasicSchemas.Employee.Entities.DtosV1;
 using Xunit;
 
 namespace WeeControl.Server.WebApi.Test.BasicV1FunctionalTests.Employee
@@ -17,7 +17,7 @@ namespace WeeControl.Server.WebApi.Test.BasicV1FunctionalTests.Employee
         public EmployeeSessionTests(WebApplicationFactory<Startup> factory)
             : base(factory.CreateClient())
         {
-            RequstUri = new Uri(new Uri(ApiRoute[ApiRouteEnum.Base]), ApiRoute[ApiRouteEnum.EmployeeSession]);
+            RequstUri = new Uri(new Uri(CommonLists.GetRoute(ApiRouteEnum.Base)), CommonLists.GetRoute(ApiRouteEnum.EmployeeSession));
         }
 
         [Theory]
@@ -70,7 +70,7 @@ namespace WeeControl.Server.WebApi.Test.BasicV1FunctionalTests.Employee
         [InlineData(true, true, HttpStatusCode.Unauthorized)]
         public async void RefreshTokenTheoryTests(bool changeToken, bool changeMetadata, HttpStatusCode statusCode)
         {
-            var dto = new CreateLoginDto() { Username = "admin", Password = "admin", Metadata = Metadata };
+            var dto = new CreateLoginDto() { Username = "admin", Password = "admin", Metadata = (RequestMetadataV1)RequestMetadata };
             await CreateTokenAsync(dto);
 
             if (changeToken)
@@ -80,12 +80,12 @@ namespace WeeControl.Server.WebApi.Test.BasicV1FunctionalTests.Employee
 
             if (changeMetadata)
             {
-                Metadata = new RequestMetadataV1() { Device = new Random().NextDouble().ToString() };
+                RequestMetadata = new RequestMetadataV1() { Device = new Random().NextDouble().ToString() };
             }
 
             var loginDto = new RefreshLoginDto()
             {
-                Metadata = Metadata
+                Metadata = (RequestMetadataV1)RequestMetadata
             };
 
             var request = new HttpRequestMessage
@@ -115,7 +115,7 @@ namespace WeeControl.Server.WebApi.Test.BasicV1FunctionalTests.Employee
         [InlineData(true, HttpStatusCode.Unauthorized)]
         public async void LogoutTheoryTests(bool changeToken, HttpStatusCode statusCode)
         {
-            var dto = new CreateLoginDto() { Username = "admin", Password = "admin", Metadata = Metadata };
+            var dto = new CreateLoginDto() { Username = "admin", Password = "admin", Metadata = (RequestMetadataV1)RequestMetadata };
             await CreateTokenAsync(dto);
             await RefreshTokenAsync();
 

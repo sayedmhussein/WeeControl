@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.Server.Application.Common.Exceptions;
-using WeeControl.Server.Application.Common.Interfaces;
-using WeeControl.Server.Application.Territory.V1.Commands;
-using WeeControl.Server.Application.Territory.V1.Handlers;
+using WeeControl.Server.Domain.Interfaces;
 using WeeControl.Server.Persistence;
-using WeeControl.SharedKernel.BasicSchemas.Territory.Entities;
-using Xunit;
 
 namespace WeeControl.Server.Application.Test.Territory.V1.Commands
 {

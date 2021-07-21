@@ -7,9 +7,9 @@ using Microsoft.Toolkit.Mvvm.Input;
 using WeeControl.Applications.BaseLib.Interfaces;
 using WeeControl.SharedKernel.BasicSchemas.Common.DtosV1;
 using WeeControl.SharedKernel.BasicSchemas.Common.Enums;
-using WeeControl.SharedKernel.BasicSchemas.Common.Extensions;
 using WeeControl.SharedKernel.BasicSchemas.Common.Interfaces;
-using WeeControl.SharedKernel.BasicSchemas.Employee.DtosV1;
+using WeeControl.SharedKernel.BasicSchemas.Employee.Entities.DtosV1;
+using WeeControl.SharedKernel.Extensions;
 
 namespace WeeControl.Applications.BaseLib.ViewModels.Common
 {

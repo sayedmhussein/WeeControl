@@ -1,14 +1,10 @@
 ﻿using System.Net.Http;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
 using WeeControl.Applications.BaseLib.Interfaces;
-using WeeControl.SharedKernel.BasicSchemas.Common.DtosV1;
-using WeeControl.SharedKernel.BasicSchemas.Common.Enums;
-using WeeControl.SharedKernel.BasicSchemas.Common.Interfaces;
-using WeeControl.SharedKernel.BasicSchemas.Employee.DtosV1;
+using WeeControl.SharedKernel.BasicSchemas.Common;
 
 namespace WeeControl.Applications.BaseLib.ViewModels.Common
 {
@@ -16,7 +12,7 @@ namespace WeeControl.Applications.BaseLib.ViewModels.Common
     {
         private readonly IDevice device;
         private readonly HttpClient httpClient;
-        private readonly IApiDicts commonValues;
+        private readonly ICommonLists commonValues;
 
         #region Public Properties
         public string WelComeMessage
@@ -36,11 +32,11 @@ namespace WeeControl.Applications.BaseLib.ViewModels.Common
         #endregion
 
         #region Constructors
-        public HomeViewModel() : this(Ioc.Default.GetService<IDevice>(), Ioc.Default.GetRequiredService<IApiDicts>())
+        public HomeViewModel() : this(Ioc.Default.GetService<IDevice>(), Ioc.Default.GetRequiredService<ICommonLists>())
         {
         }
 
-        public HomeViewModel(IDevice device, IApiDicts commonValues)
+        public HomeViewModel(IDevice device, ICommonLists commonValues)
         {
             this.device = device;
             httpClient = device.HttpClientInstance;

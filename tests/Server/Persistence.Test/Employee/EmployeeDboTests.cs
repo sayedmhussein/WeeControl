@@ -1,8 +1,8 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.Server.Application.Common.Interfaces;
 using WeeControl.Server.Domain.BasicDbos.EmployeeSchema;
+using WeeControl.Server.Domain.Interfaces;
 using Xunit;
 
 namespace WeeControl.Server.Persistence.Test.Employee

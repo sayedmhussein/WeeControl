@@ -6,11 +6,9 @@ using WeeControl.Applications.BaseLib.Interfaces;
 using WeeControl.Applications.BaseLib.Services;
 using WeeControl.Applications.Employee.XF.Services;
 using WeeControl.Applications.Employee.XF.Views.Common;
-using WeeControl.SharedKernel.BasicSchemas.Common.Dicts;
-using WeeControl.SharedKernel.BasicSchemas.Common.Interfaces;
-using WeeControl.SharedKernel.BasicSchemas.Employee.Dicts;
-using WeeControl.SharedKernel.BasicSchemas.Territory.Dicts;
-using WeeControl.SharedKernel.BasicSchemas.Territory.Interfaces;
+using WeeControl.SharedKernel.BasicSchemas.Common;
+using WeeControl.SharedKernel.BasicSchemas.Employee;
+using WeeControl.SharedKernel.BasicSchemas.Territory;
 using Xamarin.Forms;
 
 namespace WeeControl.Applications.Employee.XF
@@ -26,7 +24,7 @@ namespace WeeControl.Applications.Employee.XF
 
             try
             {
-                IApiDicts apiDicts = new ApiDicts();
+                ICommonLists apiDicts = new CommonLists();
                 var device = new Services.Device();
                 var serviceCollection = GetServiceCollection(device, apiDicts);
 
@@ -50,20 +48,18 @@ namespace WeeControl.Applications.Employee.XF
         {
         }
 
-        private IServiceCollection GetServiceCollection(IDevice device, IApiDicts apiDicts)
+        private IServiceCollection GetServiceCollection(IDevice device, ICommonLists apiDicts)
         {
             return new ServiceCollection()
                     .AddSingleton<IServerService>(new ServerService(device, device, device, device, apiDicts))
                     .AddSingleton<IDevice>(device)
                     .AddSingleton<IBasicDatabase>(new AppDatabase(Path.Combine(appDataPath, "basic.db3")))
 
-                    .AddSingleton<IApiDicts>(apiDicts)
-
-                    .AddSingleton<ITerritoryDicts, TerritoryDicts>()
+                    .AddSingleton<ICommonLists>(apiDicts)
                     //
-                    .AddSingleton<IClaimDicts, ClaimDicts>()
-                    .AddSingleton<IIdentityDicts, IdentityDicts>()
-                    .AddSingleton<IPersonalAttribDicts, PersonalAttribDicts>();
+                    .AddSingleton<ITerritoryLists, TerritoryLists>()
+                    //
+                    .AddSingleton<IEmployeeLists, EmployeeLists>();
         }
     }
 }
