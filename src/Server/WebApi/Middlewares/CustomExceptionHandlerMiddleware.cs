@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using WeeControl.Server.Application.Common.Exceptions;
+using WeeControl.SharedKernel.BasicSchemas.Common.Entities.DtosV1;
 
 namespace WeeControl.Server.WebApi.Middlewares
 {
@@ -32,7 +33,6 @@ namespace WeeControl.Server.WebApi.Middlewares
         private Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
             var code = HttpStatusCode.InternalServerError;
-
             var result = string.Empty;
 
             switch (exception)
@@ -61,7 +61,7 @@ namespace WeeControl.Server.WebApi.Middlewares
 
             if (result == string.Empty)
             {
-                result = JsonConvert.SerializeObject(new { error = exception.Message });
+                result = JsonConvert.SerializeObject(new ErrorSimpleDetailsDto() { Error = result });
             }
 
             return context.Response.WriteAsync(result);

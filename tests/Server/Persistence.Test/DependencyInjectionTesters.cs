@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using WeeControl.Server.Application.Common.Interfaces;
+using WeeControl.Server.Domain.Interfaces;
 using Xunit;
 
 namespace WeeControl.Server.Persistence.Test

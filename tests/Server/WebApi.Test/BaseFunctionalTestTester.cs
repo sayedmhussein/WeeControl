@@ -1,7 +1,6 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc.Testing;
+﻿using Microsoft.AspNetCore.Mvc.Testing;
 using WeeControl.SharedKernel.BasicSchemas.Common.DtosV1;
-using WeeControl.SharedKernel.BasicSchemas.Employee.DtosV1;
+using WeeControl.SharedKernel.BasicSchemas.Employee.Entities.DtosV1;
 using Xunit;
 
 namespace WeeControl.Server.WebApi.Test

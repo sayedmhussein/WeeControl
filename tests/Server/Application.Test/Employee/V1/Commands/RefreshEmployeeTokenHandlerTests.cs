@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.Server.Application.Common.Interfaces;
+using WeeControl.Server.Domain.Interfaces;
 using WeeControl.Server.Persistence;
 
 namespace WeeControl.Server.Application.Test.Employee.V1.Commands

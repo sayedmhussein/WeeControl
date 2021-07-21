@@ -20,13 +20,13 @@ namespace WeeControl.Server.Application.Territory.Handlers.V1
     {
         private readonly IMySystemDbContext context;
         private readonly ICurrentUserInfo userInfo;
-        private readonly ITerritoryLists values;
+        private readonly ITerritoryLists territoryLists;
 
-        public GetTerritoriesHandler(IMySystemDbContext context, ICurrentUserInfo userInfo, ITerritoryLists values)
+        public GetTerritoriesHandler(IMySystemDbContext context, ICurrentUserInfo userInfo, ITerritoryLists territoryLists)
         {
             this.context = context ?? throw new ArgumentNullException("Db Context can't be Null!");
             this.userInfo = userInfo ?? throw new ArgumentNullException("User Info can't be Null!");
-            this.values = values ?? throw new ArgumentNullException();
+            this.territoryLists = territoryLists ?? throw new ArgumentNullException();
         }
 
         public Task<IEnumerable<TerritoryDto>> Handle(GetTerritoriesQuery request, CancellationToken cancellationToken)

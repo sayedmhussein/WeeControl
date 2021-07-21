@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Net.Http;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Text;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using WeeControl.SharedKernel.BasicSchemas.Common.Dicts;
-using WeeControl.SharedKernel.BasicSchemas.Common.Enums;
 using WeeControl.Applications.BaseLib.Interfaces;
-using WeeControl.Applications.BaseLib.Services;
+using WeeControl.SharedKernel.BasicSchemas.Common;
+using WeeControl.SharedKernel.BasicSchemas.Common.Enums;
 
 namespace BlazorWA
 {
@@ -24,7 +19,7 @@ namespace BlazorWA
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
             builder.Services.AddHttpClient("WebAPI", client =>
-                client.BaseAddress = new Uri(new ApiDicts().ApiRoute[ApiRouteEnum.Base]));
+                client.BaseAddress = new Uri(new CommonLists().GetRoute(ApiRouteEnum.Base)));
 
             //IDevice device;
             builder.Services.AddTransient<IDevice>(null);

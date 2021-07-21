@@ -1,47 +1,43 @@
 ﻿using System;
-using System.Collections.Immutable;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using WeeControl.SharedKernel.BasicSchemas.Common.Dicts;
+using WeeControl.SharedKernel.BasicSchemas.Common;
 using WeeControl.SharedKernel.BasicSchemas.Common.DtosV1;
 using WeeControl.SharedKernel.BasicSchemas.Common.Enums;
 using WeeControl.SharedKernel.BasicSchemas.Common.Interfaces;
-using WeeControl.SharedKernel.BasicSchemas.Employee.DtosV1;
+using WeeControl.SharedKernel.BasicSchemas.Employee.Entities.DtosV1;
 
 namespace WeeControl.Server.WebApi.Test
 {
     public class BaseFunctionalTest
     {
+        internal string Token { get; set; }
+
+        protected ICommonLists CommonLists { get; private set; }
+        protected IRequestMetadata RequestMetadata { get; set; }
+
         private readonly HttpClient client;
         private readonly string sessionRoute;
-
-
-        internal ImmutableDictionary<ApiRouteEnum, string> ApiRoute { get; private set; }
-
-        internal string Token { get; set; }
-        internal RequestMetadataV1 Metadata { get; set; }
 
         internal BaseFunctionalTest(HttpClient client)
         {
             this.client = client;
 
-            var apiRoutes = new ApiDicts();
-            ApiRoute = apiRoutes.ApiRoute;
+            CommonLists = new CommonLists();
 
-            sessionRoute = apiRoutes.ApiRoute[ApiRouteEnum.Employee] + "Session/";
+            sessionRoute = CommonLists.GetRoute(ApiRouteEnum.Employee) + "Session/";
 
             Token = string.Empty;
-            Metadata = new RequestMetadataV1() { Device = typeof(BaseFunctionalTest).Namespace };
+            RequestMetadata = new RequestMetadataV1() { Device = typeof(BaseFunctionalTest).Namespace };
         }
 
-        internal HttpContent GetHttpContentAsJson(IDto dto)
+        internal Task<string> GetNewTokenAsync()
         {
-            string content = JsonConvert.SerializeObject(dto);
-            return new StringContent(content, Encoding.UTF8, "application/json");
+            throw new NotImplementedException();
         }
 
         internal Task<HttpResponseMessage> GetResponseMessageAsync(HttpRequestMessage requestMessage)
@@ -54,6 +50,12 @@ namespace WeeControl.Server.WebApi.Test
             return client.SendAsync(requestMessage);
         }
 
+        protected HttpContent GetHttpContentAsJson(IDto dto)
+        {
+            string content = JsonConvert.SerializeObject(dto);
+            return new StringContent(content, Encoding.UTF8, "application/json");
+        }
+
         internal async Task CreateTokenAsync(CreateLoginDto loginDto)
         {
             var response = await client.PostAsJsonAsync(sessionRoute, loginDto);
@@ -61,7 +63,7 @@ namespace WeeControl.Server.WebApi.Test
             var tokenDto = await response.Content.ReadFromJsonAsync<EmployeeTokenDto>();
 
             Token = tokenDto.Token;
-            Metadata = loginDto.Metadata;
+            RequestMetadata = loginDto.Metadata;
 
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Token);
         }
@@ -70,7 +72,7 @@ namespace WeeControl.Server.WebApi.Test
         {
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Token);
 
-            var dto2 = new RefreshLoginDto() { Metadata = Metadata };
+            var dto2 = new RefreshLoginDto() { Metadata = (RequestMetadataV1)RequestMetadata };
             //
             var response2 = await client.PutAsJsonAsync(sessionRoute, dto2);
             response2.EnsureSuccessStatusCode();

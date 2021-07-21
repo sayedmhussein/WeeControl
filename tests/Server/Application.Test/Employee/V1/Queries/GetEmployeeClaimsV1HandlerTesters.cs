@@ -10,10 +10,11 @@ using WeeControl.Server.Application.Common.Exceptions;
 using WeeControl.Server.Application.Common.Interfaces;
 using WeeControl.Server.Application.Employee.Query.GetEmployeeClaims;
 using WeeControl.Server.Domain.BasicDbos.EmployeeSchema;
+using WeeControl.Server.Domain.Interfaces;
 using WeeControl.Server.Persistence;
 using WeeControl.SharedKernel.BasicSchemas.Common.DtosV1;
 using WeeControl.SharedKernel.BasicSchemas.Common.Interfaces;
-using WeeControl.SharedKernel.BasicSchemas.Employee.Dicts;
+using WeeControl.SharedKernel.BasicSchemas.Employee;
 using WeeControl.SharedKernel.BasicSchemas.Employee.Enums;
 using Xunit;
 
@@ -21,7 +22,7 @@ namespace WeeControl.Server.Application.Test.Employee.V1.Queries
 {
     public class GetEmployeeClaimsV1HandlerTesters : IDisposable
     {
-        private readonly IClaimDicts sharedValues = new ClaimDicts();
+        private readonly IEmployeeLists sharedValues = new EmployeeLists();
         private IMySystemDbContext dbContext;
         private Mock<ICurrentUserInfo> userInfoMock;
         private Mock<IMediator> mediatRMock;
@@ -199,7 +200,7 @@ namespace WeeControl.Server.Application.Test.Employee.V1.Queries
         public async void WhenInvalidEmployeeIdIsSupplied_ThrowNotFoundException()
         {
             var query = new GetEmployeeClaimsV1Query() { EmployeeId = Guid.NewGuid()};
-            var claim = new Claim(sharedValues.ClaimType[ClaimTypeEnum.HumanResources], sharedValues.ClaimTag[ClaimTagEnum.Read]);
+            var claim = new Claim(sharedValues.GetClaimType(ClaimTypeEnum.HumanResources), sharedValues.GetClaimTag(ClaimTagEnum.Read));
             userInfoMock.Setup(x => x.Claims).Returns(new List<Claim>() { claim });
 
             var handler = new GetEmployeeClaimsV1Handler(dbContext, userInfoMock.Object, sharedValues, mediatRMock.Object);
@@ -216,8 +217,8 @@ namespace WeeControl.Server.Application.Test.Employee.V1.Queries
             var employee = await dbContext.Employees.FirstOrDefaultAsync(x => x.Username == "admin");
             var query = new GetEmployeeClaimsV1Query() { EmployeeId = employee.Id };
 
-            string type = hasCorrectClaimType ? sharedValues.ClaimType[ClaimTypeEnum.HumanResources] : sharedValues.ClaimType[ClaimTypeEnum.Territory];
-            string tag = hasCorrectClaimTag ? sharedValues.ClaimTag[ClaimTagEnum.Read] : sharedValues.ClaimTag[ClaimTagEnum.Senior];
+            string type = hasCorrectClaimType ? sharedValues.GetClaimType(ClaimTypeEnum.HumanResources) : sharedValues.GetClaimType(ClaimTypeEnum.Territory);
+            string tag = hasCorrectClaimTag ? sharedValues.GetClaimTag(ClaimTagEnum.Read) : sharedValues.GetClaimTag(ClaimTagEnum.Senior);
             var claim = new Claim(type, tag);
             userInfoMock.Setup(x => x.Claims).Returns(new List<Claim>() { claim });
 

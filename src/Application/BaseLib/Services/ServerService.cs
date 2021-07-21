@@ -6,10 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using WeeControl.Applications.BaseLib.Interfaces;
+using WeeControl.SharedKernel.BasicSchemas.Common;
 using WeeControl.SharedKernel.BasicSchemas.Common.DtosV1;
 using WeeControl.SharedKernel.BasicSchemas.Common.Enums;
 using WeeControl.SharedKernel.BasicSchemas.Common.Interfaces;
-using WeeControl.SharedKernel.BasicSchemas.Employee.DtosV1;
+using WeeControl.SharedKernel.BasicSchemas.Employee.Entities.DtosV1;
 
 namespace WeeControl.Applications.BaseLib.Services
 {
@@ -19,9 +20,9 @@ namespace WeeControl.Applications.BaseLib.Services
         private readonly IDeviceCommunication communication;
         private readonly IDeviceStorage storage;
         private readonly IDeviceAction action;
-        private readonly IApiDicts apiDicts;
+        private readonly ICommonLists apiDicts;
 
-        public ServerService(IDevice device, IDeviceCommunication communication, IDeviceStorage storage, IDeviceAction action, IApiDicts apiDicts)
+        public ServerService(IDevice device, IDeviceCommunication communication, IDeviceStorage storage, IDeviceAction action, ICommonLists apiDicts)
         {
             this.device = device;
             this.communication = communication;
@@ -88,7 +89,7 @@ namespace WeeControl.Applications.BaseLib.Services
 
         public Uri GetUri(ApiRouteEnum routeEnum)
         {
-            return new Uri(new Uri(apiDicts.ApiRoute[ApiRouteEnum.Base]), apiDicts.ApiRoute[routeEnum]);
+            return new Uri(new Uri(apiDicts.GetRoute(ApiRouteEnum.Base)), apiDicts.GetRoute(routeEnum));
         }
 
         public async Task<HttpStatusCode> RefreshTokenAsync(bool ignoreException = false, bool displayMessage = true)

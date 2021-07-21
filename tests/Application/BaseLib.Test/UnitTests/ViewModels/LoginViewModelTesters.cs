@@ -1,10 +1,9 @@
 ﻿using System;
 using Moq;
 using WeeControl.Applications.BaseLib.Interfaces;
-using WeeControl.Applications.BaseLib.ViewModels;
-using WeeControl.SharedKernel.BasicSchemas.Common.Extensions;
-using WeeControl.SharedKernel.BasicSchemas.Common.Interfaces;
-using WeeControl.SharedKernel.BasicSchemas.Employee.DtosV1;
+using WeeControl.Applications.BaseLib.ViewModels.Common;
+using WeeControl.SharedKernel.BasicSchemas.Employee.Entities.DtosV1;
+using WeeControl.SharedKernel.Extensions;
 using Xunit;
 
 namespace WeeControl.User.Employee.Test.UnitTests.ViewModels
@@ -15,7 +14,7 @@ namespace WeeControl.User.Employee.Test.UnitTests.ViewModels
         [Fact]
         public void Constructor_WhenFirstParameter_ThrowArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new LoginViewModel(null, new Mock<IApiDicts>().Object));
+            Assert.Throws<ArgumentNullException>(() => new LoginViewModel(null, new Mock<IServerService>().Object));
         }
 
         [Fact]

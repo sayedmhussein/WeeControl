@@ -8,16 +8,15 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.Protected;
 using WeeControl.Applications.BaseLib.Interfaces;
-using WeeControl.SharedKernel.BasicSchemas.Common.Dicts;
+using WeeControl.SharedKernel.BasicSchemas.Common;
 using WeeControl.SharedKernel.BasicSchemas.Common.DtosV1;
 using WeeControl.SharedKernel.BasicSchemas.Common.Enums;
-using WeeControl.SharedKernel.BasicSchemas.Common.Interfaces;
 
 namespace WeeControl.User.Employee.Test.UnitTests.ViewModels
 {
     public abstract class ViewModelTestBase : IDisposable
     {
-        protected readonly IApiDicts commonValues;
+        protected readonly ICommonLists commonValues;
 
         protected Mock<IDevice> deviceMock;
         protected Mock<ILogger> loggerMock;
