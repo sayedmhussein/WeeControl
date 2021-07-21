@@ -35,9 +35,17 @@ namespace WeeControl.Server.WebApi.Test
             RequestMetadata = new RequestMetadataV1() { Device = typeof(BaseFunctionalTest).Namespace };
         }
 
-        internal Task<string> GetNewTokenAsync()
+        internal async Task AuthorizeAsync(string username, string password)
         {
-            throw new NotImplementedException();
+            var loginRequestDto = new CreateLoginDto()
+            {
+                Username = username,
+                Password = password,
+                Metadata = (RequestMetadataV1)RequestMetadata
+            };
+
+            await CreateTokenAsync(loginRequestDto);
+            await RefreshTokenAsync();
         }
 
         internal Task<HttpResponseMessage> GetResponseMessageAsync(HttpRequestMessage requestMessage)
@@ -54,6 +62,11 @@ namespace WeeControl.Server.WebApi.Test
         {
             string content = JsonConvert.SerializeObject(dto);
             return new StringContent(content, Encoding.UTF8, "application/json");
+        }
+
+        protected Uri GetUri(ApiRouteEnum route)
+        {
+            return new Uri(new Uri(CommonLists.GetRoute(ApiRouteEnum.Base)), CommonLists.GetRoute(route));
         }
 
         internal async Task CreateTokenAsync(CreateLoginDto loginDto)
