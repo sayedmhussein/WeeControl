@@ -6,13 +6,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.Server.Application.Common.Exceptions;
 using WeeControl.Server.Application.Common.Interfaces;
-using WeeControl.Server.Application.Territory.Handlers.V1;
 using WeeControl.Server.Application.Territory.V1.Queries;
 using WeeControl.Server.Domain.BasicDbos.EmployeeSchema;
 using WeeControl.Server.Domain.BasicDbos.Territory;
 using WeeControl.Server.Domain.Interfaces;
 using WeeControl.Server.Persistence;
-using WeeControl.SharedKernel.BasicSchemas.Common;
 using WeeControl.SharedKernel.BasicSchemas.Employee;
 using WeeControl.SharedKernel.BasicSchemas.Employee.Enums;
 using WeeControl.SharedKernel.BasicSchemas.Territory;
@@ -21,14 +19,14 @@ using Xunit;
 
 namespace WeeControl.Server.Application.Test.Territory.V1.Queries
 {
-    public class GetTerritoriesV1HandlerTesters : IDisposable
+    public class GetTerritoriesHandlerTesters : IDisposable
     {
         private IMySystemDbContext dbContext;
         private Mock<ICurrentUserInfo> userInfoMock;
         private readonly ITerritoryLists values = new TerritoryLists();
         private readonly IEmployeeLists employeeValues = new EmployeeLists();
 
-        public GetTerritoriesV1HandlerTesters()
+        public GetTerritoriesHandlerTesters()
         {
             dbContext = new ServiceCollection().AddPersistenceAsInMemory(new Random().NextDouble().ToString()).BuildServiceProvider().GetService<IMySystemDbContext>();
             userInfoMock = new Mock<ICurrentUserInfo>();
@@ -100,7 +98,7 @@ namespace WeeControl.Server.Application.Test.Territory.V1.Queries
 
         #region Scenarios Unit Tests
         [Theory(Skip = "Authorization was execluded from this query")]
-        [ClassData(typeof(GetTerritoriesV1HandlerTestData))]
+        [ClassData(typeof(GetTerritoriesHandlerTestersData))]
         public async void AuthorizationScenariosUnitTest(string claimType, string claimValue, bool willThrowException)
         {
             var territory = dbContext.Territories.FirstOrDefault();

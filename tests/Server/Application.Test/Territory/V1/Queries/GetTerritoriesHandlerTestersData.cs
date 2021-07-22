@@ -5,7 +5,7 @@ using WeeControl.SharedKernel.BasicSchemas.Employee.Enums;
 
 namespace WeeControl.Server.Application.Test.Territory.V1.Queries
 {
-    public class GetTerritoriesV1HandlerTestData : IEnumerable<object[]>
+    public class GetTerritoriesHandlerTestersData : IEnumerable<object[]>
     {
         private readonly IEmployeeLists values = new EmployeeLists();
 

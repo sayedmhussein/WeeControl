@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -115,12 +117,18 @@ namespace WeeControl.Server.Persistence
             Employees.Add(superuser);
             SaveChanges();
 
+            var tags = new List<string>();
+            foreach (var e in Enum.GetValues(typeof(ClaimTagEnum)).Cast<ClaimTagEnum>())
+            {
+                tags.Add(employeeLists.GetClaimTag(e));
+            }
+
             var superuserclaim = new EmployeeClaimDbo()
             {
                 Employee = superuser,
                 GrantedById = superuser.Id,
                 ClaimType = employeeLists.GetClaimType(ClaimTypeEnum.HumanResources),
-                ClaimValue = string.Join(";", employeeLists.GetClaimTag(ClaimTagEnum.Add))
+                ClaimValue = string.Join(";", tags)
             };
             EmployeeClaims.Add(superuserclaim);
             SaveChanges();

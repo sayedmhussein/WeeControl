@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Web;
 using Microsoft.AspNetCore.Mvc.Testing;
-using WeeControl.SharedKernel.BasicSchemas.Employee.Entities.DtosV1;
 using WeeControl.SharedKernel.BasicSchemas.Territory.Entities.DtosV1;
 using Xunit;
 
@@ -31,6 +31,7 @@ namespace WeeControl.Server.WebApi.Test.BasicV1FunctionalTests.Territory
         public void Dispose()
         {
             request = null;
+            Token = null;
         }
 
         [Fact]
@@ -38,7 +39,7 @@ namespace WeeControl.Server.WebApi.Test.BasicV1FunctionalTests.Territory
         {
             var response = await GetResponseMessageAsync(request);
 
-            Assert.Equal(System.Net.HttpStatusCode.Unauthorized, response.StatusCode);
+            Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
 
         [Fact]
@@ -48,7 +49,7 @@ namespace WeeControl.Server.WebApi.Test.BasicV1FunctionalTests.Territory
 
             var response = await GetResponseMessageAsync(request);
 
-            Assert.Equal(System.Net.HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
         [Fact]
@@ -64,7 +65,7 @@ namespace WeeControl.Server.WebApi.Test.BasicV1FunctionalTests.Territory
         }
 
         [Fact]
-        public async void WhenGettingAllTerritoriesWithTokenAndWithKnownTerritoryIdQuery_ReturnListOfTerritores()
+        public async void WhenAuthorizedRequestAndWithKnownTerritoryIdQuery_ReturnListOfTerritores()
         {
             await AuthorizeAsync("admin", "admin");
 
@@ -74,9 +75,15 @@ namespace WeeControl.Server.WebApi.Test.BasicV1FunctionalTests.Territory
 
             var builder = new UriBuilder(request.RequestUri);
             var query = HttpUtility.ParseQueryString(string.Empty);
-            query["territoryid"] = list1.FirstOrDefault().Id.ToString();
+            query["id"] = list1.FirstOrDefault().Id.ToString();
             builder.Query = query.ToString();
-            request.RequestUri = builder.Uri;
+
+            request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                Version = new Version("1.0"),
+                RequestUri = builder.Uri
+            };
 
             var response2 = await GetResponseMessageAsync(request);
             response2.EnsureSuccessStatusCode();
@@ -86,19 +93,19 @@ namespace WeeControl.Server.WebApi.Test.BasicV1FunctionalTests.Territory
         }
 
         [Fact]
-        public async void WhenGettingAllTerritoriesWithTokenAndWithRandomTerritoryIdQuery_ReturnNotFoundHttpStatuesCode()
+        public async void WhenGettingAllTerritoriesWithTokenAndWithEmptyGuidInTerritoryQuery_ResponseIsNotFound()
         {
-            //var client = factory.CreateClient();
-            //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Token);
+            await AuthorizeAsync("admin", "admin");
 
-            //var builder = new UriBuilder(RequstUri);
-            //var query = HttpUtility.ParseQueryString(string.Empty);
-            //query["territoryid"] = Guid.NewGuid().ToString();
-            //builder.Query = query.ToString();
+            var builder = new UriBuilder(request.RequestUri);
+            var query = HttpUtility.ParseQueryString(string.Empty);
+            query["id"] = Guid.Empty.ToString();
+            builder.Query = query.ToString();
+            request.RequestUri = builder.Uri;
 
-            //var response = await client.GetAsync(builder.ToString());
+            var response = await GetResponseMessageAsync(request);
 
-            //Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }
     }
 }

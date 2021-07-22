@@ -7,14 +7,13 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using WeeControl.Server.Application.Common.Exceptions;
 using WeeControl.Server.Application.Common.Interfaces;
-using WeeControl.Server.Application.Territory.V1.Queries;
 using WeeControl.Server.Domain.BasicDbos.Territory;
 using WeeControl.Server.Domain.Interfaces;
 using WeeControl.SharedKernel.BasicSchemas.Territory;
 using WeeControl.SharedKernel.BasicSchemas.Territory.Entities.DtosV1;
 using WeeControl.SharedKernel.Extensions;
 
-namespace WeeControl.Server.Application.Territory.Handlers.V1
+namespace WeeControl.Server.Application.Territory.V1.Queries
 {
     public class GetTerritoriesHandler : IRequestHandler<GetTerritoriesQuery, IEnumerable<TerritoryDto>>
     {
@@ -58,33 +57,36 @@ namespace WeeControl.Server.Application.Territory.Handlers.V1
         {
             var list = new List<TerritoryDto>();
             var territories = await context.Territories.ToListAsync(cancellationToken);
-            territories.ForEach(x => list.Add(x.ToDto<TerritoryDbo, TerritoryDto>()));
 
+            territories.ForEach(x => list.Add(x.ToDto<TerritoryDbo, TerritoryDto>()));
             return list;
         }
 
-        private async Task<IEnumerable<TerritoryDto>> GetListOfTerritoresByTerritoryIdAsync(Guid territoryid, CancellationToken cancellationToken)
+        private async Task<IEnumerable<TerritoryDto>> GetListOfTerritoresByTerritoryIdAsync(Guid? territoryid, CancellationToken cancellationToken)
         {
-            var ids = new List<TerritoryDto>();
+            var list = new List<TerritoryDto>();
+            var territories = await context.Territories.ToListAsync(cancellationToken);
 
-            var allTerritories = await context.Territories.ToListAsync(cancellationToken);
-
-            var par = allTerritories.FirstOrDefault(x => x.Id == territoryid);
-            var chd = GetChildrenFromList(territoryid, allTerritories);
-            chd.Add(par);
-
-            //var par = context.Territories.FirstOrDefault(x => x.Id == territoryid);
-            //var chd = context.Territories.Where(x => x.Id == territoryid).SelectMany(x => x.ReportingFrom).ToList();
-            //chd.Add(par);
-
-            chd.ForEach(x => ids.Add(x.ToDto<TerritoryDbo, TerritoryDto>()));
-
-            if (ids.FirstOrDefault() == null)
+            if (territoryid == null)
             {
-                throw new NotFoundException();
+                territories.ForEach(x => list.Add(x.ToDto<TerritoryDbo, TerritoryDto>()));
+                return list;
             }
+            else
+            {
+                var par = territories.FirstOrDefault(x => x.Id == (Guid)territoryid);
+                var chd = GetChildrenFromList((Guid)territoryid, territories);
+                chd.Add(par);
 
-            return ids;
+                chd.ForEach(x => list.Add(x.ToDto<TerritoryDbo, TerritoryDto>()));
+
+                if (list.FirstOrDefault() == null)
+                {
+                    throw new NotFoundException();
+                }
+
+                return list;
+            }
         }
 
         private async Task<IEnumerable<TerritoryDto>> GetListOfTerritoriesBySessionIdAsync(Guid sessiondid, CancellationToken cancellationToken)
