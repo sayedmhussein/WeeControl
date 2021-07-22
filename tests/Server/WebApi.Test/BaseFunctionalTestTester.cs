@@ -15,7 +15,7 @@ namespace WeeControl.Server.WebApi.Test
         }
 
         [Theory]
-        [InlineData("admin", "admin")]
+        //[InlineData("admin", "admin")]
         [InlineData("user", "user")]
         public async void GetToken_TokenMustNotBeEmpty(string username, string password)
         {

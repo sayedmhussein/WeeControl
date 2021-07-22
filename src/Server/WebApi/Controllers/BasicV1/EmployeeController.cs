@@ -160,13 +160,13 @@ namespace WeeControl.Server.WebApi.Controllers.BasicV1
         }
 
         [HttpPut("Claim")]
-        public async Task<ActionResult> PutEmployeeClaimV1()
+        public Task<ActionResult> PutEmployeeClaimV1()
         {
             throw new NotImplementedException();
         }
 
         [HttpDelete("Claim/{claimid}")]
-        public async Task<ActionResult> PutEmployeeClaimV1(Guid claimid)
+        public Task<ActionResult> PutEmployeeClaimV1(Guid claimid)
         {
             throw new NotImplementedException();
         }

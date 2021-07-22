@@ -42,7 +42,6 @@ namespace WeeControl.Server.WebApi.Security.Policies
             switch (policy)
             {
                 case CanAlterTerritories:
-                    p.RequireClaim(employeeLists.GetClaimType(ClaimTypeEnum.Session));
                     p.Requirements.Add(new TokenRefreshmentRequirement(TimeSpan.FromMinutes(5)));
                     break;
                 case CanAddNewEmployee:

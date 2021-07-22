@@ -20,9 +20,10 @@ namespace WeeControl.Server.Application.Employee.Command.AddEmployee.V1
                 _notification = notification;
             }
 
-            public async Task Handle(EmployeeCreated notification, CancellationToken cancellationToken)
+            public Task Handle(EmployeeCreated notification, CancellationToken cancellationToken)
             {
                 //await _notification.SendAsync(new MessageDto());
+                return Task.CompletedTask;
             }
         }
     }
