@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using WeeControl.Server.WebApi.Security.Policies;
-using WeeControl.SharedKernel.BasicSchemas.Employee;
+using WeeControl.SharedKernel.Aggregates.Employee;
 
 namespace WeeControl.Server.WebApi.StartupOptions
 {

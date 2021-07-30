@@ -10,9 +10,9 @@ using WeeControl.Server.Application.Basic.Territory.V1.Commands;
 using WeeControl.Server.Application.Territory.V1.Commands;
 using WeeControl.Server.Application.Territory.V1.Queries;
 using WeeControl.Server.WebApi.Security.Policies;
-using WeeControl.SharedKernel.BasicSchemas.Common.DtosV1;
-using WeeControl.SharedKernel.BasicSchemas.Common.Entities.DtosV1;
-using WeeControl.SharedKernel.BasicSchemas.Territory.Entities.DtosV1;
+using WeeControl.SharedKernel.Common.DtosV1;
+using WeeControl.SharedKernel.Common.Entities.DtosV1;
+using WeeControl.SharedKernel.Aggregates.Territory.Entities.DtosV1;
 
 namespace WeeControl.Server.WebApi.Controllers.BasicV1
 {

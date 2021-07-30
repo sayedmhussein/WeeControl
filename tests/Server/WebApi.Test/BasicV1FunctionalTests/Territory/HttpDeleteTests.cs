@@ -21,7 +21,7 @@ namespace WeeControl.Server.WebApi.Test.BasicV1FunctionalTests.Territory
             {
                 Method = HttpMethod.Delete,
                 Version = new Version("1.0"),
-                RequestUri = GetUri(SharedKernel.BasicSchemas.Common.Enums.ApiRouteEnum.Territory)
+                RequestUri = GetUri(SharedKernel.Common.Enums.ApiRouteEnum.Territory)
             };
         }
 
@@ -41,7 +41,7 @@ namespace WeeControl.Server.WebApi.Test.BasicV1FunctionalTests.Territory
 
             request.RequestUri = builder.Uri;
 
-            var response = await GetResponseMessageAsync(request);
+            var response = await GetResponseMessageAsync(request); //issue in &
 
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }

@@ -5,11 +5,11 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using WeeControl.SharedKernel.BasicSchemas.Common;
-using WeeControl.SharedKernel.BasicSchemas.Common.DtosV1;
-using WeeControl.SharedKernel.BasicSchemas.Common.Enums;
-using WeeControl.SharedKernel.BasicSchemas.Common.Interfaces;
-using WeeControl.SharedKernel.BasicSchemas.Employee.Entities.DtosV1;
+using WeeControl.SharedKernel.Common;
+using WeeControl.SharedKernel.Common.DtosV1;
+using WeeControl.SharedKernel.Common.Enums;
+using WeeControl.SharedKernel.Common.Interfaces;
+using WeeControl.SharedKernel.Aggregates.Employee.Entities.DtosV1;
 
 namespace WeeControl.Server.WebApi.Test
 {
@@ -58,7 +58,7 @@ namespace WeeControl.Server.WebApi.Test
             return client.SendAsync(requestMessage);
         }
 
-        protected HttpContent GetHttpContentAsJson(IDto dto)
+        protected HttpContent GetHttpContentAsJson(IAggregateRoot dto)
         {
             string content = JsonConvert.SerializeObject(dto);
             return new StringContent(content, Encoding.UTF8, "application/json");

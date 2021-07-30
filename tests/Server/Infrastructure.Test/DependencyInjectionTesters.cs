@@ -12,7 +12,7 @@ namespace WeeControl.Server.Infrastructure.Test
         public void WhenAddingInfrastructure_EmailServiceObjectMustNotBeNull()
         {
             var configMock = new Mock<IConfiguration>();
-            configMock.Setup(x => x["Notification:EmailConfigurationString"]).Returns("MySystem.Api.UnitTest.Controllers.V1.CredentialsController");
+            configMock.Setup(x => x.GetSection("ConnectionStrings")["EmailProvider"]).Returns("MySystem.Api.UnitTest.Controllers.V1.CredentialsController");
 
             var services = new ServiceCollection();
             services.AddInfrastructure(configMock.Object);

@@ -5,9 +5,9 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using Microsoft.AspNetCore.Mvc.Testing;
-using WeeControl.SharedKernel.BasicSchemas.Common.DtosV1;
-using WeeControl.SharedKernel.BasicSchemas.Employee.Entities.DtosV1;
-using WeeControl.SharedKernel.BasicSchemas.Territory.Entities.DtosV1;
+using WeeControl.SharedKernel.Common.DtosV1;
+using WeeControl.SharedKernel.Aggregates.Employee.Entities.DtosV1;
+using WeeControl.SharedKernel.Aggregates.Territory.Entities.DtosV1;
 using Xunit;
 
 namespace WeeControl.Server.WebApi.Test.BasicV1FunctionalTests.Territory
@@ -27,7 +27,7 @@ namespace WeeControl.Server.WebApi.Test.BasicV1FunctionalTests.Territory
             {
                 Method = HttpMethod.Post,
                 Version = new Version("1.0"),
-                RequestUri = GetUri(SharedKernel.BasicSchemas.Common.Enums.ApiRouteEnum.Territory)
+                RequestUri = GetUri(SharedKernel.Common.Enums.ApiRouteEnum.Territory)
             };
 
             territoryDto = new TerritoryDto()
@@ -103,7 +103,7 @@ namespace WeeControl.Server.WebApi.Test.BasicV1FunctionalTests.Territory
             {
                 Method = HttpMethod.Get,
                 Version = new Version("1.0"),
-                RequestUri = GetUri(SharedKernel.BasicSchemas.Common.Enums.ApiRouteEnum.Territory)
+                RequestUri = GetUri(SharedKernel.Common.Enums.ApiRouteEnum.Territory)
             };
 
             var response1 = await GetResponseMessageAsync(request1);

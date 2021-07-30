@@ -10,8 +10,8 @@
     <Folder Include="Common\Interfaces\" />
     <Folder Include="Common\Exceptions\" />
     <Folder Include="Common\Behaviours\" />
-    <Folder Include="Basic\" />
-    <Folder Include="Business\" />
+    <Folder Include="Aggregates\" />
+    <Folder Include="Aggregates\Custom\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="9.0.0" />
@@ -24,7 +24,7 @@
     <None Remove="Territory\Query\GetTerritories\" />
     <None Remove="Territory\Command\AddTerritory\" />
     <None Remove="Basic\" />
-    <None Remove="Business\" />
+    <None Remove="Aggregates\Custom\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />

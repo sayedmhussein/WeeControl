@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.SharedKernel.BasicSchemas.Employee;
-using WeeControl.SharedKernel.BasicSchemas.Territory;
+using WeeControl.SharedKernel.Aggregates.Employee;
+using WeeControl.SharedKernel.Aggregates.Territory;
 
 namespace WeeControl.Server.Application
 {

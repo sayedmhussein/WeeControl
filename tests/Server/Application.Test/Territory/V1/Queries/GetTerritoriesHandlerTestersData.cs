@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using WeeControl.SharedKernel.BasicSchemas.Employee;
-using WeeControl.SharedKernel.BasicSchemas.Employee.Enums;
+using WeeControl.SharedKernel.Aggregates.Employee;
+using WeeControl.SharedKernel.Aggregates.Employee.Enums;
 
 namespace WeeControl.Server.Application.Test.Territory.V1.Queries
 {

@@ -3,9 +3,9 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using Microsoft.AspNetCore.Mvc.Testing;
-using WeeControl.SharedKernel.BasicSchemas.Common.DtosV1;
-using WeeControl.SharedKernel.BasicSchemas.Common.Enums;
-using WeeControl.SharedKernel.BasicSchemas.Employee.Entities.DtosV1;
+using WeeControl.SharedKernel.Common.DtosV1;
+using WeeControl.SharedKernel.Common.Enums;
+using WeeControl.SharedKernel.Aggregates.Employee.Entities.DtosV1;
 using Xunit;
 
 namespace WeeControl.Server.WebApi.Test.BasicV1FunctionalTests.Employee

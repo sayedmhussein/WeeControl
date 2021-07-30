@@ -12,10 +12,10 @@ using WeeControl.Server.Application.Employee.Query.GetEmployeeClaims;
 using WeeControl.Server.Domain.BasicDbos.EmployeeSchema;
 using WeeControl.Server.Domain.Interfaces;
 using WeeControl.Server.Persistence;
-using WeeControl.SharedKernel.BasicSchemas.Common.DtosV1;
-using WeeControl.SharedKernel.BasicSchemas.Common.Interfaces;
-using WeeControl.SharedKernel.BasicSchemas.Employee;
-using WeeControl.SharedKernel.BasicSchemas.Employee.Enums;
+using WeeControl.SharedKernel.Common.DtosV1;
+using WeeControl.SharedKernel.Common.Interfaces;
+using WeeControl.SharedKernel.Aggregates.Employee;
+using WeeControl.SharedKernel.Aggregates.Employee.Enums;
 using Xunit;
 
 namespace WeeControl.Server.Application.Test.Employee.V1.Queries

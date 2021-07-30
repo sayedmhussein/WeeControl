@@ -16,9 +16,9 @@ namespace WeeControl.Server.WebApi.StartupOptions
         {
             swaggerOptions.SwaggerDoc("v1", new OpenApiInfo
             {
-                Title = "MySystem.Api",
+                Title = "WeeControl.Api",
                 Version = "v1",
-                Description = "Api for MySystem Application to serve clients.",
+                Description = "WeeControl is an API to surve customers as needed, for more information please contact us.",
                 Contact = new OpenApiContact()
                 {
                     Name = "Sayed M. Hussein",
@@ -26,7 +26,8 @@ namespace WeeControl.Server.WebApi.StartupOptions
                 },
                 License = new OpenApiLicense()
                 {
-                    Name = "MIT License"
+                    Name = "MIT License",
+                    Url = new Uri("https://en.wikipedia.org/wiki/MIT_License")
                 }
             });
 
@@ -43,6 +44,7 @@ namespace WeeControl.Server.WebApi.StartupOptions
                 Type = SecuritySchemeType.ApiKey,
                 Scheme = "Bearer"
             });
+
             swaggerOptions.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     {

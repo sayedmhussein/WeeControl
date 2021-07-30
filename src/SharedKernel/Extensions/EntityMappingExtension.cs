@@ -1,12 +1,12 @@
 ﻿using System;
 using AutoMapper;
-using WeeControl.SharedKernel.BasicSchemas.Common.Interfaces;
+using WeeControl.SharedKernel.Common.Interfaces;
 
 namespace WeeControl.SharedKernel.Extensions
 {
     public static class EntityMappingExtension
     {
-        public static TDbo ToDbo<TDto, TDbo>(this IEntityDto dto)
+        public static TDbo ToDbo<TDto, TDbo>(this IAggregateRoot dto)
         {
             var config = new MapperConfiguration(c =>
             {
@@ -18,7 +18,7 @@ namespace WeeControl.SharedKernel.Extensions
             return mapper.Map<TDbo>(dto);
         }
 
-        public static TDto ToDto<TDbo, TDto>(this IEntityDbo dbo)
+        public static TDto ToDto<TDbo, TDto>(this IAggregateRoot dbo)
         {
             var config = new MapperConfiguration(c =>
             {
