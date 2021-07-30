@@ -2,7 +2,7 @@
 
 namespace WeeControl.SharedKernel.Aggregates.Employee.Entities.DtosV1
 {
-    public class EmployeeTokenDto : IDto
+    public class EmployeeTokenDto : IAggregateRoot
     {
         public string Token { get; set; }
 

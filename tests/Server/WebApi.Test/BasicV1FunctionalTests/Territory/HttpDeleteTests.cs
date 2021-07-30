@@ -41,7 +41,7 @@ namespace WeeControl.Server.WebApi.Test.BasicV1FunctionalTests.Territory
 
             request.RequestUri = builder.Uri;
 
-            var response = await GetResponseMessageAsync(request);
+            var response = await GetResponseMessageAsync(request); //issue in &
 
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }

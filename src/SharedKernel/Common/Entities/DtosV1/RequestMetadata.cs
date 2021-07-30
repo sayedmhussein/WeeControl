@@ -3,7 +3,7 @@ using WeeControl.SharedKernel.Common.Interfaces;
 
 namespace WeeControl.SharedKernel.Common.DtosV1
 {
-    public class RequestMetadataV1 : IRequestMetadata, IDto
+    public class RequestMetadataV1 : IRequestMetadata, IAggregateRoot
     {
         [Required]
         public string Device { get; set ; }

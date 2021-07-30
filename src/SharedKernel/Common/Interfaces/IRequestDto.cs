@@ -2,7 +2,7 @@
 
 namespace WeeControl.SharedKernel.Common.Interfaces
 {
-    public interface IRequestDto : IDto
+    public interface IRequestDto : IAggregateRoot
     {
         RequestMetadataV1 Metadata { get; set; }
     }

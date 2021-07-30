@@ -7,12 +7,12 @@ namespace WeeControl.SharedKernel.Extensions
 {
     public static class DtoSerializationExtension
     {
-        public static string SerializeToJson(this IDto requestDto)
+        public static string SerializeToJson(this IAggregateRoot requestDto)
         {
             return JsonConvert.SerializeObject(requestDto);
         }
 
-        public static HttpContent SerializeToHttpContent(this IDto requestDto)
+        public static HttpContent SerializeToHttpContent(this IAggregateRoot requestDto)
         {
             var json = SerializeToJson(requestDto);
             return new StringContent(json, Encoding.UTF8, "application/json");

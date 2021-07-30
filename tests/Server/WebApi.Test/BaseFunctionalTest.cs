@@ -58,7 +58,7 @@ namespace WeeControl.Server.WebApi.Test
             return client.SendAsync(requestMessage);
         }
 
-        protected HttpContent GetHttpContentAsJson(IDto dto)
+        protected HttpContent GetHttpContentAsJson(IAggregateRoot dto)
         {
             string content = JsonConvert.SerializeObject(dto);
             return new StringContent(content, Encoding.UTF8, "application/json");

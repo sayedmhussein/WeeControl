@@ -12,7 +12,7 @@ namespace WeeControl.Server.Persistence.Test
         public void WhenAddingPresistanceInMemory_ReturnMySystemDbContextObjectAsNotNull()
         {
             var configMock = new Mock<IConfiguration>();
-            configMock.Setup(x => x["DbConnection"]).Returns("Connection");
+            configMock.Setup(x => x.GetSection("ConnectionStrings")["DatabaseProvider"]).Returns("Connection");
 
             var services = new ServiceCollection();
             services.AddPersistenceAsInMemory("Name");
