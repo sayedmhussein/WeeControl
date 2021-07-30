@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using WeeControl.SharedKernel.BasicSchemas.Common.DtosV1;
+using WeeControl.SharedKernel.Common.DtosV1;
 using WeeControl.SharedKernel.Extensions;
 using Xunit;
 

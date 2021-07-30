@@ -9,8 +9,8 @@ using WeeControl.Server.Application.Common.Exceptions;
 using WeeControl.Server.Application.Common.Interfaces;
 using WeeControl.Server.Domain.BasicDbos.Territory;
 using WeeControl.Server.Domain.Interfaces;
-using WeeControl.SharedKernel.BasicSchemas.Territory;
-using WeeControl.SharedKernel.BasicSchemas.Territory.Entities.DtosV1;
+using WeeControl.SharedKernel.Aggregates.Territory;
+using WeeControl.SharedKernel.Aggregates.Territory.Entities.DtosV1;
 using WeeControl.SharedKernel.Extensions;
 
 namespace WeeControl.Server.Application.Territory.V1.Queries

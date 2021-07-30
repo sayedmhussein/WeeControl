@@ -14,7 +14,7 @@ namespace WeeControl.Server.Persistence
                 .AddDbContextPool<MySystemDbContext>(options =>
             {
                 options.EnableSensitiveDataLogging();
-                options.UseNpgsql(configuration.GetConnectionString("DbConnection"), b =>
+                options.UseNpgsql(configuration.GetConnectionString("DatabaseProvider"), b =>
                 {
                     b.MigrationsAssembly(migrationAssemblyName);
                 });

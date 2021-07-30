@@ -4,7 +4,7 @@ using System.Net.Http;
 using Moq;
 using WeeControl.Applications.BaseLib.Interfaces;
 using WeeControl.Applications.BaseLib.ViewModels.Common;
-using WeeControl.SharedKernel.BasicSchemas.Employee.Entities.DtosV1;
+using WeeControl.SharedKernel.Aggregates.Employee.Entities.DtosV1;
 using WeeControl.SharedKernel.Extensions;
 using Xunit;
 

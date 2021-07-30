@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Web;
 using Microsoft.AspNetCore.Mvc.Testing;
-using WeeControl.SharedKernel.BasicSchemas.Territory.Entities.DtosV1;
+using WeeControl.SharedKernel.Aggregates.Territory.Entities.DtosV1;
 using Xunit;
 
 namespace WeeControl.Server.WebApi.Test.BasicV1FunctionalTests.Territory
@@ -24,7 +24,7 @@ namespace WeeControl.Server.WebApi.Test.BasicV1FunctionalTests.Territory
             {
                 Method = HttpMethod.Get,
                 Version = new Version("1.0"),
-                RequestUri = GetUri(SharedKernel.BasicSchemas.Common.Enums.ApiRouteEnum.Territory)
+                RequestUri = GetUri(SharedKernel.Common.Enums.ApiRouteEnum.Territory)
             };
         }
 

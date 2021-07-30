@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Claims;
 using MediatR;
-using WeeControl.SharedKernel.BasicSchemas.Common.Interfaces;
+using WeeControl.SharedKernel.Common.Interfaces;
 
 namespace WeeControl.Server.Application.Employee.Query.GetEmployeeClaims
 {

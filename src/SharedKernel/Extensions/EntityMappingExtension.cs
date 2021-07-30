@@ -1,6 +1,6 @@
 ﻿using System;
 using AutoMapper;
-using WeeControl.SharedKernel.BasicSchemas.Common.Interfaces;
+using WeeControl.SharedKernel.Common.Interfaces;
 
 namespace WeeControl.SharedKernel.Extensions
 {

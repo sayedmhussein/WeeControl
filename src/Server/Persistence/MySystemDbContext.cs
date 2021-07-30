@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using WeeControl.Server.Domain.BasicDbos.EmployeeSchema;
 using WeeControl.Server.Domain.BasicDbos.Territory;
 using WeeControl.Server.Domain.Interfaces;
-using WeeControl.SharedKernel.BasicSchemas.Employee;
-using WeeControl.SharedKernel.BasicSchemas.Employee.Enums;
-using WeeControl.SharedKernel.BasicSchemas.Territory;
-using WeeControl.SharedKernel.BasicSchemas.Territory.Enums;
+using WeeControl.SharedKernel.Aggregates.Employee;
+using WeeControl.SharedKernel.Aggregates.Employee.Enums;
+using WeeControl.SharedKernel.Aggregates.Territory;
+using WeeControl.SharedKernel.Aggregates.Territory.Enums;
 
 namespace WeeControl.Server.Persistence
 {

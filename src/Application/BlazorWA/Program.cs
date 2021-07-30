@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using WeeControl.Applications.BaseLib.Interfaces;
-using WeeControl.SharedKernel.BasicSchemas.Common;
-using WeeControl.SharedKernel.BasicSchemas.Common.Enums;
+using WeeControl.SharedKernel.Aggregates.Common;
+using WeeControl.SharedKernel.Aggregates.Common.Enums;
 
 namespace BlazorWA
 {

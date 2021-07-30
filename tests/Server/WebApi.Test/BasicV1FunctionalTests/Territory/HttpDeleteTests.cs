@@ -21,7 +21,7 @@ namespace WeeControl.Server.WebApi.Test.BasicV1FunctionalTests.Territory
             {
                 Method = HttpMethod.Delete,
                 Version = new Version("1.0"),
-                RequestUri = GetUri(SharedKernel.BasicSchemas.Common.Enums.ApiRouteEnum.Territory)
+                RequestUri = GetUri(SharedKernel.Common.Enums.ApiRouteEnum.Territory)
             };
         }
 

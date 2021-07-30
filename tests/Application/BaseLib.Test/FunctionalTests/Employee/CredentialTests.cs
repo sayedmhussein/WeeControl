@@ -5,9 +5,9 @@ using Moq;
 using WeeControl.Applications.BaseLib.Interfaces;
 using WeeControl.Applications.BaseLib.ViewModels.Common;
 using WeeControl.Server.WebApi;
-using WeeControl.SharedKernel.BasicSchemas.Common;
-using WeeControl.SharedKernel.BasicSchemas.Common.DtosV1;
-using WeeControl.SharedKernel.BasicSchemas.Common.Enums;
+using WeeControl.SharedKernel.Aggregates.Common;
+using WeeControl.SharedKernel.Aggregates.Common.DtosV1;
+using WeeControl.SharedKernel.Aggregates.Common.Enums;
 using Xunit;
 
 namespace WeeControl.User.Employee.Test.FunctionalTests.Employee

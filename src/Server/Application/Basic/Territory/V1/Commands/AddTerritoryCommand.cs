@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using WeeControl.SharedKernel.BasicSchemas.Territory.Entities.DtosV1;
+using WeeControl.SharedKernel.Aggregates.Territory.Entities.DtosV1;
 
 namespace WeeControl.Server.Application.Basic.Territory.V1.Commands
 {

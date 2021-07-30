@@ -14,8 +14,8 @@ using WeeControl.Server.Application.Employee.Command.AddEmployee.V1;
 using WeeControl.Server.Application.Employee.Command.TerminateSession;
 using WeeControl.Server.Application.Employee.Query.GetEmployeeClaims;
 using WeeControl.Server.WebApi.Security.Policies;
-using WeeControl.SharedKernel.BasicSchemas.Common.DtosV1;
-using WeeControl.SharedKernel.BasicSchemas.Employee.Entities.DtosV1;
+using WeeControl.SharedKernel.Aggregates.Employee.Entities.DtosV1;
+using WeeControl.SharedKernel.Common.DtosV1;
 
 namespace WeeControl.Server.WebApi.Controllers.BasicV1
 {

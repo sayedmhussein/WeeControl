@@ -1,7 +1,7 @@
 ﻿using System.Net.Http;
 using System.Text;
 using Newtonsoft.Json;
-using WeeControl.SharedKernel.BasicSchemas.Common.Interfaces;
+using WeeControl.SharedKernel.Common.Interfaces;
 
 namespace WeeControl.SharedKernel.Extensions
 {
