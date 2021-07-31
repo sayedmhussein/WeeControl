@@ -5,22 +5,21 @@ using System.Threading.Tasks;
 using MediatR;
 using WeeControl.Server.Application.Common.Exceptions;
 using WeeControl.Server.Application.Common.Interfaces;
-using WeeControl.Server.Application.Territory.V1.Commands;
 using WeeControl.Server.Domain.Interfaces;
 using WeeControl.SharedKernel.Aggregates.Employee;
 using WeeControl.SharedKernel.Aggregates.Employee.Enums;
 using WeeControl.SharedKernel.Aggregates.Territory;
 
-namespace WeeControl.Server.Application.Territory.Commands.DeleteTerritories
+namespace WeeControl.Server.Application.Territory.Commands.DeleteTerritoriesV1
 {
-    public class DeleteTerritoriesHandler : IRequestHandler<DeleteTerritoriesCommand>
+    public class DeleteTerritoryHandler : IRequestHandler<DeleteTerritoryCommand>
     {
         private readonly IMySystemDbContext context;
         private readonly ICurrentUserInfo userInfo;
         private readonly ITerritoryLists values;
         private readonly IEmployeeLists employeeValues;
 
-        public DeleteTerritoriesHandler(IMySystemDbContext context, ICurrentUserInfo userInfo, ITerritoryLists values, IEmployeeLists employeeValues)
+        public DeleteTerritoryHandler(IMySystemDbContext context, ICurrentUserInfo userInfo, ITerritoryLists values, IEmployeeLists employeeValues)
         {
             this.context = context ?? throw new ArgumentNullException("Db Context can't be Null!");
             this.userInfo = userInfo ?? throw new ArgumentNullException("User Info can't be Null!");
@@ -28,14 +27,14 @@ namespace WeeControl.Server.Application.Territory.Commands.DeleteTerritories
             this.employeeValues = employeeValues;
         }
 
-        public Task<Unit> Handle(DeleteTerritoriesCommand request, CancellationToken cancellationToken)
+        public Task<Unit> Handle(DeleteTerritoryCommand request, CancellationToken cancellationToken)
         {
             if (request == null)
             {
                 throw new ArgumentNullException();
             }
 
-            if (request.TerritoryIds == null || request.TerritoryIds.Count == 0)
+            if (request.TerritoryId == Guid.Empty)
             {
                 throw new BadRequestException("");
             }
@@ -49,16 +48,13 @@ namespace WeeControl.Server.Application.Territory.Commands.DeleteTerritories
             //todo: refactor as below is very bad performance!
             try
             {
-                foreach (var territoryid in request.TerritoryIds)
+                var territory = context.Territories.FirstOrDefault(x => x.Id == request.TerritoryId);
+                if (territory == null)
                 {
-                    var territory = context.Territories.FirstOrDefault(x => x.Id == territoryid);
-                    if (territory == null)
-                    {
-                        throw new NotFoundException("", "");
-                    }
-                    context.Territories.RemoveRange(territory);
-                    context.SaveChangesAsync(default).GetAwaiter().GetResult();
+                    throw new NotFoundException("", "");
                 }
+                context.Territories.RemoveRange(territory);
+                context.SaveChangesAsync(default).GetAwaiter().GetResult();
             }
             catch (NotFoundException)
             {

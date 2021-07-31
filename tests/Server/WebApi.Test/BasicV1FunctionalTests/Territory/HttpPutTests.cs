@@ -35,12 +35,6 @@ namespace WeeControl.Server.WebApi.Test.BasicV1FunctionalTests.Territory
         }
 
         [Fact]
-        public void Example()
-        {
-            Assert.NotNull(RequestMetadata);
-        }
-
-        [Fact]
         public async void WhenUpdatingTerritoryWithoutToken_ReturnUnauthorizedHttpCodeRespose()
         {
             var response = await GetResponseMessageAsync(request);

@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.Server.Application.Common.Exceptions;
 using WeeControl.Server.Application.Common.Interfaces;
-using WeeControl.Server.Application.Territory.V1.Queries;
+using WeeControl.Server.Application.Territory.Queries.GetTerritoryV1;
 using WeeControl.Server.Domain.BasicDbos.EmployeeSchema;
 using WeeControl.Server.Domain.BasicDbos.Territory;
 using WeeControl.Server.Domain.Interfaces;
@@ -90,7 +90,7 @@ namespace WeeControl.Server.Application.Test.Territory.V1.Queries
             await dbContext.EmployeeSessions.AddAsync(session);
             await dbContext.SaveChangesAsync(default);
 
-            var responseDto = await new GetTerritoriesHandler(dbContext, userInfoMock.Object, values).Handle(new GetTerritoriesQuery() { SessionId = session.Id }, default);
+            var responseDto = await new GetTerritoriesHandler(dbContext, userInfoMock.Object, values).Handle(new GetTerritoriesQuery(session.Id), default);
 
             Assert.Single(responseDto);
         }
@@ -109,7 +109,7 @@ namespace WeeControl.Server.Application.Test.Territory.V1.Queries
             userInfoMock.Setup(x => x.TerritoriesId).Returns(new List<Guid>() { territory.Id });
             userInfoMock.Setup(x => x.Claims).Returns(new List<Claim>() { new Claim(claimType, claimValue) });
 
-            var query = new GetTerritoriesQuery() { EmployeeId = user.Id };
+            var query = new GetTerritoriesQuery(user.Id);
             var handler =  new GetTerritoriesHandler(dbContext, userInfoMock.Object, values);
 
             if (willThrowException)
@@ -135,7 +135,7 @@ namespace WeeControl.Server.Application.Test.Territory.V1.Queries
             userInfoMock.Setup(x => x.TerritoriesId).Returns(new List<Guid>() { admin.TerritoryId });
             userInfoMock.Setup(x => x.Claims).Returns(new List<Claim>() { new Claim(employeeValues.GetClaimType(ClaimTypeEnum.HumanResources), employeeValues.GetClaimTag(ClaimTagEnum.Read)) });
 
-            var responseDto = await new GetTerritoriesHandler(dbContext, userInfoMock.Object, values).Handle(new GetTerritoriesQuery() { EmployeeId = admin.Id }, default);
+            var responseDto = await new GetTerritoriesHandler(dbContext, userInfoMock.Object, values).Handle(new GetTerritoriesQuery(admin.Id), default);
 
             Assert.Single(responseDto);
         }
@@ -151,7 +151,7 @@ namespace WeeControl.Server.Application.Test.Territory.V1.Queries
             userInfoMock.Setup(x => x.TerritoriesId).Returns(new List<Guid>() { admin.TerritoryId });
             userInfoMock.Setup(x => x.Claims).Returns(new List<Claim>() { new Claim(employeeValues.GetClaimType(ClaimTypeEnum.HumanResources), employeeValues.GetClaimTag(ClaimTagEnum.Read)) });
 
-            var responseDto = await new GetTerritoriesHandler(dbContext, userInfoMock.Object, values).Handle(new GetTerritoriesQuery() { SessionId = session.Id }, default);
+            var responseDto = await new GetTerritoriesHandler(dbContext, userInfoMock.Object, values).Handle(new GetTerritoriesQuery(session.Id), default);
 
             Assert.Single(responseDto);
         }
@@ -165,7 +165,7 @@ namespace WeeControl.Server.Application.Test.Territory.V1.Queries
 
             var territory = dbContext.Territories.FirstOrDefault();
 
-            var responseDto = await new GetTerritoriesHandler(dbContext, userInfoMock.Object, values).Handle(new GetTerritoriesQuery() { TerritoryId = territory.Id }, default);
+            var responseDto = await new GetTerritoriesHandler(dbContext, userInfoMock.Object, values).Handle(new GetTerritoriesQuery(territory.Id), default);
 
             Assert.Single(responseDto);
         }
@@ -177,7 +177,7 @@ namespace WeeControl.Server.Application.Test.Territory.V1.Queries
             userInfoMock.Setup(x => x.TerritoriesId).Returns(new List<Guid>() { admin.TerritoryId });
             userInfoMock.Setup(x => x.Claims).Returns(new List<Claim>() { new Claim(employeeValues.GetClaimType(ClaimTypeEnum.HumanResources), employeeValues.GetClaimTag(ClaimTagEnum.Read)) });
 
-            await Assert.ThrowsAsync<NotFoundException>(async () => await new GetTerritoriesHandler(dbContext, userInfoMock.Object, values).Handle(new GetTerritoriesQuery() { EmployeeId = Guid.NewGuid() }, default));
+            await Assert.ThrowsAsync<NotFoundException>(async () => await new GetTerritoriesHandler(dbContext, userInfoMock.Object, values).Handle(new GetTerritoriesQuery(Guid.NewGuid()), default));
         }
 
         [Fact]
@@ -187,7 +187,7 @@ namespace WeeControl.Server.Application.Test.Territory.V1.Queries
             userInfoMock.Setup(x => x.TerritoriesId).Returns(new List<Guid>() { admin.TerritoryId });
             userInfoMock.Setup(x => x.Claims).Returns(new List<Claim>() { new Claim(employeeValues.GetClaimType(ClaimTypeEnum.HumanResources), employeeValues.GetClaimTag(ClaimTagEnum.Read)) });
 
-            await Assert.ThrowsAsync<NotFoundException>(async () => await new GetTerritoriesHandler(dbContext, userInfoMock.Object, values).Handle(new GetTerritoriesQuery() { SessionId = Guid.NewGuid() }, default));
+            await Assert.ThrowsAsync<NotFoundException>(async () => await new GetTerritoriesHandler(dbContext, userInfoMock.Object, values).Handle(new GetTerritoriesQuery(Guid.NewGuid()), default));
         }
 
         [Fact]
@@ -201,7 +201,7 @@ namespace WeeControl.Server.Application.Test.Territory.V1.Queries
             await dbContext.Territories.AddAsync(new TerritoryDbo() { ReportTo = territory, CountryId = "sss", Name = "name" });
             await dbContext.SaveChangesAsync(default);
 
-            var responseDto = await new GetTerritoriesHandler(dbContext, userInfoMock.Object, values).Handle(new GetTerritoriesQuery() { EmployeeId = admin.Id }, default);
+            var responseDto = await new GetTerritoriesHandler(dbContext, userInfoMock.Object, values).Handle(new GetTerritoriesQuery(admin.Id), default);
 
             Assert.Equal(2, responseDto.Count());
         }
@@ -218,7 +218,7 @@ namespace WeeControl.Server.Application.Test.Territory.V1.Queries
             await dbContext.Territories.AddAsync(new TerritoryDbo() { ReportTo = territory, CountryId = "sss", Name = "name2" });
             await dbContext.SaveChangesAsync(default);
 
-            var responseDto = await new GetTerritoriesHandler(dbContext, userInfoMock.Object, values).Handle(new GetTerritoriesQuery() { EmployeeId = admin.Id }, default);
+            var responseDto = await new GetTerritoriesHandler(dbContext, userInfoMock.Object, values).Handle(new GetTerritoriesQuery(admin.Id), default);
 
             Assert.Equal(3, responseDto.Count());
         }
@@ -240,7 +240,7 @@ namespace WeeControl.Server.Application.Test.Territory.V1.Queries
             await dbContext.Territories.AddAsync(territory3);
             await dbContext.SaveChangesAsync(default);
 
-            var responseDto = await new GetTerritoriesHandler(dbContext, userInfoMock.Object, values).Handle(new GetTerritoriesQuery() { EmployeeId = admin.Id }, default);
+            var responseDto = await new GetTerritoriesHandler(dbContext, userInfoMock.Object, values).Handle(new GetTerritoriesQuery(admin.Id), default);
 
             Assert.Equal(3, responseDto.Count());
         }

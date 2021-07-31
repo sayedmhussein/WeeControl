@@ -34,11 +34,7 @@ namespace WeeControl.Server.WebApi.Test.BasicV1FunctionalTests.Employee
             var loginDto = new CreateLoginDto()
             {
                 Username = username,
-                Password = password,
-                Metadata = new RequestMetadataV1()
-                {
-                    Device = typeof(EmployeeSessionTests).Namespace
-                }
+                Password = password
             };
 
             var request = new HttpRequestMessage
@@ -70,7 +66,7 @@ namespace WeeControl.Server.WebApi.Test.BasicV1FunctionalTests.Employee
         [InlineData(true, true, HttpStatusCode.Unauthorized)]
         public async void RefreshTokenTheoryTests(bool changeToken, bool changeMetadata, HttpStatusCode statusCode)
         {
-            var dto = new CreateLoginDto() { Username = "admin", Password = "admin", Metadata = (RequestMetadataV1)RequestMetadata };
+            var dto = new CreateLoginDto() { Username = "admin", Password = "admin"};
             await CreateTokenAsync(dto);
 
             if (changeToken)
@@ -80,13 +76,10 @@ namespace WeeControl.Server.WebApi.Test.BasicV1FunctionalTests.Employee
 
             if (changeMetadata)
             {
-                RequestMetadata = new RequestMetadataV1() { Device = new Random().NextDouble().ToString() };
+                throw new NotImplementedException();
             }
 
-            var loginDto = new RefreshLoginDto()
-            {
-                Metadata = (RequestMetadataV1)RequestMetadata
-            };
+            var loginDto = new RefreshLoginDto();
 
             var request = new HttpRequestMessage
             {
@@ -115,7 +108,7 @@ namespace WeeControl.Server.WebApi.Test.BasicV1FunctionalTests.Employee
         [InlineData(true, HttpStatusCode.Unauthorized)]
         public async void LogoutTheoryTests(bool changeToken, HttpStatusCode statusCode)
         {
-            var dto = new CreateLoginDto() { Username = "admin", Password = "admin", Metadata = (RequestMetadataV1)RequestMetadata };
+            var dto = new CreateLoginDto() { Username = "admin", Password = "admin" };
             await CreateTokenAsync(dto);
             await RefreshTokenAsync();
 

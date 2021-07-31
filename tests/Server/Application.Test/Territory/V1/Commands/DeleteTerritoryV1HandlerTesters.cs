@@ -6,8 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.Server.Application.Common.Exceptions;
 using WeeControl.Server.Application.Common.Interfaces;
-using WeeControl.Server.Application.Territory.Commands.DeleteTerritories;
-using WeeControl.Server.Application.Territory.V1.Commands;
+using WeeControl.Server.Application.Territory.Commands.DeleteTerritoriesV1;
 using WeeControl.Server.Domain.Interfaces;
 using WeeControl.Server.Persistence;
 using WeeControl.SharedKernel.Aggregates.Employee;
@@ -45,13 +44,13 @@ namespace WeeControl.Server.Application.Test.Territory.V1.Commands
         {
             userInfoMock = new Mock<ICurrentUserInfo>();
 
-            Assert.Throws<ArgumentNullException>(() => new DeleteTerritoriesHandler(null, userInfoMock.Object, values, employeeValues));
+            Assert.Throws<ArgumentNullException>(() => new DeleteTerritoryHandler(null, userInfoMock.Object, values, employeeValues));
         }
 
         [Fact]
         public void WhenUserInfoIsNull_ThrowsArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new DeleteTerritoriesHandler(dbContext, null, values, employeeValues));
+            Assert.Throws<ArgumentNullException>(() => new DeleteTerritoryHandler(dbContext, null, values, employeeValues));
         }
         #endregion
 
@@ -59,19 +58,7 @@ namespace WeeControl.Server.Application.Test.Territory.V1.Commands
         [Fact]
         public async void WhenCommandIsNull_ThrowArgumentNullException()
         {
-            await Assert.ThrowsAsync<ArgumentNullException>(async () => await new DeleteTerritoriesHandler(dbContext, userInfoMock.Object, values, employeeValues).Handle(null, default));
-        }
-
-        [Fact]
-        public async void WhenAllCommandClassPropertyIsNull_ThrowBadRequestException()
-        {
-            await Assert.ThrowsAsync<BadRequestException>(async () => await new DeleteTerritoriesHandler(dbContext, userInfoMock.Object, values, employeeValues).Handle(new DeleteTerritoriesCommand(), default));
-        }
-
-        [Fact]
-        public async void WhenAllCommandClassPropertyIsEmpty_ThrowBadRequestException()
-        {
-            await Assert.ThrowsAsync<BadRequestException>(async () => await new DeleteTerritoriesHandler(dbContext, userInfoMock.Object, values, employeeValues).Handle(new DeleteTerritoriesCommand() { TerritoryIds = new List<Guid>() }, default));
+            await Assert.ThrowsAsync<ArgumentNullException>(async () => await new DeleteTerritoryHandler(dbContext, userInfoMock.Object, values, employeeValues).Handle(null, default));
         }
         #endregion
 
@@ -79,7 +66,7 @@ namespace WeeControl.Server.Application.Test.Territory.V1.Commands
         [Fact]
         public async void WhenDeletingNonExistedTerritory_ThrowNotFoundException()
         {
-            await Assert.ThrowsAsync<NotFoundException>(async () => await new DeleteTerritoriesHandler(dbContext, userInfoMock.Object, values, employeeValues).Handle(new DeleteTerritoriesCommand() { TerritoryIds = new List<Guid>() { Guid.NewGuid() } }, default));
+            await Assert.ThrowsAsync<NotFoundException>(async () => await new DeleteTerritoryHandler(dbContext, userInfoMock.Object, values, employeeValues).Handle(new DeleteTerritoryCommand(Guid.NewGuid()), default));
         }
 
         [Fact(Skip = "This test isn't applying for ImMemory DB Tests.")]
@@ -87,7 +74,7 @@ namespace WeeControl.Server.Application.Test.Territory.V1.Commands
         {
             var adminTerritory = dbContext.Territories.FirstOrDefault();
 
-            await Assert.ThrowsAsync<DeleteFailureException>(async () => await new DeleteTerritoriesHandler(dbContext, userInfoMock.Object, values, employeeValues).Handle(new DeleteTerritoriesCommand() { TerritoryIds = new List<Guid>() { adminTerritory.Id } }, default));
+            await Assert.ThrowsAsync<DeleteFailureException>(async () => await new DeleteTerritoryHandler(dbContext, userInfoMock.Object, values, employeeValues).Handle(new DeleteTerritoryCommand(adminTerritory.Id), default));
         }
         #endregion
     }

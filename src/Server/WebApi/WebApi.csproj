@@ -15,15 +15,12 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
-    <PackageReference Include="AutoMapper" Version="10.1.1" />
-    <PackageReference Include="Moq" Version="4.16.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.8">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.8" />
-    <PackageReference Include="System.Collections.Immutable" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,6 +29,9 @@
     <Folder Include="StartupOptions\" />
     <Folder Include="Security\CustomHandlers\" />
     <Folder Include="Security\CustomHandlers\TokenRefreshment\" />
+    <Folder Include="Controllers\Employee\" />
+    <Folder Include="Controllers\Territory\" />
+    <Folder Include="Controllers\Custom\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Security\Policy\Employee\" />
@@ -40,6 +40,10 @@
     <None Remove="Options\" />
     <None Remove="Security\CustomHandlers\" />
     <None Remove="Security\CustomHandlers\TokenRefreshment\" />
+    <None Remove="Microsoft.IdentityModel.Tokens" />
+    <None Remove="Controllers\Employee\" />
+    <None Remove="Controllers\Territory\" />
+    <None Remove="Controllers\Custom\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj">

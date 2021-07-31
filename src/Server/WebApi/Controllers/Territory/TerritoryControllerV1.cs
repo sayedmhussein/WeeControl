@@ -3,32 +3,22 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Mime;
 using System.Threading.Tasks;
-using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WeeControl.Server.Application.Basic.Territory.V1.Commands;
-using WeeControl.Server.Application.Territory.V1.Commands;
-using WeeControl.Server.Application.Territory.V1.Queries;
+using WeeControl.Server.Application.Basic.Territory.Commands.AddTerritoryV1;
+using WeeControl.Server.Application.Territory.Commands.DeleteTerritoriesV1;
+using WeeControl.Server.Application.Territory.Commands.UpdateTerritoryV1;
+using WeeControl.Server.Application.Territory.Queries.GetTerritoryV1;
 using WeeControl.Server.WebApi.Security.Policies;
+using WeeControl.SharedKernel.Aggregates.Territory.Entities.DtosV1;
 using WeeControl.SharedKernel.Common.DtosV1;
 using WeeControl.SharedKernel.Common.Entities.DtosV1;
-using WeeControl.SharedKernel.Aggregates.Territory.Entities.DtosV1;
+using WeeControl.SharedKernel.Dtos.V1;
 
-namespace WeeControl.Server.WebApi.Controllers.BasicV1
+namespace WeeControl.Server.WebApi.Controllers.Territory
 {
-    [Route("Api/[controller]")]
-    [ApiVersion("1.0")]
-    [Authorize(Policy = BasicPolicies.HasActiveSession)]
-    [ApiController]
-    public class TerritoryController : Controller
+    public partial class TerritoryController
     {
-        private readonly IMediator mediatR;
-
-        public TerritoryController(IMediator mediatR)
-        {
-            this.mediatR = mediatR;
-        }
-
         /// <summary>
         ///     Get List of Territories in Organization
         /// </summary>
@@ -38,15 +28,16 @@ namespace WeeControl.Server.WebApi.Controllers.BasicV1
         [MapToApiVersion("1.0")]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(IEnumerable<TerritoryDto>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ResponseDto<IEnumerable<TerritoryWithIdDto>>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorSimpleDetailsDto), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(ErrorSimpleDetailsDto), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ErrorSimpleDetailsDto), (int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(ErrorSimpleDetailsDto), (int)HttpStatusCode.Forbidden)]
-        public async Task<ActionResult<IEnumerable<TerritoryDto>>> GetAllTerritoriesV1(Guid? id)
+        public async Task<ActionResult<ResponseDto<IEnumerable<TerritoryWithIdDto>>>> GetAllTerritoriesV1(Guid? id)
         {
-            var query = new GetTerritoriesQuery() { TerritoryId = id };
-            var response = await mediatR.Send(query);
+            var query = new GetTerritoriesQuery(id);
+            var value = await mediatR.Send(query);
+            var response = new ResponseDto<IEnumerable<TerritoryWithIdDto>>(value);
 
             return Ok(response);
         }
@@ -66,9 +57,9 @@ namespace WeeControl.Server.WebApi.Controllers.BasicV1
         [ProducesResponseType(typeof(ErrorSimpleDetailsDto), (int)HttpStatusCode.Conflict)]
         [ProducesResponseType(typeof(ErrorSimpleDetailsDto), (int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(ErrorSimpleDetailsDto), (int)HttpStatusCode.Forbidden)]
-        public async Task<ActionResult> AddTerritoryV1([FromBody] TerritoryDto requestDto)
+        public async Task<ActionResult> AddTerritoriesV1([FromBody] RequestDto<IEnumerable<TerritoryDto>> requestDto)
         {
-            var command = new AddTerritoryCommand() { TerritoryDto = requestDto };
+            var command = new AddTerritoryCommand() { TerritoryDtos = requestDto.Payload };
             await mediatR.Send(command);
 
             return Created("", null);
@@ -79,7 +70,7 @@ namespace WeeControl.Server.WebApi.Controllers.BasicV1
         /// </summary>
         /// <param name="requestDto">The territory DTO, if ID was supplied then this will be update</param>
         /// <returns>If insert then it will return the territory DTO</returns>
-        [HttpPut]
+        [HttpPut("{id}")]
         [MapToApiVersion("1.0")]
         [Authorize(Policy = BasicPolicies.CanAlterTerritories)]
         [Consumes(MediaTypeNames.Application.Json)]
@@ -90,16 +81,16 @@ namespace WeeControl.Server.WebApi.Controllers.BasicV1
         [ProducesResponseType(typeof(ErrorSimpleDetailsDto), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(ErrorSimpleDetailsDto), (int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(ErrorSimpleDetailsDto), (int)HttpStatusCode.Forbidden)]
-        public async Task<ActionResult> PutTerritoryV1([FromBody] TerritoryDto requestDto)
+        public async Task<ActionResult> PutTerritoryV1(Guid id, [FromBody] RequestDto<TerritoryDto> requestDto)
         {
-            var command = new UpdateTerritoryCommand() { TerritoryDto = requestDto };
+            var command = new UpdateTerritoryCommand(id, requestDto.Payload);
             await mediatR.Send(command);
 
             return NoContent();
         }
 
         /// <summary>
-        /// Delete existing territory
+        ///     Delete existing territory
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -115,7 +106,7 @@ namespace WeeControl.Server.WebApi.Controllers.BasicV1
         [ProducesResponseType(typeof(ErrorDto), (int)HttpStatusCode.Forbidden)]
         public async Task<ActionResult> DeleteTerritoryV1(Guid id)
         {
-            var command = new DeleteTerritoriesCommand() { TerritoryIds = new List<Guid>() { id } };
+            var command = new DeleteTerritoryCommand(id);
             await mediatR.Send(command);
 
             return NoContent();

@@ -5,11 +5,9 @@ using System.Linq;
 using System.Net;
 using System.Net.Mime;
 using System.Threading.Tasks;
-using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WeeControl.Server.Application.Common.Interfaces;
 using WeeControl.Server.Application.Employee.Command.AddEmployee.V1;
 using WeeControl.Server.Application.Employee.Command.TerminateSession;
 using WeeControl.Server.Application.Employee.Query.GetEmployeeClaims;
@@ -17,31 +15,18 @@ using WeeControl.Server.WebApi.Security.Policies;
 using WeeControl.SharedKernel.Aggregates.Employee.Entities.DtosV1;
 using WeeControl.SharedKernel.Common.DtosV1;
 
-namespace WeeControl.Server.WebApi.Controllers.BasicV1
+namespace WeeControl.Server.WebApi.Controllers.Employee
 {
-    [Route("Api/[controller]")]
-    [ApiVersion("1.0")]
-    [ApiController]
-    public class EmployeeController : Controller
+    public partial class EmployeeController
     {
-        #region privates, ctor
-        private readonly IMediator mediatR;
-        private readonly IJwtService jwtService;
-
-        public EmployeeController(IMediator mediatR, IJwtService jwtService)
-        {
-            this.mediatR = mediatR;
-            this.jwtService = jwtService;
-        }
-        #endregion
-
-        #region Employee
         [HttpGet]
+        [MapToApiVersion("1.0")]
         public Task<IEnumerable<EmployeeDto>> GetEmployeesV1(Guid? territoryid, Guid? employeeid)
         {
             throw new NotImplementedException();
         }
 
+        #region Employee
         /// <summary>
         ///     Create New Employee Or Update Current Employee Within the Organization
         /// </summary>
@@ -214,7 +199,7 @@ namespace WeeControl.Server.WebApi.Controllers.BasicV1
                         await Task.Delay(1);
                         //var filePath = Path.Combine(config["StoredFilesPath"], "EmployeePhotos",
                         //    Guid.NewGuid().ToString() + Path.GetExtension(formFile.FileName).ToLowerInvariant());
-                        
+
                         //path = filePath;
 
                         //using var stream = System.IO.File.Create(filePath);

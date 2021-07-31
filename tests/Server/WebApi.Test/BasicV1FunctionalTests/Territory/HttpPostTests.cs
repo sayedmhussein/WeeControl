@@ -5,7 +5,6 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using Microsoft.AspNetCore.Mvc.Testing;
-using WeeControl.SharedKernel.Common.DtosV1;
 using WeeControl.SharedKernel.Aggregates.Employee.Entities.DtosV1;
 using WeeControl.SharedKernel.Aggregates.Territory.Entities.DtosV1;
 using Xunit;
@@ -34,7 +33,6 @@ namespace WeeControl.Server.WebApi.Test.BasicV1FunctionalTests.Territory
             {
                 CountryId = "UAE",
                 Name = new Random().NextDouble().ToString(),
-                Metadata = (RequestMetadataV1)RequestMetadata
             };
         }
 
@@ -43,12 +41,6 @@ namespace WeeControl.Server.WebApi.Test.BasicV1FunctionalTests.Territory
             request = null;
             territoryDto = null;
             Token = null;
-        }
-
-        [Fact]
-        public void Example()
-        {
-            Assert.NotNull(RequestMetadata);
         }
 
         [Fact]

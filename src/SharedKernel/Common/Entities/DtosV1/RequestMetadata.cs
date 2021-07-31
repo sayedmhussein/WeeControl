@@ -1,8 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using WeeControl.SharedKernel.Common.Interfaces;
 
 namespace WeeControl.SharedKernel.Common.DtosV1
 {
+    [Obsolete]
     public class RequestMetadataV1 : IRequestMetadata, IAggregateRoot
     {
         [Required]

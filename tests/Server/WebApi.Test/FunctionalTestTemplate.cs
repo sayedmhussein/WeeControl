@@ -32,7 +32,8 @@ namespace WeeControl.Server.WebApi.Test
         [Fact]
         public void Example()
         {
-            Assert.NotNull(RequestMetadata);
+            throw new NotImplementedException();
+            //Assert.NotNull();
         }
     }
 }

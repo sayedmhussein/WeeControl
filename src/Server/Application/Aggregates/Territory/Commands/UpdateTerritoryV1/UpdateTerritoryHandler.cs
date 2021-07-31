@@ -4,10 +4,9 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using WeeControl.Server.Application.Common.Exceptions;
-using WeeControl.Server.Application.Territory.V1.Commands;
 using WeeControl.Server.Domain.Interfaces;
 
-namespace WeeControl.Server.Application.Territory.V1.Handlers
+namespace WeeControl.Server.Application.Territory.Commands.UpdateTerritoryV1
 {
     public class UpdateTerritoryHandler : IRequestHandler<UpdateTerritoryCommand, Unit>
     {
@@ -27,7 +26,8 @@ namespace WeeControl.Server.Application.Territory.V1.Handlers
 
             //var dbo = request.TerritoryDto.ToDbo<TerritoryDto, TerritoryDbo>();
 
-            var item = await context.Territories.FirstOrDefaultAsync(x => x.Id == request.TerritoryDto.Id);
+            //var item = await context.Territories.FirstOrDefaultAsync(x => x.Id == request.TerritoryDto.Id);
+            var item = await context.Territories.FirstOrDefaultAsync();
             if (item == null)
             {
                 throw new NotFoundException();

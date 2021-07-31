@@ -18,7 +18,6 @@ namespace WeeControl.Server.WebApi.Test
         internal string Token { get; set; }
 
         protected ICommonLists CommonLists { get; private set; }
-        protected IRequestMetadata RequestMetadata { get; set; }
 
         private readonly HttpClient client;
         private readonly string sessionRoute;
@@ -32,7 +31,6 @@ namespace WeeControl.Server.WebApi.Test
             sessionRoute = CommonLists.GetRoute(ApiRouteEnum.Employee) + "Session/";
 
             Token = string.Empty;
-            RequestMetadata = new RequestMetadataV1() { Device = typeof(BaseFunctionalTest).Namespace };
         }
 
         internal async Task AuthorizeAsync(string username, string password)
@@ -41,7 +39,6 @@ namespace WeeControl.Server.WebApi.Test
             {
                 Username = username,
                 Password = password,
-                Metadata = (RequestMetadataV1)RequestMetadata
             };
 
             await CreateTokenAsync(loginRequestDto);
@@ -76,7 +73,6 @@ namespace WeeControl.Server.WebApi.Test
             var tokenDto = await response.Content.ReadFromJsonAsync<EmployeeTokenDto>();
 
             Token = tokenDto.Token;
-            RequestMetadata = loginDto.Metadata;
 
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Token);
         }
@@ -85,7 +81,7 @@ namespace WeeControl.Server.WebApi.Test
         {
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Token);
 
-            var dto2 = new RefreshLoginDto() { Metadata = (RequestMetadataV1)RequestMetadata };
+            var dto2 = new RefreshLoginDto();
             //
             var response2 = await client.PutAsJsonAsync(sessionRoute, dto2);
             response2.EnsureSuccessStatusCode();

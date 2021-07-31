@@ -1,5 +1,8 @@
-﻿namespace WeeControl.SharedKernel.Common.Interfaces
+﻿using System;
+
+namespace WeeControl.SharedKernel.Common.Interfaces
 {
+    [Obsolete]
     public interface IRequestMetadata
     {
         string Device { get; set; }

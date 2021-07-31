@@ -5,7 +5,7 @@ using System.Security.Claims;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using WeeControl.Server.Application.Common.Interfaces;
-using WeeControl.Server.Application.Territory.V1.Queries;
+using WeeControl.Server.Application.Territory.Queries.GetTerritoryV1;
 using WeeControl.SharedKernel.Aggregates.Employee;
 using WeeControl.SharedKernel.Aggregates.Employee.Enums;
 
@@ -37,7 +37,8 @@ namespace WeeControl.Server.WebApi.Services
             {
                 if (officeIds.Any() == false)
                 {
-                    var cla = mediatR.Send(new GetTerritoriesQuery() { SessionId = (Guid)SessionId });
+                    //var cla = mediatR.Send(new GetTerritoriesQuery() { SessionId = (Guid)SessionId });
+                    var cla = mediatR.Send(new GetTerritoriesQuery(SessionId));
                     var bla = cla.GetAwaiter().GetResult();
 
                     foreach (var bra in bla)
