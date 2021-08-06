@@ -10,10 +10,8 @@ using WeeControl.Server.Application.Territory.Commands.DeleteTerritoriesV1;
 using WeeControl.Server.Application.Territory.Commands.UpdateTerritoryV1;
 using WeeControl.Server.Application.Territory.Queries.GetTerritoryV1;
 using WeeControl.Server.WebApi.Security.Policies;
-using WeeControl.SharedKernel.Aggregates.Territory.Entities.DtosV1;
-using WeeControl.SharedKernel.Common.DtosV1;
-using WeeControl.SharedKernel.Common.Entities.DtosV1;
-using WeeControl.SharedKernel.Dtos.V1;
+using WeeControl.SharedKernel.Aggregates.Territory.DtosV1;
+using WeeControl.SharedKernel.DtosV1;
 
 namespace WeeControl.Server.WebApi.Controllers.Territory
 {
@@ -68,6 +66,7 @@ namespace WeeControl.Server.WebApi.Controllers.Territory
         /// <summary>
         /// Insert or update territory within the organization
         /// </summary>
+        /// <param name="id">ID of the territory</param>
         /// <param name="requestDto">The territory DTO, if ID was supplied then this will be update</param>
         /// <returns>If insert then it will return the territory DTO</returns>
         [HttpPut("{id}")]

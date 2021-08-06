@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using MediatR;
 
-namespace WeeControl.Server.Application.Employee.Command.TerminateSession
+namespace WeeControl.Server.Application.Aggregates.Employee.Commands.TerminateSessionV1
 {
     public class TerminateSessionCommand : IRequest
     {

@@ -10,7 +10,7 @@ using WeeControl.Server.Application.Common.Interfaces;
 using WeeControl.Server.Domain.BasicDbos.Territory;
 using WeeControl.Server.Domain.Interfaces;
 using WeeControl.SharedKernel.Aggregates.Territory;
-using WeeControl.SharedKernel.Aggregates.Territory.Entities.DtosV1;
+using WeeControl.SharedKernel.Aggregates.Territory.DtosV1;
 using WeeControl.SharedKernel.Extensions;
 
 namespace WeeControl.Server.Application.Territory.Queries.GetTerritoryV1

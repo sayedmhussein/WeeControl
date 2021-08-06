@@ -1,18 +1,18 @@
 ﻿using System.Net.Http;
 using System.Text;
 using Newtonsoft.Json;
-using WeeControl.SharedKernel.Common.Interfaces;
+using WeeControl.SharedKernel.Interfaces;
 
 namespace WeeControl.SharedKernel.Extensions
 {
     public static class DtoSerializationExtension
     {
-        public static string SerializeToJson(this IAggregateRoot requestDto)
+        public static string SerializeToJson(this ISerializable requestDto)
         {
             return JsonConvert.SerializeObject(requestDto);
         }
 
-        public static HttpContent SerializeToHttpContent(this IAggregateRoot requestDto)
+        public static HttpContent SerializeToHttpContent(this ISerializable requestDto)
         {
             var json = SerializeToJson(requestDto);
             return new StringContent(json, Encoding.UTF8, "application/json");

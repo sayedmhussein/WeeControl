@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Security.Claims;
 using MediatR;
-using WeeControl.SharedKernel.Common.Interfaces;
 
-namespace WeeControl.Server.Application.Employee.Query.GetEmployeeClaims
+namespace WeeControl.Server.Application.Aggregates.Employee.Queries.GetClaimsV1
 {
     public class GetEmployeeClaimsV1Query : IRequest<IEnumerable<Claim>>
     {
@@ -12,8 +11,8 @@ namespace WeeControl.Server.Application.Employee.Query.GetEmployeeClaims
 
         public string Password { get; set; }
 
-        public Guid? EmployeeId { get; set; }
+        public string Device { get; set; }
 
-        public IRequestMetadata Metadata { get; set; }
+        public Guid? EmployeeId { get; set; }
     }
 }

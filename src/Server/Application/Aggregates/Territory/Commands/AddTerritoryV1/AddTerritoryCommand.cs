@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using MediatR;
-using WeeControl.SharedKernel.Aggregates.Territory.Entities.DtosV1;
+using WeeControl.SharedKernel.Aggregates.Territory.DtosV1;
 
 namespace WeeControl.Server.Application.Basic.Territory.Commands.AddTerritoryV1
 {

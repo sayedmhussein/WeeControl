@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using WeeControl.Server.Application.Common.Exceptions;
-using WeeControl.SharedKernel.Common.Entities.DtosV1;
+using WeeControl.SharedKernel.DtosV1;
 
 namespace WeeControl.Server.WebApi.Middlewares
 {
@@ -32,8 +32,8 @@ namespace WeeControl.Server.WebApi.Middlewares
 
         private Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
-            var code = HttpStatusCode.InternalServerError;
-            var result = string.Empty;
+            HttpStatusCode code;
+            string result = string.Empty;
 
             switch (exception)
             {
@@ -53,6 +53,10 @@ namespace WeeControl.Server.WebApi.Middlewares
                     break;
                 case ConflictFailureException:
                     code = HttpStatusCode.Conflict;
+                    break;
+                default:
+                    code = HttpStatusCode.InternalServerError;
+                    result = string.Empty;
                     break;
             }
 

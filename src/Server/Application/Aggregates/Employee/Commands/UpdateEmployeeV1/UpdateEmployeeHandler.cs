@@ -9,7 +9,7 @@
 //using MySystem.SharedKernel.Entities.Employee.V1Dto;
 //using MySystem.SharedKernel.Entities.Public.V1Dto;
 
-//namespace Application.Employee.Command.UpdateEmployee.V1
+//namespace WeeControl.Server.Application.Aggregates.Employee.Commands.UpdateEmployeeV1
 //{
 //    public class UpdateEmployeeHandler : IRequestHandler<UpdateEmployeeCommand, ResponseDto<EmployeeDto>>
 //    {

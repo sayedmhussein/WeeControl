@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using WeeControl.SharedKernel.Aggregates.Employee.Entities;
-using WeeControl.SharedKernel.Common.Interfaces;
+using WeeControl.SharedKernel.Aggregates.Employee.BaseEntities;
+using WeeControl.SharedKernel.Interfaces;
 
 namespace WeeControl.Server.Domain.BasicDbos.EmployeeSchema
 {

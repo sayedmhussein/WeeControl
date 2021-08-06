@@ -22,23 +22,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Employee\" />
-    <Folder Include="Territory\" />
-    <Folder Include="Territory\V1\" />
-    <Folder Include="Territory\V1\Commands\" />
-    <Folder Include="Territory\V1\Queries\" />
-    <Folder Include="Employee\V1\" />
-    <Folder Include="Employee\V1\Commands\" />
-    <Folder Include="Employee\V1\Queries\" />
+    <Folder Include="Aggregates\Employee\" />
+    <Folder Include="Aggregates\Territory\" />
+    <Folder Include="Aggregates\Territory\V1\Queries\" />
+    <Folder Include="Aggregates\Employee\V1\Queries\" />
+    <Folder Include="Aggregates\" />
+    <Folder Include="Common\" />
+    <Folder Include="Common\Behaviours\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Territory\" />
-    <None Remove="Territory\V1\" />
-    <None Remove="Territory\V1\Commands\" />
     <None Remove="Territory\V1\Queries\" />
-    <None Remove="Employee\V1\" />
-    <None Remove="Employee\V1\Commands\" />
     <None Remove="Employee\V1\Queries\" />
+    <None Remove="Aggregates\" />
+    <None Remove="Common\" />
+    <None Remove="Common\Behaviours\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Server\Application\Application.csproj" />

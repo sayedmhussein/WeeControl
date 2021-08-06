@@ -12,7 +12,7 @@ using WeeControl.Server.Domain.Interfaces;
 using WeeControl.SharedKernel.Aggregates.Employee;
 using WeeControl.SharedKernel.Aggregates.Employee.Enums;
 
-namespace WeeControl.Server.Application.Employee.Query.GetEmployeeClaims
+namespace WeeControl.Server.Application.Aggregates.Employee.Queries.GetClaimsV1
 {
     public class GetEmployeeClaimsV1Handler : IRequestHandler<GetEmployeeClaimsV1Query, IEnumerable<Claim>>
     {
@@ -33,24 +33,24 @@ namespace WeeControl.Server.Application.Employee.Query.GetEmployeeClaims
         {
             _ = request ?? throw new ArgumentNullException();
 
-            if (request.EmployeeId == null && request.Username != null && request.Password != null && request.Metadata != null)
+            if (request.EmployeeId == null && request.Username != null && request.Password != null && request.Device != null)
             {
-                if (string.IsNullOrWhiteSpace(request.Username) || string.IsNullOrWhiteSpace(request.Password) || string.IsNullOrWhiteSpace(request.Metadata.Device))
+                if (string.IsNullOrWhiteSpace(request.Username) || string.IsNullOrWhiteSpace(request.Password) || string.IsNullOrWhiteSpace(request.Device))
                 {
                     throw new BadRequestException("Must Provide Username, Password and Device!");
                 }
 
-                return await GetClaimsByUsernameAndPassword(request.Username, request.Password, request.Metadata.Device, cancellationToken);
+                return await GetClaimsByUsernameAndPassword(request.Username, request.Password, request.Device, cancellationToken);
             }
 
-            else if (request.EmployeeId != null && request.Username == null && request.Password == null && request.Metadata == null)
+            else if (request.EmployeeId != null && request.Username == null && request.Password == null && request.Device == null)
             {
                 return await GetClaimsByEmployeeId((Guid)request.EmployeeId);
             }
             
-            else if (request.EmployeeId == null && request.Username == null && request.Password == null && request.Metadata != null)
+            else if (request.EmployeeId == null && request.Username == null && request.Password == null && request.Device != null)
             {
-                return await GetClaimsByRefreshingToken(request.Metadata.Device, cancellationToken);
+                return await GetClaimsByRefreshingToken(request.Device, cancellationToken);
             }
             else
             {

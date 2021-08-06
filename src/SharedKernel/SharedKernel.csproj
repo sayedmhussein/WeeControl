@@ -17,13 +17,14 @@
     <Folder Include="Aggregates\" />
     <Folder Include="Aggregates\Employee\" />
     <Folder Include="Aggregates\Territory\" />
-    <Folder Include="Aggregates\Territory\Entities\DtosV1\" />
-    <Folder Include="Aggregates\Employee\Entities\DtosV1\" />
     <Folder Include="Extensions\" />
     <Folder Include="Common\" />
     <Folder Include="Aggregates\Custom\" />
-    <Folder Include="Dtos\" />
-    <Folder Include="Dtos\V1\" />
+    <Folder Include="DtosV1\" />
+    <Folder Include="Interfaces\" />
+    <Folder Include="Aggregates\Employee\BaseEntities\" />
+    <Folder Include="Aggregates\Employee\DtosV1\" />
+    <Folder Include="Aggregates\Territory\DtosV1\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
@@ -64,6 +65,10 @@
     <None Remove="Aggregates\Custom\" />
     <None Remove="Dtos\" />
     <None Remove="Dtos\V1\" />
+    <None Remove="Interfaces\" />
+    <None Remove="Aggregates\Employee\BaseEntities\" />
+    <None Remove="Aggregates\Employee\DtosV1\" />
+    <None Remove="Aggregates\Territory\DtosV1\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Configurations\appsettings.json" />

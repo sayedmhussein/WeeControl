@@ -8,7 +8,7 @@ using WeeControl.Server.Application.Common.Interfaces;
 using WeeControl.Server.Domain.Interfaces;
 using WeeControl.SharedKernel.Aggregates.Territory;
 
-namespace WeeControl.Server.Application.Employee.Command.TerminateSession
+namespace WeeControl.Server.Application.Aggregates.Employee.Commands.TerminateSessionV1
 {
     public class TerminateSessionV1Handler : IRequestHandler<TerminateSessionCommand>
     {

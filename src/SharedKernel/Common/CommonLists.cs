@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using WeeControl.SharedKernel.Common.Enums;
 using WeeControl.SharedKernel.Configurations;
+using WeeControl.SharedKernel.Interfaces;
 
 namespace WeeControl.SharedKernel.Common
 {

@@ -2,10 +2,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using WeeControl.Server.Application.Common.Interfaces;
 using WeeControl.Server.Domain.Interfaces;
 
-namespace WeeControl.Server.Application.Employee.Command.AddEmployee.V1
+namespace WeeControl.Server.Application.Aggregates.Employee.Notifications
 {
     public class EmployeeCreated : INotification
     {

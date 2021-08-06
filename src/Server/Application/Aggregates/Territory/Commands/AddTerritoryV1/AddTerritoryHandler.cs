@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using WeeControl.Server.Application.Common.Exceptions;
 using WeeControl.Server.Domain.BasicDbos.Territory;
 using WeeControl.Server.Domain.Interfaces;
-using WeeControl.SharedKernel.Aggregates.Territory.Entities.DtosV1;
+using WeeControl.SharedKernel.Aggregates.Territory.DtosV1;
 using WeeControl.SharedKernel.Extensions;
 
 namespace WeeControl.Server.Application.Basic.Territory.Commands.AddTerritoryV1

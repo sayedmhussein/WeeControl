@@ -1,4 +1,4 @@
-﻿using WeeControl.SharedKernel.Common.DtosV1;
+﻿using WeeControl.SharedKernel.Aggregates.Territory.DtosV1;
 using WeeControl.SharedKernel.Extensions;
 using Xunit;
 
@@ -9,7 +9,7 @@ namespace WeeControl.SharedKernel.Test.Extensions
         [Fact]
         public void WhenValidTerritoryDto_IsValidIsTrue()
         {
-            var dto = new RequestMetadataV1() { Device = "somestring" };
+            var dto = new TerritoryDto() { CountryId = "EGP", Name = "EGP" };
 
             var isValid = dto.IsValid();
             var errors = dto.GetErrorMessages();
@@ -21,7 +21,7 @@ namespace WeeControl.SharedKernel.Test.Extensions
         [Fact]
         public void WhenInValidTerritoryDto_IsValidIsFalseErrorMessageIsNotEmpty()
         {
-            var dto = new RequestMetadataV1() { Device = null };
+            var dto = new TerritoryDto() { CountryId = null };
 
             var isValid = dto.IsValid();
             var errors = dto.GetErrorMessages();

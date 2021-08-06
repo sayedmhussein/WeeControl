@@ -2,7 +2,7 @@
 using Moq;
 using WeeControl.Applications.BaseLib.Interfaces;
 using WeeControl.Applications.BaseLib.ViewModels.Common;
-using WeeControl.SharedKernel.Aggregates.Employee.Entities.DtosV1;
+using WeeControl.SharedKernel.Aggregates.Employee.BaseEntities.DtosV1;
 using WeeControl.SharedKernel.Extensions;
 using Xunit;
 

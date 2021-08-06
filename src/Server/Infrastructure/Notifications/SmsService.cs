@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WeeControl.Server.Domain.Interfaces;
-using WeeControl.SharedKernel.Common.Interfaces;
 
 namespace WeeControl.Server.Infrastructure.Notifications
 {
@@ -12,12 +11,12 @@ namespace WeeControl.Server.Infrastructure.Notifications
         {
         }
 
-        public Task SendAsync(IMessage message)
+        public Task SendAsync(IMessageDto message)
         {
             throw new NotImplementedException();
         }
 
-        public Task SendAsync(IEnumerable<IMessage> messages)
+        public Task SendAsync(IEnumerable<IMessageDto> messages)
         {
             throw new NotImplementedException();
         }

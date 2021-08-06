@@ -25,25 +25,40 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="5.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.8" />
     <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
+    <PackageReference Include="Moq" Version="4.16.1" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Services\" />
-    <Folder Include="BasicV1FunctionalTests\" />
-    <Folder Include="BasicV1FunctionalTests\Employee\" />
-    <Folder Include="BusinessFunctionalTests\" />
     <Folder Include="Security\" />
-    <Folder Include="BasicV1FunctionalTests\Territory\" />
-    <Folder Include="Helpers\" />
+    <Folder Include="Controllers\" />
+    <Folder Include="Controllers\Custom\" />
+    <Folder Include="Controllers\Employee\" />
+    <Folder Include="Controllers\Territory\" />
+    <Folder Include="Controllers\Employee\V1\" />
+    <Folder Include="Controllers\Employee\V1\Session\" />
+    <Folder Include="Controllers\Employee\V1\Claim\" />
+    <Folder Include="Controllers\Employee\V1\Identity\" />
+    <Folder Include="Middlewares\" />
+    <Folder Include="Security\CustomHandlers\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="FunctionalTests\" />
     <None Remove="FunctionalTests\Employee\" />
-    <None Remove="BusinessFunctionalTests\" />
     <None Remove="Security\" />
     <None Remove="BasicFunctionalTests\Territory\" />
-    <None Remove="Helpers\" />
     <None Remove="System.Net.Http.Json" />
+    <None Remove="Controllers\" />
+    <None Remove="Controllers\Custom\" />
+    <None Remove="Controllers\Employee\" />
+    <None Remove="Controllers\Territory\" />
+    <None Remove="Controllers\Employee\V1\" />
+    <None Remove="Controllers\Employee\V1\Session\" />
+    <None Remove="Controllers\Employee\V1\Claim\" />
+    <None Remove="Controllers\Employee\V1\Identity\" />
+    <None Remove="Middlewares\" />
+    <None Remove="Security\CustomHandlers\" />
+    <None Remove="Moq" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Server\WebApi\WebApi.csproj" />

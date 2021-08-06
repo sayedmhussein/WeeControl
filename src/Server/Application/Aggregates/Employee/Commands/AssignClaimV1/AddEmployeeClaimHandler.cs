@@ -8,7 +8,7 @@
 //using MySystem.SharedKernel.Entites.Public.V1Dto;
 //using MySystem.SharedKernel.Entities.Employee.V1Dto;
 
-//namespace Application.Employee.Command.AddEmployeeClaim.V1
+//namespace WeeControl.Server.Application.Aggregates.Employee.Commands.AssignClaimV1
 //{
 //    public class AddEmployeeClaimHandler : IRequestHandler<AddEmployeeClaimCommand, ResponseDto<EmployeeClaimDto>>
 //    {

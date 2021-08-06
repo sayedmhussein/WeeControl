@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using MimeKit;
 using WeeControl.Server.Domain.Interfaces;
-using WeeControl.SharedKernel.Common.Interfaces;
 
 namespace WeeControl.Server.Infrastructure.Notifications
 {
@@ -54,7 +53,7 @@ namespace WeeControl.Server.Infrastructure.Notifications
             }
         }
 
-        public Task SendAsync(IMessage message)
+        public Task SendAsync(IMessageDto message)
         {
             return SendAsync(message.From, message.To, message.Subject, message.Body);
         }
@@ -80,7 +79,7 @@ namespace WeeControl.Server.Infrastructure.Notifications
             await client.DisconnectAsync(true);
         }
 
-        public Task SendAsync(IEnumerable<IMessage> messages)
+        public Task SendAsync(IEnumerable<IMessageDto> messages)
         {
             throw new NotImplementedException();
         }

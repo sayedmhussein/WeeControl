@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using WeeControl.SharedKernel.Common.Interfaces;
+using WeeControl.SharedKernel.Interfaces;
 
 namespace WeeControl.SharedKernel.Extensions
 {

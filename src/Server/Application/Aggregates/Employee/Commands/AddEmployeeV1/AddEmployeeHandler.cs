@@ -11,7 +11,7 @@
 //using MySystem.SharedKernel.EntityV1Dtos.Employee;
 //using MySystem.SharedKernel.ExtensionMethods;
 
-//namespace Application.Employee.Command.CreateEmployee.V1
+//namespace WeeControl.Server.Application.Aggregates.Employee.Commands.AddEmployeeV1
 //{
 //    public class AddEmployeeHandler : IRequestHandler<AddEmployeeCommand, IEnumerable<EmployeeDto>>
 //    {

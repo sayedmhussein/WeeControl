@@ -13,7 +13,7 @@ using WeeControl.Server.Application.Common.Interfaces;
 using WeeControl.Server.Infrastructure;
 using WeeControl.Server.Persistence;
 using WeeControl.Server.WebApi.Middlewares;
-using WeeControl.Server.WebApi.Security.TokenRefreshment.CustomHandlers;
+using WeeControl.Server.WebApi.Security.CustomHandlers.TokenRefreshment;
 using WeeControl.Server.WebApi.Services;
 using WeeControl.Server.WebApi.StartupOptions;
 

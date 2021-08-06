@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using WeeControl.SharedKernel.Aggregates.Territory.Entities;
-using WeeControl.SharedKernel.Common.Interfaces;
+using WeeControl.SharedKernel.Aggregates.Territory.BaseEntities;
+using WeeControl.SharedKernel.Interfaces;
 
 namespace WeeControl.Server.Domain.BasicDbos.Territory
 {

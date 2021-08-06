@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using WeeControl.SharedKernel.Common;
-using WeeControl.SharedKernel.Common.Enums;
+using WeeControl.SharedKernel.Interfaces;
 using Xunit;
 
 namespace WeeControl.SharedKernel.Test.Common

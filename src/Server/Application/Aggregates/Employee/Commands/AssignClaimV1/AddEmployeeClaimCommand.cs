@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using MediatR;
-using WeeControl.SharedKernel.Aggregates.Employee.Entities.DtosV1;
+using WeeControl.SharedKernel.Aggregates.Employee.DtosV1;
 
-namespace WeeControl.Server.Application.Employee.Command.AddEmployeeClaim.V1
+namespace WeeControl.Server.Application.Aggregates.Employee.Commands.AssignClaimV1
 {
     public class AddEmployeeClaimCommand : IRequest<IEnumerable<EmployeeClaimDto>>
     {

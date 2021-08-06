@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WeeControl.Server.Application.Employee.Command.AddEmployee.V1;
-using WeeControl.Server.Application.Employee.Command.TerminateSession;
-using WeeControl.Server.Application.Employee.Query.GetEmployeeClaims;
+using WeeControl.Server.Application.Aggregates.Employee.Commands.AddEmployeeV1;
+using WeeControl.Server.Application.Aggregates.Employee.Commands.TerminateSessionV1;
+using WeeControl.Server.Application.Aggregates.Employee.Queries.GetClaimsV1;
 using WeeControl.Server.WebApi.Security.Policies;
-using WeeControl.SharedKernel.Aggregates.Employee.Entities.DtosV1;
-using WeeControl.SharedKernel.Common.DtosV1;
+using WeeControl.SharedKernel.Aggregates.Employee.DtosV1;
+using WeeControl.SharedKernel.DtosV1;
 
 namespace WeeControl.Server.WebApi.Controllers.Employee
 {
@@ -87,16 +87,18 @@ namespace WeeControl.Server.WebApi.Controllers.Employee
         [HttpPost("Session")]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(EmployeeTokenDto), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ResponseDto<EmployeeTokenDto>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorDto), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(ErrorDto), (int)HttpStatusCode.NotFound)]
         [MapToApiVersion("1.0")]
-        public async Task<ActionResult<EmployeeTokenDto>> LoginV1([FromBody] CreateLoginDto loginDto)
+        public async Task<ActionResult<ResponseDto<EmployeeTokenDto>>> LoginV1([FromBody] RequestDto<CreateLoginDto> loginDto)
         {
-            var query = new GetEmployeeClaimsV1Query() { Username = loginDto.Username, Password = loginDto.Password, Metadata = loginDto.Metadata };
+            var query = new GetEmployeeClaimsV1Query() { Username = loginDto.Payload.Username, Password = loginDto.Payload.Password };
             var claims = await mediatR.Send(query);
             var token = jwtService.GenerateJwtToken(claims, "", DateTime.UtcNow.AddMinutes(5));
-            return Ok(new EmployeeTokenDto() { Token = token, FullName = "User Full Name :)" });
+            var value = new EmployeeTokenDto() { Token = token, FullName = "User Full Name :)" };
+            var response = new ResponseDto<EmployeeTokenDto>(value);
+            return Ok(response);
         }
 
         [Authorize(Policy = BasicPolicies.HasActiveSession)]
@@ -109,7 +111,7 @@ namespace WeeControl.Server.WebApi.Controllers.Employee
         [MapToApiVersion("1.0")]
         public async Task<ActionResult<EmployeeTokenDto>> RefreshTokenV1([FromBody] RefreshLoginDto loginRefreshDto)
         {
-            var query = new GetEmployeeClaimsV1Query() { Metadata = loginRefreshDto.Metadata };
+            var query = new GetEmployeeClaimsV1Query() { Device = "" };
             var response = await mediatR.Send(query);
             var token = jwtService.GenerateJwtToken(response, "", DateTime.UtcNow.AddDays(5));
             return Ok(new EmployeeTokenDto() { Token = token });
