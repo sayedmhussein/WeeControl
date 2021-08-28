@@ -20,6 +20,7 @@ namespace WeeControl.Backend.WebApi.Controllers.Employee
 {
     public partial class EmployeeController
     {
+        #region Employee
         [HttpGet]
         [MapToApiVersion("1.0")]
         public Task<IEnumerable<EmployeeDto>> GetEmployeesV1(Guid? territoryid, Guid? employeeid)
@@ -27,7 +28,6 @@ namespace WeeControl.Backend.WebApi.Controllers.Employee
             throw new NotImplementedException();
         }
 
-        #region Employee
         /// <summary>
         ///     Create New Employee Or Update Current Employee Within the Organization
         /// </summary>

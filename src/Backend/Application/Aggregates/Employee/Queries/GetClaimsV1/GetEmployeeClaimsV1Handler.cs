@@ -110,16 +110,16 @@ namespace WeeControl.Backend.Application.Aggregates.Employee.Queries.GetClaimsV1
                 throw new NotAllowedException("");
             }
 
-            var session = await context.EmployeeSessions.FirstOrDefaultAsync(x => x.Id == currentUser.SessionId && x.DeviceId == device && x.TerminationTs == null);
+            var session = await context.EmployeeSessions.FirstOrDefaultAsync(x => x.Id == currentUser.SessionId && x.DeviceId == device && x.TerminationTs == null, cancellationToken);
             if (session == null)
             {
-                throw new NotAllowedException("");
+                throw new NotAllowedException("No valid session found!");
             }
 
-            var employee = await context.Employees.FirstOrDefaultAsync(x => x.Id == session.EmployeeId && x.AccountLockArgument == null);
+            var employee = await context.Employees.FirstOrDefaultAsync(x => x.Id == session.EmployeeId && x.AccountLockArgument == null, cancellationToken);
             if (employee == null)
             {
-                throw new NotAllowedException("");
+                throw new NotAllowedException("Account is Locked!");
             }
 
             var claims = new List<Claim>()

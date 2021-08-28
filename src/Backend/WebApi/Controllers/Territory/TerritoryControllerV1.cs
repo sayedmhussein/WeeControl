@@ -104,7 +104,7 @@ namespace WeeControl.Backend.WebApi.Controllers.Territory
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
-        public async Task<ActionResult> DeleteTerritoryV1([FromBody] IRequestDto dto, Guid id)
+        public async Task<ActionResult> DeleteTerritoryV1([FromBody] RequestDto<object> dto, Guid id)
         {
             _ = dto;
             var command = new DeleteTerritoryCommand(id);

@@ -15,6 +15,7 @@ namespace WeeControl.Backend.WebApi.Test.Functional.V1
     {
         protected readonly IFunctionalAuthorization authorization;
         protected readonly CustomWebApplicationFactory<Startup> factory;
+        protected Uri ServerUri;
 
         public BaseFunctionalTest(CustomWebApplicationFactory<Startup> factory, HttpMethod method, string deviceid)
         {
@@ -35,6 +36,7 @@ namespace WeeControl.Backend.WebApi.Test.Functional.V1
         {
             RequestMessage = null;
             Client = null;
+            ServerUri = null;
         }
 
         private HttpClient client;

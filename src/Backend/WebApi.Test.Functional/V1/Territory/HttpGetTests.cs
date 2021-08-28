@@ -52,7 +52,6 @@ namespace WeeControl.Backend.WebApi.Test.Functional.V1.Territory
 
             var territories = response_dto.Payload;
             Assert.NotEmpty(territories);
-            Assert.Equal(3, territories.Count());
         }
 
         [Fact]
@@ -77,7 +76,6 @@ namespace WeeControl.Backend.WebApi.Test.Functional.V1.Territory
 
             var territories = response_dto.Payload;
             Assert.NotEmpty(territories);
-            Assert.Equal(2, territories.Count());
         }
     }
 }

@@ -31,17 +31,8 @@
   <ItemGroup>
     <Folder Include="Services\" />
     <Folder Include="Security\" />
-    <Folder Include="Controllers\" />
-    <Folder Include="Controllers\Custom\" />
-    <Folder Include="Controllers\Employee\" />
-    <Folder Include="Controllers\Territory\" />
-    <Folder Include="Controllers\Employee\V1\" />
-    <Folder Include="Controllers\Employee\V1\Session\" />
-    <Folder Include="Controllers\Employee\V1\Claim\" />
-    <Folder Include="Controllers\Employee\V1\Identity\" />
     <Folder Include="Middlewares\" />
     <Folder Include="Security\CustomHandlers\" />
-    <Folder Include="Controllers\Territory\V1\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="FunctionalTests\" />
@@ -49,18 +40,9 @@
     <None Remove="Security\" />
     <None Remove="BasicFunctionalTests\Territory\" />
     <None Remove="System.Net.Http.Json" />
-    <None Remove="Controllers\" />
-    <None Remove="Controllers\Custom\" />
-    <None Remove="Controllers\Employee\" />
-    <None Remove="Controllers\Territory\" />
-    <None Remove="Controllers\Employee\V1\" />
-    <None Remove="Controllers\Employee\V1\Session\" />
-    <None Remove="Controllers\Employee\V1\Claim\" />
-    <None Remove="Controllers\Employee\V1\Identity\" />
     <None Remove="Middlewares\" />
     <None Remove="Security\CustomHandlers\" />
     <None Remove="Moq" />
-    <None Remove="Controllers\Territory\V1\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WebApi\WebApi.csproj" />

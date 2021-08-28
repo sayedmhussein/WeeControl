@@ -51,6 +51,17 @@ namespace WeeControl.Backend.WebApi.Test.Functional.V1.Territory
         public async void WhenPostingSameCountryAndNameTwice_ReturnConflict()
         {
             var token = await authorization.GetTokenAsync("admin", "admin");
+            var dto = new RequestDto<TerritoryDto>()
+            {
+                DeviceId = DeviceId,
+                Payload = new TerritoryDto()
+                {
+                    Name = new Random().NextDouble().ToString(),
+                    CountryId = "TST"
+                }
+            };
+            RequestMessage.Content = GetHttpContentAsJson(dto);
+            RequestMessage.RequestUri = requestUri;
             var request1 = RequestMessage;
             var request2 = await CloneRequestMessageAsync(request1);
 

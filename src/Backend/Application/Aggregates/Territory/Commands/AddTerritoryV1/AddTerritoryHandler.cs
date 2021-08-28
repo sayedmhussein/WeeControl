@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -37,6 +38,12 @@ namespace WeeControl.Backend.Application.Basic.Territory.Commands.AddTerritoryV1
                     {
                         throw new ConflictFailureException();
                     }
+                }
+
+                var existCount = context.Territories.Where(x => x.Name == dbo.Name && x.CountryId == dbo.CountryId).Count();
+                if (existCount != 0)
+                {
+                    throw new ConflictFailureException();
                 }
 
                 await context.Territories.AddAsync(dbo, cancellationToken);
