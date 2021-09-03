@@ -8,7 +8,7 @@ namespace WeeControl.Backend.Application.Common.Interfaces
     {
         Guid? SessionId { get; }
 
-        IEnumerable<Guid> TerritoriesId { get; }
+        IEnumerable<Guid> Territories { get; }
 
         IEnumerable<Claim> Claims { get; }
     }

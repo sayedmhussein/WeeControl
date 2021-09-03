@@ -43,8 +43,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{450746
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi.Test.Functional", "src\Backend\WebApi.Test.Functional\WebApi.Test.Functional.csproj", "{B063A0E4-D130-4288-A9D5-48CE704DA9A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientWA", "src\ClientWA\ClientWA.csproj", "{4781CCB3-BE34-4792-93CA-FB183FFA5BE2}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -211,18 +209,6 @@ Global
 		{B063A0E4-D130-4288-A9D5-48CE704DA9A6}.Debug|iPhone.Build.0 = Debug|Any CPU
 		{B063A0E4-D130-4288-A9D5-48CE704DA9A6}.Release|iPhone.ActiveCfg = Release|Any CPU
 		{B063A0E4-D130-4288-A9D5-48CE704DA9A6}.Release|iPhone.Build.0 = Release|Any CPU
-		{4781CCB3-BE34-4792-93CA-FB183FFA5BE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4781CCB3-BE34-4792-93CA-FB183FFA5BE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4781CCB3-BE34-4792-93CA-FB183FFA5BE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4781CCB3-BE34-4792-93CA-FB183FFA5BE2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4781CCB3-BE34-4792-93CA-FB183FFA5BE2}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
-		{4781CCB3-BE34-4792-93CA-FB183FFA5BE2}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
-		{4781CCB3-BE34-4792-93CA-FB183FFA5BE2}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
-		{4781CCB3-BE34-4792-93CA-FB183FFA5BE2}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
-		{4781CCB3-BE34-4792-93CA-FB183FFA5BE2}.Debug|iPhone.ActiveCfg = Debug|Any CPU
-		{4781CCB3-BE34-4792-93CA-FB183FFA5BE2}.Debug|iPhone.Build.0 = Debug|Any CPU
-		{4781CCB3-BE34-4792-93CA-FB183FFA5BE2}.Release|iPhone.ActiveCfg = Release|Any CPU
-		{4781CCB3-BE34-4792-93CA-FB183FFA5BE2}.Release|iPhone.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -247,6 +233,5 @@ Global
 		{D311A494-F342-4B0A-8A9F-045AD1D91C9E} = {FAE22AD1-BBB8-4890-90FF-1C1BDD23BC92}
 		{450746A8-E3B5-43CD-A579-94DF990BA5DC} = {FAE22AD1-BBB8-4890-90FF-1C1BDD23BC92}
 		{B063A0E4-D130-4288-A9D5-48CE704DA9A6} = {027C4270-0F91-48FD-BC07-141E6631A743}
-		{4781CCB3-BE34-4792-93CA-FB183FFA5BE2} = {D311A494-F342-4B0A-8A9F-045AD1D91C9E}
 	EndGlobalSection
 EndGlobal

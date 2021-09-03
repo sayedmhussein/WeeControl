@@ -53,6 +53,12 @@ namespace WeeControl.Backend.Application.Territory.Commands.DeleteTerritoriesV1
                 {
                     throw new NotFoundException("", "");
                 }
+                var depenantCount = context.Territories.Where(x => x.ReportToId == request.TerritoryId).Count();
+                if (depenantCount > 0)
+                {
+                    throw new DeleteFailureException("There are other territories which report to this territory!");
+                }
+
                 context.Territories.RemoveRange(territory);
                 context.SaveChangesAsync(default).GetAwaiter().GetResult();
             }

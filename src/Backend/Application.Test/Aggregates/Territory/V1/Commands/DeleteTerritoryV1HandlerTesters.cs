@@ -7,6 +7,7 @@ using Moq;
 using WeeControl.Backend.Application.Common.Exceptions;
 using WeeControl.Backend.Application.Common.Interfaces;
 using WeeControl.Backend.Application.Territory.Commands.DeleteTerritoriesV1;
+using WeeControl.Backend.Domain.BasicDbos.Territory;
 using WeeControl.Backend.Domain.Interfaces;
 using WeeControl.Backend.Persistence;
 using WeeControl.SharedKernel.Aggregates.Employee;
@@ -28,7 +29,7 @@ namespace WeeControl.Backend.Application.Test.Territory.V1.Commands
             dbContext = new ServiceCollection().AddPersistenceAsInMemory(new Random().NextDouble().ToString()).BuildServiceProvider().GetService<IMySystemDbContext>();
 
             userInfoMock = new Mock<ICurrentUserInfo>();
-            userInfoMock.Setup(x => x.TerritoriesId).Returns(new List<Guid>() { dbContext.Employees.FirstOrDefault().Id });
+            userInfoMock.Setup(x => x.Territories).Returns(new List<Guid>() { dbContext.Employees.FirstOrDefault().Id });
             userInfoMock.Setup(x => x.Claims).Returns(new List<Claim>() { new Claim(employeeValues.GetClaimType(ClaimTypeEnum.HumanResources), employeeValues.GetClaimTag(ClaimTagEnum.Delete)) });
         }
 
@@ -69,10 +70,17 @@ namespace WeeControl.Backend.Application.Test.Territory.V1.Commands
             await Assert.ThrowsAsync<NotFoundException>(async () => await new DeleteTerritoryHandler(dbContext, userInfoMock.Object, values, employeeValues).Handle(new DeleteTerritoryCommand(Guid.NewGuid()), default));
         }
 
-        [Fact(Skip = "This test isn't applying for ImMemory DB Tests.")]
+        [Fact]
         public async void WhenDeletingATerritoryWhichHasDatabaseDependances_ThrowDeleteFailureException()
         {
             var adminTerritory = dbContext.Territories.FirstOrDefault();
+            await dbContext.Territories.AddAsync(new TerritoryDbo()
+            {
+                CountryId = "TST",
+                Name = new Random().NextDouble().ToString(),
+                ReportToId = adminTerritory.Id
+            });
+            await dbContext.SaveChangesAsync(default);
 
             await Assert.ThrowsAsync<DeleteFailureException>(async () => await new DeleteTerritoryHandler(dbContext, userInfoMock.Object, values, employeeValues).Handle(new DeleteTerritoryCommand(adminTerritory.Id), default));
         }

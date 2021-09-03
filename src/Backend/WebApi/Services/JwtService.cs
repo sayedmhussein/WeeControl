@@ -69,7 +69,7 @@ namespace WeeControl.Backend.WebApi.Services
                 ClockSkew = TimeSpan.Zero
             };
 
-            var claims = handler.ValidateToken(token, validations, out var tokenSecure);
+            var claims = handler.ValidateToken(token, validations, out var _);
             return claims;
         }
     }

@@ -14,42 +14,61 @@ namespace WeeControl.Backend.WebApi.Services
     public class UserInfoService : ICurrentUserInfo
     {
         private readonly IMediator mediatR;
-        private readonly ICollection<Guid> officeIds = new List<Guid>();
+        private readonly IEmployeeLists employeeLists;
+        private Guid sessionid = Guid.Empty;
+        private readonly ICollection<Guid> territories = new List<Guid>();
         
         public UserInfoService(IHttpContextAccessor httpContextAccessor, IMediator mediatR, IEmployeeLists values)
         {
             Claims = httpContextAccessor.HttpContext.User.Claims;
 
-            var sessionid_ = Claims.FirstOrDefault(c => c.Type == values.GetClaimType(ClaimTypeEnum.Session))?.Value;
-            _ = Guid.TryParse(sessionid_, out Guid sessionId__);
-            SessionId = sessionId__;
-
             this.mediatR = mediatR;
+            employeeLists = values;
         }
-
-        public Guid? SessionId { get; private set; }
 
         public IEnumerable<Claim> Claims { get; private set; }
 
-        public IEnumerable<Guid> TerritoriesId
+        public Guid? SessionId
         {
             get
             {
-                if (officeIds.Any() == false)
+                if (sessionid == Guid.Empty)
                 {
-                    //var cla = mediatR.Send(new GetTerritoriesQuery() { SessionId = (Guid)SessionId });
-                    var cla = mediatR.Send(new GetTerritoriesQuery(SessionId));
-                    var bla = cla.GetAwaiter().GetResult();
 
-                    foreach (var bra in bla)
+                    var sessionid_ = Claims.FirstOrDefault(c => c.Type == employeeLists.GetClaimType(ClaimTypeEnum.Session))?.Value;
+                    if (Guid.TryParse(sessionid_, out Guid sessionId__))
                     {
-                        officeIds.Add((Guid)bra.Id);
+                        sessionid = sessionId__;
+                        return sessionid;
+                    }
+                    
+                }
+
+                return null;
+            }
+        }
+
+        public IEnumerable<Guid> Territories
+        {
+            get
+            {
+                if (territories.Count == 0)
+                {
+                    var territoryid_ = Claims.FirstOrDefault(c => c.Type == employeeLists.GetClaimType(ClaimTypeEnum.Territory))?.Value;
+                    if (Guid.TryParse(territoryid_, out Guid territoryid__))
+                    {
+                        territories.Add(territoryid__);
+                        var cla = mediatR.Send(new GetTerritoriesQuery(territoryid__));
+                        var bla = cla.GetAwaiter().GetResult();
+
+                        foreach (var bra in bla)
+                        {
+                            territories.Add(bra.Id);
+                        }
                     }
                 }
 
-                _ = officeIds;
-
-                return officeIds;
+                return territories;
             }
         }
     }
