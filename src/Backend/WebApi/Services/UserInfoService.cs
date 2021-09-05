@@ -15,7 +15,7 @@ namespace WeeControl.Backend.WebApi.Services
     {
         private readonly IMediator mediatR;
         private readonly IEmployeeLists employeeLists;
-        private Guid sessionid = Guid.Empty;
+        private Guid? sessionid = null;
         private readonly ICollection<Guid> territories = new List<Guid>();
         
         public UserInfoService(IHttpContextAccessor httpContextAccessor, IMediator mediatR, IEmployeeLists values)
@@ -32,19 +32,16 @@ namespace WeeControl.Backend.WebApi.Services
         {
             get
             {
-                if (sessionid == Guid.Empty)
+                if (sessionid == null)
                 {
-
                     var sessionid_ = Claims.FirstOrDefault(c => c.Type == employeeLists.GetClaimType(ClaimTypeEnum.Session))?.Value;
                     if (Guid.TryParse(sessionid_, out Guid sessionId__))
                     {
                         sessionid = sessionId__;
-                        return sessionid;
                     }
-                    
                 }
 
-                return null;
+                return sessionid;
             }
         }
 
