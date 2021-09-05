@@ -16,17 +16,14 @@ In order to use this application you need to do the following:
 ## Installation instructions
 This project code depend on many nuget packages, so ensure to restore the packages before running the servers.
 
-##Operating instructions
-**Not Ready**
-“What is this? Where does this go?” Now is the time to demystify any assumptions around how to use your project.
+## Operating instructions
+<del>“What is this? Where does this go?” Now is the time to demystify any assumptions around how to use your project.</del>
 
 ## A list of files included
-**Not Ready**
-Contingent upon how large your source code is, you may opt to not include the file tree, however you can still explain how to traverse through your code. For example, how is your code modularized? Did you use the MVC (Model, View, Controller) method? Did you use a Router system? Just a few questions to consider when detailing your file structure.
+<del>Contingent upon how large your source code is, you may opt to not include the file tree, however you can still explain how to traverse through your code. For example, how is your code modularized? Did you use the MVC (Model, View, Controller) method? Did you use a Router system? Just a few questions to consider when detailing your file structure.</del>
 
 ## Copyright and licensing information
-**Not Ready**
-In order to let others know what they can and cannot do with your code, it is important to include a software license in your project. If you opt out of using a license then the default copyright laws will apply and you will retain all rights to your source code and no one may reproduce, distribute, or create derivative works from your work. Hence the reason licenses are critical and highly recommended for open source projects.
+<del>In order to let others know what they can and cannot do with your code, it is important to include a software license in your project. If you opt out of using a license then the default copyright laws will apply and you will retain all rights to your source code and no one may reproduce, distribute, or create derivative works from your work. Hence the reason licenses are critical and highly recommended for open source projects.</del>
 
 ## Contact information for the distributor or programmer
 You can contact me on my email at <sayed.hussein@gmx.com>.
@@ -35,11 +32,9 @@ You can contact me on my email at <sayed.hussein@gmx.com>.
 Still this project is in its initial developing stage, lots of bugs are expected at the current time, I wish that the project will be ready soon to be released in alpha stage to identfy bugs.
 
 ## Troubleshooting
-**Not Ready**
-In this section you will be able to highlight how your users can become troubleshooting masters for common issues encountered on your project.
+<del>In this section you will be able to highlight how your users can become troubleshooting masters for common issues encountered on your project.</del>
 
 ## Credits and acknowledgments
-**Not Ready**
 Appreciate the opensoure community for inspiring and supporting such project:
 
 * The Markdown Guide [Markdown Guide](https://www.markdownguide.org).
@@ -52,9 +47,7 @@ Appreciate the opensoure community for inspiring and supporting such project:
 **<mark>List not Completed Yet</mark>**
 
 ## A changelog (usually for programmers)
-**Not Ready**
-A changelog is a chronological list of all notable changes made to a project such as: records of changes such as bug fixes, new features, improvements, new frameworks or libraries used, and etc.
+<del>A changelog is a chronological list of all notable changes made to a project such as: records of changes such as bug fixes, new features, improvements, new frameworks or libraries used, and etc.</del>
 
 ## A news section (usually for users)
-**Not Ready**
-If your project is live and in production and you are receiving feedback from users, this is a great place to let them know, “Hey, we hear you, we appreciate you, and because of your feedback here are the most recent changes, updates, and new features made.”
+<del>If your project is live and in production and you are receiving feedback from users, this is a great place to let them know, “Hey, we hear you, we appreciate you, and because of your feedback here are the most recent changes, updates, and new features made.”</del>
