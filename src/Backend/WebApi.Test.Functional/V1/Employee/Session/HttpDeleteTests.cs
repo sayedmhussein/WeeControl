@@ -6,6 +6,7 @@ using Xunit;
 
 namespace WeeControl.Backend.WebApi.Test.Functional.V1.Employee.Session
 {
+    [CollectionDefinition("Non-Parallel Collection", DisableParallelization = true)]
     public class HttpDeleteTests :
         BaseFunctionalTest,
         IClassFixture<CustomWebApplicationFactory<Startup>>,
