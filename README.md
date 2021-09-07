@@ -11,7 +11,7 @@ In order to use this application you need to do the following:
 2. Prepare your backend file storage connection string, you can use your own server directory <mark>Currently Not Ready</mark>.
 3. Edit connections strings and JWT settings in \"/src/Backend/WebApi.appsettins.json\".
 4. Run WebApi server.
-5. Run <mark>Not Yet Ready</mark>.
+5. ...
 
 ## Installation instructions
 This project code depend on many nuget packages, so ensure to restore the packages before running the servers.
