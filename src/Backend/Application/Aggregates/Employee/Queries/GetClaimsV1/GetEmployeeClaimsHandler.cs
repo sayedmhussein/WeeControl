@@ -14,14 +14,14 @@ using WeeControl.SharedKernel.Aggregates.Employee.Enums;
 
 namespace WeeControl.Backend.Application.Aggregates.Employee.Queries.GetClaimsV1
 {
-    public class GetEmployeeClaimsV1Handler : IRequestHandler<GetEmployeeClaimsV1Query, IEnumerable<Claim>>
+    public class GetEmployeeClaimsHandler : IRequestHandler<GetEmployeeClaimsQuery, IEnumerable<Claim>>
     {
         private readonly IMySystemDbContext context;
         private readonly ICurrentUserInfo currentUser;
         private readonly IEmployeeLists sharedValues;
         private readonly IMediator mediator;
 
-        public GetEmployeeClaimsV1Handler(IMySystemDbContext context, ICurrentUserInfo currentUser, IEmployeeLists sharedValues, IMediator mediator)
+        public GetEmployeeClaimsHandler(IMySystemDbContext context, ICurrentUserInfo currentUser, IEmployeeLists sharedValues, IMediator mediator)
         {
             this.context = context ?? throw new ArgumentNullException();
             this.currentUser = currentUser ?? throw new ArgumentNullException();
@@ -29,7 +29,7 @@ namespace WeeControl.Backend.Application.Aggregates.Employee.Queries.GetClaimsV1
             this.mediator = mediator ?? throw new ArgumentNullException();
         }
 
-        public async Task<IEnumerable<Claim>> Handle(GetEmployeeClaimsV1Query request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Claim>> Handle(GetEmployeeClaimsQuery request, CancellationToken cancellationToken)
         {
             _ = request ?? throw new ArgumentNullException();
 
@@ -63,11 +63,11 @@ namespace WeeControl.Backend.Application.Aggregates.Employee.Queries.GetClaimsV1
             var employee = await context.Employees.FirstOrDefaultAsync(x => x.Username == username && x.Password == password, cancellationToken);
             if (employee == null)
             {
-                throw new NotFoundException("", "");
+                throw new NotFoundException("Username and Password are not matched!");
             }
             else if (employee.AccountLockArgument != null)
             {
-                throw new NotAllowedException("");
+                throw new NotAllowedException("Account is locked!");
             }
             else
             {

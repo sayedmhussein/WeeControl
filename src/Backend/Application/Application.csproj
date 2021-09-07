@@ -21,13 +21,13 @@
     <Folder Include="Aggregates\Employee\Notifications\" />
     <Folder Include="Aggregates\Employee\Queries\" />
     <Folder Include="Aggregates\Employee\Queries\GetClaimsV1\" />
-    <Folder Include="Aggregates\Employee\Queries\GetEmployeesV1\" />
     <Folder Include="Aggregates\Employee\Commands\AddEmployeeV1\" />
     <Folder Include="Aggregates\Employee\Commands\AssignClaimV1\" />
     <Folder Include="Aggregates\Employee\Commands\CreateSessionV1\" />
     <Folder Include="Aggregates\Employee\Commands\TerminateSessionV1\" />
     <Folder Include="Aggregates\Employee\Commands\UpdateEmployeeV1\" />
     <Folder Include="Aggregates\Employee\Commands\RevokeClaimV1\" />
+    <Folder Include="Aggregates\Employee\Queries\GetTokenDtoV1\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="9.0.0" />
@@ -53,13 +53,13 @@
     <None Remove="Aggregates\Employee\Notifications\" />
     <None Remove="Aggregates\Employee\Queries\" />
     <None Remove="Aggregates\Employee\Queries\GetClaimsV1\" />
-    <None Remove="Aggregates\Employee\Queries\GetEmployeesV1\" />
     <None Remove="Aggregates\Employee\Commands\AddEmployeeV1\" />
     <None Remove="Aggregates\Employee\Commands\AddClaimV1\" />
     <None Remove="Aggregates\Employee\Commands\CreateSessionV1\" />
     <None Remove="Aggregates\Employee\Commands\TerminateSessionV1\" />
     <None Remove="Aggregates\Employee\Commands\UpdateEmployeeV1\" />
     <None Remove="Aggregates\Employee\Commands\RevokeClaimV1\" />
+    <None Remove="Aggregates\Employee\Queries\GetTokenDtoV1\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />

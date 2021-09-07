@@ -12,6 +12,7 @@ using WeeControl.Backend.Application.Aggregates.Employee.Commands.AddEmployeeV1;
 using WeeControl.Backend.Application.Aggregates.Employee.Commands.TerminateSessionV1;
 using WeeControl.Backend.Application.Aggregates.Employee.Queries.GetClaimsV1;
 using WeeControl.Backend.WebApi.Security.Policies;
+using WeeControl.Server.Application.Aggregates.Employee.Queries.GetTokenDtoV1;
 using WeeControl.SharedKernel.Aggregates.Employee.DtosV1;
 using WeeControl.SharedKernel.DtosV1;
 using WeeControl.SharedKernel.Extensions;
@@ -105,11 +106,9 @@ namespace WeeControl.Backend.WebApi.Controllers.Employee
             if (dto.Payload is CreateLoginDto == false)
                 return BadRequest();
 
-            var query = new GetEmployeeClaimsV1Query() { Username = dto.Payload.Username, Password = dto.Payload.Password, Device = dto.DeviceId };
-            var claims = await mediatR.Send(query);
-            var token = jwtService.GenerateJwtToken(claims, "", DateTime.UtcNow.AddMinutes(5));
-            var value = new EmployeeTokenDto() { Token = token, FullName = "User Full Name :)" };
-            var response = new ResponseDto<EmployeeTokenDto>(value);
+            var query = new GetEmployeeClaimsQuery() { Username = dto.Payload.Username, Password = dto.Payload.Password, Device = dto.DeviceId };
+            var response = await GetResponseTokenDto(query, DateTime.UtcNow.AddMinutes(5));
+
             return Ok(response);
         }
 
@@ -128,11 +127,9 @@ namespace WeeControl.Backend.WebApi.Controllers.Employee
         [MapToApiVersion("1.0")]
         public async Task<ActionResult<ResponseDto<EmployeeTokenDto>>> RefreshTokenV1([FromBody] RequestDto<RefreshLoginDto> dto)
         {
-            var query = new GetEmployeeClaimsV1Query() { Device = dto.DeviceId };
-            var claims = await mediatR.Send(query);
-            var token = jwtService.GenerateJwtToken(claims, "", DateTime.UtcNow.AddDays(5));
-            var value = new EmployeeTokenDto() { Token = token, FullName = "User Full Name :)" };
-            var response = new ResponseDto<EmployeeTokenDto>(value);
+            var query = new GetEmployeeClaimsQuery() { Device = dto.DeviceId };
+            var response = await GetResponseTokenDto(query, DateTime.UtcNow.AddDays(5));
+
             return Ok(response);
         }
 
@@ -153,13 +150,22 @@ namespace WeeControl.Backend.WebApi.Controllers.Employee
             await mediatR.Send(command);
             return Ok();
         }
+
+        private async Task<ResponseDto<EmployeeTokenDto>> GetResponseTokenDto(GetEmployeeClaimsQuery query, DateTime validity)
+        {
+            var claims = await mediatR.Send(query);
+            var token = jwtService.GenerateJwtToken(claims, "", validity);
+            var value = await mediatR.Send(new GetTokenQuery(token));
+            var response = new ResponseDto<EmployeeTokenDto>(value);
+            return response;
+        }
         #endregion
 
         #region Employee Claim
         [HttpGet("Claim/{employeeid}")]
         public async Task<ActionResult<IEnumerable<EmployeeClaimDto>>> GetEmployeeClaimsV1(Guid employeeid)
         {
-            var response = await mediatR.Send(new GetEmployeeClaimsV1Query() { EmployeeId = employeeid });
+            var response = await mediatR.Send(new GetEmployeeClaimsQuery() { EmployeeId = employeeid });
             var claims = new List<EmployeeClaimDto>();
             foreach (var claim in response)
             {

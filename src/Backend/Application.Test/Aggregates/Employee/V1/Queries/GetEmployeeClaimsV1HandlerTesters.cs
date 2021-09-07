@@ -25,7 +25,7 @@ namespace WeeControl.Backend.Application.Test.Employee.V1.Queries
         private Mock<ICurrentUserInfo> userInfoMock;
         private Mock<IMediator> mediatRMock;
 
-        private GetEmployeeClaimsV1Handler handler;
+        private GetEmployeeClaimsHandler handler;
 
 
         public GetEmployeeClaimsV1HandlerTesters()
@@ -35,7 +35,7 @@ namespace WeeControl.Backend.Application.Test.Employee.V1.Queries
 
             mediatRMock = new Mock<IMediator>();
 
-            handler = new GetEmployeeClaimsV1Handler(dbContext, userInfoMock.Object, sharedValues, mediatRMock.Object);
+            handler = new GetEmployeeClaimsHandler(dbContext, userInfoMock.Object, sharedValues, mediatRMock.Object);
         }
 
         public void Dispose()
@@ -50,25 +50,25 @@ namespace WeeControl.Backend.Application.Test.Employee.V1.Queries
         [Fact]
         public void WhenFirstParameterIsNull_ThrowArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new GetEmployeeClaimsV1Handler(null, userInfoMock.Object, sharedValues, mediatRMock.Object));
+            Assert.Throws<ArgumentNullException>(() => new GetEmployeeClaimsHandler(null, userInfoMock.Object, sharedValues, mediatRMock.Object));
         }
 
         [Fact]
         public void WhenSecondParameterIsNull_ThrowArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new GetEmployeeClaimsV1Handler(dbContext, null, sharedValues, mediatRMock.Object));
+            Assert.Throws<ArgumentNullException>(() => new GetEmployeeClaimsHandler(dbContext, null, sharedValues, mediatRMock.Object));
         }
 
         [Fact]
         public void WhenThridParameterIsNull_ThrowArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new GetEmployeeClaimsV1Handler(dbContext, userInfoMock.Object, null, mediatRMock.Object));
+            Assert.Throws<ArgumentNullException>(() => new GetEmployeeClaimsHandler(dbContext, userInfoMock.Object, null, mediatRMock.Object));
         }
 
         [Fact]
         public void WhenFourthParameterIsNull_ThrowArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new GetEmployeeClaimsV1Handler(dbContext, userInfoMock.Object, sharedValues, null));
+            Assert.Throws<ArgumentNullException>(() => new GetEmployeeClaimsHandler(dbContext, userInfoMock.Object, sharedValues, null));
         }
         #endregion
 
@@ -82,7 +82,7 @@ namespace WeeControl.Backend.Application.Test.Employee.V1.Queries
         [Fact]
         public async void WhenAllQueryPropertiesWhereSupplied_ThrowBadRequest()
         {
-            var query = new GetEmployeeClaimsV1Query() { Username = "admin", Password = "admin", Device = "device", EmployeeId = Guid.NewGuid() };
+            var query = new GetEmployeeClaimsQuery() { Username = "admin", Password = "admin", Device = "device", EmployeeId = Guid.NewGuid() };
 
             await Assert.ThrowsAsync<BadRequestException>(async () => await handler.Handle(query, default));
         }
@@ -90,7 +90,7 @@ namespace WeeControl.Backend.Application.Test.Employee.V1.Queries
         [Fact]
         public async void WhenNitherOfAnyQueryPropertiesWhereSupplied_ThrowBadRequest()
         {
-            var query = new GetEmployeeClaimsV1Query();
+            var query = new GetEmployeeClaimsQuery();
 
             await Assert.ThrowsAsync<BadRequestException>(async () => await handler.Handle(query, default));
         }
@@ -104,7 +104,7 @@ namespace WeeControl.Backend.Application.Test.Employee.V1.Queries
         [InlineData("", "password", "device")]
         public async void WhenCombinationOfUsernameAndPasswordAndDeviceAreNotSuppliedTogether_ThrowBadRequestException(string username, string password, string device)
         {
-            var query = new GetEmployeeClaimsV1Query() { Username = username, Password = password, Device = device  };
+            var query = new GetEmployeeClaimsQuery() { Username = username, Password = password, Device = device  };
 
             await Assert.ThrowsAsync<BadRequestException>(async () => await handler.Handle(query, default));
         }
@@ -117,7 +117,7 @@ namespace WeeControl.Backend.Application.Test.Employee.V1.Queries
         [InlineData("admin1", "admin", false)]
         public async void UsernameAndPasswordTheoryTests(string username, string password, bool isCorrect)
         {
-            var query = new GetEmployeeClaimsV1Query() { Username = username, Password = password, Device = "device" };
+            var query = new GetEmployeeClaimsQuery() { Username = username, Password = password, Device = "device" };
 
             if (isCorrect)
             {
@@ -137,7 +137,7 @@ namespace WeeControl.Backend.Application.Test.Employee.V1.Queries
             employee.AccountLockArgument = "locked";
             await dbContext.SaveChangesAsync(default);
 
-            var query = new GetEmployeeClaimsV1Query() { Username = "admin", Password = "admin", Device = "device"};
+            var query = new GetEmployeeClaimsQuery() { Username = "admin", Password = "admin", Device = "device"};
 
             await Assert.ThrowsAsync<NotAllowedException>(async () => await handler.Handle(query, default));
         }
@@ -147,7 +147,7 @@ namespace WeeControl.Backend.Application.Test.Employee.V1.Queries
         [Fact]
         public async void WhenDeviceIsSuppliedButTokenDoNotCarryValidSessionId_ThrowNotFoundException()
         {
-            var query = new GetEmployeeClaimsV1Query() { Device = "device"};
+            var query = new GetEmployeeClaimsQuery() { Device = "device"};
 
             await Assert.ThrowsAsync<NotAllowedException>(async () => await handler.Handle(query, default));
         }
@@ -160,7 +160,7 @@ namespace WeeControl.Backend.Application.Test.Employee.V1.Queries
         public async void WhenDeviceOnlyIsSuppliedTheoryTests(bool isSessionActive, bool isSameDevice, bool isEmployeeNotLocked, bool throwNotAllowedException)
         {
             var device = "device";
-            var query = new GetEmployeeClaimsV1Query() { Device = device };
+            var query = new GetEmployeeClaimsQuery() { Device = device };
             var employee = await dbContext.Employees.FirstOrDefaultAsync(x => x.Username == "admin");
 
             var session = new EmployeeSessionDbo() { DeviceId = isSameDevice ? device : device + "other", EmployeeId = employee.Id };
@@ -176,7 +176,7 @@ namespace WeeControl.Backend.Application.Test.Employee.V1.Queries
                 await dbContext.SaveChangesAsync(default);
             }
 
-            var handler = new GetEmployeeClaimsV1Handler(dbContext, userInfoMock.Object, sharedValues, mediatRMock.Object);
+            var handler = new GetEmployeeClaimsHandler(dbContext, userInfoMock.Object, sharedValues, mediatRMock.Object);
 
             if (throwNotAllowedException)
             {
@@ -194,11 +194,11 @@ namespace WeeControl.Backend.Application.Test.Employee.V1.Queries
         [Fact]
         public async void WhenInvalidEmployeeIdIsSupplied_ThrowNotFoundException()
         {
-            var query = new GetEmployeeClaimsV1Query() { EmployeeId = Guid.NewGuid()};
+            var query = new GetEmployeeClaimsQuery() { EmployeeId = Guid.NewGuid()};
             var claim = new Claim(sharedValues.GetClaimType(ClaimTypeEnum.HumanResources), sharedValues.GetClaimTag(ClaimTagEnum.Read));
             userInfoMock.Setup(x => x.Claims).Returns(new List<Claim>() { claim });
 
-            var handler = new GetEmployeeClaimsV1Handler(dbContext, userInfoMock.Object, sharedValues, mediatRMock.Object);
+            var handler = new GetEmployeeClaimsHandler(dbContext, userInfoMock.Object, sharedValues, mediatRMock.Object);
 
             await Assert.ThrowsAsync<NotFoundException>(async () => await handler.Handle(query, default));
         }
@@ -210,14 +210,14 @@ namespace WeeControl.Backend.Application.Test.Employee.V1.Queries
         public async void WhenEmployeeIdIsSuppliedTheories(bool hasCorrectClaimType, bool hasCorrectClaimTag, bool throwNotFoundException)
         {
             var employee = await dbContext.Employees.FirstOrDefaultAsync(x => x.Username == "admin");
-            var query = new GetEmployeeClaimsV1Query() { EmployeeId = employee.Id };
+            var query = new GetEmployeeClaimsQuery() { EmployeeId = employee.Id };
 
             string type = hasCorrectClaimType ? sharedValues.GetClaimType(ClaimTypeEnum.HumanResources) : sharedValues.GetClaimType(ClaimTypeEnum.Territory);
             string tag = hasCorrectClaimTag ? sharedValues.GetClaimTag(ClaimTagEnum.Read) : sharedValues.GetClaimTag(ClaimTagEnum.Senior);
             var claim = new Claim(type, tag);
             userInfoMock.Setup(x => x.Claims).Returns(new List<Claim>() { claim });
 
-            var handler = new GetEmployeeClaimsV1Handler(dbContext, userInfoMock.Object, sharedValues, mediatRMock.Object);
+            var handler = new GetEmployeeClaimsHandler(dbContext, userInfoMock.Object, sharedValues, mediatRMock.Object);
 
             if (throwNotFoundException)
             {

@@ -8,5 +8,7 @@ namespace WeeControl.SharedKernel.Aggregates.Employee.DtosV1
         public string Token { get; set; }
 
         public string FullName { get; set; }
+
+        public string PhotoUrl { get; set; }
     }
 }

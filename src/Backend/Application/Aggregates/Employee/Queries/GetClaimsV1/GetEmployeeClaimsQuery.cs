@@ -5,7 +5,7 @@ using MediatR;
 
 namespace WeeControl.Backend.Application.Aggregates.Employee.Queries.GetClaimsV1
 {
-    public class GetEmployeeClaimsV1Query : IRequest<IEnumerable<Claim>>
+    public class GetEmployeeClaimsQuery : IRequest<IEnumerable<Claim>>
     {
         public string Username { get; set; }
 
