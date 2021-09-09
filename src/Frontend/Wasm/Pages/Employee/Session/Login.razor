@@ -1,8 +1,50 @@
 ﻿@page "/employee/login"
+@page "/Login"
+@layout RestrictedLayout
+@inject IDialogService DialogService
+@using WeeControl.SharedKernel.Aggregates.Employee.DtosV1
+
+<MudCard>
+    <MudCardContent>
+        <MudText>Story of the day</MudText>
+        <MudText Typo="Typo.body2">The quick, brown fox jumps over a lazy dog.</MudText>
+    </MudCardContent>
+    <MudCardActions>
+        <MudButton Variant="Variant.Text" Color="Color.Primary">Learn More</MudButton>
+    </MudCardActions>
+</MudCard>
 
 <div>
     <h4>Login</h4>
+    <EditForm Model="@loginDto" OnInvalidSubmit="ProcessLoginAsync">
+        <DataAnnotationsValidator></DataAnnotationsValidator>
+        <ValidationSummary></ValidationSummary>
+
+        <p>
+            <label>Username</label>
+            <InputText id="username" @bind-Value="loginDto.Username"></InputText>
+        </p>
+
+        <p>
+            <label>Password</label>
+            <InputText id="password" type="password" @bind-Value="loginDto.Password"></InputText>
+        </p>
+
+        <button type="submit" onclick="@ProcessLoginAsync()">Login</button>
+        <label>@temp</label>
+    </EditForm>
 </div>
 
-@{
+@code
+{
+    private CreateLoginDto loginDto = new CreateLoginDto();
+    private string temp;
+
+    private async Task ProcessLoginAsync()
+    {
+        temp = loginDto.Username;
+        await DialogService.ShowMessageBox("Title bro","Simple Dialog");
+        await Task.CompletedTask;
+    }
 }
+ 

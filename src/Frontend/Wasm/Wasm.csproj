@@ -8,14 +8,22 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.9" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.9" PrivateAssets="all" />
     <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
+    <PackageReference Include="MudBlazor" Version="5.1.3" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="Pages\Employee\" />
     <None Remove="Pages\Employee\Session\" />
+    <None Remove="Radzen.Blazor" />
+    <None Remove="MudBlazor" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Pages\Employee\" />
     <Folder Include="Pages\Employee\Session\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\SharedKernel\SharedKernel.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
   </ItemGroup>
 </Project>
