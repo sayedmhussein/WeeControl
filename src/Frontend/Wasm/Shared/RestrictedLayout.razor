@@ -1,6 +1,15 @@
 ﻿@inherits LayoutComponentBase
 
-<h1>Restricted Layout</h1>
-<div>
-    @Body
+<div class="container">
+    <div class="top-row px-4"></div>
+    <div class="row">
+        <img href="Wasm.wwwroot.logo.png" />
+        <div class="col-sm align-self-center">
+            Some Text
+        </div>
+        <div class="col-sm align-self-center">
+            @Body
+        </div>
+    </div>
 </div>
+
