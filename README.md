@@ -2,7 +2,7 @@
 ## Project Overview
 This project is created to be milestone for applications which could be used for building applications to control internal operations for organization or companies.
 
-Thanks for open soure community for inspiring such activity, currenly the source code is uploaded in github, feel free to contribute or use it for your application.
+Thanks for open source community for inspiring such activity, currenly the source code is uploaded in github, feel free to contribute or use it for your application.
 
 ## Configuration instructions
 In order to use this application you need to do the following:
