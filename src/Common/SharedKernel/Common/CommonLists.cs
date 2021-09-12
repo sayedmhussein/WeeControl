@@ -12,16 +12,14 @@ namespace WeeControl.SharedKernel.Common
 
         public string GetRoute(ApiRouteEnum api)
         {
-            if (routes == null)
+            if (routes != null) return routes[api];
+            
+            routes = new Dictionary<ApiRouteEnum, string>();
+            foreach (var e in Enum.GetValues(typeof(ApiRouteEnum)).Cast<ApiRouteEnum>())
             {
-                routes = new Dictionary<ApiRouteEnum, string>();
-                foreach (var e in Enum.GetValues(typeof(ApiRouteEnum)).Cast<ApiRouteEnum>())
-                {
-                    string value = json.ApiRoute[e.ToString()];
-                    routes.Add(e, value);
-                }
+                string value = json.ApiRoute[e.ToString()];
+                routes.Add(e, value);
             }
-
             return routes[api];
         }
     }

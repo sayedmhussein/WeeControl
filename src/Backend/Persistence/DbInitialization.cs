@@ -17,7 +17,6 @@ namespace WeeControl.Backend.Persistence
         
         private ITerritoryLists territoryLists;
         private IEmployeeLists employeeLists;
-        private List<string> tags;
 
         public DbInitialization(IMySystemDbContext context)
         {
@@ -29,11 +28,7 @@ namespace WeeControl.Backend.Persistence
             this.territoryLists = territoryLists;
             this.employeeLists = employeeLists;
             
-            tags = new List<string>();
-            foreach (var e in Enum.GetValues(typeof(ClaimTagEnum)).Cast<ClaimTagEnum>())
-            {
-                tags.Add(employeeLists.GetClaimTag(e));
-            }
+            
             
             AddTerritores();
             AddEmployees();
@@ -90,6 +85,11 @@ namespace WeeControl.Backend.Persistence
         private void AddEmployeeClaims()
         {
             var employeeid = context.Employees.First(x => x.Username == "admin").Id;
+            var tags = Enum.GetValues(typeof(ClaimTagEnum))
+                .Cast<ClaimTagEnum>()
+                .Select(e => employeeLists.GetClaimTag(e))
+                .ToList();
+
             List<EmployeeClaimDbo> list = new()
             {
                 new EmployeeClaimDbo()

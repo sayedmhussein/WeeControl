@@ -24,6 +24,7 @@
     <ProjectReference Include="..\..\Common\SharedKernel\SharedKernel.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
+    <ProjectReference Include="..\CommonLib\CommonLib.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\logo.png" />

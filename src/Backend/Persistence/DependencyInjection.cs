@@ -10,7 +10,6 @@ namespace WeeControl.Backend.Persistence
     {
         public static IServiceCollection AddPersistenceAsPostgreSql(this IServiceCollection services, IConfiguration configuration, string migrationAssemblyName)
         {
-            
             services.AddDbContext<MySystemDbContext>(options =>
             {
                 options.EnableSensitiveDataLogging();
