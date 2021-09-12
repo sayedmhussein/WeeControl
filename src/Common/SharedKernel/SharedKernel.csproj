@@ -1,76 +1,76 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>WeeControl.SharedKernel</RootNamespace>
-    <Description>This library</Description>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <RootNamespace>WeeControl.SharedKernel</RootNamespace>
+        <Description>This library</Description>
+    </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <LangVersion>8.0</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <LangVersion>8.0</LangVersion>
-  </PropertyGroup>
-  <ItemGroup>
-    <Folder Include="Configurations\" />
-    <Folder Include="EntityGroup\" />
-    <Folder Include="EntityGroup\Employee\" />
-    <Folder Include="EntityGroup\Territory\" />
-    <Folder Include="Extensions\" />
-    <Folder Include="Common\" />
-    <Folder Include="EntityGroup\Custom\" />
-    <Folder Include="DtosV1\" />
-    <Folder Include="Interfaces\" />
-    <Folder Include="EntityGroup\Employee\BaseEntities\" />
-    <Folder Include="EntityGroup\Employee\DtosV1\" />
-    <Folder Include="EntityGroup\Territory\DtosV1\" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="AutoMapper" Version="10.1.1" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="Configuration\appsettings.json" />
-    <None Remove="System.Collections.Immutable" />
-    <None Remove="Configuration\appsettings.json" />
-    <None Remove="EntitiyDtos\" />
-    <None Remove="EntitiyDtos\Employee\" />
-    <None Remove="EntitiyDtos\Territory\" />
-    <None Remove="AutoMapper" />
-    <None Remove="Interfaces\Services\" />
-    <None Remove="Entities\Employee\Aggregates\" />
-    <None Remove="Schema\" />
-    <None Remove="Schemas\Employee\" />
-    <None Remove="Schemas\Territory\" />
-    <None Remove="Schemas\Territory\Interfaces\" />
-    <None Remove="Schemas\Territory\Dicts\" />
-    <None Remove="Schemas\Common\" />
-    <None Remove="Schemas\Common\Dicts\" />
-    <None Remove="Schemas\Common\Interfaces\" />
-    <None Remove="Schemas\Common\DtosV1\" />
-    <None Remove="Schemas\Common\Enums\" />
-    <None Remove="Schemas\Common\Extensions\" />
-    <None Remove="BasicSchemas\Territory\Bases\DtosV1\" />
-    <None Remove="BasicSchemas\Territory\Dicts\Interfaces\" />
-    <None Remove="BasicSchemas\Common\Dicts\Interfaces\" />
-    <None Remove="BasicSchemas\Employee\Dicts\Interfaces\" />
-    <None Remove="BasicSchemas\Employee\Bases\DtosV1\" />
-    <None Remove="BasicSchemas\Common\Entities\" />
-    <None Remove="BasicSchemas\Common\Entities\DtosV1\" />
-    <None Remove="BasicSchemas\Common\Interfaces\" />
-    <None Remove="Extensions\" />
-    <None Remove="Common\" />
-    <None Remove="Aggregates\Custom\" />
-    <None Remove="Dtos\" />
-    <None Remove="Dtos\V1\" />
-    <None Remove="Interfaces\" />
-    <None Remove="Aggregates\Employee\BaseEntities\" />
-    <None Remove="Aggregates\Employee\DtosV1\" />
-    <None Remove="Aggregates\Territory\DtosV1\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Configurations\appsettings.json" />
-  </ItemGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <LangVersion>8.0</LangVersion>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <LangVersion>8.0</LangVersion>
+    </PropertyGroup>
+    <ItemGroup>
+        <Folder Include="Configurations\"/>
+        <Folder Include="EntityGroup\"/>
+        <Folder Include="EntityGroup\Employee\"/>
+        <Folder Include="EntityGroup\Territory\"/>
+        <Folder Include="Extensions\"/>
+        <Folder Include="Common\"/>
+        <Folder Include="EntityGroup\Custom\"/>
+        <Folder Include="DtosV1\"/>
+        <Folder Include="Interfaces\"/>
+        <Folder Include="EntityGroup\Employee\BaseEntities\"/>
+        <Folder Include="EntityGroup\Employee\DtosV1\"/>
+        <Folder Include="EntityGroup\Territory\DtosV1\"/>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0"/>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1"/>
+        <PackageReference Include="AutoMapper" Version="10.1.1"/>
+    </ItemGroup>
+    <ItemGroup>
+        <None Remove="Configuration\appsettings.json"/>
+        <None Remove="System.Collections.Immutable"/>
+        <None Remove="Configuration\appsettings.json"/>
+        <None Remove="EntitiyDtos\"/>
+        <None Remove="EntitiyDtos\Employee\"/>
+        <None Remove="EntitiyDtos\Territory\"/>
+        <None Remove="AutoMapper"/>
+        <None Remove="Interfaces\Services\"/>
+        <None Remove="Entities\Employee\Aggregates\"/>
+        <None Remove="Schema\"/>
+        <None Remove="Schemas\Employee\"/>
+        <None Remove="Schemas\Territory\"/>
+        <None Remove="Schemas\Territory\Interfaces\"/>
+        <None Remove="Schemas\Territory\Dicts\"/>
+        <None Remove="Schemas\Common\"/>
+        <None Remove="Schemas\Common\Dicts\"/>
+        <None Remove="Schemas\Common\Interfaces\"/>
+        <None Remove="Schemas\Common\DtosV1\"/>
+        <None Remove="Schemas\Common\Enums\"/>
+        <None Remove="Schemas\Common\Extensions\"/>
+        <None Remove="BasicSchemas\Territory\Bases\DtosV1\"/>
+        <None Remove="BasicSchemas\Territory\Dicts\Interfaces\"/>
+        <None Remove="BasicSchemas\Common\Dicts\Interfaces\"/>
+        <None Remove="BasicSchemas\Employee\Dicts\Interfaces\"/>
+        <None Remove="BasicSchemas\Employee\Bases\DtosV1\"/>
+        <None Remove="BasicSchemas\Common\Entities\"/>
+        <None Remove="BasicSchemas\Common\Entities\DtosV1\"/>
+        <None Remove="BasicSchemas\Common\Interfaces\"/>
+        <None Remove="Extensions\"/>
+        <None Remove="Common\"/>
+        <None Remove="Aggregates\Custom\"/>
+        <None Remove="Dtos\"/>
+        <None Remove="Dtos\V1\"/>
+        <None Remove="Interfaces\"/>
+        <None Remove="Aggregates\Employee\BaseEntities\"/>
+        <None Remove="Aggregates\Employee\DtosV1\"/>
+        <None Remove="Aggregates\Territory\DtosV1\"/>
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Configurations\appsettings.json"/>
+    </ItemGroup>
 </Project>
