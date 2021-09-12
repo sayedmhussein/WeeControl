@@ -11,6 +11,7 @@ namespace WeeControl.Backend.Application.Common.Exceptions
         {
         }
 
+        [Obsolete(message:"Not necessary, put your message directly.")]
         public NotFoundException(string name, object key)
             : base($"Entity \"{name}\" ({key}) was not found.")
         {

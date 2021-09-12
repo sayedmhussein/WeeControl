@@ -20,7 +20,8 @@ namespace WeeControl.Backend.Domain.Interfaces
         DbSet<EmployeeSessionDbo> EmployeeSessions { get; set; }
         DbSet<EmployeeSessionLogDbo> EmployeeSessionLogs { get; set; }
 
-
+        int SaveChanges();
+        
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

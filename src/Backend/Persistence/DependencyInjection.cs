@@ -8,11 +8,10 @@ namespace WeeControl.Backend.Persistence
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddPersistenceAsPostgreSQL(this IServiceCollection services, IConfiguration configuration, string migrationAssemblyName)
+        public static IServiceCollection AddPersistenceAsPostgreSql(this IServiceCollection services, IConfiguration configuration, string migrationAssemblyName)
         {
-            //services.AddEntityFrameworkNpgsql()
-            services
-                .AddDbContext<MySystemDbContext>(options =>
+            
+            services.AddDbContext<MySystemDbContext>(options =>
             {
                 options.EnableSensitiveDataLogging();
                 options.UseNpgsql(configuration.GetConnectionString("DatabaseProvider"), b =>

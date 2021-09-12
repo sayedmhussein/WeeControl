@@ -7,7 +7,7 @@ namespace WeeControl.Backend.Application.Common.Exceptions
         {
         }
 
-        public NotAllowedException(string argument) : base(argument)
+        public NotAllowedException(string msg) : base(msg)
         {
         }
     }

@@ -5,6 +5,9 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace WeeControl.Backend.Application.Common.Interfaces
 {
+    /// <summary>
+    /// Used by the server to create JWT or extract Claims from token.
+    /// </summary>
     public interface IJwtService
     {
         TokenValidationParameters ValidationParameters { get; }

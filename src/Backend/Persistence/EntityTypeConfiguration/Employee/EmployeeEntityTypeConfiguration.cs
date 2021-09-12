@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WeeControl.Backend.Domain.EntityGroup.EmployeeSchema;
 
@@ -17,7 +18,7 @@ namespace WeeControl.Backend.Persistence.EntityTypeConfiguration.Employee
             }
             else
             {
-                builder.Property(p => p.Id).ValueGeneratedOnAdd();
+                builder.Property(p => p.Id).HasDefaultValue(Guid.NewGuid());
             }
 
             builder.Property(p => p.IsProductive).HasDefaultValue(false);

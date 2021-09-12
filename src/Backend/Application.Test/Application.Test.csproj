@@ -4,7 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
-    <RootNamespace>WeeControl.Server.Application.Test</RootNamespace>
+    <RootNamespace>WeeControl.Backend.Application.Test</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

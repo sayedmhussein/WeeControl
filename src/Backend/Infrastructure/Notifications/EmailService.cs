@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using MimeKit;
+using Org.BouncyCastle.Security;
 using WeeControl.Backend.Domain.Interfaces;
 
 namespace WeeControl.Backend.Infrastructure.Notifications
@@ -11,7 +12,7 @@ namespace WeeControl.Backend.Infrastructure.Notifications
     {
         private readonly string host;
         private readonly int port;
-        private readonly bool useSSL;
+        private readonly bool useSsl;
         private readonly string username;
         private readonly string password;
 
@@ -32,7 +33,7 @@ namespace WeeControl.Backend.Infrastructure.Notifications
                             port = short.Parse(item[1].Trim());
                             break;
                         case "useSSL":
-                            useSSL = item[1].Trim() == "true";
+                            useSsl = item[1].Trim() == "true";
                             break;
                         case "username":
                             username = item[1].Trim();
@@ -49,7 +50,9 @@ namespace WeeControl.Backend.Infrastructure.Notifications
                     }
                 }
                 catch
-                { }
+                {
+                    throw new InvalidParameterException("Connection string is invalid.");
+                }
             }
         }
 
@@ -67,12 +70,12 @@ namespace WeeControl.Backend.Infrastructure.Notifications
             msg.Body = new TextPart(MimeKit.Text.TextFormat.Plain) { Text = body };
 
             using var client = new SmtpClient();
-            client.Connect(host, port, useSSL);
+            await client.ConnectAsync(host, port, useSsl);
 
             // Note: only needed if the SMTP server requires authentication
             if (string.IsNullOrEmpty(username) == false && string.IsNullOrEmpty(password) == false)
             {
-                client.Authenticate(username, password);
+                await client.AuthenticateAsync(username, password);
             }
 
             await client.SendAsync(msg);

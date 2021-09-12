@@ -6,5 +6,9 @@ namespace WeeControl.Backend.Application.Common.Exceptions
         public ConflictFailureException() : base()
         {
         }
+
+        public ConflictFailureException(string msg) : base(msg)
+        {
+        }
     }
 }

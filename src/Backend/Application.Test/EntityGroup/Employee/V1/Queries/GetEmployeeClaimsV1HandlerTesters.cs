@@ -6,9 +6,9 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using WeeControl.Backend.Application.EntityGroup.Employee.Queries.GetClaimsV1;
 using WeeControl.Backend.Application.Common.Exceptions;
 using WeeControl.Backend.Application.Common.Interfaces;
+using WeeControl.Backend.Application.EntityGroup.Employee.Queries.GetClaimsV1;
 using WeeControl.Backend.Domain.EntityGroup.EmployeeSchema;
 using WeeControl.Backend.Domain.Interfaces;
 using WeeControl.Backend.Persistence;
@@ -16,7 +16,7 @@ using WeeControl.SharedKernel.EntityGroup.Employee;
 using WeeControl.SharedKernel.EntityGroup.Employee.Enums;
 using Xunit;
 
-namespace WeeControl.Backend.Application.Test.Employee.V1.Queries
+namespace WeeControl.Backend.Application.Test.EntityGroup.Employee.V1.Queries
 {
     public class GetEmployeeClaimsV1HandlerTesters : IDisposable
     {

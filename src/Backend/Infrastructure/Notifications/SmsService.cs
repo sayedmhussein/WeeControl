@@ -7,7 +7,7 @@ namespace WeeControl.Backend.Infrastructure.Notifications
 {
     public class SmsService : ISmsNotificationService
     {
-        public SmsService()
+        public SmsService(string connectionString)
         {
         }
 

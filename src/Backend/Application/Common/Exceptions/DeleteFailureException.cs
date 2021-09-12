@@ -11,6 +11,7 @@ namespace WeeControl.Backend.Application.Common.Exceptions
         {
         }
 
+        [Obsolete(message: "Put the message one time without details.")]
         public DeleteFailureException(string name, object key, string message)
             : base($"Deletion of entity \"{name}\" ({key}) failed. {message}")
         {

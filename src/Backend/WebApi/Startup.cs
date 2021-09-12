@@ -26,7 +26,7 @@ namespace WeeControl.Backend.WebApi
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        private IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -37,7 +37,7 @@ namespace WeeControl.Backend.WebApi
 
             services.AddApplication();
             services.AddInfrastructure(Configuration);
-            services.AddPersistenceAsPostgreSQL(Configuration, Assembly.GetExecutingAssembly().GetName().Name);
+            services.AddPersistenceAsPostgreSql(Configuration, Assembly.GetExecutingAssembly().GetName().Name);
 
             services.AddApiVersioning(ApiVersionOptions.ConfigureApiVersioning);
             services.AddSwaggerGen(SwaggerOptions.ConfigureSwaggerGen);
