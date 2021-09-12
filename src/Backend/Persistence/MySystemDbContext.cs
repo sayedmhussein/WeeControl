@@ -29,8 +29,8 @@ namespace WeeControl.Backend.Persistence
             DbFacade = Database;
 
             if (!Database.EnsureCreated()) return;
-            InitialData initialData = new(this);
-            initialData.Init(new TerritoryLists(), new EmployeeLists());
+            DbInitialization dbInitialization = new(this);
+            dbInitialization.Init(new TerritoryLists(), new EmployeeLists());
         }
 
         //Territory Schema
@@ -49,33 +49,8 @@ namespace WeeControl.Backend.Persistence
         {
             base.OnModelCreating(modelBuilder);
 
-            if (Database.IsNpgsql())
-            {
-                modelBuilder.HasPostgresExtension("uuid-ossp");
-
-                foreach (var entity in modelBuilder.Model.GetEntityTypes())
-                {        
-                    foreach (var property in entity.GetProperties())
-                    {
-                        property.SetColumnName(property.Name.ToSnakeCase());
-                    }
-
-                    foreach (var key in entity.GetKeys())
-                    {
-                        key.SetName(key.GetName().ToSnakeCase());
-                    }
-
-                    foreach (var key in entity.GetForeignKeys())
-                    {
-                        key.SetConstraintName(key.GetConstraintName().ToSnakeCase());
-                    }
-
-                    foreach (var index in entity.GetIndexes())
-                    {
-                        index.SetDatabaseName(index.Name.ToSnakeCase());
-                    }
-                }
-            }
+            var configuration = new DbConfiguration(Database);
+            configuration.Configure(modelBuilder);
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(MySystemDbContext).Assembly);
         }

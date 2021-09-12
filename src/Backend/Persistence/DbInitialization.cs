@@ -11,7 +11,7 @@ using WeeControl.SharedKernel.EntityGroup.Territory.Enums;
 
 namespace WeeControl.Backend.Persistence
 {
-    public class InitialData
+    public class DbInitialization
     {
         private readonly IMySystemDbContext context;
         
@@ -19,7 +19,7 @@ namespace WeeControl.Backend.Persistence
         private IEmployeeLists employeeLists;
         private List<string> tags;
 
-        public InitialData(IMySystemDbContext context)
+        public DbInitialization(IMySystemDbContext context)
         {
             this.context = context;
         }
