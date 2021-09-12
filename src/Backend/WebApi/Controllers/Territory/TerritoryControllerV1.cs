@@ -10,7 +10,7 @@ using WeeControl.Backend.Application.Territory.Commands.DeleteTerritoriesV1;
 using WeeControl.Backend.Application.Territory.Commands.UpdateTerritoryV1;
 using WeeControl.Backend.Application.Territory.Queries.GetTerritoryV1;
 using WeeControl.Backend.WebApi.Security.Policies;
-using WeeControl.SharedKernel.Aggregates.Territory.DtosV1;
+using WeeControl.SharedKernel.EntityGroup.Territory.DtosV1;
 using WeeControl.SharedKernel.DtosV1;
 using WeeControl.SharedKernel.Interfaces;
 

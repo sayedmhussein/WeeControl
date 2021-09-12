@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WeeControl.Backend.Application.Aggregates.Employee.Commands.AddEmployeeV1;
-using WeeControl.Backend.Application.Aggregates.Employee.Commands.TerminateSessionV1;
-using WeeControl.Backend.Application.Aggregates.Employee.Queries.GetClaimsV1;
+using WeeControl.Backend.Application.EntityGroup.Employee.Commands.AddEmployeeV1;
+using WeeControl.Backend.Application.EntityGroup.Employee.Commands.TerminateSessionV1;
+using WeeControl.Backend.Application.EntityGroup.Employee.Queries.GetClaimsV1;
 using WeeControl.Backend.WebApi.Security.Policies;
 using WeeControl.Server.Application.Aggregates.Employee.Queries.GetTokenDtoV1;
-using WeeControl.SharedKernel.Aggregates.Employee.DtosV1;
+using WeeControl.SharedKernel.EntityGroup.Employee.DtosV1;
 using WeeControl.SharedKernel.DtosV1;
 using WeeControl.SharedKernel.Extensions;
 

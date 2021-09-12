@@ -6,8 +6,8 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using WeeControl.Backend.Application.Common.Interfaces;
 using WeeControl.Backend.Application.Territory.Queries.GetTerritoryV1;
-using WeeControl.SharedKernel.Aggregates.Employee;
-using WeeControl.SharedKernel.Aggregates.Employee.Enums;
+using WeeControl.SharedKernel.EntityGroup.Employee;
+using WeeControl.SharedKernel.EntityGroup.Employee.Enums;
 
 namespace WeeControl.Backend.WebApi.Services
 {

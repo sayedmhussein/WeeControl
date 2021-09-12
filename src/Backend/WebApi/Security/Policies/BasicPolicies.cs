@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using WeeControl.Backend.WebApi.Security.CustomHandlers.TokenRefreshment;
-using WeeControl.SharedKernel.Aggregates.Employee;
-using WeeControl.SharedKernel.Aggregates.Employee.Enums;
+using WeeControl.SharedKernel.EntityGroup.Employee;
+using WeeControl.SharedKernel.EntityGroup.Employee.Enums;
 
 namespace WeeControl.Backend.WebApi.Security.Policies
 {

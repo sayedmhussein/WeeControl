@@ -14,17 +14,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Configurations\" />
-    <Folder Include="Aggregates\" />
-    <Folder Include="Aggregates\Employee\" />
-    <Folder Include="Aggregates\Territory\" />
+    <Folder Include="EntityGroup\" />
+    <Folder Include="EntityGroup\Employee\" />
+    <Folder Include="EntityGroup\Territory\" />
     <Folder Include="Extensions\" />
     <Folder Include="Common\" />
-    <Folder Include="Aggregates\Custom\" />
+    <Folder Include="EntityGroup\Custom\" />
     <Folder Include="DtosV1\" />
     <Folder Include="Interfaces\" />
-    <Folder Include="Aggregates\Employee\BaseEntities\" />
-    <Folder Include="Aggregates\Employee\DtosV1\" />
-    <Folder Include="Aggregates\Territory\DtosV1\" />
+    <Folder Include="EntityGroup\Employee\BaseEntities\" />
+    <Folder Include="EntityGroup\Employee\DtosV1\" />
+    <Folder Include="EntityGroup\Territory\DtosV1\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />

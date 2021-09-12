@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.Backend.Domain.BasicDbos.EmployeeSchema;
+using WeeControl.Backend.Domain.EntityGroup.EmployeeSchema;
 using WeeControl.Backend.Domain.Interfaces;
 using Xunit;
 

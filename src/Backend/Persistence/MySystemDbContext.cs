@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using WeeControl.Backend.Domain.BasicDbos.EmployeeSchema;
-using WeeControl.Backend.Domain.BasicDbos.Territory;
+using WeeControl.Backend.Domain.EntityGroup.EmployeeSchema;
+using WeeControl.Backend.Domain.EntityGroup.Territory;
 using WeeControl.Backend.Domain.Interfaces;
-using WeeControl.SharedKernel.Aggregates.Employee;
-using WeeControl.SharedKernel.Aggregates.Employee.Enums;
-using WeeControl.SharedKernel.Aggregates.Territory;
-using WeeControl.SharedKernel.Aggregates.Territory.Enums;
+using WeeControl.SharedKernel.EntityGroup.Employee;
+using WeeControl.SharedKernel.EntityGroup.Employee.Enums;
+using WeeControl.SharedKernel.EntityGroup.Territory;
+using WeeControl.SharedKernel.EntityGroup.Territory.Enums;
 
 namespace WeeControl.Backend.Persistence
 {

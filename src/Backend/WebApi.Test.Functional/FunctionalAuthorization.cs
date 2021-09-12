@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using WeeControl.SharedKernel.Aggregates.Employee.DtosV1;
+using WeeControl.SharedKernel.EntityGroup.Employee.DtosV1;
 using WeeControl.SharedKernel.Common;
 using WeeControl.SharedKernel.DtosV1;
 

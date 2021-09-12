@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
-using WeeControl.SharedKernel.Aggregates.Employee.DtosV1;
+using WeeControl.SharedKernel.EntityGroup.Employee.DtosV1;
 using WeeControl.SharedKernel.Common;
 using WeeControl.SharedKernel.DtosV1;
 using Xunit;

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.Backend.Domain.BasicDbos.Territory;
+using WeeControl.Backend.Domain.EntityGroup.Territory;
 using WeeControl.Backend.Domain.Interfaces;
 using Xunit;
 

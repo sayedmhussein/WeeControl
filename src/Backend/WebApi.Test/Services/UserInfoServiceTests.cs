@@ -4,8 +4,8 @@ using Moq;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using System.Collections.Generic;
-using WeeControl.SharedKernel.Aggregates.Employee.Enums;
-using WeeControl.SharedKernel.Aggregates.Employee;
+using WeeControl.SharedKernel.EntityGroup.Employee.Enums;
+using WeeControl.SharedKernel.EntityGroup.Employee;
 using WeeControl.Backend.WebApi.Services;
 using MediatR;
 

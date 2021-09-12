@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using WeeControl.SharedKernel.Aggregates.Territory;
-using WeeControl.SharedKernel.Aggregates.Territory.Enums;
+using WeeControl.SharedKernel.EntityGroup.Territory;
+using WeeControl.SharedKernel.EntityGroup.Territory.Enums;
 using Xunit;
 
 namespace WeeControl.SharedKernel.Test.Aggregates.Territory

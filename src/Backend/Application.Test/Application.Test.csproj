@@ -22,11 +22,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Aggregates\Employee\" />
-    <Folder Include="Aggregates\Territory\" />
-    <Folder Include="Aggregates\Territory\V1\Queries\" />
-    <Folder Include="Aggregates\Employee\V1\Queries\" />
-    <Folder Include="Aggregates\" />
+    <Folder Include="EntityGroup\Employee\" />
+    <Folder Include="EntityGroup\Territory\" />
+    <Folder Include="EntityGroup\Territory\V1\Queries\" />
+    <Folder Include="EntityGroup\Employee\V1\Queries\" />
+    <Folder Include="EntityGroup\" />
     <Folder Include="Common\" />
     <Folder Include="Common\Behaviours\" />
   </ItemGroup>

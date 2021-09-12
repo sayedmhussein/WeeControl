@@ -2,8 +2,8 @@
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using WeeControl.Backend.Application.Common.Behaviours;
-using WeeControl.SharedKernel.Aggregates.Employee;
-using WeeControl.SharedKernel.Aggregates.Territory;
+using WeeControl.SharedKernel.EntityGroup.Employee;
+using WeeControl.SharedKernel.EntityGroup.Territory;
 
 namespace WeeControl.Backend.Application
 {

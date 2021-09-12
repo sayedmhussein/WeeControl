@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using WeeControl.SharedKernel.Aggregates.Employee;
-using WeeControl.SharedKernel.Aggregates.Employee.Enums;
+using WeeControl.SharedKernel.EntityGroup.Employee;
+using WeeControl.SharedKernel.EntityGroup.Employee.Enums;
 using Xunit;
 
 namespace WeeControl.SharedKernel.Test.Aggregates.Employee

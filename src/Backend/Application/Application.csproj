@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>WeeControl.Server.Application</RootNamespace>
+    <RootNamespace>WeeControl.Backend.Application</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,24 +10,24 @@
     <Folder Include="Common\Interfaces\" />
     <Folder Include="Common\Exceptions\" />
     <Folder Include="Common\Behaviours\" />
-    <Folder Include="Aggregates\" />
-    <Folder Include="Aggregates\Custom\" />
-    <Folder Include="Aggregates\Territory\Commands\" />
-    <Folder Include="Aggregates\Territory\Queries\" />
-    <Folder Include="Aggregates\Territory\Commands\AddTerritoryV1\" />
-    <Folder Include="Aggregates\Territory\Commands\UpdateTerritoryV1\" />
-    <Folder Include="Aggregates\Territory\Commands\DeleteTerritoryV1\" />
-    <Folder Include="Aggregates\Employee\Commands\" />
-    <Folder Include="Aggregates\Employee\Notifications\" />
-    <Folder Include="Aggregates\Employee\Queries\" />
-    <Folder Include="Aggregates\Employee\Queries\GetClaimsV1\" />
-    <Folder Include="Aggregates\Employee\Commands\AddEmployeeV1\" />
-    <Folder Include="Aggregates\Employee\Commands\AssignClaimV1\" />
-    <Folder Include="Aggregates\Employee\Commands\CreateSessionV1\" />
-    <Folder Include="Aggregates\Employee\Commands\TerminateSessionV1\" />
-    <Folder Include="Aggregates\Employee\Commands\UpdateEmployeeV1\" />
-    <Folder Include="Aggregates\Employee\Commands\RevokeClaimV1\" />
-    <Folder Include="Aggregates\Employee\Queries\GetTokenDtoV1\" />
+    <Folder Include="EntityGroup\" />
+    <Folder Include="EntityGroup\Custom\" />
+    <Folder Include="EntityGroup\Territory\Commands\" />
+    <Folder Include="EntityGroup\Territory\Queries\" />
+    <Folder Include="EntityGroup\Territory\Commands\AddTerritoryV1\" />
+    <Folder Include="EntityGroup\Territory\Commands\UpdateTerritoryV1\" />
+    <Folder Include="EntityGroup\Territory\Commands\DeleteTerritoryV1\" />
+    <Folder Include="EntityGroup\Employee\Commands\" />
+    <Folder Include="EntityGroup\Employee\Notifications\" />
+    <Folder Include="EntityGroup\Employee\Queries\" />
+    <Folder Include="EntityGroup\Employee\Queries\GetClaimsV1\" />
+    <Folder Include="EntityGroup\Employee\Commands\AddEmployeeV1\" />
+    <Folder Include="EntityGroup\Employee\Commands\AssignClaimV1\" />
+    <Folder Include="EntityGroup\Employee\Commands\CreateSessionV1\" />
+    <Folder Include="EntityGroup\Employee\Commands\TerminateSessionV1\" />
+    <Folder Include="EntityGroup\Employee\Commands\UpdateEmployeeV1\" />
+    <Folder Include="EntityGroup\Employee\Commands\RevokeClaimV1\" />
+    <Folder Include="EntityGroup\Employee\Queries\GetTokenDtoV1\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="9.0.0" />
