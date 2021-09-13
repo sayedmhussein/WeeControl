@@ -5,7 +5,7 @@ using WeeControl.SharedKernel.EntityGroups.Territory.Enums;
 using WeeControl.SharedKernel.EntityGroups.Territory.Interfaces;
 using Xunit;
 
-namespace WeeControl.SharedKernel.Test.Aggregates.Territory
+namespace WeeControl.SharedKernel.Test.EntityGroups.Territory
 {
     public class TerritoryListsTests
     {

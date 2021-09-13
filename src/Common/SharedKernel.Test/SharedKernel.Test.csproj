@@ -28,9 +28,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Configurations\" />
+    <Folder Include="Helpers\" />
     <Folder Include="Extensions\" />
-    <Folder Include="Common\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Configurations\" />
@@ -39,5 +38,9 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SharedKernel\SharedKernel.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Helpers\appsettings.json" />
+    <EmbeddedResource Include="Helpers\appsettings.json" />
   </ItemGroup>
 </Project>

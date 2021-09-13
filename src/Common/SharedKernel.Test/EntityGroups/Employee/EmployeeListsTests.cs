@@ -5,7 +5,7 @@ using WeeControl.SharedKernel.EntityGroups.Employee.Enums;
 using WeeControl.SharedKernel.EntityGroups.Employee.Interfaces;
 using Xunit;
 
-namespace WeeControl.SharedKernel.Test.Aggregates.Employee
+namespace WeeControl.SharedKernel.Test.EntityGroups.Employee
 {
     public class EmployeeListsTests
     {

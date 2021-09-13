@@ -11,9 +11,9 @@ namespace WeeControl.SharedKernel.Helpers
     {
         private readonly dynamic json;
 
-        public AppSettingReader(string fileLocation, string fileName)
+        public AppSettingReader(string fileLocation, string fileName, Assembly assembly = null)
         {
-            json = GetSerializedAsJson(fileLocation + "." + fileName, Assembly.GetExecutingAssembly());
+            json = GetSerializedAsJson(fileLocation + "." + fileName, assembly ?? Assembly.GetExecutingAssembly());
         }
 
         public void PopulateAttribute<TEnum, TValue>(ref Dictionary<TEnum, TValue> dictionary, string name)
