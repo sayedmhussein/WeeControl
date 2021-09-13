@@ -5,6 +5,7 @@ using System.Net.Http.Json;
 using WeeControl.SharedKernel.DtosV1;
 using WeeControl.SharedKernel.DtosV1.Employee;
 using WeeControl.SharedKernel.Helpers;
+using WeeControl.SharedKernel.Obsolutes;
 using Xunit;
 
 namespace WeeControl.Backend.WebApi.Test.Functional.V1.Employee.Session

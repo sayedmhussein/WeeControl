@@ -1,24 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using WeeControl.SharedKernel.Configurations;
 using WeeControl.SharedKernel.EntityGroups.Territory.Enums;
 using WeeControl.SharedKernel.EntityGroups.Territory.Interfaces;
 using WeeControl.SharedKernel.Helpers;
 
 namespace WeeControl.SharedKernel.EntityGroups.Territory.Attributes
 {
-    public class TerritoryAttribute : AttributesReader, ITerritoryAttribute
+    public class TerritoryAppSetting : ITerritoryAttribute
     {
+        private readonly AppSettingReader appSettingReader;
         private Dictionary<CountryEnum, string> countries;
 
-        public TerritoryAttribute() : base(typeof(TerritoryAttribute).Namespace)
+        public TerritoryAppSetting()
         {
+            appSettingReader = new AppSettingReader(typeof(TerritoryAppSetting).Namespace, "attributes.json");
         }
 
         public string GetCountryName(CountryEnum country)
         {
-            PopulateDictionary(ref countries, "Countries");
+            appSettingReader.PopulateAttribute(ref countries, "Countries");
             return countries[country];
         }
     }

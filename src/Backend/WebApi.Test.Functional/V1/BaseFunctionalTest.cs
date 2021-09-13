@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using WeeControl.SharedKernel.Helpers;
 using WeeControl.SharedKernel.Interfaces;
+using WeeControl.SharedKernel.Obsolutes;
 
 namespace WeeControl.Backend.WebApi.Test.Functional.V1
 {

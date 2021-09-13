@@ -7,16 +7,16 @@ using System.Linq;
 
 namespace WeeControl.SharedKernel.Helpers
 {
-    public class AttributesReader
+    public class AppSettingReader
     {
         private readonly dynamic json;
 
-        protected AttributesReader(string fileLocation, string fileName = "attributes.json")
+        public AppSettingReader(string fileLocation, string fileName)
         {
             json = GetSerializedAsJson(fileLocation + "." + fileName, Assembly.GetExecutingAssembly());
         }
 
-        protected void PopulateDictionary<TEnum, TValue>(ref Dictionary<TEnum, TValue> dictionary, string name)
+        public void PopulateAttribute<TEnum, TValue>(ref Dictionary<TEnum, TValue> dictionary, string name)
         {
             if (dictionary != null) return;
             

@@ -1,5 +1,8 @@
-﻿namespace WeeControl.SharedKernel.Helpers
+﻿using System;
+
+namespace WeeControl.SharedKernel.Obsolutes
 {
+    [Obsolete]
     public enum ApiRouteEnum
     {
         Base,

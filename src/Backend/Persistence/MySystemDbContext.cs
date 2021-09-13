@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Linq;
+using System.Text.RegularExpressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using WeeControl.Backend.Domain.Common.Interfaces;
@@ -28,9 +29,12 @@ namespace WeeControl.Backend.Persistence
         {
             DbFacade = Database;
 
-            if (!Database.EnsureCreated()) return;
-            DbInitialization dbInitialization = new(this);
-            dbInitialization.Init(new TerritoryAttribute(), new EmployeeAttribute());
+            Database.EnsureCreated();
+            if (!Territories.Any())
+            {
+                DbInitialization dbInitialization = new(this);
+                dbInitialization.Init(new TerritoryAppSetting(), new EmployeeAppSetting());
+            }
         }
 
         //Territory Schema

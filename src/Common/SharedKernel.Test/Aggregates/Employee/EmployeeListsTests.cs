@@ -13,7 +13,7 @@ namespace WeeControl.SharedKernel.Test.Aggregates.Employee
 
         public EmployeeListsTests()
         {
-            attribute = new EmployeeAttribute();
+            attribute = new EmployeeAppSetting();
         }
 
         [Fact]

@@ -2,6 +2,7 @@
 using System.Linq;
 using WeeControl.SharedKernel.Helpers;
 using WeeControl.SharedKernel.Interfaces;
+using WeeControl.SharedKernel.Obsolutes;
 using Xunit;
 
 namespace WeeControl.SharedKernel.Test.Common

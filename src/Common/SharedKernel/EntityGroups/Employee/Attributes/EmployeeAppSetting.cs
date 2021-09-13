@@ -5,8 +5,10 @@ using WeeControl.SharedKernel.Helpers;
 
 namespace WeeControl.SharedKernel.EntityGroups.Employee.Attributes
 {
-    public class EmployeeAttribute : AttributesReader, IEmployeeAttribute
+    public class EmployeeAppSetting : IEmployeeAttribute
     {
+        private readonly AppSettingReader appSettingReader;
+        
         private Dictionary<PersonalTitleEnum, string> personTitle;
         private Dictionary<PersonalGenderEnum, string> personGender;
         private Dictionary<IdentityTypeEnum, string> identityType;
@@ -14,36 +16,37 @@ namespace WeeControl.SharedKernel.EntityGroups.Employee.Attributes
         private Dictionary<ClaimTypeEnum, string> claimType;
         private Dictionary<ClaimTagEnum, string> claimTag;
 
-        public EmployeeAttribute() : base(typeof(EmployeeAttribute).Namespace)
+        public EmployeeAppSetting()
         {
+            appSettingReader = new AppSettingReader(typeof(EmployeeAppSetting).Namespace, "attributes.json");
         }
         public string GetClaimTag(ClaimTagEnum tag)
         {
-            PopulateDictionary(ref claimTag, "ClaimTags");
+            appSettingReader.PopulateAttribute(ref claimTag, "ClaimTags");
             return claimTag[tag];
         }
 
         public string GetClaimType(ClaimTypeEnum type)
         {
-            PopulateDictionary(ref claimType, "ClaimTypes");
+            appSettingReader.PopulateAttribute(ref claimType, "ClaimTypes");
             return claimType[type];
         }
 
         public string GetPersonalGender(PersonalGenderEnum gender)
         {
-            PopulateDictionary(ref personGender, "Genders");
+            appSettingReader.PopulateAttribute(ref personGender, "Genders");
             return personGender[gender];
         }
 
         public string GetPersonalIdentity(IdentityTypeEnum identity)
         {
-            PopulateDictionary(ref identityType, "IdentityTypes");
+            appSettingReader.PopulateAttribute(ref identityType, "IdentityTypes");
             return identityType[identity];
         }
 
         public string GetPersonalTitle(PersonalTitleEnum title)
         {
-            PopulateDictionary(ref personTitle, "Titles");
+            appSettingReader.PopulateAttribute(ref personTitle, "Titles");
             return personTitle[title];
         }
     }

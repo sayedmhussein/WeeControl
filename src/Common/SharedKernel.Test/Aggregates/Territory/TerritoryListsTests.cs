@@ -13,7 +13,7 @@ namespace WeeControl.SharedKernel.Test.Aggregates.Territory
 
         public TerritoryListsTests()
         {
-            attribute = new TerritoryAttribute();
+            attribute = new TerritoryAppSetting();
         }
 
         [Fact]

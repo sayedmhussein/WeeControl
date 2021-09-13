@@ -1,4 +1,4 @@
-﻿using WeeControl.SharedKernel.Configurations;
+﻿using WeeControl.SharedKernel.Obsolutes;
 using Xunit;
 
 namespace WeeControl.SharedKernel.Test.Configurations

@@ -20,9 +20,9 @@ namespace WeeControl.Backend.Application
 
             
 
-            services.AddSingleton<ITerritoryAttribute, TerritoryAttribute>();
+            services.AddSingleton<ITerritoryAttribute, TerritoryAppSetting>();
             //
-            services.AddSingleton<IEmployeeAttribute, EmployeeAttribute>();
+            services.AddSingleton<IEmployeeAttribute, EmployeeAppSetting>();
 
             return services;
         }

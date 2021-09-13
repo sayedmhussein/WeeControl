@@ -3,7 +3,7 @@ using System.IO;
 using System.Reflection;
 using Newtonsoft.Json;
 
-namespace WeeControl.SharedKernel.Configurations
+namespace WeeControl.SharedKernel.Obsolutes
 {
     [Obsolete]
     public abstract class AppSettings

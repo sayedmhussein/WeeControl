@@ -24,8 +24,8 @@ namespace WeeControl.Backend.Application.Test.EntityGroup.Territory.V1.Queries
     {
         private IMySystemDbContext dbContext;
         private Mock<ICurrentUserInfo> userInfoMock;
-        private readonly ITerritoryAttribute values = new TerritoryAttribute();
-        private readonly IEmployeeAttribute employeeValues = new EmployeeAttribute();
+        private readonly ITerritoryAttribute values = new TerritoryAppSetting();
+        private readonly IEmployeeAttribute employeeValues = new EmployeeAppSetting();
 
         public GetTerritoriesHandlerTesters()
         {

@@ -22,7 +22,7 @@ namespace WeeControl.Backend.WebApi.Test.Services
 
         public UserInfoServiceTests()
         {
-            employeeAttribute = new EmployeeAttribute();
+            employeeAttribute = new EmployeeAppSetting();
             sessionClaim = new Claim(employeeAttribute.GetClaimType(ClaimTypeEnum.Session), Guid.NewGuid().ToString());
             territoryClaim = new Claim(employeeAttribute.GetClaimType(ClaimTypeEnum.Territory), Guid.NewGuid().ToString());
 

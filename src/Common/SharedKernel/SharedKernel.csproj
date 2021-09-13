@@ -13,7 +13,7 @@
         <LangVersion>8.0</LangVersion>
     </PropertyGroup>
     <ItemGroup>
-        <Folder Include="Configurations\" />
+        <Folder Include="Obsolutes\" />
         <Folder Include="DtosV1\Custom" />
         <Folder Include="EntityGroups" />
         <Folder Include="EntityGroups\" />
@@ -67,7 +67,7 @@
         <None Remove="Aggregates\Territory\DtosV1\" />
     </ItemGroup>
     <ItemGroup>
-        <EmbeddedResource Include="Configurations\appsettings.json" />
+        <EmbeddedResource Include="Obsolutes\appsettings.json" />
         <None Remove="EntityGroups\Employee\Attributes\attributes.json" />
         <EmbeddedResource Include="EntityGroups\Employee\Attributes\attributes.json" />
         <None Remove="EntityGroups\Territory\Attributes\attributes.json" />

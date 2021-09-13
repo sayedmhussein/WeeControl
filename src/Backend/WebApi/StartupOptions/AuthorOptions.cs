@@ -8,7 +8,7 @@ namespace WeeControl.Backend.WebApi.StartupOptions
     {
         public static void ConfigureAuthOptions(AuthorizationOptions options)
         {
-            new BasicPolicies(new EmployeeAttribute()).BuildOptions(options);
+            new BasicPolicies(new EmployeeAppSetting()).BuildOptions(options);
         }
     }
 }

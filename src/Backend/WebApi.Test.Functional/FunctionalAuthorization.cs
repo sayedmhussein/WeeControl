@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using WeeControl.SharedKernel.DtosV1;
 using WeeControl.SharedKernel.DtosV1.Employee;
 using WeeControl.SharedKernel.Helpers;
+using WeeControl.SharedKernel.Obsolutes;
 
 namespace WeeControl.Backend.WebApi.Test.Functional
 {
