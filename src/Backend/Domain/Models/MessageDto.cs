@@ -1,4 +1,4 @@
-﻿using WeeControl.Backend.Domain.Interfaces;
+﻿using WeeControl.Backend.Domain.Common.Interfaces;
 
 namespace WeeControl.Backend.Domain.Models
 {

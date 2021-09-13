@@ -1,13 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using WeeControl.SharedKernel.EntityGroup.Employee;
-using WeeControl.SharedKernel.EntityGroup.Employee.Enums;
+using WeeControl.SharedKernel.EntityGroups.Employee.Attributes;
+using WeeControl.SharedKernel.EntityGroups.Employee.Enums;
+using WeeControl.SharedKernel.EntityGroups.Employee.Interfaces;
 
-namespace WeeControl.Backend.Application.Test.Territory.V1.Queries
+namespace WeeControl.Backend.Application.Test.EntityGroup.Territory.V1.Queries
 {
     public class GetTerritoriesHandlerTestersData : IEnumerable<object[]>
     {
-        private readonly IEmployeeLists values = new EmployeeLists();
+        private readonly IEmployeeAttribute values = new EmployeeAttribute();
 
         public IEnumerator<object[]> GetEnumerator()
         {

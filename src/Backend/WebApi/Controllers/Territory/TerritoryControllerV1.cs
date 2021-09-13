@@ -5,14 +5,13 @@ using System.Net.Mime;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WeeControl.Backend.Application.Basic.Territory.Commands.AddTerritoryV1;
-using WeeControl.Backend.Application.Territory.Commands.DeleteTerritoriesV1;
-using WeeControl.Backend.Application.Territory.Commands.UpdateTerritoryV1;
-using WeeControl.Backend.Application.Territory.Queries.GetTerritoryV1;
+using WeeControl.Backend.Application.EntityGroups.Territory.Commands.AddTerritoryV1;
+using WeeControl.Backend.Application.EntityGroups.Territory.Commands.DeleteTerritoryV1;
+using WeeControl.Backend.Application.EntityGroups.Territory.Commands.UpdateTerritoryV1;
+using WeeControl.Backend.Application.EntityGroups.Territory.Queries.GetTerritoryV1;
 using WeeControl.Backend.WebApi.Security.Policies;
-using WeeControl.SharedKernel.EntityGroup.Territory.DtosV1;
 using WeeControl.SharedKernel.DtosV1;
-using WeeControl.SharedKernel.Interfaces;
+using WeeControl.SharedKernel.DtosV1.Territory;
 
 namespace WeeControl.Backend.WebApi.Controllers.Territory
 {

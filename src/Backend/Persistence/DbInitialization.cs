@@ -1,13 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using WeeControl.Backend.Domain.EntityGroup.EmployeeSchema;
-using WeeControl.Backend.Domain.EntityGroup.Territory;
-using WeeControl.Backend.Domain.Interfaces;
-using WeeControl.SharedKernel.EntityGroup.Employee;
-using WeeControl.SharedKernel.EntityGroup.Employee.Enums;
-using WeeControl.SharedKernel.EntityGroup.Territory;
-using WeeControl.SharedKernel.EntityGroup.Territory.Enums;
+using WeeControl.Backend.Domain.Common.Interfaces;
+using WeeControl.Backend.Domain.EntityGroups.Employee;
+using WeeControl.Backend.Domain.EntityGroups.Territory;
+using WeeControl.SharedKernel.EntityGroups.Employee.Attributes;
+using WeeControl.SharedKernel.EntityGroups.Employee.Enums;
+using WeeControl.SharedKernel.EntityGroups.Employee.Interfaces;
+using WeeControl.SharedKernel.EntityGroups.Territory.Attributes;
+using WeeControl.SharedKernel.EntityGroups.Territory.Enums;
+using WeeControl.SharedKernel.EntityGroups.Territory.Interfaces;
 
 namespace WeeControl.Backend.Persistence
 {
@@ -15,18 +17,18 @@ namespace WeeControl.Backend.Persistence
     {
         private readonly IMySystemDbContext context;
         
-        private ITerritoryLists territoryLists;
-        private IEmployeeLists employeeLists;
+        private ITerritoryAttribute territoryAttribute;
+        private IEmployeeAttribute employeeAttribute;
 
         public DbInitialization(IMySystemDbContext context)
         {
             this.context = context;
         }
 
-        public void Init(ITerritoryLists territoryLists, IEmployeeLists employeeLists)
+        public void Init(ITerritoryAttribute territoryAttribute, IEmployeeAttribute employeeAttribute)
         {
-            this.territoryLists = territoryLists;
-            this.employeeLists = employeeLists;
+            this.territoryAttribute = territoryAttribute;
+            this.employeeAttribute = employeeAttribute;
             
             
             
@@ -41,7 +43,7 @@ namespace WeeControl.Backend.Persistence
             {
                 new TerritoryDbo()
                 {
-                    CountryId = territoryLists.GetCountryName(CountryEnum.USA),
+                    CountryId = territoryAttribute.GetCountryName(CountryEnum.USA),
                     Name = "Head Office in USA"
                 }
             };
@@ -58,20 +60,20 @@ namespace WeeControl.Backend.Persistence
             {
                 new EmployeeDbo()
                 {
-                    EmployeeTitle = employeeLists.GetPersonalTitle(PersonalTitleEnum.Mr),
+                    EmployeeTitle = employeeAttribute.GetPersonalTitle(PersonalTitleEnum.Mr),
                     FirstName = "Admin",
                     LastName = "Admin",
-                    Gender = employeeLists.GetPersonalGender(PersonalGenderEnum.Male),
+                    Gender = employeeAttribute.GetPersonalGender(PersonalGenderEnum.Male),
                     TerritoryId = territoryid,
                     Username = "admin",
                     Password = "admin"
                 },
                 new EmployeeDbo()
                 {
-                    EmployeeTitle = employeeLists.GetPersonalTitle(PersonalTitleEnum.Mr),
+                    EmployeeTitle = employeeAttribute.GetPersonalTitle(PersonalTitleEnum.Mr),
                     FirstName = "User",
                     LastName = "User",
-                    Gender = employeeLists.GetPersonalGender(PersonalGenderEnum.Male),
+                    Gender = employeeAttribute.GetPersonalGender(PersonalGenderEnum.Male),
                     TerritoryId = territoryid,
                     Username = "user",
                     Password = "user"
@@ -87,7 +89,7 @@ namespace WeeControl.Backend.Persistence
             var employeeid = context.Employees.First(x => x.Username == "admin").Id;
             var tags = Enum.GetValues(typeof(ClaimTagEnum))
                 .Cast<ClaimTagEnum>()
-                .Select(e => employeeLists.GetClaimTag(e))
+                .Select(e => employeeAttribute.GetClaimTag(e))
                 .ToList();
 
             List<EmployeeClaimDbo> list = new()
@@ -96,7 +98,7 @@ namespace WeeControl.Backend.Persistence
                 {
                     EmployeeId = employeeid,
                     GrantedById = employeeid,
-                    ClaimType = employeeLists.GetClaimType(ClaimTypeEnum.HumanResources),
+                    ClaimType = employeeAttribute.GetClaimType(ClaimTypeEnum.HumanResources),
                     ClaimValue = string.Join(";", tags)
                 }
             };

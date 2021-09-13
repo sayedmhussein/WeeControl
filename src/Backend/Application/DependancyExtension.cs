@@ -2,8 +2,10 @@
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using WeeControl.Backend.Application.Common.Behaviours;
-using WeeControl.SharedKernel.EntityGroup.Employee;
-using WeeControl.SharedKernel.EntityGroup.Territory;
+using WeeControl.SharedKernel.EntityGroups.Employee.Attributes;
+using WeeControl.SharedKernel.EntityGroups.Employee.Interfaces;
+using WeeControl.SharedKernel.EntityGroups.Territory.Attributes;
+using WeeControl.SharedKernel.EntityGroups.Territory.Interfaces;
 
 namespace WeeControl.Backend.Application
 {
@@ -18,9 +20,9 @@ namespace WeeControl.Backend.Application
 
             
 
-            services.AddSingleton<ITerritoryLists, TerritoryLists>();
+            services.AddSingleton<ITerritoryAttribute, TerritoryAttribute>();
             //
-            services.AddSingleton<IEmployeeLists, EmployeeLists>();
+            services.AddSingleton<IEmployeeAttribute, EmployeeAttribute>();
 
             return services;
         }

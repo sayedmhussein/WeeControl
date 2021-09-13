@@ -1,5 +1,4 @@
-﻿using System;
-using WeeControl.SharedKernel.Configurations;
+﻿using WeeControl.SharedKernel.Configurations;
 using Xunit;
 
 namespace WeeControl.SharedKernel.Test.Configurations

@@ -2,8 +2,9 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using WeeControl.Backend.WebApi.Security.CustomHandlers.TokenRefreshment;
-using WeeControl.SharedKernel.EntityGroup.Employee;
-using WeeControl.SharedKernel.EntityGroup.Employee.Enums;
+using WeeControl.SharedKernel.EntityGroups.Employee.Attributes;
+using WeeControl.SharedKernel.EntityGroups.Employee.Enums;
+using WeeControl.SharedKernel.EntityGroups.Employee.Interfaces;
 
 namespace WeeControl.Backend.WebApi.Security.Policies
 {
@@ -16,11 +17,11 @@ namespace WeeControl.Backend.WebApi.Security.Policies
         public const string CanAddNewEmployee = "CanAddNewEmployee";
         public const string CanEditEmployeeDetails = "CanEditEmployeeDetails";
 
-        private readonly IEmployeeLists employeeLists;
+        private readonly IEmployeeAttribute employeeAttribute;
 
-        public BasicPolicies(IEmployeeLists employeeLists)
+        public BasicPolicies(IEmployeeAttribute employeeAttribute)
         {
-            this.employeeLists = employeeLists;
+            this.employeeAttribute = employeeAttribute;
         }
 
         public void BuildOptions(AuthorizationOptions options)
@@ -37,7 +38,7 @@ namespace WeeControl.Backend.WebApi.Security.Policies
         {
             var p = new AuthorizationPolicyBuilder();
             p.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
-            p.RequireClaim(employeeLists.GetClaimType(ClaimTypeEnum.Session));
+            p.RequireClaim(employeeAttribute.GetClaimType(ClaimTypeEnum.Session));
 
             switch (policy)
             {

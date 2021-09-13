@@ -1,11 +1,10 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using WeeControl.Backend.Domain.EntityGroup.EmployeeSchema;
-using WeeControl.Backend.Domain.EntityGroup.Territory;
+using WeeControl.Backend.Domain.EntityGroups.Employee;
+using WeeControl.Backend.Domain.EntityGroups.Territory;
 
-namespace WeeControl.Backend.Domain.Interfaces
+namespace WeeControl.Backend.Domain.Common.Interfaces
 {
     public interface IMySystemDbContext
     {

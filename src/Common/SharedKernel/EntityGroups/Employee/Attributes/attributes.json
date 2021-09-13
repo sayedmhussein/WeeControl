@@ -1,0 +1,39 @@
+{
+    "PersonalTitle": {
+        "Mr": "Mr",
+        "Mrs": "Mrs",
+        "Ms": "Ms",
+        "Mx": "Mx",
+        "Miss": "Miss",
+        "Master": "Master",
+        "Maid": "Maid",
+        "Madam": "Madam"
+    },
+
+    "PersonalGender": {
+        "Male": "m",
+        "Female": "f"
+    },
+
+    "ClaimType": {
+        "Session": "sss",
+        "Territory": "ofc",
+
+        "HumanResources": "hr"
+    },
+
+    "IdentityType": {
+        "NationalId": "NationalId",
+        "Passport" :  "Passport"
+    },
+
+    "ClaimTag": {
+        "Read": "red",
+        "Add": "add",
+        "Edit": "edt",
+        "Delete": "del",
+        "Revoke": "rev",
+
+        "Senior": "snr"
+    }
+}

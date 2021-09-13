@@ -1,11 +1,11 @@
 ﻿using System.Text.RegularExpressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using WeeControl.Backend.Domain.EntityGroup.EmployeeSchema;
-using WeeControl.Backend.Domain.EntityGroup.Territory;
-using WeeControl.Backend.Domain.Interfaces;
-using WeeControl.SharedKernel.EntityGroup.Employee;
-using WeeControl.SharedKernel.EntityGroup.Territory;
+using WeeControl.Backend.Domain.Common.Interfaces;
+using WeeControl.Backend.Domain.EntityGroups.Employee;
+using WeeControl.Backend.Domain.EntityGroups.Territory;
+using WeeControl.SharedKernel.EntityGroups.Employee.Attributes;
+using WeeControl.SharedKernel.EntityGroups.Territory.Attributes;
 
 namespace WeeControl.Backend.Persistence
 {
@@ -30,7 +30,7 @@ namespace WeeControl.Backend.Persistence
 
             if (!Database.EnsureCreated()) return;
             DbInitialization dbInitialization = new(this);
-            dbInitialization.Init(new TerritoryLists(), new EmployeeLists());
+            dbInitialization.Init(new TerritoryAttribute(), new EmployeeAttribute());
         }
 
         //Territory Schema

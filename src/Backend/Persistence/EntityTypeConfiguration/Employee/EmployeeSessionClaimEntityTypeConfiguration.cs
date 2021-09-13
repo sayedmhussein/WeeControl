@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using WeeControl.Backend.Domain.EntityGroup.EmployeeSchema;
+using WeeControl.Backend.Domain.EntityGroups.Employee;
 
 namespace WeeControl.Backend.Persistence.EntityTypeConfiguration.Employee
 {

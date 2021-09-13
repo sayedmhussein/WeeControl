@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Linq;
-using WeeControl.SharedKernel.EntityGroup.Territory;
-using WeeControl.SharedKernel.EntityGroup.Territory.Enums;
+using WeeControl.SharedKernel.EntityGroups.Territory.Attributes;
+using WeeControl.SharedKernel.EntityGroups.Territory.Enums;
+using WeeControl.SharedKernel.EntityGroups.Territory.Interfaces;
 using Xunit;
 
 namespace WeeControl.SharedKernel.Test.Aggregates.Territory
 {
     public class TerritoryListsTests
     {
-        private readonly ITerritoryLists lists;
+        private readonly ITerritoryAttribute attribute;
 
         public TerritoryListsTests()
         {
-            lists = new TerritoryLists();
+            attribute = new TerritoryAttribute();
         }
 
         [Fact]
@@ -20,7 +21,7 @@ namespace WeeControl.SharedKernel.Test.Aggregates.Territory
         {
             foreach (var e in Enum.GetValues(typeof(CountryEnum)).Cast<CountryEnum>())
             {
-                var country = lists.GetCountryName(e);
+                var country = attribute.GetCountryName(e);
 
                 Assert.False(string.IsNullOrEmpty(country), string.Format("\"{0}\" Enum don't have value in JSON file.", country));
             }

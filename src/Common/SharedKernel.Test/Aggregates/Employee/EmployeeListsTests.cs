@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Linq;
-using WeeControl.SharedKernel.EntityGroup.Employee;
-using WeeControl.SharedKernel.EntityGroup.Employee.Enums;
+using WeeControl.SharedKernel.EntityGroups.Employee.Attributes;
+using WeeControl.SharedKernel.EntityGroups.Employee.Enums;
+using WeeControl.SharedKernel.EntityGroups.Employee.Interfaces;
 using Xunit;
 
 namespace WeeControl.SharedKernel.Test.Aggregates.Employee
 {
     public class EmployeeListsTests
     {
-        private readonly IEmployeeLists lists;
+        private readonly IEmployeeAttribute attribute;
 
         public EmployeeListsTests()
         {
-            lists = new EmployeeLists();
+            attribute = new EmployeeAttribute();
         }
 
         [Fact]
@@ -20,7 +21,7 @@ namespace WeeControl.SharedKernel.Test.Aggregates.Employee
         {
             foreach (var e in Enum.GetValues(typeof(PersonalTitleEnum)).Cast<PersonalTitleEnum>())
             {
-                var item = lists.GetPersonalTitle(e);
+                var item = attribute.GetPersonalTitle(e);
 
                 Assert.False(string.IsNullOrEmpty(item), string.Format("\"{0}\" Enum don't have value in JSON file.", item));
             }

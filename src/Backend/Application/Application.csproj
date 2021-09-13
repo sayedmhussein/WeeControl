@@ -10,24 +10,24 @@
     <Folder Include="Common\Interfaces\" />
     <Folder Include="Common\Exceptions\" />
     <Folder Include="Common\Behaviours\" />
-    <Folder Include="EntityGroup\" />
-    <Folder Include="EntityGroup\Custom\" />
-    <Folder Include="EntityGroup\Territory\Commands\" />
-    <Folder Include="EntityGroup\Territory\Queries\" />
-    <Folder Include="EntityGroup\Territory\Commands\AddTerritoryV1\" />
-    <Folder Include="EntityGroup\Territory\Commands\UpdateTerritoryV1\" />
-    <Folder Include="EntityGroup\Territory\Commands\DeleteTerritoryV1\" />
-    <Folder Include="EntityGroup\Employee\Commands\" />
-    <Folder Include="EntityGroup\Employee\Notifications\" />
-    <Folder Include="EntityGroup\Employee\Queries\" />
-    <Folder Include="EntityGroup\Employee\Queries\GetClaimsV1\" />
-    <Folder Include="EntityGroup\Employee\Commands\AddEmployeeV1\" />
-    <Folder Include="EntityGroup\Employee\Commands\AssignClaimV1\" />
-    <Folder Include="EntityGroup\Employee\Commands\CreateSessionV1\" />
-    <Folder Include="EntityGroup\Employee\Commands\TerminateSessionV1\" />
-    <Folder Include="EntityGroup\Employee\Commands\UpdateEmployeeV1\" />
-    <Folder Include="EntityGroup\Employee\Commands\RevokeClaimV1\" />
-    <Folder Include="EntityGroup\Employee\Queries\GetTokenDtoV1\" />
+    <Folder Include="EntityGroups\" />
+    <Folder Include="EntityGroups\Custom\" />
+    <Folder Include="EntityGroups\Territory\Commands\" />
+    <Folder Include="EntityGroups\Territory\Queries\" />
+    <Folder Include="EntityGroups\Territory\Commands\AddTerritoryV1\" />
+    <Folder Include="EntityGroups\Territory\Commands\UpdateTerritoryV1\" />
+    <Folder Include="EntityGroups\Territory\Commands\DeleteTerritoryV1\" />
+    <Folder Include="EntityGroups\Employee\Commands\" />
+    <Folder Include="EntityGroups\Employee\Notifications\" />
+    <Folder Include="EntityGroups\Employee\Queries\" />
+    <Folder Include="EntityGroups\Employee\Queries\GetClaimsV1\" />
+    <Folder Include="EntityGroups\Employee\Commands\AddEmployeeV1\" />
+    <Folder Include="EntityGroups\Employee\Commands\AssignClaimV1\" />
+    <Folder Include="EntityGroups\Employee\Commands\CreateSessionV1\" />
+    <Folder Include="EntityGroups\Employee\Commands\TerminateSessionV1\" />
+    <Folder Include="EntityGroups\Employee\Commands\UpdateEmployeeV1\" />
+    <Folder Include="EntityGroups\Employee\Commands\RevokeClaimV1\" />
+    <Folder Include="EntityGroups\Employee\Queries\GetTokenDtoV1\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="9.0.0" />

@@ -1,6 +1,5 @@
-﻿using System;
-using Newtonsoft.Json;
-using WeeControl.SharedKernel.EntityGroup.Territory.DtosV1;
+﻿using Newtonsoft.Json;
+using WeeControl.SharedKernel.DtosV1.Territory;
 using WeeControl.SharedKernel.Extensions;
 using Xunit;
 

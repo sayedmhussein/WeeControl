@@ -1,13 +1,9 @@
 ﻿using System;
-using System.IO;
 using Microsoft.AspNetCore.Http;
 using Xunit;
-using Moq;
 using WeeControl.Backend.WebApi.Middlewares;
 using System.Threading.Tasks;
 using System.Net;
-using System.Threading;
-using System.Text;
 
 namespace WeeControl.Backend.WebApi.Test.Middlewares
 {

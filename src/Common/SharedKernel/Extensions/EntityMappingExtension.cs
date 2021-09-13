@@ -1,5 +1,4 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using WeeControl.SharedKernel.Interfaces;
 
 namespace WeeControl.SharedKernel.Extensions

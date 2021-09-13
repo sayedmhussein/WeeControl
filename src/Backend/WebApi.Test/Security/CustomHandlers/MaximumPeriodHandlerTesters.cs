@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using WeeControl.Backend.WebApi.Security.CustomHandlers.TokenRefreshment;
 using Xunit;
 
-namespace WeeControl.Backend.WebApi.Test.Security
+namespace WeeControl.Backend.WebApi.Test.Security.CustomHandlers
 {
     public class MaximumPeriodHandlerTesters : TokenRefreshmentHandler
     {

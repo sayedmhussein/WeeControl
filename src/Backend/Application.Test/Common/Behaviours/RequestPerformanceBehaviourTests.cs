@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Moq;
 using WeeControl.Backend.Application.Common.Behaviours;
 using WeeControl.Backend.Application.Common.Interfaces;

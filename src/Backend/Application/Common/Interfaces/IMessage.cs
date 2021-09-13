@@ -1,5 +1,4 @@
-﻿using System;
-namespace WeeControl.Backend.Application.Common.Interfaces
+﻿namespace WeeControl.Backend.Application.Common.Interfaces
 {
     public interface IMessage
     {

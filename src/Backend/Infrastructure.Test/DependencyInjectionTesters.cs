@@ -1,10 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using WeeControl.Backend.Domain.Interfaces;
+using WeeControl.Backend.Domain.Common.Interfaces;
+using WeeControl.Backend.Infrastructure;
 using Xunit;
 
-namespace WeeControl.Backend.Infrastructure.Test
+namespace WeeControl.Server.Infrastructure.Test
 {
     public class DependencyInjectionTesters
     {

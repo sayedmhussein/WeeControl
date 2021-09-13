@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.Backend.Domain.Interfaces;
+using WeeControl.Backend.Domain.Common.Interfaces;
 using WeeControl.Backend.Persistence;
 
-namespace WeeControl.Backend.Application.Test.Employee.V1.Commands
+namespace WeeControl.Backend.Application.Test.EntityGroup.Employee.V1.Commands
 {
     public class RefreshEmployeeTokenHandlerTests : IDisposable
     {

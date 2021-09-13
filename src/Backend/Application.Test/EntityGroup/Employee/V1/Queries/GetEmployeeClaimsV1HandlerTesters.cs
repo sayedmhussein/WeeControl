@@ -8,19 +8,20 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.Backend.Application.Common.Exceptions;
 using WeeControl.Backend.Application.Common.Interfaces;
-using WeeControl.Backend.Application.EntityGroup.Employee.Queries.GetClaimsV1;
-using WeeControl.Backend.Domain.EntityGroup.EmployeeSchema;
-using WeeControl.Backend.Domain.Interfaces;
+using WeeControl.Backend.Application.EntityGroups.Employee.Queries.GetClaimsV1;
+using WeeControl.Backend.Domain.Common.Interfaces;
+using WeeControl.Backend.Domain.EntityGroups.Employee;
 using WeeControl.Backend.Persistence;
-using WeeControl.SharedKernel.EntityGroup.Employee;
-using WeeControl.SharedKernel.EntityGroup.Employee.Enums;
+using WeeControl.SharedKernel.EntityGroups.Employee.Attributes;
+using WeeControl.SharedKernel.EntityGroups.Employee.Enums;
+using WeeControl.SharedKernel.EntityGroups.Employee.Interfaces;
 using Xunit;
 
 namespace WeeControl.Backend.Application.Test.EntityGroup.Employee.V1.Queries
 {
     public class GetEmployeeClaimsV1HandlerTesters : IDisposable
     {
-        private readonly IEmployeeLists sharedValues = new EmployeeLists();
+        private readonly IEmployeeAttribute sharedValues = new EmployeeAttribute();
         private IMySystemDbContext dbContext;
         private Mock<ICurrentUserInfo> userInfoMock;
         private Mock<IMediator> mediatRMock;

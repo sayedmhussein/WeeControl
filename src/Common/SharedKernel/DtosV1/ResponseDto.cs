@@ -1,5 +1,4 @@
-﻿using System;
-using WeeControl.SharedKernel.Interfaces;
+﻿using WeeControl.SharedKernel.Interfaces;
 
 namespace WeeControl.SharedKernel.DtosV1
 {

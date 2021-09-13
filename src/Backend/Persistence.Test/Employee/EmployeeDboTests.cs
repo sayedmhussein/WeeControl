@@ -1,11 +1,12 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.Backend.Domain.EntityGroup.EmployeeSchema;
-using WeeControl.Backend.Domain.Interfaces;
+using WeeControl.Backend.Domain.Common.Interfaces;
+using WeeControl.Backend.Domain.EntityGroups.Employee;
+using WeeControl.Backend.Persistence;
 using Xunit;
 
-namespace WeeControl.Backend.Persistence.Test.Employee
+namespace WeeControl.Server.Persistence.Test.Employee
 {
     public class EmployeeDboTests
     {

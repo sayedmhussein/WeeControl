@@ -2,7 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.Backend.Domain.EntityGroup.Territory;
+using WeeControl.Backend.Domain.EntityGroups.Territory;
 using WeeControl.Backend.Persistence;
 using WeeControl.SharedKernel.Common;
 using WeeControl.SharedKernel.DtosV1;

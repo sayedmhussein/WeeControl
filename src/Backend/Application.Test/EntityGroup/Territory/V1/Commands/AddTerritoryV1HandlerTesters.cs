@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.Backend.Domain.Interfaces;
+using WeeControl.Backend.Domain.Common.Interfaces;
 using WeeControl.Backend.Persistence;
 
-namespace WeeControl.Backend.Application.Test.Territory.V1.Commands
+namespace WeeControl.Backend.Application.Test.EntityGroup.Territory.V1.Commands
 {
     public class AddTerritoryV1HandlerTesters : IDisposable
     {

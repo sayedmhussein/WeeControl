@@ -6,23 +6,25 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.Backend.Application.Common.Exceptions;
 using WeeControl.Backend.Application.Common.Interfaces;
-using WeeControl.Backend.Application.Territory.Commands.DeleteTerritoriesV1;
-using WeeControl.Backend.Domain.EntityGroup.Territory;
-using WeeControl.Backend.Domain.Interfaces;
+using WeeControl.Backend.Application.EntityGroups.Territory.Commands.DeleteTerritoryV1;
+using WeeControl.Backend.Domain.Common.Interfaces;
+using WeeControl.Backend.Domain.EntityGroups.Territory;
 using WeeControl.Backend.Persistence;
-using WeeControl.SharedKernel.EntityGroup.Employee;
-using WeeControl.SharedKernel.EntityGroup.Employee.Enums;
-using WeeControl.SharedKernel.EntityGroup.Territory;
+using WeeControl.SharedKernel.EntityGroups.Employee.Attributes;
+using WeeControl.SharedKernel.EntityGroups.Employee.Enums;
+using WeeControl.SharedKernel.EntityGroups.Employee.Interfaces;
+using WeeControl.SharedKernel.EntityGroups.Territory.Attributes;
+using WeeControl.SharedKernel.EntityGroups.Territory.Interfaces;
 using Xunit;
 
-namespace WeeControl.Backend.Application.Test.Territory.V1.Commands
+namespace WeeControl.Backend.Application.Test.EntityGroup.Territory.V1.Commands
 {
     public class DeleteTerritoryV1HandlerTesters : IDisposable
     {
         private IMySystemDbContext dbContext;
         private Mock<ICurrentUserInfo> userInfoMock;
-        private readonly IEmployeeLists employeeValues = new EmployeeLists();
-        private readonly ITerritoryLists values = new TerritoryLists();
+        private readonly IEmployeeAttribute employeeValues = new EmployeeAttribute();
+        private readonly ITerritoryAttribute values = new TerritoryAttribute();
 
         public DeleteTerritoryV1HandlerTesters()
         {

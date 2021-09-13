@@ -1,12 +1,10 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using WeeControl.Backend.Application.Common.Exceptions;
 using WeeControl.Backend.Application.Common.Interfaces;
-using WeeControl.Backend.Domain.Interfaces;
+using WeeControl.Backend.Domain.Common.Interfaces;
 using WeeControl.SharedKernel.Interfaces;
 
 namespace WeeControl.Backend.Application.Common.Behaviours

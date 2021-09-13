@@ -5,25 +5,26 @@ using System.Security.Claims;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using WeeControl.Backend.Application.Common.Interfaces;
-using WeeControl.Backend.Application.Territory.Queries.GetTerritoryV1;
-using WeeControl.SharedKernel.EntityGroup.Employee;
-using WeeControl.SharedKernel.EntityGroup.Employee.Enums;
+using WeeControl.Backend.Application.EntityGroups.Territory.Queries.GetTerritoryV1;
+using WeeControl.SharedKernel.EntityGroups.Employee.Attributes;
+using WeeControl.SharedKernel.EntityGroups.Employee.Enums;
+using WeeControl.SharedKernel.EntityGroups.Employee.Interfaces;
 
 namespace WeeControl.Backend.WebApi.Services
 {
     public class UserInfoService : ICurrentUserInfo
     {
         private readonly IMediator mediatR;
-        private readonly IEmployeeLists employeeLists;
+        private readonly IEmployeeAttribute employeeAttribute;
         private Guid? sessionid = null;
         private readonly ICollection<Guid> territories = new List<Guid>();
         
-        public UserInfoService(IHttpContextAccessor httpContextAccessor, IMediator mediatR, IEmployeeLists values)
+        public UserInfoService(IHttpContextAccessor httpContextAccessor, IMediator mediatR, IEmployeeAttribute values)
         {
             Claims = httpContextAccessor.HttpContext.User.Claims;
 
             this.mediatR = mediatR;
-            employeeLists = values;
+            employeeAttribute = values;
         }
 
         public IEnumerable<Claim> Claims { get; private set; }
@@ -34,7 +35,7 @@ namespace WeeControl.Backend.WebApi.Services
             {
                 if (sessionid == null)
                 {
-                    var sessionid_ = Claims.FirstOrDefault(c => c.Type == employeeLists.GetClaimType(ClaimTypeEnum.Session))?.Value;
+                    var sessionid_ = Claims.FirstOrDefault(c => c.Type == employeeAttribute.GetClaimType(ClaimTypeEnum.Session))?.Value;
                     if (Guid.TryParse(sessionid_, out Guid sessionId__))
                     {
                         sessionid = sessionId__;
@@ -51,7 +52,7 @@ namespace WeeControl.Backend.WebApi.Services
             {
                 if (territories.Count == 0)
                 {
-                    var territoryid_ = Claims.FirstOrDefault(c => c.Type == employeeLists.GetClaimType(ClaimTypeEnum.Territory))?.Value;
+                    var territoryid_ = Claims.FirstOrDefault(c => c.Type == employeeAttribute.GetClaimType(ClaimTypeEnum.Territory))?.Value;
                     if (Guid.TryParse(territoryid_, out Guid territoryid__))
                     {
                         territories.Add(territoryid__);

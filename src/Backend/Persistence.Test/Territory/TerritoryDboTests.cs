@@ -1,11 +1,12 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.Backend.Domain.EntityGroup.Territory;
-using WeeControl.Backend.Domain.Interfaces;
+using WeeControl.Backend.Domain.Common.Interfaces;
+using WeeControl.Backend.Domain.EntityGroups.Territory;
+using WeeControl.Backend.Persistence;
 using Xunit;
 
-namespace WeeControl.Backend.Persistence.Test.Territory
+namespace WeeControl.Server.Persistence.Test.Territory
 {
     public class TerritoryDboTests : IDisposable
     {
