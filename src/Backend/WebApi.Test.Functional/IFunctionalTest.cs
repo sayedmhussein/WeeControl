@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using WeeControl.SharedKernel.Common;
+using WeeControl.SharedKernel.Helpers;
 using WeeControl.SharedKernel.Interfaces;
 
 namespace WeeControl.Backend.WebApi.Test.Functional

@@ -1,4 +1,4 @@
-﻿namespace WeeControl.SharedKernel.Common
+﻿namespace WeeControl.SharedKernel.Helpers
 {
     public enum ApiRouteEnum
     {

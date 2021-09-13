@@ -1,8 +1,9 @@
 ﻿using WeeControl.SharedKernel.EntityGroups.Employee.Enums;
+using WeeControl.SharedKernel.Interfaces;
 
 namespace WeeControl.SharedKernel.EntityGroups.Employee.Interfaces
 {
-    public interface IEmployeeAttribute
+    public interface IEmployeeAttribute : IEntityAttribute
     {
         public string GetPersonalTitle(PersonalTitleEnum title);
         public string GetPersonalGender(PersonalGenderEnum gender);

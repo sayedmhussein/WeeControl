@@ -1,4 +1,4 @@
-﻿using WeeControl.SharedKernel.Common;
+﻿using WeeControl.SharedKernel.Helpers;
 
 namespace WeeControl.SharedKernel.Interfaces
 {

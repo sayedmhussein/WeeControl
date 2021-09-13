@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using WeeControl.SharedKernel.Common;
+using WeeControl.SharedKernel.Helpers;
 using WeeControl.SharedKernel.Interfaces;
 using Xunit;
 

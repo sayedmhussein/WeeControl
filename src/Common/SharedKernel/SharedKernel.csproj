@@ -18,7 +18,7 @@
         <Folder Include="EntityGroups" />
         <Folder Include="EntityGroups\" />
         <Folder Include="Extensions\" />
-        <Folder Include="Common\" />
+        <Folder Include="Helpers\" />
         <Folder Include="DtosV1\" />
         <Folder Include="Interfaces\" />
     </ItemGroup>
@@ -68,5 +68,9 @@
     </ItemGroup>
     <ItemGroup>
         <EmbeddedResource Include="Configurations\appsettings.json" />
+        <None Remove="EntityGroups\Employee\Attributes\attributes.json" />
+        <EmbeddedResource Include="EntityGroups\Employee\Attributes\attributes.json" />
+        <None Remove="EntityGroups\Territory\Attributes\attributes.json" />
+        <EmbeddedResource Include="EntityGroups\Territory\Attributes\attributes.json" />
     </ItemGroup>
 </Project>

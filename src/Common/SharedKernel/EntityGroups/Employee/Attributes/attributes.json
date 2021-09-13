@@ -1,5 +1,5 @@
 {
-    "PersonalTitle": {
+    "Titles": {
         "Mr": "Mr",
         "Mrs": "Mrs",
         "Ms": "Ms",
@@ -10,24 +10,24 @@
         "Madam": "Madam"
     },
 
-    "PersonalGender": {
+    "Genders": {
         "Male": "m",
         "Female": "f"
     },
 
-    "ClaimType": {
+    "ClaimTypes": {
         "Session": "sss",
         "Territory": "ofc",
 
         "HumanResources": "hr"
     },
 
-    "IdentityType": {
+    "IdentityTypes": {
         "NationalId": "NationalId",
         "Passport" :  "Passport"
     },
 
-    "ClaimTag": {
+    "ClaimTags": {
         "Read": "red",
         "Add": "add",
         "Edit": "edt",

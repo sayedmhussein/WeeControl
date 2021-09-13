@@ -4,7 +4,7 @@ using System.Linq;
 using WeeControl.SharedKernel.Configurations;
 using WeeControl.SharedKernel.Interfaces;
 
-namespace WeeControl.SharedKernel.Common
+namespace WeeControl.SharedKernel.Helpers
 {
     public class CommonLists : AppSettings, ICommonLists
     {

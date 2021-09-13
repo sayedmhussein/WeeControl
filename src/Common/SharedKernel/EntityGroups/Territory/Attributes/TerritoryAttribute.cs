@@ -4,25 +4,21 @@ using System.Linq;
 using WeeControl.SharedKernel.Configurations;
 using WeeControl.SharedKernel.EntityGroups.Territory.Enums;
 using WeeControl.SharedKernel.EntityGroups.Territory.Interfaces;
+using WeeControl.SharedKernel.Helpers;
 
 namespace WeeControl.SharedKernel.EntityGroups.Territory.Attributes
 {
-    public class TerritoryAttribute : AppSettings, ITerritoryAttribute
+    public class TerritoryAttribute : AttributesReader, ITerritoryAttribute
     {
-        private readonly Dictionary<CountryEnum, string> countries;
+        private Dictionary<CountryEnum, string> countries;
 
-        public TerritoryAttribute()
+        public TerritoryAttribute() : base(typeof(TerritoryAttribute).Namespace)
         {
-            countries = new Dictionary<CountryEnum, string>();
-            foreach (var e in Enum.GetValues(typeof(CountryEnum)).Cast<CountryEnum>())
-            {
-                string value = json.Country[e.ToString()];
-                countries.Add(e, value);
-            }
         }
 
         public string GetCountryName(CountryEnum country)
         {
+            PopulateDictionary(ref countries, "Countries");
             return countries[country];
         }
     }

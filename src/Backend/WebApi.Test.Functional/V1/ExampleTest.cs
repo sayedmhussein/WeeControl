@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using WeeControl.Backend.WebApi.Test.Functional.V1.Territory;
-using WeeControl.SharedKernel.Common;
+using WeeControl.SharedKernel.Helpers;
 using Xunit;
 
 namespace WeeControl.Backend.WebApi.Test.Functional.V1

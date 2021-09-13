@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using WeeControl.SharedKernel.Configurations;
+﻿using System.Collections.Generic;
 using WeeControl.SharedKernel.EntityGroups.Employee.Enums;
 using WeeControl.SharedKernel.EntityGroups.Employee.Interfaces;
+using WeeControl.SharedKernel.Helpers;
 
 namespace WeeControl.SharedKernel.EntityGroups.Employee.Attributes
 {
-    public class EmployeeAttribute : AppSettings, IEmployeeAttribute
+    public class EmployeeAttribute : AttributesReader, IEmployeeAttribute
     {
         private Dictionary<PersonalTitleEnum, string> personTitle;
         private Dictionary<PersonalGenderEnum, string> personGender;
@@ -16,78 +14,36 @@ namespace WeeControl.SharedKernel.EntityGroups.Employee.Attributes
         private Dictionary<ClaimTypeEnum, string> claimType;
         private Dictionary<ClaimTagEnum, string> claimTag;
 
+        public EmployeeAttribute() : base(typeof(EmployeeAttribute).Namespace)
+        {
+        }
         public string GetClaimTag(ClaimTagEnum tag)
         {
-            if (claimTag == null)
-            {
-                claimTag = new Dictionary<ClaimTagEnum, string>();
-                foreach (var e in Enum.GetValues(typeof(ClaimTagEnum)).Cast<ClaimTagEnum>())
-                {
-                    string value = json.ClaimTag[e.ToString()];
-                    claimTag.Add(e, value);
-                }
-            }
-
+            PopulateDictionary(ref claimTag, "ClaimTags");
             return claimTag[tag];
         }
 
         public string GetClaimType(ClaimTypeEnum type)
         {
-            if (claimType == null)
-            {
-                claimType = new Dictionary<ClaimTypeEnum, string>();
-                foreach (var e in Enum.GetValues(typeof(ClaimTypeEnum)).Cast<ClaimTypeEnum>())
-                {
-                    string value = json.ClaimType[e.ToString()];
-                    claimType.Add(e, value);
-                }
-            }
-
+            PopulateDictionary(ref claimType, "ClaimTypes");
             return claimType[type];
         }
 
         public string GetPersonalGender(PersonalGenderEnum gender)
         {
-            if (personGender == null)
-            {
-                personGender = new Dictionary<PersonalGenderEnum, string>();
-                foreach (var e in Enum.GetValues(typeof(PersonalGenderEnum)).Cast<PersonalGenderEnum>())
-                {
-                    string value = json.PersonalGender[e.ToString()];
-                    personGender.Add(e, value);
-                }
-            }
-
+            PopulateDictionary(ref personGender, "Genders");
             return personGender[gender];
         }
 
         public string GetPersonalIdentity(IdentityTypeEnum identity)
         {
-            if (identityType == null)
-            {
-                identityType = new Dictionary<IdentityTypeEnum, string>();
-                foreach (var e in Enum.GetValues(typeof(IdentityTypeEnum)).Cast<IdentityTypeEnum>())
-                {
-                    string value = json.IdentityType[e.ToString()];
-                    identityType.Add(e, value);
-                }
-            }
-
+            PopulateDictionary(ref identityType, "IdentityTypes");
             return identityType[identity];
         }
 
         public string GetPersonalTitle(PersonalTitleEnum title)
         {
-            if (personTitle == null)
-            {
-                personTitle = new Dictionary<PersonalTitleEnum, string>();
-                foreach (var e in Enum.GetValues(typeof(PersonalTitleEnum)).Cast<PersonalTitleEnum>())
-                {
-                    string value = json.PersonalTitle[e.ToString()];
-                    personTitle.Add(e, value);
-                }
-            }
-
+            PopulateDictionary(ref personTitle, "Titles");
             return personTitle[title];
         }
     }
