@@ -6,19 +6,18 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using WeeControl.Backend.WebApi.Test.Functional.TestHelpers;
 using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.Routing;
 
-namespace WeeControl.Backend.WebApi.Test.Functional.V1
+namespace WeeControl.Backend.WebApi.Test.Functional.TestHelpers
 {
-    public class BaseFunctionalTest : IFunctionalTest
+    public class FunctionalTest : IFunctionalTest
     {
         protected readonly IFunctionalAuthorization authorization;
         protected readonly CustomWebApplicationFactory<Startup> factory;
         protected Uri ServerUri;
 
-        public BaseFunctionalTest(CustomWebApplicationFactory<Startup> factory, HttpMethod method, string deviceid)
+        public FunctionalTest(CustomWebApplicationFactory<Startup> factory, HttpMethod method, string deviceid)
         {
             authorization = new FunctionalAuthorization(this);
 

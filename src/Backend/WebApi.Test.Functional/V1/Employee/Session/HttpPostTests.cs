@@ -11,7 +11,7 @@ using Xunit;
 namespace WeeControl.Backend.WebApi.Test.Functional.V1.Employee.Session
 {
     public class HttpPostTests :
-        BaseFunctionalTest,
+        FunctionalTest,
         IClassFixture<CustomWebApplicationFactory<Startup>>,
         IDisposable
     {

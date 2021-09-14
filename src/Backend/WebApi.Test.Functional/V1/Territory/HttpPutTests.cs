@@ -10,7 +10,7 @@ using Xunit;
 namespace WeeControl.Backend.WebApi.Test.Functional.V1.Territory
 {
     public class HttpPutTests :
-        BaseFunctionalTest,
+        FunctionalTest,
         IClassFixture<CustomWebApplicationFactory<Startup>>,
         IDisposable
     {

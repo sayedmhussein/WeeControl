@@ -11,9 +11,9 @@ namespace WeeControl.Backend.WebApi.Test.Functional.TestHelpers
         HttpClient Client { get; set; }
         HttpRequestMessage RequestMessage { get; set; }
         string DeviceId { get; set; }
-
-
+        
         Uri GetUri(ApiRouteEnum route);
+        
         HttpContent GetHttpContentAsJson(ISerializable dto);
 
         Task<HttpRequestMessage> CloneRequestMessageAsync(HttpRequestMessage requestMessage);

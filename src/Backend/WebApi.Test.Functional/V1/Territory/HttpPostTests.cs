@@ -9,23 +9,25 @@ using Xunit;
 
 namespace WeeControl.Backend.WebApi.Test.Functional.V1.Territory
 {
-    public class HttpPostTests :
-        BaseFunctionalTest,
-        IClassFixture<CustomWebApplicationFactory<Startup>>,
-        IDisposable
+    public class HttpPostTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
-        private readonly Uri requestUri;
+        private readonly CustomWebApplicationFactory<Startup> factory;
+        private readonly IFunctionalTest test;
+        private readonly IFunctionalAuthorization authorization;
+        private readonly Uri routeUri;
 
-        public HttpPostTests(CustomWebApplicationFactory<Startup> factory) :
-            base(factory, HttpMethod.Post, typeof(HttpGetTests).Namespace)
+        public HttpPostTests(CustomWebApplicationFactory<Startup> factory)
         {
-            requestUri = GetUri(ApiRouteEnum.Territory);
+            this.factory = factory;
+            test = new FunctionalTest(factory, HttpMethod.Post, typeof(HttpGetTests).Namespace);
+            authorization = new FunctionalAuthorization(test);
+            routeUri = test.GetUri(ApiRouteEnum.Territory);
         }
 
         [Fact]
         public async void WhenWithoutToken_ReturnUnAuthorized()
         {
-            var response = await GetResponseMessageAsync(requestUri);
+            var response = await test.GetResponseMessageAsync(routeUri);
 
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
@@ -36,14 +38,14 @@ namespace WeeControl.Backend.WebApi.Test.Functional.V1.Territory
             var token = await authorization.GetTokenAsync("admin", "admin");
             var requestDto = new RequestDto<TerritoryDto>()
             {
-                DeviceId = DeviceId,
+                DeviceId = test.DeviceId,
                 Payload = new TerritoryDto()
                 {
                     Name = new Random().NextDouble().ToString(),
                     CountryId = "TST"
                 }
             };
-            var response = await GetResponseMessageAsync(requestUri, GetHttpContentAsJson(requestDto), token);
+            var response = await test.GetResponseMessageAsync(routeUri, test.GetHttpContentAsJson(requestDto), token);
 
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
         }
@@ -54,22 +56,22 @@ namespace WeeControl.Backend.WebApi.Test.Functional.V1.Territory
             var token = await authorization.GetTokenAsync("admin", "admin");
             var dto = new RequestDto<TerritoryDto>()
             {
-                DeviceId = DeviceId,
+                DeviceId = test.DeviceId,
                 Payload = new TerritoryDto()
                 {
                     Name = new Random().NextDouble().ToString(),
                     CountryId = "TST"
                 }
             };
-            RequestMessage.Content = GetHttpContentAsJson(dto);
-            RequestMessage.RequestUri = requestUri;
-            var request1 = RequestMessage;
-            var request2 = await CloneRequestMessageAsync(request1);
+            test.RequestMessage.Content = test.GetHttpContentAsJson(dto);
+            test.RequestMessage.RequestUri = routeUri;
+            var request1 = test.RequestMessage;
+            var request2 = await test.CloneRequestMessageAsync(request1);
 
-            var response = await GetResponseMessageAsync(request1, token);
+            var response = await test.GetResponseMessageAsync(request1, token);
             response.EnsureSuccessStatusCode();
 
-            var response2 = await GetResponseMessageAsync(request2, token);
+            var response2 = await test.GetResponseMessageAsync(request2, token);
 
             Assert.Equal(HttpStatusCode.Conflict, response2.StatusCode);
         }
@@ -79,7 +81,7 @@ namespace WeeControl.Backend.WebApi.Test.Functional.V1.Territory
         {
             var token = await authorization.GetTokenAsync("admin", "admin");
 
-            var response = await GetResponseMessageAsync(requestUri, GetHttpContentAsJson(new TerritoryDto()), token);
+            var response = await test.GetResponseMessageAsync(routeUri, test.GetHttpContentAsJson(new TerritoryDto()), token);
 
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
