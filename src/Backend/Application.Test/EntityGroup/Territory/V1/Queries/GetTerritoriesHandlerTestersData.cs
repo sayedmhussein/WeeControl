@@ -8,7 +8,7 @@ namespace WeeControl.Backend.Application.Test.EntityGroup.Territory.V1.Queries
 {
     public class GetTerritoriesHandlerTestersData : IEnumerable<object[]>
     {
-        private readonly IEmployeeAttribute values = new EmployeeAppSetting();
+        private readonly IEmployeeAttribute values = new EmployeeAttribute();
 
         public IEnumerator<object[]> GetEnumerator()
         {

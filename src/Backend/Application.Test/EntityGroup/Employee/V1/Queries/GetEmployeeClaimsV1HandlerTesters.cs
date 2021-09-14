@@ -21,7 +21,7 @@ namespace WeeControl.Backend.Application.Test.EntityGroup.Employee.V1.Queries
 {
     public class GetEmployeeClaimsV1HandlerTesters : IDisposable
     {
-        private readonly IEmployeeAttribute sharedValues = new EmployeeAppSetting();
+        private readonly IEmployeeAttribute sharedValues = new EmployeeAttribute();
         private IMySystemDbContext dbContext;
         private Mock<ICurrentUserInfo> userInfoMock;
         private Mock<IMediator> mediatRMock;

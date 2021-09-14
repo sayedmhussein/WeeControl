@@ -33,7 +33,7 @@ namespace WeeControl.Backend.Persistence
             if (!Territories.Any())
             {
                 DbInitialization dbInitialization = new(this);
-                dbInitialization.Init(new TerritoryAppSetting(), new EmployeeAppSetting());
+                dbInitialization.Init(new TerritoryAppSetting(), new EmployeeAttribute());
             }
         }
 

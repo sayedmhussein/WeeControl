@@ -22,7 +22,7 @@ namespace WeeControl.Backend.Application
 
             services.AddSingleton<ITerritoryAttribute, TerritoryAppSetting>();
             //
-            services.AddSingleton<IEmployeeAttribute, EmployeeAppSetting>();
+            services.AddSingleton<IEmployeeAttribute, EmployeeAttribute>();
 
             return services;
         }

@@ -5,7 +5,7 @@ using WeeControl.SharedKernel.Helpers;
 
 namespace WeeControl.SharedKernel.EntityGroups.Employee.Attributes
 {
-    public class EmployeeAppSetting : IEmployeeAttribute
+    public class EmployeeAttribute : IEmployeeAttribute
     {
         private readonly AppSettingReader appSettingReader;
         
@@ -16,9 +16,9 @@ namespace WeeControl.SharedKernel.EntityGroups.Employee.Attributes
         private Dictionary<ClaimTypeEnum, string> claimType;
         private Dictionary<ClaimTagEnum, string> claimTag;
 
-        public EmployeeAppSetting()
+        public EmployeeAttribute()
         {
-            appSettingReader = new AppSettingReader(typeof(EmployeeAppSetting).Namespace, "attributes.json");
+            appSettingReader = new AppSettingReader(typeof(EmployeeAttribute).Namespace, "attributes.json");
         }
         public string GetClaimTag(ClaimTagEnum tag)
         {

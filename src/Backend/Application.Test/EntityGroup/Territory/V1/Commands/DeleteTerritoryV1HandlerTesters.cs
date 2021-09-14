@@ -23,7 +23,7 @@ namespace WeeControl.Backend.Application.Test.EntityGroup.Territory.V1.Commands
     {
         private IMySystemDbContext dbContext;
         private Mock<ICurrentUserInfo> userInfoMock;
-        private readonly IEmployeeAttribute employeeValues = new EmployeeAppSetting();
+        private readonly IEmployeeAttribute employeeValues = new EmployeeAttribute();
         private readonly ITerritoryAttribute values = new TerritoryAppSetting();
 
         public DeleteTerritoryV1HandlerTesters()
