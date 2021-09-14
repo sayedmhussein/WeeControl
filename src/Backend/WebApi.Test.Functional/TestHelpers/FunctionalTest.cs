@@ -11,16 +11,12 @@ using WeeControl.SharedKernel.Routing;
 
 namespace WeeControl.Backend.WebApi.Test.Functional.TestHelpers
 {
-    public class FunctionalTest : IFunctionalTest
+    public sealed class FunctionalTest : IFunctionalTest
     {
-        protected readonly IFunctionalAuthorization authorization;
         protected readonly CustomWebApplicationFactory<Startup> factory;
-        protected Uri ServerUri;
 
         public FunctionalTest(CustomWebApplicationFactory<Startup> factory, HttpMethod method, string deviceid)
         {
-            authorization = new FunctionalAuthorization(this);
-
             this.factory = factory;
 
             RequestMessage = new HttpRequestMessage
@@ -36,7 +32,6 @@ namespace WeeControl.Backend.WebApi.Test.Functional.TestHelpers
         {
             RequestMessage = null;
             Client = null;
-            ServerUri = null;
         }
 
         private HttpClient client;

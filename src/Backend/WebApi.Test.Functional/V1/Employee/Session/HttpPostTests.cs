@@ -10,23 +10,27 @@ using Xunit;
 
 namespace WeeControl.Backend.WebApi.Test.Functional.V1.Employee.Session
 {
-    public class HttpPostTests :
-        FunctionalTest,
-        IClassFixture<CustomWebApplicationFactory<Startup>>,
-        IDisposable
+    public class HttpPostTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
-        public HttpPostTests(CustomWebApplicationFactory<Startup> factory) :
-            base(factory, HttpMethod.Post, typeof(HttpPostTests).Namespace)
+        private readonly CustomWebApplicationFactory<Startup> factory;
+        private readonly IFunctionalTest test;
+        private readonly IFunctionalAuthorization authorization;
+        private readonly Uri routeUri;
+        
+        public HttpPostTests(CustomWebApplicationFactory<Startup> factory)
         {
-            ServerUri = GetUri(ApiRouteEnum.EmployeeSession);
+            this.factory = factory;
+            test = new FunctionalTest(factory, HttpMethod.Post, typeof(HttpPostTests).Namespace);
+            authorization = new FunctionalAuthorization(test);
+            routeUri = test.GetUri(ApiRouteEnum.EmployeeSession);
         }
 
         [Fact]
         public async void WhenPostingInvalidDto_ResponseIsBadRequest()
         {
-            var content = GetHttpContentAsJson(new CreateLoginDto());
+            var content = test.GetHttpContentAsJson(new CreateLoginDto());
 
-            var response = await GetResponseMessageAsync(ServerUri, content);
+            var response = await test.GetResponseMessageAsync(routeUri, content);
 
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
@@ -34,9 +38,9 @@ namespace WeeControl.Backend.WebApi.Test.Functional.V1.Employee.Session
         [Fact]
         public async void WhenPostingInvalidPayloadDto_ResponseIsBadRequest()
         {
-            var content = GetHttpContentAsJson(new RequestDto<string>() { Payload = "" });
+            var content = test.GetHttpContentAsJson(new RequestDto<string>() { Payload = "" });
 
-            var response = await GetResponseMessageAsync(ServerUri, content);
+            var response = await test.GetResponseMessageAsync(routeUri, content);
 
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
@@ -46,9 +50,9 @@ namespace WeeControl.Backend.WebApi.Test.Functional.V1.Employee.Session
         [InlineData("user", "user")]
         public async void LoginWithCorrectCredentials_ReturnOk(string username, string password)
         {
-            var content = GetHttpContentAsJson(new RequestDto<CreateLoginDto>()
+            var content = test.GetHttpContentAsJson(new RequestDto<CreateLoginDto>()
             {
-                DeviceId = DeviceId,
+                DeviceId = test.DeviceId,
                 Payload = new CreateLoginDto()
                 {
                     Username = username,
@@ -56,7 +60,7 @@ namespace WeeControl.Backend.WebApi.Test.Functional.V1.Employee.Session
                 }
             });
 
-            var response = await GetResponseMessageAsync(ServerUri, content);
+            var response = await test.GetResponseMessageAsync(routeUri, content);
             var tokenDto = await response.Content.ReadFromJsonAsync<ResponseDto<EmployeeTokenDto>>();
             Assert.NotEmpty(tokenDto.Payload.Token);
 
@@ -72,9 +76,9 @@ namespace WeeControl.Backend.WebApi.Test.Functional.V1.Employee.Session
         [InlineData("admin1", "admin1", HttpStatusCode.NotFound)]
         public async void LoginTheoryTests(string username, string password, HttpStatusCode statusCode)
         {
-            var content = GetHttpContentAsJson(new RequestDto<CreateLoginDto>()
+            var content = test.GetHttpContentAsJson(new RequestDto<CreateLoginDto>()
             {
-                DeviceId = DeviceId,
+                DeviceId = test.DeviceId,
                 Payload = new CreateLoginDto()
                 {
                     Username = username,
@@ -82,7 +86,7 @@ namespace WeeControl.Backend.WebApi.Test.Functional.V1.Employee.Session
                 }
             });
 
-            var response = await GetResponseMessageAsync(ServerUri, content);
+            var response = await test.GetResponseMessageAsync(routeUri, content);
 
             Assert.Equal(statusCode, response.StatusCode);
         }

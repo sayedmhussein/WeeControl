@@ -8,21 +8,25 @@ using Xunit;
 namespace WeeControl.Backend.WebApi.Test.Functional.V1.Employee.Session
 {
     [CollectionDefinition("Non-Parallel Collection", DisableParallelization = true)]
-    public class HttpDeleteTests :
-        FunctionalTest,
-        IClassFixture<CustomWebApplicationFactory<Startup>>,
-        IDisposable
+    public class HttpDeleteTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
-        public HttpDeleteTests(CustomWebApplicationFactory<Startup> factory) :
-            base(factory, HttpMethod.Delete, typeof(HttpDeleteTests).Namespace)
+        private readonly CustomWebApplicationFactory<Startup> factory;
+        private readonly IFunctionalTest test;
+        private readonly IFunctionalAuthorization authorization;
+        private readonly Uri routeUri;
+        
+        public HttpDeleteTests(CustomWebApplicationFactory<Startup> factory)
         {
-            ServerUri = GetUri(ApiRouteEnum.EmployeeSession);
+            this.factory = factory;
+            test = new FunctionalTest(factory, HttpMethod.Delete, typeof(HttpDeleteTests).Namespace);
+            authorization = new FunctionalAuthorization(test);
+            routeUri = test.GetUri(ApiRouteEnum.EmployeeSession);
         }
 
         [Fact]
         public async void WhenTerminatingWithRandomToken_ReturnUnauthorized()
         {
-            var response = await GetResponseMessageAsync(ServerUri, null, "khkjhhkhk");
+            var response = await test.GetResponseMessageAsync(routeUri, null, "khkjhhkhk");
 
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
@@ -32,7 +36,7 @@ namespace WeeControl.Backend.WebApi.Test.Functional.V1.Employee.Session
         {
             var token = await authorization.GetTokenAsync("admin", "admin");
 
-            var response = await GetResponseMessageAsync(ServerUri, null, token);
+            var response = await test.GetResponseMessageAsync(routeUri, null, token);
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }

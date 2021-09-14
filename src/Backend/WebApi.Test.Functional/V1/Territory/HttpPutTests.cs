@@ -9,23 +9,27 @@ using Xunit;
 
 namespace WeeControl.Backend.WebApi.Test.Functional.V1.Territory
 {
-    public class HttpPutTests :
-        FunctionalTest,
-        IClassFixture<CustomWebApplicationFactory<Startup>>,
-        IDisposable
+    public class HttpPutTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
-        public HttpPutTests(CustomWebApplicationFactory<Startup> factory) :
-            base(factory, HttpMethod.Put, typeof(HttpGetTests).Namespace)
+        private readonly CustomWebApplicationFactory<Startup> factory;
+        private readonly IFunctionalTest test;
+        private readonly IFunctionalAuthorization authorization;
+        private readonly Uri routeUri;
+        
+        public HttpPutTests(CustomWebApplicationFactory<Startup> factory)
         {
-            ServerUri = GetUri(ApiRouteEnum.Territory);
+            this.factory = factory;
+            test = new FunctionalTest(factory, HttpMethod.Put, typeof(HttpPutTests).Namespace);
+            authorization = new FunctionalAuthorization(test);
+            routeUri = test.GetUri(ApiRouteEnum.Territory);
         }
 
         [Fact]
         public async void WhenWithoutToken_ReturnUnAuthorized()
         {
-            var uri = new Uri(ServerUri, Guid.Empty.ToString());
+            var uri = new Uri(routeUri, Guid.Empty.ToString());
 
-            var response = await GetResponseMessageAsync(uri, GetHttpContentAsJson(new TerritoryDto()));
+            var response = await test.GetResponseMessageAsync(uri, test.GetHttpContentAsJson(new TerritoryDto()));
 
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
@@ -33,11 +37,11 @@ namespace WeeControl.Backend.WebApi.Test.Functional.V1.Territory
         [Fact]
         public async void WhenRandomTerritory_ReturnNotFound()
         {
-            var uri = new Uri(ServerUri, Guid.Empty.ToString());
+            var uri = new Uri(routeUri, Guid.Empty.ToString());
 
             var dto = new RequestDto<TerritoryDto>()
             {
-                DeviceId = DeviceId,
+                DeviceId = test.DeviceId,
                 Payload = new TerritoryDto()
                 {
                     CountryId = "PUT",
@@ -47,7 +51,7 @@ namespace WeeControl.Backend.WebApi.Test.Functional.V1.Territory
 
             var token = await authorization.GetTokenAsync("admin", "admin");
 
-            var response = await GetResponseMessageAsync(uri, GetHttpContentAsJson(dto), token);
+            var response = await test.GetResponseMessageAsync(uri, test.GetHttpContentAsJson(dto), token);
 
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }

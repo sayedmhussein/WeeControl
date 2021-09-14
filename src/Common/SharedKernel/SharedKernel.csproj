@@ -13,9 +13,9 @@
         <LangVersion>8.0</LangVersion>
     </PropertyGroup>
     <ItemGroup>
+        <Folder Include="EntityGroups\Custom" />
         <Folder Include="Routing\" />
         <Folder Include="DtosV1\Custom" />
-        <Folder Include="EntityGroups" />
         <Folder Include="EntityGroups\" />
         <Folder Include="Extensions\" />
         <Folder Include="Helpers\" />

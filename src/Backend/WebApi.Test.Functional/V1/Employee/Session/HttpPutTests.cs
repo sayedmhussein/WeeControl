@@ -9,24 +9,28 @@ using Xunit;
 
 namespace WeeControl.Backend.WebApi.Test.Functional.V1.Employee.Session
 {
-    public class HttpPutTests :
-        FunctionalTest,
-        IClassFixture<CustomWebApplicationFactory<Startup>>,
-        IDisposable
+    public class HttpPutTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
-        public HttpPutTests(CustomWebApplicationFactory<Startup> factory) :
-            base(factory, HttpMethod.Put, typeof(HttpPutTests).Namespace)
+        private readonly CustomWebApplicationFactory<Startup> factory;
+        private readonly IFunctionalTest test;
+        private readonly IFunctionalAuthorization authorization;
+        private readonly Uri routeUri;
+        
+        public HttpPutTests(CustomWebApplicationFactory<Startup> factory)
         {
-            ServerUri = GetUri(ApiRouteEnum.EmployeeSession);
+            this.factory = factory;
+            test = new FunctionalTest(factory, HttpMethod.Put, typeof(HttpPutTests).Namespace);
+            authorization = new FunctionalAuthorization(test);
+            routeUri = test.GetUri(ApiRouteEnum.EmployeeSession);
         }
 
         [Fact]
         public async void WhenPostingInvalidDto_ResponseIsBadRequest()
         {
-            var content = GetHttpContentAsJson(new RefreshLoginDto());
+            var content = test.GetHttpContentAsJson(new RefreshLoginDto());
 
             var token = await authorization.GetTokenAsync("admin", "admin");
-            var response = await GetResponseMessageAsync(ServerUri, content, token);
+            var response = await test.GetResponseMessageAsync(routeUri, content, token);
 
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
@@ -34,10 +38,10 @@ namespace WeeControl.Backend.WebApi.Test.Functional.V1.Employee.Session
         [Fact]
         public async void WhenPostingInvalidPayloadDto_ResponseIsBadRequest()
         {
-            var content = GetHttpContentAsJson(new RequestDto<string>() { Payload = "" });
+            var content = test.GetHttpContentAsJson(new RequestDto<string>() { Payload = "" });
 
             var token = await authorization.GetTokenAsync("admin", "admin");
-            var response = await GetResponseMessageAsync(ServerUri, content, token);
+            var response = await test.GetResponseMessageAsync(routeUri, content, token);
 
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
@@ -45,9 +49,9 @@ namespace WeeControl.Backend.WebApi.Test.Functional.V1.Employee.Session
         [Fact]
         public async void WhenRefreshingTokenWithoutValidToken_ReturnUnauthorized()
         {
-            var content = GetHttpContentAsJson(new RequestDto<RefreshLoginDto>() { DeviceId = DeviceId });
+            var content = test.GetHttpContentAsJson(new RequestDto<RefreshLoginDto>() { DeviceId = test.DeviceId });
 
-            var response = await GetResponseMessageAsync(ServerUri, content);
+            var response = await test.GetResponseMessageAsync(routeUri, content);
 
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
@@ -55,10 +59,10 @@ namespace WeeControl.Backend.WebApi.Test.Functional.V1.Employee.Session
         [Fact]
         public async void WhenRefreshingTokenWithValidToken_ReturnOk()
         {
-            var content = GetHttpContentAsJson(new RequestDto<RefreshLoginDto>() { DeviceId = DeviceId });
+            var content = test.GetHttpContentAsJson(new RequestDto<RefreshLoginDto>() { DeviceId = test.DeviceId });
 
             var token = await authorization.GetTokenAsync("admin", "admin");
-            var response = await GetResponseMessageAsync(ServerUri, content, token);
+            var response = await test.GetResponseMessageAsync(routeUri, content, token);
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
@@ -66,10 +70,10 @@ namespace WeeControl.Backend.WebApi.Test.Functional.V1.Employee.Session
         [Fact]
         public async void WhenRefreshingTokenWithValidTokenButDifferentDevice_ReturnForbidden()
         {
-            var content = GetHttpContentAsJson(new RequestDto<RefreshLoginDto>() { DeviceId = "SomeOtherDevice" });
+            var content = test.GetHttpContentAsJson(new RequestDto<RefreshLoginDto>() { DeviceId = "SomeOtherDevice" });
 
             var token = await authorization.GetTokenAsync("admin", "admin");
-            var response = await GetResponseMessageAsync(ServerUri, content, token);
+            var response = await test.GetResponseMessageAsync(routeUri, content, token);
 
             Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
         }

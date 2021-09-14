@@ -19,7 +19,7 @@ namespace WeeControl.Backend.WebApi.Test.Functional.V1.Territory
         public HttpPostTests(CustomWebApplicationFactory<Startup> factory)
         {
             this.factory = factory;
-            test = new FunctionalTest(factory, HttpMethod.Post, typeof(HttpGetTests).Namespace);
+            test = new FunctionalTest(factory, HttpMethod.Post, typeof(HttpPostTests).Namespace);
             authorization = new FunctionalAuthorization(test);
             routeUri = test.GetUri(ApiRouteEnum.Territory);
         }
