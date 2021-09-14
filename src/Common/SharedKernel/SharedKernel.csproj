@@ -67,7 +67,6 @@
         <None Remove="Aggregates\Territory\DtosV1\" />
     </ItemGroup>
     <ItemGroup>
-        <EmbeddedResource Include="Routing\appsettings.json" />
         <None Remove="EntityGroups\Employee\Attributes\attributes.json" />
         <EmbeddedResource Include="EntityGroups\Employee\Attributes\attributes.json" />
         <None Remove="EntityGroups\Territory\Attributes\attributes.json" />
