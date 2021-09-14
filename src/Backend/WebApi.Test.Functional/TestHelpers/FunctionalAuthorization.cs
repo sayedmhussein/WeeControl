@@ -4,7 +4,7 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using WeeControl.SharedKernel.DtosV1;
 using WeeControl.SharedKernel.DtosV1.Employee;
-using WeeControl.SharedKernel.Obsolutes;
+using WeeControl.SharedKernel.Routing;
 
 namespace WeeControl.Backend.WebApi.Test.Functional.TestHelpers
 {

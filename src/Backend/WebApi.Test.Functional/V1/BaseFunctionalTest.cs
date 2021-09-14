@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using WeeControl.Backend.WebApi.Test.Functional.TestHelpers;
 using WeeControl.SharedKernel.Interfaces;
-using WeeControl.SharedKernel.Obsolutes;
+using WeeControl.SharedKernel.Routing;
 
 namespace WeeControl.Backend.WebApi.Test.Functional.V1
 {
@@ -124,7 +124,7 @@ namespace WeeControl.Backend.WebApi.Test.Functional.V1
 
         public Uri GetUri(ApiRouteEnum route)
         {
-            return new Uri(new Uri(new CommonLists().GetRoute(ApiRouteEnum.Base)), new CommonLists().GetRoute(route));
+            return new Uri(new Uri(new ApiRoute().GetRoute(ApiRouteEnum.Base)), new ApiRoute().GetRoute(route));
         }
     }
 }

@@ -1,8 +1,7 @@
 ﻿using System;
 
-namespace WeeControl.SharedKernel.Obsolutes
+namespace WeeControl.SharedKernel.Routing
 {
-    [Obsolete]
     public enum ApiRouteEnum
     {
         Base,

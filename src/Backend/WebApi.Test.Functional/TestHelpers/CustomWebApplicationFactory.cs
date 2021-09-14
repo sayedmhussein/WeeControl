@@ -35,7 +35,6 @@ namespace WeeControl.Backend.WebApi.Test.Functional.TestHelpers
                 var db = scopedServices.GetRequiredService<MySystemDbContext>();
 
                 db.Database.EnsureCreated();
-
             });
         }
     }

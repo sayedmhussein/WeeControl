@@ -13,7 +13,7 @@
         <LangVersion>8.0</LangVersion>
     </PropertyGroup>
     <ItemGroup>
-        <Folder Include="Obsolutes\" />
+        <Folder Include="Routing\" />
         <Folder Include="DtosV1\Custom" />
         <Folder Include="EntityGroups" />
         <Folder Include="EntityGroups\" />
@@ -67,10 +67,12 @@
         <None Remove="Aggregates\Territory\DtosV1\" />
     </ItemGroup>
     <ItemGroup>
-        <EmbeddedResource Include="Obsolutes\appsettings.json" />
+        <EmbeddedResource Include="Routing\appsettings.json" />
         <None Remove="EntityGroups\Employee\Attributes\attributes.json" />
         <EmbeddedResource Include="EntityGroups\Employee\Attributes\attributes.json" />
         <None Remove="EntityGroups\Territory\Attributes\attributes.json" />
         <EmbeddedResource Include="EntityGroups\Territory\Attributes\attributes.json" />
+        <None Remove="Routing\attributes.json" />
+        <EmbeddedResource Include="Routing\attributes.json" />
     </ItemGroup>
 </Project>

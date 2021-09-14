@@ -6,7 +6,7 @@ using WeeControl.Backend.Domain.EntityGroups.Territory;
 using WeeControl.Backend.Persistence;
 using WeeControl.Backend.WebApi.Test.Functional.TestHelpers;
 using WeeControl.SharedKernel.DtosV1;
-using WeeControl.SharedKernel.Obsolutes;
+using WeeControl.SharedKernel.Routing;
 using Xunit;
 
 namespace WeeControl.Backend.WebApi.Test.Functional.V1.Territory
