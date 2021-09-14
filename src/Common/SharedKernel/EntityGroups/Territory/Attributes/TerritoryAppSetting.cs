@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using WeeControl.SharedKernel.EntityGroups.Territory.Enums;
 using WeeControl.SharedKernel.EntityGroups.Territory.Interfaces;
 using WeeControl.SharedKernel.Helpers;

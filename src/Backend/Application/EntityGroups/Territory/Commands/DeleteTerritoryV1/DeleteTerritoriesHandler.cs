@@ -6,10 +6,8 @@ using MediatR;
 using WeeControl.Backend.Application.Common.Exceptions;
 using WeeControl.Backend.Application.Common.Interfaces;
 using WeeControl.Backend.Domain.Common.Interfaces;
-using WeeControl.SharedKernel.EntityGroups.Employee.Attributes;
 using WeeControl.SharedKernel.EntityGroups.Employee.Enums;
 using WeeControl.SharedKernel.EntityGroups.Employee.Interfaces;
-using WeeControl.SharedKernel.EntityGroups.Territory.Attributes;
 using WeeControl.SharedKernel.EntityGroups.Territory.Interfaces;
 
 namespace WeeControl.Backend.Application.EntityGroups.Territory.Commands.DeleteTerritoryV1

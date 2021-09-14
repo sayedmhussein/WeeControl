@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using WeeControl.SharedKernel.EntityGroups.Employee.Attributes;
+﻿using WeeControl.SharedKernel.EntityGroups.Employee.Attributes;
 using WeeControl.SharedKernel.EntityGroups.Employee.Enums;
 using WeeControl.SharedKernel.EntityGroups.Employee.Interfaces;
 using WeeControl.SharedKernel.Test.TestHelpers;

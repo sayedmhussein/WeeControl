@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using WeeControl.SharedKernel.Helpers;
 using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.Obsolutes;
 
-namespace WeeControl.Backend.WebApi.Test.Functional
+namespace WeeControl.Backend.WebApi.Test.Functional.TestHelpers
 {
     public interface IFunctionalTest : IDisposable
     {

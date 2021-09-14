@@ -4,8 +4,8 @@ using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
 using WeeControl.Backend.Domain.EntityGroups.Territory;
 using WeeControl.Backend.Persistence;
+using WeeControl.Backend.WebApi.Test.Functional.TestHelpers;
 using WeeControl.SharedKernel.DtosV1;
-using WeeControl.SharedKernel.Helpers;
 using WeeControl.SharedKernel.Obsolutes;
 using Xunit;
 

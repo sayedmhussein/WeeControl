@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net.Http;
+using WeeControl.Backend.WebApi.Test.Functional.TestHelpers;
 using WeeControl.Backend.WebApi.Test.Functional.V1.Territory;
-using WeeControl.SharedKernel.Helpers;
 using WeeControl.SharedKernel.Obsolutes;
 using Xunit;
 

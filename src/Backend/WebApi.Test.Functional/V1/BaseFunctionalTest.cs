@@ -6,7 +6,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using WeeControl.SharedKernel.Helpers;
+using WeeControl.Backend.WebApi.Test.Functional.TestHelpers;
 using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.Obsolutes;
 

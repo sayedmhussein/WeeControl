@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace WeeControl.Backend.WebApi.Test.Functional
+namespace WeeControl.Backend.WebApi.Test.Functional.TestHelpers
 {
     public interface IFunctionalAuthorization
     {

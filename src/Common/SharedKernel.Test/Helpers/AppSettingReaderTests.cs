@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Reflection;
 using WeeControl.SharedKernel.Helpers;
-using WeeControl.SharedKernel.Obsolutes;
 using Xunit;
 
 namespace WeeControl.SharedKernel.Test.Helpers

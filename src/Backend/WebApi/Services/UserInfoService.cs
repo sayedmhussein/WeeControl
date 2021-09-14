@@ -6,7 +6,6 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using WeeControl.Backend.Application.Common.Interfaces;
 using WeeControl.Backend.Application.EntityGroups.Territory.Queries.GetTerritoryV1;
-using WeeControl.SharedKernel.EntityGroups.Employee.Attributes;
 using WeeControl.SharedKernel.EntityGroups.Employee.Enums;
 using WeeControl.SharedKernel.EntityGroups.Employee.Interfaces;
 

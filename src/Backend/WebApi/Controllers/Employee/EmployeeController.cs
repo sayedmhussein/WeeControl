@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using WeeControl.Backend.Application.Common.Interfaces;
-using WeeControl.SharedKernel.EntityGroups.Employee.Attributes;
 
 namespace WeeControl.Backend.WebApi.Controllers.Employee
 {

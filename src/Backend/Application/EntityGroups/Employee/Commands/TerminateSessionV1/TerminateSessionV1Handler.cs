@@ -6,7 +6,6 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using WeeControl.Backend.Application.Common.Interfaces;
 using WeeControl.Backend.Domain.Common.Interfaces;
-using WeeControl.SharedKernel.EntityGroups.Territory.Attributes;
 using WeeControl.SharedKernel.EntityGroups.Territory.Interfaces;
 
 namespace WeeControl.Backend.Application.EntityGroups.Employee.Commands.TerminateSessionV1

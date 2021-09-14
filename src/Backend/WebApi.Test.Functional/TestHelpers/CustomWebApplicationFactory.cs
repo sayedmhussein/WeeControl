@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using WeeControl.Backend.Persistence;
 
-namespace WeeControl.Backend.WebApi.Test.Functional
+namespace WeeControl.Backend.WebApi.Test.Functional.TestHelpers
 {
     public class CustomWebApplicationFactory<TStartup>
     : WebApplicationFactory<TStartup> where TStartup : class

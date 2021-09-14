@@ -7,9 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using WeeControl.Backend.Domain.EntityGroups.Territory;
 using WeeControl.Backend.Persistence;
+using WeeControl.Backend.WebApi.Test.Functional.TestHelpers;
 using WeeControl.SharedKernel.DtosV1;
 using WeeControl.SharedKernel.DtosV1.Territory;
-using WeeControl.SharedKernel.Helpers;
 using WeeControl.SharedKernel.Obsolutes;
 using Xunit;
 

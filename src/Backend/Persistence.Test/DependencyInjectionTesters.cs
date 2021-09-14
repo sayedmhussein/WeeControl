@@ -10,7 +10,7 @@ namespace WeeControl.Server.Persistence.Test
     public class DependencyInjectionTesters
     {
         [Fact]
-        public void WhenAddingPresistanceInMemory_ReturnMySystemDbContextObjectAsNotNull()
+        public void WhenAddingPresistenceInMemory_ReturnMySystemDbContextObjectAsNotNull()
         {
             var configMock = new Mock<IConfiguration>();
             configMock.Setup(x => x.GetSection("ConnectionStrings")["DatabaseProvider"]).Returns("Connection");

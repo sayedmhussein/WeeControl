@@ -4,10 +4,8 @@ using System.Linq;
 using WeeControl.Backend.Domain.Common.Interfaces;
 using WeeControl.Backend.Domain.EntityGroups.Employee;
 using WeeControl.Backend.Domain.EntityGroups.Territory;
-using WeeControl.SharedKernel.EntityGroups.Employee.Attributes;
 using WeeControl.SharedKernel.EntityGroups.Employee.Enums;
 using WeeControl.SharedKernel.EntityGroups.Employee.Interfaces;
-using WeeControl.SharedKernel.EntityGroups.Territory.Attributes;
 using WeeControl.SharedKernel.EntityGroups.Territory.Enums;
 using WeeControl.SharedKernel.EntityGroups.Territory.Interfaces;
 
@@ -29,8 +27,6 @@ namespace WeeControl.Backend.Persistence
         {
             this.territoryAttribute = territoryAttribute;
             this.employeeAttribute = employeeAttribute;
-            
-            
             
             AddTerritores();
             AddEmployees();
