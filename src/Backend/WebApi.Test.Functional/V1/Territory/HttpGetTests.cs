@@ -15,20 +15,26 @@ using Xunit;
 
 namespace WeeControl.Backend.WebApi.Test.Functional.V1.Territory
 {
-    public class HttpGetTests :
-        BaseFunctionalTest,
-        IClassFixture<CustomWebApplicationFactory<Startup>>,
-        IDisposable
+     
+    public class HttpGetTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
-        public HttpGetTests(CustomWebApplicationFactory<Startup> factory) :
-            base(factory, HttpMethod.Get, typeof(HttpGetTests).Namespace)
+        private readonly CustomWebApplicationFactory<Startup> factory;
+        private readonly IFunctionalTest test;
+        private readonly IFunctionalAuthorization authorization;
+        private readonly Uri routeUri;
+        
+        public HttpGetTests(CustomWebApplicationFactory<Startup> factory)
         {
+            this.factory = factory;
+            test = new BaseFunctionalTest(factory, HttpMethod.Get, typeof(HttpGetTests).Namespace);
+            authorization = new FunctionalAuthorization(test);
+            routeUri = test.GetUri(ApiRouteEnum.Territory);
         }
 
         [Fact]
         public async void WhenWithoutToken_ReturnUnauthorized()
         {
-            var response = await GetResponseMessageAsync(GetUri(ApiRouteEnum.Territory));
+            var response = await test.GetResponseMessageAsync(routeUri);
 
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
@@ -44,7 +50,7 @@ namespace WeeControl.Backend.WebApi.Test.Functional.V1.Territory
 
             var token = await authorization.GetTokenAsync("admin", "admin");
 
-            var response = await GetResponseMessageAsync(GetUri(ApiRouteEnum.Territory), null, token);
+            var response = await test.GetResponseMessageAsync(test.GetUri(ApiRouteEnum.Territory), null, token);
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
@@ -66,9 +72,9 @@ namespace WeeControl.Backend.WebApi.Test.Functional.V1.Territory
             await context.SaveChangesAsync();
 
             var token = await authorization.GetTokenAsync("admin", "admin");
-            var uri = new UriBuilder(GetUri(ApiRouteEnum.Territory));
+            var uri = new UriBuilder(test.GetUri(ApiRouteEnum.Territory));
             uri.Query = parent.Id.ToString();
-            var response = await GetResponseMessageAsync(uri.Uri, null, token);
+            var response = await test.GetResponseMessageAsync(uri.Uri, null, token);
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
