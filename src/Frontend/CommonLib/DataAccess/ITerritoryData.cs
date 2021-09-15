@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Refit;
 using WeeControl.SharedKernel.DtosV1.Territory;
 
-namespace CommonLib.DataAccess
+namespace WeeControl.Frontend.CommonLib.DataAccess
 {
     public interface ITerritoryData
     {

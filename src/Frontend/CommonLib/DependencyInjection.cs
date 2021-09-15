@@ -1,9 +1,9 @@
 using System;
-using CommonLib.DataAccess;
 using Microsoft.Extensions.DependencyInjection;
 using Refit;
+using WeeControl.Frontend.CommonLib.DataAccess;
 
-namespace CommonLib
+namespace WeeControl.Frontend.CommonLib
 {
     public static class DependencyInjection
     {
