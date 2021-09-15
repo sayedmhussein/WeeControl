@@ -5,6 +5,7 @@ using WeeControl.SharedKernel.DtosV1.Territory;
 
 namespace WeeControl.Frontend.CommonLib.DataAccess
 {
+    [Headers("Authorization: Bearer")]
     public interface ITerritoryData
     {
         [Get("/Territory")]

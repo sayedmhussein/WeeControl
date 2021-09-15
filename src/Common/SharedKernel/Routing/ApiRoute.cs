@@ -6,7 +6,6 @@ using WeeControl.SharedKernel.Interfaces;
 
 namespace WeeControl.SharedKernel.Routing
 {
-    [Obsolete]
     public class ApiRoute : IApiRoute
     {
         private readonly AppSettingReader appSettingReader;

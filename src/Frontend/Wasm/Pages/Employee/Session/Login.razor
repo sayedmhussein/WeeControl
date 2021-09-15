@@ -1,33 +1,66 @@
 ﻿@page "/Login"
 @page "/Employee/Login"
+@inject IEmployeeData employeeData
+@inject IHttpClientFactory clientFactory
+
 @using WeeControl.SharedKernel.DtosV1.Employee
+@using WeeControl.Frontend.CommonLib.DataAccess
+@using WeeControl.SharedKernel.DtosV1
+@using System.Net
+@using System.Net.Http.Headers
 @layout RestrictedLayout
 
-<div class="input-group mb-3">
-    <div class="input-group-prepend">
-        <span class="input-group-text" id="basic-addon1">Username</span>
-    </div>
-    <input type="text" class="form-control" placeholder="Username" value="@loginDto.Username" />
-</div>
 
-<div class="input-group mb-3">
-    <div class="input-group-prepend">
-        <span class="input-group-text" id="basic-addon1">Password</span>
+<div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Username</span>
+        </div>
+        <input type="text" class="form-control" placeholder="Username" @bind="@loginDto.Username" />
     </div>
-    <input type="password" class="form-control" placeholder="Password" value="@loginDto.Password" />
+    
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Password</span>
+        </div>
+        <input type="password" class="form-control" placeholder="Password" @bind="@loginDto.Password" onended="@ProcessLoginAsync()" />
+    </div>
+    
+    <button class="btn btn-primary" type="submit" @onclick="ProcessLoginAsync">Login</button>
+    <button class="btn btn-secondary" @onclick="ProcessLoginAsync2" type="submit">Forgot Password</button>
+    <label>@temp</label>
 </div>
-
-<button class="btn btn-primary" type="submit" onclick="@ProcessLoginAsync()">Login</button>
-<button class="btn btn-secondary" type="submit" onclick="@ProcessLoginAsync()">Forgot Password</button>
 
 @code
 {
-    private CreateLoginDto loginDto = new();
+    private readonly CreateLoginDto loginDto = new();
     private string temp;
 
     private async Task ProcessLoginAsync()
     {
-        temp = loginDto.Username;
+        var dto = new RequestDto<CreateLoginDto>(){ DeviceId = "device", Payload = loginDto};
+        var response = await employeeData.GetToken(dto);
+        temp = response.Payload.Token;
+        await Task.CompletedTask;
+    }
+    
+    private async Task ProcessLoginAsync2()
+    {
+        var client = clientFactory.CreateClient("NoAuth");
+        var dto = new RequestDto<CreateLoginDto>() {DeviceId = "device", Payload = loginDto};
+        var response = await client.PostAsJsonAsync("/Api/Employee/Session", dto);
+        switch (response.StatusCode)
+        {
+            case HttpStatusCode.OK:
+                var rDto = await response.Content.ReadFromJsonAsync<ResponseDto<EmployeeTokenDto>>();
+                temp = rDto.Payload.Token;
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(temp);
+                break;
+            default:
+                temp = response.StatusCode.ToString();
+                break;
+        }
+        
         await Task.CompletedTask;
     }
 }

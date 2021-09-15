@@ -45,6 +45,12 @@ namespace WeeControl.Backend.WebApi
             services.AddScoped<ICurrentUserInfo, UserInfoService>();
             services.AddSingleton<IJwtService>(provider => new JwtService(Configuration["Jwt:Key"]));
 
+            services.AddCors(c => c.AddPolicy("AllowAny", builder =>
+            {
+                builder.AllowAnyHeader();
+                builder.AllowAnyMethod();
+                builder.AllowAnyOrigin();
+            }));
 
             services.AddAuthentication(AuthenOptions.ConfigureAuthorizationService).AddJwtBearer(options =>
             {
@@ -86,6 +92,8 @@ namespace WeeControl.Backend.WebApi
             app.UseCustomExceptionHandler();
 
             app.UseRouting();
+            
+            app.UseCors("AllowAny");
 
             app.UseAuthentication();
 

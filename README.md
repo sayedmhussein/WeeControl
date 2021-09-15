@@ -45,7 +45,8 @@ Appreciate the opensoure community for inspiring and supporting such project:
 * JWT authentication was inspired from this [aspnet-core-3-jwt-authentication-api](https://github.com/cornflourblue/aspnet-core-3-jwt-authentication-api).
 * Clean architecture pattern was inspired from this [CleanArchitecture](https://github.com/ardalis/CleanArchitecture) and his [NorthwindTraders](https://github.com/jasontaylordev/NorthwindTraders).
 * The youtube channel [IAmTimCorey](https://www.youtube.com/user/IAmTimCorey) was like the godfather for learning C#.
-* The youtube channel [VoidRealms](https://www.youtube.com/channel/UCYP0nk48grsMwO3iL8YaAKA) gave the courage to start getting a workable programming applicaiton.
+* The youtube channel [VoidRealms](https://www.youtube.com/channel/UCYP0nk48grsMwO3iL8YaAKA) gave the courage to start getting a workable programming application.
+* Jetbrains for approving licence to use [Rider](https://www.jetbrains.com/rider/) to develop this opensource project.
 
 **<mark>List not Completed Yet</mark>**
 
