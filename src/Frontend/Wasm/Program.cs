@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using WeeControl.Frontend.CommonLib;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+using WeeControl.Frontend.CommonLib.Interfaces;
 
 namespace WeeControl.Frontend.Wasm
 {
@@ -21,6 +22,8 @@ namespace WeeControl.Frontend.Wasm
             //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:5001/") });
 
+            builder.Services.AddTransient<IDevice, Device>();
+            
             builder.Services.AddHttpClient("NoAuth", 
                 client => client.BaseAddress = new Uri("https://localhost:5001/"));
             

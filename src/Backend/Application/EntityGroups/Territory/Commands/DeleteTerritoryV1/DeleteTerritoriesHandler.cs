@@ -51,7 +51,7 @@ namespace WeeControl.Backend.Application.EntityGroups.Territory.Commands.DeleteT
                 var territory = context.Territories.FirstOrDefault(x => x.Id == request.TerritoryId);
                 if (territory == null)
                 {
-                    throw new NotFoundException("", "");
+                    throw new NotFoundException("");
                 }
                 var depenantCount = context.Territories.Where(x => x.ReportToId == request.TerritoryId).Count();
                 if (depenantCount > 0)
@@ -70,7 +70,7 @@ namespace WeeControl.Backend.Application.EntityGroups.Territory.Commands.DeleteT
             {
                 _ = e.Message;
                 throw;
-                throw new DeleteFailureException("", "", "");
+                throw new DeleteFailureException("");
             }
 
             return Task.FromResult(Unit.Value);

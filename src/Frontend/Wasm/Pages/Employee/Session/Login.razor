@@ -8,6 +8,7 @@
 @using WeeControl.SharedKernel.DtosV1
 @using System.Net
 @using System.Net.Http.Headers
+@using WeeControl.Frontend.CommonLib.DataAccess.Employee
 @layout RestrictedLayout
 
 
@@ -38,9 +39,14 @@
 
     private async Task ProcessLoginAsync()
     {
-        var dto = new RequestDto<CreateLoginDto>(){ DeviceId = "device", Payload = loginDto};
-        var response = await employeeData.GetToken(dto);
-        temp = response.Payload.Token;
+        //var dto = new RequestDto<CreateLoginDto>(){ DeviceId = "device", Payload = loginDto};
+        var response = await employeeData.GetToken(loginDto);
+        if (response.HttpStatuesCode == (int)HttpStatusCode.OK)
+            temp = response.Payload.Token;
+        else
+        {
+            temp = response.HttpStatuesCode.ToString();
+        }
         await Task.CompletedTask;
     }
     

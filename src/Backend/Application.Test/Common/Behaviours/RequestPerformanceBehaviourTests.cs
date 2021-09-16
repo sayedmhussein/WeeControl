@@ -9,7 +9,7 @@ namespace WeeControl.Backend.Application.Test.Common.Behaviours
     public class RequestPerformanceBehaviourTests
     {
         [Fact]
-        public async void HandleShouldReturnTimeBetweenRequestAndResponse()
+        public void HandleShouldReturnTimeBetweenRequestAndResponse()
         {
             var loggerMock = new Mock<ILogger<string>>();
             var userMock = new Mock<ICurrentUserInfo>();

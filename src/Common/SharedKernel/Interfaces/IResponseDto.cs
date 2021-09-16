@@ -8,5 +8,7 @@
     public interface IResponseDto<T> where T : class
     {
         T Payload { get; set; }
+        
+        int HttpStatuesCode { get; set; }
     }
 }

@@ -13,7 +13,7 @@ namespace WeeControl.Backend.WebApi.Test.Functional.TestHelpers
 {
     public sealed class FunctionalTest : IFunctionalTest
     {
-        protected readonly CustomWebApplicationFactory<Startup> factory;
+        private readonly CustomWebApplicationFactory<Startup> factory;
 
         public FunctionalTest(CustomWebApplicationFactory<Startup> factory, HttpMethod method, string deviceid)
         {

@@ -91,7 +91,7 @@ namespace WeeControl.Backend.Application.EntityGroups.Employee.Queries.GetClaims
             var employee = await context.Employees.FirstOrDefaultAsync(x => x.Id == employeeid);
             if (employee == null)
             {
-                throw new NotFoundException("", "");
+                throw new NotFoundException("");
             }
 
             // check if user is within same terrritory

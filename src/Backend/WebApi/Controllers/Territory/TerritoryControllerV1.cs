@@ -91,9 +91,10 @@ namespace WeeControl.Backend.WebApi.Controllers.Territory
         /// <summary>
         ///     Delete existing territory
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">ID of the territory</param>
+        /// <param name="dto">Request DTO of type object.</param>
         /// <returns></returns>
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:guid}")]
         [MapToApiVersion("1.0")]
         [Authorize(Policy = BasicPolicies.CanAlterTerritories)]
         [Consumes(MediaTypeNames.Application.Json)]

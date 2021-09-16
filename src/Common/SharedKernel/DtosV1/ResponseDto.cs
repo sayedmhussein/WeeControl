@@ -10,5 +10,7 @@ namespace WeeControl.SharedKernel.DtosV1
         }
 
         public T Payload { get; set; }
+        
+        public int HttpStatuesCode { get; set; }
     }
 }

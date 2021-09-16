@@ -61,7 +61,7 @@ namespace WeeControl.Backend.Application.EntityGroups.Territory.Commands.AddTerr
             }
             catch (Exception e)
             {
-                throw new NotImplementedException();
+                throw new NotImplementedException(e.Message);
             }
         }
     }
