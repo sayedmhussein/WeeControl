@@ -47,6 +47,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wasm", "src\Frontend\Wasm\W
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonLib", "src\Frontend\CommonLib\CommonLib.csproj", "{2FA9D7AC-5F28-4143-AFF3-2A49A6968265}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonLib.Test", "src\Frontend\CommonLib.Test\CommonLib.Test.csproj", "{5C887BF4-5055-4F88-9D8B-B80AD0D0E6A1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -237,6 +239,18 @@ Global
 		{2FA9D7AC-5F28-4143-AFF3-2A49A6968265}.Debug|iPhone.Build.0 = Debug|Any CPU
 		{2FA9D7AC-5F28-4143-AFF3-2A49A6968265}.Release|iPhone.ActiveCfg = Release|Any CPU
 		{2FA9D7AC-5F28-4143-AFF3-2A49A6968265}.Release|iPhone.Build.0 = Release|Any CPU
+		{5C887BF4-5055-4F88-9D8B-B80AD0D0E6A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C887BF4-5055-4F88-9D8B-B80AD0D0E6A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C887BF4-5055-4F88-9D8B-B80AD0D0E6A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C887BF4-5055-4F88-9D8B-B80AD0D0E6A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C887BF4-5055-4F88-9D8B-B80AD0D0E6A1}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{5C887BF4-5055-4F88-9D8B-B80AD0D0E6A1}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{5C887BF4-5055-4F88-9D8B-B80AD0D0E6A1}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{5C887BF4-5055-4F88-9D8B-B80AD0D0E6A1}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{5C887BF4-5055-4F88-9D8B-B80AD0D0E6A1}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{5C887BF4-5055-4F88-9D8B-B80AD0D0E6A1}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{5C887BF4-5055-4F88-9D8B-B80AD0D0E6A1}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{5C887BF4-5055-4F88-9D8B-B80AD0D0E6A1}.Release|iPhone.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -263,5 +277,6 @@ Global
 		{B063A0E4-D130-4288-A9D5-48CE704DA9A6} = {027C4270-0F91-48FD-BC07-141E6631A743}
 		{C1ECA065-9D5C-4833-B71E-6675697FB9A6} = {D311A494-F342-4B0A-8A9F-045AD1D91C9E}
 		{2FA9D7AC-5F28-4143-AFF3-2A49A6968265} = {D311A494-F342-4B0A-8A9F-045AD1D91C9E}
+		{5C887BF4-5055-4F88-9D8B-B80AD0D0E6A1} = {D311A494-F342-4B0A-8A9F-045AD1D91C9E}
 	EndGlobalSection
 EndGlobal

@@ -24,17 +24,17 @@ namespace WeeControl.Frontend.CommonLib.DataAccess.Employee
         public async Task<IResponseDto<EmployeeTokenDto>> GetToken(CreateLoginDto dto)
         {
             var client = clientFactory.CreateClient("NoAuth");
-            var dto_ = new RequestDto<CreateLoginDto>() {DeviceId = device.DeviceId, Payload = dto};
+            var dto_ = new RequestDto<CreateLoginDto>() { DeviceId = device.DeviceId, Payload = dto };
             var response = await client.PostAsJsonAsync("/Api/Employee/Session", dto_);
             switch (response.StatusCode)
             {
                 case HttpStatusCode.OK:
                     var rDto = await response.Content.ReadFromJsonAsync<ResponseDto<EmployeeTokenDto>>();
+                    rDto.HttpStatuesCode = (int)response.StatusCode;
                     return rDto;
-                    //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(temp);
-                    //break;
                 default:
                     var rDto_ = new ResponseDto<EmployeeTokenDto>(null);
+                    rDto_.HttpStatuesCode = (int)response.StatusCode;
                     return rDto_;
             }
         }

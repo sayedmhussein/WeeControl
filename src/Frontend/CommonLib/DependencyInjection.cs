@@ -8,7 +8,7 @@ namespace WeeControl.Frontend.CommonLib
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddRefitService(this IServiceCollection services)
+        public static IServiceCollection AddCommonLibraryService(this IServiceCollection services)
         {
             services.AddSingleton<IEmployeeData, EmployeeData>();
             //services.AddSingleton<IApiRoute, ApiRoute>();

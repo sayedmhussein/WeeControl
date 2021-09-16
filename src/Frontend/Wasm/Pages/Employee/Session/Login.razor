@@ -15,7 +15,7 @@
 <div>
     <div class="input-group mb-3">
         <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon1">Username</span>
+            <span class="input-group-text" id="basic-addon">Username</span>
         </div>
         <input type="text" class="form-control" placeholder="Username" @bind="@loginDto.Username" />
     </div>
@@ -24,12 +24,15 @@
         <div class="input-group-prepend">
             <span class="input-group-text" id="basic-addon1">Password</span>
         </div>
-        <input type="password" class="form-control" placeholder="Password" @bind="@loginDto.Password" onended="@ProcessLoginAsync()" />
+        <input type="password" class="form-control" placeholder="Password" @bind="@loginDto.Password" />
     </div>
     
-    <button class="btn btn-primary" type="submit" @onclick="ProcessLoginAsync">Login</button>
-    <button class="btn btn-secondary" @onclick="ProcessLoginAsync2" type="submit">Forgot Password</button>
+    <button class="btn btn-primary" @onclick="ProcessLoginAsync" type="submit">Login</button>
+    <button class="btn btn-secondary" @onclick="ProcessLoginAsync" type="submit">Forgot Password</button>
     <label>@temp</label>
+    <div class="alert alert-warning" role="alert">
+      This is a warning alert—check it out!
+    </div>
 </div>
 
 @code
@@ -39,34 +42,14 @@
 
     private async Task ProcessLoginAsync()
     {
-        //var dto = new RequestDto<CreateLoginDto>(){ DeviceId = "device", Payload = loginDto};
         var response = await employeeData.GetToken(loginDto);
-        if (response.HttpStatuesCode == (int)HttpStatusCode.OK)
+        if (response.HttpStatuesCode == (int) HttpStatusCode.OK)
+        {
             temp = response.Payload.Token;
+        }
         else
         {
             temp = response.HttpStatuesCode.ToString();
         }
-        await Task.CompletedTask;
-    }
-    
-    private async Task ProcessLoginAsync2()
-    {
-        var client = clientFactory.CreateClient("NoAuth");
-        var dto = new RequestDto<CreateLoginDto>() {DeviceId = "device", Payload = loginDto};
-        var response = await client.PostAsJsonAsync("/Api/Employee/Session", dto);
-        switch (response.StatusCode)
-        {
-            case HttpStatusCode.OK:
-                var rDto = await response.Content.ReadFromJsonAsync<ResponseDto<EmployeeTokenDto>>();
-                temp = rDto.Payload.Token;
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(temp);
-                break;
-            default:
-                temp = response.StatusCode.ToString();
-                break;
-        }
-        
-        await Task.CompletedTask;
     }
 }
