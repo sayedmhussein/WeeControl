@@ -2,15 +2,16 @@
 @page "/Employee/Login"
 @inject IEmployeeData employeeData
 @inject IHttpClientFactory clientFactory
+@inject NavigationManager navManager
+@inject IDevice device
+@inject IJSRuntime jsRuntime
 
 @using WeeControl.SharedKernel.DtosV1.Employee
-@using WeeControl.Frontend.CommonLib.DataAccess
-@using WeeControl.SharedKernel.DtosV1
 @using System.Net
-@using System.Net.Http.Headers
 @using WeeControl.Frontend.CommonLib.DataAccess.Employee
+@using WeeControl.Frontend.CommonLib.Interfaces
+@using System.ComponentModel
 @layout RestrictedLayout
-
 
 <div>
     <div class="input-group mb-3">
@@ -30,26 +31,53 @@
     <button class="btn btn-primary" @onclick="ProcessLoginAsync" type="submit">Login</button>
     <button class="btn btn-secondary" @onclick="ProcessLoginAsync" type="submit">Forgot Password</button>
     <label>@temp</label>
-    <div class="alert alert-warning" role="alert">
-      This is a warning alert—check it out!
-    </div>
+    @if (displayAlert)
+    {
+        <div id="alert_div" class="alert alert-warning" role="alert">
+            @stringAlert
+        </div>
+    }
+    
 </div>
 
 @code
 {
     private readonly CreateLoginDto loginDto = new();
     private string temp;
+    private bool displayAlert;
+    private string stringAlert;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        ClearFields();
+    }
 
     private async Task ProcessLoginAsync()
     {
         var response = await employeeData.GetToken(loginDto);
-        if (response.HttpStatuesCode == (int) HttpStatusCode.OK)
+        switch ((HttpStatusCode)response.HttpStatuesCode)
         {
-            temp = response.Payload.Token;
+            case HttpStatusCode.Accepted:
+            case HttpStatusCode.OK:
+                navManager.NavigateTo("/Home");
+                ClearFields();
+                break;
+            case HttpStatusCode.NotFound:
+                displayAlert = true;
+                stringAlert = "Username and Password are not matched!";
+                ClearFields();
+                break;
+            default:
+                displayAlert = true;
+                stringAlert = "Unexpected Error Occured, please try again.";
+                break;
         }
-        else
-        {
-            temp = response.HttpStatuesCode.ToString();
-        }
+    }
+
+    private void ClearFields()
+    {
+        loginDto.Username = string.Empty;
+        loginDto.Password = string.Empty;
     }
 }

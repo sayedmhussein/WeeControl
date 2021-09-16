@@ -31,6 +31,8 @@ namespace WeeControl.Frontend.CommonLib.DataAccess.Employee
                 case HttpStatusCode.OK:
                     var rDto = await response.Content.ReadFromJsonAsync<ResponseDto<EmployeeTokenDto>>();
                     rDto.HttpStatuesCode = (int)response.StatusCode;
+                    device.Token = rDto.Payload.Token;
+                    device.FullName = rDto.Payload.FullName;
                     return rDto;
                 default:
                     var rDto_ = new ResponseDto<EmployeeTokenDto>(null);
