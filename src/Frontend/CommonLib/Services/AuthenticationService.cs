@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Security.Claims;
@@ -15,7 +14,6 @@ namespace WeeControl.Frontend.CommonLib.Services
 {
     public class AuthenticationService : IAuthenticationService
     {
-        private readonly IHttpClientFactory clientFactory;
         private readonly IDevice device;
         private readonly IApiRoute apiRoute;
         private readonly IHttpService httpService;
@@ -28,9 +26,8 @@ namespace WeeControl.Frontend.CommonLib.Services
 
         public IEnumerable<Claim> Claims { get; }
 
-        public AuthenticationService(IHttpClientFactory clientFactory, IDevice device, IApiRoute apiRoute, IHttpService httpService)
+        public AuthenticationService(IDevice device, IApiRoute apiRoute, IHttpService httpService)
         {
-            this.clientFactory = clientFactory;
             this.device = device;
             this.apiRoute = apiRoute;
             this.httpService = httpService;
@@ -52,12 +49,6 @@ namespace WeeControl.Frontend.CommonLib.Services
             requestMessage.Content = httpService.GetHttpContentAsJson(requestDto);
             
             var response = await httpService.SendAsync(requestMessage);
-            Console.Write("Response code is: ");
-            Console.WriteLine(response.StatusCode);
-            
-            var client = clientFactory.CreateClient("NoAuth");
-            
-            //var response = await client.PostAsJsonAsync("/Api/Employee/Session", requestDto);
 
             IResponseDto responseDto = new ResponseDto()
             {
