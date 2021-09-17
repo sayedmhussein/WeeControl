@@ -6,9 +6,7 @@ namespace WeeControl.Frontend.CommonLib.DataAccess.Employee
 {
     public interface IEmployeeData
     {
-        Task<IResponseDto<EmployeeTokenDto>> GetToken(CreateLoginDto dto);
         
-        Task<IResponseDto<EmployeeTokenDto>> GetToken(RefreshLoginDto dto);
     }
 
     

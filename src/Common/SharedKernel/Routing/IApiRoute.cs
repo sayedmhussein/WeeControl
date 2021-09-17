@@ -1,4 +1,6 @@
-﻿namespace WeeControl.SharedKernel.Routing
+﻿using System;
+
+namespace WeeControl.SharedKernel.Routing
 {
     public interface IApiRoute
     {

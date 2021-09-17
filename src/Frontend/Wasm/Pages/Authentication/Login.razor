@@ -1,0 +1,81 @@
+﻿@page "/Login"
+@page "/Authentication/Login"
+@layout RestrictedLayout
+
+@inject NavigationManager navManager
+@inject IAuthenticationService authentication
+
+@using WeeControl.SharedKernel.DtosV1.Employee
+@using System.Net
+
+
+<div class="card">
+        <h4 class="card-header">Please enter your username and password</h4>
+        <div class="card-body">
+            <EditForm Model="@loginDto" OnValidSubmit="ProcessLoginAsync">
+                <DataAnnotationsValidator />
+                <div class="form-group">
+                    <label>Username</label>
+                    <InputText @bind-Value="loginDto.Username" class="form-control" />
+                    <ValidationMessage For="@(() => loginDto.Username)" />
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <InputText @bind-Value="loginDto.Password" type="password" class="form-control" />
+                    <ValidationMessage For="@(() => loginDto.Password)" />
+                </div>
+                <button class="btn btn-primary">
+                    @if (loading) {
+                        <span class="spinner-border spinner-border-sm mr-1"></span>
+                    }
+                    Login
+                </button>
+                @if (!string.IsNullOrEmpty(stringAlert)) {
+                    <div class="alert alert-danger mt-3 mb-0">@stringAlert</div>
+                }
+            </EditForm>
+        </div>
+    </div>
+
+@code
+{
+    private readonly CreateLoginDto loginDto = new();
+    private bool loading;
+    private string stringAlert;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        loginDto.Password = string.Empty;
+    }
+
+    private async Task ProcessLoginAsync()
+    {
+        loading = true;
+        try
+        {
+            var response = await authentication.Login(loginDto);
+            switch ((HttpStatusCode)response.HttpStatuesCode)
+            {
+                case HttpStatusCode.Accepted:
+                case HttpStatusCode.OK:
+                    navManager.NavigateTo("/Home");
+                    loginDto.Password = string.Empty;
+                    break;
+                case HttpStatusCode.NotFound:
+                    stringAlert = "Username and Password are not matched!";
+                    loginDto.Password = string.Empty;
+                    break;
+                default:
+                    stringAlert = "Unexpected Error Occured, please try again.";
+                    break;
+            }
+        }
+        catch (Exception e)
+        {
+            stringAlert = e.StackTrace;
+        }
+
+        loading = false;
+    }
+}

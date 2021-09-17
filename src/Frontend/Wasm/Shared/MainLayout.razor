@@ -1,4 +1,9 @@
-﻿@inherits LayoutComponentBase
+﻿@using WeeControl.Frontend.CommonLib.Interfaces
+@using WeeControl.Frontend.CommonLib.DataAccess.Employee
+@inherits LayoutComponentBase
+@inject IDevice device
+@inject IAuthenticationService authentication
+@inject NavigationManager navManager
 
 <div class="page">
     <div class="sidebar">
@@ -7,6 +12,9 @@
 
     <div class="main">
         <div class="top-row px-4">
+            <label>Hello World</label>
+            <p class="text-primary">Hello User Full Name :)</p>
+            <button class="btn btn-danger ml-md-auto" @onclick="@Logout">Logout</button>
             <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
         </div>
 
@@ -15,3 +23,13 @@
         </div>
     </div>
 </div>
+
+
+@code
+{
+    private async Task Logout()
+    {
+        await authentication.Logout();
+        navManager.NavigateTo("/login");
+    }
+}

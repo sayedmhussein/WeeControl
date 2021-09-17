@@ -6,26 +6,31 @@ using Moq;
 using Newtonsoft.Json;
 using WeeControl.Frontend.CommonLib.DataAccess.Employee;
 using WeeControl.Frontend.CommonLib.Interfaces;
+using WeeControl.Frontend.CommonLib.Services;
 using WeeControl.Frontend.CommonLib.Test.TestHelpers;
 using WeeControl.SharedKernel.DtosV1;
 using WeeControl.SharedKernel.DtosV1.Employee;
 using Xunit;
 
-namespace WeeControl.Frontend.CommonLib.Test.DataAccess.Employee
+namespace WeeControl.Frontend.CommonLib.Test.Services
 {
-    public class GetTokenTests
+    public class AuthenticationServiceTests
     {
         private readonly IDevice device;
         
-        public GetTokenTests()
+        public AuthenticationServiceTests()
         {
+            var localStorageMock = new Mock<ILocalStorage>();
+            localStorageMock.SetupAllProperties();
+            
             var deviceMock = new Mock<IDevice>();
-            deviceMock.Setup(x => x.DeviceId).Returns(typeof(GetTokenTests).Namespace);
+            deviceMock.Setup(x => x.DeviceId).Returns(typeof(AuthenticationServiceTests).Namespace);
+            deviceMock.Setup(x => x.LocalStorage).Returns(localStorageMock.Object);
             device = deviceMock.Object;
         }
 
         [Fact]
-        public async void WhenCorrectDto_ReturnOk()
+        public async void WhenLoginWithCorrectDto_ReturnOk()
         {
             var expectedResponse = new ResponseDto<EmployeeTokenDto>(new EmployeeTokenDto() {});
             
@@ -38,8 +43,8 @@ namespace WeeControl.Frontend.CommonLib.Test.DataAccess.Employee
             var httpClientFactoryMock = new Mock<IHttpClientFactory>();
             httpClientFactoryMock.Setup(x => x.CreateClient(It.IsAny<string>())).Returns(fakeHttpClient);
 
-            var service = new EmployeeData(httpClientFactoryMock.Object, device);
-            var response = await service.GetToken(new CreateLoginDto());
+            var service = new AuthenticationService(httpClientFactoryMock.Object, device);
+            var response = await service.Login(new CreateLoginDto());
             
             Assert.Equal(200, response.HttpStatuesCode);
         }

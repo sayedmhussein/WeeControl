@@ -19,8 +19,8 @@
     <None Remove="MudBlazor" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Pages\Employee" />
     <Folder Include="Pages\Employee\" />
-    <Folder Include="Pages\Employee\Session\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\SharedKernel\SharedKernel.csproj">

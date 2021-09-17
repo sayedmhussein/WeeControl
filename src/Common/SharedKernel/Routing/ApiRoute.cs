@@ -16,6 +16,7 @@ namespace WeeControl.SharedKernel.Routing
         {
             appSettingReader = new AppSettingReader(typeof(ApiRoute).Namespace, "attributes.json");
         }
+        
         public string GetRoute(ApiRouteEnum api)
         {
             appSettingReader.PopulateAttribute(ref routes, "ApiRoute");
