@@ -4,7 +4,7 @@ using System.Reflection;
 using WeeControl.SharedKernel.Helpers;
 using Xunit;
 
-namespace WeeControl.SharedKernel.Test.Helpers
+namespace WeeControl.SharedKernel.Test.Services
 {
     public class AppSettingReaderTests : IDisposable
     {

@@ -16,6 +16,7 @@ using WeeControl.Backend.WebApi.Middlewares;
 using WeeControl.Backend.WebApi.Security.CustomHandlers.TokenRefreshment;
 using WeeControl.Backend.WebApi.Services;
 using WeeControl.Backend.WebApi.StartupOptions;
+using WeeControl.SharedKernel.Interfaces;
 
 namespace WeeControl.Backend.WebApi
 {

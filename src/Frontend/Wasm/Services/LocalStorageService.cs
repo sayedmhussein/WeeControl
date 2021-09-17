@@ -1,5 +1,6 @@
 using System.Text.Json;
 using System.Threading.Tasks;
+using Blazored.LocalStorage;
 using Microsoft.JSInterop;
 using WeeControl.Frontend.CommonLib.Interfaces;
 
@@ -9,7 +10,7 @@ namespace WeeControl.Frontend.Wasm.Services
     {
         private readonly IJSRuntime jsRuntime;
 
-        public LocalStorageService(IJSRuntime jsRuntime)
+        public LocalStorageService(IJSRuntime jsRuntime, ILocalStorageService blazoredService)
         {
             this.jsRuntime = jsRuntime;
         }

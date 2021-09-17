@@ -1,5 +1,6 @@
 using System;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -11,18 +12,26 @@ namespace WeeControl.Frontend.CommonLib.Services
     public class HttpService : IHttpService
     {
         private readonly IHttpClientFactory httpClientFactory;
+        private readonly ILocalStorage localStorage;
 
-        public HttpService(IHttpClientFactory httpClientFactory)
+        public HttpService(IHttpClientFactory httpClientFactory, ILocalStorage localStorage)
         {
             this.httpClientFactory = httpClientFactory;
+            this.localStorage = localStorage;
         }
         
-        public Task<HttpResponseMessage> SendAsync(HttpRequestMessage httpRequestMessage)
+        public async Task<HttpResponseMessage> SendAsync(HttpRequestMessage httpRequestMessage)
         {
             httpRequestMessage.Version = new Version("1.0");
             var client = httpClientFactory.CreateClient("NoAuth");
 
-            return client.SendAsync(httpRequestMessage);
+            var token = await localStorage.GetItem<string>("Token");
+            if (string.IsNullOrWhiteSpace(token) == false)
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
+            }
+
+            return await client.SendAsync(httpRequestMessage);
         }
 
         public Task<HttpResponseMessage> SendAsync(HttpMethod method, string relativeRoute, HttpContent content)

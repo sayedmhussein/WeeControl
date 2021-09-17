@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Helpers\" />
+    <Folder Include="Services\" />
     <Folder Include="Extensions\" />
   </ItemGroup>
   <ItemGroup>
@@ -41,6 +41,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Helpers\appsettings.json" />
-    <EmbeddedResource Include="Helpers\appsettings.json" />
+    <EmbeddedResource Include="Services\appsettings.json" />
   </ItemGroup>
 </Project>

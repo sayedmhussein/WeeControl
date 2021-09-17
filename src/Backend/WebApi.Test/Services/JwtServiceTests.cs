@@ -4,11 +4,11 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Tokens;
-using WeeControl.Backend.Application.Common.Interfaces;
 using WeeControl.Backend.WebApi.Services;
+using WeeControl.SharedKernel.Interfaces;
 using Xunit;
 
-namespace WeeControl.Backend.WebApi.Test.Services
+namespace WeeControl.SharedKernel.Test.Services
 {
     public class JwtServiceTests
     {

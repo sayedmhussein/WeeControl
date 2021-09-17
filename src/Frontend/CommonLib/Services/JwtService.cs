@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -6,7 +6,7 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using WeeControl.SharedKernel.Interfaces;
 
-namespace WeeControl.Backend.WebApi.Services
+namespace WeeControl.Frontend.CommonLib.Services
 {
     public class JwtService : IJwtService
     {
@@ -23,13 +23,13 @@ namespace WeeControl.Backend.WebApi.Services
             {
                 var paremeters = new TokenValidationParameters
                 {
-                    ValidateIssuerSigningKey = true,
+                    ValidateIssuerSigningKey = false,
                     //TryAllIssuerSigningKeys = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(securityKey)),
+                    //IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(securityKey)),
                     ValidateIssuer = false,
                     ValidateAudience = false,
                     //ValidAudience = Configuration["Jwt:Audience"],
-                    ValidateLifetime = true,
+                    ValidateLifetime = false,
                     ClockSkew = TimeSpan.Zero
                 };
 
@@ -57,20 +57,24 @@ namespace WeeControl.Backend.WebApi.Services
         public ClaimsPrincipal GetClaims(string token)
         {
             var handler = new JwtSecurityTokenHandler();
+            var bla = handler.ReadJwtToken(token);
+            var cla = bla.Claims;
+            var ida = new ClaimsIdentity(cla);
+            return new ClaimsPrincipal(ida);
+            
+            // var key = Encoding.ASCII.GetBytes(securityKey);
+            // var validations = new TokenValidationParameters
+            // {
+            //     ValidateIssuerSigningKey = true,
+            //     IssuerSigningKey = new SymmetricSecurityKey(key),
+            //     ValidateIssuer = false,
+            //     ValidateAudience = false,
+            //     ValidateLifetime = true,
+            //     ClockSkew = TimeSpan.Zero
+            // };
             //
-            var key = Encoding.ASCII.GetBytes(securityKey);
-            var validations = new TokenValidationParameters
-            {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(key),
-                ValidateIssuer = false,
-                ValidateAudience = false,
-                ValidateLifetime = true,
-                ClockSkew = TimeSpan.Zero
-            };
-
-            var claims = handler.ValidateToken(token, validations, out var _);
-            return claims;
+            // var claims = handler.ValidateToken(token, validations, out var _);
+            // return claims;
         }
     }
 }

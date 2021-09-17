@@ -1,9 +1,8 @@
-using System;
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.Frontend.CommonLib.DataAccess;
 using WeeControl.Frontend.CommonLib.DataAccess.Employee;
 using WeeControl.Frontend.CommonLib.Interfaces;
 using WeeControl.Frontend.CommonLib.Services;
+using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.Routing;
 
 namespace WeeControl.Frontend.CommonLib
@@ -14,14 +13,15 @@ namespace WeeControl.Frontend.CommonLib
         {
             services.AddSingleton<IApiRoute, ApiRoute>();
             services.AddTransient<IHttpService, HttpService>();
+
+            services.AddScoped<IJwtService>(x => new JwtService("This is JWT Key, Please keep it for as secured and never share it with any one under any reason!"));
             
-            services.AddSingleton<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
             
             services.AddSingleton<IEmployeeData, EmployeeData>();
 
             return services;
         }
-        
     }
 
 }

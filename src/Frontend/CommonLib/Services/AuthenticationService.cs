@@ -19,9 +19,9 @@ namespace WeeControl.Frontend.CommonLib.Services
         private readonly IHttpService httpService;
         private readonly ILocalStorage localStorage;
 
-        private const string Token = "token";
-        private const string FullName = "fullname";
-        private const string PhotoUrl = "photourl";
+        private const string Token = "Token";
+        private const string FullName = "Fullname";
+        private const string PhotoUrl = "Photourl";
         
 
         public IEnumerable<Claim> Claims { get; }
