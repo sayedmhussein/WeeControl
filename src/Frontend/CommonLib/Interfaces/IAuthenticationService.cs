@@ -10,7 +10,7 @@ namespace WeeControl.Frontend.CommonLib.Interfaces
     public interface IAuthenticationService
     {
         IEnumerable<Claim> Claims { get; }
-        Task Initialize();
+        Task ResetPassword();
         Task<IResponseDto> Login(CreateLoginDto dto);
         Task<IResponseDto> Refresh();
         Task<IResponseDto> Logout();

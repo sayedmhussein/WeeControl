@@ -10,32 +10,35 @@
 
 
 <div class="card">
-        <h4 class="card-header">Please enter your username and password</h4>
-        <div class="card-body">
-            <EditForm Model="@loginDto" OnValidSubmit="ProcessLoginAsync">
-                <DataAnnotationsValidator />
-                <div class="form-group">
-                    <label>Username</label>
-                    <InputText @bind-Value="loginDto.Username" class="form-control" />
-                    <ValidationMessage For="@(() => loginDto.Username)" />
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <InputText @bind-Value="loginDto.Password" type="password" class="form-control" />
-                    <ValidationMessage For="@(() => loginDto.Password)" />
-                </div>
-                <button class="btn btn-primary">
-                    @if (loading) {
-                        <span class="spinner-border spinner-border-sm mr-1"></span>
-                    }
-                    Login
-                </button>
-                @if (!string.IsNullOrEmpty(stringAlert)) {
-                    <div class="alert alert-danger mt-3 mb-0">@stringAlert</div>
+    <h4 class="card-header">Please enter your username and password</h4>
+    <div class="card-body">
+        <EditForm Model="@loginDto" OnValidSubmit="ProcessLoginAsync">
+            <DataAnnotationsValidator/>
+            <div class="form-group">
+                <label>Username</label>
+                <InputText @bind-Value="loginDto.Username" class="form-control"/>
+                <ValidationMessage For="@(() => loginDto.Username)"/>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <InputText @bind-Value="loginDto.Password" type="password" class="form-control"/>
+                <ValidationMessage For="@(() => loginDto.Password)"/>
+            </div>
+            <button class="btn btn-primary">
+                @if (loading)
+                {
+                    <span class="spinner-border spinner-border-sm mr-1"></span>
                 }
-            </EditForm>
-        </div>
+                Login
+            </button>
+            <button class="btn btn-secondary" @onclick="@RequestPasswordReset">Forgot Password</button>
+            @if (!string.IsNullOrEmpty(stringAlert))
+            {
+                <div class="alert alert-danger mt-3 mb-0">@stringAlert</div>
+            }
+        </EditForm>
     </div>
+</div>
 
 @code
 {
@@ -55,7 +58,7 @@
         try
         {
             var response = await authentication.Login(loginDto);
-            switch ((HttpStatusCode)response.HttpStatuesCode)
+            switch ((HttpStatusCode) response.HttpStatuesCode)
             {
                 case HttpStatusCode.Accepted:
                 case HttpStatusCode.OK:
@@ -77,5 +80,11 @@
         }
 
         loading = false;
+    }
+
+    private Task RequestPasswordReset()
+    {
+        navManager.NavigateTo("/ForgotPassword");
+        return Task.CompletedTask;
     }
 }

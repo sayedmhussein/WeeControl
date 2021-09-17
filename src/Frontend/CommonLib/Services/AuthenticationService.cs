@@ -34,7 +34,7 @@ namespace WeeControl.Frontend.CommonLib.Services
             localStorage = device.LocalStorage;
         }
         
-        public Task Initialize()
+        public Task ResetPassword()
         {
             throw new System.NotImplementedException();
         }

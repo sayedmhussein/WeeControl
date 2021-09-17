@@ -20,6 +20,8 @@ namespace WeeControl.Frontend.Wasm
             builder.RootComponents.Add<App>("#app");
 
             builder.Services.AddCommonLibraryService();
+            builder.Services.AddSingleton<ToastService>();
+            
             //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:5001/") });
 
