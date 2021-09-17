@@ -10,7 +10,6 @@ using WeeControl.Frontend.CommonLib;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using WeeControl.Frontend.CommonLib.Interfaces;
 using WeeControl.Frontend.CommonLib.Services;
-using WeeControl.Frontend.Wasm.Authentication;
 using WeeControl.Frontend.Wasm.Services;
 
 namespace WeeControl.Frontend.Wasm
@@ -23,7 +22,6 @@ namespace WeeControl.Frontend.Wasm
             builder.RootComponents.Add<App>("#app");
 
             builder.Services.AddCommonLibraryService();
-            builder.Services.AddSingleton<ToastService>();
 
             builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddAuthorizationCore();

@@ -52,7 +52,7 @@ namespace WeeControl.Frontend.CommonLib.Services
 
             IResponseDto responseDto = new ResponseDto()
             {
-                HttpStatuesCode = (int)response.StatusCode
+                HttpStatuesCode = response.StatusCode
             };
             
             if (response.IsSuccessStatusCode)

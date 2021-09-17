@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using WeeControl.Frontend.CommonLib.Interfaces;
 using WeeControl.SharedKernel.Interfaces;
 
-namespace WeeControl.Frontend.Wasm.Authentication
+namespace WeeControl.Frontend.Wasm.Services
 {
     public class AuthStateProvider : AuthenticationStateProvider
     {
@@ -26,7 +26,6 @@ namespace WeeControl.Frontend.Wasm.Authentication
 
             var cp = jwtService.GetClaims(token);
             return new AuthenticationState(cp);
-            //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
         }
 
         public void NotifyUserAuthentication(string token)

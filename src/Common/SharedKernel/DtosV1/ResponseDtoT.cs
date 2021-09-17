@@ -1,4 +1,5 @@
-﻿using WeeControl.SharedKernel.Interfaces;
+﻿using System.Net;
+using WeeControl.SharedKernel.Interfaces;
 
 namespace WeeControl.SharedKernel.DtosV1
 {
@@ -11,6 +12,6 @@ namespace WeeControl.SharedKernel.DtosV1
 
         public T Payload { get; set; }
         
-        public int HttpStatuesCode { get; set; }
+        public HttpStatusCode HttpStatuesCode { get; set; }
     }
 }

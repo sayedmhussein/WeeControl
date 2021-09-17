@@ -8,7 +8,6 @@
 @using WeeControl.SharedKernel.DtosV1.Employee
 @using System.Net
 
-
 <div class="card">
     <h4 class="card-header">Please enter your username and password</h4>
     <div class="card-body">
@@ -58,7 +57,7 @@
         try
         {
             var response = await authentication.Login(loginDto);
-            switch ((HttpStatusCode) response.HttpStatuesCode)
+            switch (response.HttpStatuesCode)
             {
                 case HttpStatusCode.Accepted:
                 case HttpStatusCode.OK:

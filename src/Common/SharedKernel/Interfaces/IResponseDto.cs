@@ -1,7 +1,9 @@
+using System.Net;
+
 namespace WeeControl.SharedKernel.Interfaces
 {
     public interface IResponseDto
     {
-        int HttpStatuesCode { get; set; }
+        HttpStatusCode HttpStatuesCode { get; set; }
     }
 }
