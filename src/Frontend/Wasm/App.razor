@@ -1,29 +1,21 @@
 ﻿<CascadingAuthenticationState>
     <Router AppAssembly="@typeof(Program).Assembly" PreferExactMatches="@true">
         <Found Context="routeData">
-            @* <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" /> *@
-            @* <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)"> *@
-            @*     <NotAuthorized> *@
-            @*         @if (!context.User.Identity.IsAuthenticated) *@
-            @*         { *@
-            @*             <RedirectToLogin/> *@
-            @*         } *@
-            @*         else *@
-            @*         { *@
-            @*             <p> *@
-            @*                 You are not authorized to access this resource. *@
-            @*             </p> *@
-            @*         } *@
-            @*     </NotAuthorized> *@
-            @* </AuthorizeRouteView> *@
-
             <AuthorizeView>
                 <Authorized>
                     <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)"></RouteView>
                 </Authorized>
                 <NotAuthorized>
-                    <h1>You are not authorized bro.</h1>
-                    @* <RedirectToLogin/> *@
+                    @if (!context.User.Identity.IsAuthenticated)
+                    {
+                        <RedirectToLogin/>
+                    }
+                    else
+                    {
+                        <p>
+                            You are not authorized to access this resource.
+                        </p>
+                    }
                 </NotAuthorized>
                 <Authorizing>
                     <text>Please wait the system is authorizing your credentials</text>
@@ -38,5 +30,4 @@
             </CascadingAuthenticationState>
         </NotFound>
     </Router>
-
 </CascadingAuthenticationState>

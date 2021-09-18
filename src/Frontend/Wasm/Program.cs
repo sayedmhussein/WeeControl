@@ -46,10 +46,11 @@ namespace WeeControl.Frontend.Wasm
 
             builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>()
                 .CreateClient(IHttpService.SecuredApi));
-            
+
             
             builder.Services.AddAuthorizationCore(o =>
             {
+                
                 o.AddPolicy("SuperAdmin", policy => policy.RequireClaim("SuperAdmin"));
                 o.AddPolicy("CountyAdmin", policy => policy.RequireClaim("CountyAdmin"));
             });
