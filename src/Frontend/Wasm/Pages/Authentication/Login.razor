@@ -76,7 +76,7 @@
         }
         catch (Exception e)
         {
-            stringAlert = e.StackTrace;
+            stringAlert = e.Message + e.StackTrace;
         }
 
         loading = false;

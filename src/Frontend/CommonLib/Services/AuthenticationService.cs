@@ -17,6 +17,7 @@ namespace WeeControl.Frontend.CommonLib.Services
         private readonly IDevice device;
         private readonly IApiRoute apiRoute;
         private readonly IHttpService httpService;
+        private readonly IAuthenticationRefresh authenticationRefresh;
         private readonly ILocalStorage localStorage;
 
         private const string Token = "Token";
@@ -26,11 +27,12 @@ namespace WeeControl.Frontend.CommonLib.Services
 
         public IEnumerable<Claim> Claims { get; }
 
-        public AuthenticationService(IDevice device, IApiRoute apiRoute, IHttpService httpService)
+        public AuthenticationService(IDevice device, IApiRoute apiRoute, IHttpService httpService, IAuthenticationRefresh authenticationRefresh)
         {
             this.device = device;
             this.apiRoute = apiRoute;
             this.httpService = httpService;
+            this.authenticationRefresh = authenticationRefresh;
             localStorage = device.LocalStorage;
         }
         
@@ -59,6 +61,7 @@ namespace WeeControl.Frontend.CommonLib.Services
             {
                 var responseDto_ = await response.Content.ReadFromJsonAsync<ResponseDto<EmployeeTokenDto>>();
                 await UpdateUserInfo(responseDto_.Payload);
+                await authenticationRefresh.AuthenticationRefreshedAsync();
             }
 
             return responseDto;

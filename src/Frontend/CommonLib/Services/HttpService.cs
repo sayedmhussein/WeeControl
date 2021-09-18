@@ -23,7 +23,7 @@ namespace WeeControl.Frontend.CommonLib.Services
         public async Task<HttpResponseMessage> SendAsync(HttpRequestMessage httpRequestMessage)
         {
             httpRequestMessage.Version = new Version("1.0");
-            var client = httpClientFactory.CreateClient("NoAuth");
+            var client = httpClientFactory.CreateClient(IHttpService.UnSecuredApi);
 
             var token = await localStorage.GetItem<string>("Token");
             if (string.IsNullOrWhiteSpace(token) == false)

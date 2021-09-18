@@ -32,6 +32,9 @@
     [CascadingParameter]
     public Task<AuthenticationState> AuthState { get; set; }
     
+    [Inject]
+    public NavigationManager NavManager { get; set; }
+    
     private bool collapseNavMenu = true;
 
     private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
@@ -40,4 +43,15 @@
     {
         collapseNavMenu = !collapseNavMenu;
     }
+
+    protected override async void OnInitialized()
+    {
+        base.OnInitialized();
+        var user = (await AuthState).User;
+        if (user.Identity.IsAuthenticated == false)
+        {
+            NavManager.NavigateTo("login");
+        }
+    }
+
 }

@@ -1,26 +1,14 @@
 ﻿<CascadingAuthenticationState>
     <Router AppAssembly="@typeof(Program).Assembly" PreferExactMatches="@true">
         <Found Context="routeData">
-            <AuthorizeView>
-                <Authorized>
-                    <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)"></RouteView>
-                </Authorized>
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
                 <NotAuthorized>
-                    @if (!context.User.Identity.IsAuthenticated)
-                    {
-                        <RedirectToLogin/>
-                    }
-                    else
-                    {
-                        <p>
-                            You are not authorized to access this resource.
-                        </p>
-                    }
+                    <p>Not Authorized!</p>
                 </NotAuthorized>
                 <Authorizing>
                     <text>Please wait the system is authorizing your credentials</text>
                 </Authorizing>
-            </AuthorizeView>
+            </AuthorizeRouteView>
         </Found>
         <NotFound>
             <CascadingAuthenticationState>

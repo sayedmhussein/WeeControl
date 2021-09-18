@@ -7,7 +7,7 @@ using WeeControl.SharedKernel.Interfaces;
 
 namespace WeeControl.Frontend.Wasm.Services
 {
-    public class AuthStateProvider : AuthenticationStateProvider
+    public class AuthStateProvider : AuthenticationStateProvider, IAuthenticationRefresh
     {
         private readonly ILocalStorage localStorage;
         private readonly IJwtService jwtService;
@@ -44,9 +44,20 @@ namespace WeeControl.Frontend.Wasm.Services
             NotifyAuthenticationStateChanged(authState);
         }
 
+        [Obsolete]
         public void NotifyUserLogout()
         {
             var authState = Task.FromResult(this.anonymous);
+            
+            NotifyAuthenticationStateChanged(authState);
+        }
+
+        [Obsolete]
+        public async Task AuthenticationRefreshedAsync()
+        {
+            var token = await localStorage.GetItem<string>("Token");
+            var cp = jwtService.GetClaims(token);
+            var authState = Task.FromResult(new AuthenticationState(cp));
             
             NotifyAuthenticationStateChanged(authState);
         }
