@@ -1,3 +1,5 @@
+using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Authorization;
 using WeeControl.Frontend.CommonLib.Interfaces;
@@ -21,9 +23,10 @@ namespace WeeControl.Frontend.Wasm.Services
             var token = await localStorage.GetItem<string>("Token");
             if (string.IsNullOrWhiteSpace(token))
             {
-                return default;
+                var anonymous = new ClaimsPrincipal();
+                return new AuthenticationState(anonymous);
             }
-
+            
             var cp = jwtService.GetClaims(token);
             return new AuthenticationState(cp);
         }
@@ -38,7 +41,9 @@ namespace WeeControl.Frontend.Wasm.Services
 
         public void NotifyUserLogout()
         {
-            var authState = Task.FromResult((AuthenticationState)default);
+            var anonymous = new ClaimsPrincipal();
+            
+            var authState = Task.FromResult(new AuthenticationState(anonymous));
             
             NotifyAuthenticationStateChanged(authState);
         }

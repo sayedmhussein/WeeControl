@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using WeeControl.Frontend.CommonLib.Interfaces;
 using WeeControl.Frontend.CommonLib.Services;
 using WeeControl.Frontend.Wasm.Services;
+using WeeControl.SharedKernel.Interfaces;
 
 namespace WeeControl.Frontend.Wasm
 {
@@ -25,13 +26,16 @@ namespace WeeControl.Frontend.Wasm
 
             builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddAuthorizationCore();
-            builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
             
+            builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
+            builder.Services.AddOptions();
+            builder.Services.AddAuthorizationCore();
             //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:5001/") });
 
             builder.Services.AddScoped<ILocalStorage, LocalStorageService>();
             builder.Services.AddTransient<IDevice, DeviceService>();
+            //builder.Services.AddSingleton<IJwtService, JwtService>();
             
             builder.Services.AddHttpClient(IHttpService.UnSecuredApi, 
                 client => client.BaseAddress = new Uri("https://localhost:5001/"));
@@ -42,6 +46,14 @@ namespace WeeControl.Frontend.Wasm
 
             builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>()
                 .CreateClient(IHttpService.SecuredApi));
+            
+            
+            builder.Services.AddAuthorizationCore(o =>
+            {
+                o.AddPolicy("SuperAdmin", policy => policy.RequireClaim("SuperAdmin"));
+                o.AddPolicy("CountyAdmin", policy => policy.RequireClaim("CountyAdmin"));
+            });
+
             
             await builder.Build().RunAsync();
         }
