@@ -42,6 +42,9 @@
 
 @code
 {
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthState { get; set; }
+    
     private readonly CreateLoginDto loginDto = new();
     private bool loading;
     private string stringAlert;
@@ -62,8 +65,11 @@
             {
                 case HttpStatusCode.Accepted:
                 case HttpStatusCode.OK:
+                    var user = (await AuthState).User;
+                    throw new Exception("---> is authenticated = " + user.Identity.IsAuthenticated);
                     navManager.NavigateTo("/Home");
                     loginDto.Password = string.Empty;
+                    
                     break;
                 case HttpStatusCode.NotFound:
                     stringAlert = "Username and Password are not matched!";

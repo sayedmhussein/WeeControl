@@ -7,7 +7,7 @@ using WeeControl.SharedKernel.Interfaces;
 
 namespace WeeControl.Frontend.Wasm.Services
 {
-    public class AuthStateProvider : AuthenticationStateProvider, IAuthenticationBase
+    public class AuthStateProvider : AuthenticationStateProvider
     {
         private readonly ILocalStorage localStorage;
         private readonly IJwtService jwtService;

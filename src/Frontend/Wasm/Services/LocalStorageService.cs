@@ -10,7 +10,7 @@ namespace WeeControl.Frontend.Wasm.Services
     {
         private readonly IJSRuntime jsRuntime;
 
-        public LocalStorageService(IJSRuntime jsRuntime, ILocalStorageService blazoredService)
+        public LocalStorageService(IJSRuntime jsRuntime)
         {
             this.jsRuntime = jsRuntime;
         }
