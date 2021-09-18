@@ -28,7 +28,7 @@ namespace WeeControl.Frontend.Wasm
             builder.Services.AddOptions();
             builder.Services.AddAuthorizationCore();
 
-            builder.Services.AddScoped<IAuthenticationRefresh, AuthStateProvider>();
+            builder.Services.AddScoped<IAuthenticationRefresh, AuthenticationRefresh>();
 
             builder.Services.AddCommonLibraryService();
 
