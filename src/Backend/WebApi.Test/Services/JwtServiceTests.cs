@@ -8,7 +8,7 @@ using WeeControl.Backend.WebApi.Services;
 using WeeControl.SharedKernel.Interfaces;
 using Xunit;
 
-namespace WeeControl.SharedKernel.Test.Services
+namespace WeeControl.Backend.WebApi.Test.Services
 {
     public class JwtServiceTests
     {

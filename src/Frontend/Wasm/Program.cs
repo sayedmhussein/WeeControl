@@ -53,7 +53,6 @@ namespace WeeControl.Frontend.Wasm
             
             builder.Services.AddAuthorizationCore(o =>
             {
-                
                 o.AddPolicy("SuperAdmin", policy => policy.RequireClaim("SuperAdmin"));
                 o.AddPolicy("CountyAdmin", policy => policy.RequireClaim("CountyAdmin"));
             });

@@ -27,8 +27,6 @@
     <Folder Include="Services\" />
     <Folder Include="Security\" />
     <Folder Include="StartupOptions\" />
-    <Folder Include="Security\CustomHandlers\" />
-    <Folder Include="Security\CustomHandlers\TokenRefreshment\" />
     <Folder Include="Controllers\Employee\" />
     <Folder Include="Controllers\Territory\" />
     <Folder Include="Controllers\Custom\" />
@@ -46,6 +44,7 @@
     <None Remove="Controllers\Custom\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\UserSecurityLib\UserSecurityLib.csproj" />
     <ProjectReference Include="..\Application\Application.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>

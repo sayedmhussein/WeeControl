@@ -13,10 +13,10 @@ using WeeControl.Backend.Application.Common.Interfaces;
 using WeeControl.Backend.Infrastructure;
 using WeeControl.Backend.Persistence;
 using WeeControl.Backend.WebApi.Middlewares;
-using WeeControl.Backend.WebApi.Security.CustomHandlers.TokenRefreshment;
 using WeeControl.Backend.WebApi.Services;
 using WeeControl.Backend.WebApi.StartupOptions;
 using WeeControl.SharedKernel.Interfaces;
+using WeeControl.UserSecurityLib;
 
 namespace WeeControl.Backend.WebApi
 {
@@ -36,6 +36,7 @@ namespace WeeControl.Backend.WebApi
 
             services.AddHttpContextAccessor();
 
+            //services.AddApiAuthorizationService();
             services.AddApplication();
             services.AddInfrastructure(Configuration);
             services.AddPersistenceAsPostgreSql(Configuration, Assembly.GetExecutingAssembly().GetName().Name);
@@ -73,7 +74,7 @@ namespace WeeControl.Backend.WebApi
                 };
             });
 
-            services.AddSingleton<IAuthorizationHandler, TokenRefreshmentHandler>();
+            
             services.AddAuthorization(AuthorOptions.ConfigureAuthOptions);
         }
 

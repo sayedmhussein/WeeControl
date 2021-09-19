@@ -29,10 +29,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Security" />
     <Folder Include="Services\" />
     <Folder Include="Security\" />
     <Folder Include="Middlewares\" />
-    <Folder Include="Security\CustomHandlers\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="FunctionalTests\" />

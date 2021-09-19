@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using WeeControl.SharedKernel.EntityGroups.Territory.Enums;
 using WeeControl.SharedKernel.EntityGroups.Territory.Interfaces;
-using WeeControl.SharedKernel.Helpers;
+using WeeControl.SharedKernel.Services;
 
 namespace WeeControl.SharedKernel.EntityGroups.Territory.Attributes
 {

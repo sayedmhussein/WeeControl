@@ -14,7 +14,8 @@ namespace WeeControl.Frontend.CommonLib
             services.AddSingleton<IApiRoute, ApiRoute>();
             services.AddTransient<IHttpService, HttpService>();
 
-            services.AddScoped<IJwtService>(x => new JwtService("This is JWT Key, Please keep it for as secured and never share it with any one under any reason!"));
+            services.AddScoped<IJwtService, JwtService>();
+            //services.AddScoped<IJwtService>(x => new JwtService("This is JWT Key, Please keep it for as secured and never share it with any one under any reason!"));
             
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             

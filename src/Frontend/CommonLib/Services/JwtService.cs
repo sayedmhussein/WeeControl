@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using WeeControl.SharedKernel.Interfaces;
 
@@ -12,9 +13,14 @@ namespace WeeControl.Frontend.CommonLib.Services
     {
         private readonly string securityKey;
 
-        public JwtService(string securityKey)
+        // public JwtService(string securityKey)
+        // {
+        //     this.securityKey = securityKey ?? throw new ArgumentNullException("Security Key must have value.");
+        // }
+
+        public JwtService(IConfiguration configuration)
         {
-            this.securityKey = securityKey ?? throw new ArgumentNullException("Security Key must have value.");
+            securityKey = configuration["Jwt:Key"];
         }
 
         public TokenValidationParameters ValidationParameters

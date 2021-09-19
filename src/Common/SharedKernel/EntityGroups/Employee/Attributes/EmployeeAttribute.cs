@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using WeeControl.SharedKernel.EntityGroups.Employee.Enums;
 using WeeControl.SharedKernel.EntityGroups.Employee.Interfaces;
-using WeeControl.SharedKernel.Helpers;
+using WeeControl.SharedKernel.Services;
 
 namespace WeeControl.SharedKernel.EntityGroups.Employee.Attributes
 {

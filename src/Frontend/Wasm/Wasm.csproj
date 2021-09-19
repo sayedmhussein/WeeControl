@@ -23,6 +23,8 @@
     <Folder Include="Pages\Employee" />
     <Folder Include="Pages\Employee\" />
     <Folder Include="Shared\Component" />
+    <Folder Include="wwwroot\html" />
+    <Folder Include="wwwroot\js" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\SharedKernel\SharedKernel.csproj">
@@ -34,13 +36,13 @@
     <Content Remove="wwwroot\logo.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="wwwroot\logo.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <_ContentIncludedByDefault Remove="Pages\Authentication\ForgotPassword.razor" />
     <_ContentIncludedByDefault Remove="Pages\Authentication\Login.razor" />
     <_ContentIncludedByDefault Remove="Pages\Authentication\NewPassword.razor" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="wwwroot\images\logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>
