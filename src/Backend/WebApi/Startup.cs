@@ -2,7 +2,6 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -15,8 +14,9 @@ using WeeControl.Backend.Persistence;
 using WeeControl.Backend.WebApi.Middlewares;
 using WeeControl.Backend.WebApi.Services;
 using WeeControl.Backend.WebApi.StartupOptions;
-using WeeControl.SharedKernel.Interfaces;
 using WeeControl.UserSecurityLib;
+using WeeControl.UserSecurityLib.Interfaces;
+using WeeControl.UserSecurityLib.Services;
 
 namespace WeeControl.Backend.WebApi
 {
@@ -36,7 +36,7 @@ namespace WeeControl.Backend.WebApi
 
             services.AddHttpContextAccessor();
 
-            //services.AddApiAuthorizationService();
+            services.AddApiAuthorizationService();
             services.AddApplication();
             services.AddInfrastructure(Configuration);
             services.AddPersistenceAsPostgreSql(Configuration, Assembly.GetExecutingAssembly().GetName().Name);
@@ -45,7 +45,7 @@ namespace WeeControl.Backend.WebApi
             services.AddSwaggerGen(SwaggerOptions.ConfigureSwaggerGen);
 
             services.AddScoped<ICurrentUserInfo, UserInfoService>();
-            services.AddSingleton<IJwtService>(provider => new JwtService(Configuration["Jwt:Key"]));
+            services.AddSingleton<IJwtService, JwtService>();
 
             services.AddCors(c => c.AddPolicy("AllowAny", builder =>
             {
@@ -73,9 +73,7 @@ namespace WeeControl.Backend.WebApi
                     },
                 };
             });
-
             
-            services.AddAuthorization(AuthorOptions.ConfigureAuthOptions);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

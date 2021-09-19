@@ -12,10 +12,10 @@ using WeeControl.Backend.Application.EntityGroups.Employee.Commands.AddEmployeeV
 using WeeControl.Backend.Application.EntityGroups.Employee.Commands.TerminateSessionV1;
 using WeeControl.Backend.Application.EntityGroups.Employee.Queries.GetClaimsV1;
 using WeeControl.Backend.Application.EntityGroups.Employee.Queries.GetTokenDtoV1;
-using WeeControl.Backend.WebApi.Security.Policies;
 using WeeControl.SharedKernel.DtosV1;
 using WeeControl.SharedKernel.DtosV1.Employee;
 using WeeControl.SharedKernel.Extensions;
+using WeeControl.UserSecurityLib;
 
 namespace WeeControl.Backend.WebApi.Controllers.Employee
 {
@@ -51,7 +51,7 @@ namespace WeeControl.Backend.WebApi.Controllers.Employee
         /// 
         /// <response code="201">Returns the newly created item</response>
         /// <response code="400">DTO has missing/invalid values</response>  
-        [Authorize(Policy = BasicPolicies.CanAddNewEmployee)]
+        [Authorize(CustomAuthorizationPolicy.Employee.CanAlterEmployee)]
         [HttpPut]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
@@ -68,7 +68,7 @@ namespace WeeControl.Backend.WebApi.Controllers.Employee
             return Created("Api/[controller]/", response);
         }
 
-        [Authorize(Policy = BasicPolicies.CanEditEmployeeDetails)]
+        [Authorize(CustomAuthorizationPolicy.Employee.CanAlterEmployee)]
         [HttpDelete("{id}")]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
@@ -117,7 +117,7 @@ namespace WeeControl.Backend.WebApi.Controllers.Employee
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        [Authorize(Policy = BasicPolicies.HasActiveSession)]
+        [Authorize()]
         [HttpPut("Session")]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
@@ -137,7 +137,7 @@ namespace WeeControl.Backend.WebApi.Controllers.Employee
         ///     Used to terminate user session using token.
         /// </summary>
         /// <returns></returns>
-        [Authorize(Policy = BasicPolicies.HasActiveSession)]
+        [Authorize()]
         [HttpDelete("Session")]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType((int)HttpStatusCode.OK)]

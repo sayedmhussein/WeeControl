@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using WeeControl.SharedKernel.Interfaces;
+﻿using System.Collections.Generic;
 using WeeControl.SharedKernel.Services;
 
 namespace WeeControl.SharedKernel.Routing

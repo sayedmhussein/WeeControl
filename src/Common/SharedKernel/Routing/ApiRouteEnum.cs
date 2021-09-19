@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace WeeControl.SharedKernel.Routing
+﻿namespace WeeControl.SharedKernel.Routing
 {
     public enum ApiRouteEnum
     {

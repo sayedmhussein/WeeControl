@@ -2,7 +2,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Authorization;
 using WeeControl.Frontend.CommonLib.Interfaces;
-using WeeControl.SharedKernel.Interfaces;
+using WeeControl.UserSecurityLib.Interfaces;
 
 namespace WeeControl.Frontend.Wasm.Services
 {

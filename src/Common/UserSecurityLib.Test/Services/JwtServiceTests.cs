@@ -4,11 +4,11 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Tokens;
-using WeeControl.Backend.WebApi.Services;
-using WeeControl.SharedKernel.Interfaces;
+using WeeControl.UserSecurityLib.Interfaces;
+using WeeControl.UserSecurityLib.Services;
 using Xunit;
 
-namespace WeeControl.Backend.WebApi.Test.Services
+namespace WeeControl.UserSecurityLib.Test.Services
 {
     public class JwtServiceTests
     {
@@ -23,7 +23,7 @@ namespace WeeControl.Backend.WebApi.Test.Services
         [Fact]
         public void WhenSecurityCodeIsNull_ThrowArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new JwtService(null));
+            Assert.Throws<ArgumentNullException>(() => new JwtService((string)null));
         }
 
         [Fact]

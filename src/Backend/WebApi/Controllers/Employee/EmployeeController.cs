@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using WeeControl.Backend.Application.Common.Interfaces;
-using WeeControl.SharedKernel.Interfaces;
+using WeeControl.UserSecurityLib.Interfaces;
 
 namespace WeeControl.Backend.WebApi.Controllers.Employee
 {

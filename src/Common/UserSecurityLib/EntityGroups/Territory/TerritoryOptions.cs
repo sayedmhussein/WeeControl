@@ -1,17 +1,15 @@
 using Microsoft.AspNetCore.Authorization;
-using WeeControl.UserSecurityLib.Policies.Territory;
+using WeeControl.UserSecurityLib.EntityGroups.Territory.Policies;
 
-namespace WeeControl.UserSecurityLib.Policies
+namespace WeeControl.UserSecurityLib.EntityGroups.Territory
 {
     public static class TerritoryOptions
     {
         public static void Configure(AuthorizationOptions options)
         {
             options.AddPolicy(
-                PolicyGroup.Territory.CanAlterTerritories, 
+                CustomAuthorizationPolicy.Territory.CanAlterTerritories, 
                 new CanAlterTerritoriesPolicy().GetPolicy());
-            
-            
         }
     }
 }

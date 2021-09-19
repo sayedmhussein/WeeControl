@@ -1,6 +1,5 @@
 using System.Text.Json;
 using System.Threading.Tasks;
-using Blazored.LocalStorage;
 using Microsoft.JSInterop;
 using WeeControl.Frontend.CommonLib.Interfaces;
 

@@ -2,7 +2,7 @@ using System;
 using WeeControl.UserSecurityLib.Helpers;
 using WeeControl.UserSecurityLib.Helpers.CustomHandlers.TokenRefreshment;
 
-namespace WeeControl.UserSecurityLib.Policies.Territory
+namespace WeeControl.UserSecurityLib.EntityGroups.Territory.Policies
 {
     public class CanAlterTerritoriesPolicy : PolicyBuilderBase
     {

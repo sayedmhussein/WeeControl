@@ -1,8 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using WeeControl.Frontend.CommonLib.Interfaces;
 using WeeControl.SharedKernel.DtosV1;

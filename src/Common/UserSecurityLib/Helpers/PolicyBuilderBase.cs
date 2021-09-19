@@ -1,6 +1,5 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using WeeControl.UserSecurityLib.Policies;
+using WeeControl.UserSecurityLib.EntityGroups;
 
 namespace WeeControl.UserSecurityLib.Helpers
 {
@@ -11,11 +10,12 @@ namespace WeeControl.UserSecurityLib.Helpers
         protected PolicyBuilderBase()
         {
             Builder = new AuthorizationPolicyBuilder();
-            Builder.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
+            Builder.AddAuthenticationSchemes("Bearer");
+            //Builder.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
             Builder.RequireClaim(ClaimGroup.ClaimType.Session);
         }
 
-        public AuthorizationPolicy GetPolicy()
+        public Microsoft.AspNetCore.Authorization.AuthorizationPolicy GetPolicy()
         {
             return Builder.Build();
         }

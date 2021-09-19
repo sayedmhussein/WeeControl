@@ -9,9 +9,9 @@ using WeeControl.Backend.Application.EntityGroups.Territory.Commands.AddTerritor
 using WeeControl.Backend.Application.EntityGroups.Territory.Commands.DeleteTerritoryV1;
 using WeeControl.Backend.Application.EntityGroups.Territory.Commands.UpdateTerritoryV1;
 using WeeControl.Backend.Application.EntityGroups.Territory.Queries.GetTerritoryV1;
-using WeeControl.Backend.WebApi.Security.Policies;
 using WeeControl.SharedKernel.DtosV1;
 using WeeControl.SharedKernel.DtosV1.Territory;
+using WeeControl.UserSecurityLib;
 
 namespace WeeControl.Backend.WebApi.Controllers.Territory
 {
@@ -47,7 +47,7 @@ namespace WeeControl.Backend.WebApi.Controllers.Territory
         /// <returns>Insert a territory DTO</returns>
         [HttpPost]
         [MapToApiVersion("1.0")]
-        [Authorize(Policy = BasicPolicies.CanAlterTerritories)]
+        [Authorize(CustomAuthorizationPolicy.Territory.CanAlterTerritories)]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType((int)HttpStatusCode.Created)]
@@ -71,7 +71,7 @@ namespace WeeControl.Backend.WebApi.Controllers.Territory
         /// <returns>If insert then it will return the territory DTO</returns>
         [HttpPut("{id}")]
         [MapToApiVersion("1.0")]
-        [Authorize(Policy = BasicPolicies.CanAlterTerritories)]
+        [Authorize(CustomAuthorizationPolicy.Territory.CanAlterTerritories)]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
@@ -96,7 +96,7 @@ namespace WeeControl.Backend.WebApi.Controllers.Territory
         /// <returns></returns>
         [HttpDelete("{id:guid}")]
         [MapToApiVersion("1.0")]
-        [Authorize(Policy = BasicPolicies.CanAlterTerritories)]
+        [Authorize(CustomAuthorizationPolicy.Territory.CanAlterTerritories)]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]

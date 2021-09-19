@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
-using WeeControl.UserSecurityLib.Policies;
+using WeeControl.UserSecurityLib.EntityGroups.Territory;
 
-namespace WeeControl.UserSecurityLib
+namespace WeeControl.UserSecurityLib.Helpers
 {
     internal static class UserAuthorizationOptions
     {
