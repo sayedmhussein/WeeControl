@@ -1,4 +1,3 @@
-using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -39,10 +38,17 @@ namespace WeeControl.Frontend.Wasm.Services
         public async Task NotifyUserAuthentication()
         {
             var token = await localStorage.GetItem<string>("Token");
-            var cp = jwtService.GetClaims(token);
-            var authState = Task.FromResult(new AuthenticationState(cp));
-            
-            NotifyAuthenticationStateChanged(authState);
+            if (string.IsNullOrWhiteSpace(token) == false)
+            {
+                var cp = jwtService.GetClaims(token);
+                var state = new AuthenticationState(cp);
+                var authState = Task.FromResult(state);
+                NotifyAuthenticationStateChanged(authState);
+            }
+            else
+            {
+                NotifyAuthenticationStateChanged(Task.FromResult(anonymous));
+            }
         }
     }
 }

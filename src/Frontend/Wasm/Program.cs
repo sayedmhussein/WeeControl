@@ -5,13 +5,10 @@ using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using WeeControl.Frontend.CommonLib;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using WeeControl.Frontend.CommonLib.Interfaces;
-using WeeControl.Frontend.CommonLib.Services;
 using WeeControl.Frontend.Wasm.Services;
-using WeeControl.SharedKernel.Interfaces;
 
 namespace WeeControl.Frontend.Wasm
 {
@@ -24,8 +21,6 @@ namespace WeeControl.Frontend.Wasm
             builder.RootComponents.Add<App>("#app");
             
             builder.Services.AddScoped<ILocalStorage, LocalStorageService>();
-
-            //builder.Services.AddScoped<IAuthenticationRefresh, AuthStateProvider>();
 
             builder.Services.AddTransient<IAuthenticationRefresh, AuthenticationRefreshService>();
             
@@ -44,8 +39,7 @@ namespace WeeControl.Frontend.Wasm
 
             
             builder.Services.AddTransient<IDevice, DeviceService>();
-            //builder.Services.AddSingleton<IJwtService, JwtService>();
-            
+
             builder.Services.AddHttpClient(IHttpService.UnSecuredApi, 
                 client => client.BaseAddress = new Uri("https://localhost:5001/"));
             

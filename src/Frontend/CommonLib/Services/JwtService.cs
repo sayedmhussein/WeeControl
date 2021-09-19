@@ -59,22 +59,10 @@ namespace WeeControl.Frontend.CommonLib.Services
             var handler = new JwtSecurityTokenHandler();
             var bla = handler.ReadJwtToken(token);
             var cla = bla.Claims;
-            var ida = new ClaimsIdentity(cla);
-            return new ClaimsPrincipal(ida);
+            var ida = new ClaimsIdentity("Custom");
+            ida.AddClaims(cla);
             
-            // var key = Encoding.ASCII.GetBytes(securityKey);
-            // var validations = new TokenValidationParameters
-            // {
-            //     ValidateIssuerSigningKey = true,
-            //     IssuerSigningKey = new SymmetricSecurityKey(key),
-            //     ValidateIssuer = false,
-            //     ValidateAudience = false,
-            //     ValidateLifetime = true,
-            //     ClockSkew = TimeSpan.Zero
-            // };
-            //
-            // var claims = handler.ValidateToken(token, validations, out var _);
-            // return claims;
+            return new ClaimsPrincipal(ida);
         }
     }
 }

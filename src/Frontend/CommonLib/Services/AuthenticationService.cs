@@ -23,9 +23,6 @@ namespace WeeControl.Frontend.CommonLib.Services
         private const string Token = "Token";
         private const string FullName = "Fullname";
         private const string PhotoUrl = "Photourl";
-        
-
-        public IEnumerable<Claim> Claims { get; }
 
         public AuthenticationService(IDevice device, IApiRoute apiRoute, IHttpService httpService, IAuthenticationRefresh authenticationRefresh)
         {
@@ -61,7 +58,6 @@ namespace WeeControl.Frontend.CommonLib.Services
             {
                 var responseDto_ = await response.Content.ReadFromJsonAsync<ResponseDto<EmployeeTokenDto>>();
                 await UpdateUserInfo(responseDto_.Payload);
-                await authenticationRefresh.AuthenticationRefreshedAsync();
             }
 
             return responseDto;
@@ -72,11 +68,14 @@ namespace WeeControl.Frontend.CommonLib.Services
             throw new System.NotImplementedException();
         }
 
-        public Task<IResponseDto> Logout()
+        public async Task<IResponseDto> Logout()
         {
-            localStorage.ClearItems();
+            await localStorage.ClearItems();
+            
+            await authenticationRefresh.AuthenticationRefreshedAsync();
+            
             IResponseDto dto = new ResponseDto();
-            return Task.FromResult(dto);
+            return dto;
         }
 
         private async Task UpdateUserInfo(EmployeeTokenDto dto)
@@ -84,6 +83,8 @@ namespace WeeControl.Frontend.CommonLib.Services
             await localStorage.SetItem(Token, dto.Token);
             await localStorage.SetItem(FullName, dto.FullName);
             await localStorage.SetItem(PhotoUrl, dto.PhotoUrl);
+            
+            await authenticationRefresh.AuthenticationRefreshedAsync();
         }
     }
 }
