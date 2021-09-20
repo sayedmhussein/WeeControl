@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using WeeControl.Frontend.CommonLib;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+using WeeControl.Common.UserSecurityLib;
 using WeeControl.Frontend.CommonLib.Interfaces;
 using WeeControl.Frontend.Wasm.Services;
 
@@ -19,7 +20,8 @@ namespace WeeControl.Frontend.Wasm
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             
             builder.RootComponents.Add<App>("#app");
-            
+
+            builder.Services.AddUserSecurityService();
             builder.Services.AddScoped<ILocalStorage, LocalStorageService>();
 
             builder.Services.AddTransient<IAuthenticationRefresh, AuthenticationRefreshService>();

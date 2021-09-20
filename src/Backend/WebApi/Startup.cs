@@ -36,7 +36,7 @@ namespace WeeControl.Backend.WebApi
 
             services.AddHttpContextAccessor();
 
-            services.AddApiAuthorizationService();
+            services.AddUserSecurityService();
             services.AddApplication();
             services.AddInfrastructure(Configuration);
             services.AddPersistenceAsPostgreSql(Configuration, Assembly.GetExecutingAssembly().GetName().Name);
@@ -54,7 +54,7 @@ namespace WeeControl.Backend.WebApi
                 builder.AllowAnyOrigin();
             }));
 
-            services.AddAuthentication(AuthenOptions.ConfigureAuthorizationService).AddJwtBearer(options =>
+            services.AddAuthentication("Bearer").AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new JwtService(Configuration["Jwt:Key"]).ValidationParameters;
 

@@ -11,7 +11,6 @@ namespace WeeControl.Common.UserSecurityLib.Helpers
         {
             Builder = new AuthorizationPolicyBuilder();
             Builder.AddAuthenticationSchemes("Bearer");
-            //Builder.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
             Builder.RequireClaim(ClaimGroup.ClaimType.Session);
         }
 
