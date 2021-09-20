@@ -1,10 +1,10 @@
-﻿using WeeControl.SharedKernel.EntityGroups.Territory.Attributes;
-using WeeControl.SharedKernel.EntityGroups.Territory.Enums;
-using WeeControl.SharedKernel.EntityGroups.Territory.Interfaces;
-using WeeControl.SharedKernel.Test.TestHelpers;
+﻿using WeeControl.Common.SharedKernel.EntityGroups.Territory.Attributes;
+using WeeControl.Common.SharedKernel.EntityGroups.Territory.Enums;
+using WeeControl.Common.SharedKernel.EntityGroups.Territory.Interfaces;
+using WeeControl.Common.SharedKernel.Test.TestHelpers;
 using Xunit;
 
-namespace WeeControl.SharedKernel.Test.EntityGroups.Territory.Attributes
+namespace WeeControl.Common.SharedKernel.Test.EntityGroups.Territory.Attributes
 {
     public class TerritoryAttributeTests
     {

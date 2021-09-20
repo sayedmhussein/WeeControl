@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
-        <RootNamespace>WeeControl.SharedKernel</RootNamespace>
+        <RootNamespace>WeeControl.Common.SharedKernel</RootNamespace>
         <Description>This library</Description>
     </PropertyGroup>
 

@@ -10,12 +10,12 @@ using WeeControl.Backend.Application.EntityGroups.Territory.Queries.GetTerritory
 using WeeControl.Backend.Domain.Common.Interfaces;
 using WeeControl.Backend.Domain.EntityGroups.Employee;
 using WeeControl.Backend.Persistence;
-using WeeControl.SharedKernel.DtosV1.Territory;
-using WeeControl.SharedKernel.EntityGroups.Employee.Attributes;
-using WeeControl.SharedKernel.EntityGroups.Employee.Enums;
-using WeeControl.SharedKernel.EntityGroups.Employee.Interfaces;
-using WeeControl.SharedKernel.EntityGroups.Territory.Attributes;
-using WeeControl.SharedKernel.EntityGroups.Territory.Interfaces;
+using WeeControl.Common.SharedKernel.DtosV1.Territory;
+using WeeControl.Common.SharedKernel.EntityGroups.Employee.Attributes;
+using WeeControl.Common.SharedKernel.EntityGroups.Employee.Enums;
+using WeeControl.Common.SharedKernel.EntityGroups.Employee.Interfaces;
+using WeeControl.Common.SharedKernel.EntityGroups.Territory.Attributes;
+using WeeControl.Common.SharedKernel.EntityGroups.Territory.Interfaces;
 using Xunit;
 
 namespace WeeControl.Backend.Application.Test.EntityGroup.Territory.V1.Queries

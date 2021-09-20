@@ -3,9 +3,9 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using WeeControl.Backend.WebApi.Test.Functional.TestHelpers;
-using WeeControl.SharedKernel.DtosV1;
-using WeeControl.SharedKernel.DtosV1.Employee;
-using WeeControl.SharedKernel.Routing;
+using WeeControl.Common.SharedKernel.DtosV1;
+using WeeControl.Common.SharedKernel.DtosV1.Employee;
+using WeeControl.Common.SharedKernel.Routing;
 using Xunit;
 
 namespace WeeControl.Backend.WebApi.Test.Functional.V1.Employee.Session

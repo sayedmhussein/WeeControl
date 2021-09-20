@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
-using WeeControl.UserSecurityLib.EntityGroups.Territory.Policies;
+using WeeControl.Common.UserSecurityLib.EntityGroups.Territory.Policies;
 
-namespace WeeControl.UserSecurityLib.EntityGroups.Territory
+namespace WeeControl.Common.UserSecurityLib.EntityGroups.Territory
 {
     public static class TerritoryOptions
     {

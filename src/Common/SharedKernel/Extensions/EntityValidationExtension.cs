@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using WeeControl.SharedKernel.Interfaces;
+using WeeControl.Common.SharedKernel.Interfaces;
 
-namespace WeeControl.SharedKernel.Extensions
+namespace WeeControl.Common.SharedKernel.Extensions
 {
     public static class EntityValidationExtension
     {

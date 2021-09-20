@@ -1,4 +1,4 @@
-﻿namespace WeeControl.SharedKernel.Interfaces
+﻿namespace WeeControl.Common.SharedKernel.Interfaces
 {
     /// <summary>
     /// Interface for All Server Responses to Clients which host the Data Transfer Object.

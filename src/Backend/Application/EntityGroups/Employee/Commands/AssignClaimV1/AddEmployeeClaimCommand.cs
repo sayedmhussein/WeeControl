@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using MediatR;
-using WeeControl.SharedKernel.DtosV1.Employee;
+using WeeControl.Common.SharedKernel.DtosV1.Employee;
 
 namespace WeeControl.Backend.Application.EntityGroups.Employee.Commands.AssignClaimV1
 {

@@ -5,8 +5,8 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using WeeControl.Backend.Domain.Common.Interfaces;
 using WeeControl.Backend.Domain.EntityGroups.Employee;
 using WeeControl.Backend.Domain.EntityGroups.Territory;
-using WeeControl.SharedKernel.EntityGroups.Employee.Attributes;
-using WeeControl.SharedKernel.EntityGroups.Territory.Attributes;
+using WeeControl.Common.SharedKernel.EntityGroups.Employee.Attributes;
+using WeeControl.Common.SharedKernel.EntityGroups.Territory.Attributes;
 
 namespace WeeControl.Backend.Persistence
 {

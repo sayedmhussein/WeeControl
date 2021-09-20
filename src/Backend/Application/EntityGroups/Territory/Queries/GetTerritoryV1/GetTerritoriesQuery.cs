@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MediatR;
-using WeeControl.SharedKernel.DtosV1.Territory;
+using WeeControl.Common.SharedKernel.DtosV1.Territory;
 
 namespace WeeControl.Backend.Application.EntityGroups.Territory.Queries.GetTerritoryV1
 {

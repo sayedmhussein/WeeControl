@@ -1,10 +1,10 @@
-﻿using WeeControl.SharedKernel.EntityGroups.Employee.Attributes;
-using WeeControl.SharedKernel.EntityGroups.Employee.Enums;
-using WeeControl.SharedKernel.EntityGroups.Employee.Interfaces;
-using WeeControl.SharedKernel.Test.TestHelpers;
+﻿using WeeControl.Common.SharedKernel.EntityGroups.Employee.Attributes;
+using WeeControl.Common.SharedKernel.EntityGroups.Employee.Enums;
+using WeeControl.Common.SharedKernel.EntityGroups.Employee.Interfaces;
+using WeeControl.Common.SharedKernel.Test.TestHelpers;
 using Xunit;
 
-namespace WeeControl.SharedKernel.Test.EntityGroups.Employee.Attributes
+namespace WeeControl.Common.SharedKernel.Test.EntityGroups.Employee.Attributes
 {
     public class EmployeeAttributeTests
     {

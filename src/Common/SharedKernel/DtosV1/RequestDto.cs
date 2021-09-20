@@ -1,6 +1,6 @@
-﻿using WeeControl.SharedKernel.Interfaces;
+﻿using WeeControl.Common.SharedKernel.Interfaces;
 
-namespace WeeControl.SharedKernel.DtosV1
+namespace WeeControl.Common.SharedKernel.DtosV1
 {
     public class RequestDto<T> : ISerializable, IVerifyable, IRequestDto<T> where T : class
     {

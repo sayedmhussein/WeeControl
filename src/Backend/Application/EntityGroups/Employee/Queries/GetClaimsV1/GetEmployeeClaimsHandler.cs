@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using WeeControl.Backend.Application.Common.Exceptions;
 using WeeControl.Backend.Application.Common.Interfaces;
 using WeeControl.Backend.Domain.Common.Interfaces;
-using WeeControl.SharedKernel.EntityGroups.Employee.Enums;
-using WeeControl.SharedKernel.EntityGroups.Employee.Interfaces;
+using WeeControl.Common.SharedKernel.EntityGroups.Employee.Enums;
+using WeeControl.Common.SharedKernel.EntityGroups.Employee.Interfaces;
 
 namespace WeeControl.Backend.Application.EntityGroups.Employee.Queries.GetClaimsV1
 {

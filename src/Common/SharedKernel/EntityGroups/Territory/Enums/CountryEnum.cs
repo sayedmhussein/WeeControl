@@ -1,4 +1,4 @@
-﻿namespace WeeControl.SharedKernel.EntityGroups.Territory.Enums
+﻿namespace WeeControl.Common.SharedKernel.EntityGroups.Territory.Enums
 {
     public enum CountryEnum
     {

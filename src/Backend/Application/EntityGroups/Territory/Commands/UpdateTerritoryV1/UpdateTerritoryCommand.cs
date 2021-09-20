@@ -1,6 +1,6 @@
 ﻿using System;
 using MediatR;
-using WeeControl.SharedKernel.DtosV1.Territory;
+using WeeControl.Common.SharedKernel.DtosV1.Territory;
 
 namespace WeeControl.Backend.Application.EntityGroups.Territory.Commands.UpdateTerritoryV1
 {

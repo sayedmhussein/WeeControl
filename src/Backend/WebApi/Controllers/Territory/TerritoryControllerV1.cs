@@ -9,9 +9,9 @@ using WeeControl.Backend.Application.EntityGroups.Territory.Commands.AddTerritor
 using WeeControl.Backend.Application.EntityGroups.Territory.Commands.DeleteTerritoryV1;
 using WeeControl.Backend.Application.EntityGroups.Territory.Commands.UpdateTerritoryV1;
 using WeeControl.Backend.Application.EntityGroups.Territory.Queries.GetTerritoryV1;
-using WeeControl.SharedKernel.DtosV1;
-using WeeControl.SharedKernel.DtosV1.Territory;
-using WeeControl.UserSecurityLib;
+using WeeControl.Common.SharedKernel.DtosV1;
+using WeeControl.Common.SharedKernel.DtosV1.Territory;
+using WeeControl.Common.UserSecurityLib;
 
 namespace WeeControl.Backend.WebApi.Controllers.Territory
 {

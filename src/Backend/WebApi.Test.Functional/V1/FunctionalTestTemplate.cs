@@ -2,7 +2,7 @@
 using System.Net.Http;
 using WeeControl.Backend.WebApi.Test.Functional.TestHelpers;
 using WeeControl.Backend.WebApi.Test.Functional.V1.Territory;
-using WeeControl.SharedKernel.Routing;
+using WeeControl.Common.SharedKernel.Routing;
 using Xunit;
 
 namespace WeeControl.Backend.WebApi.Test.Functional.V1

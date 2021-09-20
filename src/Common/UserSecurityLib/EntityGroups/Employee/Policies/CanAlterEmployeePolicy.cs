@@ -1,6 +1,6 @@
-using WeeControl.UserSecurityLib.Helpers;
+using WeeControl.Common.UserSecurityLib.Helpers;
 
-namespace WeeControl.UserSecurityLib.EntityGroups.Employee.Policies
+namespace WeeControl.Common.UserSecurityLib.EntityGroups.Employee.Policies
 {
     public class CanAlterEmployeePolicy : PolicyBuilderBase
     {

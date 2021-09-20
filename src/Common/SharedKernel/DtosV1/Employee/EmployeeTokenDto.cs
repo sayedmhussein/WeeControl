@@ -1,7 +1,7 @@
 ﻿
-using WeeControl.SharedKernel.Interfaces;
+using WeeControl.Common.SharedKernel.Interfaces;
 
-namespace WeeControl.SharedKernel.DtosV1.Employee
+namespace WeeControl.Common.SharedKernel.DtosV1.Employee
 {
     public class EmployeeTokenDto : IEntityDto
     {

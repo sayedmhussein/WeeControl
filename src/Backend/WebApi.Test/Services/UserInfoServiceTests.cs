@@ -6,9 +6,9 @@ using System.Security.Claims;
 using System.Collections.Generic;
 using WeeControl.Backend.WebApi.Services;
 using MediatR;
-using WeeControl.SharedKernel.EntityGroups.Employee.Attributes;
-using WeeControl.SharedKernel.EntityGroups.Employee.Enums;
-using WeeControl.SharedKernel.EntityGroups.Employee.Interfaces;
+using WeeControl.Common.SharedKernel.EntityGroups.Employee.Attributes;
+using WeeControl.Common.SharedKernel.EntityGroups.Employee.Enums;
+using WeeControl.Common.SharedKernel.EntityGroups.Employee.Interfaces;
 
 namespace WeeControl.Backend.WebApi.Test.Services
 {

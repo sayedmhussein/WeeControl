@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using WeeControl.SharedKernel.Services;
+using WeeControl.Common.SharedKernel.Services;
 
-namespace WeeControl.SharedKernel.Routing
+namespace WeeControl.Common.SharedKernel.Routing
 {
     public class ApiRoute : IApiRoute
     {

@@ -1,6 +1,6 @@
-﻿using WeeControl.SharedKernel.EntityGroups.Territory.Enums;
+﻿using WeeControl.Common.SharedKernel.EntityGroups.Territory.Enums;
 
-namespace WeeControl.SharedKernel.EntityGroups.Territory.Interfaces
+namespace WeeControl.Common.SharedKernel.EntityGroups.Territory.Interfaces
 {
     public interface ITerritoryAttribute
     {

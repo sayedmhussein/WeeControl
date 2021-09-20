@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using WeeControl.SharedKernel.EntityGroups.Territory.Enums;
-using WeeControl.SharedKernel.EntityGroups.Territory.Interfaces;
-using WeeControl.SharedKernel.Services;
+using WeeControl.Common.SharedKernel.EntityGroups.Territory.Enums;
+using WeeControl.Common.SharedKernel.EntityGroups.Territory.Interfaces;
+using WeeControl.Common.SharedKernel.Services;
 
-namespace WeeControl.SharedKernel.EntityGroups.Territory.Attributes
+namespace WeeControl.Common.SharedKernel.EntityGroups.Territory.Attributes
 {
     public class TerritoryAppSetting : ITerritoryAttribute
     {

@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
-using WeeControl.SharedKernel.DtosV1.Employee;
-using WeeControl.SharedKernel.Interfaces;
+using WeeControl.Common.SharedKernel.DtosV1.Employee;
+using WeeControl.Common.SharedKernel.Interfaces;
 
 namespace WeeControl.Frontend.CommonLib.Interfaces
 {

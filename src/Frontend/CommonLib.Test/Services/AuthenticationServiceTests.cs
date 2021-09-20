@@ -4,10 +4,10 @@ using System.Net.Http;
 using System.Text;
 using Moq;
 using Newtonsoft.Json;
+using WeeControl.Common.SharedKernel.DtosV1;
+using WeeControl.Common.SharedKernel.DtosV1.Employee;
 using WeeControl.Frontend.CommonLib.Interfaces;
 using WeeControl.Frontend.CommonLib.Test.TestHelpers;
-using WeeControl.SharedKernel.DtosV1;
-using WeeControl.SharedKernel.DtosV1.Employee;
 using Xunit;
 
 namespace WeeControl.Frontend.CommonLib.Test.Services

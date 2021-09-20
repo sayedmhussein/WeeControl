@@ -1,7 +1,7 @@
 ﻿using System;
-using WeeControl.SharedKernel.Interfaces;
+using WeeControl.Common.SharedKernel.Interfaces;
 
-namespace WeeControl.SharedKernel.DtosV1.Territory
+namespace WeeControl.Common.SharedKernel.DtosV1.Territory
 {
     public class IdentifiedTerritoryDto : TerritoryDto, IIdentifyable
     {

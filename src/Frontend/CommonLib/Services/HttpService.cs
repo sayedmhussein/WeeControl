@@ -4,8 +4,8 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using WeeControl.Common.SharedKernel.Interfaces;
 using WeeControl.Frontend.CommonLib.Interfaces;
-using WeeControl.SharedKernel.Interfaces;
 
 namespace WeeControl.Frontend.CommonLib.Services
 {

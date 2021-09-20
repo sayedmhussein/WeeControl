@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using Newtonsoft.Json;
 
-namespace WeeControl.SharedKernel.Services
+namespace WeeControl.Common.SharedKernel.Services
 {
     public class AppSettingReader
     {

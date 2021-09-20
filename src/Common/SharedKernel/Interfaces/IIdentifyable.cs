@@ -1,5 +1,6 @@
 ﻿using System;
-namespace WeeControl.SharedKernel.Interfaces
+
+namespace WeeControl.Common.SharedKernel.Interfaces
 {
     public interface IIdentifyable
     {

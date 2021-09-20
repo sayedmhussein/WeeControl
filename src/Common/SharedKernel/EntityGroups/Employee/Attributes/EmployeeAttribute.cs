@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using WeeControl.SharedKernel.EntityGroups.Employee.Enums;
-using WeeControl.SharedKernel.EntityGroups.Employee.Interfaces;
-using WeeControl.SharedKernel.Services;
+using WeeControl.Common.SharedKernel.EntityGroups.Employee.Enums;
+using WeeControl.Common.SharedKernel.EntityGroups.Employee.Interfaces;
+using WeeControl.Common.SharedKernel.Services;
 
-namespace WeeControl.SharedKernel.EntityGroups.Employee.Attributes
+namespace WeeControl.Common.SharedKernel.EntityGroups.Employee.Attributes
 {
     public class EmployeeAttribute : IEmployeeAttribute
     {

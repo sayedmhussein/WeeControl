@@ -12,10 +12,10 @@ using WeeControl.Backend.Application.EntityGroups.Employee.Commands.AddEmployeeV
 using WeeControl.Backend.Application.EntityGroups.Employee.Commands.TerminateSessionV1;
 using WeeControl.Backend.Application.EntityGroups.Employee.Queries.GetClaimsV1;
 using WeeControl.Backend.Application.EntityGroups.Employee.Queries.GetTokenDtoV1;
-using WeeControl.SharedKernel.DtosV1;
-using WeeControl.SharedKernel.DtosV1.Employee;
-using WeeControl.SharedKernel.Extensions;
-using WeeControl.UserSecurityLib;
+using WeeControl.Common.SharedKernel.DtosV1;
+using WeeControl.Common.SharedKernel.DtosV1.Employee;
+using WeeControl.Common.SharedKernel.Extensions;
+using WeeControl.Common.UserSecurityLib;
 
 namespace WeeControl.Backend.WebApi.Controllers.Employee
 {

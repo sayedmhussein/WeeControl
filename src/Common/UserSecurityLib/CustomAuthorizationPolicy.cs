@@ -1,4 +1,4 @@
-namespace WeeControl.UserSecurityLib
+namespace WeeControl.Common.UserSecurityLib
 {
     public static class CustomAuthorizationPolicy
     {

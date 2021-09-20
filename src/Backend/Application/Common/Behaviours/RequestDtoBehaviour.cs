@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using WeeControl.Backend.Application.Common.Exceptions;
 using WeeControl.Backend.Application.Common.Interfaces;
 using WeeControl.Backend.Domain.Common.Interfaces;
-using WeeControl.SharedKernel.Interfaces;
+using WeeControl.Common.SharedKernel.Interfaces;
 
 namespace WeeControl.Backend.Application.Common.Behaviours
 {

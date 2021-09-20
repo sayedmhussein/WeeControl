@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 
 [assembly: InternalsVisibleTo("WeeControl.Server.WebApi.Test")]
-namespace WeeControl.UserSecurityLib.Helpers.CustomHandlers.TokenRefreshment
+namespace WeeControl.Common.UserSecurityLib.Helpers.CustomHandlers.TokenRefreshment
 {
     public class TokenRefreshmentHandler : AuthorizationHandler<TokenRefreshmentRequirement>
     {

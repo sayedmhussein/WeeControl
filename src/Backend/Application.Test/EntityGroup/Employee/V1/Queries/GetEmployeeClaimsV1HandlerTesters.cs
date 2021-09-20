@@ -12,9 +12,9 @@ using WeeControl.Backend.Application.EntityGroups.Employee.Queries.GetClaimsV1;
 using WeeControl.Backend.Domain.Common.Interfaces;
 using WeeControl.Backend.Domain.EntityGroups.Employee;
 using WeeControl.Backend.Persistence;
-using WeeControl.SharedKernel.EntityGroups.Employee.Attributes;
-using WeeControl.SharedKernel.EntityGroups.Employee.Enums;
-using WeeControl.SharedKernel.EntityGroups.Employee.Interfaces;
+using WeeControl.Common.SharedKernel.EntityGroups.Employee.Attributes;
+using WeeControl.Common.SharedKernel.EntityGroups.Employee.Enums;
+using WeeControl.Common.SharedKernel.EntityGroups.Employee.Interfaces;
 using Xunit;
 
 namespace WeeControl.Backend.Application.Test.EntityGroup.Employee.V1.Queries

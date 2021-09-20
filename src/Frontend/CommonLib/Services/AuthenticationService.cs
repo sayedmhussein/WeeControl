@@ -2,11 +2,11 @@ using System;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using WeeControl.Common.SharedKernel.DtosV1;
+using WeeControl.Common.SharedKernel.DtosV1.Employee;
+using WeeControl.Common.SharedKernel.Interfaces;
+using WeeControl.Common.SharedKernel.Routing;
 using WeeControl.Frontend.CommonLib.Interfaces;
-using WeeControl.SharedKernel.DtosV1;
-using WeeControl.SharedKernel.DtosV1.Employee;
-using WeeControl.SharedKernel.Interfaces;
-using WeeControl.SharedKernel.Routing;
 
 namespace WeeControl.Frontend.CommonLib.Services
 {

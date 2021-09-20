@@ -8,9 +8,9 @@ using Newtonsoft.Json;
 using WeeControl.Backend.Domain.EntityGroups.Territory;
 using WeeControl.Backend.Persistence;
 using WeeControl.Backend.WebApi.Test.Functional.TestHelpers;
-using WeeControl.SharedKernel.DtosV1;
-using WeeControl.SharedKernel.DtosV1.Territory;
-using WeeControl.SharedKernel.Routing;
+using WeeControl.Common.SharedKernel.DtosV1;
+using WeeControl.Common.SharedKernel.DtosV1.Territory;
+using WeeControl.Common.SharedKernel.Routing;
 using Xunit;
 
 namespace WeeControl.Backend.WebApi.Test.Functional.V1.Territory

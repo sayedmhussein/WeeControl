@@ -1,7 +1,7 @@
 ﻿using System;
-using WeeControl.SharedKernel.Interfaces;
+using WeeControl.Common.SharedKernel.Interfaces;
 
-namespace WeeControl.SharedKernel.EntityGroups.Employee
+namespace WeeControl.Common.SharedKernel.EntityGroups.Employee
 {
     public abstract class BaseEmployeeSessionLog : IVerifyable
     {

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using WeeControl.SharedKernel.EntityGroups.Territory;
-using WeeControl.SharedKernel.Interfaces;
+using WeeControl.Common.SharedKernel.EntityGroups.Territory;
+using WeeControl.Common.SharedKernel.Interfaces;
 
 namespace WeeControl.Backend.Domain.EntityGroups.Territory
 {

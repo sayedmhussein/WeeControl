@@ -1,7 +1,7 @@
-﻿using WeeControl.SharedKernel.EntityGroups.Employee.Enums;
-using WeeControl.SharedKernel.Interfaces;
+﻿using WeeControl.Common.SharedKernel.EntityGroups.Employee.Enums;
+using WeeControl.Common.SharedKernel.Interfaces;
 
-namespace WeeControl.SharedKernel.EntityGroups.Employee.Interfaces
+namespace WeeControl.Common.SharedKernel.EntityGroups.Employee.Interfaces
 {
     public interface IEmployeeAttribute : IEntityAttribute
     {

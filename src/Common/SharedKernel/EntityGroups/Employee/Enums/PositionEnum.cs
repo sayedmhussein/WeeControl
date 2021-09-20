@@ -1,4 +1,4 @@
-﻿namespace WeeControl.SharedKernel.EntityGroups.Employee.Enums
+﻿namespace WeeControl.Common.SharedKernel.EntityGroups.Employee.Enums
 {
     public enum PositionEnum
     {

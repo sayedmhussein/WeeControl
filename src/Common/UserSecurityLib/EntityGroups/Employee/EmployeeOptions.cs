@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
-using WeeControl.UserSecurityLib.EntityGroups.Employee.Policies;
+using WeeControl.Common.UserSecurityLib.EntityGroups.Employee.Policies;
 
-namespace WeeControl.UserSecurityLib.EntityGroups.Employee
+namespace WeeControl.Common.UserSecurityLib.EntityGroups.Employee
 {
     public static class EmployeeOptions
     {

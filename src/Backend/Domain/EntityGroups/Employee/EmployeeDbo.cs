@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using WeeControl.Backend.Domain.EntityGroups.Territory;
-using WeeControl.SharedKernel.EntityGroups.Employee;
-using WeeControl.SharedKernel.Interfaces;
+using WeeControl.Common.SharedKernel.EntityGroups.Employee;
+using WeeControl.Common.SharedKernel.Interfaces;
 
 namespace WeeControl.Backend.Domain.EntityGroups.Employee
 {

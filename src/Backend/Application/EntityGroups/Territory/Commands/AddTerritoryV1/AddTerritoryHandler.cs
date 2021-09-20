@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using WeeControl.Backend.Application.Common.Exceptions;
 using WeeControl.Backend.Domain.Common.Interfaces;
 using WeeControl.Backend.Domain.EntityGroups.Territory;
-using WeeControl.SharedKernel.DtosV1.Territory;
-using WeeControl.SharedKernel.Extensions;
+using WeeControl.Common.SharedKernel.DtosV1.Territory;
+using WeeControl.Common.SharedKernel.Extensions;
 
 namespace WeeControl.Backend.Application.EntityGroups.Territory.Commands.AddTerritoryV1
 {

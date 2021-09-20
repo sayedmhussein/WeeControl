@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 
-namespace WeeControl.UserSecurityLib.Interfaces
+namespace WeeControl.Common.UserSecurityLib.Interfaces
 {
     /// <summary>
     /// Used by the server to create JWT or extract Claims from token.

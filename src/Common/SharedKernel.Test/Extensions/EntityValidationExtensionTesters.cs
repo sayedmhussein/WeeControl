@@ -1,8 +1,8 @@
-﻿using WeeControl.SharedKernel.DtosV1.Territory;
-using WeeControl.SharedKernel.Extensions;
+﻿using WeeControl.Common.SharedKernel.DtosV1.Territory;
+using WeeControl.Common.SharedKernel.Extensions;
 using Xunit;
 
-namespace WeeControl.SharedKernel.Test.Extensions
+namespace WeeControl.Common.SharedKernel.Test.Extensions
 {
     public class EntityValidationExtensionTesters
     {

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using WeeControl.SharedKernel.Services;
+using WeeControl.Common.SharedKernel.Services;
 using Xunit;
 
-namespace WeeControl.SharedKernel.Test.Services
+namespace WeeControl.Common.SharedKernel.Test.Services
 {
     public class AppSettingReaderTests : IDisposable
     {

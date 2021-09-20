@@ -1,4 +1,4 @@
-namespace WeeControl.UserSecurityLib.EntityGroups
+namespace WeeControl.Common.UserSecurityLib.EntityGroups
 {
     public static class ClaimGroup
     {

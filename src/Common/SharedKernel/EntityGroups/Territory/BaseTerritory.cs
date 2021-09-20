@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using WeeControl.SharedKernel.Interfaces;
+using WeeControl.Common.SharedKernel.Interfaces;
 
-namespace WeeControl.SharedKernel.EntityGroups.Territory
+namespace WeeControl.Common.SharedKernel.EntityGroups.Territory
 {
     public abstract class BaseTerritory : IVerifyable
     {
