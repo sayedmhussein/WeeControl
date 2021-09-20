@@ -117,7 +117,7 @@ namespace WeeControl.Backend.WebApi.Controllers.Employee
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        [Authorize()]
+        [Authorize]
         [HttpPut("Session")]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
@@ -154,7 +154,7 @@ namespace WeeControl.Backend.WebApi.Controllers.Employee
         private async Task<ResponseDto<EmployeeTokenDto>> GetResponseTokenDto(GetEmployeeClaimsQuery query, DateTime validity)
         {
             var claims = await mediatR.Send(query);
-            var token = jwtService.GenerateJwtToken(claims, "", validity);
+            var token = jwtService.GenerateJwtToken(claims, "WeeControl", validity);
             var value = await mediatR.Send(new GetTokenQuery(token));
             var response = new ResponseDto<EmployeeTokenDto>(value);
             return response;

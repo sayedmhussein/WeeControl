@@ -42,7 +42,7 @@ namespace WeeControl.Backend.WebApi
             services.AddPersistenceAsPostgreSql(Configuration, Assembly.GetExecutingAssembly().GetName().Name);
 
             services.AddApiVersioning(ApiVersionOptions.ConfigureApiVersioning);
-            services.AddSwaggerGen(SwaggerOptions.ConfigureSwaggerGen);
+            
 
             services.AddScoped<ICurrentUserInfo, UserInfoService>();
             services.AddSingleton<IJwtService, JwtService>();
@@ -74,6 +74,7 @@ namespace WeeControl.Backend.WebApi
                 };
             });
             
+            services.AddSwaggerGen(SwaggerOptions.ConfigureSwaggerGen);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

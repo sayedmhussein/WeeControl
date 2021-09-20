@@ -7,6 +7,9 @@ namespace WeeControl.Common.UserSecurityLib.Helpers
     {
         internal static void Configure(AuthorizationOptions options)
         {
+            options.DefaultPolicy = new AuthorizationPolicyBuilder().AddAuthenticationSchemes("Bearer").RequireAuthenticatedUser().Build();
+            options.FallbackPolicy = new AuthorizationPolicyBuilder().AddAuthenticationSchemes("Bearer").RequireAuthenticatedUser().Build();
+            
             TerritoryOptions.Configure(options);
         }
     }

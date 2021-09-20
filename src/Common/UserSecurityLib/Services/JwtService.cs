@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -16,31 +17,25 @@ namespace WeeControl.Common.UserSecurityLib.Services
         public JwtService(string securityKey)
         {
             this.securityKey = securityKey ?? throw new ArgumentNullException("Security Key must have value.");
+
+            ValidationParameters = new TokenValidationParameters()
+            {
+                ValidateIssuerSigningKey = true,
+                //TryAllIssuerSigningKeys = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(securityKey)),
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                //ValidAudience = Configuration["Jwt:Audience"],
+                ValidateLifetime = false,
+                ClockSkew = TimeSpan.Zero
+            };
         }
 
         public JwtService(IConfiguration configuration) : this(configuration["Jwt:Key"])
         {
         }
-
-        public virtual TokenValidationParameters ValidationParameters
-        {
-            get
-            {
-                var paremeters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = false,
-                    //TryAllIssuerSigningKeys = true,
-                    //IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(securityKey)),
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                    //ValidAudience = Configuration["Jwt:Audience"],
-                    ValidateLifetime = false,
-                    ClockSkew = TimeSpan.Zero
-                };
-
-                return paremeters;
-            }
-        }
+        
+        public TokenValidationParameters ValidationParameters { get; set; }
 
         public string GenerateJwtToken(IEnumerable<Claim> claims, string issuer, DateTime expire)
         {
@@ -62,12 +57,12 @@ namespace WeeControl.Common.UserSecurityLib.Services
         public ClaimsPrincipal GetClaims(string token)
         {
             var handler = new JwtSecurityTokenHandler();
-            var bla = handler.ReadJwtToken(token);
-            var cla = bla.Claims;
-            var ida = new ClaimsIdentity("Custom");
-            ida.AddClaims(cla);
+            var securityToken = handler.ReadJwtToken(token);
+            var securityTokenClaims = securityToken.Claims;
+            var claimsIdentity = new ClaimsIdentity("Custom");
+            claimsIdentity.AddClaims(securityTokenClaims);
             
-            return new ClaimsPrincipal(ida);
+            return new ClaimsPrincipal(claimsIdentity);
         }
     }
 }
