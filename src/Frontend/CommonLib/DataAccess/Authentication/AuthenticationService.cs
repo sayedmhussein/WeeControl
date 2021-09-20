@@ -3,12 +3,14 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using WeeControl.Common.SharedKernel.DtosV1;
+using WeeControl.Common.SharedKernel.DtosV1.Authorization;
+using WeeControl.Common.SharedKernel.DtosV1.Common;
 using WeeControl.Common.SharedKernel.DtosV1.Employee;
 using WeeControl.Common.SharedKernel.Interfaces;
 using WeeControl.Common.SharedKernel.Routing;
 using WeeControl.Frontend.CommonLib.Interfaces;
 
-namespace WeeControl.Frontend.CommonLib.Services
+namespace WeeControl.Frontend.CommonLib.DataAccess.Authentication
 {
     public class AuthenticationService : IAuthenticationService
     {
@@ -31,14 +33,19 @@ namespace WeeControl.Frontend.CommonLib.Services
             localStorage = device.LocalStorage;
         }
         
-        public Task ResetPassword()
+        public Task<IResponseDto> RequestPasswordReset(RequestPasswordResetDto dto)
         {
             throw new System.NotImplementedException();
         }
 
-        public async Task<IResponseDto> Login(CreateLoginDto dto)
+        public Task<IResponseDto> SetNewPassword(SetNewPasswordDto dto)
         {
-            var requestDto = new RequestDto<CreateLoginDto>() { DeviceId = device.DeviceId, Payload = dto };
+            throw new NotImplementedException();
+        }
+
+        public async Task<IResponseDto> RequestNewToken(RequestNewTokenDto dto)
+        {
+            var requestDto = new RequestDto<RequestNewTokenDto>() { DeviceId = device.DeviceId, Payload = dto };
             
             HttpRequestMessage requestMessage = new();
             requestMessage.Method = HttpMethod.Post;
@@ -61,7 +68,7 @@ namespace WeeControl.Frontend.CommonLib.Services
             return responseDto;
         }
 
-        public Task<IResponseDto> Refresh()
+        public Task<IResponseDto> RefreshCurrentToken()
         {
             throw new System.NotImplementedException();
         }

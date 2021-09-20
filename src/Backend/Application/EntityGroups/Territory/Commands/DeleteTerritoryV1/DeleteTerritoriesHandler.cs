@@ -39,12 +39,6 @@ namespace WeeControl.Backend.Application.EntityGroups.Territory.Commands.DeleteT
                 throw new BadRequestException("");
             }
 
-            var tag = userInfo.Claims.FirstOrDefault(x => x.Type == employeeValues.GetClaimType(ClaimTypeEnum.HumanResources))?.Value?.Contains(employeeValues.GetClaimTag(ClaimTagEnum.Delete));
-            if (tag == false || tag == null)
-            {
-                throw new NotAllowedException("");
-            }
-
             //todo: refactor as below is very bad performance!
             try
             {

@@ -26,7 +26,7 @@ namespace WeeControl.Common.UserSecurityLib.Services
                 ValidateIssuer = false,
                 ValidateAudience = false,
                 //ValidAudience = Configuration["Jwt:Audience"],
-                ValidateLifetime = false,
+                ValidateLifetime = true,
                 ClockSkew = TimeSpan.Zero
             };
         }

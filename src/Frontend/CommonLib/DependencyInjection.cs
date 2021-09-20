@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using WeeControl.Common.SharedKernel.Routing;
+using WeeControl.Frontend.CommonLib.DataAccess.Authentication;
 using WeeControl.Frontend.CommonLib.DataAccess.Employee;
 using WeeControl.Frontend.CommonLib.Interfaces;
 using WeeControl.Frontend.CommonLib.Services;

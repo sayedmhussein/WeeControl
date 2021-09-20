@@ -36,18 +36,6 @@ namespace WeeControl.Common.SharedKernel.Test.EntityGroups.Employee.Attributes
             new AttributeTester().Test(del);
         }
 
-        [Fact]
-        public void GetClaimTypeTests()
-        {
-            AttributeTester.MyDelegate<ClaimTypeEnum, string> del = attribute.GetClaimType;
-            new AttributeTester().Test(del);
-        }
-
-        [Fact]
-        public void GetClaimTagTests()
-        {
-            AttributeTester.MyDelegate<ClaimTagEnum, string> del = attribute.GetClaimTag;
-            new AttributeTester().Test(del);
-        }
+        
     }
 }

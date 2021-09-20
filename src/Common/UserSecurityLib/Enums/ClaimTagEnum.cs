@@ -1,4 +1,4 @@
-﻿namespace WeeControl.Common.SharedKernel.EntityGroups.Employee.Enums
+﻿namespace WeeControl.Common.UserSecurityLib.Enums
 {
     public enum ClaimTagEnum
     {

@@ -3,6 +3,8 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using WeeControl.Common.SharedKernel.DtosV1;
+using WeeControl.Common.SharedKernel.DtosV1.Authorization;
+using WeeControl.Common.SharedKernel.DtosV1.Common;
 using WeeControl.Common.SharedKernel.DtosV1.Employee;
 using WeeControl.Common.SharedKernel.Routing;
 
@@ -19,10 +21,10 @@ namespace WeeControl.Backend.WebApi.Test.Functional.TestHelpers
 
         public async Task<string> GetTokenAsync(string username, string password, string device = null)
         {
-            var loginToken = await CreateTokenAsync(new RequestDto<CreateLoginDto>()
+            var loginToken = await CreateTokenAsync(new RequestDto<RequestNewTokenDto>()
             {
                 DeviceId = device ?? httpMessage.DeviceId,
-                Payload = new CreateLoginDto()
+                Payload = new RequestNewTokenDto()
                 {
                     Username = username,
                     Password = password,
@@ -39,7 +41,7 @@ namespace WeeControl.Backend.WebApi.Test.Functional.TestHelpers
             return refreshToken;
         }
 
-        private async Task<string> CreateTokenAsync(RequestDto<CreateLoginDto> dto)
+        private async Task<string> CreateTokenAsync(RequestDto<RequestNewTokenDto> dto)
         {
             var request = new HttpRequestMessage
             {

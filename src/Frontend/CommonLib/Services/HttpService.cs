@@ -9,7 +9,7 @@ using WeeControl.Frontend.CommonLib.Interfaces;
 
 namespace WeeControl.Frontend.CommonLib.Services
 {
-    public class HttpService : IHttpService
+    internal class HttpService : IHttpService
     {
         private readonly IHttpClientFactory httpClientFactory;
         private readonly ILocalStorage localStorage;

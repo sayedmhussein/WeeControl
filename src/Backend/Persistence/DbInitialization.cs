@@ -83,10 +83,10 @@ namespace WeeControl.Backend.Persistence
         private void AddEmployeeClaims()
         {
             var employeeid = context.Employees.First(x => x.Username == "admin").Id;
-            var tags = Enum.GetValues(typeof(ClaimTagEnum))
-                .Cast<ClaimTagEnum>()
-                .Select(e => employeeAttribute.GetClaimTag(e))
-                .ToList();
+            // var tags = Enum.GetValues(typeof(ClaimTagEnum))
+            //     .Cast<ClaimTagEnum>()
+            //     .Select(e => employeeAttribute.GetClaimTag(e))
+            //     .ToList();
 
             List<EmployeeClaimDbo> list = new()
             {
@@ -94,8 +94,9 @@ namespace WeeControl.Backend.Persistence
                 {
                     EmployeeId = employeeid,
                     GrantedById = employeeid,
-                    ClaimType = employeeAttribute.GetClaimType(ClaimTypeEnum.HumanResources),
-                    ClaimValue = string.Join(";", tags)
+                    ClaimType = "hr",
+                    ClaimValue = "f;r;w;e"
+                    //ClaimValue = string.Join(";", tags)
                 }
             };
             

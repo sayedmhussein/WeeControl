@@ -32,7 +32,7 @@ namespace WeeControl.Backend.Application.Test.EntityGroup.Territory.V1.Commands
 
             userInfoMock = new Mock<ICurrentUserInfo>();
             userInfoMock.Setup(x => x.Territories).Returns(new List<Guid>() { dbContext.Employees.FirstOrDefault().Id });
-            userInfoMock.Setup(x => x.Claims).Returns(new List<Claim>() { new Claim(employeeValues.GetClaimType(ClaimTypeEnum.HumanResources), employeeValues.GetClaimTag(ClaimTagEnum.Delete)) });
+            // userInfoMock.Setup(x => x.Claims).Returns(new List<Claim>() { new Claim(employeeValues.GetClaimType(ClaimTypeEnum.HumanResources), employeeValues.GetClaimTag(ClaimTagEnum.Delete)) });
         }
 
         public void Dispose()

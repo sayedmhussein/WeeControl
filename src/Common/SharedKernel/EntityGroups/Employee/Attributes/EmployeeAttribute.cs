@@ -13,25 +13,12 @@ namespace WeeControl.Common.SharedKernel.EntityGroups.Employee.Attributes
         private Dictionary<PersonalGenderEnum, string> personGender;
         private Dictionary<IdentityTypeEnum, string> identityType;
 
-        private Dictionary<ClaimTypeEnum, string> claimType;
-        private Dictionary<ClaimTagEnum, string> claimTag;
-
+        
         public EmployeeAttribute()
         {
             appSettingReader = new AppSettingReader(typeof(EmployeeAttribute).Namespace, "attributes.json");
         }
-        public string GetClaimTag(ClaimTagEnum tag)
-        {
-            appSettingReader.PopulateAttribute(ref claimTag, "ClaimTags");
-            return claimTag[tag];
-        }
-
-        public string GetClaimType(ClaimTypeEnum type)
-        {
-            appSettingReader.PopulateAttribute(ref claimType, "ClaimTypes");
-            return claimType[type];
-        }
-
+        
         public string GetPersonalGender(PersonalGenderEnum gender)
         {
             appSettingReader.PopulateAttribute(ref personGender, "Genders");

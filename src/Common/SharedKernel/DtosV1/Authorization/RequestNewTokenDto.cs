@@ -2,9 +2,9 @@
 using System.ComponentModel.DataAnnotations;
 using WeeControl.Common.SharedKernel.Interfaces;
 
-namespace WeeControl.Common.SharedKernel.DtosV1.Employee
+namespace WeeControl.Common.SharedKernel.DtosV1.Authorization
 {
-    public class CreateLoginDto : IEntityDto
+    public class RequestNewTokenDto : IEntityDto
     {
         [Required]
         [StringLength(50, MinimumLength = 3, ErrorMessage = "Username length is between 3 and 50 letters.")]

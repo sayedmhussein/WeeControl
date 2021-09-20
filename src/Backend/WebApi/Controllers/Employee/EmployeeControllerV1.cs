@@ -13,6 +13,8 @@ using WeeControl.Backend.Application.EntityGroups.Employee.Commands.TerminateSes
 using WeeControl.Backend.Application.EntityGroups.Employee.Queries.GetClaimsV1;
 using WeeControl.Backend.Application.EntityGroups.Employee.Queries.GetTokenDtoV1;
 using WeeControl.Common.SharedKernel.DtosV1;
+using WeeControl.Common.SharedKernel.DtosV1.Authorization;
+using WeeControl.Common.SharedKernel.DtosV1.Common;
 using WeeControl.Common.SharedKernel.DtosV1.Employee;
 using WeeControl.Common.SharedKernel.Extensions;
 using WeeControl.Common.UserSecurityLib;
@@ -98,12 +100,12 @@ namespace WeeControl.Backend.WebApi.Controllers.Employee
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [MapToApiVersion("1.0")]
-        public async Task<ActionResult<ResponseDto<EmployeeTokenDto>>> LoginV1([FromBody] RequestDto<CreateLoginDto> dto)
+        public async Task<ActionResult<ResponseDto<EmployeeTokenDto>>> LoginV1([FromBody] RequestDto<RequestNewTokenDto> dto)
         {
             if (dto.IsValid() == false)
                 return BadRequest();
 
-            if (dto.Payload is CreateLoginDto == false)
+            if (dto.Payload is RequestNewTokenDto == false)
                 return BadRequest();
 
             var query = new GetEmployeeClaimsQuery() { Username = dto.Payload.Username, Password = dto.Payload.Password, Device = dto.DeviceId };

@@ -6,7 +6,9 @@
 @inject NavigationManager navManager
 @inject IAuthenticationService authentication
 @using System.Net
+@using WeeControl.Common.SharedKernel.DtosV1.Authorization
 @using WeeControl.Common.SharedKernel.DtosV1.Employee
+@using WeeControl.Frontend.CommonLib.DataAccess.Authentication
 
 <div class="card">
     <h4 class="card-header">Please enter your username and password</h4>
@@ -44,7 +46,7 @@
     [CascadingParameter]
     public Task<AuthenticationState> AuthState { get; set; }
     
-    private readonly CreateLoginDto loginDto = new();
+    private readonly RequestNewTokenDto loginDto = new();
     private bool loading;
     private string stringAlert;
 
@@ -59,7 +61,7 @@
         loading = true;
         try
         {
-            var response = await authentication.Login(loginDto);
+            var response = await authentication.RequestNewToken(loginDto);
             switch (response.HttpStatuesCode)
             {
                 case HttpStatusCode.Accepted:

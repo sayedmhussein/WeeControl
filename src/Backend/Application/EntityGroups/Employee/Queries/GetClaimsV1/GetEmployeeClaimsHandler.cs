@@ -74,7 +74,7 @@ namespace WeeControl.Backend.Application.EntityGroups.Employee.Queries.GetClaims
                 var session = await GetEmployeeSession(employee.Id, device, cancellationToken);
                 var claims = new List<Claim>()
                 {
-                    new Claim(sharedValues.GetClaimType(ClaimTypeEnum.Session), session.ToString())
+                    new Claim("sss", session.ToString())
                 };
                 return claims;
             }
@@ -82,12 +82,6 @@ namespace WeeControl.Backend.Application.EntityGroups.Employee.Queries.GetClaims
 
         private async Task<IEnumerable<Claim>> GetClaimsByEmployeeId(Guid employeeid)
         {
-            var isAuthorized = currentUser.Claims.FirstOrDefault(x => x.Type == sharedValues.GetClaimType(ClaimTypeEnum.HumanResources))?.Value?.Contains(sharedValues.GetClaimTag(ClaimTagEnum.Read));
-            if (isAuthorized == null || isAuthorized == false)
-            {
-                throw new NotAllowedException("");
-            }
-
             var employee = await context.Employees.FirstOrDefaultAsync(x => x.Id == employeeid);
             if (employee == null)
             {
@@ -124,7 +118,7 @@ namespace WeeControl.Backend.Application.EntityGroups.Employee.Queries.GetClaims
 
             var claims = new List<Claim>()
             {
-                 new Claim(sharedValues.GetClaimType(ClaimTypeEnum.Session), session.Id.ToString())
+                 new Claim("sss", session.Id.ToString())
             };
 
             var employeeClaims = await context.EmployeeClaims.Where(x => x.EmployeeId == employee.Id && x.RevokedTs == null).ToListAsync(cancellationToken);

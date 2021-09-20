@@ -8,17 +8,19 @@ using WeeControl.Backend.Application.Common.Interfaces;
 using WeeControl.Backend.Application.EntityGroups.Territory.Queries.GetTerritoryV1;
 using WeeControl.Common.SharedKernel.EntityGroups.Employee.Enums;
 using WeeControl.Common.SharedKernel.EntityGroups.Employee.Interfaces;
+using WeeControl.Common.UserSecurityLib.Enums;
+using WeeControl.Common.UserSecurityLib.Interfaces;
 
 namespace WeeControl.Backend.WebApi.Services
 {
     public class UserInfoService : ICurrentUserInfo
     {
         private readonly IMediator mediatR;
-        private readonly IEmployeeAttribute employeeAttribute;
+        private readonly IClaimsTags employeeAttribute;
         private Guid? sessionid = null;
         private readonly ICollection<Guid> territories = new List<Guid>();
         
-        public UserInfoService(IHttpContextAccessor httpContextAccessor, IMediator mediatR, IEmployeeAttribute values)
+        public UserInfoService(IHttpContextAccessor httpContextAccessor, IMediator mediatR, IClaimsTags values)
         {
             Claims = httpContextAccessor.HttpContext.User.Claims;
 

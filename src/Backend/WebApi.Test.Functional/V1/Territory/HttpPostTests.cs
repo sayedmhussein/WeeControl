@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Http;
 using WeeControl.Backend.WebApi.Test.Functional.TestHelpers;
 using WeeControl.Common.SharedKernel.DtosV1;
+using WeeControl.Common.SharedKernel.DtosV1.Common;
 using WeeControl.Common.SharedKernel.DtosV1.Territory;
 using WeeControl.Common.SharedKernel.Routing;
 using Xunit;

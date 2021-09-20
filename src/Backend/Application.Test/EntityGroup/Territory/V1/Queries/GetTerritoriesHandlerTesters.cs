@@ -73,69 +73,33 @@ namespace WeeControl.Backend.Application.Test.EntityGroup.Territory.V1.Queries
         #endregion
 
         #region Scenarios Unit Tests
-        [Theory(Skip = "Authorization was execluded from this query")]
-        [ClassData(typeof(GetTerritoriesHandlerTestersData))]
-        public async void AuthorizationScenariosUnitTest(string claimType, string claimValue, bool willThrowException)
-        {
-            var territory = dbContext.Territories.FirstOrDefault();
-            var user = new EmployeeDbo() { Territory = territory };
-            await dbContext.Employees.AddAsync(user);
-            await dbContext.SaveChangesAsync(default);
-            //
-            userInfoMock.Setup(x => x.Territories).Returns(new List<Guid>() { territory.Id });
-            userInfoMock.Setup(x => x.Claims).Returns(new List<Claim>() { new Claim(claimType, claimValue) });
-
-            var query = new GetTerritoriesQuery(user.Id);
-            var handler =  new GetTerritoriesHandler(dbContext, userInfoMock.Object, values);
-
-            if (willThrowException)
-            {
-                await Assert.ThrowsAsync<NotAllowedException>(async () => await handler.Handle(query, default));
-            }
-            else
-            {
-                var response = await handler.Handle(query, default);
-
-                Assert.IsType<List<TerritoryDto>>(response);
-                Assert.NotEmpty(response);
-            }
-        }
-        #endregion
-
-        #region Legacy Unit Tests
-        [Fact]
-        public async void WhenGettingTerritoriesByTerritoryId_ReturnSingleOffice()
-        {
-            var admin = dbContext.Employees.FirstOrDefault();
-            userInfoMock.Setup(x => x.Territories).Returns(new List<Guid>() { admin.TerritoryId });
-            userInfoMock.Setup(x => x.Claims).Returns(new List<Claim>() { new Claim(employeeValues.GetClaimType(ClaimTypeEnum.HumanResources), employeeValues.GetClaimTag(ClaimTagEnum.Read)) });
-
-            var territory = dbContext.Territories.FirstOrDefault();
-
-            var responseDto = await new GetTerritoriesHandler(dbContext, userInfoMock.Object, values).Handle(new GetTerritoriesQuery(territory.Id), default);
-
-            Assert.Single(responseDto);
-        }
-
-        [Fact]
-        public async void WhenGettingUnknownEmployeeTerritoriesByEmployeeId_ThrowNotFoundException()
-        {
-            var admin = dbContext.Employees.FirstOrDefault();
-            userInfoMock.Setup(x => x.Territories).Returns(new List<Guid>() { admin.TerritoryId });
-            userInfoMock.Setup(x => x.Claims).Returns(new List<Claim>() { new Claim(employeeValues.GetClaimType(ClaimTypeEnum.HumanResources), employeeValues.GetClaimTag(ClaimTagEnum.Read)) });
-
-            await Assert.ThrowsAsync<NotFoundException>(async () => await new GetTerritoriesHandler(dbContext, userInfoMock.Object, values).Handle(new GetTerritoriesQuery(Guid.NewGuid()), default));
-        }
-
-        [Fact]
-        public async void WhenGettingUnknownEmployeeTerritoriesBySessionId_ThrowNotFoundException()
-        {
-            var admin = dbContext.Employees.FirstOrDefault();
-            userInfoMock.Setup(x => x.Territories).Returns(new List<Guid>() { admin.TerritoryId });
-            userInfoMock.Setup(x => x.Claims).Returns(new List<Claim>() { new Claim(employeeValues.GetClaimType(ClaimTypeEnum.HumanResources), employeeValues.GetClaimTag(ClaimTagEnum.Read)) });
-
-            await Assert.ThrowsAsync<NotFoundException>(async () => await new GetTerritoriesHandler(dbContext, userInfoMock.Object, values).Handle(new GetTerritoriesQuery(Guid.NewGuid()), default));
-        }
+        // [Theory(Skip = "Authorization was execluded from this query")]
+        // //[ClassData(typeof(GetTerritoriesHandlerTestersData))]
+        // public async void AuthorizationScenariosUnitTest(string claimType, string claimValue, bool willThrowException)
+        // {
+        //     var territory = dbContext.Territories.FirstOrDefault();
+        //     var user = new EmployeeDbo() { Territory = territory };
+        //     await dbContext.Employees.AddAsync(user);
+        //     await dbContext.SaveChangesAsync(default);
+        //     //
+        //     userInfoMock.Setup(x => x.Territories).Returns(new List<Guid>() { territory.Id });
+        //     userInfoMock.Setup(x => x.Claims).Returns(new List<Claim>() { new Claim(claimType, claimValue) });
+        //
+        //     var query = new GetTerritoriesQuery(user.Id);
+        //     var handler =  new GetTerritoriesHandler(dbContext, userInfoMock.Object, values);
+        //
+        //     if (willThrowException)
+        //     {
+        //         await Assert.ThrowsAsync<NotAllowedException>(async () => await handler.Handle(query, default));
+        //     }
+        //     else
+        //     {
+        //         var response = await handler.Handle(query, default);
+        //
+        //         Assert.IsType<List<TerritoryDto>>(response);
+        //         Assert.NotEmpty(response);
+        //     }
+        // }
         #endregion
     }
 }

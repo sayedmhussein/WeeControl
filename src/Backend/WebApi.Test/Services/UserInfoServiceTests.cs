@@ -9,12 +9,15 @@ using MediatR;
 using WeeControl.Common.SharedKernel.EntityGroups.Employee.Attributes;
 using WeeControl.Common.SharedKernel.EntityGroups.Employee.Enums;
 using WeeControl.Common.SharedKernel.EntityGroups.Employee.Interfaces;
+using WeeControl.Common.UserSecurityLib;
+using WeeControl.Common.UserSecurityLib.Enums;
+using WeeControl.Common.UserSecurityLib.Interfaces;
 
 namespace WeeControl.Backend.WebApi.Test.Services
 {
     public class UserInfoServiceTests : IDisposable
     {
-        private readonly IEmployeeAttribute employeeAttribute;
+        private readonly IClaimsTags employeeAttribute;
         private readonly Claim sessionClaim;
         private readonly Claim territoryClaim;
         
@@ -22,7 +25,7 @@ namespace WeeControl.Backend.WebApi.Test.Services
 
         public UserInfoServiceTests()
         {
-            employeeAttribute = new EmployeeAttribute();
+            employeeAttribute = new ClaimsTagsList();
             sessionClaim = new Claim(employeeAttribute.GetClaimType(ClaimTypeEnum.Session), Guid.NewGuid().ToString());
             territoryClaim = new Claim(employeeAttribute.GetClaimType(ClaimTypeEnum.Territory), Guid.NewGuid().ToString());
 
