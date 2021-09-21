@@ -14,6 +14,6 @@ namespace WeeControl.Common.UserSecurityLib.Interfaces
 
         string GenerateJwtToken(IEnumerable<Claim> claims, string issuer, DateTime expire);
 
-        ClaimsPrincipal GetClaims(string token);
+        ClaimsPrincipal GetClaims(string token, bool isValidated = true);
     }
 }

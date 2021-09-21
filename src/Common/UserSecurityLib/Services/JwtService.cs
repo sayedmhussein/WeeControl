@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -54,9 +53,14 @@ namespace WeeControl.Common.UserSecurityLib.Services
             return tokenHandler.WriteToken(token);
         }
 
-        public ClaimsPrincipal GetClaims(string token)
+        public ClaimsPrincipal GetClaims(string token, bool isValidated = true)
         {
             var handler = new JwtSecurityTokenHandler();
+            if (isValidated)
+            {
+                var verification = handler.ValidateToken(token, ValidationParameters, out var validatedToken);
+            }
+            
             var securityToken = handler.ReadJwtToken(token);
             var securityTokenClaims = securityToken.Claims;
             var claimsIdentity = new ClaimsIdentity("Custom");

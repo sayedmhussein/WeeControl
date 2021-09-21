@@ -73,10 +73,10 @@ namespace WeeControl.Common.UserSecurityLib.Test.Services
         {
             var secret = new String('a', 30);
             var claim = new Claim("ClaimType", "ClaimValue");
-
             var token = new JwtService(secret).GenerateJwtToken(new List<Claim>() { claim }, "issuer", DateTime.UtcNow.AddDays(1));
 
-            Assert.ThrowsAny<Exception>(() => new JwtService(secret + "bla").GetClaims(token));
+            var service = new JwtService(secret + "bla");
+            Assert.ThrowsAny<Exception>(() => service.GetClaims(token));
         }
 
         [Fact]

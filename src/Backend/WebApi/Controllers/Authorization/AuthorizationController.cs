@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using WeeControl.Backend.Application.Common.Interfaces;
 using WeeControl.Common.UserSecurityLib.Interfaces;
 
 namespace WeeControl.Backend.WebApi.Controllers.Authorization
@@ -9,12 +10,12 @@ namespace WeeControl.Backend.WebApi.Controllers.Authorization
     public partial class AuthorizationController : Controller
     {
         private readonly IMediator mediatR;
-        private readonly IJwtService jwtService;
+        private readonly ICurrentUserInfo currentUserInfo;
 
-        public AuthorizationController(IMediator mediatR, IJwtService jwtService)
+        public AuthorizationController(IMediator mediatR, ICurrentUserInfo currentUserInfo)
         {
             this.mediatR = mediatR;
-            this.jwtService = jwtService;
+            this.currentUserInfo = currentUserInfo;
         }
     }
 }

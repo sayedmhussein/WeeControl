@@ -4,13 +4,11 @@ using System.Net.Mime;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WeeControl.Backend.Application.Activities.Employee.Commands.TerminateSessionV1;
-using WeeControl.Backend.Application.Activities.Employee.Queries.GetClaimsV1;
-using WeeControl.Backend.Application.Activities.Employee.Queries.GetTokenDtoV1;
 using WeeControl.Common.SharedKernel.DataTransferObjectV1.Authorization;
 using WeeControl.Common.SharedKernel.DataTransferObjectV1.Common;
 using WeeControl.Common.SharedKernel.DataTransferObjectV1.Employee;
-using WeeControl.Common.SharedKernel.Extensions;
+using WeeControl.Backend.Application.SubDomain.Authorization.Queries.RequestTokenQueryV1;
+using WeeControl.Backend.Application.SubDomain.Employee.Commands.TerminateSessionV1;
 
 namespace WeeControl.Backend.WebApi.Controllers.Authorization
 {
@@ -32,14 +30,11 @@ namespace WeeControl.Backend.WebApi.Controllers.Authorization
         [MapToApiVersion("1.0")]
         public async Task<ActionResult<ResponseDto<EmployeeTokenDto>>> LoginV1([FromBody] RequestDto<RequestNewTokenDto> dto)
         {
-            if (dto.IsValid() == false)
-                return BadRequest();
-
             if (dto.Payload is RequestNewTokenDto == false)
                 return BadRequest();
 
-            var query = new GetEmployeeClaimsQuery() { Username = dto.Payload.Username, Password = dto.Payload.Password, Device = dto.DeviceId };
-            var response = await GetResponseTokenDto(query, DateTime.UtcNow.AddMinutes(5));
+            var query = new GetTokenQuery(dto) { Username = dto.Payload.Username, Password = dto.Payload.Password };
+            var response = await mediatR.Send(query);
 
             return Ok(response);
         }
@@ -83,10 +78,10 @@ namespace WeeControl.Backend.WebApi.Controllers.Authorization
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [MapToApiVersion("1.0")]
-        public async Task<ActionResult<ResponseDto<EmployeeTokenDto>>> RefreshTokenV1([FromBody] RequestDto<RefreshLoginDto> dto)
+        public async Task<ActionResult<ResponseDto<EmployeeTokenDto>>> RefreshTokenV1([FromBody] RequestDto dto)
         {
-            var query = new GetEmployeeClaimsQuery() { Device = dto.DeviceId };
-            var response = await GetResponseTokenDto(query, DateTime.UtcNow.AddDays(5));
+            var query = new GetTokenQuery(dto) { SessionId = currentUserInfo.SessionId };
+            var response = await mediatR.Send(query);
 
             return Ok(response);
         }
@@ -107,15 +102,6 @@ namespace WeeControl.Backend.WebApi.Controllers.Authorization
             var command = new TerminateSessionCommand();
             await mediatR.Send(command);
             return Ok();
-        }
-
-        private async Task<ResponseDto<EmployeeTokenDto>> GetResponseTokenDto(GetEmployeeClaimsQuery query, DateTime validity)
-        {
-            var claims = await mediatR.Send(query);
-            var token = jwtService.GenerateJwtToken(claims, "WeeControl", validity);
-            var value = await mediatR.Send(new GetTokenQuery(token));
-            var response = new ResponseDto<EmployeeTokenDto>(value);
-            return response;
         }
         #endregion
     }

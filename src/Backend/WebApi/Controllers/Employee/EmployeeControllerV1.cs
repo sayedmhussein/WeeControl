@@ -8,12 +8,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WeeControl.Backend.Application.Activities.Employee.Commands.AddEmployeeV1;
-using WeeControl.Backend.Application.Activities.Employee.Queries.GetClaimsV1;
-using WeeControl.Common.SharedKernel.DataTransferObjectV1.Authorization;
-using WeeControl.Common.SharedKernel.DataTransferObjectV1.Common;
+using WeeControl.Backend.Application.SubDomain.Employee.Commands.AddEmployeeV1;
+using WeeControl.Backend.Application.SubDomain.Employee.Queries.GetClaimsV1;
 using WeeControl.Common.SharedKernel.DataTransferObjectV1.Employee;
-using WeeControl.Common.SharedKernel.Extensions;
 using WeeControl.Common.UserSecurityLib;
 
 namespace WeeControl.Backend.WebApi.Controllers.Employee

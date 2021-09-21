@@ -1,19 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using WeeControl.Backend.Application.Activities.Employee.Queries.GetClaimsV1;
 using WeeControl.Backend.Application.Common.Exceptions;
 using WeeControl.Backend.Application.Common.Interfaces;
+using WeeControl.Backend.Application.SubDomain.Employee.Queries.GetClaimsV1;
 using WeeControl.Backend.Domain.Common.Interfaces;
 using WeeControl.Backend.Domain.EntityGroups.Employee;
 using WeeControl.Backend.Persistence;
 using WeeControl.Common.SharedKernel.EntityGroups.Employee.Attributes;
-using WeeControl.Common.SharedKernel.EntityGroups.Employee.Enums;
 using WeeControl.Common.SharedKernel.EntityGroups.Employee.Interfaces;
 using Xunit;
 

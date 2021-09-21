@@ -10,24 +10,25 @@
     <Folder Include="Common\Interfaces\" />
     <Folder Include="Common\Exceptions\" />
     <Folder Include="Common\Behaviours\" />
-    <Folder Include="Activities\" />
-    <Folder Include="Activities\Custom\" />
-    <Folder Include="Activities\Territory\Commands\" />
-    <Folder Include="Activities\Territory\Queries\" />
-    <Folder Include="Activities\Territory\Commands\AddTerritoryV1\" />
-    <Folder Include="Activities\Territory\Commands\UpdateTerritoryV1\" />
-    <Folder Include="Activities\Territory\Commands\DeleteTerritoryV1\" />
-    <Folder Include="Activities\Employee\Commands\" />
-    <Folder Include="Activities\Employee\Notifications\" />
-    <Folder Include="Activities\Employee\Queries\" />
-    <Folder Include="Activities\Employee\Queries\GetClaimsV1\" />
-    <Folder Include="Activities\Employee\Commands\AddEmployeeV1\" />
-    <Folder Include="Activities\Employee\Commands\AssignClaimV1\" />
-    <Folder Include="Activities\Employee\Commands\CreateSessionV1\" />
-    <Folder Include="Activities\Employee\Commands\TerminateSessionV1\" />
-    <Folder Include="Activities\Employee\Commands\UpdateEmployeeV1\" />
-    <Folder Include="Activities\Employee\Commands\RevokeClaimV1\" />
-    <Folder Include="Activities\Employee\Queries\GetTokenDtoV1\" />
+    <Folder Include="Domain" />
+    <Folder Include="SubDomain\" />
+    <Folder Include="SubDomain\Authorization\Commands" />
+    <Folder Include="SubDomain\Territory\Commands\" />
+    <Folder Include="SubDomain\Territory\Queries\" />
+    <Folder Include="SubDomain\Territory\Commands\AddTerritoryV1\" />
+    <Folder Include="SubDomain\Territory\Commands\UpdateTerritoryV1\" />
+    <Folder Include="SubDomain\Territory\Commands\DeleteTerritoryV1\" />
+    <Folder Include="SubDomain\Employee\Commands\" />
+    <Folder Include="SubDomain\Employee\Notifications\" />
+    <Folder Include="SubDomain\Employee\Queries\" />
+    <Folder Include="SubDomain\Employee\Queries\GetClaimsV1\" />
+    <Folder Include="SubDomain\Employee\Commands\AddEmployeeV1\" />
+    <Folder Include="SubDomain\Employee\Commands\AssignClaimV1\" />
+    <Folder Include="SubDomain\Employee\Commands\CreateSessionV1\" />
+    <Folder Include="SubDomain\Employee\Commands\TerminateSessionV1\" />
+    <Folder Include="SubDomain\Employee\Commands\UpdateEmployeeV1\" />
+    <Folder Include="SubDomain\Employee\Commands\RevokeClaimV1\" />
+    <Folder Include="SubDomain\Employee\Queries\GetTokenDtoV1\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="9.0.0" />
@@ -62,6 +63,7 @@
     <None Remove="Aggregates\Employee\Queries\GetTokenDtoV1\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\UserSecurityLib\UserSecurityLib.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
     <ProjectReference Include="..\..\Common\SharedKernel\SharedKernel.csproj" />
   </ItemGroup>
