@@ -15,11 +15,11 @@
     <ItemGroup>
         <Folder Include="EntityGroups\Custom" />
         <Folder Include="Routing\" />
-        <Folder Include="DtosV1\Custom" />
+        <Folder Include="DataTransferObjectV1\Custom" />
         <Folder Include="EntityGroups\" />
         <Folder Include="Extensions\" />
         <Folder Include="Services\" />
-        <Folder Include="DtosV1\" />
+        <Folder Include="DataTransferObjectV1\" />
         <Folder Include="Interfaces\" />
     </ItemGroup>
     <ItemGroup>

@@ -5,7 +5,7 @@ using WeeControl.Common.SharedKernel.Interfaces;
 
 namespace WeeControl.Backend.Domain.EntityGroups.Employee
 {
-    public class EmployeeSessionLogDbo : BaseEmployeeSessionLog, IEntityDbo
+    public class EmployeeSessionLogDbo : BaseEmployeeSessionLog, IDatabaseObject
     {
         [Key]
         public Guid Id { get; set; }

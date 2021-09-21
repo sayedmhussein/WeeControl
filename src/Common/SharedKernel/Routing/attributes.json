@@ -6,7 +6,7 @@
         "Territory": "/Api/Territory/",
 
         "Employee": "/Api/Employee/",
-        "EmployeeSession": "/Api/Employee/Session/",
+        "EmployeeSession": "/Api/Authorization/",
         "EmployeeClaim": "/Api/Employee/Claim/",
         "EmployeeIdentity": "/Api/Employee/Identity/"
     }

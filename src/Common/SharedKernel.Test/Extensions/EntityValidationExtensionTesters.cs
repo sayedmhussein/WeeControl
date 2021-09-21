@@ -1,4 +1,4 @@
-﻿using WeeControl.Common.SharedKernel.DtosV1.Territory;
+﻿using WeeControl.Common.SharedKernel.DataTransferObjectV1.Territory;
 using WeeControl.Common.SharedKernel.Extensions;
 using Xunit;
 

@@ -6,7 +6,7 @@ using WeeControl.Common.SharedKernel.Interfaces;
 
 namespace WeeControl.Backend.Domain.EntityGroups.Employee
 {
-    public class EmployeeSessionDbo : BaseEmployeeSession, IEntityDbo
+    public class EmployeeSessionDbo : BaseEmployeeSession, IDatabaseObject
     {
         public static IEnumerable<EmployeeSessionDbo> InitializeList(Guid employeeid)
         {

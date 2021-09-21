@@ -6,7 +6,7 @@ using WeeControl.Common.SharedKernel.Interfaces;
 
 namespace WeeControl.Backend.Domain.EntityGroups.Territory
 {
-    public class TerritoryDbo : BaseTerritory, IEntityDbo
+    public class TerritoryDbo : BaseTerritory, IDatabaseObject
     {
         [Key]
         public Guid Id { get; set; }

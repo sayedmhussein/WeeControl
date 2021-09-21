@@ -8,14 +8,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WeeControl.Backend.Application.EntityGroups.Employee.Commands.AddEmployeeV1;
-using WeeControl.Backend.Application.EntityGroups.Employee.Commands.TerminateSessionV1;
-using WeeControl.Backend.Application.EntityGroups.Employee.Queries.GetClaimsV1;
-using WeeControl.Backend.Application.EntityGroups.Employee.Queries.GetTokenDtoV1;
-using WeeControl.Common.SharedKernel.DtosV1;
-using WeeControl.Common.SharedKernel.DtosV1.Authorization;
-using WeeControl.Common.SharedKernel.DtosV1.Common;
-using WeeControl.Common.SharedKernel.DtosV1.Employee;
+using WeeControl.Backend.Application.Activities.Employee.Commands.AddEmployeeV1;
+using WeeControl.Backend.Application.Activities.Employee.Queries.GetClaimsV1;
+using WeeControl.Common.SharedKernel.DataTransferObjectV1.Authorization;
+using WeeControl.Common.SharedKernel.DataTransferObjectV1.Common;
+using WeeControl.Common.SharedKernel.DataTransferObjectV1.Employee;
 using WeeControl.Common.SharedKernel.Extensions;
 using WeeControl.Common.UserSecurityLib;
 
@@ -83,83 +80,6 @@ namespace WeeControl.Backend.WebApi.Controllers.Employee
         public Task<ActionResult<EmployeeDto>> DeleteEmployeeV1(Guid id)
         {
             throw new NotImplementedException();
-        }
-        #endregion
-
-        #region Employee Session
-        /// <summary>
-        ///     User can get a temporary token by supplying username and password.
-        /// </summary>
-        /// <param name="dto">Payloading object that contains username and password.</param>
-        /// <returns></returns>
-        [AllowAnonymous]
-        [HttpPost("Session")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(ResponseDto<EmployeeTokenDto>), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [MapToApiVersion("1.0")]
-        public async Task<ActionResult<ResponseDto<EmployeeTokenDto>>> LoginV1([FromBody] RequestDto<RequestNewTokenDto> dto)
-        {
-            if (dto.IsValid() == false)
-                return BadRequest();
-
-            if (dto.Payload is RequestNewTokenDto == false)
-                return BadRequest();
-
-            var query = new GetEmployeeClaimsQuery() { Username = dto.Payload.Username, Password = dto.Payload.Password, Device = dto.DeviceId };
-            var response = await GetResponseTokenDto(query, DateTime.UtcNow.AddMinutes(5));
-
-            return Ok(response);
-        }
-
-        /// <summary>
-        ///     Used to get token which will be used to authorize user, device must match the same which had the temporary token.
-        /// </summary>
-        /// <param name="dto"></param>
-        /// <returns></returns>
-        [Authorize]
-        [HttpPut("Session")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(ResponseDto<EmployeeTokenDto>), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
-        [MapToApiVersion("1.0")]
-        public async Task<ActionResult<ResponseDto<EmployeeTokenDto>>> RefreshTokenV1([FromBody] RequestDto<RefreshLoginDto> dto)
-        {
-            var query = new GetEmployeeClaimsQuery() { Device = dto.DeviceId };
-            var response = await GetResponseTokenDto(query, DateTime.UtcNow.AddDays(5));
-
-            return Ok(response);
-        }
-
-        /// <summary>
-        ///     Used to terminate user session using token.
-        /// </summary>
-        /// <returns></returns>
-        [Authorize()]
-        [HttpDelete("Session")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [MapToApiVersion("1.0")]
-        public async Task<ActionResult> LogoutV1()
-        {
-            var command = new TerminateSessionCommand();
-            await mediatR.Send(command);
-            return Ok();
-        }
-
-        private async Task<ResponseDto<EmployeeTokenDto>> GetResponseTokenDto(GetEmployeeClaimsQuery query, DateTime validity)
-        {
-            var claims = await mediatR.Send(query);
-            var token = jwtService.GenerateJwtToken(claims, "WeeControl", validity);
-            var value = await mediatR.Send(new GetTokenQuery(token));
-            var response = new ResponseDto<EmployeeTokenDto>(value);
-            return response;
         }
         #endregion
 
