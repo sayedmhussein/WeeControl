@@ -6,29 +6,31 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="BoundContexts\Adminstration" />
+    <Folder Include="BoundContexts\Custody\Commands" />
+    <Folder Include="BoundContexts\Custody\Notifications" />
+    <Folder Include="BoundContexts\Custody\Queries" />
+    <Folder Include="BoundContexts\FieldOperation" />
+    <Folder Include="BoundContexts\Finance" />
+    <Folder Include="BoundContexts\Logistics" />
+    <Folder Include="BoundContexts\Sales" />
     <Folder Include="Common\" />
     <Folder Include="Common\Interfaces\" />
     <Folder Include="Common\Exceptions\" />
     <Folder Include="Common\Behaviours\" />
-    <Folder Include="Domain" />
-    <Folder Include="SubDomain\" />
-    <Folder Include="SubDomain\Authorization\Commands" />
-    <Folder Include="SubDomain\Territory\Commands\" />
-    <Folder Include="SubDomain\Territory\Queries\" />
-    <Folder Include="SubDomain\Territory\Commands\AddTerritoryV1\" />
-    <Folder Include="SubDomain\Territory\Commands\UpdateTerritoryV1\" />
-    <Folder Include="SubDomain\Territory\Commands\DeleteTerritoryV1\" />
-    <Folder Include="SubDomain\Employee\Commands\" />
-    <Folder Include="SubDomain\Employee\Notifications\" />
-    <Folder Include="SubDomain\Employee\Queries\" />
-    <Folder Include="SubDomain\Employee\Queries\GetClaimsV1\" />
-    <Folder Include="SubDomain\Employee\Commands\AddEmployeeV1\" />
-    <Folder Include="SubDomain\Employee\Commands\AssignClaimV1\" />
-    <Folder Include="SubDomain\Employee\Commands\CreateSessionV1\" />
-    <Folder Include="SubDomain\Employee\Commands\TerminateSessionV1\" />
-    <Folder Include="SubDomain\Employee\Commands\UpdateEmployeeV1\" />
-    <Folder Include="SubDomain\Employee\Commands\RevokeClaimV1\" />
-    <Folder Include="SubDomain\Employee\Queries\GetTokenDtoV1\" />
+    <Folder Include="BoundContexts\" />
+    <Folder Include="BoundContexts\Authorization\Commands" />
+    <Folder Include="BoundContexts\HumanResources\Commands\" />
+    <Folder Include="BoundContexts\HumanResources\Notifications\" />
+    <Folder Include="BoundContexts\HumanResources\Queries\" />
+    <Folder Include="BoundContexts\HumanResources\Queries\GetClaimsV1\" />
+    <Folder Include="BoundContexts\HumanResources\Commands\AddEmployeeV1\" />
+    <Folder Include="BoundContexts\HumanResources\Commands\AssignClaimV1\" />
+    <Folder Include="BoundContexts\HumanResources\Commands\CreateSessionV1\" />
+    <Folder Include="BoundContexts\HumanResources\Commands\TerminateSessionV1\" />
+    <Folder Include="BoundContexts\HumanResources\Commands\UpdateEmployeeV1\" />
+    <Folder Include="BoundContexts\HumanResources\Commands\RevokeClaimV1\" />
+    <Folder Include="BoundContexts\HumanResources\Queries\GetTokenDtoV1\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="9.0.0" />

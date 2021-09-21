@@ -4,11 +4,11 @@ using System.Net.Mime;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WeeControl.Backend.Application.BoundContexts.Authorization.Queries.RequestTokenQueryV1;
+using WeeControl.Backend.Application.BoundContexts.HumanResources.Commands.TerminateSessionV1;
 using WeeControl.Common.SharedKernel.DataTransferObjectV1.Authorization;
 using WeeControl.Common.SharedKernel.DataTransferObjectV1.Common;
 using WeeControl.Common.SharedKernel.DataTransferObjectV1.Employee;
-using WeeControl.Backend.Application.SubDomain.Authorization.Queries.RequestTokenQueryV1;
-using WeeControl.Backend.Application.SubDomain.Employee.Commands.TerminateSessionV1;
 
 namespace WeeControl.Backend.WebApi.Controllers.Authorization
 {
