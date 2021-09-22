@@ -56,8 +56,6 @@ namespace WeeControl.Backend.Persistence
                 new EmployeeDbo()
                 {
                     EmployeeTitle = employeeAttribute.GetPersonalTitle(PersonalTitleEnum.Mr),
-                    FirstName = "Admin",
-                    LastName = "Admin",
                     Gender = employeeAttribute.GetPersonalGender(PersonalGenderEnum.Male),
                     TerritoryId = territoryid,
                     Username = "admin",
@@ -66,8 +64,6 @@ namespace WeeControl.Backend.Persistence
                 new EmployeeDbo()
                 {
                     EmployeeTitle = employeeAttribute.GetPersonalTitle(PersonalTitleEnum.Mr),
-                    FirstName = "User",
-                    LastName = "User",
                     Gender = employeeAttribute.GetPersonalGender(PersonalGenderEnum.Male),
                     TerritoryId = territoryid,
                     Username = "user",

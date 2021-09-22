@@ -6,7 +6,7 @@ using WeeControl.Backend.Domain.EntityGroups.Territory;
 
 namespace WeeControl.Backend.Domain.Common.Interfaces
 {
-    public interface IMySystemDbContext
+    public interface IMySystemDbContext : IDbContext
     {
         //Territory Schema
         DbSet<TerritoryDbo> Territories { get; set; }
@@ -18,9 +18,6 @@ namespace WeeControl.Backend.Domain.Common.Interfaces
         //
         DbSet<EmployeeSessionDbo> EmployeeSessions { get; set; }
         DbSet<EmployeeSessionLogDbo> EmployeeSessionLogs { get; set; }
-
-        int SaveChanges();
         
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }
