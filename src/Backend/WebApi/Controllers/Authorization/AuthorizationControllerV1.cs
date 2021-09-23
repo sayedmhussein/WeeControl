@@ -4,8 +4,7 @@ using System.Net.Mime;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WeeControl.Backend.Application.BoundContexts.Garbag.Authorization.Queries.RequestTokenQueryV1;
-using WeeControl.Backend.Application.BoundContexts.Garbag.TerminateSessionV1;
+using WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.GetNewToken;
 using WeeControl.Common.SharedKernel.DataTransferObjectV1.Authorization;
 using WeeControl.Common.SharedKernel.DataTransferObjectV1.Common;
 using WeeControl.Common.SharedKernel.DataTransferObjectV1.Employee;
@@ -30,10 +29,10 @@ namespace WeeControl.Backend.WebApi.Controllers.Authorization
         [MapToApiVersion("1.0")]
         public async Task<ActionResult<ResponseDto<EmployeeTokenDto>>> LoginV1([FromBody] RequestDto<RequestNewTokenDto> dto)
         {
-            if (dto.Payload is RequestNewTokenDto == false)
+            if (dto.Payload is null)
                 return BadRequest();
 
-            var query = new GetTokenQuery(dto) { Username = dto.Payload.Username, Password = dto.Payload.Password };
+            var query = new GetNewTokenQuery(dto);
             var response = await mediatR.Send(query);
 
             return Ok(response);
@@ -80,7 +79,7 @@ namespace WeeControl.Backend.WebApi.Controllers.Authorization
         [MapToApiVersion("1.0")]
         public async Task<ActionResult<ResponseDto<EmployeeTokenDto>>> RefreshTokenV1([FromBody] RequestDto dto)
         {
-            var query = new GetTokenQuery(dto) { SessionId = currentUserInfo.SessionId };
+            var query = new GetNewTokenQuery(dto, Guid.Empty);
             var response = await mediatR.Send(query);
 
             return Ok(response);
@@ -99,9 +98,10 @@ namespace WeeControl.Backend.WebApi.Controllers.Authorization
         [MapToApiVersion("1.0")]
         public async Task<ActionResult> LogoutV1()
         {
-            var command = new TerminateSessionCommand();
-            await mediatR.Send(command);
-            return Ok();
+            // var command = new TerminateSessionCommand();
+            // await mediatR.Send(command);
+            // return Ok();
+            throw new NotImplementedException();
         }
         #endregion
     }

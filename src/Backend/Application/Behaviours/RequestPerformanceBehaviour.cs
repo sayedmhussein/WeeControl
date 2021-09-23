@@ -34,7 +34,7 @@ namespace WeeControl.Backend.Application.Behaviours
                 var name = typeof(TRequest).Name;
 
                 _logger.LogWarning("WeeControl Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@UserId} {@Request}",
-                    name, _timer.ElapsedMilliseconds, _currentUserService.SessionId, request);
+                    name, _timer.ElapsedMilliseconds, _currentUserService.GetSessionId(), request);
             }
 
             return response;

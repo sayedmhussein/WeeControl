@@ -29,9 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Security" />
     <Folder Include="Services\" />
-    <Folder Include="Security\" />
     <Folder Include="Middlewares\" />
   </ItemGroup>
   <ItemGroup>

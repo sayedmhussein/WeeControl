@@ -5,10 +5,10 @@ using System.Net.Mime;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WeeControl.Backend.Application.BoundContexts.Adminstration.Territory.Commands.AddTerritoryV1;
-using WeeControl.Backend.Application.BoundContexts.Adminstration.Territory.Commands.DeleteTerritoryV1;
-using WeeControl.Backend.Application.BoundContexts.Adminstration.Territory.Commands.UpdateTerritoryV1;
-using WeeControl.Backend.Application.BoundContexts.Adminstration.Territory.Queries.GetTerritoryV1;
+using WeeControl.Backend.Application.BoundContexts.HumanResources.Commands.AddTerritoryV1;
+using WeeControl.Backend.Application.BoundContexts.HumanResources.Commands.DeleteTerritoryV1;
+using WeeControl.Backend.Application.BoundContexts.HumanResources.Commands.UpdateTerritoryV1;
+using WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.GetListOfTerritories;
 using WeeControl.Common.SharedKernel.DataTransferObjectV1.Common;
 using WeeControl.Common.SharedKernel.DataTransferObjectV1.Territory;
 using WeeControl.Common.UserSecurityLib;
@@ -33,11 +33,12 @@ namespace WeeControl.Backend.WebApi.Controllers.Territory
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         public async Task<ActionResult<ResponseDto<IEnumerable<IdentifiedTerritoryDto>>>> GetAllTerritoriesV1(Guid? id)
         {
-            var query = new GetTerritoriesQuery(id);
-            var value = await mediatR.Send(query);
-            var response = new ResponseDto<IEnumerable<IdentifiedTerritoryDto>>(value);
+            // var query = new GetTerritoriesQuery(id);
+            // var value = await mediatR.Send(query);
+            // var response = new ResponseDto<IEnumerable<IdentifiedTerritoryDto>>(value);
 
-            return Ok(response);
+            //return Ok(response);
+            throw new NotImplementedException();
         }
 
         /// <summary>

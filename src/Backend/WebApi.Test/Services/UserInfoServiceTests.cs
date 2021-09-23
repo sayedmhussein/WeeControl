@@ -4,17 +4,20 @@ using Moq;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using WeeControl.Backend.WebApi.Services;
 using MediatR;
 using WeeControl.Common.UserSecurityLib;
 using WeeControl.Common.UserSecurityLib.Enums;
 using WeeControl.Common.UserSecurityLib.Interfaces;
+using WeeControl.Common.UserSecurityLib.Services;
 
 namespace WeeControl.Backend.WebApi.Test.Services
 {
     public class UserInfoServiceTests : IDisposable
     {
-        private readonly IClaimsTags employeeAttribute;
+        private readonly IUserClaimService employeeAttribute;
         private readonly Claim sessionClaim;
         private readonly Claim territoryClaim;
         
@@ -22,7 +25,7 @@ namespace WeeControl.Backend.WebApi.Test.Services
 
         public UserInfoServiceTests()
         {
-            employeeAttribute = new ClaimsTagsList();
+            employeeAttribute = new UserClaimService();
             sessionClaim = new Claim(employeeAttribute.GetClaimType(ClaimTypeEnum.Session), Guid.NewGuid().ToString());
             territoryClaim = new Claim(employeeAttribute.GetClaimType(ClaimTypeEnum.Territory), Guid.NewGuid().ToString());
 
@@ -56,7 +59,7 @@ namespace WeeControl.Backend.WebApi.Test.Services
         {
             var service = new UserInfoService(httpContextMock.Object, null, employeeAttribute);
 
-            var session = service.SessionId;
+            var session = service.GetSessionId();
 
             Assert.NotNull(session);
             Assert.Equal(sessionClaim.Value, ((Guid)session).ToString());
@@ -68,19 +71,22 @@ namespace WeeControl.Backend.WebApi.Test.Services
             httpContextMock.Setup(x => x.HttpContext.User.Claims).Returns(new List<Claim>());
             var service = new UserInfoService(httpContextMock.Object, null, employeeAttribute);
 
-            var session = service.SessionId;
+            var session = service.GetSessionId();
 
             Assert.Null(session);
         }
 
         [Fact]
-        public void WhenTerritoryClaimInContextExist_()
+        public async void WhenTerritoryClaimInContextExist_()
         {
             var mediatrMock = new Mock<IMediator>();
+            mediatrMock.Setup(x => 
+                x.Send(It.IsAny<object>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new List<string>() { "string1", "string2" });
 
             var service = new UserInfoService(httpContextMock.Object, mediatrMock.Object, employeeAttribute);
 
-            var territoties = service.Territories;
+            var territoties = await service.GetTerritoriesListAsync();
 
             Assert.NotEmpty(territoties);
         }

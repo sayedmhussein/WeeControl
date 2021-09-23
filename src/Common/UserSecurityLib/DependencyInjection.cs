@@ -12,8 +12,11 @@ namespace WeeControl.Common.UserSecurityLib
         public static IServiceCollection AddUserSecurityService(this IServiceCollection services)
         {
             services.AddSingleton<IAuthorizationHandler, TokenRefreshmentHandler>();
-            services.AddSingleton<IClaimsTags, ClaimsTagsList>();
-            services.AddScoped<IJwtService, JwtService>();
+            
+            services.AddSingleton<IUserClaimService, UserClaimService>();
+            services.AddSingleton<IJwtService, JwtService>();
+            services.AddScoped<IJwtServiceObsolute, JwtServiceObsolute>();
+            
             services.AddAuthorizationCore(UserAuthorizationOptions.Configure);
 
             return services;

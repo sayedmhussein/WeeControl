@@ -16,13 +16,13 @@ namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.Ge
     public class GetNewTokenHandler : IRequestHandler<GetNewTokenQuery, ResponseDto<EmployeeTokenDto>>
     {
         private readonly IHumanResourcesDbContext context;
-        private readonly IJwtService jwtService;
+        private readonly IJwtServiceObsolute jwtServiceObsolute;
         private readonly IMediator mediator;
 
-        public GetNewTokenHandler(IHumanResourcesDbContext context, IJwtService jwtService, IMediator mediator)
+        public GetNewTokenHandler(IHumanResourcesDbContext context, IJwtServiceObsolute jwtServiceObsolute, IMediator mediator)
         {
             this.context = context;
-            this.jwtService = jwtService;
+            this.jwtServiceObsolute = jwtServiceObsolute;
             this.mediator = mediator;
         }
         
@@ -55,7 +55,7 @@ namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.Ge
     
         private string BuildToken(IEnumerable<Claim> claims, DateTime validity)
         {
-            var token = jwtService.GenerateJwtToken(claims, "WeeControl", validity);
+            var token = jwtServiceObsolute.GenerateJwtToken(claims, "WeeControl", validity);
             return token;
         }
     }

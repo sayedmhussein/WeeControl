@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
+using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using WeeControl.Common.UserSecurityLib.Interfaces;
 using WeeControl.Common.UserSecurityLib.Services;
@@ -10,85 +10,53 @@ using Xunit;
 
 namespace WeeControl.Common.UserSecurityLib.Test.Services
 {
-    public class JwtServiceTests
+    public class JwtServiceTests : IDisposable
     {
-        private readonly IJwtService jwtService;
+        private IJwtService service;
+        private string securityKey = new string('a', 30);
         
         public JwtServiceTests()
         {
-            var securityKey = new string('a', 30);
-            jwtService = new JwtService(securityKey);
+            service = new JwtService();
         }
-        
-        [Fact]
-        public void WhenSecurityCodeIsNull_ThrowArgumentNullException()
+
+        public void Dispose()
         {
-            Assert.Throws<ArgumentNullException>(() => new JwtService((string)null));
+            service = null;
         }
 
         [Fact]
-        public void GenerateTokenWhenNullClaims_ReturnTokenAsString()
+        public void WhenGeneratingATokenUsingClaims_WhenExtractingSameClaimShouldBeExist()
         {
-            var token = jwtService.GenerateJwtToken(null, "issuer", DateTime.UtcNow.AddDays(1));
+            var key = Encoding.ASCII.GetBytes(securityKey);
+            var claim = new Claim("Type", "Value");
+            var list = new List<Claim>() { claim };
 
-            Assert.NotEmpty(token);
-        }
-
-        [Fact]
-        public void GenerateTokenWhenNullClaimsAndIssuer_ReturnTokenAsString()
-        {
-            var token = jwtService.GenerateJwtToken(null, null, DateTime.UtcNow.AddDays(1));
-
-            Assert.NotEmpty(token);
-        }
-
-        [Fact]
-        public void GenerateTokenWhenWithSomeClaims_ReturnTokenAsString()
-        {
-            var claims = new List<Claim>()
+            var descriptor = new SecurityTokenDescriptor()
             {
-                new Claim("ClaimType", "ClaimValue")
+                Subject = new ClaimsIdentity(list),
+                IssuedAt = DateTime.UtcNow,
+                Expires = DateTime.UtcNow.AddMinutes(1),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
             };
 
-            var token = jwtService.GenerateJwtToken(claims, "issuer", DateTime.UtcNow.AddDays(1));
-
-            Assert.NotEmpty(token);
-        }
-
-        [Fact]
-        public void WhenInjectingClaimInsideToken_ShoudExtractSameClaimFromToken()
-        {
-            var secret = new String('a', 30);
-            var claim = new Claim("ClaimType", "ClaimValue");
+            var token = service.GenerateToken(descriptor);
             
-            var token = jwtService.GenerateJwtToken(new List<Claim>() { claim }, "issuer", DateTime.UtcNow.AddDays(1));
-            var claims = jwtService.GetClaims(token);
+            Assert.NotEmpty(token);
 
-            Assert.Contains(claim.Type, claims.Claims.Select(x => x.Type));
-            Assert.Contains(claim.Value, claims.Claims.Select(x => x.Value));
-        }
+            var parameters = new TokenValidationParameters()
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateLifetime = true,
+                ValidateAudience = false,
+                ValidateIssuer = false
+            };
 
-        [Fact]
-        public void WhenInjectingClaimInsideTokenButDifferentSecret_ShouldThrowAnException()
-        {
-            var secret = new String('a', 30);
-            var claim = new Claim("ClaimType", "ClaimValue");
-            var token = new JwtService(secret).GenerateJwtToken(new List<Claim>() { claim }, "issuer", DateTime.UtcNow.AddDays(1));
-
-            var service = new JwtService(secret + "bla");
-            Assert.ThrowsAny<Exception>(() => service.GetClaims(token));
-        }
-
-        [Fact]
-        public async void WhenInjectingClaimInsideTokenExpired_ShoudThrowAnException()
-        {
-            var secret = new String('a', 30);
-            var claim = new Claim("ClaimType", "ClaimValue");
-
-            var token = jwtService.GenerateJwtToken(new List<Claim>() { claim }, "issuer", DateTime.UtcNow.AddSeconds(1));
-            await Task.Delay(2000);
-
-            Assert.ThrowsAny<SecurityTokenInvalidSignatureException>(() => new JwtService(secret + "bla").GetClaims(token));
+            var claimPrincible = service.ExtractClaimPrincipal(parameters, token);
+            
+            Assert.Equal("Type", claimPrincible.Claims.First().Type);
+            Assert.Equal("Value", claimPrincible.Claims.First().Value);
         }
     }
 }

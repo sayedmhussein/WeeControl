@@ -1,11 +1,10 @@
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WeeControl.Backend.Domain.BoundedContexts.HumanResources;
 using WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModule.Entities;
 using WeeControl.Backend.Domain.BoundedContexts.HumanResources.TerritoryModule.Entities;
-using WeeControl.Backend.Domain.BoundedContexts.HumanResources.TerritoryModule.ValueObjects;
 using WeeControl.Backend.Persistence.BoundedContexts.HumanResources.Configurations;
+using Address = WeeControl.Backend.Domain.BoundedContexts.HumanResources.TerritoryModule.ValueObjects.Address;
 
 namespace WeeControl.Backend.Persistence.BoundedContexts.HumanResources
 {
@@ -48,6 +47,7 @@ namespace WeeControl.Backend.Persistence.BoundedContexts.HumanResources
                 var admin = Employee.Create(territoryCode, "Admin", "Admin", "admin", "admin");
                 Employees.Add(admin);
                 SaveChanges();
+                
             }
         }
     }

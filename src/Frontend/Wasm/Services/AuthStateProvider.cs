@@ -9,13 +9,13 @@ namespace WeeControl.Frontend.Wasm.Services
     public class AuthStateProvider : AuthenticationStateProvider
     {
         private readonly ILocalStorage localStorage;
-        private readonly IJwtService jwtService;
+        private readonly IJwtServiceObsolute jwtServiceObsolute;
         private readonly AuthenticationState anonymous;
 
-        public AuthStateProvider(ILocalStorage localStorage, IJwtService jwtService)
+        public AuthStateProvider(ILocalStorage localStorage, IJwtServiceObsolute jwtServiceObsolute)
         {
             this.localStorage = localStorage;
-            this.jwtService = jwtService;
+            this.jwtServiceObsolute = jwtServiceObsolute;
 
             var identity = new ClaimsIdentity();
             
@@ -31,7 +31,7 @@ namespace WeeControl.Frontend.Wasm.Services
                 return anonymous;
             }
             
-            var cp = jwtService.GetClaims(token);
+            var cp = jwtServiceObsolute.GetClaims(token);
             return new AuthenticationState(cp);
         }
 
@@ -40,7 +40,7 @@ namespace WeeControl.Frontend.Wasm.Services
             var token = await localStorage.GetItem<string>("Token");
             if (string.IsNullOrWhiteSpace(token) == false)
             {
-                var cp = jwtService.GetClaims(token);
+                var cp = jwtServiceObsolute.GetClaims(token);
                 var state = new AuthenticationState(cp);
                 var authState = Task.FromResult(state);
                 NotifyAuthenticationStateChanged(authState);

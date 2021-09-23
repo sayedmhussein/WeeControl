@@ -9,12 +9,12 @@ namespace WeeControl.Backend.WebApi.Controllers.Employee
     public partial class EmployeeController : Controller
     {
         private readonly IMediator mediatR;
-        private readonly IJwtService jwtService;
+        private readonly IJwtServiceObsolute jwtServiceObsolute;
 
-        public EmployeeController(IMediator mediatR, IJwtService jwtService)
+        public EmployeeController(IMediator mediatR, IJwtServiceObsolute jwtServiceObsolute)
         {
             this.mediatR = mediatR;
-            this.jwtService = jwtService;
+            this.jwtServiceObsolute = jwtServiceObsolute;
         }
     }
 }

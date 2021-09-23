@@ -8,8 +8,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WeeControl.Backend.Application.BoundContexts.Garbag.AddEmployeeV1;
-using WeeControl.Backend.Application.BoundContexts.Garbag.GetClaimsV1;
 using WeeControl.Common.SharedKernel.DataTransferObjectV1.Employee;
 using WeeControl.Common.UserSecurityLib;
 
@@ -49,8 +47,8 @@ namespace WeeControl.Backend.WebApi.Controllers.Employee
         /// <response code="400">DTO has missing/invalid values</response>  
         [Authorize(CustomAuthorizationPolicy.Employee.CanAlterEmployee)]
         [HttpPut]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [Produces(MediaTypeNames.Application.Json)]
+        //[Consumes(MediaTypeNames.Application.Json)]
+        //[Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(IEnumerable<EmployeeDto>), (int)HttpStatusCode.Created)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Conflict)]
@@ -58,11 +56,11 @@ namespace WeeControl.Backend.WebApi.Controllers.Employee
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [MapToApiVersion("1.0")]
-        public async Task<ActionResult<IEnumerable<EmployeeDto>>> PutEmployeeV1([FromBody] AddEmployeeCommand command)
-        {
-            var response = await mediatR.Send(command);
-            return Created("Api/[controller]/", response);
-        }
+        // public async Task<ActionResult<IEnumerable<EmployeeDto>>> PutEmployeeV1([FromBody] AddEmployeeCommand command)
+        // {
+        //     var response = await mediatR.Send(command);
+        //     return Created("Api/[controller]/", response);
+        // }
 
         [Authorize(CustomAuthorizationPolicy.Employee.CanAlterEmployee)]
         [HttpDelete("{id}")]
@@ -84,14 +82,15 @@ namespace WeeControl.Backend.WebApi.Controllers.Employee
         [HttpGet("Claim/{employeeid}")]
         public async Task<ActionResult<IEnumerable<EmployeeClaimDto>>> GetEmployeeClaimsV1(Guid employeeid)
         {
-            var response = await mediatR.Send(new GetEmployeeClaimsQuery() { EmployeeId = employeeid });
-            var claims = new List<EmployeeClaimDto>();
-            foreach (var claim in response)
-            {
-                claims.Add(new EmployeeClaimDto() { });
-            }
-
-            return Ok(new List<EmployeeClaimDto>(claims));
+            // var response = await mediatR.Send(new GetEmployeeClaimsQuery() { EmployeeId = employeeid });
+            // var claims = new List<EmployeeClaimDto>();
+            // foreach (var claim in response)
+            // {
+            //     claims.Add(new EmployeeClaimDto() { });
+            // }
+            //
+            // return Ok(new List<EmployeeClaimDto>(claims));
+            throw new NotImplementedException();
         }
 
         [HttpPut("Claim")]

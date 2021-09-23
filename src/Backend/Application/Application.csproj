@@ -6,14 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="BoundContexts\Adminstration" />
     <Folder Include="BoundContexts\Custody\Commands" />
     <Folder Include="BoundContexts\Custody\Notifications" />
     <Folder Include="BoundContexts\Custody\Queries" />
     <Folder Include="BoundContexts\FieldOperation" />
     <Folder Include="BoundContexts\Finance" />
-    <Folder Include="BoundContexts\Garbag\CreateSessionV1" />
-    <Folder Include="BoundContexts\Garbag\RevokeClaimV1" />
     <Folder Include="BoundContexts\HumanResources\Commands" />
     <Folder Include="BoundContexts\Logistics" />
     <Folder Include="BoundContexts\Sales" />

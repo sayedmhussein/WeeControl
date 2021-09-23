@@ -45,7 +45,7 @@ namespace WeeControl.Backend.WebApi
             
 
             services.AddScoped<ICurrentUserInfo, UserInfoService>();
-            services.AddSingleton<IJwtService, JwtService>();
+            services.AddSingleton<IJwtServiceObsolute, JwtServiceObsolute>();
 
             services.AddCors(c => c.AddPolicy("AllowAny", builder =>
             {
@@ -56,7 +56,7 @@ namespace WeeControl.Backend.WebApi
 
             services.AddAuthentication("Bearer").AddJwtBearer(options =>
             {
-                options.TokenValidationParameters = new JwtService(Configuration["Jwt:Key"]).ValidationParameters;
+                options.TokenValidationParameters = new JwtServiceObsolute(Configuration["Jwt:Key"]).ValidationParameters;
 
                 options.Events = new JwtBearerEvents
                 {

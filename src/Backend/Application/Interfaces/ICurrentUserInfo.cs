@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace WeeControl.Backend.Application.Interfaces
 {
@@ -9,10 +10,10 @@ namespace WeeControl.Backend.Application.Interfaces
     /// </summary>
     public interface ICurrentUserInfo
     {
-        Guid? SessionId { get; }
+        Guid? GetSessionId();
 
-        IEnumerable<Guid> Territories { get; }
-
-        IEnumerable<Claim> Claims { get; }
+        IEnumerable<Claim> GetClaimList();
+        
+        Task<IEnumerable<string>> GetTerritoriesListAsync();
     }
 }
