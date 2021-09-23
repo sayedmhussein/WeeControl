@@ -27,7 +27,7 @@ namespace WeeControl.Backend.Persistence
             return services;
         }
 
-        public static IServiceCollection AddPersistenceAsInMemory(this IServiceCollection services, string databaseName = "InMemoryDatabase")
+        public static IServiceCollection AddPersistenceAsInMemory(this IServiceCollection services, string databaseName)
         {
             services.AddDbContext<HumanResourcesDbContext>(options =>
             {

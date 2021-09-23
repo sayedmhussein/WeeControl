@@ -15,7 +15,7 @@ namespace WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModul
         public Guid EmployeeId { get; set; }
 
         [NotMapped] 
-        public string EmployeeName => FirstName + LastName;
+        public string EmployeeName => FirstName + " " + LastName;
         
         public virtual Territory Territory { get; set; }
         public string TerritoryCode { get; set; }

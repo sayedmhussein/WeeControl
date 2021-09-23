@@ -6,9 +6,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using WeeControl.Backend.Application.Exceptions;
 using WeeControl.Backend.Domain.BoundedContexts.HumanResources;
+using WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModule.Entities;
+using WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModule.ValueObjects;
 using WeeControl.Common.SharedKernel.Obsolute.Common;
 using WeeControl.Common.SharedKernel.Obsolute.Employee;
 using WeeControl.Common.UserSecurityLib.Interfaces;
@@ -20,12 +23,14 @@ namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.Ge
         private readonly IHumanResourcesDbContext context;
         private readonly IJwtService jwtService;
         private readonly IMediator mediator;
+        private readonly IConfiguration collection;
 
-        public GetNewTokenHandler(IHumanResourcesDbContext context, IJwtService jwtService, IMediator mediator)
+        public GetNewTokenHandler(IHumanResourcesDbContext context, IJwtService jwtService, IMediator mediator, IConfiguration collection)
         {
             this.context = context;
             this.jwtService= jwtService;
             this.mediator = mediator;
+            this.collection = collection;
         }
         
         public async Task<ResponseDto<EmployeeTokenDto>> Handle(GetNewTokenQuery request, CancellationToken cancellationToken)
@@ -49,6 +54,9 @@ namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.Ge
                 };
                 var token = jwtService.GenerateToken(descriptor);
 
+                await context.Sessions.AddAsync(Session.Create(employee.EmployeeId, request.Device), cancellationToken);
+                await context.SaveChangesAsync(cancellationToken);
+                
                 return new ResponseDto<EmployeeTokenDto>(new EmployeeTokenDto()
                 {
                     Token = token,
@@ -57,21 +65,32 @@ namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.Ge
             }
             else if (request.SessionId is not null)
             {
-                throw new System.NotImplementedException();
+                var session = await context.Sessions.FirstOrDefaultAsync(x => x.SessionId == request.SessionId && x.TerminationTs == null, cancellationToken);
+                if (session is null) throw new NotAllowedException("Please login again.");
+                
+                session.Logs.Add(new SessionLog("Verified."));
+                await context.SaveChangesAsync(cancellationToken);
+
+                var employee = await 
+                    context.Employees.FirstOrDefaultAsync(x => x.EmployeeId == session.EmployeeId, cancellationToken);
+                
+                var descriptor = new SecurityTokenDescriptor()
+                {
+                    IssuedAt = DateTime.UtcNow
+                };
+                var token = jwtService.GenerateToken(descriptor);
+
+                return new ResponseDto<EmployeeTokenDto>(new EmployeeTokenDto()
+                {
+                    Token = token,
+                    FullName = employee.EmployeeName, PhotoUrl = "url"
+                }) { HttpStatuesCode = HttpStatusCode.OK};
             }
             else
             {
                 throw new BadRequestException("Didn't valid request query parameters.");
             }
         }
-    
-        private string BuildToken(IEnumerable<Claim> claims, DateTime validity)
-        {
-            var descriptor = new SecurityTokenDescriptor()
-            {
-            };
-            var token = jwtService.GenerateToken(descriptor);
-            return token;
-        }
+        
     }
 }

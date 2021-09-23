@@ -92,7 +92,7 @@ namespace WeeControl.Backend.WebApi.Controllers.HumanResources
         [MapToApiVersion("1.0")]
         public async Task<ActionResult<ResponseDto<EmployeeTokenDto>>> RefreshTokenV1([FromBody] RequestDto dto)
         {
-            var query = new GetNewTokenQuery(dto, Guid.Empty);
+            var query = new GetNewTokenQuery(dto, currentUserInfo.GetSessionId());
             var response = await mediatR.Send(query);
 
             return Ok(response);

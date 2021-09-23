@@ -1,5 +1,6 @@
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
 using WeeControl.Backend.Domain.BoundedContexts.HumanResources;
 using WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModule.Entities;
 using WeeControl.Backend.Domain.BoundedContexts.HumanResources.TerritoryModule.Entities;
@@ -12,6 +13,7 @@ namespace WeeControl.Backend.Persistence.BoundedContexts.HumanResources
     {
         public HumanResourcesDbContext(DbContextOptions<HumanResourcesDbContext> options) : base(options)
         {
+            //Database.Migrate();
             Database.EnsureCreated();
             SetBasicData();
         }
@@ -33,22 +35,19 @@ namespace WeeControl.Backend.Persistence.BoundedContexts.HumanResources
 
         private void SetBasicData()
         {
-            string territoryCode = "NYC-US";
+            const string territoryCode = "NYC-US";
                 
-            if (Territories.Any() == false)
-            {
-                var territory = Territory.Create(territoryCode,"Parent Territory", "USA", new Address(){ CityName = "New York"});
-                 Territories.Add(territory);
-                 SaveChanges();
-            }
-                
-            if ( Employees.Any() == false)
-            {
-                var admin = Employee.Create(territoryCode, "Admin", "Admin", "admin", "admin");
-                Employees.Add(admin);
-                SaveChanges();
-                
-            }
+            if (Territories.Any()) return;
+            
+            var territory = Territory.Create(territoryCode,"Parent Territory", "USA", new Address(){ CityName = "New York"});
+            Territories.Add(territory);
+            SaveChanges();
+
+            if (Employees.Any()) return;
+            
+            var admin = Employee.Create(territoryCode, "Admin", "Admin", "admin", "admin");
+            Employees.Add(admin);
+            SaveChanges();
         }
     }
 }

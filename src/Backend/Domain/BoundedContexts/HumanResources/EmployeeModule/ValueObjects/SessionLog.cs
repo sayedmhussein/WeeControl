@@ -4,10 +4,8 @@ using Microsoft.EntityFrameworkCore;
 namespace WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModule.ValueObjects
 {
     [Owned]
-    public record SessionLog
+    public record SessionLog(string Details)
     {
-        public DateTime Timestamp { get; set; }
-
-        public string Details { get; set; }
+        public DateTime LogTs { get; set; }
     }
 }

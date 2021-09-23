@@ -27,9 +27,14 @@ namespace WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModul
         {
         }
 
-        public static Session Create(Employee employee, string device)
+        public static Session Create(Guid employeeId, string device)
         {
-            throw new NotImplementedException();
+            return new Session()
+            {
+                EmployeeId = employeeId,
+                DeviceId = device,
+                Logs = new List<SessionLog>(){ new SessionLog("Created.")}
+            };
         }
     }
 }
