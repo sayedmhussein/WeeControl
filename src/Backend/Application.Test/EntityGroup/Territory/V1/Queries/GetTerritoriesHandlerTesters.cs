@@ -2,8 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.Backend.Application.BoundContexts.Adminstration.Territory.Queries.GetTerritoryV1;
-using WeeControl.Backend.Application.Common.Interfaces;
-using WeeControl.Backend.Domain.Common.Interfaces;
+using WeeControl.Backend.Application.Interfaces;
 using WeeControl.Backend.Persistence;
 using WeeControl.Common.SharedKernel.EntityGroups.Employee.Attributes;
 using WeeControl.Common.SharedKernel.EntityGroups.Employee.Interfaces;

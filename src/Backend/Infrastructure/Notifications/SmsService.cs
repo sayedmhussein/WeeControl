@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WeeControl.Backend.Domain.Common.Interfaces;
+using WeeControl.Backend.Domain.Interfaces;
 
 namespace WeeControl.Backend.Infrastructure.Notifications
 {

@@ -4,14 +4,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using WeeControl.Backend.Application.Common.Exceptions;
-using WeeControl.Backend.Application.Common.Interfaces;
-using WeeControl.Backend.Domain.Common.Interfaces;
-using WeeControl.Backend.Domain.EntityGroups.Territory;
+using WeeControl.Backend.Application.Exceptions;
+using WeeControl.Backend.Application.Interfaces;
 using WeeControl.Common.SharedKernel.DataTransferObjectV1.Territory;
 using WeeControl.Common.SharedKernel.EntityGroups.Territory.Interfaces;
-using WeeControl.Common.SharedKernel.Extensions;
 
 namespace WeeControl.Backend.Application.BoundContexts.Adminstration.Territory.Queries.GetTerritoryV1
 {

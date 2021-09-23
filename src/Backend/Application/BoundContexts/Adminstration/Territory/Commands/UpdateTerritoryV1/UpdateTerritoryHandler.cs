@@ -2,9 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using WeeControl.Backend.Application.Common.Exceptions;
-using WeeControl.Backend.Domain.Common.Interfaces;
+using WeeControl.Backend.Application.Exceptions;
 
 namespace WeeControl.Backend.Application.BoundContexts.Adminstration.Territory.Commands.UpdateTerritoryV1
 {

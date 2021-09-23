@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.Backend.Application.BoundContexts.Adminstration.Territory.Commands.DeleteTerritoryV1;
-using WeeControl.Backend.Application.Common.Exceptions;
-using WeeControl.Backend.Application.Common.Interfaces;
-using WeeControl.Backend.Domain.Common.Interfaces;
-using WeeControl.Backend.Domain.EntityGroups.Territory;
+using WeeControl.Backend.Application.Exceptions;
+using WeeControl.Backend.Application.Interfaces;
 using WeeControl.Backend.Persistence;
 using WeeControl.Common.SharedKernel.EntityGroups.Employee.Attributes;
 using WeeControl.Common.SharedKernel.EntityGroups.Employee.Interfaces;

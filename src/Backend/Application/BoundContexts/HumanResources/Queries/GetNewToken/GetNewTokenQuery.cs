@@ -14,8 +14,6 @@ namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.Ge
 
         public Guid? SessionId { get; set; }
 
-        public int Otp { get; private set; }
-
         public string Device { get; private set; }
 
         public GetNewTokenQuery(RequestDto<RequestNewTokenDto> dto)
@@ -23,12 +21,6 @@ namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.Ge
             Device = dto.DeviceId;
             Username = dto.Payload.Username;
             Password = dto.Payload.Password;
-        }
-
-        public GetNewTokenQuery(IRequestDto dto, int otp)
-        {
-            Device = dto.DeviceId;
-            Otp = otp;
         }
 
         public GetNewTokenQuery(IRequestDto dto, Guid sessionid)

@@ -17,7 +17,7 @@ namespace WeeControl.Backend.WebApi.Test.Functional.V1
         public FunctionalTestTemplate(CustomWebApplicationFactory<Startup> factory)
         {
             this.factory = factory;
-            test = new FunctionalTest(factory, HttpMethod.Get, typeof(HttpGetTests).Namespace);
+            test = new FunctionalTest(factory, HttpMethod.Get, typeof(FunctionalTestTemplate).Namespace);
             authorization = new FunctionalAuthorization(test);
             routeUri = test.GetUri(ApiRouteEnum.Territory);
         }

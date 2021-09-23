@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using WeeControl.Backend.Application.Common.Exceptions;
-using WeeControl.Backend.Application.Common.Interfaces;
-using WeeControl.Backend.Domain.Common.Interfaces;
+using WeeControl.Backend.Application.Exceptions;
+using WeeControl.Backend.Application.Interfaces;
 using WeeControl.Common.SharedKernel.EntityGroups.Employee.Interfaces;
 
-namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.GetClaimsV1
+namespace WeeControl.Backend.Application.BoundContexts.Garbag.GetClaimsV1
 {
     public class GetEmployeeClaimsHandler : IRequestHandler<GetEmployeeClaimsQuery, IEnumerable<Claim>>
     {

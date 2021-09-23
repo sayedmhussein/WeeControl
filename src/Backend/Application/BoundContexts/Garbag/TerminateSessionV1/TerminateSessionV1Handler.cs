@@ -3,12 +3,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using WeeControl.Backend.Application.Common.Interfaces;
-using WeeControl.Backend.Domain.Common.Interfaces;
+using WeeControl.Backend.Application.Interfaces;
 using WeeControl.Common.SharedKernel.EntityGroups.Territory.Interfaces;
 
-namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Commands.TerminateSessionV1
+namespace WeeControl.Backend.Application.BoundContexts.Garbag.TerminateSessionV1
 {
     public class TerminateSessionV1Handler : IRequestHandler<TerminateSessionCommand>
     {

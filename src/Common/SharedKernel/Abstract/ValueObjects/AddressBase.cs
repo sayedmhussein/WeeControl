@@ -13,8 +13,10 @@ namespace WeeControl.Common.SharedKernel.Abstract.ValueObjects
         public string ZipCode { get; set; }
 
         public string AdditionalNo { get; set; }
-        
-        public Coordinates Coordinates { get; set; }
+
+        public double? Latitude { get; set; }
+
+        public double? Longitude { get; set; }
     }
     
     

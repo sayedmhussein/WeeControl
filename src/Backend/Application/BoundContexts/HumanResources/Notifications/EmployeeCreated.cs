@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using WeeControl.Backend.Domain.Common.Interfaces;
+using WeeControl.Backend.Domain.Interfaces;
 
 namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Notifications
 {

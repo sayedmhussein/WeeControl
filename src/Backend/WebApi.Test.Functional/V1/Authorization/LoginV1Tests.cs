@@ -22,7 +22,7 @@ namespace WeeControl.Backend.WebApi.Test.Functional.V1.Authorization
         public LoginV1Tests(CustomWebApplicationFactory<Startup> factory)
         {
             this.factory = factory;
-            test = new FunctionalTest(factory, HttpMethod.Post, typeof(HttpGetTests).Namespace);
+            test = new FunctionalTest(factory, HttpMethod.Post, typeof(LoginV1Tests).Namespace);
             authorization = new FunctionalAuthorization(test);
             routeUri = test.GetUri(ApiRouteEnum.EmployeeSession);
         }

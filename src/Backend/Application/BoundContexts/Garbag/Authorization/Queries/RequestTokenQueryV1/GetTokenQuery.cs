@@ -4,7 +4,7 @@ using WeeControl.Common.SharedKernel.DataTransferObjectV1.Common;
 using WeeControl.Common.SharedKernel.DataTransferObjectV1.Employee;
 using WeeControl.Common.SharedKernel.Interfaces;
 
-namespace WeeControl.Backend.Application.BoundContexts.Authorization.Queries.RequestTokenQueryV1
+namespace WeeControl.Backend.Application.BoundContexts.Garbag.Authorization.Queries.RequestTokenQueryV1
 {
     /// <summary>
     /// A token query used to create complete response dto with employee token dto as payload.

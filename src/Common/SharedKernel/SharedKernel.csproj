@@ -13,6 +13,7 @@
         <LangVersion>8.0</LangVersion>
     </PropertyGroup>
     <ItemGroup>
+        <Folder Include="BoundedContexts\HumanResources\DataTransferObjectsV1" />
         <Folder Include="EntityGroups\Custom" />
         <Folder Include="Routing\" />
         <Folder Include="DataTransferObjectV1\Custom" />

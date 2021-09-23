@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.Backend.Application.Common.Behaviours;
+using WeeControl.Backend.Application.Behaviours;
 using WeeControl.Common.SharedKernel.EntityGroups.Employee.Attributes;
 using WeeControl.Common.SharedKernel.EntityGroups.Employee.Interfaces;
 using WeeControl.Common.SharedKernel.EntityGroups.Territory.Attributes;

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using MediatR;
 using WeeControl.Common.SharedKernel.DataTransferObjectV1.Employee;
 
-namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.GetTokenDtoV1
+namespace WeeControl.Backend.Application.BoundContexts.Garbag.GetTokenDtoV1
 {
     public class GetTokenHandler : IRequestHandler<GetTokenQuery, EmployeeTokenDto>
     {

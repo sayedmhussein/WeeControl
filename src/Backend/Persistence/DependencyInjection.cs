@@ -2,7 +2,8 @@
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.Backend.Domain.Common.Interfaces;
+using WeeControl.Backend.Domain.BoundedContexts.HumanResources;
+using WeeControl.Backend.Persistence.BoundedContexts.HumanResources;
 
 namespace WeeControl.Backend.Persistence
 {
@@ -10,31 +11,39 @@ namespace WeeControl.Backend.Persistence
     {
         public static IServiceCollection AddPersistenceAsPostgreSql(this IServiceCollection services, IConfiguration configuration, string migrationAssemblyName)
         {
-            services.AddDbContext<MySystemDbContext>(options =>
+            services.AddDbContext<HumanResourcesDbContext>(options =>
             {
+#if DEBUG
                 options.EnableSensitiveDataLogging();
-                options.UseNpgsql(configuration.GetConnectionString("DatabaseProvider"), b =>
+#endif
+                options.UseNpgsql(configuration.GetConnectionString("HumanResourcesDbProvider"), o =>
                 {
-                    b.MigrationsAssembly(migrationAssemblyName);
+                    o.MigrationsAssembly(migrationAssemblyName);
                 });
             });
 
-            services.AddScoped<IMySystemDbContext>(provider => provider.GetService<MySystemDbContext>());
+            services.AddScopedContexts();
 
             return services;
         }
 
-        public static IServiceCollection AddPersistenceAsInMemory(this IServiceCollection services, string databaseName)
+        public static IServiceCollection AddPersistenceAsInMemory(this IServiceCollection services, string databaseName = "InMemoryDatabase")
         {
-            services.AddDbContext<MySystemDbContext>(options =>
+            services.AddDbContext<HumanResourcesDbContext>(options =>
             {
                 options.EnableSensitiveDataLogging();
-                options.UseInMemoryDatabase(databaseName ?? "InMemoryDatabase");
+                options.UseInMemoryDatabase(databaseName);
                 options.ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning));
             });
 
-            services.AddScoped<IMySystemDbContext>(provider => provider.GetService<MySystemDbContext>());
+            services.AddScopedContexts();
 
+            return services;
+        }
+
+        private static IServiceCollection AddScopedContexts(this IServiceCollection services)
+        {
+            services.AddScoped<IHumanResourcesDbContext>(p => p.GetService<HumanResourcesDbContext>());
             return services;
         }
     }

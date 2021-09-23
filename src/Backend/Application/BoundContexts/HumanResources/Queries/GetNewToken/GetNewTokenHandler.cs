@@ -1,9 +1,11 @@
+using System;
+using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using WeeControl.Backend.Application.Common.Exceptions;
+using WeeControl.Backend.Application.Exceptions;
 using WeeControl.Backend.Domain.BoundedContexts.HumanResources;
 using WeeControl.Common.SharedKernel.DataTransferObjectV1.Common;
 using WeeControl.Common.SharedKernel.DataTransferObjectV1.Employee;
@@ -39,10 +41,22 @@ namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.Ge
 
                 if (employee is null) throw new NotFoundException();
                 
-                
+                throw new System.NotImplementedException();
             }
-            throw new System.NotImplementedException();
+            else if (request.SessionId is not null)
+            {
+                throw new System.NotImplementedException();
+            }
+            else
+            {
+                throw new BadRequestException("Didn't valid request query parameters.");
+            }
         }
     
+        private string BuildToken(IEnumerable<Claim> claims, DateTime validity)
+        {
+            var token = jwtService.GenerateJwtToken(claims, "WeeControl", validity);
+            return token;
+        }
     }
 }

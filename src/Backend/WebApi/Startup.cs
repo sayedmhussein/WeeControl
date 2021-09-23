@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WeeControl.Backend.Application;
-using WeeControl.Backend.Application.Common.Interfaces;
+using WeeControl.Backend.Application.Interfaces;
 using WeeControl.Backend.Infrastructure;
 using WeeControl.Backend.Persistence;
 using WeeControl.Backend.WebApi.Middlewares;

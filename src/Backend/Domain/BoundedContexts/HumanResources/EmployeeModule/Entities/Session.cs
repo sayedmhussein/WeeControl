@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModule.ValueObjects;
@@ -9,9 +8,11 @@ namespace WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModul
 {
     public class Session : IAggregateRoot
     {
+        [Key]
         public Guid SessionId { get; set; }
 
-        public Employee Employee { get; set; }
+        public virtual Employee Employee { get; set; }
+        public Guid EmployeeId { get; set; }
         
         [StringLength(128, ErrorMessage = "Device ID length must not exceed 128 letter.")]
         public string DeviceId { get; set; }

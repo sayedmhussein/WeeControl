@@ -2,7 +2,7 @@
 using MediatR;
 using WeeControl.Common.SharedKernel.DataTransferObjectV1.Employee;
 
-namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Commands.AddEmployeeV1
+namespace WeeControl.Backend.Application.BoundContexts.Garbag.AddEmployeeV1
 {
     public class AddEmployeeCommand : IRequest<IEnumerable<EmployeeDto>>
     {

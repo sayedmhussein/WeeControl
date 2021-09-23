@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using WeeControl.Backend.Domain.Common.Interfaces;
+using WeeControl.Backend.Domain.Interfaces;
 using WeeControl.Backend.Infrastructure;
 using Xunit;
 

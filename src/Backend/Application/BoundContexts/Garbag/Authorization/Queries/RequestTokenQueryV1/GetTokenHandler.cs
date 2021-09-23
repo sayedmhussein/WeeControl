@@ -4,15 +4,12 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using WeeControl.Backend.Application.Common.Exceptions;
-using WeeControl.Backend.Domain.Common.Interfaces;
-using WeeControl.Backend.Domain.EntityGroups.Employee;
+using WeeControl.Backend.Application.Exceptions;
 using WeeControl.Common.SharedKernel.DataTransferObjectV1.Common;
 using WeeControl.Common.SharedKernel.DataTransferObjectV1.Employee;
 using WeeControl.Common.UserSecurityLib.Interfaces;
 
-namespace WeeControl.Backend.Application.BoundContexts.Authorization.Queries.RequestTokenQueryV1
+namespace WeeControl.Backend.Application.BoundContexts.Garbag.Authorization.Queries.RequestTokenQueryV1
 {
     public class GetTokenHandler : IRequestHandler<GetTokenQuery, ResponseDto<EmployeeTokenDto>>
     {

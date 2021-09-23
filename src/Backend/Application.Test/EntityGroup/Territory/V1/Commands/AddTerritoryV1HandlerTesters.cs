@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.Backend.Domain.Common.Interfaces;
 using WeeControl.Backend.Persistence;
 
 namespace WeeControl.Backend.Application.Test.EntityGroup.Territory.V1.Commands

@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using WeeControl.Backend.Application.Common.Exceptions;
-using WeeControl.Backend.Application.Common.Interfaces;
-using WeeControl.Backend.Domain.Common.Interfaces;
+using WeeControl.Backend.Application.Exceptions;
+using WeeControl.Backend.Application.Interfaces;
 using WeeControl.Common.SharedKernel.EntityGroups.Employee.Interfaces;
 using WeeControl.Common.SharedKernel.EntityGroups.Territory.Interfaces;
 

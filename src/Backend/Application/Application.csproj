@@ -17,10 +17,6 @@
     <Folder Include="BoundContexts\HumanResources\Commands" />
     <Folder Include="BoundContexts\Logistics" />
     <Folder Include="BoundContexts\Sales" />
-    <Folder Include="Common\" />
-    <Folder Include="Common\Interfaces\" />
-    <Folder Include="Common\Exceptions\" />
-    <Folder Include="Common\Behaviours\" />
     <Folder Include="BoundContexts\" />
     <Folder Include="BoundContexts\HumanResources\Commands\" />
     <Folder Include="BoundContexts\HumanResources\Notifications\" />

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Moq;
-using WeeControl.Backend.Application.Common.Behaviours;
-using WeeControl.Backend.Application.Common.Interfaces;
+using WeeControl.Backend.Application.Behaviours;
+using WeeControl.Backend.Application.Interfaces;
 using Xunit;
 
 namespace WeeControl.Backend.Application.Test.Common.Behaviours

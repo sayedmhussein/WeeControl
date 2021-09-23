@@ -5,7 +5,7 @@ using System.Security.Claims;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using WeeControl.Backend.Application.BoundContexts.Adminstration.Territory.Queries.GetTerritoryV1;
-using WeeControl.Backend.Application.Common.Interfaces;
+using WeeControl.Backend.Application.Interfaces;
 using WeeControl.Common.UserSecurityLib.Enums;
 using WeeControl.Common.UserSecurityLib.Interfaces;
 
