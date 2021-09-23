@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using WeeControl.Common.SharedKernel.DataTransferObjectV1.Authorization;
+using WeeControl.Common.SharedKernel.BoundedContextDtos.HumanResources.Authorization;
 using WeeControl.Common.SharedKernel.Interfaces;
 
 namespace WeeControl.Frontend.CommonLib.DataAccess.Authentication

@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using WeeControl.Backend.Application.Exceptions;
 using WeeControl.Backend.Application.Interfaces;
 using WeeControl.Backend.Domain.BoundedContexts.HumanResources;
-using WeeControl.Backend.Domain.BoundedContexts.HumanResources.TerritoryModule.Entities;
-using WeeControl.Common.SharedKernel.DataTransferObjectV1.Common;
-using WeeControl.Common.SharedKernel.DataTransferObjectV1.Territory;
-using WeeControl.Common.SharedKernel.EntityGroups.Territory.Interfaces;
+using WeeControl.Common.SharedKernel.Obsolute.Common;
+using WeeControl.Common.SharedKernel.Obsolute.EntityGroups.Territory.Interfaces;
+using WeeControl.Common.SharedKernel.Obsolute.Territory;
 
 namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.GetListOfTerritories
 {

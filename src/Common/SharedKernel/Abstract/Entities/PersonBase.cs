@@ -1,25 +1,12 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using WeeControl.Common.SharedKernel.Abstract.Enums;
 
 namespace WeeControl.Common.SharedKernel.Abstract.Entities
 {
-    public interface IPerson
+    public abstract class PersonBase
     {
-        PersonTitle Title { get; set; }
-        string FirstName { get; set; }
-        string SecondName { get; set; }
-        string ThirdName { get; set; }
-        string LastName { get; set; }
-        DateTime? DateOfBirth { get; set; }
-        string Nationality { get; set; }
-        string Language { get; set; }
-        PersonGender Gender { get; set; }
-    }
-
-    public class PersonBase : IPerson
-    {
-        public PersonTitle Title { get; set; }
+        [StringLength(5, ErrorMessage = "Maximum length is 5 letters.")]
+        public string Title { get; set; }
         
         [Required]
         [StringLength(50, MinimumLength = 3, ErrorMessage = "First name cannot be less than 3 chars or longer than 45 characters.")]
@@ -45,8 +32,7 @@ namespace WeeControl.Common.SharedKernel.Abstract.Entities
         [StringLength(3, MinimumLength = 3)]
         public string Language { get; set; }
 
-        public PersonGender Gender { get; set; }
-
-        
+        [StringLength(1, MinimumLength = 1, ErrorMessage = "Either use 'm' for male or 'f' for femail.")]
+        public string Gender { get; set; }
     }
 }

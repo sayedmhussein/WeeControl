@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.IO;
 using WeeControl.Backend.Domain.BoundedContexts.HumanResources.TerritoryModule.ValueObjects;
 using WeeControl.Backend.Domain.Interfaces;
 

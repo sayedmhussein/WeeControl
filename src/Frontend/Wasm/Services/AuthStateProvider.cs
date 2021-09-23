@@ -1,6 +1,10 @@
+using System;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using WeeControl.Common.UserSecurityLib.Interfaces;
 using WeeControl.Frontend.CommonLib.Interfaces;
 
@@ -9,13 +13,15 @@ namespace WeeControl.Frontend.Wasm.Services
     public class AuthStateProvider : AuthenticationStateProvider
     {
         private readonly ILocalStorage localStorage;
-        private readonly IJwtServiceObsolute jwtServiceObsolute;
+        private readonly IJwtService jwtService;
+        private readonly IConfiguration configuration;
         private readonly AuthenticationState anonymous;
 
-        public AuthStateProvider(ILocalStorage localStorage, IJwtServiceObsolute jwtServiceObsolute)
+        public AuthStateProvider(ILocalStorage localStorage, IJwtService jwtService, IConfiguration configuration)
         {
             this.localStorage = localStorage;
-            this.jwtServiceObsolute = jwtServiceObsolute;
+            this.jwtService = jwtService;
+            this.configuration = configuration;
 
             var identity = new ClaimsIdentity();
             
@@ -31,7 +37,7 @@ namespace WeeControl.Frontend.Wasm.Services
                 return anonymous;
             }
             
-            var cp = jwtServiceObsolute.GetClaims(token);
+            var cp = GetClaimPrincipal(token);
             return new AuthenticationState(cp);
         }
 
@@ -40,7 +46,7 @@ namespace WeeControl.Frontend.Wasm.Services
             var token = await localStorage.GetItem<string>("Token");
             if (string.IsNullOrWhiteSpace(token) == false)
             {
-                var cp = jwtServiceObsolute.GetClaims(token);
+                var cp = GetClaimPrincipal(token);
                 var state = new AuthenticationState(cp);
                 var authState = Task.FromResult(state);
                 NotifyAuthenticationStateChanged(authState);
@@ -49,6 +55,21 @@ namespace WeeControl.Frontend.Wasm.Services
             {
                 NotifyAuthenticationStateChanged(Task.FromResult(anonymous));
             }
+        }
+
+        private ClaimsPrincipal GetClaimPrincipal(string token)
+        {
+            var validationParameters = new TokenValidationParameters()
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configuration["Jwt:Key"])),
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.Zero
+            };
+            
+            return jwtService.ExtractClaimPrincipal(validationParameters, token);
         }
     }
 }

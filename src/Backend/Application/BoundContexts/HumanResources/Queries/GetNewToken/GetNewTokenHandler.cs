@@ -1,14 +1,16 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using WeeControl.Backend.Application.Exceptions;
 using WeeControl.Backend.Domain.BoundedContexts.HumanResources;
-using WeeControl.Common.SharedKernel.DataTransferObjectV1.Common;
-using WeeControl.Common.SharedKernel.DataTransferObjectV1.Employee;
+using WeeControl.Common.SharedKernel.Obsolute.Common;
+using WeeControl.Common.SharedKernel.Obsolute.Employee;
 using WeeControl.Common.UserSecurityLib.Interfaces;
 
 namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.GetNewToken
@@ -16,13 +18,13 @@ namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.Ge
     public class GetNewTokenHandler : IRequestHandler<GetNewTokenQuery, ResponseDto<EmployeeTokenDto>>
     {
         private readonly IHumanResourcesDbContext context;
-        private readonly IJwtServiceObsolute jwtServiceObsolute;
+        private readonly IJwtService jwtService;
         private readonly IMediator mediator;
 
-        public GetNewTokenHandler(IHumanResourcesDbContext context, IJwtServiceObsolute jwtServiceObsolute, IMediator mediator)
+        public GetNewTokenHandler(IHumanResourcesDbContext context, IJwtService jwtService, IMediator mediator)
         {
             this.context = context;
-            this.jwtServiceObsolute = jwtServiceObsolute;
+            this.jwtService= jwtService;
             this.mediator = mediator;
         }
         
@@ -41,7 +43,17 @@ namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.Ge
 
                 if (employee is null) throw new NotFoundException();
                 
-                throw new System.NotImplementedException();
+                var descriptor = new SecurityTokenDescriptor()
+                {
+                    IssuedAt = DateTime.UtcNow
+                };
+                var token = jwtService.GenerateToken(descriptor);
+
+                return new ResponseDto<EmployeeTokenDto>(new EmployeeTokenDto()
+                {
+                    Token = token,
+                    FullName = employee.EmployeeName, PhotoUrl = "url"
+                }) { HttpStatuesCode = HttpStatusCode.OK};
             }
             else if (request.SessionId is not null)
             {
@@ -55,7 +67,10 @@ namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.Ge
     
         private string BuildToken(IEnumerable<Claim> claims, DateTime validity)
         {
-            var token = jwtServiceObsolute.GenerateJwtToken(claims, "WeeControl", validity);
+            var descriptor = new SecurityTokenDescriptor()
+            {
+            };
+            var token = jwtService.GenerateToken(descriptor);
             return token;
         }
     }

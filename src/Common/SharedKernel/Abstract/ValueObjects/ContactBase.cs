@@ -1,6 +1,6 @@
 namespace WeeControl.Common.SharedKernel.Abstract.ValueObjects
 {
-    public class ContactBase
+    public abstract record ContactBase
     {
         public string ContactType { get; set; }
 

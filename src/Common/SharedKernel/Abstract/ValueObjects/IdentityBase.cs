@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WeeControl.Common.SharedKernel.Abstract.ValueObjects
 {
-    public class IdentityBase
+    public abstract record IdentityBase
     {
         [Required]
         public string IdentityType { get; set; }

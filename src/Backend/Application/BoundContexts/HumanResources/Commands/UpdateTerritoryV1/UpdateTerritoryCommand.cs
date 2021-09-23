@@ -1,6 +1,6 @@
 ﻿using System;
 using MediatR;
-using WeeControl.Common.SharedKernel.DataTransferObjectV1.Territory;
+using WeeControl.Common.SharedKernel.Obsolute.Territory;
 
 namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Commands.UpdateTerritoryV1
 {

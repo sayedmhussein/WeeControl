@@ -2,10 +2,10 @@
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using WeeControl.Backend.Application.Behaviours;
-using WeeControl.Common.SharedKernel.EntityGroups.Employee.Attributes;
-using WeeControl.Common.SharedKernel.EntityGroups.Employee.Interfaces;
-using WeeControl.Common.SharedKernel.EntityGroups.Territory.Attributes;
-using WeeControl.Common.SharedKernel.EntityGroups.Territory.Interfaces;
+using WeeControl.Common.SharedKernel.Obsolute.EntityGroups.Employee.Attributes;
+using WeeControl.Common.SharedKernel.Obsolute.EntityGroups.Employee.Interfaces;
+using WeeControl.Common.SharedKernel.Obsolute.EntityGroups.Territory.Attributes;
+using WeeControl.Common.SharedKernel.Obsolute.EntityGroups.Territory.Interfaces;
 
 namespace WeeControl.Backend.Application
 {

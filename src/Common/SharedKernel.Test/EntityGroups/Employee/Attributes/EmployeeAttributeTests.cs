@@ -1,6 +1,6 @@
-﻿using WeeControl.Common.SharedKernel.EntityGroups.Employee.Attributes;
-using WeeControl.Common.SharedKernel.EntityGroups.Employee.Enums;
-using WeeControl.Common.SharedKernel.EntityGroups.Employee.Interfaces;
+﻿using WeeControl.Common.SharedKernel.Obsolute.EntityGroups.Employee.Attributes;
+using WeeControl.Common.SharedKernel.Obsolute.EntityGroups.Employee.Enums;
+using WeeControl.Common.SharedKernel.Obsolute.EntityGroups.Employee.Interfaces;
 using WeeControl.Common.SharedKernel.Test.TestHelpers;
 using Xunit;
 

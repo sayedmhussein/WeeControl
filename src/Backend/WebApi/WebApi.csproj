@@ -26,9 +26,6 @@
   <ItemGroup>
     <Folder Include="Services\" />
     <Folder Include="StartupOptions\" />
-    <Folder Include="Controllers\Employee\" />
-    <Folder Include="Controllers\Territory\" />
-    <Folder Include="Controllers\Custom\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Security\Policy\Employee\" />

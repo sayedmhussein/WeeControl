@@ -4,7 +4,7 @@ using WeeControl.Common.SharedKernel.Abstract.ValueObjects;
 namespace WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModule.ValueObjects
 {
     [Owned]
-    public class Identity : IdentityBase
+    public record Identity : IdentityBase
     {
     }
 }

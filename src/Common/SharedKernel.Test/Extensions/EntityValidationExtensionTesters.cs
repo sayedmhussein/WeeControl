@@ -1,5 +1,5 @@
-﻿using WeeControl.Common.SharedKernel.DataTransferObjectV1.Territory;
-using WeeControl.Common.SharedKernel.Extensions;
+﻿using WeeControl.Common.SharedKernel.Extensions;
+using WeeControl.Common.SharedKernel.Obsolute.Territory;
 using Xunit;
 
 namespace WeeControl.Common.SharedKernel.Test.Extensions

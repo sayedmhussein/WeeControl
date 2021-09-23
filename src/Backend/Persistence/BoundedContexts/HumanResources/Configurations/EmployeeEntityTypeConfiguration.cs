@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModule.Entities;
-using WeeControl.Backend.Domain.BoundedContexts.HumanResources.TerritoryModule.Entities;
 
 namespace WeeControl.Backend.Persistence.BoundedContexts.HumanResources.Configurations
 {

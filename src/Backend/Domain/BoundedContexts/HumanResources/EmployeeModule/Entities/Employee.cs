@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,11 +6,10 @@ using WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModule.Va
 using WeeControl.Backend.Domain.BoundedContexts.HumanResources.TerritoryModule.Entities;
 using WeeControl.Backend.Domain.Interfaces;
 using WeeControl.Common.SharedKernel.Abstract.Entities;
-using WeeControl.Common.SharedKernel.BoundedContexts.HumanResources.BaseEntities;
 
 namespace WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModule.Entities
 {
-    public class Employee : BaseEmployee, IAggregateRoot
+    public class Employee : PersonBase, IAggregateRoot
     {
         [Key]
         public Guid EmployeeId { get; set; }
@@ -48,15 +46,5 @@ namespace WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModul
 
             return employee;
         }
-
-        public static Employee Create(IPerson person, ICollection<Address> addresses, IEnumerable<Identity> identities, IEnumerable<Contact> contacts)
-        {
-            var employee = (Employee)person;
-            employee.Addresses = addresses;
-
-            return employee;
-        }
-        
-        
     }
 }

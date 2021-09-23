@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.Common.SharedKernel.EntityGroups.Territory.Attributes;
-using WeeControl.Common.SharedKernel.EntityGroups.Territory.Interfaces;
+using WeeControl.Common.SharedKernel.Obsolute.EntityGroups.Territory.Attributes;
+using WeeControl.Common.SharedKernel.Obsolute.EntityGroups.Territory.Interfaces;
 
 namespace WeeControl.Common.SharedKernel
 {

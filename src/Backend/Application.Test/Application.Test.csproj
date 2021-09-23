@@ -22,7 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="BoundedContexts" />
     <Folder Include="Common\" />
     <Folder Include="Common\Behaviours\" />
   </ItemGroup>

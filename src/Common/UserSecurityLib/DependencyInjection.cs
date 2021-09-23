@@ -15,8 +15,7 @@ namespace WeeControl.Common.UserSecurityLib
             
             services.AddSingleton<IUserClaimService, UserClaimService>();
             services.AddSingleton<IJwtService, JwtService>();
-            services.AddScoped<IJwtServiceObsolute, JwtServiceObsolute>();
-            
+
             services.AddAuthorizationCore(UserAuthorizationOptions.Configure);
 
             return services;

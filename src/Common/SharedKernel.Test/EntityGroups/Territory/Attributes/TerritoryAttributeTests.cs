@@ -1,6 +1,6 @@
-﻿using WeeControl.Common.SharedKernel.EntityGroups.Territory.Attributes;
-using WeeControl.Common.SharedKernel.EntityGroups.Territory.Enums;
-using WeeControl.Common.SharedKernel.EntityGroups.Territory.Interfaces;
+﻿using WeeControl.Common.SharedKernel.Obsolute.EntityGroups.Territory.Attributes;
+using WeeControl.Common.SharedKernel.Obsolute.EntityGroups.Territory.Enums;
+using WeeControl.Common.SharedKernel.Obsolute.EntityGroups.Territory.Interfaces;
 using WeeControl.Common.SharedKernel.Test.TestHelpers;
 using Xunit;
 
