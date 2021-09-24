@@ -1,9 +1,9 @@
 using System;
 using MediatR;
 using WeeControl.Common.SharedKernel.BoundedContextDtos.HumanResources.Authorization;
+using WeeControl.Common.SharedKernel.BoundedContextDtos.Shared;
 using WeeControl.Common.SharedKernel.Interfaces;
-using WeeControl.Common.SharedKernel.Obsolute.Common;
-using WeeControl.Common.SharedKernel.Obsolute.Employee;
+using WeeControl.Common.SharedKernel.Obsolutes.Dtos;
 
 namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.GetNewToken
 {

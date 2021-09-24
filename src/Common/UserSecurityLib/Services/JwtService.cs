@@ -22,7 +22,6 @@ namespace WeeControl.Common.UserSecurityLib.Services
         public ClaimsPrincipal ExtractClaimPrincipal(TokenValidationParameters parameters, string token)
         {
             var handler = new JwtSecurityTokenHandler();
-
             return handler.ValidateToken(token, parameters, out var _);
         }
     }

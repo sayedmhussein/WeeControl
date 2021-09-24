@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 using MediatR;
 using WeeControl.Backend.Application.Interfaces;
 using WeeControl.Backend.Domain.BoundedContexts.HumanResources;
-using WeeControl.Common.SharedKernel.Obsolute.Common;
-using WeeControl.Common.SharedKernel.Obsolute.EntityGroups.Territory.Interfaces;
-using WeeControl.Common.SharedKernel.Obsolute.Territory;
+using WeeControl.Common.SharedKernel.BoundedContextDtos.Shared;
+using WeeControl.Common.SharedKernel.Obsolutes.Dtos;
 
 namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.GetListOfTerritories
 {
@@ -15,13 +14,11 @@ namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.Ge
     {
         private readonly IHumanResourcesDbContext context;
         private readonly ICurrentUserInfo userInfo;
-        private readonly ITerritoryAttribute territoryAttribute;
 
-        public GetTerritoriesHandler(IHumanResourcesDbContext context, ICurrentUserInfo userInfo, ITerritoryAttribute territoryAttribute)
+        public GetTerritoriesHandler(IHumanResourcesDbContext context, ICurrentUserInfo userInfo)
         {
             this.context = context ?? throw new ArgumentNullException("Db Context can't be Null!");
             this.userInfo = userInfo ?? throw new ArgumentNullException("User Info can't be Null!");
-            this.territoryAttribute = territoryAttribute ?? throw new ArgumentNullException();
         }
 
         public Task<ResponseDto<IEnumerable<IdentifiedTerritoryDto>>> Handle(GetTerritoriesQuery request, CancellationToken cancellationToken)

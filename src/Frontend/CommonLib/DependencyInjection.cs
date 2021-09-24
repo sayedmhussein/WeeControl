@@ -1,5 +1,4 @@
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.Common.SharedKernel.Routing;
 using WeeControl.Frontend.CommonLib.DataAccess.Authentication;
 using WeeControl.Frontend.CommonLib.DataAccess.Employee;
 using WeeControl.Frontend.CommonLib.Interfaces;
@@ -11,7 +10,6 @@ namespace WeeControl.Frontend.CommonLib
     {
         public static IServiceCollection AddCommonLibraryService(this IServiceCollection services)
         {
-            services.AddSingleton<IApiRoute, ApiRoute>();
             services.AddTransient<IHttpService, HttpService>();
 
             

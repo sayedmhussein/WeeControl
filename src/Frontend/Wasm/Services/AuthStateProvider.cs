@@ -59,13 +59,16 @@ namespace WeeControl.Frontend.Wasm.Services
 
         private ClaimsPrincipal GetClaimPrincipal(string token)
         {
+            var key = configuration["Jwt:Key"] ?? throw new NullReferenceException("Jwt:Key in IConfiguration can't be null!");
+            
             var validationParameters = new TokenValidationParameters()
             {
+                TryAllIssuerSigningKeys = true,
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configuration["Jwt:Key"])),
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(key)),
                 ValidateIssuer = false,
                 ValidateAudience = false,
-                ValidateLifetime = true,
+                ValidateLifetime = false,
                 ClockSkew = TimeSpan.Zero
             };
             

@@ -1,5 +1,4 @@
 using System.Net.Http;
-using WeeControl.Common.SharedKernel.Interfaces;
 
 namespace WeeControl.Common.SharedKernel
 {

@@ -9,9 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 using WeeControl.Backend.Application.BoundContexts.HumanResources.Commands.AddTerritoryV1;
 using WeeControl.Backend.Application.BoundContexts.HumanResources.Commands.DeleteTerritoryV1;
 using WeeControl.Backend.Application.BoundContexts.HumanResources.Commands.UpdateTerritoryV1;
-using WeeControl.Common.SharedKernel.Obsolute.Common;
-using WeeControl.Common.SharedKernel.Obsolute.Territory;
-using WeeControl.Common.UserSecurityLib;
+using WeeControl.Common.SharedKernel.BoundedContextDtos.Shared;
+using WeeControl.Common.SharedKernel.Obsolutes.Dtos;
 
 namespace WeeControl.Backend.WebApi.Controllers.HumanResources
 {

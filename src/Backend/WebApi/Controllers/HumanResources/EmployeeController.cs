@@ -9,7 +9,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WeeControl.Common.SharedKernel.Obsolute.Employee;
+using WeeControl.Common.SharedKernel.Obsolutes.Dtos;
 using WeeControl.Common.UserSecurityLib;
 using WeeControl.Common.UserSecurityLib.Interfaces;
 

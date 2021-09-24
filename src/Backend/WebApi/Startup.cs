@@ -18,8 +18,6 @@ using WeeControl.Backend.WebApi.Middlewares;
 using WeeControl.Backend.WebApi.Services;
 using WeeControl.Backend.WebApi.StartupOptions;
 using WeeControl.Common.UserSecurityLib;
-using WeeControl.Common.UserSecurityLib.Interfaces;
-using WeeControl.Common.UserSecurityLib.Services;
 
 namespace WeeControl.Backend.WebApi
 {

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using WeeControl.Backend.WebApi.Test.Functional.TestHelpers;
 using WeeControl.Common.SharedKernel;
 using WeeControl.Common.SharedKernel.BoundedContextDtos.HumanResources.Authorization;
-using WeeControl.Common.SharedKernel.Obsolute.Common;
-using WeeControl.Common.SharedKernel.Obsolute.Employee;
+using WeeControl.Common.SharedKernel.BoundedContextDtos.Shared;
+using WeeControl.Common.SharedKernel.Obsolutes.Dtos;
 using Xunit;
 
 namespace WeeControl.Backend.WebApi.Test.Functional.BoundedContexts.HumanResources.Authorization

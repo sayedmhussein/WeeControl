@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using WeeControl.Common.SharedKernel.Interfaces;
-using WeeControl.Common.SharedKernel.Obsolute.Territory;
+using WeeControl.Common.SharedKernel.Obsolutes.Dtos;
 
 namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Commands.AddTerritoryV1
 {

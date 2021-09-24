@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using WeeControl.Common.UserSecurityLib.BoundedContexts.HumanResources;
-using WeeControl.Common.UserSecurityLib.Helpers;
 using WeeControl.Common.UserSecurityLib.Helpers.CustomHandlers.TokenRefreshment;
 using WeeControl.Common.UserSecurityLib.Interfaces;
 using WeeControl.Common.UserSecurityLib.Services;

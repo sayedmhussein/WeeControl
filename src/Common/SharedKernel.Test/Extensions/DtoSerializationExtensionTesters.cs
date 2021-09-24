@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using WeeControl.Common.SharedKernel.Extensions;
-using WeeControl.Common.SharedKernel.Obsolute.Territory;
+using WeeControl.Common.SharedKernel.Obsolutes.Dtos;
 using Xunit;
 
 namespace WeeControl.Common.SharedKernel.Test.Extensions

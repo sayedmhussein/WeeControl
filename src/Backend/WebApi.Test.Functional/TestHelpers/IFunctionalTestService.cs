@@ -2,7 +2,6 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using WeeControl.Common.SharedKernel.Interfaces;
-using WeeControl.Common.SharedKernel.Routing;
 
 namespace WeeControl.Backend.WebApi.Test.Functional.TestHelpers
 {

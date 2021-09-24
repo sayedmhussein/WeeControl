@@ -13,10 +13,9 @@
         <LangVersion>8.0</LangVersion>
     </PropertyGroup>
     <ItemGroup>
-        <Folder Include="Routing\" />
         <Folder Include="Extensions\" />
         <Folder Include="Services\" />
-        <Folder Include="Obsolute\" />
+        <Folder Include="Obsolutes\" />
         <Folder Include="Interfaces\" />
     </ItemGroup>
     <ItemGroup>
@@ -70,8 +69,5 @@
         <None Remove="EntityGroups\Employee\Attributes\attributes.json" />
         <None Remove="EntityGroups\Territory\Attributes\attributes.json" />
         <None Remove="Routing\attributes.json" />
-        <EmbeddedResource Include="Obsolute\EntityGroups\Employee\Attributes\attributes.json" />
-        <EmbeddedResource Include="Obsolute\EntityGroups\Territory\Attributes\attributes.json" />
-        <EmbeddedResource Include="Routing\attributes.json" />
     </ItemGroup>
 </Project>

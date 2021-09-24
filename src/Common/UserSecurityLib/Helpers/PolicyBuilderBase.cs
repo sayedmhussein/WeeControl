@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Authorization;
-using WeeControl.Common.UserSecurityLib.BoundedContexts;
 
 namespace WeeControl.Common.UserSecurityLib.Helpers
 {

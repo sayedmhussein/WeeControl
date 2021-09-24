@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Net.Http;
-using WeeControl.Backend.WebApi.Test.Functional.BoundedContexts.HumanResources.Authorization;
 using WeeControl.Backend.WebApi.Test.Functional.TestHelpers;
 using WeeControl.Common.SharedKernel;
-using WeeControl.Common.SharedKernel.BoundedContextDtos.HumanResources.Authorization;
-using WeeControl.Common.SharedKernel.Obsolute.Common;
-using WeeControl.Common.SharedKernel.Routing;
+using WeeControl.Common.SharedKernel.BoundedContextDtos.Shared;
 using Xunit;
 
 namespace WeeControl.Backend.WebApi.Test.Functional

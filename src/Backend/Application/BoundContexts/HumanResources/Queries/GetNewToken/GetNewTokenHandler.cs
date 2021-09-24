@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Security.Claims;
 using System.Text;
@@ -13,8 +12,8 @@ using WeeControl.Backend.Application.Exceptions;
 using WeeControl.Backend.Domain.BoundedContexts.HumanResources;
 using WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModule.Entities;
 using WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModule.ValueObjects;
-using WeeControl.Common.SharedKernel.Obsolute.Common;
-using WeeControl.Common.SharedKernel.Obsolute.Employee;
+using WeeControl.Common.SharedKernel.BoundedContextDtos.Shared;
+using WeeControl.Common.SharedKernel.Obsolutes.Dtos;
 using WeeControl.Common.UserSecurityLib;
 using WeeControl.Common.UserSecurityLib.Interfaces;
 
@@ -81,9 +80,17 @@ namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.Ge
                 var employee = await 
                     context.Employees.FirstOrDefaultAsync(x => x.EmployeeId == session.EmployeeId, cancellationToken);
                 
+                var ci = new ClaimsIdentity("custom");
+                ci.AddClaim(new Claim(SecurityClaims.HumanResources.Session, session.SessionId.ToString()));
+
+                var key = Encoding.ASCII.GetBytes(configuration["Jwt:Key"]);
+                
                 var descriptor = new SecurityTokenDescriptor()
                 {
-                    IssuedAt = DateTime.UtcNow
+                    Subject = ci,
+                    IssuedAt = DateTime.UtcNow,
+                    Expires = DateTime.UtcNow.AddMinutes(5),
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                 };
                 var token = jwtService.GenerateToken(descriptor);
 
