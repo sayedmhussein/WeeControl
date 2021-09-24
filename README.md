@@ -9,9 +9,11 @@ In order to use this application you need to do the following:
 
 1. Prepare your backend database connection string, it is recommended to use postgres as backend database.
 2. <del>Prepare your backend file storage connection string, you can use your own server directory</del>.
-3. Edit connections strings and JWT settings in \"/src/Backend/WebApi.appsettins.json\".
+3. Edit connections strings and JWT settings in \"/src/Backend/WebApi/appsettins.json\".
 4. Run WebApi server.
-5. ...
+5. Edit connections strings and JWT settings in \"/src/Frontend/Wasm/wwwroot/appsettins.json\".
+6. Run Wasm (Blazor App).
+7. ...
 
 ## Installation Instructions
 This project code depend on many nuget packages, so ensure to restore the packages before running the servers.
