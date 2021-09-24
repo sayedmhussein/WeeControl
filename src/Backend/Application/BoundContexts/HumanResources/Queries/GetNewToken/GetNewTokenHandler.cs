@@ -57,8 +57,6 @@ namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.Ge
                 var ci = new ClaimsIdentity("custom");
                 ci.AddClaim(new Claim(SecurityClaims.HumanResources.Session, session.SessionId.ToString()));
 
-                //var temp = new ClaimsIdentity(new[] {new Claim("sss", session.SessionId.ToString())});
-
                 var key = Encoding.ASCII.GetBytes(configuration["Jwt:Key"]);
                 
                 var descriptor = new SecurityTokenDescriptor()
@@ -69,18 +67,12 @@ namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.Ge
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                 };
                 var token = jwtService.GenerateToken(descriptor);
-
                 
-                
-                return new ResponseDto<EmployeeTokenDto>(new EmployeeTokenDto()
-                {
-                    Token = token,
-                    FullName = employee.EmployeeName, PhotoUrl = "url"
-                }) { HttpStatuesCode = HttpStatusCode.OK};
+                return new ResponseDto<EmployeeTokenDto>(new EmployeeTokenDto(token, employee.EmployeeName, "url")) { HttpStatuesCode = HttpStatusCode.OK};
             }
             else if (request.SessionId is not null)
             {
-                var session = await context.Sessions.FirstOrDefaultAsync(x => x.SessionId == request.SessionId && x.TerminationTs == null, cancellationToken);
+                var session = await context.Sessions.FirstOrDefaultAsync(x => x.SessionId == request.SessionId && x.TerminationTs == null && x.DeviceId == request.Device, cancellationToken);
                 if (session is null) throw new NotAllowedException("Please login again.");
                 
                 session.Logs.Add(new SessionLog("Verified."));

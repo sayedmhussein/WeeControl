@@ -6,12 +6,8 @@ using WeeControl.Common.SharedKernel.Routing;
 
 namespace WeeControl.Backend.WebApi.Test.Functional.TestHelpers
 {
-    public interface IFunctionalTest : IDisposable
+    public interface IFunctionalTestService : IDisposable
     {
-        Task<HttpResponseMessage> GetResponseMessageAsync();
-        
-        Task<HttpResponseMessage> GetResponseMessageAsync(string token);
-
         Task<HttpResponseMessage> GetResponseMessageAsync(HttpRequestMessage requestMessage, string token = null);
         
         HttpContent GetHttpContentAsJson(ISerializable dto);
@@ -22,15 +18,17 @@ namespace WeeControl.Backend.WebApi.Test.Functional.TestHelpers
         
         
         
-        HttpRequestMessage RequestMessage { get; }
         
-        HttpClient Client { get; set; }
         
-        string DeviceId { get; set; }
-
-        Uri GetUri(ApiRouteEnum route);
-
-        Task<HttpResponseMessage> GetResponseMessageAsync(Uri requestUri, HttpContent content = null, string token = null);
-        
+        // HttpRequestMessage RequestMessage { get; }
+        //
+        // HttpClient Client { get; set; }
+        //
+        // string DeviceId { get; set; }
+        //
+        // Uri GetUri(ApiRouteEnum route);
+        //
+        // Task<HttpResponseMessage> GetResponseMessageAsync(Uri requestUri, HttpContent content = null, string token = null);
+        //
     }
 }

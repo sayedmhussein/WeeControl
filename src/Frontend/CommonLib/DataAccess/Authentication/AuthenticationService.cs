@@ -44,7 +44,7 @@ namespace WeeControl.Frontend.CommonLib.DataAccess.Authentication
 
         public async Task<IResponseDto> RequestNewToken(RequestNewTokenDto dto)
         {
-            var requestDto = new RequestDto<RequestNewTokenDto>() { DeviceId = device.DeviceId, Payload = dto };
+            var requestDto = new RequestDto<RequestNewTokenDto>(device.DeviceId, dto);
             
             HttpRequestMessage requestMessage = new();
             requestMessage.Method = HttpMethod.Post;

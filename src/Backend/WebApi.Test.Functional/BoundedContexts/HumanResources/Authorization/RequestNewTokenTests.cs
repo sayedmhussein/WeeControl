@@ -8,7 +8,6 @@ using WeeControl.Common.SharedKernel;
 using WeeControl.Common.SharedKernel.BoundedContextDtos.HumanResources.Authorization;
 using WeeControl.Common.SharedKernel.Obsolute.Common;
 using WeeControl.Common.SharedKernel.Obsolute.Employee;
-using WeeControl.Common.SharedKernel.Routing;
 using Xunit;
 
 namespace WeeControl.Backend.WebApi.Test.Functional.BoundedContexts.HumanResources.Authorization
@@ -16,25 +15,19 @@ namespace WeeControl.Backend.WebApi.Test.Functional.BoundedContexts.HumanResourc
     public class RequestNewTokenTests : IClassFixture<CustomWebApplicationFactory<Startup>>, ITestsNotRequireAuthentication
     {
         #region static
-        private const string Route = ApiRouteLink.HumanResources.Authorization.RequestNewToken.Absolute;
-        private static readonly HttpMethod Method = ApiRouteLink.HumanResources.Authorization.RequestNewToken.Method;
-        private const string Version = ApiRouteLink.HumanResources.Authorization.RequestNewToken.Version;
-        
         public static async Task<string> GetNewTokenAsync(CustomWebApplicationFactory<Startup> factory, string device)
         {
-            var test = new FunctionalTest(factory, device, Method, Version);
-            
-            var content = test.GetHttpContentAsJson(new RequestDto<RequestNewTokenDto>()
+            HttpRequestMessage message = new()
             {
-                DeviceId = test.DeviceId,
-                Payload = new RequestNewTokenDto()
-                {
-                    Username = "admin",
-                    Password = "admin"
-                }
-            });
-
-            var response = await test.GetResponseMessageAsync(new Uri(Route), content);
+                RequestUri = new Uri(ApiRouteLink.HumanResources.Authorization.RequestNewToken.Absolute),
+                Version = new Version(ApiRouteLink.HumanResources.Authorization.RequestNewToken.Version),
+                Method = ApiRouteLink.HumanResources.Authorization.RequestNewToken.Method,
+                Content = FunctionalTestService.GetHttpContentAsJson(new RequestDto<RequestNewTokenDto>(device, new RequestNewTokenDto("admin", "admin")))
+            };
+            
+            var test = new FunctionalTestService(factory);
+            
+            var response = await test.GetResponseMessageAsync(message);
             response.EnsureSuccessStatusCode();
             var tokenDto = await response.Content.ReadFromJsonAsync<ResponseDto<EmployeeTokenDto>>();
 
@@ -43,22 +36,28 @@ namespace WeeControl.Backend.WebApi.Test.Functional.BoundedContexts.HumanResourc
         #endregion
         
         private readonly CustomWebApplicationFactory<Startup> factory;
-        private readonly IFunctionalTest test;
-        private readonly Uri routeUri;
-        
+        private readonly IFunctionalTestService testService;
+        private readonly string device;
+
         public RequestNewTokenTests(CustomWebApplicationFactory<Startup> factory)
         {
             this.factory = factory;
-            test = new FunctionalTest(factory, typeof(RequestNewTokenTests).Namespace, Method, Version);
-            routeUri = test.GetUri(ApiRouteEnum.EmployeeSession);
+            device = nameof(RequestNewTokenTests);
+            testService = new FunctionalTestService(factory);
         }
 
         [Fact]
         public async void WhenSendingInvalidRequest_HttpResponseIsBadRequest()
         {
-            var content = test.GetHttpContentAsJson(new RequestDto<string>() { Payload = "" });
+            HttpRequestMessage defaultRequestMessage = new()
+            {
+                RequestUri = new Uri(ApiRouteLink.HumanResources.Authorization.RequestNewToken.Absolute),
+                Version = new Version(ApiRouteLink.HumanResources.Authorization.RequestNewToken.Version),
+                Method = ApiRouteLink.HumanResources.Authorization.RequestNewToken.Method,
+                Content = FunctionalTestService.GetHttpContentAsJson(new RequestDto<string>("InvalidPayload", device))
+            };
 
-            var response = await test.GetResponseMessageAsync(routeUri, content);
+            var response = await testService.GetResponseMessageAsync(defaultRequestMessage);
 
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }

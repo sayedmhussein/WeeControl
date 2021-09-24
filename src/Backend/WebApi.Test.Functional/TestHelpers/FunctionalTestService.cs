@@ -5,52 +5,36 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.ViewComponents;
 using Newtonsoft.Json;
 using WeeControl.Common.SharedKernel.Interfaces;
-using WeeControl.Common.SharedKernel.Routing;
 
 namespace WeeControl.Backend.WebApi.Test.Functional.TestHelpers
 {
-    public sealed class FunctionalTest : IFunctionalTest
+    public sealed class FunctionalTestService : IFunctionalTestService
     {
-        private readonly CustomWebApplicationFactory<Startup> factory;
-        private readonly string device;
-        private readonly HttpRequestMessage defaultRequestMessage;
-        private HttpClient client;
-
-        public FunctionalTest(CustomWebApplicationFactory<Startup> factory, string device, HttpRequestMessage defaultRequestMessage)
+        public static HttpContent GetHttpContentAsJson(object dto)
         {
-            this.factory = factory;
-            this.device = device;
-            this.defaultRequestMessage = defaultRequestMessage;
+            return new StringContent(JsonConvert.SerializeObject(dto), Encoding.UTF8, "application/json");
         }
         
-        [Obsolete]
-        public FunctionalTest(CustomWebApplicationFactory<Startup> factory, string deviceid, HttpMethod method, string version)
+        private readonly CustomWebApplicationFactory<Startup> factory;
+        private HttpClient client;
+
+        public FunctionalTestService(CustomWebApplicationFactory<Startup> factory)
         {
             this.factory = factory;
-
-            RequestMessage = new HttpRequestMessage
-            {
-                Method = method,
-                Version = new Version(version)
-            };
-
-            DeviceId = deviceid;
         }
 
         public void Dispose()
         {
-            RequestMessage = null;
             Client = null;
         }
-        
+
         public async Task<HttpRequestMessage> CloneRequestMessageAsync(HttpRequestMessage request)
         {
             if (request is null)
             {
-                request = defaultRequestMessage;
+                throw new ArgumentNullException("You didn't pass HttpRequestMessage.");
             }
 
             var clone = new HttpRequestMessage(request.Method, request.RequestUri)
@@ -82,18 +66,7 @@ namespace WeeControl.Backend.WebApi.Test.Functional.TestHelpers
 
             return clone;
         }
-
-        public Task<HttpResponseMessage> GetResponseMessageAsync()
-        {
-            return GetResponseMessageAsync(defaultRequestMessage);
-        }
-
-        public Task<HttpResponseMessage> GetResponseMessageAsync(string token)
-        {
-            return GetResponseMessageAsync(defaultRequestMessage, token);
-        }
-
-        public HttpRequestMessage RequestMessage { get; private set; }
+        
         
         public HttpClient Client
         {
@@ -112,8 +85,7 @@ namespace WeeControl.Backend.WebApi.Test.Functional.TestHelpers
         }
 
         
-
-        public string DeviceId { get; set; }
+        
 
         
 
@@ -121,19 +93,6 @@ namespace WeeControl.Backend.WebApi.Test.Functional.TestHelpers
         {
             string content = JsonConvert.SerializeObject(dto);
             return new StringContent(content, Encoding.UTF8, "application/json");
-        }
-
-        public Task<HttpResponseMessage> GetResponseMessageAsync(Uri requestUri, HttpContent content = null, string token = null)
-        {
-            RequestMessage.RequestUri = requestUri;
-            RequestMessage.Content = content;
-
-            if (string.IsNullOrEmpty(token) == false)
-            {
-                Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
-            }
-
-            return Client.SendAsync(RequestMessage);
         }
 
         public Task<HttpResponseMessage> GetResponseMessageAsync(HttpRequestMessage requestMessage, string token = null)
@@ -144,11 +103,6 @@ namespace WeeControl.Backend.WebApi.Test.Functional.TestHelpers
             }
 
             return Client.SendAsync(requestMessage);
-        }
-
-        public Uri GetUri(ApiRouteEnum route)
-        {
-            return new Uri(new Uri(new ApiRoute().GetRoute(ApiRouteEnum.Base)), new ApiRoute().GetRoute(route));
         }
     }
 }

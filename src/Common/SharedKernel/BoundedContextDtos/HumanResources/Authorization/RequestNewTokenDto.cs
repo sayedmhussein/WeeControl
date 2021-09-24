@@ -15,5 +15,15 @@ namespace WeeControl.Common.SharedKernel.BoundedContextDtos.HumanResources.Autho
         [StringLength(50, MinimumLength = 3, ErrorMessage ="Password length is between 3 and 50 letters.")]
         [DisplayName("Password")]
         public string Password { get; set; }
+
+        public RequestNewTokenDto()
+        {
+        }
+        
+        public RequestNewTokenDto(string username, string password)
+        {
+            Username = username;
+            Password = password;
+        }
     }
 }

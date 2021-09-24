@@ -9,5 +9,20 @@ namespace WeeControl.Common.SharedKernel.Obsolute.Common
         public double? Latitude { get; set; }
 
         public double? Longitude { get; set; }
+
+        public RequestDto()
+        {
+        }
+        
+        public RequestDto(string device) : this()
+        {
+            DeviceId = device;
+        }
+
+        public RequestDto(string device, double latitude, double longitude) : this(device)
+        {
+            Latitude = latitude;
+            Longitude = longitude;
+        }
     }
 }
