@@ -1,5 +1,7 @@
+using System;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -7,16 +9,15 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using WeeControl.Backend.Application;
-using WeeControl.Backend.Application.Common.Interfaces;
+using WeeControl.Backend.Application.Interfaces;
 using WeeControl.Backend.Infrastructure;
 using WeeControl.Backend.Persistence;
 using WeeControl.Backend.WebApi.Middlewares;
 using WeeControl.Backend.WebApi.Services;
 using WeeControl.Backend.WebApi.StartupOptions;
 using WeeControl.Common.UserSecurityLib;
-using WeeControl.Common.UserSecurityLib.Interfaces;
-using WeeControl.Common.UserSecurityLib.Services;
 
 namespace WeeControl.Backend.WebApi
 {
@@ -45,7 +46,7 @@ namespace WeeControl.Backend.WebApi
             
 
             services.AddScoped<ICurrentUserInfo, UserInfoService>();
-            services.AddSingleton<IJwtService, JwtService>();
+            //services.AddSingleton<IJwtServiceObsolute, JwtServiceObsolute>();
 
             services.AddCors(c => c.AddPolicy("AllowAny", builder =>
             {
@@ -56,8 +57,16 @@ namespace WeeControl.Backend.WebApi
 
             services.AddAuthentication("Bearer").AddJwtBearer(options =>
             {
-                options.TokenValidationParameters = new JwtService(Configuration["Jwt:Key"]).ValidationParameters;
-
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["Jwt:Key"])),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero
+                };
+                
                 options.Events = new JwtBearerEvents
                 {
                     OnMessageReceived = context =>

@@ -22,11 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="EntityGroup\Employee\" />
-    <Folder Include="EntityGroup\Territory\" />
-    <Folder Include="EntityGroup\Territory\V1\Queries\" />
-    <Folder Include="EntityGroup\Employee\V1\Queries\" />
-    <Folder Include="EntityGroup\" />
     <Folder Include="Common\" />
     <Folder Include="Common\Behaviours\" />
   </ItemGroup>

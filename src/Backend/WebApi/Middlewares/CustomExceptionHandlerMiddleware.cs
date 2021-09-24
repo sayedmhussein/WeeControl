@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using WeeControl.Backend.Application.Common.Exceptions;
+using WeeControl.Backend.Application.Exceptions;
 
 namespace WeeControl.Backend.WebApi.Middlewares
 {

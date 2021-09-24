@@ -1,26 +1,39 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using WeeControl.Backend.Domain.Common.Interfaces;
+using WeeControl.Backend.Domain.BoundedContexts.HumanResources;
 using WeeControl.Backend.Persistence;
 using Xunit;
 
 namespace WeeControl.Server.Persistence.Test
 {
-    public class DependencyInjectionTesters
+    public class DependencyInjectionTesters : IDisposable
     {
-        [Fact]
-        public void WhenAddingPresistenceInMemory_ReturnMySystemDbContextObjectAsNotNull()
+        private IServiceCollection services;
+        public DependencyInjectionTesters()
         {
             var configMock = new Mock<IConfiguration>();
             configMock.Setup(x => x.GetSection("ConnectionStrings")["DatabaseProvider"]).Returns("Connection");
 
-            var services = new ServiceCollection();
+            services = new ServiceCollection();
+        }
+        
+        public void Dispose()
+        {
+            services = null;
+        }
+        
+        [Fact]
+        public void WhenAddingPresistenceInMemory_ReturnMySystemDbContextObjectAsNotNull()
+        {
             services.AddPersistenceAsInMemory("Name");
-            var provider = services.BuildServiceProvider();
-            var service = provider.GetService<IMySystemDbContext>();
+            
+            var service = services.BuildServiceProvider().GetService<IHumanResourcesDbContext>();
 
             Assert.NotNull(service);
         }
+
+        
     }
 }

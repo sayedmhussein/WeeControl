@@ -2,11 +2,11 @@ using System;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using WeeControl.Common.SharedKernel.DataTransferObjectV1.Authorization;
-using WeeControl.Common.SharedKernel.DataTransferObjectV1.Common;
-using WeeControl.Common.SharedKernel.DataTransferObjectV1.Employee;
+using WeeControl.Common.SharedKernel;
+using WeeControl.Common.SharedKernel.BoundedContextDtos.HumanResources.Authorization;
+using WeeControl.Common.SharedKernel.BoundedContextDtos.Shared;
 using WeeControl.Common.SharedKernel.Interfaces;
-using WeeControl.Common.SharedKernel.Routing;
+using WeeControl.Common.SharedKernel.Obsolutes.Dtos;
 using WeeControl.Frontend.CommonLib.Interfaces;
 
 namespace WeeControl.Frontend.CommonLib.DataAccess.Authentication
@@ -14,7 +14,6 @@ namespace WeeControl.Frontend.CommonLib.DataAccess.Authentication
     public class AuthenticationService : IAuthenticationService
     {
         private readonly IDevice device;
-        private readonly IApiRoute apiRoute;
         private readonly IHttpService httpService;
         private readonly IAuthenticationRefresh authenticationRefresh;
         private readonly ILocalStorage localStorage;
@@ -23,10 +22,9 @@ namespace WeeControl.Frontend.CommonLib.DataAccess.Authentication
         private const string FullName = "Fullname";
         private const string PhotoUrl = "Photourl";
 
-        public AuthenticationService(IDevice device, IApiRoute apiRoute, IHttpService httpService, IAuthenticationRefresh authenticationRefresh)
+        public AuthenticationService(IDevice device, IHttpService httpService, IAuthenticationRefresh authenticationRefresh)
         {
             this.device = device;
-            this.apiRoute = apiRoute;
             this.httpService = httpService;
             this.authenticationRefresh = authenticationRefresh;
             localStorage = device.LocalStorage;
@@ -44,11 +42,11 @@ namespace WeeControl.Frontend.CommonLib.DataAccess.Authentication
 
         public async Task<IResponseDto> RequestNewToken(RequestNewTokenDto dto)
         {
-            var requestDto = new RequestDto<RequestNewTokenDto>() { DeviceId = device.DeviceId, Payload = dto };
+            var requestDto = new RequestDto<RequestNewTokenDto>(device.DeviceId, dto);
             
             HttpRequestMessage requestMessage = new();
             requestMessage.Method = HttpMethod.Post;
-            requestMessage.RequestUri = new Uri(apiRoute.GetRoute(ApiRouteEnum.EmployeeSession), UriKind.Relative);
+            requestMessage.RequestUri = new Uri(ApiRouteLink.HumanResources.Authorization.RequestNewToken.Relative, UriKind.Relative);
             requestMessage.Content = httpService.GetHttpContentAsJson(requestDto);
             
             var response = await httpService.SendAsync(requestMessage);

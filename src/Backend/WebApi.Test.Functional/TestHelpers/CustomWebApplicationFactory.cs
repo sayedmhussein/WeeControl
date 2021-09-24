@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.Backend.Persistence;
+using WeeControl.Backend.Persistence.BoundedContexts.HumanResources;
 
 namespace WeeControl.Backend.WebApi.Test.Functional.TestHelpers
 {
@@ -17,11 +17,11 @@ namespace WeeControl.Backend.WebApi.Test.Functional.TestHelpers
             {
                 var descriptor = services.SingleOrDefault(
                     d => d.ServiceType ==
-                        typeof(DbContextOptions<MySystemDbContext>));
+                        typeof(DbContextOptions<HumanResourcesDbContext>));
 
                 services.Remove(descriptor);
 
-                services.AddDbContext<MySystemDbContext>(options =>
+                services.AddDbContext<HumanResourcesDbContext>(options =>
                 {
                     options.EnableSensitiveDataLogging();
                     options.ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning));
@@ -32,7 +32,7 @@ namespace WeeControl.Backend.WebApi.Test.Functional.TestHelpers
 
                 using var scope = sp.CreateScope();
                 var scopedServices = scope.ServiceProvider;
-                var db = scopedServices.GetRequiredService<MySystemDbContext>();
+                var db = scopedServices.GetRequiredService<HumanResourcesDbContext>();
 
                 db.Database.EnsureCreated();
             });

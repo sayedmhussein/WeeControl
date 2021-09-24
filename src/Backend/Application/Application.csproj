@@ -6,28 +6,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Common\" />
-    <Folder Include="Common\Interfaces\" />
-    <Folder Include="Common\Exceptions\" />
-    <Folder Include="Common\Behaviours\" />
-    <Folder Include="Activities\" />
-    <Folder Include="Activities\Custom\" />
-    <Folder Include="Activities\Territory\Commands\" />
-    <Folder Include="Activities\Territory\Queries\" />
-    <Folder Include="Activities\Territory\Commands\AddTerritoryV1\" />
-    <Folder Include="Activities\Territory\Commands\UpdateTerritoryV1\" />
-    <Folder Include="Activities\Territory\Commands\DeleteTerritoryV1\" />
-    <Folder Include="Activities\Employee\Commands\" />
-    <Folder Include="Activities\Employee\Notifications\" />
-    <Folder Include="Activities\Employee\Queries\" />
-    <Folder Include="Activities\Employee\Queries\GetClaimsV1\" />
-    <Folder Include="Activities\Employee\Commands\AddEmployeeV1\" />
-    <Folder Include="Activities\Employee\Commands\AssignClaimV1\" />
-    <Folder Include="Activities\Employee\Commands\CreateSessionV1\" />
-    <Folder Include="Activities\Employee\Commands\TerminateSessionV1\" />
-    <Folder Include="Activities\Employee\Commands\UpdateEmployeeV1\" />
-    <Folder Include="Activities\Employee\Commands\RevokeClaimV1\" />
-    <Folder Include="Activities\Employee\Queries\GetTokenDtoV1\" />
+    <Folder Include="BoundContexts\Custody\Commands" />
+    <Folder Include="BoundContexts\Custody\Notifications" />
+    <Folder Include="BoundContexts\Custody\Queries" />
+    <Folder Include="BoundContexts\FieldOperation" />
+    <Folder Include="BoundContexts\Finance" />
+    <Folder Include="BoundContexts\HumanResources\Commands" />
+    <Folder Include="BoundContexts\Logistics" />
+    <Folder Include="BoundContexts\Sales" />
+    <Folder Include="BoundContexts\" />
+    <Folder Include="BoundContexts\HumanResources\Commands\" />
+    <Folder Include="BoundContexts\HumanResources\Notifications\" />
+    <Folder Include="BoundContexts\HumanResources\Queries\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="9.0.0" />
@@ -62,6 +52,7 @@
     <None Remove="Aggregates\Employee\Queries\GetTokenDtoV1\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\UserSecurityLib\UserSecurityLib.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
     <ProjectReference Include="..\..\Common\SharedKernel\SharedKernel.csproj" />
   </ItemGroup>

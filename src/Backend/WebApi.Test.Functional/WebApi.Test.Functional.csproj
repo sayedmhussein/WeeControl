@@ -43,9 +43,7 @@
     <ProjectReference Include="..\..\Common\SharedKernel\SharedKernel.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="V1\" />
-    <Folder Include="V1\Territory\" />
-    <Folder Include="V1\Employee\" />
-    <Folder Include="V1\Employee\Session\" />
+    <Folder Include="BoundedContexts\" />
+    <Folder Include="BoundedContexts\HumanResources\Employee" />
   </ItemGroup>
 </Project>

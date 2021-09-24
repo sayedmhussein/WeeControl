@@ -53,11 +53,11 @@ namespace WeeControl.Frontend.Wasm
                 .CreateClient(IHttpService.SecuredApi));
 
             
-            builder.Services.AddAuthorizationCore(o =>
-            {
-                o.AddPolicy("SuperAdmin", policy => policy.RequireClaim("SuperAdmin"));
-                o.AddPolicy("CountyAdmin", policy => policy.RequireClaim("CountyAdmin"));
-            });
+            // builder.Services.AddAuthorizationCore(o =>
+            // {
+            //     o.AddPolicy("SuperAdmin", policy => policy.RequireClaim("SuperAdmin"));
+            //     o.AddPolicy("CountyAdmin", policy => policy.RequireClaim("CountyAdmin"));
+            // });
 
             builder.Services.AddApiAuthorization(options =>
             {

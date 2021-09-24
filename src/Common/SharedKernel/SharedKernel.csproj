@@ -7,19 +7,15 @@
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-        <LangVersion>8.0</LangVersion>
+        <LangVersion>latestmajor</LangVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
         <LangVersion>8.0</LangVersion>
     </PropertyGroup>
     <ItemGroup>
-        <Folder Include="EntityGroups\Custom" />
-        <Folder Include="Routing\" />
-        <Folder Include="DataTransferObjectV1\Custom" />
-        <Folder Include="EntityGroups\" />
         <Folder Include="Extensions\" />
         <Folder Include="Services\" />
-        <Folder Include="DataTransferObjectV1\" />
+        <Folder Include="Obsolutes\" />
         <Folder Include="Interfaces\" />
     </ItemGroup>
     <ItemGroup>
@@ -71,10 +67,7 @@
     </ItemGroup>
     <ItemGroup>
         <None Remove="EntityGroups\Employee\Attributes\attributes.json" />
-        <EmbeddedResource Include="EntityGroups\Employee\Attributes\attributes.json" />
         <None Remove="EntityGroups\Territory\Attributes\attributes.json" />
-        <EmbeddedResource Include="EntityGroups\Territory\Attributes\attributes.json" />
         <None Remove="Routing\attributes.json" />
-        <EmbeddedResource Include="Routing\attributes.json" />
     </ItemGroup>
 </Project>

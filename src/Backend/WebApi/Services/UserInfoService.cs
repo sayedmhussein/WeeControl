@@ -2,73 +2,62 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using WeeControl.Backend.Application.Activities.Territory.Queries.GetTerritoryV1;
-using WeeControl.Backend.Application.Common.Interfaces;
-using WeeControl.Common.SharedKernel.EntityGroups.Employee.Enums;
-using WeeControl.Common.SharedKernel.EntityGroups.Employee.Interfaces;
-using WeeControl.Common.UserSecurityLib.Enums;
-using WeeControl.Common.UserSecurityLib.Interfaces;
+using WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.GetListOfTerritories;
+using WeeControl.Backend.Application.Interfaces;
+using WeeControl.Common.UserSecurityLib;
 
 namespace WeeControl.Backend.WebApi.Services
 {
     public class UserInfoService : ICurrentUserInfo
     {
         private readonly IMediator mediatR;
-        private readonly IClaimsTags employeeAttribute;
         private Guid? sessionid = null;
-        private readonly ICollection<Guid> territories = new List<Guid>();
+        private readonly ICollection<string> territories = new List<string>();
         
-        public UserInfoService(IHttpContextAccessor httpContextAccessor, IMediator mediatR, IClaimsTags values)
+        public UserInfoService(IHttpContextAccessor httpContextAccessor, IMediator mediatR)
         {
-            Claims = httpContextAccessor.HttpContext.User.Claims;
+            Claims = httpContextAccessor?.HttpContext?.User.Claims;
 
             this.mediatR = mediatR;
-            employeeAttribute = values;
         }
 
         public IEnumerable<Claim> Claims { get; private set; }
 
-        public Guid? SessionId
+        public Guid? GetSessionId()
         {
-            get
-            {
-                if (sessionid == null)
-                {
-                    var sessionid_ = Claims.FirstOrDefault(c => c.Type == employeeAttribute.GetClaimType(ClaimTypeEnum.Session))?.Value;
-                    if (Guid.TryParse(sessionid_, out Guid sessionId__))
-                    {
-                        sessionid = sessionId__;
-                    }
-                }
+            if (sessionid != null) return sessionid;
 
-                return sessionid;
+            var session_guid = Claims.FirstOrDefault(c => c.Type == SecurityClaims.HumanResources.Session)?.Value;
+            if (Guid.TryParse(session_guid, out Guid session_string))
+            {
+                sessionid = session_string;
             }
+
+            return sessionid;
         }
 
-        public IEnumerable<Guid> Territories
+        public IEnumerable<Claim> GetClaimList()
         {
-            get
-            {
-                if (territories.Count == 0)
-                {
-                    var territoryid_ = Claims.FirstOrDefault(c => c.Type == employeeAttribute.GetClaimType(ClaimTypeEnum.Territory))?.Value;
-                    if (Guid.TryParse(territoryid_, out Guid territoryid__))
-                    {
-                        territories.Add(territoryid__);
-                        var cla = mediatR.Send(new GetTerritoriesQuery(territoryid__));
-                        var bla = cla.GetAwaiter().GetResult();
+            return Claims;
+        }
 
-                        foreach (var bra in bla)
-                        {
-                            territories.Add(bra.Id);
-                        }
-                    }
-                }
+        public async Task<IEnumerable<string>> GetTerritoriesListAsync()
+        {
+            if (territories.Count != 0) return territories;
+            
+            var territoryCode = Claims.FirstOrDefault(c => c.Type == SecurityClaims.HumanResources.Territory)?.Value;
+            territories.Add(territoryCode);
+            var cla = await mediatR.Send(new GetTerritoriesQuery(territoryCode));
 
-                return territories;
-            }
+            // foreach (var bra in cla.Payload)
+            // {
+            //     territories.Add(bra.Id.ToString());
+            // }
+
+            return territories;
         }
     }
 }
