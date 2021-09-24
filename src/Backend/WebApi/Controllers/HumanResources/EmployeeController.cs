@@ -58,7 +58,7 @@ namespace WeeControl.Backend.WebApi.Controllers.HumanResources
         /// 
         /// <response code="201">Returns the newly created item</response>
         /// <response code="400">DTO has missing/invalid values</response>  
-        [Authorize(CustomAuthorizationPolicy.Employee.CanAlterEmployee)]
+        [Authorize(SecurityPolicies.Employee.CanAlterEmployee)]
         [HttpPut]
         //[Consumes(MediaTypeNames.Application.Json)]
         //[Produces(MediaTypeNames.Application.Json)]
@@ -75,7 +75,7 @@ namespace WeeControl.Backend.WebApi.Controllers.HumanResources
         //     return Created("Api/[controller]/", response);
         // }
 
-        [Authorize(CustomAuthorizationPolicy.Employee.CanAlterEmployee)]
+        [Authorize(SecurityPolicies.Employee.CanAlterEmployee)]
         [HttpDelete("{id}")]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]

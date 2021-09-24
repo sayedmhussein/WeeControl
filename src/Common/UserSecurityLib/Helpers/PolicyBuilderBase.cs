@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
-using WeeControl.Common.UserSecurityLib.EntityGroups;
+using WeeControl.Common.UserSecurityLib.BoundedContexts;
 
 namespace WeeControl.Common.UserSecurityLib.Helpers
 {
@@ -11,7 +11,7 @@ namespace WeeControl.Common.UserSecurityLib.Helpers
         {
             Builder = new AuthorizationPolicyBuilder();
             Builder.AddAuthenticationSchemes("Bearer");
-            Builder.RequireClaim(ClaimGroup.ClaimType.Session);
+            Builder.RequireClaim(SecurityClaims.HumanResources.Session);
         }
 
         public Microsoft.AspNetCore.Authorization.AuthorizationPolicy GetPolicy()

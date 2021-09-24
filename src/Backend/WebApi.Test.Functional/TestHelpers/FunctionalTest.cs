@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.ViewComponents;
 using Newtonsoft.Json;
 using WeeControl.Common.SharedKernel.Interfaces;
 using WeeControl.Common.SharedKernel.Routing;
@@ -14,15 +15,26 @@ namespace WeeControl.Backend.WebApi.Test.Functional.TestHelpers
     public sealed class FunctionalTest : IFunctionalTest
     {
         private readonly CustomWebApplicationFactory<Startup> factory;
+        private readonly string device;
+        private readonly HttpRequestMessage defaultRequestMessage;
+        private HttpClient client;
 
-        public FunctionalTest(CustomWebApplicationFactory<Startup> factory, HttpMethod method, string deviceid)
+        public FunctionalTest(CustomWebApplicationFactory<Startup> factory, string device, HttpRequestMessage defaultRequestMessage)
+        {
+            this.factory = factory;
+            this.device = device;
+            this.defaultRequestMessage = defaultRequestMessage;
+        }
+        
+        [Obsolete]
+        public FunctionalTest(CustomWebApplicationFactory<Startup> factory, string deviceid, HttpMethod method, string version)
         {
             this.factory = factory;
 
             RequestMessage = new HttpRequestMessage
             {
                 Method = method,
-                Version = new Version("1.0")
+                Version = new Version(version)
             };
 
             DeviceId = deviceid;
@@ -33,30 +45,14 @@ namespace WeeControl.Backend.WebApi.Test.Functional.TestHelpers
             RequestMessage = null;
             Client = null;
         }
-
-        private HttpClient client;
-        public HttpClient Client
-        {
-            get
-            {
-                if (client == null)
-                {
-                    client = factory.CreateClient();
-                }
-                return client;
-            }
-            set
-            {
-                client = value;
-            }
-        }
-
-        public HttpRequestMessage RequestMessage { get; set; }
-
-        public string DeviceId { get; set; }
-
+        
         public async Task<HttpRequestMessage> CloneRequestMessageAsync(HttpRequestMessage request)
         {
+            if (request is null)
+            {
+                request = defaultRequestMessage;
+            }
+
             var clone = new HttpRequestMessage(request.Method, request.RequestUri)
             {
                 Method = request.Method,
@@ -86,6 +82,40 @@ namespace WeeControl.Backend.WebApi.Test.Functional.TestHelpers
 
             return clone;
         }
+
+        public Task<HttpResponseMessage> GetResponseMessageAsync()
+        {
+            return GetResponseMessageAsync(defaultRequestMessage);
+        }
+
+        public Task<HttpResponseMessage> GetResponseMessageAsync(string token)
+        {
+            return GetResponseMessageAsync(defaultRequestMessage, token);
+        }
+
+        public HttpRequestMessage RequestMessage { get; private set; }
+        
+        public HttpClient Client
+        {
+            get
+            {
+                if (client == null)
+                {
+                    client = factory.CreateClient();
+                }
+                return client;
+            }
+            set
+            {
+                client = value;
+            }
+        }
+
+        
+
+        public string DeviceId { get; set; }
+
+        
 
         public HttpContent GetHttpContentAsJson(ISerializable dto)
         {

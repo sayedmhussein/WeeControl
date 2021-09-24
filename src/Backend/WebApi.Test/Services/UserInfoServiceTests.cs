@@ -7,15 +7,12 @@ using System.Collections.Generic;
 using System.Threading;
 using WeeControl.Backend.WebApi.Services;
 using MediatR;
-using WeeControl.Common.UserSecurityLib.Enums;
-using WeeControl.Common.UserSecurityLib.Interfaces;
-using WeeControl.Common.UserSecurityLib.Services;
+using WeeControl.Common.UserSecurityLib;
 
 namespace WeeControl.Backend.WebApi.Test.Services
 {
     public class UserInfoServiceTests : IDisposable
     {
-        private readonly IUserClaimService employeeAttribute;
         private readonly Claim sessionClaim;
         private readonly Claim territoryClaim;
         
@@ -23,9 +20,8 @@ namespace WeeControl.Backend.WebApi.Test.Services
 
         public UserInfoServiceTests()
         {
-            employeeAttribute = new UserClaimService();
-            sessionClaim = new Claim(employeeAttribute.GetClaimType(ClaimTypeEnum.Session), Guid.NewGuid().ToString());
-            territoryClaim = new Claim(employeeAttribute.GetClaimType(ClaimTypeEnum.Territory), Guid.NewGuid().ToString());
+            sessionClaim = new Claim(SecurityClaims.HumanResources.Session, Guid.NewGuid().ToString());
+            territoryClaim = new Claim(SecurityClaims.HumanResources.Territory, Guid.NewGuid().ToString());
 
             var claims = new List<Claim>()
             {
@@ -45,7 +41,7 @@ namespace WeeControl.Backend.WebApi.Test.Services
         [Fact]
         public void WhenThereAreClaimsInContext_CountMustNotBeZero()
         {
-            var service = new UserInfoService(httpContextMock.Object, null, employeeAttribute);
+            var service = new UserInfoService(httpContextMock.Object, null);
 
             var claims = service.Claims;
 
@@ -55,7 +51,7 @@ namespace WeeControl.Backend.WebApi.Test.Services
         [Fact]
         public void WhenSessionClaimInContext_SessionMustNotBeNull()
         {
-            var service = new UserInfoService(httpContextMock.Object, null, employeeAttribute);
+            var service = new UserInfoService(httpContextMock.Object, null);
 
             var session = service.GetSessionId();
 
@@ -67,7 +63,7 @@ namespace WeeControl.Backend.WebApi.Test.Services
         public void WhenSessionClaimInContextNotExist_SessionMustBeNull()
         {
             httpContextMock.Setup(x => x.HttpContext.User.Claims).Returns(new List<Claim>());
-            var service = new UserInfoService(httpContextMock.Object, null, employeeAttribute);
+            var service = new UserInfoService(httpContextMock.Object, null);
 
             var session = service.GetSessionId();
 
@@ -82,7 +78,7 @@ namespace WeeControl.Backend.WebApi.Test.Services
                 x.Send(It.IsAny<object>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new List<string>() { "string1", "string2" });
 
-            var service = new UserInfoService(httpContextMock.Object, mediatrMock.Object, employeeAttribute);
+            var service = new UserInfoService(httpContextMock.Object, mediatrMock.Object);
 
             var territoties = await service.GetTerritoriesListAsync();
 

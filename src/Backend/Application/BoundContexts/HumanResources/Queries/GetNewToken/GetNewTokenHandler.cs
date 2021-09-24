@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Security.Claims;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -14,6 +15,7 @@ using WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModule.En
 using WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModule.ValueObjects;
 using WeeControl.Common.SharedKernel.Obsolute.Common;
 using WeeControl.Common.SharedKernel.Obsolute.Employee;
+using WeeControl.Common.UserSecurityLib;
 using WeeControl.Common.UserSecurityLib.Interfaces;
 
 namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.GetNewToken
@@ -23,14 +25,14 @@ namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.Ge
         private readonly IHumanResourcesDbContext context;
         private readonly IJwtService jwtService;
         private readonly IMediator mediator;
-        private readonly IConfiguration collection;
+        private readonly IConfiguration configuration;
 
-        public GetNewTokenHandler(IHumanResourcesDbContext context, IJwtService jwtService, IMediator mediator, IConfiguration collection)
+        public GetNewTokenHandler(IHumanResourcesDbContext context, IJwtService jwtService, IMediator mediator, IConfiguration configuration)
         {
             this.context = context;
             this.jwtService= jwtService;
             this.mediator = mediator;
-            this.collection = collection;
+            this.configuration = configuration;
         }
         
         public async Task<ResponseDto<EmployeeTokenDto>> Handle(GetNewTokenQuery request, CancellationToken cancellationToken)
@@ -48,14 +50,27 @@ namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.Ge
 
                 if (employee is null) throw new NotFoundException();
                 
+                var session = Session.Create(employee.EmployeeId, request.Device);
+                await context.Sessions.AddAsync(session, cancellationToken);
+                await context.SaveChangesAsync(cancellationToken);
+
+                var ci = new ClaimsIdentity("custom");
+                ci.AddClaim(new Claim(SecurityClaims.HumanResources.Session, session.SessionId.ToString()));
+
+                //var temp = new ClaimsIdentity(new[] {new Claim("sss", session.SessionId.ToString())});
+
+                var key = Encoding.ASCII.GetBytes(configuration["Jwt:Key"]);
+                
                 var descriptor = new SecurityTokenDescriptor()
                 {
-                    IssuedAt = DateTime.UtcNow
+                    Subject = ci,
+                    IssuedAt = DateTime.UtcNow,
+                    Expires = DateTime.UtcNow.AddMinutes(5),
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                 };
                 var token = jwtService.GenerateToken(descriptor);
 
-                await context.Sessions.AddAsync(Session.Create(employee.EmployeeId, request.Device), cancellationToken);
-                await context.SaveChangesAsync(cancellationToken);
+                
                 
                 return new ResponseDto<EmployeeTokenDto>(new EmployeeTokenDto()
                 {

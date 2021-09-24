@@ -8,17 +8,29 @@ namespace WeeControl.Backend.WebApi.Test.Functional.TestHelpers
 {
     public interface IFunctionalTest : IDisposable
     {
-        HttpClient Client { get; set; }
-        HttpRequestMessage RequestMessage { get; set; }
-        string DeviceId { get; set; }
+        Task<HttpResponseMessage> GetResponseMessageAsync();
         
-        Uri GetUri(ApiRouteEnum route);
+        Task<HttpResponseMessage> GetResponseMessageAsync(string token);
+
+        Task<HttpResponseMessage> GetResponseMessageAsync(HttpRequestMessage requestMessage, string token = null);
         
         HttpContent GetHttpContentAsJson(ISerializable dto);
+        
+        Task<HttpRequestMessage> CloneRequestMessageAsync(HttpRequestMessage requestMessage = null);
+        
+        
+        
+        
+        
+        HttpRequestMessage RequestMessage { get; }
+        
+        HttpClient Client { get; set; }
+        
+        string DeviceId { get; set; }
 
-        Task<HttpRequestMessage> CloneRequestMessageAsync(HttpRequestMessage requestMessage);
+        Uri GetUri(ApiRouteEnum route);
 
         Task<HttpResponseMessage> GetResponseMessageAsync(Uri requestUri, HttpContent content = null, string token = null);
-        Task<HttpResponseMessage> GetResponseMessageAsync(HttpRequestMessage requestMessage, string token = null);
+        
     }
 }

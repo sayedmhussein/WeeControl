@@ -7,13 +7,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.GetNewToken;
 using WeeControl.Backend.Application.Interfaces;
+using WeeControl.Common.SharedKernel;
 using WeeControl.Common.SharedKernel.BoundedContextDtos.HumanResources.Authorization;
 using WeeControl.Common.SharedKernel.Obsolute.Common;
 using WeeControl.Common.SharedKernel.Obsolute.Employee;
 
 namespace WeeControl.Backend.WebApi.Controllers.HumanResources
 {
-    [Route("Api/[controller]")]
+    [Route(ApiRouteLink.HumanResources.Authorization.Route)]
     [ApiController]
     public class AuthorizationController : Controller
     {
@@ -33,13 +34,13 @@ namespace WeeControl.Backend.WebApi.Controllers.HumanResources
         /// <param name="dto">Payloading object that contains username and password.</param>
         /// <returns></returns>
         [AllowAnonymous]
-        [HttpPost]
+        [HttpPost(ApiRouteLink.HumanResources.Authorization.RequestNewToken.EndPoint)]
+        [MapToApiVersion(ApiRouteLink.HumanResources.Authorization.RequestNewToken.Version)]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResponseDto<EmployeeTokenDto>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [MapToApiVersion("1.0")]
         public async Task<ActionResult<ResponseDto<EmployeeTokenDto>>> LoginV1([FromBody] RequestDto<RequestNewTokenDto> dto)
         {
             if (dto.Payload is null)
@@ -83,13 +84,13 @@ namespace WeeControl.Backend.WebApi.Controllers.HumanResources
         /// <param name="dto"></param>
         /// <returns></returns>
         [Authorize]
-        [HttpPut]
+        [HttpPut(ApiRouteLink.HumanResources.Authorization.RequestRefreshToken.EndPoint)]
+        [MapToApiVersion(ApiRouteLink.HumanResources.Authorization.RequestRefreshToken.Version)]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResponseDto<EmployeeTokenDto>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
-        [MapToApiVersion("1.0")]
         public async Task<ActionResult<ResponseDto<EmployeeTokenDto>>> RefreshTokenV1([FromBody] RequestDto dto)
         {
             var query = new GetNewTokenQuery(dto, currentUserInfo.GetSessionId());
@@ -102,7 +103,7 @@ namespace WeeControl.Backend.WebApi.Controllers.HumanResources
         ///     Used to terminate user session using token.
         /// </summary>
         /// <returns></returns>
-        [Authorize()]
+        [Authorize]
         [HttpDelete]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType((int)HttpStatusCode.OK)]

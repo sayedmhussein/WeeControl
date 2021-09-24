@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
@@ -35,7 +36,7 @@ namespace WeeControl.Backend.Persistence.BoundedContexts.HumanResources
 
         private void SetBasicData()
         {
-            const string territoryCode = "NYC-US";
+            string territoryCode = "NYC-US" + new Random().NextDouble();
                 
             if (Territories.Any()) return;
             

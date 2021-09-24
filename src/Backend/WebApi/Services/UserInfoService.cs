@@ -7,24 +7,21 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.GetListOfTerritories;
 using WeeControl.Backend.Application.Interfaces;
-using WeeControl.Common.UserSecurityLib.Enums;
-using WeeControl.Common.UserSecurityLib.Interfaces;
+using WeeControl.Common.UserSecurityLib;
 
 namespace WeeControl.Backend.WebApi.Services
 {
     public class UserInfoService : ICurrentUserInfo
     {
         private readonly IMediator mediatR;
-        private readonly IUserClaimService employeeAttribute;
         private Guid? sessionid = null;
         private readonly ICollection<string> territories = new List<string>();
         
-        public UserInfoService(IHttpContextAccessor httpContextAccessor, IMediator mediatR, IUserClaimService values)
+        public UserInfoService(IHttpContextAccessor httpContextAccessor, IMediator mediatR)
         {
             Claims = httpContextAccessor?.HttpContext?.User.Claims;
 
             this.mediatR = mediatR;
-            employeeAttribute = values;
         }
 
         public IEnumerable<Claim> Claims { get; private set; }
@@ -32,11 +29,11 @@ namespace WeeControl.Backend.WebApi.Services
         public Guid? GetSessionId()
         {
             if (sessionid != null) return sessionid;
-            
-            var sessionid_ = Claims.FirstOrDefault(c => c.Type == employeeAttribute.GetClaimType(ClaimTypeEnum.Session))?.Value;
-            if (Guid.TryParse(sessionid_, out Guid sessionId__))
+
+            var session_guid = Claims.FirstOrDefault(c => c.Type == SecurityClaims.HumanResources.Session)?.Value;
+            if (Guid.TryParse(session_guid, out Guid session_string))
             {
-                sessionid = sessionId__;
+                sessionid = session_string;
             }
 
             return sessionid;
@@ -51,9 +48,9 @@ namespace WeeControl.Backend.WebApi.Services
         {
             if (territories.Count != 0) return territories;
             
-            var territoryid_ = Claims.FirstOrDefault(c => c.Type == employeeAttribute.GetClaimType(ClaimTypeEnum.Territory))?.Value;
-            territories.Add(territoryid_);
-            var cla = await mediatR.Send(new GetTerritoriesQuery(territoryid_));
+            var territoryCode = Claims.FirstOrDefault(c => c.Type == SecurityClaims.HumanResources.Territory)?.Value;
+            territories.Add(territoryCode);
+            var cla = await mediatR.Send(new GetTerritoriesQuery(territoryCode));
 
             // foreach (var bra in cla.Payload)
             // {

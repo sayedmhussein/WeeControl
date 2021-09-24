@@ -58,7 +58,7 @@ namespace WeeControl.Backend.WebApi.Controllers.HumanResources
         /// <returns>Insert a territory DTO</returns>
         [HttpPost]
         [MapToApiVersion("1.0")]
-        [Authorize(CustomAuthorizationPolicy.Territory.CanAlterTerritories)]
+        //[Authorize(CustomAuthorizationPolicy.Territory.CanAlterTerritories)]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType((int)HttpStatusCode.Created)]
@@ -82,7 +82,7 @@ namespace WeeControl.Backend.WebApi.Controllers.HumanResources
         /// <returns>If insert then it will return the territory DTO</returns>
         [HttpPut("{id}")]
         [MapToApiVersion("1.0")]
-        [Authorize(CustomAuthorizationPolicy.Territory.CanAlterTerritories)]
+        //[Authorize(CustomAuthorizationPolicy.Territory.CanAlterTerritories)]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
@@ -107,7 +107,7 @@ namespace WeeControl.Backend.WebApi.Controllers.HumanResources
         /// <returns></returns>
         [HttpDelete("{id:guid}")]
         [MapToApiVersion("1.0")]
-        [Authorize(CustomAuthorizationPolicy.Territory.CanAlterTerritories)]
+        //[Authorize(CustomAuthorizationPolicy.Territory.CanAlterTerritories)]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
