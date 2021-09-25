@@ -23,8 +23,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Enums" />
-    <Folder Include="Pages\Employee" />
-    <Folder Include="Pages\Employee\" />
     <Folder Include="Shared\Component" />
     <Folder Include="wwwroot\html" />
     <Folder Include="wwwroot\js" />

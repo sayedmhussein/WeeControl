@@ -15,9 +15,9 @@ namespace WeeControl.Frontend.Wasm.Services
             LocalStorage = localStorage;
         }
         
-        public async Task SaveTokenAsync(string token)
+        public  Task SaveTokenAsync(string token)
         {
-            await LocalStorage.SetItem("token", token);
+            return LocalStorage.SetItem("token", token);
         }
 
         public Task<string> GetTokenAsync()
@@ -27,7 +27,7 @@ namespace WeeControl.Frontend.Wasm.Services
 
         public Task SaveUserNameTask(string userName)
         {
-            return Task.CompletedTask;
+            return LocalStorage.SetItem("username", userName);
         }
 
         public Task SaveUserPhotoUrlAsync(string url)
