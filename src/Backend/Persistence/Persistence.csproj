@@ -32,6 +32,7 @@
     <None Remove="EFCore.NamingConventions" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\UserSecurityLib\UserSecurityLib.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
     <ProjectReference Include="..\..\Common\SharedKernel\SharedKernel.csproj" />
   </ItemGroup>

@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Net.Http;
+using Microsoft.OpenApi.Models;
 using Moq;
+using WeeControl.Backend.WebApi.Test.Functional.BoundedContexts.HumanResources.Authorization;
 using WeeControl.Backend.WebApi.Test.Functional.TestHelpers;
 using WeeControl.Common.SharedKernel;
+using WeeControl.Common.SharedKernel.BoundedContexts.HumanResources.ClientSideServices;
 using WeeControl.Common.SharedKernel.Interfaces;
 using Xunit;
 
@@ -27,6 +30,16 @@ namespace WeeControl.Backend.WebApi.Test.Functional
         public void Dispose()
         {
             clientDeviceMock = null;
+        }
+
+        [Fact]
+        public async void Exampe()
+        {
+            var token = await RefreshCurrentTokenTests.GetRefreshedTokenAsync(factory, device);
+            clientDeviceMock.Setup(x => x.GetTokenAsync()).ReturnsAsync(token);
+            var service = new AuthenticationService(factory.CreateClient(), clientDeviceMock.Object);
+            
+            
         }
     }
 }

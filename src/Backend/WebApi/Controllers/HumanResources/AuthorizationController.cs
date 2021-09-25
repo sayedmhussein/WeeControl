@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WeeControl.Backend.Application.BoundContexts.HumanResources.Commands.LogoutEmployee;
 using WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.GetNewToken;
 using WeeControl.Backend.Application.Interfaces;
 using WeeControl.Common.SharedKernel;
 using WeeControl.Common.SharedKernel.BoundedContexts.HumanResources.Authentication;
 using WeeControl.Common.SharedKernel.BoundedContexts.Shared;
+using WeeControl.Common.SharedKernel.Interfaces;
 using WeeControl.Common.SharedKernel.Obsolutes.Dtos;
 
 namespace WeeControl.Backend.WebApi.Controllers.HumanResources
@@ -104,18 +106,17 @@ namespace WeeControl.Backend.WebApi.Controllers.HumanResources
         /// </summary>
         /// <returns></returns>
         [Authorize]
-        [HttpDelete]
+        [HttpDelete(ApiRouteLink.HumanResources.Authorization.Logout.EndPoint)]
+        [MapToApiVersion(ApiRouteLink.HumanResources.Authorization.Logout.Version)]
         [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [MapToApiVersion("1.0")]
-        public async Task<ActionResult> LogoutV1()
+        public async Task<ActionResult<ResponseDto>> LogoutV1([FromBody] RequestDto dto)
         {
-            // var command = new TerminateSessionCommand();
-            // await mediatR.Send(command);
-            // return Ok();
-            throw new NotImplementedException();
+            var command = new LogoutEmployeeCommand(dto.DeviceId, currentUserInfo.GetSessionId());
+            var response = await mediatR.Send(command);
+            return Ok(response);
         }
         #endregion
     }

@@ -28,7 +28,8 @@
 {
     private async Task Logout()
     {
-        await authentication.Logout();
+        var response = await authentication.Logout();
+        
         navManager.NavigateTo("/login");
     }
 }

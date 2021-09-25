@@ -64,9 +64,8 @@ namespace WeeControl.Common.SharedKernel.BoundedContexts.HumanResources.ClientSi
                 Method = ApiRouteLink.HumanResources.Authorization.RequestRefreshToken.Method,
                 Content = RequestDto.BuildHttpContentAsJson(new RequestDto(clientDevice.DeviceId))
             };
-
-            var token = await clientDevice.GetTokenAsync();
-            UpdateAuthorizationHeader(token);
+            
+            await UpdateAuthorizationHeader();
             var response = await client.SendAsync(message);
             
             if (response.IsSuccessStatusCode)
@@ -84,9 +83,32 @@ namespace WeeControl.Common.SharedKernel.BoundedContexts.HumanResources.ClientSi
 
         public async Task<IResponseDto> Logout()
         {
+            IResponseDto responseDto = new ResponseDto();
+            try
+            {
+                await UpdateAuthorizationHeader();
+                
+                HttpRequestMessage message = new()
+                {
+                    RequestUri = new Uri(ApiRouteLink.HumanResources.Authorization.Logout.Absolute),
+                    Version = new Version(ApiRouteLink.HumanResources.Authorization.Logout.Version),
+                    Method = ApiRouteLink.HumanResources.Authorization.Logout.Method,
+                    Content = RequestDto.BuildHttpContentAsJson(new RequestDto(clientDevice.DeviceId))
+                };
+                
+                var response = await client.SendAsync(message);
+                responseDto.StatuesCode = response.StatusCode;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                responseDto.StatuesCode = HttpStatusCode.InternalServerError;
+                throw;
+            }
+            
             await clientDevice.ClearUserDataAsync();
             TokenChanged?.Invoke(this, string.Empty);
-            return new ResponseDto(HttpStatusCode.OK);
+            return responseDto;
         }
 
         public Task<IResponseDto> RequestPasswordReset(RequestPasswordResetDto dto)
@@ -101,8 +123,10 @@ namespace WeeControl.Common.SharedKernel.BoundedContexts.HumanResources.ClientSi
 
         public event EventHandler<string> TokenChanged;
 
-        private void UpdateAuthorizationHeader(string token)
+        private async Task UpdateAuthorizationHeader()
         {
+            var token = await clientDevice.GetTokenAsync();
+            
             if (string.IsNullOrWhiteSpace(token) == false)
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);

@@ -3,8 +3,10 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using WeeControl.Backend.Domain.BoundedContexts.HumanResources;
 using WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModule.Entities;
+using WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModule.ValueObjects;
 using WeeControl.Backend.Domain.BoundedContexts.HumanResources.TerritoryModule.Entities;
 using WeeControl.Backend.Persistence.BoundedContexts.HumanResources.Configurations;
+using WeeControl.Common.UserSecurityLib;
 using Address = WeeControl.Backend.Domain.BoundedContexts.HumanResources.TerritoryModule.ValueObjects.Address;
 
 namespace WeeControl.Backend.Persistence.BoundedContexts.HumanResources
@@ -13,7 +15,6 @@ namespace WeeControl.Backend.Persistence.BoundedContexts.HumanResources
     {
         public HumanResourcesDbContext(DbContextOptions<HumanResourcesDbContext> options) : base(options)
         {
-            //Database.Migrate();
             Database.EnsureCreated();
             SetBasicData();
         }
@@ -47,6 +48,17 @@ namespace WeeControl.Backend.Persistence.BoundedContexts.HumanResources
             
             var admin = Employee.Create(territoryCode, "Admin", "Admin", "admin", "admin");
             Employees.Add(admin);
+            SaveChanges();
+
+            var employee = Employees.First();
+            
+            employee.Claims.Add(new Claims()
+            {
+                ClaimType = SecurityClaims.HumanResources.Role, 
+                ClaimValue = SecurityClaims.HumanResources.Tags.SuperUser + ";test",
+                GrantedBy = admin
+            });
+
             SaveChanges();
         }
     }

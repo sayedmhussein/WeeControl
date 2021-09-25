@@ -1,3 +1,4 @@
+using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModule.Entities;
@@ -21,10 +22,11 @@ namespace WeeControl.Backend.Persistence.BoundedContexts.HumanResources.Configur
                 xx.HasKey("AddressId");
             });
 
-        builder.OwnsMany(x => x.Contacts);
+            builder.OwnsMany(x => x.Contacts);
 
             builder.OwnsMany(x => x.Claims, xx =>
             {
+                xx.Property(o => o.GrantedTs).HasDefaultValue(DateTime.UtcNow).ValueGeneratedOnAdd();
                 xx.HasOne(o => o.GrantedBy);
                 xx.HasOne(o => o.RevokedBy);
             });

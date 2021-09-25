@@ -50,15 +50,19 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserSecurityLib.Test", "src\Common\UserSecurityLib.Test\UserSecurityLib.Test.csproj", "{24614377-72B0-4CED-9DA5-2E0A004278F0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "wiki", "wiki", "{7A81E8A9-B6B6-439F-B432-657285E8930F}"
-ProjectSection(SolutionItems) = preProject
-	Wiki\AddFunctionality.md = Wiki\AddFunctionality.md
-EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{8E7291B9-A6C0-4CC8-924A-950BB1F743EA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{93DA493D-F970-45DE-9862-0181F8C397ED}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{F8C3E383-C583-40DB-9BAA-D817746BEAC4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "contexts", "contexts", "{3C86761F-6813-4862-9DC0-DF14B5DDE293}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HumanResources", "HumanResources", "{4B48DBC0-7628-4453-8D3C-1513D1AC1C6E}"
+ProjectSection(SolutionItems) = preProject
+	doc\wiki\authorization.md = doc\wiki\authorization.md
+EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -292,5 +296,7 @@ Global
 		{F8C3E383-C583-40DB-9BAA-D817746BEAC4} = {8E7291B9-A6C0-4CC8-924A-950BB1F743EA}
 		{09874A05-4A10-44EB-A785-94FDA3C1B23C} = {F8C3E383-C583-40DB-9BAA-D817746BEAC4}
 		{24614377-72B0-4CED-9DA5-2E0A004278F0} = {F8C3E383-C583-40DB-9BAA-D817746BEAC4}
+		{3C86761F-6813-4862-9DC0-DF14B5DDE293} = {7A81E8A9-B6B6-439F-B432-657285E8930F}
+		{4B48DBC0-7628-4453-8D3C-1513D1AC1C6E} = {3C86761F-6813-4862-9DC0-DF14B5DDE293}
 	EndGlobalSection
 EndGlobal

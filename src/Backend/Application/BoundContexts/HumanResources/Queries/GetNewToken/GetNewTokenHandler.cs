@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Net;
 using System.Security.Claims;
 using System.Text;
@@ -48,8 +49,22 @@ namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.Ge
                     x.Credentials.Password == request.Password, cancellationToken);
 
                 if (employee is null) throw new NotFoundException();
+
+                var session = await context.Sessions.FirstOrDefaultAsync(x => x.SessionId == request.SessionId && x.TerminationTs == null, cancellationToken);
+                if (session is null)
+                {
+                    session = Session.Create(employee.EmployeeId, request.Device);
+                }
+                else
+                {
+                    if (session.DeviceId != request.Device)
+                    {
+                        session.TerminationTs = DateTime.UtcNow;
+                        await context.SaveChangesAsync(cancellationToken);
+                        throw new NotAllowedException("User used session not related to device!");
+                    }
+                }
                 
-                var session = Session.Create(employee.EmployeeId, request.Device);
                 await context.Sessions.AddAsync(session, cancellationToken);
                 await context.SaveChangesAsync(cancellationToken);
 
@@ -79,17 +94,24 @@ namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.Ge
 
                 var employee = await 
                     context.Employees.FirstOrDefaultAsync(x => x.EmployeeId == session.EmployeeId, cancellationToken);
+
+                
                 
                 var ci = new ClaimsIdentity("custom");
                 ci.AddClaim(new Claim(SecurityClaims.HumanResources.Session, session.SessionId.ToString()));
-
+                ci.AddClaim(new Claim(SecurityClaims.HumanResources.Territory, employee.TerritoryCode));
+                foreach (var c in employee.Claims.Where(x => x.RevokedTs == null).ToList())
+                {
+                    ci.AddClaim(new Claim(c.ClaimType, c.ClaimValue));
+                }
+                
                 var key = Encoding.ASCII.GetBytes(configuration["Jwt:Key"]);
                 
                 var descriptor = new SecurityTokenDescriptor()
                 {
                     Subject = ci,
                     IssuedAt = DateTime.UtcNow,
-                    Expires = DateTime.UtcNow.AddMinutes(5),
+                    Expires = DateTime.UtcNow.AddDays(5),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                 };
                 var token = jwtService.GenerateToken(descriptor);
@@ -102,7 +124,7 @@ namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.Ge
             }
             else
             {
-                throw new BadRequestException("Didn't valid request query parameters.");
+                throw new BadRequestException("Invalid request query parameters.");
             }
         }
         
