@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using WeeControl.Common.SharedKernel.BoundedContexts.HumanResources.Authentication;
 using WeeControl.Common.UserSecurityLib.Interfaces;
-using WeeControl.Frontend.CommonLib.Interfaces;
+using WeeControl.Frontend.Wasm.Interfaces;
 
 namespace WeeControl.Frontend.Wasm.Services
 {
@@ -15,23 +16,30 @@ namespace WeeControl.Frontend.Wasm.Services
         private readonly ILocalStorage localStorage;
         private readonly IJwtService jwtService;
         private readonly IConfiguration configuration;
+        private readonly IAuthenticationService service;
         private readonly AuthenticationState anonymous;
 
-        public AuthStateProvider(ILocalStorage localStorage, IJwtService jwtService, IConfiguration configuration)
+        public AuthStateProvider(ILocalStorage localStorage, IJwtService jwtService, IConfiguration configuration, IAuthenticationService service)
         {
             this.localStorage = localStorage;
             this.jwtService = jwtService;
             this.configuration = configuration;
+            this.service = service;
+
+            service.TokenChanged += (sender, args) =>
+            {
+                NotifyUserAuthentication(args);
+            };
 
             var identity = new ClaimsIdentity();
             
             var cp = new ClaimsPrincipal(identity);
             anonymous = new AuthenticationState(cp);
         }
-        
+
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            var token = await localStorage.GetItem<string>("Token");
+            var token = await localStorage.GetItem<string>("token");
             if (string.IsNullOrWhiteSpace(token))
             {
                 return anonymous;
@@ -41,9 +49,25 @@ namespace WeeControl.Frontend.Wasm.Services
             return new AuthenticationState(cp);
         }
 
-        public async Task NotifyUserAuthentication()
+        public void NotifyUserAuthentication(string token)
         {
-            var token = await localStorage.GetItem<string>("Token");
+            if (string.IsNullOrWhiteSpace(token) == false)
+            {
+                var cp = GetClaimPrincipal(token);
+                var state = new AuthenticationState(cp);
+                var authState = Task.FromResult(state);
+                NotifyAuthenticationStateChanged(authState);
+            }
+            else
+            {
+                NotifyAuthenticationStateChanged(Task.FromResult(anonymous));
+            }
+        }
+        
+        [Obsolete]
+        public async Task NotifyUserAuthenticationAsyc()
+        {
+            var token = await localStorage.GetItem<string>("token");
             if (string.IsNullOrWhiteSpace(token) == false)
             {
                 var cp = GetClaimPrincipal(token);
@@ -63,7 +87,6 @@ namespace WeeControl.Frontend.Wasm.Services
             
             var validationParameters = new TokenValidationParameters()
             {
-                TryAllIssuerSigningKeys = true,
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(key)),
                 ValidateIssuer = false,
@@ -71,8 +94,8 @@ namespace WeeControl.Frontend.Wasm.Services
                 ValidateLifetime = false,
                 ClockSkew = TimeSpan.Zero
             };
-            
-            return jwtService.ExtractClaimPrincipal(validationParameters, token);
+
+            return jwtService.ExtractClaimPrincipal(token);
         }
     }
 }

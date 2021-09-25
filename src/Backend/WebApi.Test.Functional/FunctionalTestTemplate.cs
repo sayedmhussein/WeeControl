@@ -2,7 +2,7 @@
 using System.Net.Http;
 using WeeControl.Backend.WebApi.Test.Functional.TestHelpers;
 using WeeControl.Common.SharedKernel;
-using WeeControl.Common.SharedKernel.BoundedContextDtos.Shared;
+using WeeControl.Common.SharedKernel.BoundedContexts.Shared;
 using Xunit;
 
 namespace WeeControl.Backend.WebApi.Test.Functional

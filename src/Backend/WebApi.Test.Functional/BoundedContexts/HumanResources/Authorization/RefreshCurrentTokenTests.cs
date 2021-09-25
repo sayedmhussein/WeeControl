@@ -5,7 +5,7 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using WeeControl.Backend.WebApi.Test.Functional.TestHelpers;
 using WeeControl.Common.SharedKernel;
-using WeeControl.Common.SharedKernel.BoundedContextDtos.Shared;
+using WeeControl.Common.SharedKernel.BoundedContexts.Shared;
 using WeeControl.Common.SharedKernel.Obsolutes.Dtos;
 using Xunit;
 
@@ -26,7 +26,7 @@ namespace WeeControl.Backend.WebApi.Test.Functional.BoundedContexts.HumanResourc
             
             var test = new FunctionalTestService(factory);
             
-            var token = await RequestNewTokenTests.GetNewTokenAsync(factory, device);
+            var token = await RequestNewTokenTests.GetNewTokenAsync2(factory, device);
             
             var response = await test.GetResponseMessageAsync(message, token);
             response.EnsureSuccessStatusCode();
@@ -74,7 +74,7 @@ namespace WeeControl.Backend.WebApi.Test.Functional.BoundedContexts.HumanResourc
         [Fact]
         public async void WhenAuthenticatedButInvalidRequest_HttpResponseIsBadRequest()
         {
-            var token = await RequestNewTokenTests.GetNewTokenAsync(factory, device);
+            var token = await RequestNewTokenTests.GetNewTokenAsync2(factory, device);
             HttpRequestMessage message = new()
             {
                 RequestUri = new Uri(ApiRouteLink.HumanResources.Authorization.RequestRefreshToken.Absolute),
@@ -92,7 +92,7 @@ namespace WeeControl.Backend.WebApi.Test.Functional.BoundedContexts.HumanResourc
         public async void WhenAuthenticatedButNotAuthorized_HttpResponseIsForbidden()
         {
             //When different device...
-            var token = await RequestNewTokenTests.GetNewTokenAsync(factory, device);
+            var token = await RequestNewTokenTests.GetNewTokenAsync2(factory, device);
             HttpRequestMessage message = new()
             {
                 RequestUri = new Uri(ApiRouteLink.HumanResources.Authorization.RequestRefreshToken.Absolute),

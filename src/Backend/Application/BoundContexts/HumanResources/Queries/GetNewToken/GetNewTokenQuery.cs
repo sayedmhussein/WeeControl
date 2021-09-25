@@ -1,7 +1,7 @@
 using System;
 using MediatR;
-using WeeControl.Common.SharedKernel.BoundedContextDtos.HumanResources.Authorization;
-using WeeControl.Common.SharedKernel.BoundedContextDtos.Shared;
+using WeeControl.Common.SharedKernel.BoundedContexts.HumanResources.Authentication;
+using WeeControl.Common.SharedKernel.BoundedContexts.Shared;
 using WeeControl.Common.SharedKernel.Interfaces;
 using WeeControl.Common.SharedKernel.Obsolutes.Dtos;
 

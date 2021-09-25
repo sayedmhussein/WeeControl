@@ -12,7 +12,7 @@ using WeeControl.Backend.Application.Exceptions;
 using WeeControl.Backend.Domain.BoundedContexts.HumanResources;
 using WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModule.Entities;
 using WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModule.ValueObjects;
-using WeeControl.Common.SharedKernel.BoundedContextDtos.Shared;
+using WeeControl.Common.SharedKernel.BoundedContexts.Shared;
 using WeeControl.Common.SharedKernel.Obsolutes.Dtos;
 using WeeControl.Common.UserSecurityLib;
 using WeeControl.Common.UserSecurityLib.Interfaces;

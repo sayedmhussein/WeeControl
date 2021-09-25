@@ -3,10 +3,13 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using Moq;
 using WeeControl.Backend.WebApi.Test.Functional.TestHelpers;
 using WeeControl.Common.SharedKernel;
-using WeeControl.Common.SharedKernel.BoundedContextDtos.HumanResources.Authorization;
-using WeeControl.Common.SharedKernel.BoundedContextDtos.Shared;
+using WeeControl.Common.SharedKernel.BoundedContexts.HumanResources.Authentication;
+using WeeControl.Common.SharedKernel.BoundedContexts.HumanResources.ClientSideServices;
+using WeeControl.Common.SharedKernel.BoundedContexts.Shared;
+using WeeControl.Common.SharedKernel.Interfaces;
 using WeeControl.Common.SharedKernel.Obsolutes.Dtos;
 using Xunit;
 
@@ -15,7 +18,24 @@ namespace WeeControl.Backend.WebApi.Test.Functional.BoundedContexts.HumanResourc
     public class RequestNewTokenTests : IClassFixture<CustomWebApplicationFactory<Startup>>, ITestsNotRequireAuthentication
     {
         #region static
+
         public static async Task<string> GetNewTokenAsync(CustomWebApplicationFactory<Startup> factory, string device)
+        {
+            var token = string.Empty;
+            
+            Mock<IClientDevice> deviceMock = new();
+            deviceMock.SetupAllProperties();
+            deviceMock.Setup(x => x.DeviceId).Returns(device);
+            deviceMock.Setup(x => x.SaveTokenAsync(It.IsAny<string>())).Callback<string>(y => token = y);
+            
+            IAuthenticationService service = new AuthenticationService(factory.CreateClient(), deviceMock.Object);
+            var response = await service.RequestNewToken(new RequestNewTokenDto("admin", "admin"));
+
+
+            return token;
+        }
+
+        public static async Task<string> GetNewTokenAsync2(CustomWebApplicationFactory<Startup> factory, string device)
         {
             HttpRequestMessage message = new()
             {
@@ -49,6 +69,17 @@ namespace WeeControl.Backend.WebApi.Test.Functional.BoundedContexts.HumanResourc
         [Fact]
         public async void WhenSendingInvalidRequest_HttpResponseIsBadRequest()
         {
+            Mock<IClientDevice> deviceMock = new();
+            deviceMock.SetupAllProperties();
+            deviceMock.Setup(x => x.DeviceId).Returns(device);
+
+            IAuthenticationService service = new AuthenticationService(factory.CreateClient(), deviceMock.Object);
+            var response2 = await service.RequestNewToken(null);
+            
+            Assert.Equal(HttpStatusCode.BadRequest, response2.HttpStatuesCode);
+            
+            
+            
             HttpRequestMessage defaultRequestMessage = new()
             {
                 RequestUri = new Uri(ApiRouteLink.HumanResources.Authorization.RequestNewToken.Absolute),
@@ -62,6 +93,14 @@ namespace WeeControl.Backend.WebApi.Test.Functional.BoundedContexts.HumanResourc
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
 
+        [Fact]
+        public async void WhenSendingValidRequest2_HttpResponseIsSuccessCode()
+        {
+            var token = await GetNewTokenAsync2(factory, typeof(RequestNewTokenTests).Namespace);
+            
+            Assert.NotEmpty(token);
+        }
+        
         [Fact]
         public async void WhenSendingValidRequest_HttpResponseIsSuccessCode()
         {

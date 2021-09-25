@@ -44,9 +44,7 @@ namespace WeeControl.Backend.WebApi
 
             services.AddApiVersioning(ApiVersionOptions.ConfigureApiVersioning);
             
-
             services.AddScoped<ICurrentUserInfo, UserInfoService>();
-            //services.AddSingleton<IJwtServiceObsolute, JwtServiceObsolute>();
 
             services.AddCors(c => c.AddPolicy("AllowAny", builder =>
             {

@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using WeeControl.Common.SharedKernel.Abstract.ValueObjects;
+using WeeControl.Common.SharedKernel.BoundedContexts.Shared.Abstract.ValueObjects;
 
 namespace WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModule.ValueObjects
 {
