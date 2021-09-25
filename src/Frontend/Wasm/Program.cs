@@ -5,11 +5,14 @@ using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.Frontend.CommonLib;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
-using WeeControl.Common.UserSecurityLib;
-using WeeControl.Frontend.CommonLib.Interfaces;
+using WeeControl.Common.SharedKernel;
+using WeeControl.Common.SharedKernel.BoundedContexts.HumanResources.Authentication;
+using WeeControl.Common.SharedKernel.BoundedContexts.HumanResources.ClientSideServices;
+using WeeControl.Common.SharedKernel.Interfaces;
+using WeeControl.Frontend.Wasm.Interfaces;
 using WeeControl.Frontend.Wasm.Services;
+using DependencyInjection = WeeControl.Common.UserSecurityLib.DependencyInjection;
 
 namespace WeeControl.Frontend.Wasm
 {
@@ -21,16 +24,26 @@ namespace WeeControl.Frontend.Wasm
             
             builder.RootComponents.Add<App>("#app");
 
-            builder.Services.AddUserSecurityService();
             builder.Services.AddScoped<ILocalStorage, LocalStorageService>();
+            builder.Services.AddTransient<IClientDevice, DeviceService>();
+            
+            
+            DependencyInjection.AddUserSecurityService(builder.Services);
+            
 
-            builder.Services.AddTransient<IAuthenticationRefresh, AuthenticationRefreshService>();
+            builder.Services.AddScoped<IAuthenticationService>(provider =>
+            {
+                var device = provider.GetService<IClientDevice>();
+                var factory = provider.GetService<IHttpClientFactory>();
+                
+                return new AuthenticationService(factory, device);
+            });
+
+            //builder.Services.AddTransient<IAuthenticationRefresh, AuthenticationRefreshService>();
             
             builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
             builder.Services.AddOptions();
             builder.Services.AddAuthorizationCore();
-
-            builder.Services.AddCommonLibraryService();
 
             builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddAuthorizationCore();
@@ -39,18 +52,18 @@ namespace WeeControl.Frontend.Wasm
             //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:5001/") });
 
-            
-            builder.Services.AddTransient<IDevice, DeviceService>();
 
-            builder.Services.AddHttpClient(IHttpService.UnSecuredApi, 
+            ApiRouteLink.HumanResources.Base = "https://localhost:5001/";
+
+            builder.Services.AddHttpClient("UnSecured", 
                 client => client.BaseAddress = new Uri("https://localhost:5001/"));
             
-            builder.Services.AddHttpClient(IHttpService.SecuredApi, 
+            builder.Services.AddHttpClient("Secured", 
                     client => client.BaseAddress = new Uri("https://localhost:5001/"))
                 .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
 
             builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>()
-                .CreateClient(IHttpService.SecuredApi));
+                .CreateClient("Secured"));
 
             
             // builder.Services.AddAuthorizationCore(o =>

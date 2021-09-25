@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.GetNewToken;
 using WeeControl.Backend.Application.Interfaces;
 using WeeControl.Common.SharedKernel;
-using WeeControl.Common.SharedKernel.BoundedContextDtos.HumanResources.Authorization;
-using WeeControl.Common.SharedKernel.BoundedContextDtos.Shared;
+using WeeControl.Common.SharedKernel.BoundedContexts.HumanResources.Authentication;
+using WeeControl.Common.SharedKernel.BoundedContexts.Shared;
 using WeeControl.Common.SharedKernel.Obsolutes.Dtos;
 
 namespace WeeControl.Backend.WebApi.Controllers.HumanResources

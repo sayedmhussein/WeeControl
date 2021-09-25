@@ -6,7 +6,8 @@ namespace WeeControl.Common.UserSecurityLib.Interfaces
     public interface IJwtService
     {
         string GenerateToken(SecurityTokenDescriptor descriptor);
-        
+
+        ClaimsPrincipal ExtractClaimPrincipal(string token);
         ClaimsPrincipal ExtractClaimPrincipal(TokenValidationParameters parameters, string token);
     }
 }

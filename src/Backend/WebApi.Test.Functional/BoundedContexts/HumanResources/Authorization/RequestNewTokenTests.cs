@@ -1,13 +1,10 @@
-using System;
 using System.Net;
-using System.Net.Http;
-using System.Net.Http.Json;
 using System.Threading.Tasks;
+using Moq;
 using WeeControl.Backend.WebApi.Test.Functional.TestHelpers;
-using WeeControl.Common.SharedKernel;
-using WeeControl.Common.SharedKernel.BoundedContextDtos.HumanResources.Authorization;
-using WeeControl.Common.SharedKernel.BoundedContextDtos.Shared;
-using WeeControl.Common.SharedKernel.Obsolutes.Dtos;
+using WeeControl.Common.SharedKernel.BoundedContexts.HumanResources.Authentication;
+using WeeControl.Common.SharedKernel.BoundedContexts.HumanResources.ClientSideServices;
+using WeeControl.Common.SharedKernel.Interfaces;
 using Xunit;
 
 namespace WeeControl.Backend.WebApi.Test.Functional.BoundedContexts.HumanResources.Authorization
@@ -17,49 +14,41 @@ namespace WeeControl.Backend.WebApi.Test.Functional.BoundedContexts.HumanResourc
         #region static
         public static async Task<string> GetNewTokenAsync(CustomWebApplicationFactory<Startup> factory, string device)
         {
-            HttpRequestMessage message = new()
-            {
-                RequestUri = new Uri(ApiRouteLink.HumanResources.Authorization.RequestNewToken.Absolute),
-                Version = new Version(ApiRouteLink.HumanResources.Authorization.RequestNewToken.Version),
-                Method = ApiRouteLink.HumanResources.Authorization.RequestNewToken.Method,
-                Content = FunctionalTestService.GetHttpContentAsJson(new RequestDto<RequestNewTokenDto>(device, new RequestNewTokenDto("admin", "admin")))
-            };
+            var token = string.Empty;
             
-            var test = new FunctionalTestService(factory);
+            Mock<IClientDevice> deviceMock = new();
+            deviceMock.SetupAllProperties();
+            deviceMock.Setup(x => x.DeviceId).Returns(device);
+            deviceMock.Setup(x => x.SaveTokenAsync(It.IsAny<string>())).Callback<string>(y => token = y);
             
-            var response = await test.GetResponseMessageAsync(message);
-            response.EnsureSuccessStatusCode();
-            var tokenDto = await response.Content.ReadFromJsonAsync<ResponseDto<EmployeeTokenDto>>();
+            IAuthenticationService service = new AuthenticationService(factory.CreateClient(), deviceMock.Object);
+            var response = await service.RequestNewToken(new RequestNewTokenDto("admin", "admin"));
 
-            return tokenDto?.Payload.Token;
+
+            return token;
         }
         #endregion
         
         private readonly CustomWebApplicationFactory<Startup> factory;
-        private readonly IFunctionalTestService testService;
         private readonly string device;
 
         public RequestNewTokenTests(CustomWebApplicationFactory<Startup> factory)
         {
             this.factory = factory;
             device = nameof(RequestNewTokenTests);
-            testService = new FunctionalTestService(factory);
         }
 
         [Fact]
         public async void WhenSendingInvalidRequest_HttpResponseIsBadRequest()
         {
-            HttpRequestMessage defaultRequestMessage = new()
-            {
-                RequestUri = new Uri(ApiRouteLink.HumanResources.Authorization.RequestNewToken.Absolute),
-                Version = new Version(ApiRouteLink.HumanResources.Authorization.RequestNewToken.Version),
-                Method = ApiRouteLink.HumanResources.Authorization.RequestNewToken.Method,
-                Content = FunctionalTestService.GetHttpContentAsJson(new RequestDto<string>("InvalidPayload", device))
-            };
+            Mock<IClientDevice> deviceMock = new();
+            deviceMock.SetupAllProperties();
+            deviceMock.Setup(x => x.DeviceId).Returns(device);
 
-            var response = await testService.GetResponseMessageAsync(defaultRequestMessage);
-
-            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+            IAuthenticationService service = new AuthenticationService(factory.CreateClient(), deviceMock.Object);
+            var response2 = await service.RequestNewToken(null);
+            
+            Assert.Equal(HttpStatusCode.BadRequest, response2.StatuesCode);
         }
 
         [Fact]

@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModule.ValueObjects;
 using WeeControl.Backend.Domain.BoundedContexts.HumanResources.TerritoryModule.Entities;
 using WeeControl.Backend.Domain.Interfaces;
-using WeeControl.Common.SharedKernel.Abstract.Entities;
+using WeeControl.Common.SharedKernel.BoundedContexts.Shared.Abstract.Entities;
 
 namespace WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModule.Entities
 {

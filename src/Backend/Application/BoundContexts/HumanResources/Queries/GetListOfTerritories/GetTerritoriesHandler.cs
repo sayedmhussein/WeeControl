@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using MediatR;
 using WeeControl.Backend.Application.Interfaces;
 using WeeControl.Backend.Domain.BoundedContexts.HumanResources;
-using WeeControl.Common.SharedKernel.BoundedContextDtos.Shared;
+using WeeControl.Common.SharedKernel.BoundedContexts.Shared;
 using WeeControl.Common.SharedKernel.Obsolutes.Dtos;
 
 namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.GetListOfTerritories

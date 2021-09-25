@@ -6,7 +6,7 @@ namespace WeeControl.Common.SharedKernel
     {
         public static class HumanResources
         {
-            public const string Base = "http://10.0.2.2:5000/";
+            public static string Base = "http://10.0.2.2:5000/";
 
             #region Authorization
             public static class Authorization
@@ -18,7 +18,7 @@ namespace WeeControl.Common.SharedKernel
                     public const string EndPoint = "";
                     public static readonly HttpMethod Method = HttpMethod.Post;
                     public const string Relative = Route + EndPoint;
-                    public const string Absolute = Base + Relative;
+                    public static string Absolute = Base + Relative;
                     public const string Version = "1.0";
                     
                 }
@@ -28,9 +28,17 @@ namespace WeeControl.Common.SharedKernel
                     public const string EndPoint = "";
                     public static readonly HttpMethod Method = HttpMethod.Put;
                     public const string Relative = Route + EndPoint;
-                    public const string Absolute = Base + Relative;
+                    public static string Absolute = Base + Relative;
                     public const string Version = "1.0";
-                    
+                }
+                
+                public static class Logout
+                {
+                    public const string EndPoint = "";
+                    public static readonly HttpMethod Method = HttpMethod.Delete;
+                    public const string Relative = Route + EndPoint;
+                    public static string Absolute = Base + Relative;
+                    public const string Version = "1.0";
                 }
             }
             #endregion

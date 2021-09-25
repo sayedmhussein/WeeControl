@@ -19,6 +19,16 @@ namespace WeeControl.Common.UserSecurityLib.Services
             return tokenHandler.WriteToken(token);
         }
 
+        public ClaimsPrincipal ExtractClaimPrincipal(string token)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var securityToken = handler.ReadJwtToken(token);
+            var ci = new ClaimsIdentity("custom");
+            ci.AddClaims(securityToken.Claims);
+            var cp = new ClaimsPrincipal(ci);
+            return cp;
+        }
+
         public ClaimsPrincipal ExtractClaimPrincipal(TokenValidationParameters parameters, string token)
         {
             var handler = new JwtSecurityTokenHandler();
