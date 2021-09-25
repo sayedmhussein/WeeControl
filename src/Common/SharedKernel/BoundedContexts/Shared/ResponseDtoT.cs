@@ -12,6 +12,6 @@ namespace WeeControl.Common.SharedKernel.BoundedContexts.Shared
 
         public T Payload { get; set; }
         
-        public HttpStatusCode HttpStatuesCode { get; set; }
+        public HttpStatusCode StatuesCode { get; set; }
     }
 }

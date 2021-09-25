@@ -67,7 +67,7 @@ namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.Ge
                 };
                 var token = jwtService.GenerateToken(descriptor);
                 
-                return new ResponseDto<EmployeeTokenDto>(new EmployeeTokenDto(token, employee.EmployeeName, "url")) { HttpStatuesCode = HttpStatusCode.OK};
+                return new ResponseDto<EmployeeTokenDto>(new EmployeeTokenDto(token, employee.EmployeeName, "url")) { StatuesCode = HttpStatusCode.OK};
             }
             else if (request.SessionId is not null)
             {
@@ -98,7 +98,7 @@ namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.Ge
                 {
                     Token = token,
                     FullName = employee.EmployeeName, PhotoUrl = "url"
-                }) { HttpStatuesCode = HttpStatusCode.OK};
+                }) { StatuesCode = HttpStatusCode.OK};
             }
             else
             {

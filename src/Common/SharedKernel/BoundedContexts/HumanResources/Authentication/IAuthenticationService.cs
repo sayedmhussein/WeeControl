@@ -8,7 +8,7 @@ namespace WeeControl.Common.SharedKernel.BoundedContexts.HumanResources.Authenti
     {
         Task<IResponseDto> RequestNewToken(RequestNewTokenDto dto);
         
-        Task<IResponseDto> RefreshCurrentToken(IRequestDto dto, string token);
+        Task<IResponseDto> RefreshCurrentToken();
         
         Task<IResponseDto> Logout();
         

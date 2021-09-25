@@ -1,6 +1,7 @@
 using System;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using WeeControl.Common.SharedKernel.BoundedContexts.HumanResources.Authentication;
@@ -54,9 +55,31 @@ namespace WeeControl.Common.SharedKernel.BoundedContexts.HumanResources.ClientSi
             return new ResponseDto(response.StatusCode);
         }
 
-        public Task<IResponseDto> RefreshCurrentToken(IRequestDto dto, string token)
+        public async Task<IResponseDto> RefreshCurrentToken()
         {
-            throw new System.NotImplementedException();
+            HttpRequestMessage message = new()
+            {
+                RequestUri = new Uri(ApiRouteLink.HumanResources.Authorization.RequestRefreshToken.Absolute),
+                Version = new Version(ApiRouteLink.HumanResources.Authorization.RequestRefreshToken.Version),
+                Method = ApiRouteLink.HumanResources.Authorization.RequestRefreshToken.Method,
+                Content = RequestDto.BuildHttpContentAsJson(new RequestDto(clientDevice.DeviceId))
+            };
+
+            var token = await clientDevice.GetTokenAsync();
+            UpdateAuthorizationHeader(token);
+            var response = await client.SendAsync(message);
+            
+            if (response.IsSuccessStatusCode)
+            {
+                var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<EmployeeTokenDto>>();
+                await clientDevice.SaveTokenAsync(responseDto?.Payload.Token);
+                await clientDevice.SaveUserNameTask(responseDto?.Payload.FullName);
+                await clientDevice.SaveUserPhotoUrlAsync(responseDto?.Payload.PhotoUrl);
+                
+                TokenChanged?.Invoke(this, responseDto?.Payload.Token);
+            }
+
+            return new ResponseDto(response.StatusCode);
         }
 
         public async Task<IResponseDto> Logout()
@@ -77,5 +100,18 @@ namespace WeeControl.Common.SharedKernel.BoundedContexts.HumanResources.ClientSi
         }
 
         public event EventHandler<string> TokenChanged;
+
+        private void UpdateAuthorizationHeader(string token)
+        {
+            if (string.IsNullOrWhiteSpace(token) == false)
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            }
+            else
+            {
+                client.DefaultRequestHeaders.Authorization = null;
+            }
+            
+        }
     }
 }

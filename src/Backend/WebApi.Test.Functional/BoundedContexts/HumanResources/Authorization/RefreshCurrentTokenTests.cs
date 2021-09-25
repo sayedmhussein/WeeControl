@@ -1,52 +1,57 @@
 ﻿using System;
 using System.Net;
-using System.Net.Http;
-using System.Net.Http.Json;
 using System.Threading.Tasks;
+using Moq;
 using WeeControl.Backend.WebApi.Test.Functional.TestHelpers;
-using WeeControl.Common.SharedKernel;
-using WeeControl.Common.SharedKernel.BoundedContexts.Shared;
-using WeeControl.Common.SharedKernel.Obsolutes.Dtos;
+using WeeControl.Common.SharedKernel.BoundedContexts.HumanResources.Authentication;
+using WeeControl.Common.SharedKernel.BoundedContexts.HumanResources.ClientSideServices;
+using WeeControl.Common.SharedKernel.Interfaces;
 using Xunit;
 
 namespace WeeControl.Backend.WebApi.Test.Functional.BoundedContexts.HumanResources.Authorization
 {
-    public class RefreshCurrentTokenTests : IClassFixture<CustomWebApplicationFactory<Startup>>, ITestsRequireAuthentication
+    public class RefreshCurrentTokenTests : IClassFixture<CustomWebApplicationFactory<Startup>>, IDisposable, ITestsRequireAuthentication
     {
         #region static
-        public static async Task<string> GetRefreshedTokenAsync(CustomWebApplicationFactory<Startup> factory, string device)
+        public static async Task<string> GetRefreshedTokenAsync(CustomWebApplicationFactory<Startup> factory,
+            string device)
         {
-            HttpRequestMessage message = new()
-            {
-                RequestUri = new Uri(ApiRouteLink.HumanResources.Authorization.RequestRefreshToken.Absolute),
-                Version = new Version(ApiRouteLink.HumanResources.Authorization.RequestRefreshToken.Version),
-                Method = ApiRouteLink.HumanResources.Authorization.RequestRefreshToken.Method,
-                Content = FunctionalTestService.GetHttpContentAsJson(new RequestDto(device))
-            };
+            var token1 = await RequestNewTokenTests.GetNewTokenAsync(factory, device);
+            var token2 = string.Empty;
             
-            var test = new FunctionalTestService(factory);
+            Mock<IClientDevice> deviceMock = new();
+            deviceMock.SetupAllProperties();
+            deviceMock.Setup(x => x.DeviceId).Returns(device);
+            deviceMock.Setup(x => x.GetTokenAsync()).ReturnsAsync(token1);
+            deviceMock.Setup(x => x.SaveTokenAsync(It.IsAny<string>())).Callback<string>(y => token2 = y);
             
-            var token = await RequestNewTokenTests.GetNewTokenAsync2(factory, device);
-            
-            var response = await test.GetResponseMessageAsync(message, token);
-            response.EnsureSuccessStatusCode();
-            var tokenDto = await response.Content.ReadFromJsonAsync<ResponseDto<EmployeeTokenDto>>();
+            IAuthenticationService service = new AuthenticationService(factory.CreateClient(), deviceMock.Object);
+            var response = await service.RefreshCurrentToken();
 
-            return tokenDto?.Payload.Token;
+            return token2;
         }
         #endregion
         
         private readonly CustomWebApplicationFactory<Startup> factory;
-        private readonly IFunctionalTestService testService;
         private readonly string device;
+        private Mock<IClientDevice> clientDeviceMock;
 
         public RefreshCurrentTokenTests(CustomWebApplicationFactory<Startup> factory)
         {
             this.factory = factory;
             device = nameof(RefreshCurrentTokenTests);
-            testService = new FunctionalTestService(factory);
+            
+            clientDeviceMock = new Mock<IClientDevice>();
+            clientDeviceMock.SetupAllProperties();
+            clientDeviceMock.Setup(x => x.DeviceId).Returns(device);
+            
         }
-        
+
+        public void Dispose()
+        {
+            clientDeviceMock = null;
+        }
+
         [Fact]
         public async void WhenSendingValidRequest_HttpResponseIsSuccessCode()
         {
@@ -58,52 +63,25 @@ namespace WeeControl.Backend.WebApi.Test.Functional.BoundedContexts.HumanResourc
         [Fact]
         public async void WhenUnAuthenticatedUser_HttpResponseIsUnauthorized()
         {
-            HttpRequestMessage message = new()
-            {
-                RequestUri = new Uri(ApiRouteLink.HumanResources.Authorization.RequestRefreshToken.Absolute),
-                Version = new Version(ApiRouteLink.HumanResources.Authorization.RequestRefreshToken.Version),
-                Method = ApiRouteLink.HumanResources.Authorization.RequestRefreshToken.Method,
-                Content = FunctionalTestService.GetHttpContentAsJson(new RequestDto("Other device!"))
-            };
-            
-            var response = await testService.GetResponseMessageAsync(message);
+            IAuthenticationService service = new AuthenticationService(factory.CreateClient(), clientDeviceMock.Object);
+            var response = await service.RefreshCurrentToken();
 
-            Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
-        }
-
-        [Fact]
-        public async void WhenAuthenticatedButInvalidRequest_HttpResponseIsBadRequest()
-        {
-            var token = await RequestNewTokenTests.GetNewTokenAsync2(factory, device);
-            HttpRequestMessage message = new()
-            {
-                RequestUri = new Uri(ApiRouteLink.HumanResources.Authorization.RequestRefreshToken.Absolute),
-                Version = new Version(ApiRouteLink.HumanResources.Authorization.RequestRefreshToken.Version),
-                Method = ApiRouteLink.HumanResources.Authorization.RequestRefreshToken.Method,
-                Content = FunctionalTestService.GetHttpContentAsJson(new {})
-            };
-            
-            var response = await testService.GetResponseMessageAsync(message, token);
-
-            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+            Assert.Equal(HttpStatusCode.Unauthorized, response.StatuesCode);
         }
 
         [Fact]
         public async void WhenAuthenticatedButNotAuthorized_HttpResponseIsForbidden()
         {
             //When different device...
-            var token = await RequestNewTokenTests.GetNewTokenAsync2(factory, device);
-            HttpRequestMessage message = new()
-            {
-                RequestUri = new Uri(ApiRouteLink.HumanResources.Authorization.RequestRefreshToken.Absolute),
-                Version = new Version(ApiRouteLink.HumanResources.Authorization.RequestRefreshToken.Version),
-                Method = ApiRouteLink.HumanResources.Authorization.RequestRefreshToken.Method,
-                Content = FunctionalTestService.GetHttpContentAsJson(new RequestDto("Other device!"))
-            };
+            var token = await RequestNewTokenTests.GetNewTokenAsync(factory, device);
             
-            var response = await testService.GetResponseMessageAsync(message, token);
+            clientDeviceMock.Setup(x => x.DeviceId).Returns("Other Device");
+            clientDeviceMock.Setup(x => x.GetTokenAsync()).ReturnsAsync(token);
+            
+            var service = new AuthenticationService(factory.CreateClient(), clientDeviceMock.Object);
+            var response = await service.RefreshCurrentToken();
 
-            Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
+            Assert.Equal(HttpStatusCode.Forbidden, response.StatuesCode);
         }
     }
 }

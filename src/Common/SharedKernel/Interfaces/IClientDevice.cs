@@ -7,7 +7,7 @@ namespace WeeControl.Common.SharedKernel.Interfaces
         string DeviceId { get; }
         
         Task SaveTokenAsync(string token);
-        Task GetTokenTask();
+        Task<string> GetTokenAsync();
 
         Task SaveUserNameTask(string userName);
         Task SaveUserPhotoUrlAsync(string url);

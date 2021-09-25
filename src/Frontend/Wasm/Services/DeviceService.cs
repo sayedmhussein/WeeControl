@@ -20,7 +20,7 @@ namespace WeeControl.Frontend.Wasm.Services
             await LocalStorage.SetItem("token", token);
         }
 
-        public Task GetTokenTask()
+        public Task<string> GetTokenAsync()
         {
             return LocalStorage.GetItem<string>("token");
         }

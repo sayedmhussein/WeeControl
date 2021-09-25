@@ -5,7 +5,7 @@ namespace WeeControl.Common.SharedKernel.BoundedContexts.Shared
 {
     public class ResponseDto : ISerializable, IVerifyable, IResponseDto
     {
-        public HttpStatusCode HttpStatuesCode { get; set; }
+        public HttpStatusCode StatuesCode { get; set; }
 
         public ResponseDto()
         {
@@ -13,7 +13,7 @@ namespace WeeControl.Common.SharedKernel.BoundedContexts.Shared
 
         public ResponseDto(HttpStatusCode httpStatuesCode)
         {
-            HttpStatuesCode = httpStatuesCode;
+            StatuesCode = httpStatuesCode;
         }
     }
 }
