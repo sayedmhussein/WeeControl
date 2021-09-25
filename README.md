@@ -18,7 +18,12 @@ In order to use this application you need to do the following:
 ## Installation Instructions
 This project code depend on many nuget packages, so ensure to restore the packages before running the servers.
 
-[comment]: <> (## Operating Instructions)
+## Operating Instructions
+1. Ensure that both API and Blazor servers are running.
+2. On Blazor webpage using credentials:
+   Username : admin
+   Password : admin
+3. If you face any issues try to migrate the db or drop the old database then try again.
 
 [comment]: <> (<del>“What is this? Where does this go?” Now is the time to demystify any assumptions around how to use your project.</del>)
 
