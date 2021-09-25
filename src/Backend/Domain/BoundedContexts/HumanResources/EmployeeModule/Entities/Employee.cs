@@ -19,6 +19,12 @@ namespace WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModul
         
         public virtual Territory Territory { get; set; }
         public string TerritoryCode { get; set; }
+
+        public string DepartmentCode { get; set; }
+
+        public string PositionCode { get; set; }
+
+        public string AccountSuspensionArgument { get; set; }
         
         public Credentials Credentials { get; set; }
 

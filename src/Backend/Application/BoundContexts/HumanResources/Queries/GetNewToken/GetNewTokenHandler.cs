@@ -49,8 +49,22 @@ namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.Ge
                     x.Credentials.Password == request.Password, cancellationToken);
 
                 if (employee is null) throw new NotFoundException();
+
+                var session = await context.Sessions.FirstOrDefaultAsync(x => x.SessionId == request.SessionId && x.TerminationTs == null, cancellationToken);
+                if (session is null)
+                {
+                    session = Session.Create(employee.EmployeeId, request.Device);
+                }
+                else
+                {
+                    if (session.DeviceId != request.Device)
+                    {
+                        session.TerminationTs = DateTime.UtcNow;
+                        await context.SaveChangesAsync(cancellationToken);
+                        throw new NotAllowedException("User used session not related to device!");
+                    }
+                }
                 
-                var session = Session.Create(employee.EmployeeId, request.Device);
                 await context.Sessions.AddAsync(session, cancellationToken);
                 await context.SaveChangesAsync(cancellationToken);
 
@@ -97,7 +111,7 @@ namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.Ge
                 {
                     Subject = ci,
                     IssuedAt = DateTime.UtcNow,
-                    Expires = DateTime.UtcNow.AddMinutes(5),
+                    Expires = DateTime.UtcNow.AddDays(5),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                 };
                 var token = jwtService.GenerateToken(descriptor);
@@ -110,7 +124,7 @@ namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.Ge
             }
             else
             {
-                throw new BadRequestException("Didn't valid request query parameters.");
+                throw new BadRequestException("Invalid request query parameters.");
             }
         }
         
