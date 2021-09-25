@@ -41,7 +41,7 @@ namespace WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModul
                 TerritoryCode = territoryCode,
                 FirstName = firstName, 
                 LastName = lastName, 
-                Credentials = new Credentials("admin", "admin")
+                Credentials = new Credentials(username, password)
             };
 
             return employee;

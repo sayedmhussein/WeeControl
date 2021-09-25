@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Net;
 using System.Security.Claims;
 using System.Text;
@@ -79,10 +80,17 @@ namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.Ge
 
                 var employee = await 
                     context.Employees.FirstOrDefaultAsync(x => x.EmployeeId == session.EmployeeId, cancellationToken);
+
+                
                 
                 var ci = new ClaimsIdentity("custom");
                 ci.AddClaim(new Claim(SecurityClaims.HumanResources.Session, session.SessionId.ToString()));
-
+                ci.AddClaim(new Claim(SecurityClaims.HumanResources.Territory, employee.TerritoryCode));
+                foreach (var c in employee.Claims.Where(x => x.RevokedTs == null).ToList())
+                {
+                    ci.AddClaim(new Claim(c.ClaimType, c.ClaimValue));
+                }
+                
                 var key = Encoding.ASCII.GetBytes(configuration["Jwt:Key"]);
                 
                 var descriptor = new SecurityTokenDescriptor()

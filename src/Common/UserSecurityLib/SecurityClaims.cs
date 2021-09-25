@@ -12,7 +12,7 @@ namespace WeeControl.Common.UserSecurityLib
             
             public static class Tags
             {
-                
+                public const string SuperUser = "sudo";
             }
         }
     }
