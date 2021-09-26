@@ -1,10 +1,14 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using WeeControl.Backend.Persistence.BoundedContexts.HumanResources;
+using Xunit;
+
+[assembly: CollectionBehavior(CollectionBehavior.CollectionPerAssembly, DisableTestParallelization = true, MaxParallelThreads = 1)]
 
 namespace WeeControl.Backend.WebApi.Test.Functional.TestHelpers
 {
@@ -25,7 +29,7 @@ namespace WeeControl.Backend.WebApi.Test.Functional.TestHelpers
                 {
                     options.EnableSensitiveDataLogging();
                     options.ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning));
-                    options.UseInMemoryDatabase("InMemoryDbForTesting");
+                    options.UseInMemoryDatabase(new Random().NextDouble().ToString());
                 });
 
                 var sp = services.BuildServiceProvider();

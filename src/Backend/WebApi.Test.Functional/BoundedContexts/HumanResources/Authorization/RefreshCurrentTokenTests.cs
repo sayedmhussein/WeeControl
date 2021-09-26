@@ -8,6 +8,7 @@ using WeeControl.Common.SharedKernel.BoundedContexts.HumanResources.ClientSideSe
 using WeeControl.Common.SharedKernel.Interfaces;
 using Xunit;
 
+
 namespace WeeControl.Backend.WebApi.Test.Functional.BoundedContexts.HumanResources.Authorization
 {
     public class RefreshCurrentTokenTests : IClassFixture<CustomWebApplicationFactory<Startup>>, IDisposable, ITestsRequireAuthentication

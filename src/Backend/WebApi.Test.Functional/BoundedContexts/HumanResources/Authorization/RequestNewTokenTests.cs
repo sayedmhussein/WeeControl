@@ -12,7 +12,12 @@ namespace WeeControl.Backend.WebApi.Test.Functional.BoundedContexts.HumanResourc
     public class RequestNewTokenTests : IClassFixture<CustomWebApplicationFactory<Startup>>, ITestsNotRequireAuthentication
     {
         #region static
-        public static async Task<string> GetNewTokenAsync(CustomWebApplicationFactory<Startup> factory, string device)
+        public static Task<string> GetNewTokenAsync(CustomWebApplicationFactory<Startup> factory, string device)
+        {
+            return GetNewTokenAsync(factory, "admin", "admin", device);
+        }
+        
+        public static async Task<string> GetNewTokenAsync(CustomWebApplicationFactory<Startup> factory, string username, string password, string device)
         {
             var token = string.Empty;
             
@@ -22,7 +27,7 @@ namespace WeeControl.Backend.WebApi.Test.Functional.BoundedContexts.HumanResourc
             deviceMock.Setup(x => x.SaveTokenAsync(It.IsAny<string>())).Callback<string>(y => token = y);
             
             IAuthenticationService service = new AuthenticationService(factory.CreateClient(), deviceMock.Object);
-            var response = await service.RequestNewToken(new RequestNewTokenDto("admin", "admin"));
+            var response = await service.RequestNewToken(new RequestNewTokenDto(username, password));
 
 
             return token;
