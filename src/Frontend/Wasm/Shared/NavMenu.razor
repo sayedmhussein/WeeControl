@@ -1,5 +1,7 @@
 ﻿<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="">WeeControl</a>
+    <a class="navbar-brand" href="">
+        <img src="images/logo.png" alt="WeeControl" width="20" height="20"/>
+    </a>
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -46,9 +48,9 @@
 
     protected override async void OnInitialized()
     {
-        base.OnInitialized();
+        await base.OnInitializedAsync();
         var user = (await AuthState).User;
-        if (user.Identity.IsAuthenticated == false)
+        if (user?.Identity?.IsAuthenticated == false)
         {
             NavManager.NavigateTo("login");
         }

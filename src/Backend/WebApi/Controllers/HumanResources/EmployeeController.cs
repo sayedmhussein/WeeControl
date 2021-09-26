@@ -48,9 +48,6 @@ namespace WeeControl.Backend.WebApi.Controllers.HumanResources
         ///
         /// </remarks>
         /// 
-        /// <param name="command">
-        ///     Employee DTO as payload inside Request DTO
-        /// </param>
         /// 
         /// <returns>
         ///     The newely created Employee DTO
@@ -69,11 +66,12 @@ namespace WeeControl.Backend.WebApi.Controllers.HumanResources
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [MapToApiVersion("1.0")]
-        // public async Task<ActionResult<IEnumerable<EmployeeDto>>> PutEmployeeV1([FromBody] AddEmployeeCommand command)
-        // {
-        //     var response = await mediatR.Send(command);
-        //     return Created("Api/[controller]/", response);
-        // }
+        public Task<ActionResult<IEnumerable<EmployeeDto>>> PutEmployeeV1()
+        {
+            // var response = await mediatR.Send(command);
+            // return Created("Api/[controller]/", response);
+            throw new NotImplementedException();
+        }
 
         [Authorize(SecurityPolicies.Employee.CanAlterEmployee)]
         [HttpDelete("{id}")]
@@ -87,13 +85,13 @@ namespace WeeControl.Backend.WebApi.Controllers.HumanResources
         [MapToApiVersion("1.0")]
         public Task<ActionResult<EmployeeDto>> DeleteEmployeeV1(Guid id)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException(id.ToString());
         }
         #endregion
 
         #region Employee Claim
         [HttpGet("Claim/{employeeid}")]
-        public async Task<ActionResult<IEnumerable<EmployeeClaimDto>>> GetEmployeeClaimsV1(Guid employeeid)
+        public Task<ActionResult<IEnumerable<EmployeeClaimDto>>> GetEmployeeClaimsV1(Guid employeeid)
         {
             // var response = await mediatR.Send(new GetEmployeeClaimsQuery() { EmployeeId = employeeid });
             // var claims = new List<EmployeeClaimDto>();

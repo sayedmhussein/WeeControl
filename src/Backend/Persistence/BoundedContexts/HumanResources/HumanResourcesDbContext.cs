@@ -8,6 +8,7 @@ using WeeControl.Backend.Domain.BoundedContexts.HumanResources.TerritoryModule.E
 using WeeControl.Backend.Persistence.BoundedContexts.HumanResources.Configurations;
 using WeeControl.Common.UserSecurityLib;
 using Address = WeeControl.Backend.Domain.BoundedContexts.HumanResources.TerritoryModule.ValueObjects.Address;
+using Claims = WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModule.ValueObjects.Claims;
 
 namespace WeeControl.Backend.Persistence.BoundedContexts.HumanResources
 {
