@@ -48,7 +48,9 @@ namespace WeeControl.Backend.Application.Test.BoundedContexts.HumanResources.Que
         [Fact]
         public async void WhenValidUsernameAndPassword_ReturnProperDto()
         {
-            var query = new GetNewTokenQuery(new RequestDto<RequestNewTokenDto>(nameof(WhenValidUsernameAndPassword_ReturnProperDto), new RequestNewTokenDto("admin", "admin")));
+            var query = new GetNewTokenQuery(
+                new RequestDto<RequestNewTokenDto>(nameof(WhenValidUsernameAndPassword_ReturnProperDto), 
+                new RequestNewTokenDto("admin", "admin")));
             
             var response = await new GetNewTokenHandler(context, jwtService, null, configurationMock.Object).Handle(query, default);
             
@@ -62,28 +64,31 @@ namespace WeeControl.Backend.Application.Test.BoundedContexts.HumanResources.Que
         {
             var service = new GetNewTokenHandler(context, jwtService, null, configurationMock.Object);
             
-            var query1 = new GetNewTokenQuery(new RequestDto<RequestNewTokenDto>("device", new RequestNewTokenDto("admin", "admin")));
-            await service.Handle(query1, default);
+            var query = new GetNewTokenQuery(
+                new RequestDto<RequestNewTokenDto>(nameof(WhenValidUsernameAndPasswordButExistingSessionIsActive_ShouldNotCreatAnotherSession), 
+                    new RequestNewTokenDto("admin", "admin")));
+            await service.Handle(query, default);
             var count1 = await context.Sessions.CountAsync();
-
-            var query2 = new GetNewTokenQuery(new RequestDto("device"), context.Sessions.First().SessionId);
-            await service.Handle(query2, default);
+            
+            await service.Handle(query, default);
             var count2 = await context.Sessions.CountAsync();
             
             Assert.Equal(count1, count2);
         }
         
         [Fact]
-        public async void WhenValidUsernameAndPasswordButExistingSessionIsActive_ShouldCreatAnotherSession()
+        public async void WhenValidUsernameAndPasswordButExistingSessionIsNotActive_ShouldCreatAnotherSession()
         {
             var service = new GetNewTokenHandler(context, jwtService, null, configurationMock.Object);
             
-            var query1 = new GetNewTokenQuery(new RequestDto<RequestNewTokenDto>("device", new RequestNewTokenDto("admin", "admin")));
-            await service.Handle(query1, default);
+            var query = new GetNewTokenQuery(new RequestDto<RequestNewTokenDto>("device", new RequestNewTokenDto("admin", "admin")));
+            await service.Handle(query, default);
             var count1 = await context.Sessions.CountAsync();
-
-            var query2 = new GetNewTokenQuery(new RequestDto("another device"), context.Sessions.First().SessionId);
-            await service.Handle(query2, default);
+            
+            context.Sessions.First().TerminationTs = DateTime.UtcNow;
+            await context.SaveChangesAsync(default);
+            
+            await service.Handle(query, default);
             var count2 = await context.Sessions.CountAsync();
             
             Assert.Equal(count1 + 1, count2);
@@ -97,7 +102,6 @@ namespace WeeControl.Backend.Application.Test.BoundedContexts.HumanResources.Que
             var service = new GetNewTokenHandler(context, jwtService, null, configurationMock.Object);
             
             await Assert.ThrowsAsync<NotFoundException>(() => service.Handle(query, default));
-            
         }
 
         [Theory]
@@ -154,7 +158,5 @@ namespace WeeControl.Backend.Application.Test.BoundedContexts.HumanResources.Que
             await Assert.ThrowsAsync<NotAllowedException>(() => service.Handle(query, default));
         }
         #endregion
-
-       
     }
 }

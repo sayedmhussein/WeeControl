@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -45,7 +44,7 @@ namespace WeeControl.Frontend.Wasm
             builder.Services.AddOptions();
             builder.Services.AddAuthorizationCore();
 
-            builder.Services.AddBlazoredLocalStorage();
+            //builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddAuthorizationCore();
             
             

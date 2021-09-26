@@ -58,10 +58,11 @@ namespace WeeControl.Backend.WebApi.Test.Functional.BoundedContexts.HumanResourc
             clientDeviceMock.Setup(x => x.GetTokenAsync()).ReturnsAsync(token);
             var service = new AuthenticationService(factory.CreateClient(), clientDeviceMock.Object);
 
-            await service.Logout();
-            var response = await service.Logout();
+            var response1 = await service.Logout();
+            Assert.Equal(HttpStatusCode.OK, response1.StatuesCode);
             
-            Assert.Equal(HttpStatusCode.Forbidden, response.StatuesCode);
+            var response2 = await service.Logout();
+            Assert.Equal(HttpStatusCode.Forbidden, response2.StatuesCode);
         }
     }
 }

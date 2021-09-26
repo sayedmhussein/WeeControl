@@ -50,10 +50,11 @@ namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.Ge
 
                 if (employee is null) throw new NotFoundException();
 
-                var session = await context.Sessions.FirstOrDefaultAsync(x => x.SessionId == request.SessionId && x.TerminationTs == null, cancellationToken);
+                var session = await context.Sessions.FirstOrDefaultAsync(x => x.EmployeeId == employee.EmployeeId && x.TerminationTs == null, cancellationToken);
                 if (session is null)
                 {
                     session = Session.Create(employee.EmployeeId, request.Device);
+                    await context.Sessions.AddAsync(session, cancellationToken);
                 }
                 else
                 {
@@ -65,7 +66,6 @@ namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.Ge
                     }
                 }
                 
-                await context.Sessions.AddAsync(session, cancellationToken);
                 await context.SaveChangesAsync(cancellationToken);
 
                 var ci = new ClaimsIdentity("custom");
