@@ -73,6 +73,7 @@ namespace WeeControl.Backend.Application.Test.BoundedContexts.HumanResources.Que
             Assert.Equal(count1, count2);
         }
         
+        [Fact]
         public async void WhenValidUsernameAndPasswordButExistingSessionIsActive_ShouldCreatAnotherSession()
         {
             var service = new GetNewTokenHandler(context, jwtService, null, configurationMock.Object);
