@@ -1,7 +1,12 @@
 ﻿using System;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 using Moq;
+using WeeControl.Backend.Domain.BoundedContexts.HumanResources;
+using WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModule.Entities;
+using WeeControl.Backend.Persistence.BoundedContexts.HumanResources;
 using WeeControl.Backend.WebApi.Test.Functional.TestHelpers;
 using WeeControl.Common.SharedKernel.BoundedContexts.HumanResources.Authentication;
 using WeeControl.Common.SharedKernel.BoundedContexts.HumanResources.ClientSideServices;
@@ -14,10 +19,10 @@ namespace WeeControl.Backend.WebApi.Test.Functional.BoundedContexts.HumanResourc
     public class RefreshCurrentTokenTests : IClassFixture<CustomWebApplicationFactory<Startup>>, IDisposable, ITestsRequireAuthentication
     {
         #region static
-        public static async Task<string> GetRefreshedTokenAsync(CustomWebApplicationFactory<Startup> factory,
+        public static async Task<string> GetRefreshedTokenAsync(HttpClient client, string username, string password,
             string device)
         {
-            var token1 = await RequestNewTokenTests.GetNewTokenAsync(factory, device);
+            var token1 = await RequestNewTokenTests.GetNewTokenAsync(client, username, password, device);
             var token2 = string.Empty;
             
             Mock<IClientDevice> deviceMock = new();
@@ -26,7 +31,7 @@ namespace WeeControl.Backend.WebApi.Test.Functional.BoundedContexts.HumanResourc
             deviceMock.Setup(x => x.GetTokenAsync()).ReturnsAsync(token1);
             deviceMock.Setup(x => x.SaveTokenAsync(It.IsAny<string>())).Callback<string>(y => token2 = y);
             
-            IAuthenticationService service = new AuthenticationService(factory.CreateClient(), deviceMock.Object);
+            IAuthenticationService service = new AuthenticationService(client, deviceMock.Object);
             var response = await service.RefreshCurrentToken();
 
             return token2;
@@ -56,7 +61,14 @@ namespace WeeControl.Backend.WebApi.Test.Functional.BoundedContexts.HumanResourc
         [Fact]
         public async void WhenSendingValidRequest_HttpResponseIsSuccessCode()
         {
-            var token = await GetRefreshedTokenAsync(factory, nameof(RefreshCurrentTokenTests));
+            var client = factory.CreateClient();
+            var scope = factory.Services.GetService<IServiceScopeFactory>().CreateScope();
+            var context = scope.ServiceProvider.GetService<IHumanResourcesDbContext>();
+            
+            await context.Employees.AddAsync(Employee.Create("Code", "FirstName", "LastName", nameof(WhenSendingValidRequest_HttpResponseIsSuccessCode), "password"));
+            await context.SaveChangesAsync(default);
+            
+            var token = await GetRefreshedTokenAsync(client, nameof(WhenSendingValidRequest_HttpResponseIsSuccessCode), "password", nameof(RefreshCurrentTokenTests));
 
             Assert.NotEmpty(token);
         }
@@ -74,7 +86,8 @@ namespace WeeControl.Backend.WebApi.Test.Functional.BoundedContexts.HumanResourc
         public async void WhenAuthenticatedButNotAuthorized_HttpResponseIsForbidden()
         {
             //When different device...
-            var token = await RequestNewTokenTests.GetNewTokenAsync(factory, device);
+            var username = new Random().NextDouble().ToString();
+            var token = await RequestNewTokenTests.GetNewTokenAsync(factory.CreateClient(), username, "password", device);
             
             clientDeviceMock.Setup(x => x.DeviceId).Returns("Other Device");
             clientDeviceMock.Setup(x => x.GetTokenAsync()).ReturnsAsync(token);

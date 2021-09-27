@@ -170,6 +170,21 @@ namespace WeeControl.Backend.Application.Test.BoundedContexts.HumanResources.Que
             
             await Assert.ThrowsAsync<NotAllowedException>(() => service.Handle(query, default));
         }
+
+        public async void WhenUsingDifferentDevice_ThrowNotAllowedException()
+        {
+            var request = new RequestDto("other device");
+
+            var session = Session.Create(Guid.NewGuid(), "device");
+            session.Employee = context.Employees.First();
+            await context.Sessions.AddAsync(session , default);
+            await context.SaveChangesAsync(default);
+            
+            var query = new GetNewTokenQuery(request, session.SessionId);
+            var service = new GetNewTokenHandler(context, jwtService, null, configurationMock.Object);
+            
+            await Assert.ThrowsAsync<NotAllowedException>(() => service.Handle(query, default));
+        }
         #endregion
     }
 }

@@ -29,7 +29,7 @@ namespace WeeControl.Backend.WebApi.Test.Functional.TestHelpers
                 {
                     options.EnableSensitiveDataLogging();
                     options.ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning));
-                    options.UseInMemoryDatabase(new Random().NextDouble().ToString());
+                    options.UseInMemoryDatabase("FunctionalTestsDbContext");
                 });
 
                 var sp = services.BuildServiceProvider();

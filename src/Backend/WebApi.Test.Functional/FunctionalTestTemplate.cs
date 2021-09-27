@@ -35,9 +35,9 @@ namespace WeeControl.Backend.WebApi.Test.Functional
         [Fact]
         public async void Exampe()
         {
-            var token = await RefreshCurrentTokenTests.GetRefreshedTokenAsync(factory, device);
-            clientDeviceMock.Setup(x => x.GetTokenAsync()).ReturnsAsync(token);
-            var service = new AuthenticationService(factory.CreateClient(), clientDeviceMock.Object);
+            // var token = await RefreshCurrentTokenTests.GetRefreshedTokenAsync(factory, device);
+            // clientDeviceMock.Setup(x => x.GetTokenAsync()).ReturnsAsync(token);
+            // var service = new AuthenticationService(factory.CreateClient(), clientDeviceMock.Object);
             
             
         }
