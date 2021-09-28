@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.GetListOfTerritories;
 using WeeControl.Backend.Application.Interfaces;
 using WeeControl.Common.UserSecurityLib;
+using WeeControl.Common.UserSecurityLib.BoundedContexts.HumanResources;
 
 namespace WeeControl.Backend.WebApi.Services
 {
@@ -30,7 +31,7 @@ namespace WeeControl.Backend.WebApi.Services
         {
             if (sessionid != null) return sessionid;
 
-            var session_guid = Claims.FirstOrDefault(c => c.Type == SecurityClaims.HumanResources.Session)?.Value;
+            var session_guid = Claims.FirstOrDefault(c => c.Type == HumanResourcesData.Claims.Session)?.Value;
             if (Guid.TryParse(session_guid, out Guid session_string))
             {
                 sessionid = session_string;
@@ -48,7 +49,7 @@ namespace WeeControl.Backend.WebApi.Services
         {
             if (territories.Count != 0) return territories;
             
-            var territoryCode = Claims.FirstOrDefault(c => c.Type == SecurityClaims.HumanResources.Territory)?.Value;
+            var territoryCode = Claims.FirstOrDefault(c => c.Type == HumanResourcesData.Claims.Territory)?.Value;
             territories.Add(territoryCode);
             var cla = await mediatR.Send(new GetTerritoriesQuery(territoryCode));
 

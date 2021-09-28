@@ -9,8 +9,10 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModule.Entities;
 using WeeControl.Common.SharedKernel.Obsolutes.Dtos;
 using WeeControl.Common.UserSecurityLib;
+using WeeControl.Common.UserSecurityLib.BoundedContexts.HumanResources;
 using WeeControl.Common.UserSecurityLib.Interfaces;
 
 namespace WeeControl.Backend.WebApi.Controllers.HumanResources
@@ -55,7 +57,7 @@ namespace WeeControl.Backend.WebApi.Controllers.HumanResources
         /// 
         /// <response code="201">Returns the newly created item</response>
         /// <response code="400">DTO has missing/invalid values</response>  
-        [Authorize(SecurityPolicies.Employee.CanAlterEmployee)]
+        [Authorize(HumanResourcesData.Policies.CanAlterEmployee)]
         [HttpPut]
         //[Consumes(MediaTypeNames.Application.Json)]
         //[Produces(MediaTypeNames.Application.Json)]
@@ -73,7 +75,7 @@ namespace WeeControl.Backend.WebApi.Controllers.HumanResources
             throw new NotImplementedException();
         }
 
-        [Authorize(SecurityPolicies.Employee.CanAlterEmployee)]
+        [Authorize(HumanResourcesData.Policies.CanAlterEmployee)]
         [HttpDelete("{id}")]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
