@@ -2,13 +2,9 @@
 using System.Globalization;
 using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Models;
 using Moq;
 using WeeControl.Backend.Domain.BoundedContexts.HumanResources;
-using WeeControl.Backend.WebApi.Test.Functional.BoundedContexts.HumanResources.Authorization;
 using WeeControl.Backend.WebApi.Test.Functional.TestHelpers;
-using WeeControl.Common.SharedKernel;
-using WeeControl.Common.SharedKernel.BoundedContexts.HumanResources.ClientSideServices;
 using WeeControl.Common.SharedKernel.Interfaces;
 using Xunit;
 

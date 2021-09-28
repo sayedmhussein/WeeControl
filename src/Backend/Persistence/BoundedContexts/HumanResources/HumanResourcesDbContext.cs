@@ -3,7 +3,6 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using WeeControl.Backend.Domain.BoundedContexts.HumanResources;
 using WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModule.Entities;
-using WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModule.ValueObjects;
 using WeeControl.Backend.Domain.BoundedContexts.HumanResources.TerritoryModule.Entities;
 using WeeControl.Backend.Persistence.BoundedContexts.HumanResources.Configurations;
 using WeeControl.Common.UserSecurityLib;

@@ -4,7 +4,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using WeeControl.Backend.Domain.BoundedContexts.HumanResources;
 using WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModule.Entities;
 using WeeControl.Backend.Persistence.BoundedContexts.HumanResources;
 using WeeControl.Backend.WebApi.Test.Functional.TestHelpers;
