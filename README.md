@@ -5,7 +5,7 @@ This project is created as a milestone to develop and customize a software appli
 ### Philosophy:
 * Continuous refactoring to increase code readability and performance.
 * Separation of concerns by applying SOLID principles to the limit before creating too much abstraction.
-* Functional and Unit testing are important during development.
+* Functional and Unit testing are very important during application development.
 
 ### Technologies:
 * .NET 5 for Server API.
@@ -13,10 +13,11 @@ This project is created as a milestone to develop and customize a software appli
 * Entity Framework Core as database persistence.
 
 ### Patterns:
-* CQRS using Mediator in backend side.
+* CQRS using Mediator at backend side.
+* DDD at backend side.
 
 ## Copyright and Licensing
-This is open source project, while you need to read and accept each nuget package imported into this project.
+This is open source project, while you need to read and accept each nuget package licence imported into this project.
 
 ## Configuration Instructions
 In order to use this application you need to do the following:
@@ -70,7 +71,7 @@ Appreciate the opensoure community for inspiring and supporting such project:
 * The youtube channel [VoidRealms](https://www.youtube.com/channel/UCYP0nk48grsMwO3iL8YaAKA) gave the courage to start getting a workable programming application.
 * Jetbrains for approving licence to use [Rider](https://www.jetbrains.com/rider/) to develop this opensource project.
 
-**<mark>List not Completed Yet</mark>**
+**<mark>List not Completed Yet!</mark>**
 
 [comment]: <> (## A changelog &#40;usually for programmers&#41;)
 
