@@ -38,21 +38,13 @@ namespace WeeControl.Frontend.Wasm
                 return new AuthenticationService(factory, device);
             });
 
-            //builder.Services.AddTransient<IAuthenticationRefresh, AuthenticationRefreshService>();
-            
             builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
             builder.Services.AddOptions();
             builder.Services.AddAuthorizationCore();
-
-            //builder.Services.AddBlazoredLocalStorage();
+            
             builder.Services.AddAuthorizationCore();
             
-            
-            //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-            //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:5001/") });
-
-
-            ApiRouteLink.HumanResources.Base = "https://localhost:5001/";
+            ApiRouteLink.HumanResources.Base = builder.Configuration["ApiBaseAddress"];
 
             builder.Services.AddHttpClient("UnSecured", 
                 client => client.BaseAddress = new Uri("https://localhost:5001/"));
@@ -63,14 +55,7 @@ namespace WeeControl.Frontend.Wasm
 
             builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>()
                 .CreateClient("Secured"));
-
             
-            // builder.Services.AddAuthorizationCore(o =>
-            // {
-            //     o.AddPolicy("SuperAdmin", policy => policy.RequireClaim("SuperAdmin"));
-            //     o.AddPolicy("CountyAdmin", policy => policy.RequireClaim("CountyAdmin"));
-            // });
-
             builder.Services.AddApiAuthorization(options =>
             {
                 options.AuthenticationPaths.LogInPath = "login";

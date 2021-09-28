@@ -1,22 +1,39 @@
 # WeeControl
 ## Project Overview
-This project is created to be milestone for applications which could be used for building applications to control internal operations for organization or companies.
+This project is created as a milestone to develop and customize a software application using .NET technologies to solve a business need.
 
-Thanks for open source community for inspiring such activity, currenly the source code is uploaded in github, feel free to contribute or use it for your application.
+### Philosophy:
+* Continuous refactoring to increase code readability and performance.
+* Separation of concerns by applying SOLID principles to the limit before creating too much abstraction.
+* Functional and Unit testing are important during development.
+
+### Technologies:
+* .NET 5 for Server API.
+* Blazor WebAssembly as front end.
+* Entity Framework Core as database persistence.
+
+### Patterns:
+* CQRS using Mediator in backend side.
+
+## Copyright and Licensing
+This is open source project, while you need to read and accept each nuget package imported into this project.
 
 ## Configuration Instructions
 In order to use this application you need to do the following:
 
-1. Prepare your backend database connection string, it is recommended to use postgres as backend database.
-2. <del>Prepare your backend file storage connection string, you can use your own server directory</del>.
-3. Edit connections strings and JWT settings in \"/src/Backend/WebApi/appsettins.json\".
-4. Run WebApi server.
-5. Edit connections strings and JWT settings in \"/src/Frontend/Wasm/wwwroot/appsettins.json\".
-6. Run Wasm (Blazor App).
-7. ...
+1. Edit values in \"/src/Backend/WebApi/appsettins.json\" including:
+    1. Database connection string (recommended to use postgres as backend database).
+    2. <del>File storage connection string, you can use your own server directory</del>.
+2. Edit values in \"/src/Frontend/Wasm/wwwroot/appsettins.json\" including:
+    1. Api base address of WebApi server.
+3. Run WebApi server.
+4. Run Wasm (Blazor App).
+5. ...
 
 ## Installation Instructions
 This project code depend on many nuget packages, so ensure to restore the packages before running the servers.
+
+Note that this project is **currently under heavy development** so if you faced any issues try to manually delete the database then the application will create new one with the default values, or migrate the database.
 
 ## Operating Instructions
 1. Ensure that both API and Blazor servers are running.
@@ -31,8 +48,6 @@ This project code depend on many nuget packages, so ensure to restore the packag
 
 [comment]: <> (<del>Contingent upon how large your source code is, you may opt to not include the file tree, however you can still explain how to traverse through your code. For example, how is your code modularized? Did you use the MVC &#40;Model, View, Controller&#41; method? Did you use a Router system? Just a few questions to consider when detailing your file structure.</del>)
 
-## Copyright and Licensing
-This project is code as open source project, while you must read and agree to the licences of all nuget packages included in the project.
 
 ## Contact
 You can contact me on my email at <sayed.hussein@gmx.com>.
