@@ -15,7 +15,7 @@ using WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModule.En
 using WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModule.ValueObjects;
 using WeeControl.Common.SharedKernel.BoundedContexts.Shared;
 using WeeControl.Common.SharedKernel.Obsolutes.Dtos;
-using WeeControl.Common.UserSecurityLib;
+using WeeControl.Common.UserSecurityLib.BoundedContexts.HumanResources;
 using WeeControl.Common.UserSecurityLib.Interfaces;
 
 namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.GetNewToken
@@ -50,10 +50,11 @@ namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.Ge
 
                 if (employee is null) throw new NotFoundException();
 
-                var session = await context.Sessions.FirstOrDefaultAsync(x => x.SessionId == request.SessionId && x.TerminationTs == null, cancellationToken);
+                var session = await context.Sessions.FirstOrDefaultAsync(x => x.EmployeeId == employee.EmployeeId && x.TerminationTs == null, cancellationToken);
                 if (session is null)
                 {
                     session = Session.Create(employee.EmployeeId, request.Device);
+                    await context.Sessions.AddAsync(session, cancellationToken);
                 }
                 else
                 {
@@ -65,11 +66,10 @@ namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.Ge
                     }
                 }
                 
-                await context.Sessions.AddAsync(session, cancellationToken);
                 await context.SaveChangesAsync(cancellationToken);
 
                 var ci = new ClaimsIdentity("custom");
-                ci.AddClaim(new Claim(SecurityClaims.HumanResources.Session, session.SessionId.ToString()));
+                ci.AddClaim(new Claim(HumanResourcesData.Claims.Session, session.SessionId.ToString()));
 
                 var key = Encoding.ASCII.GetBytes(configuration["Jwt:Key"]);
                 
@@ -98,8 +98,8 @@ namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.Ge
                 
                 
                 var ci = new ClaimsIdentity("custom");
-                ci.AddClaim(new Claim(SecurityClaims.HumanResources.Session, session.SessionId.ToString()));
-                ci.AddClaim(new Claim(SecurityClaims.HumanResources.Territory, employee.TerritoryCode));
+                ci.AddClaim(new Claim(HumanResourcesData.Claims.Session, session.SessionId.ToString()));
+                ci.AddClaim(new Claim(HumanResourcesData.Claims.Territory, employee.TerritoryCode));
                 foreach (var c in employee.Claims.Where(x => x.RevokedTs == null).ToList())
                 {
                     ci.AddClaim(new Claim(c.ClaimType, c.ClaimValue));

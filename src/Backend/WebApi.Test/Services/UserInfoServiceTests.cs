@@ -8,6 +8,7 @@ using System.Threading;
 using WeeControl.Backend.WebApi.Services;
 using MediatR;
 using WeeControl.Common.UserSecurityLib;
+using WeeControl.Common.UserSecurityLib.BoundedContexts.HumanResources;
 
 namespace WeeControl.Backend.WebApi.Test.Services
 {
@@ -20,8 +21,8 @@ namespace WeeControl.Backend.WebApi.Test.Services
 
         public UserInfoServiceTests()
         {
-            sessionClaim = new Claim(SecurityClaims.HumanResources.Session, Guid.NewGuid().ToString());
-            territoryClaim = new Claim(SecurityClaims.HumanResources.Territory, Guid.NewGuid().ToString());
+            sessionClaim = new Claim(HumanResourcesData.Claims.Session, Guid.NewGuid().ToString());
+            territoryClaim = new Claim(HumanResourcesData.Claims.Territory, Guid.NewGuid().ToString());
 
             var claims = new List<Claim>()
             {

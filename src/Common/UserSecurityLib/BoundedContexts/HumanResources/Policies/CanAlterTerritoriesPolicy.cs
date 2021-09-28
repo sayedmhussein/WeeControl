@@ -4,9 +4,9 @@ using WeeControl.Common.UserSecurityLib.Helpers.CustomHandlers.TokenRefreshment;
 
 namespace WeeControl.Common.UserSecurityLib.BoundedContexts.HumanResources.Policies
 {
-    public class CanAlterTerritoriesPolicy : PolicyBuilderBase
+    internal class CanAlterTerritoriesPolicy : PolicyBuilderBase
     {
-        public CanAlterTerritoriesPolicy()
+        internal CanAlterTerritoriesPolicy()
         {
             Builder.Requirements.Add(new TokenRefreshmentRequirement(TimeSpan.FromMinutes(5)));
         }

@@ -9,8 +9,10 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModule.Entities;
 using WeeControl.Common.SharedKernel.Obsolutes.Dtos;
 using WeeControl.Common.UserSecurityLib;
+using WeeControl.Common.UserSecurityLib.BoundedContexts.HumanResources;
 using WeeControl.Common.UserSecurityLib.Interfaces;
 
 namespace WeeControl.Backend.WebApi.Controllers.HumanResources
@@ -48,9 +50,6 @@ namespace WeeControl.Backend.WebApi.Controllers.HumanResources
         ///
         /// </remarks>
         /// 
-        /// <param name="command">
-        ///     Employee DTO as payload inside Request DTO
-        /// </param>
         /// 
         /// <returns>
         ///     The newely created Employee DTO
@@ -58,7 +57,7 @@ namespace WeeControl.Backend.WebApi.Controllers.HumanResources
         /// 
         /// <response code="201">Returns the newly created item</response>
         /// <response code="400">DTO has missing/invalid values</response>  
-        [Authorize(SecurityPolicies.Employee.CanAlterEmployee)]
+        [Authorize(HumanResourcesData.Policies.CanAlterEmployee)]
         [HttpPut]
         //[Consumes(MediaTypeNames.Application.Json)]
         //[Produces(MediaTypeNames.Application.Json)]
@@ -69,13 +68,14 @@ namespace WeeControl.Backend.WebApi.Controllers.HumanResources
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         [MapToApiVersion("1.0")]
-        // public async Task<ActionResult<IEnumerable<EmployeeDto>>> PutEmployeeV1([FromBody] AddEmployeeCommand command)
-        // {
-        //     var response = await mediatR.Send(command);
-        //     return Created("Api/[controller]/", response);
-        // }
+        public Task<ActionResult<IEnumerable<EmployeeDto>>> PutEmployeeV1()
+        {
+            // var response = await mediatR.Send(command);
+            // return Created("Api/[controller]/", response);
+            throw new NotImplementedException();
+        }
 
-        [Authorize(SecurityPolicies.Employee.CanAlterEmployee)]
+        [Authorize(HumanResourcesData.Policies.CanAlterEmployee)]
         [HttpDelete("{id}")]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
@@ -87,13 +87,13 @@ namespace WeeControl.Backend.WebApi.Controllers.HumanResources
         [MapToApiVersion("1.0")]
         public Task<ActionResult<EmployeeDto>> DeleteEmployeeV1(Guid id)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException(id.ToString());
         }
         #endregion
 
         #region Employee Claim
         [HttpGet("Claim/{employeeid}")]
-        public async Task<ActionResult<IEnumerable<EmployeeClaimDto>>> GetEmployeeClaimsV1(Guid employeeid)
+        public Task<ActionResult<IEnumerable<EmployeeClaimDto>>> GetEmployeeClaimsV1(Guid employeeid)
         {
             // var response = await mediatR.Send(new GetEmployeeClaimsQuery() { EmployeeId = employeeid });
             // var claims = new List<EmployeeClaimDto>();

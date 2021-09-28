@@ -13,7 +13,6 @@ using WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModule.En
 using WeeControl.Backend.Persistence;
 using WeeControl.Common.SharedKernel.BoundedContexts.HumanResources.Authentication;
 using WeeControl.Common.SharedKernel.BoundedContexts.Shared;
-using WeeControl.Common.SharedKernel.Interfaces;
 using WeeControl.Common.UserSecurityLib.Interfaces;
 using WeeControl.Common.UserSecurityLib.Services;
 using Xunit;
@@ -22,6 +21,9 @@ namespace WeeControl.Backend.Application.Test.BoundedContexts.HumanResources.Que
 {
     public class GetNewTokenTests : IDisposable
     {
+        private const string Username = "username";
+        private const string Password = "password";
+        
         private readonly IJwtService jwtService;
         
         private IHumanResourcesDbContext context;
@@ -30,7 +32,10 @@ namespace WeeControl.Backend.Application.Test.BoundedContexts.HumanResources.Que
         
         public GetNewTokenTests()
         {
-            context = new ServiceCollection().AddPersistenceAsInMemory(nameof(GetNewTokenTests)).BuildServiceProvider().GetService<IHumanResourcesDbContext>();
+            context = new ServiceCollection().AddPersistenceAsInMemory(new Random().NextDouble().ToString()).BuildServiceProvider().GetService<IHumanResourcesDbContext>();
+            context.Employees.Add(Employee.Create("Code", "First Name", "LastName", Username, Password));
+            context.SaveChanges();
+
             jwtService = new JwtService();
             
             configurationMock = new Mock<IConfiguration>();
@@ -48,9 +53,13 @@ namespace WeeControl.Backend.Application.Test.BoundedContexts.HumanResources.Que
         [Fact]
         public async void WhenValidUsernameAndPassword_ReturnProperDto()
         {
-            var query = new GetNewTokenQuery(new RequestDto<RequestNewTokenDto>(nameof(WhenValidUsernameAndPassword_ReturnProperDto), new RequestNewTokenDto("admin", "admin")));
             
-            var response = await new GetNewTokenHandler(context, jwtService, null, configurationMock.Object).Handle(query, default);
+            var query = new GetNewTokenQuery(
+                new RequestDto<RequestNewTokenDto>(nameof(WhenValidUsernameAndPassword_ReturnProperDto), 
+                new RequestNewTokenDto(Username, Password)));
+
+            var service = new GetNewTokenHandler(context, jwtService, null, configurationMock.Object);
+            var response = await service.Handle(query, default);
             
             Assert.Equal(HttpStatusCode.OK, response.StatuesCode);
             Assert.NotEmpty(response.Payload.Token);
@@ -62,27 +71,33 @@ namespace WeeControl.Backend.Application.Test.BoundedContexts.HumanResources.Que
         {
             var service = new GetNewTokenHandler(context, jwtService, null, configurationMock.Object);
             
-            var query1 = new GetNewTokenQuery(new RequestDto<RequestNewTokenDto>("device", new RequestNewTokenDto("admin", "admin")));
-            await service.Handle(query1, default);
+            var query = new GetNewTokenQuery(
+                new RequestDto<RequestNewTokenDto>(nameof(WhenValidUsernameAndPasswordButExistingSessionIsActive_ShouldNotCreatAnotherSession), 
+                    new RequestNewTokenDto(Username, Password)));
+            await service.Handle(query, default);
             var count1 = await context.Sessions.CountAsync();
-
-            var query2 = new GetNewTokenQuery(new RequestDto("device"), context.Sessions.First().SessionId);
-            await service.Handle(query2, default);
+            
+            await service.Handle(query, default);
             var count2 = await context.Sessions.CountAsync();
             
             Assert.Equal(count1, count2);
         }
         
-        public async void WhenValidUsernameAndPasswordButExistingSessionIsActive_ShouldCreatAnotherSession()
+        [Fact]
+        public async void WhenValidUsernameAndPasswordButExistingSessionIsNotActive_ShouldCreatAnotherSession()
         {
             var service = new GetNewTokenHandler(context, jwtService, null, configurationMock.Object);
             
-            var query1 = new GetNewTokenQuery(new RequestDto<RequestNewTokenDto>("device", new RequestNewTokenDto("admin", "admin")));
-            await service.Handle(query1, default);
+            var query = new GetNewTokenQuery(new RequestDto<RequestNewTokenDto>(
+                nameof(WhenValidUsernameAndPasswordButExistingSessionIsNotActive_ShouldCreatAnotherSession), 
+                new RequestNewTokenDto(Username, Password)));
+            await service.Handle(query, default);
             var count1 = await context.Sessions.CountAsync();
-
-            var query2 = new GetNewTokenQuery(new RequestDto("another device"), context.Sessions.First().SessionId);
-            await service.Handle(query2, default);
+            
+            context.Sessions.First().TerminationTs = DateTime.UtcNow;
+            await context.SaveChangesAsync(default);
+            
+            await service.Handle(query, default);
             var count2 = await context.Sessions.CountAsync();
             
             Assert.Equal(count1 + 1, count2);
@@ -91,12 +106,13 @@ namespace WeeControl.Backend.Application.Test.BoundedContexts.HumanResources.Que
         [Fact]
         public async void WhenUsernameAndPasswordNotMatched_ThrowsNotFoundException()
         {
-            var query = new GetNewTokenQuery(new RequestDto<RequestNewTokenDto>(nameof(WhenUsernameAndPasswordNotMatched_ThrowsNotFoundException),new RequestNewTokenDto("unmatched", "unmatched")));
+            var query = new GetNewTokenQuery(new RequestDto<RequestNewTokenDto>(
+                nameof(WhenUsernameAndPasswordNotMatched_ThrowsNotFoundException),
+                new RequestNewTokenDto("unmatched", "unmatched")));
             
             var service = new GetNewTokenHandler(context, jwtService, null, configurationMock.Object);
             
             await Assert.ThrowsAsync<NotFoundException>(() => service.Handle(query, default));
-            
         }
 
         [Theory]
@@ -107,7 +123,9 @@ namespace WeeControl.Backend.Application.Test.BoundedContexts.HumanResources.Que
         [InlineData("", "", "password")]
         public async void WhenUsernameAndPasswordAndDeviceNotProper_ThrowBadRequestException(string device, string username, string password)
         {
-            var query = new GetNewTokenQuery(new RequestDto<RequestNewTokenDto>(device,new RequestNewTokenDto(username, password)));
+            var query = new GetNewTokenQuery(new RequestDto<RequestNewTokenDto>(
+                device,
+                new RequestNewTokenDto(username, password)));
             
             var service = new GetNewTokenHandler(context, jwtService, null, configurationMock.Object);
             
@@ -152,8 +170,21 @@ namespace WeeControl.Backend.Application.Test.BoundedContexts.HumanResources.Que
             
             await Assert.ThrowsAsync<NotAllowedException>(() => service.Handle(query, default));
         }
-        #endregion
 
-       
+        public async void WhenUsingDifferentDevice_ThrowNotAllowedException()
+        {
+            var request = new RequestDto("other device");
+
+            var session = Session.Create(Guid.NewGuid(), "device");
+            session.Employee = context.Employees.First();
+            await context.Sessions.AddAsync(session , default);
+            await context.SaveChangesAsync(default);
+            
+            var query = new GetNewTokenQuery(request, session.SessionId);
+            var service = new GetNewTokenHandler(context, jwtService, null, configurationMock.Object);
+            
+            await Assert.ThrowsAsync<NotAllowedException>(() => service.Handle(query, default));
+        }
+        #endregion
     }
 }

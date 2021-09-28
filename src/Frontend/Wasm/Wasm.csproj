@@ -18,26 +18,15 @@
   <ItemGroup>
     <None Remove="Pages\Employee\" />
     <None Remove="Pages\Employee\Session\" />
-    <None Remove="Radzen.Blazor" />
-    <None Remove="MudBlazor" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Enums" />
-    <Folder Include="Pages\Employee" />
-    <Folder Include="Pages\Employee\" />
     <Folder Include="Shared\Component" />
     <Folder Include="wwwroot\html" />
     <Folder Include="wwwroot\js" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\SharedKernel\SharedKernel.csproj">
-      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
-    </ProjectReference>
+    <ProjectReference Include="..\..\Common\SharedKernel\SharedKernel.csproj"/>
     <ProjectReference Include="..\..\Common\UserSecurityLib\UserSecurityLib.csproj" />
-    <ProjectReference Include="..\CommonLib\CommonLib.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Remove="wwwroot\logo.png" />
   </ItemGroup>
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Pages\Authentication\ForgotPassword.razor" />

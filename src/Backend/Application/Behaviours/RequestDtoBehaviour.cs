@@ -30,7 +30,7 @@ namespace WeeControl.Backend.Application.Behaviours
             return await next();
         }
 
-        private async Task VerifyDeviceId(string deviceId)
+        private Task VerifyDeviceId(string deviceId)
         {
             // if (string.IsNullOrEmpty(deviceId))
             // {
@@ -42,6 +42,7 @@ namespace WeeControl.Backend.Application.Behaviours
             // {
             //     throw new BadRequestException("Device ID was not authorized!");
             // }
+            return Task.CompletedTask;
         }
 
         private async Task VerifyWithinTerritoryCredentials()

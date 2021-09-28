@@ -10,34 +10,24 @@ Welcome to your new app.
 <p class="flex-wrap">Hello World</p>
 
 <div class="dropdown">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Dropdown button
-    </button>
     <table class="table table-bordered table-hover">
-        <thead>
-        <tr>
-            <th scope="col">Type</th>
-            <th scope="col">Value</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var claim in claims)
-        {
+            <thead>
             <tr>
-                <td>@claim.Type</td>
-                <td>@claim.Value</td>
+                <th scope="col">Type</th>
+                <th scope="col">Value</th>
             </tr>
-        }
-        </tbody>
-    </table>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" href="#">Action</a>
-        <a class="dropdown-item" href="#">Another action</a>
-        <a class="dropdown-item" href="#">Something else here</a>
-    </div>
+            </thead>
+            <tbody>
+            @foreach (var claim in claims)
+            {
+                <tr>
+                    <td>@claim.Type</td>
+                    <td>@claim.Value</td>
+                </tr>
+            }
+            </tbody>
+        </table>
 </div>
-
-<SurveyPrompt Title="How is Blazor working for you?"/>
 
 @code
 {

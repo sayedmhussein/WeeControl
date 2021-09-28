@@ -1,7 +1,8 @@
-﻿@inherits LayoutComponentBase
+﻿@using WeeControl.Frontend.Wasm.Pages.Authentication
+@using WeeControl.Frontend.Wasm.Interfaces
+@inherits LayoutComponentBase
 
-@inject IAuthenticationService authentication
-@inject NavigationManager navManager
+@inject ILocalStorage localStorage
 
 
 <div class="page">
@@ -11,10 +12,8 @@
 
     <div class="main">
         <div class="top-row px-4">
-            <label>Hello World</label>
-            <p class="text-primary">Hello User Full Name :)</p>
-            <button class="btn btn-danger ml-md-auto" @onclick="@Logout">Logout</button>
-            <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
+            <p class="text-primary ml-md-auto">@greetingMessage</p>
+            <Logout/>
         </div>
 
         <div class="content px-4">
@@ -26,10 +25,12 @@
 
 @code
 {
-    private async Task Logout()
+    private string greetingMessage;
+
+    protected override async Task OnInitializedAsync()
     {
-        var response = await authentication.Logout();
-        
-        navManager.NavigateTo("/login");
+        await base.OnInitializedAsync();
+
+        greetingMessage = "Hello " + await localStorage.GetItem<string>("username");
     }
 }

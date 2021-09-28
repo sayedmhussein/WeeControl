@@ -11,7 +11,7 @@ namespace WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModul
         [Required]
         [StringLength(5)]
         public string ClaimType { get; set; }
-
+        
         public string ClaimValue { get; set; }
 
         public DateTime GrantedTs { get; set; }

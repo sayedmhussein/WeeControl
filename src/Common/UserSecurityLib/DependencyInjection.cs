@@ -20,7 +20,7 @@ namespace WeeControl.Common.UserSecurityLib
                 options.DefaultPolicy = new AuthorizationPolicyBuilder().AddAuthenticationSchemes("Bearer").RequireAuthenticatedUser().Build();
                 options.FallbackPolicy = new AuthorizationPolicyBuilder().AddAuthenticationSchemes("Bearer").RequireAuthenticatedUser().Build();
                 
-                HumanResourcesOptions.Configure(options);
+                HumanResourcesPolicyOptions.Configure(options);
             });
 
             return services;

@@ -1,4 +1,6 @@
 ﻿@page "/counter"
+@using WeeControl.Common.UserSecurityLib
+@using WeeControl.Common.UserSecurityLib.BoundedContexts.HumanResources
 @attribute [Authorize]
 
 <h1>Counter</h1>
@@ -7,11 +9,32 @@
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
+<h1>Claim Tags of Human Resources</h1>
+<table class="table table-bordered table-hover">
+    <thead>
+    <tr>
+        <th>Claim Type</th>
+        <th>Claim Value</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var claim in claimValues)
+    {
+        <tr>
+            <td>@claim.Key</td>
+            <td>@claim.Value</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
 @code {
     private int currentCount;
-
+    private IDictionary<string,string> claimValues = new Dictionary<string, string>();
+    
     private void IncrementCount()
     {
         currentCount++;
+        claimValues = HumanResourcesData.GetTagDictionary();
     }
 }

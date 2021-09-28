@@ -3,11 +3,12 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using WeeControl.Backend.Domain.BoundedContexts.HumanResources;
 using WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModule.Entities;
-using WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModule.ValueObjects;
 using WeeControl.Backend.Domain.BoundedContexts.HumanResources.TerritoryModule.Entities;
 using WeeControl.Backend.Persistence.BoundedContexts.HumanResources.Configurations;
 using WeeControl.Common.UserSecurityLib;
+using WeeControl.Common.UserSecurityLib.BoundedContexts.HumanResources;
 using Address = WeeControl.Backend.Domain.BoundedContexts.HumanResources.TerritoryModule.ValueObjects.Address;
+using Claims = WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModule.ValueObjects.Claims;
 
 namespace WeeControl.Backend.Persistence.BoundedContexts.HumanResources
 {
@@ -54,8 +55,8 @@ namespace WeeControl.Backend.Persistence.BoundedContexts.HumanResources
             
             employee.Claims.Add(new Claims()
             {
-                ClaimType = SecurityClaims.HumanResources.Role, 
-                ClaimValue = SecurityClaims.HumanResources.Tags.SuperUser + ";test",
+                ClaimType = HumanResourcesData.Role, 
+                ClaimValue = HumanResourcesData.Claims.Tags.SuperUser + ";test",
                 GrantedBy = admin
             });
 

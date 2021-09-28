@@ -40,7 +40,7 @@ namespace WeeControl.Backend.WebApi.Controllers.HumanResources
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
-        public async Task<ActionResult<ResponseDto<IEnumerable<IdentifiedTerritoryDto>>>> GetAllTerritoriesV1(Guid? id)
+        public Task<ActionResult<ResponseDto<IEnumerable<IdentifiedTerritoryDto>>>> GetAllTerritoriesV1(Guid? id)
         {
             // var query = new GetTerritoriesQuery(id);
             // var value = await mediatR.Send(query);

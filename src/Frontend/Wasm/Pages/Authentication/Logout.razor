@@ -1,0 +1,20 @@
+@inject IAuthenticationService authentication
+@inject NavigationManager navManager
+
+<button class="btn btn-danger ml-md-auto" @onclick="@LogoutUser">
+    @if (loading)
+                    {
+                        <span class="spinner-border spinner-border-sm mr-1"></span>
+                    }
+    Logout
+</button>
+
+@code {
+    private bool loading;
+    private async Task LogoutUser()
+    {
+        loading = true;
+        var response = await authentication.Logout();
+        navManager.NavigateTo("/login");
+    }
+}

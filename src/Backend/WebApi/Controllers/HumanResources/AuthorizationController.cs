@@ -11,7 +11,6 @@ using WeeControl.Backend.Application.Interfaces;
 using WeeControl.Common.SharedKernel;
 using WeeControl.Common.SharedKernel.BoundedContexts.HumanResources.Authentication;
 using WeeControl.Common.SharedKernel.BoundedContexts.Shared;
-using WeeControl.Common.SharedKernel.Interfaces;
 using WeeControl.Common.SharedKernel.Obsolutes.Dtos;
 
 namespace WeeControl.Backend.WebApi.Controllers.HumanResources
