@@ -13,6 +13,8 @@ namespace WeeControl.Backend.WebApi.Test.Functional.BoundedContexts.HumanResourc
 {
     public class LogoutEmployee : IClassFixture<CustomWebApplicationFactory<Startup>>, IDisposable, ITestsRequireAuthentication
     {
+        private static string RandomText => new Random().NextDouble().ToString();
+        
         private readonly CustomWebApplicationFactory<Startup> factory;
         private readonly IHumanResourcesDbContext dbContext;
         private readonly string device;
@@ -34,17 +36,16 @@ namespace WeeControl.Backend.WebApi.Test.Functional.BoundedContexts.HumanResourc
         public void Dispose()
         {
             clientDeviceMock = null;
-            
         }
 
         [Fact]
         public async void WhenSendingValidRequest_HttpResponseIsSuccessCode()
         {
-            var username = new Random().NextDouble().ToString();
-            await dbContext.Employees.AddAsync(Employee.Create("Code", "FirstName", "LastName", username, "password"));
+            var employee = Employee.Create(RandomText, RandomText, RandomText, RandomText, RandomText);
+            await dbContext.Employees.AddAsync(employee);
             await dbContext.SaveChangesAsync(default);
             
-            var token = await RefreshCurrentTokenTests.GetRefreshedTokenAsync(factory.CreateClient(), nameof(WhenSendingValidRequest_HttpResponseIsSuccessCode), "password", device);
+            var token = await RefreshCurrentTokenTests.GetRefreshedTokenAsync(factory.CreateClient(), employee.Credentials.Username, employee.Credentials.Password, device);
             clientDeviceMock.Setup(x => x.GetTokenAsync()).ReturnsAsync(token);
             var service = new AuthenticationService(factory.CreateClient(), clientDeviceMock.Object);
 

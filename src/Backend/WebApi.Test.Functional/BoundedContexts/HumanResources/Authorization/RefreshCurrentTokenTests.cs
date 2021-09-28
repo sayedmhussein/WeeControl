@@ -38,12 +38,18 @@ namespace WeeControl.Backend.WebApi.Test.Functional.BoundedContexts.HumanResourc
         }
         #endregion
         
+        private static string RandomText => new Random().NextDouble().ToString();
+        
+        private readonly IHumanResourcesDbContext dbContext;
         private readonly CustomWebApplicationFactory<Startup> factory;
         private readonly string device;
         private Mock<IClientDevice> clientDeviceMock;
 
         public RefreshCurrentTokenTests(CustomWebApplicationFactory<Startup> factory)
         {
+            var scope = factory.Services.GetService<IServiceScopeFactory>().CreateScope();
+            dbContext = scope.ServiceProvider.GetService<IHumanResourcesDbContext>();
+            
             this.factory = factory;
             device = nameof(RefreshCurrentTokenTests);
             
@@ -86,8 +92,11 @@ namespace WeeControl.Backend.WebApi.Test.Functional.BoundedContexts.HumanResourc
         public async void WhenAuthenticatedButNotAuthorized_HttpResponseIsForbidden()
         {
             //When different device...
-            var username = new Random().NextDouble().ToString();
-            var token = await RequestNewTokenTests.GetNewTokenAsync(factory.CreateClient(), username, "password", device);
+            var employee = Employee.Create(RandomText, RandomText, RandomText, RandomText, RandomText);
+            await dbContext.Employees.AddAsync(employee);
+            await dbContext.SaveChangesAsync(default);
+            
+            var token = await RequestNewTokenTests.GetNewTokenAsync(factory.CreateClient(), employee.Credentials.Username, employee.Credentials.Password, device);
             
             clientDeviceMock.Setup(x => x.DeviceId).Returns("Other Device");
             clientDeviceMock.Setup(x => x.GetTokenAsync()).ReturnsAsync(token);
