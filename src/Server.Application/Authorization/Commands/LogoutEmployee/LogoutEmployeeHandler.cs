@@ -8,7 +8,7 @@ using WeeControl.Application.Common.Exceptions;
 using WeeControl.Server.Domain.Authorization;
 using WeeControl.SharedKernel.Common.DtosV1;
 
-namespace WeeControl.Application.Authentication.Commands.LogoutEmployee
+namespace WeeControl.Application.Authorization.Commands.LogoutEmployee
 {
     public class LogoutEmployeeHandler : IRequestHandler<LogoutEmployeeCommand, ResponseDto>
     {

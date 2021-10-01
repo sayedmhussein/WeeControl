@@ -6,9 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Authentication\Commands" />
-    <Folder Include="Authentication\Notifications" />
-    <Folder Include="Authentication\Queries" />
+    <Folder Include="Authorization\Commands" />
+    <Folder Include="Authorization\Notifications" />
+    <Folder Include="Authorization\Queries" />
     <Folder Include="Common" />
     <Folder Include="FieldOperation" />
     <Folder Include="Finance" />

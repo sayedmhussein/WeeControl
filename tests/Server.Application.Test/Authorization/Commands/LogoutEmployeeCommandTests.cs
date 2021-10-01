@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Net;
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.Application.Authentication.Commands.LogoutEmployee;
+using WeeControl.Application.Authorization.Commands.LogoutEmployee;
 using WeeControl.Application.Common.Exceptions;
 using WeeControl.Server.Domain.Authorization;
 using WeeControl.Server.Domain.Authorization.Entities;

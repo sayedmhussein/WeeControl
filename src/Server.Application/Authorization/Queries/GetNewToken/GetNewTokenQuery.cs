@@ -4,7 +4,7 @@ using WeeControl.SharedKernel.Authorization.DtosV1;
 using WeeControl.SharedKernel.Common.DtosV1;
 using WeeControl.SharedKernel.Common.Interfaces;
 
-namespace WeeControl.Application.Authentication.Queries.GetNewToken
+namespace WeeControl.Application.Authorization.Queries.GetNewToken
 {
     public class GetNewTokenQuery : IRequest<ResponseDto<EmployeeTokenDto>>
     {

@@ -2,7 +2,7 @@ using System;
 using MediatR;
 using WeeControl.SharedKernel.Common.DtosV1;
 
-namespace WeeControl.Application.Authentication.Commands.LogoutEmployee
+namespace WeeControl.Application.Authorization.Commands.LogoutEmployee
 {
     public class LogoutEmployeeCommand : IRequest<ResponseDto>
     {

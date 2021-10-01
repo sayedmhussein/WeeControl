@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using WeeControl.Application.Authentication.Queries.GetNewToken;
+using WeeControl.Application.Authorization.Queries.GetNewToken;
 using WeeControl.Application.Common.Exceptions;
 using WeeControl.Server.Domain.Authorization;
 using WeeControl.Server.Domain.Authorization.Entities;
