@@ -1,4 +1,4 @@
-namespace WeeControl.Server.Test.Functional.TestHelpers
+namespace WeeControl.Server.Test.Functional.Common
 {
     public interface ITestScenarios
     {

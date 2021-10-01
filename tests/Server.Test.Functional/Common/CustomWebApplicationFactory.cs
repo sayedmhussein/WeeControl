@@ -9,7 +9,7 @@ using Xunit;
 
 [assembly: CollectionBehavior(CollectionBehavior.CollectionPerAssembly, DisableTestParallelization = true, MaxParallelThreads = 1)]
 
-namespace WeeControl.Server.Test.Functional.TestHelpers
+namespace WeeControl.Server.Test.Functional.Common
 {
     public class CustomWebApplicationFactory<TStartup>
     : WebApplicationFactory<TStartup> where TStartup : class

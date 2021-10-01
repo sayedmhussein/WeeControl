@@ -9,6 +9,7 @@ namespace WeeControl.Server.Persistence.Authorization
     {
         public DbSet<User> Users { get; set; }
         
+        public DbSet<UserClaim> Claims { get; set; }
         public DbSet<UserSession> Sessions { get; set; }
 
         public AuthorizationDbContext(DbContextOptions<AuthorizationDbContext> options) : base(options)

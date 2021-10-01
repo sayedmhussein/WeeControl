@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,10 +16,10 @@ namespace WeeControl.Server.Persistence
         public static IServiceCollection AddPersistenceAsPostgreSql(this IServiceCollection services, IConfiguration configuration, string migrationAssemblyName)
         {
             services.AddScoped<IAdministrationDbContext>(p => 
-                new AdministrationDbContext(GetOptions<AdministrationDbContext>(configuration.GetConnectionString("AdministrationDbProvider"), migrationAssemblyName)));
+                new AdministrationDbContext(GetPostgresOptions<AdministrationDbContext>(configuration.GetConnectionString("AdministrationDbProvider"), migrationAssemblyName)));
 
             services.AddScoped<IAuthorizationDbContext>(p => 
-                new AuthorizationDbContext(GetOptions<AuthorizationDbContext>(configuration.GetConnectionString("AuthorizationDbProvider"), migrationAssemblyName)));
+                new AuthorizationDbContext(GetPostgresOptions<AuthorizationDbContext>(configuration.GetConnectionString("AuthorizationDbProvider"), migrationAssemblyName)));
             
             services.AddDbContext<HumanResourcesDbContext>(options =>
             {
@@ -37,8 +36,22 @@ namespace WeeControl.Server.Persistence
 
             return services;
         }
+
+        public static IServiceCollection AddPersistenceAsInMemoryDb(this IServiceCollection services)
+        {
+            services.AddScoped<IAdministrationDbContext>(p => 
+                new AdministrationDbContext(GetInMemoryOptions<AdministrationDbContext>("AdministrationDbProvider")));
+
+            services.AddScoped<IAuthorizationDbContext>(p => 
+                new AuthorizationDbContext(GetInMemoryOptions<AuthorizationDbContext>("AuthorizationDbProvider")));
+            
+            services.AddScoped<IHumanResourcesDbContext>(p => 
+                new HumanResourcesDbContext(GetInMemoryOptions<HumanResourcesDbContext>("AuthorizationDbProvider")));
+            
+            return services;
+        }
         
-        private static DbContextOptions<T> GetOptions<T>(string connectionString, string migrationAssemblyName) where T : DbContext
+        private static DbContextOptions<T> GetPostgresOptions<T>(string connectionString, string migrationAssemblyName) where T : DbContext
         {
             DbContextOptionsBuilder<T> options = new();
 #if DEBUG
@@ -48,6 +61,17 @@ namespace WeeControl.Server.Persistence
             {
                 o.MigrationsAssembly(migrationAssemblyName);
             });
+
+            return options.Options;
+        }
+
+        private static DbContextOptions<T> GetInMemoryOptions<T>(string dbName) where T : DbContext
+        {
+            var options = new DbContextOptionsBuilder<T>();
+            options.EnableDetailedErrors();
+            options.EnableSensitiveDataLogging();
+            options.UseInMemoryDatabase(dbName);
+            options.ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning));
 
             return options.Options;
         }

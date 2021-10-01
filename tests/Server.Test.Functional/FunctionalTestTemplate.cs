@@ -4,7 +4,7 @@ using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.Server.Domain.HumanResources;
-using WeeControl.Server.Test.Functional.TestHelpers;
+using WeeControl.Server.Test.Functional.Common;
 using WeeControl.SharedKernel.Common.Interfaces;
 using Xunit;
 

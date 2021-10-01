@@ -37,5 +37,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Server.Application\Server.Application.csproj" />
+    <ProjectReference Include="..\..\src\Server.Persistence\Server.Persistence.csproj" />
   </ItemGroup>
 </Project>

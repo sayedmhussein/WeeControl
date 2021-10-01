@@ -11,6 +11,8 @@ namespace WeeControl.Server.Persistence.Authorization.Configurations
             builder.ToTable(nameof(User), nameof(Authorization));
             
             builder.Property(p => p.UserId).ValueGeneratedOnAdd();
+
+            builder.HasMany(x => x.Claims).WithOne(x => x.User);
         }
     }
 }

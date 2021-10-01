@@ -17,13 +17,14 @@ namespace WeeControl.Server.Domain.Authorization.Entities
         
         public ICollection<SessionLog> Logs { get; set; }
 
-        public UserSession()
+        private UserSession()
         {
         }
 
         public UserSession(Guid userId, string device) : base()
         {
-            
+            UserId = userId;
+            DeviceId = device;
         }
     }
 }

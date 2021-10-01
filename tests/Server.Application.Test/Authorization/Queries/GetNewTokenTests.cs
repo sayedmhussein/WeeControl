@@ -2,13 +2,15 @@ using System;
 using System.Linq;
 using System.Net;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.Application.Authentication.Queries.GetNewToken;
 using WeeControl.Application.Common.Exceptions;
 using WeeControl.Server.Domain.Authorization;
 using WeeControl.Server.Domain.Authorization.Entities;
-using WeeControl.Server.Domain.HumanResources.Entities;
+using WeeControl.Server.Persistence;
 using WeeControl.SharedKernel.Authorization.DtosV1;
 using WeeControl.SharedKernel.Common.DtosV1;
 using WeeControl.SharedKernel.Common.Interfaces;
@@ -19,6 +21,7 @@ namespace WeeControl.Server.Application.Test.Authorization.Queries
 {
     public class GetNewTokenTests : IDisposable
     {
+        private static string RandomString => new Random().NextDouble().ToString();
         private const string Username = "username";
         private const string Password = "password";
         
@@ -30,9 +33,8 @@ namespace WeeControl.Server.Application.Test.Authorization.Queries
         
         public GetNewTokenTests()
         {
-            context = new Mock<IAuthorizationDbContext>().Object;
-            //context = new ServiceCollection().AddPersistenceAsInMemory(new Random().NextDouble().ToString()).BuildServiceProvider().GetService<IHumanResourcesDbContext>();
-            context.Employees.Add(Employee.Create("Code", "First Name", "LastName", Username, Password));
+            context = new ServiceCollection().AddPersistenceAsInMemoryDb().BuildServiceProvider().GetService<IAuthorizationDbContext>();
+            context.Users.Add(new User(Username, Password));
             context.SaveChanges();
 
             jwtService = new JwtService();
@@ -52,10 +54,13 @@ namespace WeeControl.Server.Application.Test.Authorization.Queries
         [Fact]
         public async void WhenValidUsernameAndPassword_ReturnProperDto()
         {
+            var user = new User(RandomString, RandomString);
+            await context.Users.AddAsync(user);
+            await context.SaveChangesAsync(default);
             
             var query = new GetNewTokenQuery(
                 new RequestDto<RequestNewTokenDto>(nameof(WhenValidUsernameAndPassword_ReturnProperDto), 
-                new RequestNewTokenDto(Username, Password)));
+                new RequestNewTokenDto(user.Username, user.Password)));
 
             var service = new GetNewTokenHandler(context, jwtService, null, configurationMock.Object);
             var response = await service.Handle(query, default);
@@ -85,15 +90,20 @@ namespace WeeControl.Server.Application.Test.Authorization.Queries
         [Fact]
         public async void WhenValidUsernameAndPasswordButExistingSessionIsNotActive_ShouldCreatAnotherSession()
         {
+            var user = new User(RandomString, RandomString);
+            await context.Users.AddAsync(user);
+            await context.SaveChangesAsync(default);
+            
             var service = new GetNewTokenHandler(context, jwtService, null, configurationMock.Object);
             
             var query = new GetNewTokenQuery(new RequestDto<RequestNewTokenDto>(
                 nameof(WhenValidUsernameAndPasswordButExistingSessionIsNotActive_ShouldCreatAnotherSession), 
-                new RequestNewTokenDto(Username, Password)));
+                new RequestNewTokenDto(user.Username, user.Password)));
+            
             await service.Handle(query, default);
             var count1 = await context.Sessions.CountAsync();
             
-            context.Sessions.First().TerminationTs = DateTime.UtcNow;
+            context.Sessions.First(x => x.User.Username == user.Username).TerminationTs = DateTime.UtcNow;
             await context.SaveChangesAsync(default);
             
             await service.Handle(query, default);
@@ -138,8 +148,7 @@ namespace WeeControl.Server.Application.Test.Authorization.Queries
         {
             var request = new RequestDto("device");
 
-            var session = UserSession.Create(Guid.NewGuid(), "device");
-            session.User = context.Employees.First();
+            var session = new UserSession(context.Users.First().UserId, "device");
             await context.Sessions.AddAsync(session , default);
             await context.SaveChangesAsync(default);
             
@@ -157,8 +166,8 @@ namespace WeeControl.Server.Application.Test.Authorization.Queries
         {
             var request = new RequestDto("device");
 
-            var session = UserSession.Create(Guid.NewGuid(), "device");
-            session.User = context.Employees.First();
+            var session = new UserSession(Guid.NewGuid(), "device");
+            session.User = context.Users.First();
             session.TerminationTs = DateTime.UtcNow;
             await context.Sessions.AddAsync(session , default);
             await context.SaveChangesAsync(default);
@@ -174,8 +183,8 @@ namespace WeeControl.Server.Application.Test.Authorization.Queries
         {
             var request = new RequestDto("other device");
 
-            var session = UserSession.Create(Guid.NewGuid(), "device");
-            session.User = context.Employees.First();
+            var session = new UserSession(Guid.NewGuid(), "device");
+            session.User = context.Users.First();
             await context.Sessions.AddAsync(session , default);
             await context.SaveChangesAsync(default);
             

@@ -8,6 +8,8 @@ namespace WeeControl.Server.Domain.Authorization
     {
         DbSet<User> Users { get; set; }
 
+        DbSet<UserClaim> Claims { get; set; }
+        
         DbSet<UserSession> Sessions { get; set; }
     }
 }

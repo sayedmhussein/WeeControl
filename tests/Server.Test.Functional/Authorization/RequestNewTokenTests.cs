@@ -5,14 +5,14 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.App.Services.Authorization;
-using WeeControl.Server.Domain.HumanResources.Entities;
-using WeeControl.Server.Persistence.HumanResources;
-using WeeControl.Server.Test.Functional.TestHelpers;
+using WeeControl.Server.Domain.Authorization;
+using WeeControl.Server.Domain.Authorization.Entities;
+using WeeControl.Server.Test.Functional.Common;
 using WeeControl.SharedKernel.Authorization.DtosV1;
 using WeeControl.SharedKernel.Common.Interfaces;
 using Xunit;
 
-namespace WeeControl.Server.Test.Functional.BoundedContexts.HumanResources.Authorization
+namespace WeeControl.Server.Test.Functional.Authorization
 {
     public class RequestNewTokenTests : IClassFixture<CustomWebApplicationFactory<Startup>>, IDisposable, ITestsNotRequireAuthentication
     {
@@ -45,7 +45,6 @@ namespace WeeControl.Server.Test.Functional.BoundedContexts.HumanResources.Autho
 
         public void Dispose()
         {
-            
         }
 
         [Fact]
@@ -64,11 +63,11 @@ namespace WeeControl.Server.Test.Functional.BoundedContexts.HumanResources.Autho
         [Fact]
         public async void WhenSendingValidRequest_HttpResponseIsSuccessCode()
         {
-            var scope = factory.Services.GetService<IServiceScopeFactory>().CreateScope();
-            var context = scope.ServiceProvider.GetService<HumanResourcesDbContext>();
+            var scope = factory.Services.GetService<IServiceScopeFactory>()?.CreateScope();
+            var context = scope?.ServiceProvider.GetService<IAuthorizationDbContext>();
 
             var username = new Random().NextDouble().ToString();
-            await context.Employees.AddAsync(Employee.Create("Code", "FirstName", "LastName", username, "password"));
+            await context.Users.AddAsync(new User(username, "password"));
             await context.SaveChangesAsync(default);
             
             

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using WeeControl.Server.Domain.Administration.Entities;
 using WeeControl.Server.Domain.Common.Interfaces;
 using WeeControl.Server.Domain.HumanResources.ValueObjects;
 using WeeControl.SharedKernel.HumanResources.Bases;

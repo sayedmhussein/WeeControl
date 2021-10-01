@@ -1,22 +1,23 @@
 using System;
+using System.Linq;
 using System.Net;
-using Moq;
+using Microsoft.Extensions.DependencyInjection;
 using WeeControl.Application.Authentication.Commands.LogoutEmployee;
 using WeeControl.Application.Common.Exceptions;
+using WeeControl.Server.Domain.Authorization;
 using WeeControl.Server.Domain.Authorization.Entities;
-using WeeControl.Server.Domain.HumanResources;
+using WeeControl.Server.Persistence;
 using Xunit;
 
 namespace WeeControl.Server.Application.Test.Authorization.Commands
 {
     public class LogoutEmployeeCommandTests : IDisposable
     {
-        private IHumanResourcesDbContext context;
+        private IAuthorizationDbContext context;
         
         public LogoutEmployeeCommandTests()
         {
-            context = new Mock<IHumanResourcesDbContext>().Object;
-            //context = new ServiceCollection().AddPersistenceAsInMemory(nameof(LogoutEmployeeCommandTests)).BuildServiceProvider().GetService<IHumanResourcesDbContext>();
+            context = new ServiceCollection().AddPersistenceAsInMemoryDb().BuildServiceProvider().GetService<IAuthorizationDbContext>();
         }
 
         public void Dispose()
@@ -27,7 +28,7 @@ namespace WeeControl.Server.Application.Test.Authorization.Commands
         [Fact]
         public async void WhenSessionExistAndNotTerminated_ResponseIsOkandSessionBecomeTerminated()
         {
-            var session = UserSession.Create(Guid.NewGuid(), "device");
+            var session = new UserSession(Guid.NewGuid(), "device");
             await context.Sessions.AddAsync(session);
             await context.SaveChangesAsync(default);
 
@@ -41,7 +42,7 @@ namespace WeeControl.Server.Application.Test.Authorization.Commands
         [Fact]
         public async void WhenRequestDtoHasDifferentSession_ThrowNotAllowedException()
         {
-            var session = UserSession.Create(Guid.NewGuid(), "device");
+            var session = new UserSession(Guid.NewGuid(), "device");
             await context.Sessions.AddAsync(session);
             await context.SaveChangesAsync(default);
 
@@ -54,7 +55,7 @@ namespace WeeControl.Server.Application.Test.Authorization.Commands
         [Fact]
         public async void WhenRequestDtoHasDifferentDevice_ThrowNotAllowedException()
         {
-            var session = UserSession.Create(Guid.NewGuid(), "device");
+            var session = new UserSession(Guid.NewGuid(), "device");
             await context.Sessions.AddAsync(session);
             await context.SaveChangesAsync(default);
 
@@ -67,7 +68,7 @@ namespace WeeControl.Server.Application.Test.Authorization.Commands
         [Fact]
         public async void WhenSessionAlreadyTerminated_ThrowNotAllowedException()
         {
-            var session = UserSession.Create(Guid.NewGuid(), "device");
+            var session = new UserSession(Guid.NewGuid(), "device");
             session.TerminationTs = DateTime.UtcNow;
             await context.Sessions.AddAsync(session);
             await context.SaveChangesAsync(default);

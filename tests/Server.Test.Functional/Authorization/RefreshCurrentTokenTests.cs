@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.App.Services.Authorization;
-using WeeControl.Server.Domain.HumanResources;
-using WeeControl.Server.Domain.HumanResources.Entities;
-using WeeControl.Server.Test.Functional.TestHelpers;
+using WeeControl.Server.Domain.Authorization;
+using WeeControl.Server.Domain.Authorization.Entities;
+using WeeControl.Server.Test.Functional.Common;
 using WeeControl.SharedKernel.Common.Interfaces;
 using Xunit;
 
-namespace WeeControl.Server.Test.Functional.BoundedContexts.HumanResources.Authorization
+namespace WeeControl.Server.Test.Functional.Authorization
 {
     public class RefreshCurrentTokenTests : IClassFixture<CustomWebApplicationFactory<Startup>>, IDisposable, ITestsRequireAuthentication
     {
@@ -37,15 +37,15 @@ namespace WeeControl.Server.Test.Functional.BoundedContexts.HumanResources.Autho
         
         private static string RandomText => new Random().NextDouble().ToString();
         
-        private readonly IHumanResourcesDbContext dbContext;
+        private readonly IAuthorizationDbContext dbContext;
         private readonly CustomWebApplicationFactory<Startup> factory;
         private readonly string device;
         private Mock<IClientDevice> clientDeviceMock;
 
         public RefreshCurrentTokenTests(CustomWebApplicationFactory<Startup> factory)
         {
-            var scope = factory.Services.GetService<IServiceScopeFactory>().CreateScope();
-            dbContext = scope.ServiceProvider.GetService<IHumanResourcesDbContext>();
+            var scope = factory.Services.GetService<IServiceScopeFactory>()?.CreateScope();
+            dbContext = scope?.ServiceProvider.GetService<IAuthorizationDbContext>();
             
             this.factory = factory;
             device = nameof(RefreshCurrentTokenTests);
@@ -66,9 +66,9 @@ namespace WeeControl.Server.Test.Functional.BoundedContexts.HumanResources.Autho
         {
             var client = factory.CreateClient();
             var scope = factory.Services.GetService<IServiceScopeFactory>().CreateScope();
-            var context = scope.ServiceProvider.GetService<IHumanResourcesDbContext>();
+            var context = scope.ServiceProvider.GetService<IAuthorizationDbContext>();
             
-            await context.Employees.AddAsync(Employee.Create("Code", "FirstName", "LastName", nameof(WhenSendingValidRequest_HttpResponseIsSuccessCode), "password"));
+            await context.Users.AddAsync(new User(nameof(WhenSendingValidRequest_HttpResponseIsSuccessCode), "password"));
             await context.SaveChangesAsync(default);
             
             var token = await GetRefreshedTokenAsync(client, nameof(WhenSendingValidRequest_HttpResponseIsSuccessCode), "password", nameof(RefreshCurrentTokenTests));
@@ -89,11 +89,11 @@ namespace WeeControl.Server.Test.Functional.BoundedContexts.HumanResources.Autho
         public async void WhenAuthenticatedButNotAuthorized_HttpResponseIsForbidden()
         {
             //When different device...
-            var employee = Employee.Create(RandomText, RandomText, RandomText, RandomText, RandomText);
-            await dbContext.Employees.AddAsync(employee);
+            var user = new User(RandomText, RandomText);
+            await dbContext.Users.AddAsync(user);
             await dbContext.SaveChangesAsync(default);
             
-            var token = await RequestNewTokenTests.GetNewTokenAsync(factory.CreateClient(), employee.Credentials.Username, employee.Credentials.Password, device);
+            var token = await RequestNewTokenTests.GetNewTokenAsync(factory.CreateClient(), user.Username, user.Password, device);
             
             clientDeviceMock.Setup(x => x.DeviceId).Returns("Other Device");
             clientDeviceMock.Setup(x => x.GetTokenAsync()).ReturnsAsync(token);

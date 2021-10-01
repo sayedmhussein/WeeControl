@@ -51,11 +51,12 @@ namespace WeeControl.Application.Authentication.Queries.GetNewToken
                 await context.SaveChangesAsync(cancellationToken);
 
                 var user = await 
-                    context.Users.FirstOrDefaultAsync(x => x.UserId == session.UserId, cancellationToken);
+                    context.Users.Include(x => x.Claims).FirstOrDefaultAsync(x => x.UserId == session.UserId, cancellationToken);
 
                 var ci = new ClaimsIdentity("custom");
                 ci.AddClaim(new Claim(HumanResourcesData.Claims.Session, session.SessionId.ToString()));
-                ci.AddClaim(new Claim(HumanResourcesData.Claims.Territory, user.TerritoryCode));
+                //ci.AddClaim(new Claim(HumanResourcesData.Claims.Territory, user.TerritoryCode));
+                
                 foreach (var c in user.Claims.Where(x => x.RevokedTs == null).ToList())
                 {
                     ci.AddClaim(new Claim(c.ClaimType, c.ClaimValue));
