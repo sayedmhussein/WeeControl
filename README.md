@@ -1,25 +1,33 @@
 # WeeControl
+
 ## Project Overview
-This project is created as a milestone to develop and customize a software application using .NET technologies to solve a business need.
+
+This project is created as a milestone to develop and customize a software application using .NET technologies to solve
+a business need.
 
 ### Philosophy:
+
 * Continuous refactoring to increase code readability and performance.
 * Separation of concerns by applying SOLID principles to the limit before creating too much abstraction.
 * Functional and Unit testing are very important during application development.
 
 ### Technologies:
+
 * .NET 5 for Server API.
 * Blazor WebAssembly as front end.
 * Entity Framework Core as database persistence.
 
 ### Patterns:
+
 * CQRS using Mediator at backend side.
 * DDD at backend side.
 
 ## Copyright and Licensing
+
 This is open source project, while you need to read and accept each nuget package licence imported into this project.
 
 ## Configuration Instructions
+
 In order to use this application you need to do the following:
 
 1. Edit values in \"/src/Backend/WebApi/appsettins.json\" including:
@@ -32,15 +40,17 @@ In order to use this application you need to do the following:
 5. ...
 
 ## Installation Instructions
+
 This project code depend on many nuget packages, so ensure to restore the packages before running the servers.
 
-Note that this project is **currently under heavy development** so if you faced any issues try to manually delete the database then the application will create new one with the default values, or migrate the database.
+Note that this project is **currently under heavy development** so if you faced any issues try to manually delete the
+database then the application will create new one with the default values, or migrate the database.
 
 ## Operating Instructions
+
 1. Ensure that both API and Blazor servers are running.
 2. On Blazor webpage using credentials:
-   Username : admin
-   Password : admin
+   Username : admin Password : admin
 3. If you face any issues try to migrate the db or drop the old database then try again.
 
 [comment]: <> (<del>“What is this? Where does this go?” Now is the time to demystify any assumptions around how to use your project.</del>)
@@ -49,26 +59,33 @@ Note that this project is **currently under heavy development** so if you faced 
 
 [comment]: <> (<del>Contingent upon how large your source code is, you may opt to not include the file tree, however you can still explain how to traverse through your code. For example, how is your code modularized? Did you use the MVC &#40;Model, View, Controller&#41; method? Did you use a Router system? Just a few questions to consider when detailing your file structure.</del>)
 
-
 ## Contact
+
 You can contact me on my email at <sayed.hussein@gmx.com>.
 
 ## Known Bugs
-Still this project is in its initial developing stage, lots of bugs are expected at the current time, I wish that the project will be ready soon to be released in alpha stage to identfy bugs.
+
+Still this project is in its initial developing stage, lots of bugs are expected at the current time, I wish that the
+project will be ready soon to be released in alpha stage to identfy bugs.
 
 [comment]: <> (## Troubleshooting)
 
 [comment]: <> (<del>In this section you will be able to highlight how your users can become troubleshooting masters for common issues encountered on your project.</del>)
 
 ## Credits and Acknowledgments
+
 Appreciate the opensoure community for inspiring and supporting such project:
 
 * The Markdown Guide [Markdown Guide](https://www.markdownguide.org).
-* How to create a README.md file on [Medium](https://medium.com/@latoyazamill/how-to-create-a-readme-md-file-37cffa2d7ab4).
-* JWT authentication was inspired from this [aspnet-core-3-jwt-authentication-api](https://github.com/cornflourblue/aspnet-core-3-jwt-authentication-api).
-* Clean architecture pattern was inspired from this [CleanArchitecture](https://github.com/ardalis/CleanArchitecture) and his [NorthwindTraders](https://github.com/jasontaylordev/NorthwindTraders).
+* How to create a README.md file
+  on [Medium](https://medium.com/@latoyazamill/how-to-create-a-readme-md-file-37cffa2d7ab4).
+* JWT authentication was inspired from
+  this [aspnet-core-3-jwt-authentication-api](https://github.com/cornflourblue/aspnet-core-3-jwt-authentication-api).
+* Clean architecture pattern was inspired from this [CleanArchitecture](https://github.com/ardalis/CleanArchitecture)
+  and his [NorthwindTraders](https://github.com/jasontaylordev/NorthwindTraders).
 * The youtube channel [IAmTimCorey](https://www.youtube.com/user/IAmTimCorey) was like the godfather for learning C#.
-* The youtube channel [VoidRealms](https://www.youtube.com/channel/UCYP0nk48grsMwO3iL8YaAKA) gave the courage to start getting a workable programming application.
+* The youtube channel [VoidRealms](https://www.youtube.com/channel/UCYP0nk48grsMwO3iL8YaAKA) gave the courage to start
+  getting a workable programming application.
 * Jetbrains for approving licence to use [Rider](https://www.jetbrains.com/rider/) to develop this opensource project.
 
 **<mark>List not Completed Yet!</mark>**

@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <RootNamespace>WeeControl.App.Services</RootNamespace>
+    </PropertyGroup>
+    
+    <ItemGroup>
+      <Folder Include="Administration" />
+      <Folder Include="HumanResources" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <ProjectReference Include="..\SharedKernel\SharedKernel.csproj" />
+    </ItemGroup>
+
+</Project>
