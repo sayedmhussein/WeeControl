@@ -1,6 +1,6 @@
-using WeeControl.SharedKernel.Adminstration.Bases;
+using WeeControl.SharedKernel.Administration.Bases;
 
-namespace WeeControl.SharedKernel.Adminstration.DtosV1
+namespace WeeControl.SharedKernel.Administration.DtosV1
 {
     public class TerritoryDto : TerritoryBase
     {

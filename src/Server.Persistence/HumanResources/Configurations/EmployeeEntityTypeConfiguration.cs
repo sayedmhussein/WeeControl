@@ -1,3 +1,4 @@
+using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WeeControl.Server.Domain.HumanResources.Entities;
@@ -8,18 +9,19 @@ namespace WeeControl.Server.Persistence.HumanResources.Configurations
     {
         public void Configure(EntityTypeBuilder<Employee> builder)
         {
-            builder.ToTable(nameof(Employee), nameof(Employee));
+            builder.ToTable(nameof(Employee), nameof(HumanResources));
 
+            builder.HasKey(p => p.EmployeeId);
             builder.Property(p => p.EmployeeId).ValueGeneratedOnAdd();
 
             //builder.OwnsOne(x => x.Credentials, xx => { xx.HasIndex(o => new {o.Username, o.Password}).IsUnique(); });
 
-            builder.OwnsMany(x => x.Addresses, xx =>
-            {
-                xx.WithOwner().HasForeignKey();
-                xx.Property<int>("AddressId");
-                xx.HasKey("AddressId");
-            });
+            // builder.OwnsMany(x => x.Addresses, xx =>
+            // {
+            //     xx.WithOwner().HasForeignKey("EmployeeId");
+            //     xx.Property<Guid>("Id");
+            //     xx.HasKey("Id");
+            // });
 
             builder.OwnsMany(x => x.Contacts);
 

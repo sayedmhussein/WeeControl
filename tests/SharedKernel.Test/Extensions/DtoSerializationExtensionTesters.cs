@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json;
-using Xunit;
-
-namespace WeeControl.SharedKernel.Test.Extensions
+﻿namespace WeeControl.SharedKernel.Test.Extensions
 {
     public class DtoSerializationExtensionTesters
     {

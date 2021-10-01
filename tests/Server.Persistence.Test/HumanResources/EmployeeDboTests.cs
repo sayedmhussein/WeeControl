@@ -1,11 +1,12 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using WeeControl.Server.Domain.HumanResources;
 using WeeControl.Server.Domain.HumanResources.Entities;
+using WeeControl.Server.Persistence.HumanResources;
 using Xunit;
 
-namespace WeeControl.Server.Persistence.Test.BoundedContexts.HumanResources
+namespace WeeControl.Server.Persistence.Test.HumanResources
 {
     public class EmployeeDboTests : IDisposable
     {
@@ -13,7 +14,14 @@ namespace WeeControl.Server.Persistence.Test.BoundedContexts.HumanResources
 
         public EmployeeDboTests()
         {
-            context = new ServiceCollection().AddPersistenceAsInMemory(nameof(EmployeeDboTests)).BuildServiceProvider().GetService<IHumanResourcesDbContext>();
+            var options = new DbContextOptionsBuilder<HumanResourcesDbContext>();
+            options.EnableDetailedErrors();
+            options.EnableSensitiveDataLogging();
+            options.UseInMemoryDatabase(nameof(EmployeeDboTests));
+            options.ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning));
+            
+            context = new HumanResourcesDbContext(options: options.Options);
+            //context = new ServiceCollection().AddPersistenceAsInMemory(nameof(EmployeeDboTests)).BuildServiceProvider().GetService<IHumanResourcesDbContext>();
         }
 
         public void Dispose()
@@ -32,8 +40,7 @@ namespace WeeControl.Server.Persistence.Test.BoundedContexts.HumanResources
         [Fact]
         public async void WhenAddingNewEmployee_EmployeeShouldHaveId()
         {
-            var territoryCode = (await context.Employees.FirstAsync()).TerritoryCode;
-            var user = Employee.Create(territoryCode, "FirstName", "LastName", "user", "user");
+            var user = Employee.Create("territoryCode", "FirstName", "LastName", "user", "user");
             
             await context.Employees.AddAsync(user);
             await context.SaveChangesAsync(default);

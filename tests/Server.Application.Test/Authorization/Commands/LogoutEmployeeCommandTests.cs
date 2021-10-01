@@ -1,8 +1,8 @@
 using System;
 using System.Net;
 using Moq;
+using WeeControl.Application.Authentication.Commands.LogoutEmployee;
 using WeeControl.Application.Common.Exceptions;
-using WeeControl.Application.HumanResources.Commands.LogoutEmployee;
 using WeeControl.Server.Domain.Authorization.Entities;
 using WeeControl.Server.Domain.HumanResources;
 using Xunit;

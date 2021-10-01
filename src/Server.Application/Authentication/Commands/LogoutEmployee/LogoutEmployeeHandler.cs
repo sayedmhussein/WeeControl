@@ -6,10 +6,9 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using WeeControl.Application.Common.Exceptions;
 using WeeControl.Server.Domain.Authorization;
-using WeeControl.Server.Domain.HumanResources;
 using WeeControl.SharedKernel.Common.DtosV1;
 
-namespace WeeControl.Application.HumanResources.Commands.LogoutEmployee
+namespace WeeControl.Application.Authentication.Commands.LogoutEmployee
 {
     public class LogoutEmployeeHandler : IRequestHandler<LogoutEmployeeCommand, ResponseDto>
     {

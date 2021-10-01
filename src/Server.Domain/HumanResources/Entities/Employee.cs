@@ -17,7 +17,6 @@ namespace WeeControl.Server.Domain.HumanResources.Entities
         [NotMapped] 
         public string EmployeeName => FirstName + " " + LastName;
         
-        public virtual Territory Territory { get; set; }
         public string TerritoryCode { get; set; }
 
         public string DepartmentCode { get; set; }
@@ -26,12 +25,11 @@ namespace WeeControl.Server.Domain.HumanResources.Entities
 
         public string AccountSuspensionArgument { get; set; }
 
-        public ICollection<Address> Addresses { get; set; }
+        //public ICollection<Address> Addresses { get; set; }
         
         public ICollection<Identity> Identities { get; set; }
         
         public ICollection<Contact> Contacts { get; set; }
-
         
 
         private Employee()

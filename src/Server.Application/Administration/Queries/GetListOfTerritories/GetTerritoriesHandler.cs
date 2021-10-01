@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using MediatR;
 using WeeControl.Application.Common.Interfaces;
 using WeeControl.Server.Domain.HumanResources;
-using WeeControl.SharedKernel.Adminstration.DtosV1;
+using WeeControl.SharedKernel.Administration.DtosV1;
 using WeeControl.SharedKernel.Common.DtosV1;
 
-namespace WeeControl.Application.HumanResources.Queries.GetListOfTerritories
+namespace WeeControl.Application.Administration.Queries.GetListOfTerritories
 {
     public class GetTerritoriesHandler : IRequestHandler<GetTerritoriesQuery, ResponseDto<IEnumerable<TerritoryDto>>>
     {

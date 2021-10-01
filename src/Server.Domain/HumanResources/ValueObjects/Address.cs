@@ -6,5 +6,6 @@ namespace WeeControl.Server.Domain.HumanResources.ValueObjects
     [Owned]
     public record Address : AddressBase
     {
+        public string AddressType { get; set; }
     }
 }

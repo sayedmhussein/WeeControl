@@ -1,7 +1,7 @@
 ﻿using System;
 using MediatR;
 
-namespace WeeControl.Application.HumanResources.Commands.DeleteTerritoryV1
+namespace WeeControl.Application.Administration.Commands.DeleteTerritoryV1
 {
     public class DeleteTerritoryCommand : IRequest
     {

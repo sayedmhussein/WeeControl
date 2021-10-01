@@ -1,13 +1,13 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using WeeControl.Server.Domain.Administration;
 using WeeControl.Server.Domain.Administration.Entities;
 using WeeControl.Server.Domain.Administration.ValueObjects;
-using WeeControl.Server.Domain.HumanResources;
+using WeeControl.Server.Persistence.Administration;
 using Xunit;
 
-namespace WeeControl.Server.Persistence.Test.BoundedContexts.HumanResources
+namespace WeeControl.Server.Persistence.Test.Administration
 {
     public class TerritoryDboTests : IDisposable
     {
@@ -15,7 +15,13 @@ namespace WeeControl.Server.Persistence.Test.BoundedContexts.HumanResources
 
         public TerritoryDboTests()
         {
-            context = new ServiceCollection().AddPersistenceAsInMemory(nameof(TerritoryDboTests)).BuildServiceProvider().GetService<IAdministrationDbContext>();
+            var options = new DbContextOptionsBuilder<AdministrationDbContext>();
+            options.EnableDetailedErrors();
+            options.EnableSensitiveDataLogging();
+            options.UseInMemoryDatabase(nameof(TerritoryDboTests));
+            options.ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning));
+            
+            context = new AdministrationDbContext(options: options.Options);
         }
 
         public void Dispose()

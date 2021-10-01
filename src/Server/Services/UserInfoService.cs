@@ -5,8 +5,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using WeeControl.Application.Administration.Queries.GetListOfTerritories;
 using WeeControl.Application.Common.Interfaces;
-using WeeControl.Application.HumanResources.Queries.GetListOfTerritories;
 using WeeControl.SharedKernel.Security.BoundedContexts.HumanResources;
 
 namespace WeeControl.Server.Services

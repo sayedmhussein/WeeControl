@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
+using WeeControl.Server.Domain.Administration;
+using WeeControl.Server.Domain.Authorization;
 using WeeControl.Server.Domain.HumanResources;
 using Xunit;
 
@@ -10,11 +12,9 @@ namespace WeeControl.Server.Persistence.Test
     public class DependencyInjectionTesters : IDisposable
     {
         private IServiceCollection services;
+
         public DependencyInjectionTesters()
         {
-            var configMock = new Mock<IConfiguration>();
-            configMock.Setup(x => x.GetSection("ConnectionStrings")["DatabaseProvider"]).Returns("Connection");
-
             services = new ServiceCollection();
         }
         
@@ -24,13 +24,17 @@ namespace WeeControl.Server.Persistence.Test
         }
         
         [Fact]
-        public void WhenAddingPresistenceInMemory_ReturnMySystemDbContextObjectAsNotNull()
+        public void WhenAddPersistenceAsPostgreSql_AllDbContextsAreNotNull()
         {
-            services.AddPersistenceAsInMemory("Name");
+            var cs = "Server=127.0.0.1;Port=5432;Database=weecontrol_humanresources;Username=sayed;password=sayed;Include Error Detail = true";
+            var configMock = new Mock<IConfiguration>();
+            configMock.Setup(x => x.GetSection("ConnectionStrings")[It.IsAny<string>()]).Returns(cs);
             
-            var service = services.BuildServiceProvider().GetService<IHumanResourcesDbContext>();
+            services.AddPersistenceAsPostgreSql(configMock.Object, nameof(DependencyInjectionTesters));
 
-            Assert.NotNull(service);
+            Assert.NotNull(services.BuildServiceProvider().GetService<IAdministrationDbContext>());
+            Assert.NotNull(services.BuildServiceProvider().GetService<IAuthorizationDbContext>());
+            Assert.NotNull(services.BuildServiceProvider().GetService<IHumanResourcesDbContext>());
         }
 
         

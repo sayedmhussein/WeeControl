@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using MediatR;
 using WeeControl.Server.Domain.Common.Interfaces;
 
-namespace WeeControl.Application.HumanResources.Notifications
+namespace WeeControl.Application.Administration.Notifications
 {
     public class EmployeeCreated : INotification
     {

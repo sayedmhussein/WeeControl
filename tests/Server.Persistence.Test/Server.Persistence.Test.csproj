@@ -28,4 +28,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Server.Persistence\Server.Persistence.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Authorization" />
+    <Folder Include="Common" />
+  </ItemGroup>
 </Project>

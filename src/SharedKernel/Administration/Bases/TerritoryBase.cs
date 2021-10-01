@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using WeeControl.SharedKernel.Common.Interfaces;
 
-namespace WeeControl.SharedKernel.Adminstration.Bases
+namespace WeeControl.SharedKernel.Administration.Bases
 {
     public abstract class TerritoryBase : IVerifyable
     {

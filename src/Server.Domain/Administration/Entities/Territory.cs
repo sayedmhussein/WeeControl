@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using WeeControl.Server.Domain.Administration.ValueObjects;
 using WeeControl.Server.Domain.Common.Interfaces;
-using WeeControl.SharedKernel.Adminstration.Bases;
+using WeeControl.SharedKernel.Administration.Bases;
 
 namespace WeeControl.Server.Domain.Administration.Entities
 {
