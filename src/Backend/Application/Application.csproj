@@ -1,58 +1,31 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>WeeControl.Backend.Application</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="BoundContexts\Custody\Commands" />
-    <Folder Include="BoundContexts\Custody\Notifications" />
-    <Folder Include="BoundContexts\Custody\Queries" />
-    <Folder Include="BoundContexts\FieldOperation" />
-    <Folder Include="BoundContexts\Finance" />
-    <Folder Include="BoundContexts\Logistics" />
-    <Folder Include="BoundContexts\Sales" />
     <Folder Include="BoundContexts\" />
-    <Folder Include="BoundContexts\HumanResources\Commands\" />
-    <Folder Include="BoundContexts\HumanResources\Notifications\" />
-    <Folder Include="BoundContexts\HumanResources\Queries\" />
+    <Folder Include="BoundContexts\Credentials\" />
+    <Folder Include="BoundContexts\Credentials\Commands\" />
+    <Folder Include="BoundContexts\Credentials\Queries\" />
+    <Folder Include="BoundContexts\Credentials\Notifications\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="MediatR" Version="9.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.10" />
-    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
-    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.12.2" />
+    <PackageReference Include="MediatR" Version="10.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.3" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.16.0" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="Territory\Command\" />
-    <None Remove="Territory\Query\" />
-    <None Remove="Territory\Query\GetTerritories\" />
-    <None Remove="Territory\Command\AddTerritory\" />
-    <None Remove="Basic\" />
-    <None Remove="Aggregates\Custom\" />
-    <None Remove="Microsoft.IdentityModel.Tokens" />
-    <None Remove="Aggregates\Territory\V1\Queries\GetTerritory\" />
-    <None Remove="Aggregates\Territory\Commands\" />
-    <None Remove="Aggregates\Territory\Queries\" />
-    <None Remove="Aggregates\Territory\Commands\AddTerritory\" />
-    <None Remove="Aggregates\Territory\Commands\UpdateTerritoryV1\" />
-    <None Remove="Aggregates\Territory\Commands\DeleteTerritoryV1\" />
-    <None Remove="Aggregates\Employee\Commands\" />
-    <None Remove="Aggregates\Employee\Notifications\" />
-    <None Remove="Aggregates\Employee\Queries\" />
-    <None Remove="Aggregates\Employee\Queries\GetClaimsV1\" />
-    <None Remove="Aggregates\Employee\Commands\AddEmployeeV1\" />
-    <None Remove="Aggregates\Employee\Commands\AddClaimV1\" />
-    <None Remove="Aggregates\Employee\Commands\CreateSessionV1\" />
-    <None Remove="Aggregates\Employee\Commands\TerminateSessionV1\" />
-    <None Remove="Aggregates\Employee\Commands\UpdateEmployeeV1\" />
-    <None Remove="Aggregates\Employee\Commands\RevokeClaimV1\" />
-    <None Remove="Aggregates\Employee\Queries\GetTokenDtoV1\" />
+    <None Remove="BoundContexts\Credentials\" />
+    <None Remove="BoundContexts\Credentials\Commands\" />
+    <None Remove="BoundContexts\Credentials\Queries\" />
+    <None Remove="BoundContexts\Credentials\Notifications\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\UserSecurityLib\UserSecurityLib.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
-    <ProjectReference Include="..\..\Common\SharedKernel\SharedKernel.csproj" />
   </ItemGroup>
 </Project>

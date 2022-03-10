@@ -5,7 +5,6 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.GetListOfTerritories;
 using WeeControl.Backend.Application.Interfaces;
 using WeeControl.Common.UserSecurityLib;
 using WeeControl.Common.UserSecurityLib.BoundedContexts.HumanResources;
@@ -51,7 +50,7 @@ namespace WeeControl.Backend.WebApi.Services
             
             var territoryCode = Claims.FirstOrDefault(c => c.Type == HumanResourcesData.Claims.Territory)?.Value;
             territories.Add(territoryCode);
-            var cla = await mediatR.Send(new GetTerritoriesQuery(territoryCode));
+            //var cla = await mediatR.Send(new GetTerritoriesQuery(territoryCode));
 
             // foreach (var bra in cla.Payload)
             // {

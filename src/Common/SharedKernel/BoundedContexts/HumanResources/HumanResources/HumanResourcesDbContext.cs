@@ -12,9 +12,9 @@ using Claims = WeeControl.Backend.Domain.BoundedContexts.HumanResources.Employee
 
 namespace WeeControl.Backend.Persistence.BoundedContexts.HumanResources
 {
-    public class HumanResourcesDbContext : DbContext, IHumanResourcesDbContext
+    public class CredentialsDbContext : DbContext, IHumanResourcesDbContext
     {
-        public HumanResourcesDbContext(DbContextOptions<HumanResourcesDbContext> options) : base(options)
+        public CredentialsDbContext(DbContextOptions<CredentialsDbContext> options) : base(options)
         {
             Database.EnsureCreated();
             SetBasicData();

@@ -1,3 +1,4 @@
+using System;
 using System.Net.Http;
 using System.Text;
 using Newtonsoft.Json;
@@ -5,6 +6,7 @@ using WeeControl.Common.SharedKernel.Interfaces;
 
 namespace WeeControl.Common.SharedKernel.BoundedContexts.Shared
 {
+    [Obsolete]
     public class RequestDto : ISerializable, IVerifyable, IRequestDto
     {
         public static HttpContent BuildHttpContentAsJson(object dto)

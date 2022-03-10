@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace WeeControl.Common.SharedKernel.Interfaces
+namespace WeeControl.Common.BoundedContext.Interfaces
 {
     public interface IResponseDto
     {

@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>WeeControl.Common.BoundedContext</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <LangVersion>preview</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <LangVersion>preview</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Credentials\" />
+    <None Remove="Credentials\Entities\" />
+    <None Remove="Credentials\ValueObjects\" />
+    <None Remove="Credentials\DataBaseObjects\" />
+    <None Remove="Credentials\DataTransferObjects\" />
+    <None Remove="RequestsResponses\" />
+    <None Remove="Interfaces\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Credentials\" />
+    <Folder Include="Credentials\BaseObjects\" />
+    <Folder Include="Credentials\Operations\" />
+    <Folder Include="Credentials\DataTransferObjects\" />
+    <Folder Include="RequestsResponses\" />
+    <Folder Include="Interfaces\" />
+  </ItemGroup>
+</Project>

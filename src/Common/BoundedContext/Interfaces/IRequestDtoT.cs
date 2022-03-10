@@ -1,5 +1,5 @@
 ﻿
-namespace WeeControl.Common.SharedKernel.Interfaces
+namespace WeeControl.Common.BoundedContext.Interfaces
 {
     /// <summary>
     /// Interface for All Server Requests from Clients which host the Data Transfer Object.
