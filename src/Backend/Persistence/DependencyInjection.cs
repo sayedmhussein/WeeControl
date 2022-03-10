@@ -17,25 +17,26 @@ namespace WeeControl.Backend.Persistence
         {
             services.AddDbContext<Credentials.CredentialsDbContext>(options => PostgresBuilder(configuration, migrationAssemblyName));
 
-//            services.AddDbContext<HumanResourcesDbContext>(options =>
-//            {
-//#if DEBUG
-//                options.EnableSensitiveDataLogging();
-//#endif
-//                options.UseNpgsql(configuration.GetConnectionString("HumanResourcesDbProvider"), o =>
-//                {
-//                    o.MigrationsAssembly(migrationAssemblyName);
-//                });
-//            });
+            //            services.AddDbContext<HumanResourcesDbContext>(options =>
+            //            {
+            //#if DEBUG
+            //                options.EnableSensitiveDataLogging();
+            //#endif
+            //                options.UseNpgsql(configuration.GetConnectionString("HumanResourcesDbProvider"), o =>
+            //                {
+            //                    o.MigrationsAssembly(migrationAssemblyName);
+            //                });
+            //            });
 
             services.AddScopedContexts();
 
             return services;
         }
 
-        public static IServiceCollection AddPersistenceAsInMemory(this IServiceCollection services, string databaseName)
+        public static IServiceCollection AddPersistenceAsInMemory(this IServiceCollection services)
         {
-            services.AddDbContext<Credentials.CredentialsDbContext>(options => InMemoryBuilder(databaseName));
+            services.RemoveDbFromServices<CredentialsDbContext>();
+            services.AddDbContext<CredentialsDbContext>(options => InMemoryBuilder(nameof(CredentialsDbContext)));
 
 
             //services.AddDbContext<HumanResourcesDbContext>(options =>
@@ -68,6 +69,17 @@ namespace WeeControl.Backend.Persistence
             });
 
             return options;
+        }
+
+
+        static private IServiceCollection RemoveDbFromServices<T>(this IServiceCollection services) where T: DbContext
+        {
+            var descriptor = services.SingleOrDefault(
+                    d => d.ServiceType ==
+                        typeof(DbContextOptions<T>));
+
+            services.Remove(descriptor);
+            return services;
         }
 
         static private DbContextOptionsBuilder InMemoryBuilder(string dbName)

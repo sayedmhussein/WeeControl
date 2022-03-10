@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace WeeControl.Common.SharedKernel.Interfaces
+namespace WeeControl.Common.UserSecurityLib.Interfaces
 {
     public interface IClientDevice
     {

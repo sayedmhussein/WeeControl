@@ -44,7 +44,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WebApi\WebApi.csproj" />
-    <ProjectReference Include="..\..\Common\SharedKernel\SharedKernel.csproj" />
     <ProjectReference Include="..\Persistence\Persistence.csproj" />
   </ItemGroup>
 </Project>

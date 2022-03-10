@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.Backend.Persistence.BoundedContexts.HumanResources;
+using WeeControl.Backend.Persistence;
+using WeeControl.Backend.Persistence.Credentials;
 using Xunit;
 
 [assembly: CollectionBehavior(CollectionBehavior.CollectionPerAssembly, DisableTestParallelization = true, MaxParallelThreads = 1)]
@@ -18,26 +19,15 @@ namespace WeeControl.Backend.WebApi.Test.Functional.TestHelpers
         {
             builder.ConfigureServices(services =>
             {
-                var descriptor = services.SingleOrDefault(
-                    d => d.ServiceType ==
-                        typeof(DbContextOptions<HumanResourcesDbContext>));
+                services.AddPersistenceAsInMemory();
 
-                services.Remove(descriptor);
+                //var sp = services.BuildServiceProvider();
 
-                services.AddDbContext<HumanResourcesDbContext>(options =>
-                {
-                    options.EnableSensitiveDataLogging();
-                    options.ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning));
-                    options.UseInMemoryDatabase("FunctionalTestsDbContext");
-                });
+                //using var scope = sp.CreateScope();
+                //var scopedServices = scope.ServiceProvider;
+                //var db = scopedServices.GetRequiredService<HumanResourcesDbContext>();
 
-                var sp = services.BuildServiceProvider();
-
-                using var scope = sp.CreateScope();
-                var scopedServices = scope.ServiceProvider;
-                var db = scopedServices.GetRequiredService<HumanResourcesDbContext>();
-
-                db.Database.EnsureCreated();
+                //db.Database.EnsureCreated();
             });
         }
     }
