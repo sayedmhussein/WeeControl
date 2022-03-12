@@ -9,9 +9,9 @@ using WeeControl.Common.BoundedContext.RequestsResponses;
 
 namespace WeeControl.Common.BoundedContext.Credentials.Operations
 {
-    public class UserOperation
+    public class UserOperation : IUserOperation
     {
-        private IUserDevice device;
+        private readonly IUserDevice device;
         private readonly HttpClient httpClient;
 
         public UserOperation(IUserDevice device, HttpClient httpClient)
@@ -42,6 +42,31 @@ namespace WeeControl.Common.BoundedContext.Credentials.Operations
             }
 
             return new ResponseDto<TokenDto>(null) { StatuesCode = response.StatusCode };
+        }
+
+        public Task<IResponseDto<TokenDto>> LoginAsync(LoginDto loginDto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IResponseDto<TokenDto>> GetTokenAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IResponseDto> UpdateEmailAsync(UpdateEmailAsync loginDto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IResponseDto> UpdatePasswordAsync(UpdatePasswordDto loginDto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IResponseDto> LogoutAsync()
+        {
+            throw new NotImplementedException();
         }
     }
 }

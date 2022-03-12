@@ -32,7 +32,7 @@ namespace WeeControl.Backend.Application.Test.BoundedContexts.Credentials
         }
 
         [Fact]
-        public async void WhenRegisterExistingUser_ReturnSuccessAndToken()
+        public async void WhenRegisterExistingUser_ThrowException()
         {
             var user = await context.Users.FirstOrDefaultAsync();
             var command = new RegisterCommand(new RequestDto() { DeviceId = "device" }, new RegisterDto() { Username = user.Username, Password = user.Password });
@@ -45,7 +45,7 @@ namespace WeeControl.Backend.Application.Test.BoundedContexts.Credentials
         [InlineData("device", null, null, "password")]
         [InlineData("device", "", "", "password")]
         [InlineData("device", "username", "email", "")]
-        public async void WhenInvalidInputs_ThrowExceptions(string device, string username, string email, string password)
+        public async void WhenInvalidInputs_ThrowException(string device, string username, string email, string password)
         {
             var user = await context.Users.FirstOrDefaultAsync();
             var command = new RegisterCommand(new RequestDto() { DeviceId = device }, new RegisterDto() { Username = username, Email = email, Password = password });

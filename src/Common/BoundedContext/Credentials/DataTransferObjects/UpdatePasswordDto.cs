@@ -1,7 +1,7 @@
 ﻿using System;
 namespace WeeControl.Common.BoundedContext.Credentials.DataTransferObjects
 {
-    public class ChangePasswordDto
+    public class UpdatePasswordDto
     {
         
     }
