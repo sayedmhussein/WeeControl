@@ -1,4 +1,6 @@
-﻿namespace WeeControl.Common.BoundedContext.Interfaces
+﻿using System.Net;
+
+namespace WeeControl.Common.BoundedContext.Interfaces
 {
     /// <summary>
     /// Interface for All Server Responses to Clients which host the Data Transfer Object.

@@ -19,6 +19,7 @@
     <None Remove="Credentials\DataTransferObjects\" />
     <None Remove="RequestsResponses\" />
     <None Remove="Interfaces\" />
+    <None Remove="Newtonsoft.Json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Credentials\" />
@@ -27,5 +28,8 @@
     <Folder Include="Credentials\DataTransferObjects\" />
     <Folder Include="RequestsResponses\" />
     <Folder Include="Interfaces\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 </Project>

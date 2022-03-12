@@ -10,7 +10,10 @@ namespace WeeControl.Backend.Persistence.Credentials.Configurations
         public void Configure(EntityTypeBuilder<UserDbo> builder)
         {
             builder.ToTable("credentials", "user");
+            builder.HasKey(p => p.UserId);
             builder.Property(p => p.UserId).ValueGeneratedOnAdd();
+
+            
         }
     }
 }

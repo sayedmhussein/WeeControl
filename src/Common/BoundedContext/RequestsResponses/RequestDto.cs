@@ -1,10 +1,18 @@
 ﻿using System;
+using System.Net.Http;
+using System.Text;
+using Newtonsoft.Json;
 using WeeControl.Common.BoundedContext.Interfaces;
 
 namespace WeeControl.Common.BoundedContext.RequestsResponses
 {
     public class RequestDto : IRequestDto
     {
+        public static HttpContent BuildHttpContentAsJson(object dto)
+        {
+            return new StringContent(JsonConvert.SerializeObject(dto), Encoding.UTF8, "application/json");
+        }
+
         public string DeviceId { get; set; }
 
         public double? Latitude { get; set; }

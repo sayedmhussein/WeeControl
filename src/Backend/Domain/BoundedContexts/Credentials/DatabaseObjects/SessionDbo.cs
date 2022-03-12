@@ -9,6 +9,6 @@ namespace WeeControl.Backend.Domain.Credentials.DatabaseObjects
         [Key]
         public Guid SessionId { get; set; }
 
-        public User User { get; set; }
+        public UserDbo User { get; set; }
     }
 }

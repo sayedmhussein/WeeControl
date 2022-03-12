@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using WeeControl.Backend.Domain.Credentials;
 using WeeControl.Backend.Domain.Credentials.DatabaseObjects;
@@ -16,8 +17,11 @@ namespace WeeControl.Backend.Persistence.Credentials
         {
             Database.EnsureCreated();
 
-            Users.Add(new UserDbo() { Username = "admin", Password = "admin" });
-            SaveChanges();
+            if (!Users.Any())
+            {
+                Users.Add(new UserDbo() { Username = "admin", Password = "admin" });
+                SaveChanges();
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

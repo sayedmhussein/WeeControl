@@ -15,47 +15,21 @@ namespace WeeControl.Backend.Persistence
     {
         public static IServiceCollection AddPersistenceAsPostgreSql(this IServiceCollection services, IConfiguration configuration, string migrationAssemblyName)
         {
-            services.AddDbContext<Credentials.CredentialsDbContext>(options => PostgresBuilder(configuration, migrationAssemblyName));
-
-            //            services.AddDbContext<HumanResourcesDbContext>(options =>
-            //            {
-            //#if DEBUG
-            //                options.EnableSensitiveDataLogging();
-            //#endif
-            //                options.UseNpgsql(configuration.GetConnectionString("HumanResourcesDbProvider"), o =>
-            //                {
-            //                    o.MigrationsAssembly(migrationAssemblyName);
-            //                });
-            //            });
-
-            services.AddScopedContexts();
+            services.AddDbContext<CredentialsDbContext>(options => PostgresBuilder(configuration, migrationAssemblyName));
+            services.AddScoped<ICredentialsDbContext>(p => p.GetService<CredentialsDbContext>());
 
             return services;
         }
 
         public static IServiceCollection AddPersistenceAsInMemory(this IServiceCollection services)
         {
-            services.RemoveDbFromServices<CredentialsDbContext>();
-            services.AddDbContext<CredentialsDbContext>(options => InMemoryBuilder(nameof(CredentialsDbContext)));
-
-
-            //services.AddDbContext<HumanResourcesDbContext>(options =>
-            //{
-            //    options.EnableSensitiveDataLogging();
-            //    options.UseInMemoryDatabase(databaseName);
-            //    options.ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning));
-            //});
-
-            services.AddScopedContexts();
+            //services.RemoveDbFromServices<CredentialsDbContext>();
+            services.AddScoped<ICredentialsDbContext>(p =>
+                new CredentialsDbContext(GetInMemoryOptions<CredentialsDbContext>(new Random().NextDouble().ToString())));
 
             return services;
         }
 
-        private static IServiceCollection AddScopedContexts(this IServiceCollection services)
-        {
-            services.AddScoped<ICredentialsDbContext>(p => p.GetService<CredentialsDbContext>());
-            return services;
-        }
 
         static private DbContextOptionsBuilder PostgresBuilder(IConfiguration configuration, string migrationAssemblyName)
         {
@@ -71,25 +45,25 @@ namespace WeeControl.Backend.Persistence
             return options;
         }
 
-
         static private IServiceCollection RemoveDbFromServices<T>(this IServiceCollection services) where T: DbContext
         {
             var descriptor = services.SingleOrDefault(
                     d => d.ServiceType ==
                         typeof(DbContextOptions<T>));
-
-            services.Remove(descriptor);
+            if (descriptor != null)
+                services.Remove(descriptor);
             return services;
         }
 
-        static private DbContextOptionsBuilder InMemoryBuilder(string dbName)
+        static private DbContextOptions<T> GetInMemoryOptions<T>(string dbName) where T: DbContext
         {
-            var options = new DbContextOptionsBuilder();
+            var options = new DbContextOptionsBuilder<T>();
+            options.EnableDetailedErrors();
             options.EnableSensitiveDataLogging();
             options.UseInMemoryDatabase(dbName);
             options.ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning));
 
-            return options;
+            return options.Options;
         }
     }
 }

@@ -10,7 +10,7 @@ using WeeControl.Common.UserSecurityLib.Interfaces;
 
 namespace WeeControl.Backend.Application.BoundContexts.Credentials.Queries
 {
-    public class GetTokenHandler : IRequestHandler<GetTokenQuery, ResponseDto<LoginDto>>
+    public class GetTokenHandler : IRequestHandler<RegisterCommand, ResponseDto<LoginDto>>
     {
         private readonly ICredentialsDbContext context;
 
@@ -19,7 +19,7 @@ namespace WeeControl.Backend.Application.BoundContexts.Credentials.Queries
             this.context = context;
         }
 
-        public Task<ResponseDto<LoginDto>> Handle(GetTokenQuery request, CancellationToken cancellationToken)
+        public Task<ResponseDto<LoginDto>> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

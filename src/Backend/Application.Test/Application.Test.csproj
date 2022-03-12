@@ -25,6 +25,7 @@
   <ItemGroup>
     <Folder Include="Common\" />
     <Folder Include="Common\Behaviours\" />
+    <Folder Include="BoundedContexts\Credentials\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Territory\" />
@@ -33,11 +34,11 @@
     <None Remove="Aggregates\" />
     <None Remove="Common\" />
     <None Remove="Common\Behaviours\" />
+    <None Remove="BoundedContexts\Credentials\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
     <ProjectReference Include="..\Persistence\Persistence.csproj" />
-    <ProjectReference Include="..\..\Common\SharedKernel\SharedKernel.csproj" />
   </ItemGroup>
 </Project>

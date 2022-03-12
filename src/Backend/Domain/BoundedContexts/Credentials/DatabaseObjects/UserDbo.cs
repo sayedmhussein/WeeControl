@@ -10,6 +10,6 @@ namespace WeeControl.Backend.Domain.Credentials.DatabaseObjects
         [Key]
         public Guid UserId { get; set; }
 
-        public IEnumerable<SessionDbo> Sessions { get; set; }
+        public virtual IEnumerable<SessionDbo> Sessions { get; set; }
     }
 }

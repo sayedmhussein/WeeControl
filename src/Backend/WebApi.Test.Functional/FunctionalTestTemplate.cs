@@ -4,6 +4,7 @@ using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.Backend.Domain.Credentials;
+using WeeControl.Backend.Persistence.Credentials;
 using WeeControl.Backend.WebApi.Test.Functional.TestHelpers;
 using WeeControl.Common.UserSecurityLib.Interfaces;
 using Xunit;
@@ -40,13 +41,11 @@ namespace WeeControl.Backend.WebApi.Test.Functional
         }
 
         [Fact]
-        public async void Example()
+        public void Example()
         {
             // var token = await RefreshCurrentTokenTests.GetRefreshedTokenAsync(factory, device);
             // clientDeviceMock.Setup(x => x.GetTokenAsync()).ReturnsAsync(token);
             // var service = new AuthenticationService(factory.CreateClient(), clientDeviceMock.Object);
-            
-            
         }
     }
 }

@@ -5,9 +5,9 @@ using WeeControl.Common.BoundedContext.RequestsResponses;
 
 namespace WeeControl.Backend.Application.BoundContexts.Credentials.Queries
 {
-    public class GetTokenQuery : IRequest<ResponseDto<LoginDto>>
+    public class RegisterCommand : IRequest<ResponseDto<LoginDto>>
     {
-        public GetTokenQuery()
+        public RegisterCommand()
         {
         }
     }

@@ -7,6 +7,16 @@ namespace WeeControl.Common.BoundedContext.Credentials.Operations
     {
         public const string Route = "Api/Credentials/";
 
+        public class Register
+        {
+            public const string EndPoint = "Register";
+            public static readonly HttpMethod Method = HttpMethod.Post;
+            public const string Relative = Route + EndPoint;
+            public static string Absolute(string server) => server + Relative;
+            public const string Version = "1.0";
+
+        }
+
         public class Login
         {
             public const string EndPoint = "";
