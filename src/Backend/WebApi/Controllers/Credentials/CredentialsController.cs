@@ -85,5 +85,21 @@ namespace WeeControl.Backend.WebApi.Controllers.Credentials
             return Ok(response);
         }
 
+        [Authorize]
+        [HttpDelete(ApiRouteLink.Logout.EndPoint)]
+        [MapToApiVersion(ApiRouteLink.Logout.Version)]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
+        public async Task<ActionResult<ResponseDto>> LogoutV1([FromBody] RequestDto dto)
+        {
+            var command = new LogoutCommand(dto, currentUserInfo.GetSessionId());
+            var response = await mediatR.Send(command);
+
+            return Ok(response);
+        }
+
     }
 }

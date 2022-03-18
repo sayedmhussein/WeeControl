@@ -5,14 +5,11 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
-using WeeControl.Common.SharedKernel;
-using WeeControl.Common.SharedKernel.BoundedContexts.HumanResources.Authentication;
-using WeeControl.Common.SharedKernel.BoundedContexts.HumanResources.ClientSideServices;
-using WeeControl.Common.SharedKernel.Interfaces;
 using WeeControl.Common.UserSecurityLib.Interfaces;
 using WeeControl.Frontend.Wasm.Interfaces;
 using WeeControl.Frontend.Wasm.Services;
 using DependencyInjection = WeeControl.Common.UserSecurityLib.DependencyInjection;
+using WeeControl.Common.BoundedContext.Credentials.Operations;
 
 namespace WeeControl.Frontend.Wasm
 {
@@ -45,7 +42,7 @@ namespace WeeControl.Frontend.Wasm
             
             builder.Services.AddAuthorizationCore();
             
-            ApiRouteLink.HumanResources.Base = builder.Configuration["ApiBaseAddress"];
+            ApiRouteLink..HumanResources.Base = builder.Configuration["ApiBaseAddress"];
 
             builder.Services.AddHttpClient("UnSecured", 
                 client => client.BaseAddress = new Uri("https://localhost:5001/"));

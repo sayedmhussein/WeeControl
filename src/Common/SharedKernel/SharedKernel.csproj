@@ -21,6 +21,7 @@
         <Folder Include="BoundedContexts\HumanResources\HumanResources\" />
         <Folder Include="BoundedContexts\HumanResources\HumanResources\HumanResources\" />
         <Folder Include="HumanResources\Garbag\" />
+        <Folder Include="BoundedContexts\HumanResources\HumanResources\HumanResources\Notifications\" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
@@ -72,6 +73,7 @@
         <None Remove="BoundedContexts\HumanResources\HumanResources\" />
         <None Remove="BoundedContexts\HumanResources\HumanResources\HumanResources\" />
         <None Remove="HumanResources\Garbag\" />
+        <None Remove="BoundedContexts\HumanResources\HumanResources\HumanResources\Notifications\" />
     </ItemGroup>
     <ItemGroup>
         <None Remove="EntityGroups\Employee\Attributes\attributes.json" />

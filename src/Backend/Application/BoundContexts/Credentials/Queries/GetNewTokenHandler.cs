@@ -94,8 +94,8 @@ namespace WeeControl.Backend.Application.BoundContexts.Credentials.Queries
                 var ci = new ClaimsIdentity("custom");
                 ci.AddClaim(new Claim(HumanResourcesData.Claims.Session, session.SessionId.ToString()));
                 ci.AddClaim(new Claim(HumanResourcesData.Claims.Territory, employee.TerritoryCode));
-                foreach (var c in employee.Claims.Where(x => x.RevokedTs == null).ToList())
-                //foreach (var c in employee.Claims?.Where(x => x.RevokedTs == null)?.ToList())
+                //foreach (var c in employee.Claims.Where(x => x.RevokedTs == null).ToList())
+                foreach (var c in employee.Claims?.Where(x => x.RevokedTs == null)?.ToList())
                 {
                     ci.AddClaim(new Claim(c.ClaimType, c.ClaimValue));
                 }

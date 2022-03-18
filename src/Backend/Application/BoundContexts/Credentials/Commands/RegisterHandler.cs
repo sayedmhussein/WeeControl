@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using WeeControl.Backend.Application.BoundContexts.Credentials.Queries;
 using WeeControl.Backend.Application.BoundContexts.Shared.Queries;
 using WeeControl.Backend.Application.Exceptions;
 using WeeControl.Backend.Domain.Credentials;
@@ -39,17 +40,18 @@ namespace WeeControl.Backend.Application.BoundContexts.Credentials.Commands
                 throw new ConflictFailureException();
             }
 
-            await context.Users.AddAsync(new UserDbo()
+            var user = new UserDbo()
             {
                 Email = cmd.Payload.Email,
                 Username = cmd.Payload.Username,
                 Password = cmd.Payload.Password
-            }, cancellationToken);
+            };
 
+            await context.Users.AddAsync(user, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
 
-            var response = new TokenDto() { Token = "Somestring" };
-            return response;
+            var b= await mediator.Send(new GetNewTokenQuery(cmd.Request, new LoginDto() { Username = user.Username, Password = user.Password }));
+            return b.Payload;
         }
     }
 }

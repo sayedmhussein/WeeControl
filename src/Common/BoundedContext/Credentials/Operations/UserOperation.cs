@@ -42,12 +42,51 @@ namespace WeeControl.Common.BoundedContext.Credentials.Operations
             return responseDto;
         }
 
-        public Task<IResponseDto<TokenDto>> LoginAsync(LoginDto loginDto)
+        public async Task<IResponseDto<TokenDto>> LoginAsync(LoginDto loginDto)
         {
-            throw new NotImplementedException();
+            var requestDto = new RequestDto<LoginDto>() { Payload = loginDto, DeviceId = device.DeviceId };
+
+            HttpRequestMessage message = new()
+            {
+                RequestUri = new Uri(ApiRouteLink.Login.Absolute(device.ServerBaseAddress)),
+                Version = new Version(ApiRouteLink.Login.Version),
+                Method = ApiRouteLink.Login.Method,
+                Content = RequestDto.BuildHttpContentAsJson(requestDto)
+            };
+
+            var response = await httpClient.SendAsync(message);
+
+            if (!response.IsSuccessStatusCode)
+                return new ResponseDto<TokenDto>(null) { StatuesCode = response.StatusCode };
+
+            var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<TokenDto>>();
+            responseDto.StatuesCode = response.StatusCode;
+            return responseDto;
         }
 
-        public Task<IResponseDto<TokenDto>> GetTokenAsync()
+        public async Task<IResponseDto<TokenDto>> GetTokenAsync()
+        {
+            var requestDto = new RequestDto() { DeviceId = device.DeviceId };
+
+            HttpRequestMessage message = new()
+            {
+                RequestUri = new Uri(ApiRouteLink.RequestRefreshToken.Absolute(device.ServerBaseAddress)),
+                Version = new Version(ApiRouteLink.RequestRefreshToken.Version),
+                Method = ApiRouteLink.RequestRefreshToken.Method,
+                Content = RequestDto.BuildHttpContentAsJson(requestDto)
+            };
+
+            var response = await httpClient.SendAsync(message);
+
+            if (!response.IsSuccessStatusCode)
+                return new ResponseDto<TokenDto>(null) { StatuesCode = response.StatusCode };
+
+            var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<TokenDto>>();
+            responseDto.StatuesCode = response.StatusCode;
+            return responseDto;
+        }
+
+        public Task<IResponseDto> LogoutAsync()
         {
             throw new NotImplementedException();
         }
@@ -58,11 +97,6 @@ namespace WeeControl.Common.BoundedContext.Credentials.Operations
         }
 
         public Task<IResponseDto> UpdatePasswordAsync(UpdatePasswordDto loginDto)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IResponseDto> LogoutAsync()
         {
             throw new NotImplementedException();
         }

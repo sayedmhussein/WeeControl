@@ -26,7 +26,7 @@ namespace WeeControl.Backend.Application.Test.BoundedContexts.Credentials
         {
             var command = new RegisterCommand(new RequestDto() { DeviceId = "device" }, new RegisterDto() { Username = "username", Password = "password" });
 
-            var tokenDto = await new RegisterHandler(context).Handle(command, default);
+            var tokenDto = await new RegisterHandler(context, null).Handle(command, default);
 
             Assert.NotEmpty(tokenDto.Token);
         }
@@ -37,7 +37,7 @@ namespace WeeControl.Backend.Application.Test.BoundedContexts.Credentials
             var user = await context.Users.FirstOrDefaultAsync();
             var command = new RegisterCommand(new RequestDto() { DeviceId = "device" }, new RegisterDto() { Username = user.Username, Password = user.Password });
 
-            await Assert.ThrowsAsync<ConflictFailureException>(() => new RegisterHandler(context).Handle(command, default));
+            await Assert.ThrowsAsync<ConflictFailureException>(() => new RegisterHandler(context, null).Handle(command, default));
         }
 
         [Theory]
@@ -50,7 +50,7 @@ namespace WeeControl.Backend.Application.Test.BoundedContexts.Credentials
             var user = await context.Users.FirstOrDefaultAsync();
             var command = new RegisterCommand(new RequestDto() { DeviceId = device }, new RegisterDto() { Username = username, Email = email, Password = password });
 
-            await Assert.ThrowsAnyAsync<Exception>(() => new RegisterHandler(context).Handle(command, default));
+            await Assert.ThrowsAnyAsync<Exception>(() => new RegisterHandler(context, null).Handle(command, default));
         }
     }
 }

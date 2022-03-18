@@ -22,6 +22,8 @@ namespace WeeControl.Backend.Persistence.Credentials
         public CredentialsDbContext(DbContextOptions<CredentialsDbContext> options) : base(options)
         {
             //Database.EnsureDeleted();
+            //Database.EnsureCreated();
+            //Database.Migrate();
             Database.EnsureCreated();
 
             if (!Territories.Any())
