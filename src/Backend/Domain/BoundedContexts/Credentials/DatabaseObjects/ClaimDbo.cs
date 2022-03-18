@@ -10,7 +10,7 @@ namespace WeeControl.Backend.Domain.BoundedContexts.Credentials.DatabaseObjects
         public Guid ClaimId { get; set; }
 
         public Guid? UserId { get; set; }
-        public UserDbo User { get; set; }
+        //public UserDbo User { get; set; }
 
         [Required]
         [StringLength(5)]

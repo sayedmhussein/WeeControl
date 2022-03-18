@@ -13,6 +13,12 @@ namespace WeeControl.Backend.Application.BoundContexts.Credentials.Queries
             Payload = payload;
         }
 
+        public GetNewTokenQuery(RequestDto request, Guid? sessionId)
+        {
+            Request = request;
+            SessionId = sessionId;
+        }
+
         public RequestDto Request { get; }
         public LoginDto Payload { get; }
 

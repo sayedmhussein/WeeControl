@@ -66,5 +66,10 @@ namespace WeeControl.Common.BoundedContext.Credentials.Operations
         {
             throw new NotImplementedException();
         }
+
+        public Task<IRequestDto> ForgotPasswordAsync(ForgotPasswordDto forgotPasswordDto)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -12,5 +12,6 @@ namespace WeeControl.Common.BoundedContext.Credentials.Operations
         Task<IResponseDto<TokenDto>> RegisterAsync(RegisterDto loginDto);
         Task<IResponseDto> UpdateEmailAsync(UpdateEmailAsync loginDto);
         Task<IResponseDto> UpdatePasswordAsync(UpdatePasswordDto loginDto);
+        Task<IRequestDto> ForgotPasswordAsync(ForgotPasswordDto forgotPasswordDto);
     }
 }

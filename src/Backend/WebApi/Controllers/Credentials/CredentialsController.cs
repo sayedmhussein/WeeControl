@@ -64,5 +64,26 @@ namespace WeeControl.Backend.WebApi.Controllers.Credentials
             return Ok(response);
         }
 
+        /// <summary>
+        ///     Used to get token which will be used to authorize user, device must match the same which had the temporary token.
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPut(ApiRouteLink.RequestRefreshToken.EndPoint)]
+        [MapToApiVersion(ApiRouteLink.Login.Version)]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(ResponseDto<TokenDto>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
+        public async Task<ActionResult<ResponseDto<TokenDto>>> RefreshTokenV1([FromBody] RequestDto dto)
+        {
+            var query = new GetNewTokenQuery(dto, currentUserInfo.GetSessionId());
+            var response = await mediatR.Send(query);
+
+            return Ok(response);
+        }
+
     }
 }

@@ -11,6 +11,7 @@ namespace WeeControl.Backend.Persistence.Credentials.Configurations
         {
             builder.ToTable("claim", "credentials");
             builder.Property(p => p.ClaimId).ValueGeneratedOnAdd();
+            builder.Property(p => p.GrantedTs).HasDefaultValue(DateTime.UtcNow);
         }
     }
 }

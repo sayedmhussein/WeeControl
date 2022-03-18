@@ -36,7 +36,7 @@ namespace WeeControl.Backend.Application.BoundContexts.Credentials.Queries
 
         public async Task<ResponseDto<TokenDto>> Handle(GetNewTokenQuery request, CancellationToken cancellationToken)
         {
-            if (!string.IsNullOrWhiteSpace(request.Payload.Username) && !string.IsNullOrWhiteSpace(request.Payload.Password))
+            if (!string.IsNullOrWhiteSpace(request.Payload?.Username) && !string.IsNullOrWhiteSpace(request.Payload?.Password))
             {
                 var employee = await context.Users.FirstOrDefaultAsync(x =>
                     x.Username == request.Payload.Username &&
@@ -87,7 +87,7 @@ namespace WeeControl.Backend.Application.BoundContexts.Credentials.Queries
                 await context.SaveChangesAsync(cancellationToken);
 
                 var employee = await
-                    context.Users.FirstOrDefaultAsync(x => x.UserId == session.UserId, cancellationToken);
+                    context.Users.Include(x => x.Claims).FirstOrDefaultAsync(x => x.UserId == session.UserId, cancellationToken);
 
 
 
@@ -95,6 +95,7 @@ namespace WeeControl.Backend.Application.BoundContexts.Credentials.Queries
                 ci.AddClaim(new Claim(HumanResourcesData.Claims.Session, session.SessionId.ToString()));
                 ci.AddClaim(new Claim(HumanResourcesData.Claims.Territory, employee.TerritoryCode));
                 foreach (var c in employee.Claims.Where(x => x.RevokedTs == null).ToList())
+                //foreach (var c in employee.Claims?.Where(x => x.RevokedTs == null)?.ToList())
                 {
                     ci.AddClaim(new Claim(c.ClaimType, c.ClaimValue));
                 }
