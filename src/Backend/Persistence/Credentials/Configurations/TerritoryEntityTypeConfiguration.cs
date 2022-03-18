@@ -1,14 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using WeeControl.Backend.Domain.BoundedContexts.HumanResources.TerritoryModule.Entities;
+using WeeControl.Backend.Domain.BoundedContexts.Credentials.DatabaseObjects;
 
-namespace WeeControl.Backend.Persistence.BoundedContexts.HumanResources.Configurations
+namespace WeeControl.Backend.Persistence.Credentials.Configurations
 {
-    public class TerritoryEntityTypeConfiguration : IEntityTypeConfiguration<Territory>
+    public class TerritoryEntityTypeConfiguration : IEntityTypeConfiguration<TerritoryDbo>
     {
-        public void Configure(EntityTypeBuilder<Territory> builder)
+        public void Configure(EntityTypeBuilder<TerritoryDbo> builder)
         {
-            builder.ToTable(nameof(Territory), nameof(Territory));
+            builder.ToTable("territory", "credentials");
             builder.HasComment("Territory of corporate.");
             
             builder.Property(p => p.TerritoryCode).ValueGeneratedOnAdd();
@@ -18,7 +18,9 @@ namespace WeeControl.Backend.Persistence.BoundedContexts.HumanResources.Configur
             builder.HasOne(e => e.ReportTo).WithMany();
             builder.HasMany(x => x.Reporting).WithOne(x => x.ReportTo).HasForeignKey(x => x.ReportToId).OnDelete(DeleteBehavior.Restrict);
 
-            builder.OwnsOne(x => x.Address);
+            //builder.OwnsOne(x => x.Address);
+
+            builder.HasMany(x => x.Users).WithOne().HasForeignKey(x => x.TerritoryCode);
         }
     }
 }

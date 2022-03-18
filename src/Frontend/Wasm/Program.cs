@@ -9,6 +9,7 @@ using WeeControl.Common.SharedKernel;
 using WeeControl.Common.SharedKernel.BoundedContexts.HumanResources.Authentication;
 using WeeControl.Common.SharedKernel.BoundedContexts.HumanResources.ClientSideServices;
 using WeeControl.Common.SharedKernel.Interfaces;
+using WeeControl.Common.UserSecurityLib.Interfaces;
 using WeeControl.Frontend.Wasm.Interfaces;
 using WeeControl.Frontend.Wasm.Services;
 using DependencyInjection = WeeControl.Common.UserSecurityLib.DependencyInjection;

@@ -15,8 +15,8 @@ namespace WeeControl.Backend.Persistence
     {
         public static IServiceCollection AddPersistenceAsPostgreSql(this IServiceCollection services, IConfiguration configuration, string migrationAssemblyName)
         {
-            services.AddDbContext<CredentialsDbContext>(options => PostgresBuilder(configuration, migrationAssemblyName));
-            services.AddScoped<ICredentialsDbContext>(p => p.GetService<CredentialsDbContext>());
+            services.AddScoped<ICredentialsDbContext>(p =>
+                new CredentialsDbContext(GetPostgresOptions<CredentialsDbContext>(configuration.GetConnectionString("HumanResourcesDbProvider"), migrationAssemblyName)));
 
             return services;
         }
@@ -30,19 +30,18 @@ namespace WeeControl.Backend.Persistence
             return services;
         }
 
-
-        static private DbContextOptionsBuilder PostgresBuilder(IConfiguration configuration, string migrationAssemblyName)
+        static private DbContextOptions<T> GetPostgresOptions<T>(string dbName, string migrationAssemblyName) where T :DbContext
         {
-            var options = new DbContextOptionsBuilder();
+            var options = new DbContextOptionsBuilder<T>();
 #if DEBUG
             options.EnableSensitiveDataLogging();
 #endif
-            options.UseNpgsql(configuration.GetConnectionString("HumanResourcesDbProvider"), o =>
+            options.UseNpgsql(dbName, o =>
             {
                 o.MigrationsAssembly(migrationAssemblyName);
             });
 
-            return options;
+            return options.Options;
         }
 
         static private IServiceCollection RemoveDbFromServices<T>(this IServiceCollection services) where T: DbContext

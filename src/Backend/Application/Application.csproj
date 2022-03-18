@@ -11,6 +11,9 @@
     <Folder Include="BoundContexts\Credentials\Commands\" />
     <Folder Include="BoundContexts\Credentials\Queries\" />
     <Folder Include="BoundContexts\Credentials\Notifications\" />
+    <Folder Include="BoundContexts\Shared\" />
+    <Folder Include="BoundContexts\Shared\Commands\" />
+    <Folder Include="BoundContexts\Shared\Queries\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="10.0.1" />
@@ -23,6 +26,9 @@
     <None Remove="BoundContexts\Credentials\Commands\" />
     <None Remove="BoundContexts\Credentials\Queries\" />
     <None Remove="BoundContexts\Credentials\Notifications\" />
+    <None Remove="BoundContexts\Shared\" />
+    <None Remove="BoundContexts\Shared\Commands\" />
+    <None Remove="BoundContexts\Shared\Queries\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\UserSecurityLib\UserSecurityLib.csproj" />

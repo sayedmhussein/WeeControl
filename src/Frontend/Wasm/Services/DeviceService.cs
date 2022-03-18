@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using WeeControl.Common.SharedKernel.Interfaces;
+using WeeControl.Common.UserSecurityLib.Interfaces;
 using WeeControl.Frontend.Wasm.Interfaces;
 
 namespace WeeControl.Frontend.Wasm.Services

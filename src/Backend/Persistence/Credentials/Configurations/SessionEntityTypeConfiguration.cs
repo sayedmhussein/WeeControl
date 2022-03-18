@@ -9,8 +9,9 @@ namespace WeeControl.Backend.Persistence.Credentials.Configurations
     {
         public void Configure(EntityTypeBuilder<SessionDbo> builder)
         {
-            builder.ToTable("credentials", "session");
+            builder.ToTable("session", "credentials");
             builder.Property(p => p.SessionId).ValueGeneratedOnAdd();
+            builder.Property(p => p.CreatedTs).HasDefaultValue(DateTime.UtcNow);
         }
     }
 }

@@ -6,6 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WeeControl.Backend.Application.BoundContexts.Credentials.Commands;
+using WeeControl.Backend.Application.BoundContexts.Credentials.Queries;
 using WeeControl.Backend.Application.Interfaces;
 using WeeControl.Common.BoundedContext.Credentials.DataTransferObjects;
 using WeeControl.Common.BoundedContext.Credentials.Operations;
@@ -57,10 +58,10 @@ namespace WeeControl.Backend.WebApi.Controllers.Credentials
             if (dto.Payload is null)
                 return BadRequest();
 
-            //var query = new GetNewTokenQuery(dto);
-            //var response = await mediatR.Send(query);
+            var query = new GetNewTokenQuery(dto, dto.Payload);
+            var response = await mediatR.Send(query);
 
-            return Ok(new TokenDto());
+            return Ok(response);
         }
 
     }

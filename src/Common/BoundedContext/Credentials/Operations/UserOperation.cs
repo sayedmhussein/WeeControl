@@ -34,14 +34,12 @@ namespace WeeControl.Common.BoundedContext.Credentials.Operations
 
             var response = await httpClient.SendAsync(message);
 
-            if (response.IsSuccessStatusCode)
-            {
-                var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<TokenDto>>();
-                responseDto.StatuesCode = response.StatusCode;
-                return responseDto;
-            }
-
-            return new ResponseDto<TokenDto>(null) { StatuesCode = response.StatusCode };
+            if (!response.IsSuccessStatusCode)
+                return new ResponseDto<TokenDto>(null) {StatuesCode = response.StatusCode};
+            
+            var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<TokenDto>>();
+            responseDto.StatuesCode = response.StatusCode;
+            return responseDto;
         }
 
         public Task<IResponseDto<TokenDto>> LoginAsync(LoginDto loginDto)

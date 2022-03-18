@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
@@ -10,69 +10,63 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using WeeControl.Backend.Application.Exceptions;
-using WeeControl.Backend.Domain.BoundedContexts.HumanResources;
-using WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModule.Entities;
-using WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModule.ValueObjects;
-using WeeControl.Common.SharedKernel.BoundedContexts.Shared;
-using WeeControl.Common.SharedKernel.Obsolutes.Dtos;
+using WeeControl.Backend.Domain.Credentials;
+using WeeControl.Backend.Domain.Credentials.DatabaseObjects;
+using WeeControl.Common.BoundedContext.Credentials.DataTransferObjects;
+using WeeControl.Common.BoundedContext.RequestsResponses;
 using WeeControl.Common.UserSecurityLib.BoundedContexts.HumanResources;
 using WeeControl.Common.UserSecurityLib.Interfaces;
 
-namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.GetNewToken
+namespace WeeControl.Backend.Application.BoundContexts.Credentials.Queries
 {
-    public class GetNewTokenHandler : IRequestHandler<GetNewTokenQuery, ResponseDto<EmployeeTokenDto>>
+    public class GetNewTokenHandler : IRequestHandler<GetNewTokenQuery, ResponseDto<TokenDto>>
     {
-        private readonly IHumanResourcesDbContext context;
+        private readonly ICredentialsDbContext context;
         private readonly IJwtService jwtService;
         private readonly IMediator mediator;
         private readonly IConfiguration configuration;
 
-        public GetNewTokenHandler(IHumanResourcesDbContext context, IJwtService jwtService, IMediator mediator, IConfiguration configuration)
+        public GetNewTokenHandler(ICredentialsDbContext context, IJwtService jwtService, IMediator mediator, IConfiguration configuration)
         {
             this.context = context;
-            this.jwtService= jwtService;
+            this.jwtService = jwtService;
             this.mediator = mediator;
             this.configuration = configuration;
         }
-        
-        public async Task<ResponseDto<EmployeeTokenDto>> Handle(GetNewTokenQuery request, CancellationToken cancellationToken)
+
+        public async Task<ResponseDto<TokenDto>> Handle(GetNewTokenQuery request, CancellationToken cancellationToken)
         {
-            if (string.IsNullOrWhiteSpace(request.Device))
+            if (!string.IsNullOrWhiteSpace(request.Payload.Username) && !string.IsNullOrWhiteSpace(request.Payload.Password))
             {
-                throw new BadRequestException("Didn't provide device id.");
-            }
-            
-            if (!string.IsNullOrWhiteSpace(request.Username) && !string.IsNullOrWhiteSpace(request.Password))
-            {
-                var employee = await context.Employees.FirstOrDefaultAsync(x => 
-                    x.Credentials.Username == request.Username && 
-                    x.Credentials.Password == request.Password, cancellationToken);
+                var employee = await context.Users.FirstOrDefaultAsync(x =>
+                    x.Username == request.Payload.Username &&
+                    x.Password == request.Payload.Password, cancellationToken);
 
                 if (employee is null) throw new NotFoundException();
 
-                var session = await context.Sessions.FirstOrDefaultAsync(x => x.EmployeeId == employee.EmployeeId && x.TerminationTs == null, cancellationToken);
+                var session = await context.Sessions.FirstOrDefaultAsync(x => x.UserId == employee.UserId && x.TerminationTs == null, cancellationToken);
                 if (session is null)
                 {
-                    session = Session.Create(employee.EmployeeId, request.Device);
+                    session = new SessionDbo() { UserId = employee.UserId, DeviceId = request.Request.DeviceId };
                     await context.Sessions.AddAsync(session, cancellationToken);
                 }
                 else
                 {
-                    if (session.DeviceId != request.Device)
+                    if (session.DeviceId != request.Request.DeviceId)
                     {
                         session.TerminationTs = DateTime.UtcNow;
                         await context.SaveChangesAsync(cancellationToken);
                         throw new NotAllowedException("User used session not related to device!");
                     }
                 }
-                
+
                 await context.SaveChangesAsync(cancellationToken);
 
                 var ci = new ClaimsIdentity("custom");
                 ci.AddClaim(new Claim(HumanResourcesData.Claims.Session, session.SessionId.ToString()));
 
                 var key = Encoding.ASCII.GetBytes(configuration["Jwt:Key"]);
-                
+
                 var descriptor = new SecurityTokenDescriptor()
                 {
                     Subject = ci,
@@ -81,22 +75,22 @@ namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.Ge
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                 };
                 var token = jwtService.GenerateToken(descriptor);
-                
-                return new ResponseDto<EmployeeTokenDto>(new EmployeeTokenDto(token, employee.EmployeeName, "url")) { StatuesCode = HttpStatusCode.OK};
+
+                return new ResponseDto<TokenDto>(new TokenDto(token, employee.Username, "url")) { StatuesCode = HttpStatusCode.OK };
             }
             else if (request.SessionId is not null)
             {
-                var session = await context.Sessions.FirstOrDefaultAsync(x => x.SessionId == request.SessionId && x.TerminationTs == null && x.DeviceId == request.Device, cancellationToken);
+                var session = await context.Sessions.FirstOrDefaultAsync(x => x.SessionId == request.SessionId && x.TerminationTs == null && x.DeviceId == request.Request.DeviceId, cancellationToken);
                 if (session is null) throw new NotAllowedException("Please login again.");
-                
-                session.Logs.Add(new SessionLog("Verified."));
+
+                //session.Logs.Add(new SessionLog("Verified."));
                 await context.SaveChangesAsync(cancellationToken);
 
-                var employee = await 
-                    context.Employees.FirstOrDefaultAsync(x => x.EmployeeId == session.EmployeeId, cancellationToken);
+                var employee = await
+                    context.Users.FirstOrDefaultAsync(x => x.UserId == session.UserId, cancellationToken);
 
-                
-                
+
+
                 var ci = new ClaimsIdentity("custom");
                 ci.AddClaim(new Claim(HumanResourcesData.Claims.Session, session.SessionId.ToString()));
                 ci.AddClaim(new Claim(HumanResourcesData.Claims.Territory, employee.TerritoryCode));
@@ -104,9 +98,9 @@ namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.Ge
                 {
                     ci.AddClaim(new Claim(c.ClaimType, c.ClaimValue));
                 }
-                
+
                 var key = Encoding.ASCII.GetBytes(configuration["Jwt:Key"]);
-                
+
                 var descriptor = new SecurityTokenDescriptor()
                 {
                     Subject = ci,
@@ -116,17 +110,18 @@ namespace WeeControl.Backend.Application.BoundContexts.HumanResources.Queries.Ge
                 };
                 var token = jwtService.GenerateToken(descriptor);
 
-                return new ResponseDto<EmployeeTokenDto>(new EmployeeTokenDto()
+                return new ResponseDto<TokenDto>(new TokenDto()
                 {
                     Token = token,
-                    FullName = employee.EmployeeName, PhotoUrl = "url"
-                }) { StatuesCode = HttpStatusCode.OK};
+                    FullName = employee.UserId.ToString(),
+                    PhotoUrl = "url"
+                })
+                { StatuesCode = HttpStatusCode.OK };
             }
             else
             {
                 throw new BadRequestException("Invalid request query parameters.");
             }
         }
-        
     }
 }
