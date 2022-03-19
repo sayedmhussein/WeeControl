@@ -4,8 +4,9 @@
 @attribute [AllowAnonymous]
 
 @inject NavigationManager navManager
-@inject IAuthenticationService authentication
+@inject IUserOperation authentication
 @using System.Net
+@using WeeControl.Common.BoundedContext.Credentials.DataTransferObjects
 
 <div class="card">
     <h4 class="card-header">Please enter your username and password</h4>
@@ -43,11 +44,11 @@
     [CascadingParameter]
     public Task<AuthenticationState> AuthState { get; set; }
     
-    private readonly RequestNewTokenDto loginDto = new();
+    private readonly LoginDto loginDto = new();
     private bool loading;
     private string stringAlert;
 
-    protected async override void OnInitialized()
+    protected override async void OnInitialized()
     {
         await base.OnInitializedAsync();
         
@@ -65,12 +66,12 @@
         loading = true;
         try
         {
-            var response = await authentication.RequestNewToken(loginDto);
+            var response = await authentication.LoginAsync(loginDto);
             switch (response.StatuesCode)
             {
                 case HttpStatusCode.Accepted:
                 case HttpStatusCode.OK:
-                    var response2 = await authentication.RefreshCurrentToken();
+                    var response2 = await authentication.GetTokenAsync();
                     if (response2.StatuesCode == HttpStatusCode.OK)
                     {
                         navManager.NavigateTo("/Home");

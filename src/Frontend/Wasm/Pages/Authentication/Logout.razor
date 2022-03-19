@@ -1,4 +1,4 @@
-@inject IAuthenticationService authentication
+@inject IUserOperation authentication
 @inject NavigationManager navManager
 
 <button class="btn btn-danger ml-md-auto" @onclick="@LogoutUser">
@@ -14,7 +14,7 @@
     private async Task LogoutUser()
     {
         loading = true;
-        var response = await authentication.Logout();
+        var response = await authentication.LogoutAsync();
         navManager.NavigateTo("/login");
     }
 }

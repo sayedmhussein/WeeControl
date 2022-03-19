@@ -19,6 +19,12 @@ namespace WeeControl.Common.BoundedContext.Credentials.Operations
             this.device = device;
             this.httpClient = httpClient;
         }
+        
+        public UserOperation(IUserDevice device, IHttpClientFactory httpClient)
+        {
+            this.device = device;
+            this.httpClient = httpClient.CreateClient();
+        }
 
         public async Task<IResponseDto<TokenDto>> RegisterAsync(RegisterDto loginDto)
         {

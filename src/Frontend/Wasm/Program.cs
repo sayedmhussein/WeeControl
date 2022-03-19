@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using WeeControl.Common.UserSecurityLib.Interfaces;
@@ -31,9 +32,8 @@ namespace WeeControl.Frontend.Wasm
             builder.Services.AddScoped<IUserOperation>(provider =>
             {
                 var device = provider.GetService<IUserDevice>();
-                //var factory = provider.GetService<IHttpClientFactory>();
-                
-                return new UserOperation(device, null);
+                var factory = provider.GetService<IHttpClientFactory>();
+                return new UserOperation(device, factory);
             });
 
             builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
@@ -42,15 +42,15 @@ namespace WeeControl.Frontend.Wasm
             
             builder.Services.AddAuthorizationCore();
 
-            //builder.Services.AddHttpClient("UnSecured", 
-            //    client => client.BaseAddress = new Uri("https://localhost:5001/"));
+            builder.Services.AddHttpClient("UnSecured", 
+            client => client.BaseAddress = new Uri("https://localhost:5001/"));
             
-            //builder.Services.AddHttpClient("Secured", 
-            //        client => client.BaseAddress = new Uri("https://localhost:5001/"))
-            //    .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
+            builder.Services.AddHttpClient("Secured", 
+                    client => client.BaseAddress = new Uri("https://localhost:5001/"))
+                .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
 
-            //builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>()
-            //    .CreateClient("Secured"));
+            builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>()
+                .CreateClient("Secured"));
             
             builder.Services.AddApiAuthorization(options =>
             {
