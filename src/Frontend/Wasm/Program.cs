@@ -4,12 +4,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using WeeControl.Common.UserSecurityLib.Interfaces;
 using WeeControl.Frontend.Wasm.Interfaces;
 using WeeControl.Frontend.Wasm.Services;
 using DependencyInjection = WeeControl.Common.UserSecurityLib.DependencyInjection;
 using WeeControl.Common.BoundedContext.Credentials.Operations;
+using WeeControl.Common.BoundedContext.Interfaces;
 
 namespace WeeControl.Frontend.Wasm
 {
@@ -28,12 +28,12 @@ namespace WeeControl.Frontend.Wasm
             DependencyInjection.AddUserSecurityService(builder.Services);
             
 
-            builder.Services.AddScoped<IAuthenticationService>(provider =>
+            builder.Services.AddScoped<IUserOperation>(provider =>
             {
-                var device = provider.GetService<IClientDevice>();
-                var factory = provider.GetService<IHttpClientFactory>();
+                var device = provider.GetService<IUserDevice>();
+                //var factory = provider.GetService<IHttpClientFactory>();
                 
-                return new AuthenticationService(factory, device);
+                return new UserOperation(device, null);
             });
 
             builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
@@ -41,18 +41,16 @@ namespace WeeControl.Frontend.Wasm
             builder.Services.AddAuthorizationCore();
             
             builder.Services.AddAuthorizationCore();
-            
-            ApiRouteLink..HumanResources.Base = builder.Configuration["ApiBaseAddress"];
 
-            builder.Services.AddHttpClient("UnSecured", 
-                client => client.BaseAddress = new Uri("https://localhost:5001/"));
+            //builder.Services.AddHttpClient("UnSecured", 
+            //    client => client.BaseAddress = new Uri("https://localhost:5001/"));
             
-            builder.Services.AddHttpClient("Secured", 
-                    client => client.BaseAddress = new Uri("https://localhost:5001/"))
-                .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
+            //builder.Services.AddHttpClient("Secured", 
+            //        client => client.BaseAddress = new Uri("https://localhost:5001/"))
+            //    .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
 
-            builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>()
-                .CreateClient("Secured"));
+            //builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>()
+            //    .CreateClient("Secured"));
             
             builder.Services.AddApiAuthorization(options =>
             {

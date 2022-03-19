@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using WeeControl.Common.SharedKernel.BoundedContexts.HumanResources.Authentication;
+using WeeControl.Common.BoundedContext.Credentials.Operations;
 using WeeControl.Common.UserSecurityLib.Interfaces;
 using WeeControl.Frontend.Wasm.Interfaces;
 
@@ -16,20 +16,20 @@ namespace WeeControl.Frontend.Wasm.Services
         private readonly ILocalStorage localStorage;
         private readonly IJwtService jwtService;
         private readonly IConfiguration configuration;
-        private readonly IAuthenticationService service;
+        private readonly IUserOperation service;
         private readonly AuthenticationState anonymous;
 
-        public AuthStateProvider(ILocalStorage localStorage, IJwtService jwtService, IConfiguration configuration, IAuthenticationService service)
+        public AuthStateProvider(ILocalStorage localStorage, IJwtService jwtService, IConfiguration configuration, IUserOperation service)
         {
             this.localStorage = localStorage;
             this.jwtService = jwtService;
             this.configuration = configuration;
             this.service = service;
 
-            service.TokenChanged += (sender, args) =>
-            {
-                NotifyUserAuthentication(args);
-            };
+            //service.TokenChanged += (sender, args) =>
+            //{
+            //    NotifyUserAuthentication(args);
+            //};
 
             var identity = new ClaimsIdentity();
             

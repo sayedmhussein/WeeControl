@@ -4,7 +4,7 @@ using WeeControl.Frontend.Wasm.Interfaces;
 
 namespace WeeControl.Frontend.Wasm.Services
 {
-    public class DeviceService : IClientDevice
+    public class DeviceService : IClientDevice //, IUserDevice
     {
         public ILocalStorage LocalStorage { get; private set; }
 
