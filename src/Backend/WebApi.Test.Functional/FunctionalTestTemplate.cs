@@ -32,7 +32,7 @@ namespace WeeControl.Backend.WebApi.Test.Functional
 
             clientDeviceMock = new Mock<IClientDevice>();
             clientDeviceMock.SetupAllProperties();
-            clientDeviceMock.Setup(x => x.DeviceId).Returns(device);
+            clientDeviceMock.Setup(x => x).Returns(device);
         }
         
         public void Dispose()

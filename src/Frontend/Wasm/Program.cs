@@ -24,7 +24,7 @@ namespace WeeControl.Frontend.Wasm
 
             builder.Services.AddScoped<ILocalStorage, LocalStorageService>();
             builder.Services.AddTransient<IClientDevice, DeviceService>();
-            
+            builder.Services.AddTransient<IUserDevice, DeviceService>();
             
             DependencyInjection.AddUserSecurityService(builder.Services);
             

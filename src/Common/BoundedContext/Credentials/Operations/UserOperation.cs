@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using WeeControl.Common.BoundedContext.Credentials.DataTransferObjects;
@@ -23,7 +24,7 @@ namespace WeeControl.Common.BoundedContext.Credentials.Operations
         public UserOperation(IUserDevice device, IHttpClientFactory httpClient)
         {
             this.device = device;
-            this.httpClient = httpClient.CreateClient();
+            this.httpClient = httpClient.CreateClient("UnSecured");
         }
 
         public async Task<IResponseDto<TokenDto>> RegisterAsync(RegisterDto loginDto)
@@ -66,6 +67,7 @@ namespace WeeControl.Common.BoundedContext.Credentials.Operations
                 return new ResponseDto<TokenDto>(null) { StatuesCode = response.StatusCode };
 
             var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<TokenDto>>();
+            await device.SaveTokenAsync(responseDto?.Payload?.Token);
             responseDto.StatuesCode = response.StatusCode;
             return responseDto;
         }
@@ -81,13 +83,16 @@ namespace WeeControl.Common.BoundedContext.Credentials.Operations
                 Method = ApiRouteLink.RequestRefreshToken.Method,
                 Content = RequestDto.BuildHttpContentAsJson(requestDto)
             };
-
+        
+            httpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", await device.GetTokenAsync());
             var response = await httpClient.SendAsync(message);
 
             if (!response.IsSuccessStatusCode)
                 return new ResponseDto<TokenDto>(null) { StatuesCode = response.StatusCode };
 
             var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<TokenDto>>();
+            await device.SaveTokenAsync(responseDto?.Payload?.Token);
             responseDto.StatuesCode = response.StatusCode;
             return responseDto;
         }

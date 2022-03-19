@@ -4,8 +4,6 @@ namespace WeeControl.Common.UserSecurityLib.Interfaces
 {
     public interface IClientDevice
     {
-        string DeviceId { get; }
-        
         Task SaveTokenAsync(string token);
         Task<string> GetTokenAsync();
 
