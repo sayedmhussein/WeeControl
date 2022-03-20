@@ -50,7 +50,7 @@ namespace WeeControl.Backend.Application.BoundContexts.Credentials.Commands
             await context.Users.AddAsync(user, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
 
-            var b= await mediator.Send(new GetNewTokenQuery(cmd.Request, new LoginDto() { Username = user.Username, Password = user.Password }));
+            var b= await mediator.Send(new GetNewTokenQuery(cmd.Request, new LoginDto() { Username = user.Username, Password = user.Password }), cancellationToken);
             return b.Payload;
         }
     }

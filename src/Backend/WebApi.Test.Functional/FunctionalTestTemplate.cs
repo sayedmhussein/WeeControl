@@ -6,6 +6,7 @@ using Moq;
 using WeeControl.Backend.Domain.Credentials;
 using WeeControl.Backend.Persistence.Credentials;
 using WeeControl.Backend.WebApi.Test.Functional.TestHelpers;
+using WeeControl.Common.BoundedContext.Interfaces;
 using WeeControl.Common.UserSecurityLib.Interfaces;
 using Xunit;
 
@@ -19,7 +20,7 @@ namespace WeeControl.Backend.WebApi.Test.Functional
         private readonly ICredentialsDbContext dbContext;
         private readonly string device;
 
-        private Mock<IClientDevice> clientDeviceMock;
+        private Mock<IUserDevice> clientDeviceMock;
         
         public FunctionalTestTemplate(CustomWebApplicationFactory<Startup> factory)
         {
@@ -30,9 +31,9 @@ namespace WeeControl.Backend.WebApi.Test.Functional
             
             device = nameof(FunctionalTestTemplate);
 
-            clientDeviceMock = new Mock<IClientDevice>();
+            clientDeviceMock = new Mock<IUserDevice>();
             clientDeviceMock.SetupAllProperties();
-            clientDeviceMock.Setup(x => x).Returns(device);
+            clientDeviceMock.Setup(x => x.DeviceId).Returns(device);
         }
         
         public void Dispose()
