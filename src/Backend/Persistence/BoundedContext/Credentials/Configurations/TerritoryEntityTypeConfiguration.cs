@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WeeControl.Backend.Domain.BoundedContexts.Credentials.DatabaseObjects;
 
-namespace WeeControl.Backend.Persistence.Credentials.Configurations
+namespace WeeControl.Backend.Persistence.BoundedContext.Credentials.Configurations
 {
     public class TerritoryEntityTypeConfiguration : IEntityTypeConfiguration<TerritoryDbo>
     {

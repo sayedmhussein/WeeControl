@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Threading;
 using WeeControl.Backend.WebApi.Services;
 using MediatR;
-using WeeControl.Common.UserSecurityLib;
 using WeeControl.Common.UserSecurityLib.BoundedContexts.HumanResources;
 
 namespace WeeControl.Backend.WebApi.Test.Services

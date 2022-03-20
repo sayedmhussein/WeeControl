@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using WeeControl.Backend.Domain.BoundedContexts.Credentials.DatabaseObjects;
 using WeeControl.Common.BoundedContext.Credentials.BaseObjects;
 
-namespace WeeControl.Backend.Domain.Credentials.DatabaseObjects
+namespace WeeControl.Backend.Domain.BoundedContexts.Credentials.DatabaseObjects
 {
     public class UserDbo : User
     {

@@ -1,5 +1,4 @@
-﻿using System;
-namespace WeeControl.Common.BoundedContext.Interfaces
+﻿namespace WeeControl.Common.BoundedContext.Interfaces
 {
     public interface IRequestDto
     {

@@ -1,7 +1,4 @@
-﻿using System;
-using MediatR;
-using WeeControl.Backend.Application.Exceptions;
-using WeeControl.Backend.Application.Interfaces;
+﻿using MediatR;
 using WeeControl.Common.BoundedContext.Credentials.DataTransferObjects;
 using WeeControl.Common.BoundedContext.RequestsResponses;
 

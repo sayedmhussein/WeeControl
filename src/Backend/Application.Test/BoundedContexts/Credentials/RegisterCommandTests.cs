@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +8,7 @@ using WeeControl.Backend.Application.BoundContexts.Credentials.Commands;
 using WeeControl.Backend.Application.BoundContexts.Credentials.Queries;
 using WeeControl.Backend.Application.BoundContexts.Shared.Queries;
 using WeeControl.Backend.Application.Exceptions;
-using WeeControl.Backend.Domain.Credentials;
+using WeeControl.Backend.Domain.BoundedContexts.Credentials;
 using WeeControl.Backend.Persistence;
 using WeeControl.Common.BoundedContext.Credentials.DataTransferObjects;
 using WeeControl.Common.BoundedContext.RequestsResponses;

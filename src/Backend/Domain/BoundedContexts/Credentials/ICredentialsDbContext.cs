@@ -1,10 +1,8 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using WeeControl.Backend.Domain.BoundedContexts.Credentials.DatabaseObjects;
-using WeeControl.Backend.Domain.Credentials.DatabaseObjects;
 using WeeControl.Backend.Domain.Interfaces;
 
-namespace WeeControl.Backend.Domain.Credentials
+namespace WeeControl.Backend.Domain.BoundedContexts.Credentials
 {
     public interface ICredentialsDbContext : IDbContext
     {

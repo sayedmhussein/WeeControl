@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net;
-using Microsoft.AspNetCore.Http;
 using WeeControl.Backend.WebApi.Test.Functional.TestHelpers;
 using WeeControl.Common.BoundedContext.Credentials.Operations;
 using Xunit;

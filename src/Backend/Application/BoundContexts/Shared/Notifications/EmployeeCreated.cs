@@ -12,14 +12,14 @@ namespace WeeControl.Backend.Application.BoundContexts.Shared.Notifications
 
         public class EmployeeCreatedHandler : INotificationHandler<EmployeeCreated>
         {
-            private readonly IEmailNotificationService _notification;
+            private readonly IEmailNotificationService notification;
 
             public EmployeeCreatedHandler(IEmailNotificationService notification)
             {
-                _notification = notification;
+                this.notification = notification;
             }
 
-            public Task Handle(EmployeeCreated notification, CancellationToken cancellationToken)
+            public Task Handle(EmployeeCreated notif, CancellationToken cancellationToken)
             {
                 //await _notification.SendAsync(new MessageDto());
                 return Task.CompletedTask;

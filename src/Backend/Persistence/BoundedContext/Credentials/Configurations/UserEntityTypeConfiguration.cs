@@ -1,10 +1,8 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WeeControl.Backend.Domain.BoundedContexts.Credentials.DatabaseObjects;
-using WeeControl.Backend.Domain.Credentials.DatabaseObjects;
 
-namespace WeeControl.Backend.Persistence.Credentials.Configurations
+namespace WeeControl.Backend.Persistence.BoundedContext.Credentials.Configurations
 {
     public class UserEntityTypeConfiguration : IEntityTypeConfiguration<UserDbo>
     {

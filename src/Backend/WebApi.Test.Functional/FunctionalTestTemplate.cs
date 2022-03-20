@@ -3,11 +3,9 @@ using System.Globalization;
 using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using WeeControl.Backend.Domain.Credentials;
-using WeeControl.Backend.Persistence.Credentials;
+using WeeControl.Backend.Domain.BoundedContexts.Credentials;
 using WeeControl.Backend.WebApi.Test.Functional.TestHelpers;
 using WeeControl.Common.BoundedContext.Interfaces;
-using WeeControl.Common.UserSecurityLib.Interfaces;
 using Xunit;
 
 namespace WeeControl.Backend.WebApi.Test.Functional

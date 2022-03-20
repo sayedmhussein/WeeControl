@@ -1,13 +1,12 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using WeeControl.Backend.Application.BoundContexts.Credentials.Queries;
 using WeeControl.Backend.Application.BoundContexts.Shared.Queries;
 using WeeControl.Backend.Application.Exceptions;
-using WeeControl.Backend.Domain.Credentials;
-using WeeControl.Backend.Domain.Credentials.DatabaseObjects;
+using WeeControl.Backend.Domain.BoundedContexts.Credentials;
+using WeeControl.Backend.Domain.BoundedContexts.Credentials.DatabaseObjects;
 using WeeControl.Common.BoundedContext.Credentials.DataTransferObjects;
 
 namespace WeeControl.Backend.Application.BoundContexts.Credentials.Commands

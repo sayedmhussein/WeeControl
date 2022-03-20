@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using WeeControl.Backend.Domain.Credentials.DatabaseObjects;
 
 namespace WeeControl.Backend.Domain.BoundedContexts.Credentials.DatabaseObjects
 {

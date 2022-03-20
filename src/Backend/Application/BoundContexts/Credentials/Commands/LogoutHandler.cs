@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using WeeControl.Backend.Domain.Credentials;
+using WeeControl.Backend.Domain.BoundedContexts.Credentials;
 
 namespace WeeControl.Backend.Application.BoundContexts.Credentials.Commands
 {

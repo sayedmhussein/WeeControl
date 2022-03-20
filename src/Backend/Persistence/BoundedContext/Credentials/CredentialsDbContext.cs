@@ -1,13 +1,11 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using WeeControl.Backend.Domain.BoundedContexts.Credentials;
 using WeeControl.Backend.Domain.BoundedContexts.Credentials.DatabaseObjects;
-using WeeControl.Backend.Domain.Credentials;
-using WeeControl.Backend.Domain.Credentials.DatabaseObjects;
-using WeeControl.Backend.Persistence.Credentials.Configurations;
+using WeeControl.Backend.Persistence.BoundedContext.Credentials.Configurations;
 using WeeControl.Common.UserSecurityLib.BoundedContexts.HumanResources;
 
-namespace WeeControl.Backend.Persistence.Credentials
+namespace WeeControl.Backend.Persistence.BoundedContext.Credentials
 {
     public class CredentialsDbContext : DbContext, ICredentialsDbContext
     {

@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.Backend.Domain.Credentials;
-using WeeControl.Backend.Persistence.Credentials;
+using WeeControl.Backend.Domain.BoundedContexts.Credentials;
+using WeeControl.Backend.Persistence.BoundedContext.Credentials;
 
 namespace WeeControl.Backend.Persistence
 {

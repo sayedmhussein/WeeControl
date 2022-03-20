@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using WeeControl.Common.BoundedContext.Credentials.BaseObjects;
 
-namespace WeeControl.Backend.Domain.Credentials.DatabaseObjects
+namespace WeeControl.Backend.Domain.BoundedContexts.Credentials.DatabaseObjects
 {
     public class SessionDbo : Session
     {

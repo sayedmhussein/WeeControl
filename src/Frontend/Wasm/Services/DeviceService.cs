@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using WeeControl.Common.BoundedContext.Interfaces;
-using WeeControl.Common.UserSecurityLib.Interfaces;
 using WeeControl.Frontend.Wasm.Interfaces;
 
 namespace WeeControl.Frontend.Wasm.Services

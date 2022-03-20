@@ -1,5 +1,4 @@
-﻿using System;
-namespace WeeControl.Backend.Application.Interfaces
+﻿namespace WeeControl.Backend.Application.Interfaces
 {
     public interface IVerifyData
     {
