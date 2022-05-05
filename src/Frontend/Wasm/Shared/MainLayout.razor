@@ -1,8 +1,7 @@
 ﻿@using WeeControl.Frontend.Wasm.Pages.Authentication
-@using WeeControl.Frontend.Wasm.Interfaces
 @inherits LayoutComponentBase
 
-@inject ILocalStorage localStorage
+@* @inject ILocalStorage localStorage *@
 
 
 <div class="page">
@@ -31,6 +30,6 @@
     {
         await base.OnInitializedAsync();
 
-        greetingMessage = "Hello " + await localStorage.GetItem<string>("username");
+        //greetingMessage = "Hello " + await localStorage.GetItem<string>("username");
     }
 }

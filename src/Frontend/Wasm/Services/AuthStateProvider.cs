@@ -6,20 +6,21 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using WeeControl.Common.BoundedContext.Credentials;
+using WeeControl.Common.SharedKernel.Enums;
+using WeeControl.Common.SharedKernel.Interfaces;
 using WeeControl.Common.UserSecurityLib.Interfaces;
-using WeeControl.Frontend.Wasm.Interfaces;
 
 namespace WeeControl.Frontend.Wasm.Services
 {
     public class AuthStateProvider : AuthenticationStateProvider
     {
-        private readonly ILocalStorage localStorage;
+        private readonly IUserStorage localStorage;
         private readonly IJwtService jwtService;
         private readonly IConfiguration configuration;
         private readonly IUserOperation service;
         private readonly AuthenticationState anonymous;
 
-        public AuthStateProvider(ILocalStorage localStorage, IJwtService jwtService, IConfiguration configuration, IUserOperation service)
+        public AuthStateProvider(IUserStorage localStorage, IJwtService jwtService, IConfiguration configuration, IUserOperation service)
         {
             this.localStorage = localStorage;
             this.jwtService = jwtService;
@@ -39,7 +40,7 @@ namespace WeeControl.Frontend.Wasm.Services
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            var token = await localStorage.GetItem<string>("token");
+            var token = await localStorage.GetAsync(UserDataEnum.Token);
             if (string.IsNullOrWhiteSpace(token))
             {
                 return anonymous;
@@ -67,7 +68,7 @@ namespace WeeControl.Frontend.Wasm.Services
         [Obsolete]
         public async Task NotifyUserAuthenticationAsyc()
         {
-            var token = await localStorage.GetItem<string>("token");
+            var token = await localStorage.GetAsync(UserDataEnum.Token);
             if (string.IsNullOrWhiteSpace(token) == false)
             {
                 var cp = GetClaimPrincipal(token);

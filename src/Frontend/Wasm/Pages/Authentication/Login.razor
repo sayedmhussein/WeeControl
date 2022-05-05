@@ -5,9 +5,16 @@
 
 @inject NavigationManager navManager
 @inject IUserOperation authentication
+@inject IUserStorage userStorage
+@inject ISecurityService bla
+
 @using System.Net
 @using WeeControl.Common.BoundedContext.Credentials
 @using WeeControl.Common.BoundedContext.Credentials.DataTransferObjects
+@using WeeControl.Common.SharedKernel.Enums
+@using WeeControl.Common.SharedKernel.Interfaces
+@using WeeControl.Frontend.Wasm.Interfaces
+@using WeeControl.Frontend.Wasm.Services
 
 <div class="card">
     <h4 class="card-header">Please enter your username and password</h4>
@@ -67,7 +74,18 @@
         loading = true;
         try
         {
-            await authentication.LoginAsync(loginDto);
+            var (code, token) = await authentication.LoginAsync(loginDto);
+            switch (code)
+            {
+                case HttpStatusCode.Accepted:
+                    await userStorage.SaveAsync(UserDataEnum.Token, token);
+                    Console.WriteLine("Token Updated to: ", token);
+                    //var b = (AuthStateProvider) (await AuthState);
+                    bla.Update(token);
+                    //(await AuthState).NotifyUserAuthentication(token);
+                    StateHasChanged();
+                break;
+            }
             navManager.NavigateTo("/Home");
             loginDto.Password = string.Empty;
         }

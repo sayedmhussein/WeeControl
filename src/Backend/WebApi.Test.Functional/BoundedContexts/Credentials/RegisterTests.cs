@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Net;
 using WeeControl.Backend.WebApi.Test.Functional.TestHelpers;
 using Xunit;
 using Moq;
-using WeeControl.Common.BoundedContext.Credentials.DataTransferObjects;
 using WeeControl.Common.SharedKernel.Interfaces;
 
 namespace WeeControl.Backend.WebApi.Test.Functional.BoundedContexts.Credentials
@@ -20,7 +18,7 @@ namespace WeeControl.Backend.WebApi.Test.Functional.BoundedContexts.Credentials
             device = new();
             device.SetupAllProperties();
             //device.Setup(x => x.ServerBaseAddress).Returns("http://10.0.2.2:5000/");
-            device.Setup(x => x.ServerBaseAddress).Returns(CustomWebApplicationFactory<Startup>.GetLocalIPAddress());
+            //device.Setup(x => x.ServerBaseAddress).Returns(CustomWebApplicationFactory<Startup>.GetLocalIPAddress());
             device.Setup(x => x.DeviceId).Returns(nameof(RegisterTests));
             device.Setup(x => x.TimeStamp).Returns(DateTime.UtcNow);
         }

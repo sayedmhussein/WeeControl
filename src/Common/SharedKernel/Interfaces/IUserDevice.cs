@@ -1,6 +1,6 @@
 ﻿namespace WeeControl.Common.SharedKernel.Interfaces
 {
-    public interface IUserDevice : IUserOperation, IUserCommunication
+    public interface IUserDevice
     {
         public string DeviceId { get; }
 

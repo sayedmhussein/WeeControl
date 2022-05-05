@@ -5,13 +5,11 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.Common.UserSecurityLib.Interfaces;
-using WeeControl.Frontend.Wasm.Interfaces;
 using WeeControl.Frontend.Wasm.Services;
 using DependencyInjection = WeeControl.Common.UserSecurityLib.DependencyInjection;
 using WeeControl.Common.SharedKernel.Interfaces;
 using WeeControl.Frontend.ServiceLibrary.Operations;
-using IUserOperation = WeeControl.Common.SharedKernel.Interfaces.IUserOperation;
+using WeeControl.Frontend.Wasm.Interfaces;
 
 namespace WeeControl.Frontend.Wasm
 {
@@ -23,9 +21,13 @@ namespace WeeControl.Frontend.Wasm
             
             builder.RootComponents.Add<App>("#app");
 
-            builder.Services.AddScoped<ILocalStorage, LocalStorageService>();
-            builder.Services.AddTransient<IUserOperation, DeviceService>();
-            builder.Services.AddTransient<IUserDevice, DeviceService>();
+            builder.Services.AddTransient<IUserDevice, UserDeviceService>();
+            builder.Services.AddScoped<IUserStorage, UserStorageService>();
+            builder.Services.AddScoped<IUserCommunication>(provider =>
+            {
+                var factory = provider.GetService<IHttpClientFactory>();
+                return new UserCommunicationService(factory);
+            });
             
             DependencyInjection.AddUserSecurityService(builder.Services);
             
@@ -33,11 +35,12 @@ namespace WeeControl.Frontend.Wasm
             builder.Services.AddScoped<Common.BoundedContext.Credentials.IUserOperation>(provider =>
             {
                 var device = provider.GetService<IUserDevice>();
-                var factory = provider.GetService<IHttpClientFactory>();
-                return new CredentialsOperation(device);
+                var factory = provider.GetService<IUserCommunication>();
+                return new CredentialsOperation(device, factory);
             });
 
             builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
+            builder.Services.AddScoped<ISecurityService, SecurityService>(); ///////////////////////////////////////////
             builder.Services.AddOptions();
             builder.Services.AddAuthorizationCore();
             

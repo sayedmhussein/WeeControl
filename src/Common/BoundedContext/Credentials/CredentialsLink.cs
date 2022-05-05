@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.Net;
+using System.Net.Http;
 
 namespace WeeControl.Common.BoundedContext.Credentials
 {
@@ -23,7 +24,10 @@ namespace WeeControl.Common.BoundedContext.Credentials
             public const string Relative = Route + EndPoint;
             public static string Absolute(string server) => server + Relative;
             public const string Version = "1.0";
-
+            public readonly HttpStatusCode[] ResponseCodes =
+            {
+                HttpStatusCode.OK, HttpStatusCode.BadRequest, HttpStatusCode.NotFound
+            };
         }
 
         public static class RequestRefreshToken
