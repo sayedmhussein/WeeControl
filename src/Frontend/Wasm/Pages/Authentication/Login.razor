@@ -66,30 +66,9 @@
         loading = true;
         try
         {
-            var response = await authentication.LoginAsync(loginDto);
-            switch (response.StatuesCode)
-            {
-                case HttpStatusCode.Accepted:
-                case HttpStatusCode.OK:
-                    var response2 = await authentication.GetTokenAsync();
-                    if (response2.StatuesCode == HttpStatusCode.OK)
-                    {
-                        navManager.NavigateTo("/Home");
-                        loginDto.Password = string.Empty;
-                    }
-                    else
-                    {
-                        stringAlert = response2.StatuesCode + "Unexpected Error Occured while trying to get a refresh token! Please try again.";
-                    }
-                    break;
-                case HttpStatusCode.NotFound:
-                    stringAlert = "Username and Password are not matched!";
-                    loginDto.Password = string.Empty;
-                    break;
-                default:
-                    stringAlert = "Unexpected Error Occured, please try again.";
-                    break;
-            }
+            await authentication.LoginAsync(loginDto);
+            navManager.NavigateTo("/Home");
+            loginDto.Password = string.Empty;
         }
         catch (Exception e)
         {

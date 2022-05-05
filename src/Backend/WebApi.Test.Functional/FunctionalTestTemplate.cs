@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.Backend.Domain.BoundedContexts.Credentials;
 using WeeControl.Backend.WebApi.Test.Functional.TestHelpers;
-using WeeControl.Common.BoundedContext.Interfaces;
+using WeeControl.Common.SharedKernel.Interfaces;
 using Xunit;
 
 namespace WeeControl.Backend.WebApi.Test.Functional

@@ -9,7 +9,7 @@ using WeeControl.Backend.Application.BoundContexts.Credentials.Queries;
 using WeeControl.Backend.Application.Interfaces;
 using WeeControl.Common.BoundedContext.Credentials.DataTransferObjects;
 using WeeControl.Common.BoundedContext.Credentials.Operations;
-using WeeControl.Common.BoundedContext.RequestsResponses;
+using WeeControl.Common.SharedKernel.RequestsResponses;
 
 namespace WeeControl.Backend.WebApi.Controllers.Credentials
 {

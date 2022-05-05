@@ -10,7 +10,8 @@ using WeeControl.Frontend.Wasm.Interfaces;
 using WeeControl.Frontend.Wasm.Services;
 using DependencyInjection = WeeControl.Common.UserSecurityLib.DependencyInjection;
 using WeeControl.Common.BoundedContext.Credentials.Operations;
-using WeeControl.Common.BoundedContext.Interfaces;
+using WeeControl.Common.SharedKernel.Interfaces;
+using IUserOperation = WeeControl.Common.SharedKernel.Interfaces.IUserOperation;
 
 namespace WeeControl.Frontend.Wasm
 {
@@ -23,17 +24,17 @@ namespace WeeControl.Frontend.Wasm
             builder.RootComponents.Add<App>("#app");
 
             builder.Services.AddScoped<ILocalStorage, LocalStorageService>();
-            builder.Services.AddTransient<IClientDevice, DeviceService>();
+            builder.Services.AddTransient<IUserOperation, DeviceService>();
             builder.Services.AddTransient<IUserDevice, DeviceService>();
             
             DependencyInjection.AddUserSecurityService(builder.Services);
             
 
-            builder.Services.AddScoped<IUserOperation>(provider =>
+            builder.Services.AddScoped<Common.BoundedContext.Credentials.Operations.IUserOperation>(provider =>
             {
                 var device = provider.GetService<IUserDevice>();
                 var factory = provider.GetService<IHttpClientFactory>();
-                return new UserOperation(device, factory);
+                return new UserOperation(device);
             });
 
             builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();

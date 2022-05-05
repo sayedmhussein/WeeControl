@@ -1,8 +1,10 @@
 ﻿@page "/"
 @page "/Home"
 @using System.Security.Claims
+@using WeeControl.Common.SharedKernel.Interfaces
 @using WeeControl.Common.UserSecurityLib.Interfaces
-@inject IClientDevice device
+@using IUserOperation = WeeControl.Common.SharedKernel.Interfaces.IUserOperation
+@inject IUserOperation device
 
 <h1>Hello, world!</h1>
 

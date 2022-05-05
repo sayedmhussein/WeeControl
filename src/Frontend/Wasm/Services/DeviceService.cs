@@ -1,6 +1,8 @@
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
-using WeeControl.Common.BoundedContext.Interfaces;
+using WeeControl.Common.SharedKernel.Enums;
+using WeeControl.Common.SharedKernel.Interfaces;
 using WeeControl.Frontend.Wasm.Interfaces;
 
 namespace WeeControl.Frontend.Wasm.Services
@@ -20,11 +22,23 @@ namespace WeeControl.Frontend.Wasm.Services
             set => _ = value;
         }
 
+        public HttpClient HttpClient { get; }
+
         public DeviceService(ILocalStorage localStorage)
         {
             LocalStorage = localStorage;
         }
-        
+
+        public Task SaveAsync(UserDataEnum name, string value)
+        {
+            return LocalStorage.SetItem(nameof(name), value);
+        }
+
+        public Task<string> GetAsync(UserDataEnum name)
+        {
+            return LocalStorage.GetItem<string>(nameof(name));
+        }
+
         public Task SaveTokenAsync(string token)
         {
             return LocalStorage.SetItem("token", token);
@@ -35,17 +49,7 @@ namespace WeeControl.Frontend.Wasm.Services
             return LocalStorage.GetItem<string>("token");
         }
 
-        public Task SaveUserNameTask(string userName)
-        {
-            return LocalStorage.SetItem("username", userName);
-        }
-
-        public Task SaveUserPhotoUrlAsync(string url)
-        {
-            return Task.CompletedTask;
-        }
-
-        public Task ClearUserDataAsync()
+        public Task ClearAsync()
         {
             return LocalStorage.ClearItems();
         }

@@ -14,7 +14,7 @@
     private async Task LogoutUser()
     {
         loading = true;
-        var response = await authentication.LogoutAsync();
+        await authentication.LogoutAsync();
         navManager.NavigateTo("/login");
     }
 }

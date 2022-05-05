@@ -1,7 +1,7 @@
 using System.Net;
-using WeeControl.Common.BoundedContext.Interfaces;
+using WeeControl.Common.SharedKernel.Interfaces;
 
-namespace WeeControl.Common.BoundedContext.RequestsResponses
+namespace WeeControl.Common.SharedKernel.RequestsResponses
 {
     public class ResponseDto : IResponseDto
     {

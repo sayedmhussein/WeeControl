@@ -1,7 +1,7 @@
 ﻿using System;
 using MediatR;
 using WeeControl.Common.BoundedContext.Credentials.DataTransferObjects;
-using WeeControl.Common.BoundedContext.RequestsResponses;
+using WeeControl.Common.SharedKernel.RequestsResponses;
 
 namespace WeeControl.Backend.Application.BoundContexts.Credentials.Queries
 {

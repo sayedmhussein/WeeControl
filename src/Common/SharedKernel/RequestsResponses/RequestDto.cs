@@ -1,9 +1,8 @@
-﻿using System.Net.Http;
-using System.Text;
+﻿using System.Text;
 using Newtonsoft.Json;
-using WeeControl.Common.BoundedContext.Interfaces;
+using WeeControl.Common.SharedKernel.Interfaces;
 
-namespace WeeControl.Common.BoundedContext.RequestsResponses
+namespace WeeControl.Common.SharedKernel.RequestsResponses
 {
     public class RequestDto : IRequestDto
     {

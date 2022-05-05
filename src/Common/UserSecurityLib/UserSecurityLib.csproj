@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
         <RootNamespace>WeeControl.Common.UserSecurityLib</RootNamespace>
     </PropertyGroup>
 
@@ -15,6 +15,10 @@
 
     <ItemGroup>
       <None Remove="appsettings.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\SharedKernel\SharedKernel.csproj" />
     </ItemGroup>
 
 </Project>

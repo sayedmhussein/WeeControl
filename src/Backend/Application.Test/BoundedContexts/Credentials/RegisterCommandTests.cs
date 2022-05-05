@@ -11,7 +11,7 @@ using WeeControl.Backend.Application.Exceptions;
 using WeeControl.Backend.Domain.BoundedContexts.Credentials;
 using WeeControl.Backend.Persistence;
 using WeeControl.Common.BoundedContext.Credentials.DataTransferObjects;
-using WeeControl.Common.BoundedContext.RequestsResponses;
+using WeeControl.Common.SharedKernel.RequestsResponses;
 using Xunit;
 
 namespace WeeControl.Backend.Application.Test.BoundedContexts.Credentials

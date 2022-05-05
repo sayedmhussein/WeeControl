@@ -1,6 +1,6 @@
 ﻿using System;
 using MediatR;
-using WeeControl.Common.BoundedContext.RequestsResponses;
+using WeeControl.Common.SharedKernel.RequestsResponses;
 
 namespace WeeControl.Backend.Application.BoundContexts.Credentials.Commands
 {

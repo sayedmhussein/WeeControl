@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using WeeControl.Common.BoundedContext.Interfaces;
+using WeeControl.Common.SharedKernel.Interfaces;
 
 namespace WeeControl.Backend.Application.BoundContexts.Shared.Queries
 {

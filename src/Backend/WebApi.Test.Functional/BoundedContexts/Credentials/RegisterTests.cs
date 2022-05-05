@@ -4,8 +4,8 @@ using WeeControl.Backend.WebApi.Test.Functional.TestHelpers;
 using WeeControl.Common.BoundedContext.Credentials.Operations;
 using Xunit;
 using Moq;
-using WeeControl.Common.BoundedContext.Interfaces;
 using WeeControl.Common.BoundedContext.Credentials.DataTransferObjects;
+using WeeControl.Common.SharedKernel.Interfaces;
 
 namespace WeeControl.Backend.WebApi.Test.Functional.BoundedContexts.Credentials
 {
