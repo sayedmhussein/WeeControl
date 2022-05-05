@@ -9,10 +9,11 @@ using WeeControl.Common.BoundedContext.Credentials;
 using WeeControl.Common.SharedKernel.Enums;
 using WeeControl.Common.SharedKernel.Interfaces;
 using WeeControl.Common.UserSecurityLib.Interfaces;
+using WeeControl.Frontend.Wasm.Interfaces;
 
 namespace WeeControl.Frontend.Wasm.Services
 {
-    public class AuthStateProvider : AuthenticationStateProvider
+    public class AuthStateProvider : AuthenticationStateProvider, ISecurityService
     {
         private readonly IUserStorage localStorage;
         private readonly IJwtService jwtService;
@@ -97,6 +98,11 @@ namespace WeeControl.Frontend.Wasm.Services
             };
 
             return jwtService.ExtractClaimPrincipal(token);
+        }
+
+        public void Update(string token)
+        {
+            NotifyUserAuthentication(token);
         }
     }
 }

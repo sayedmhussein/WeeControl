@@ -26,22 +26,22 @@ namespace WeeControl.Backend.Application.BoundContexts.Credentials.Commands
         {
             await mediator.Send(new VerifyRequestQuery(cmd.Request), cancellationToken);
 
-            if (string.IsNullOrWhiteSpace(cmd.Payload.Password) ||
-                (string.IsNullOrWhiteSpace(cmd.Payload.Username) && string.IsNullOrWhiteSpace(cmd.Payload.Email)))
-            {
-                throw new ValidationException();
-            }
+            // if (string.IsNullOrWhiteSpace(cmd.Payload.Password) ||
+            //     (string.IsNullOrWhiteSpace(cmd.Payload.Username) && string.IsNullOrWhiteSpace(cmd.Payload.Email)))
+            // {
+            //     throw new ValidationException();
+            // }
 
-            if (context.Users.Where(x =>
-            (string.IsNullOrWhiteSpace(cmd.Payload.Username) == false && x.Username == cmd.Payload.Username) ||
-            (string.IsNullOrWhiteSpace(cmd.Payload.Username) && x.Email == cmd.Payload.Email)).Any())
-            {
-                throw new ConflictFailureException();
-            }
+            // if (context.Users.Where(x =>
+            // (string.IsNullOrWhiteSpace(cmd.Payload.Username) == false && x.Username == cmd.Payload.Username) ||
+            // (string.IsNullOrWhiteSpace(cmd.Payload.Username) && x.Email == cmd.Payload.Email)).Any())
+            // {
+            //     throw new ConflictFailureException();
+            // }
 
             var user = new UserDbo()
             {
-                Email = cmd.Payload.Email,
+                //Email = cmd.Payload.Email,
                 Username = cmd.Payload.Username,
                 Password = cmd.Payload.Password
             };
