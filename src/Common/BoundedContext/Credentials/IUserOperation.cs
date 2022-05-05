@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using WeeControl.Common.BoundedContext.Credentials.DataTransferObjects;
 
-namespace WeeControl.Common.BoundedContext.Credentials.Operations
+namespace WeeControl.Common.BoundedContext.Credentials
 {
     public interface IUserOperation
     {

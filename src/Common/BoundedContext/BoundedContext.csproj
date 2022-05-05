@@ -25,7 +25,6 @@
   <ItemGroup>
     <Folder Include="Credentials\" />
     <Folder Include="Credentials\BaseObjects\" />
-    <Folder Include="Credentials\Operations\" />
     <Folder Include="Credentials\DataTransferObjects\" />
   </ItemGroup>
   <ItemGroup>

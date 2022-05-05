@@ -1,19 +1,18 @@
-﻿using System;
-using System.Net.Http;
-using System.Net.Http.Headers;
+﻿using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using System.Threading.Tasks;
+using WeeControl.Common.BoundedContext.Credentials;
 using WeeControl.Common.BoundedContext.Credentials.DataTransferObjects;
 using WeeControl.Common.SharedKernel.Interfaces;
 using WeeControl.Common.SharedKernel.RequestsResponses;
+using IUserOperation = WeeControl.Common.BoundedContext.Credentials.IUserOperation;
 
-namespace WeeControl.Common.BoundedContext.Credentials.Operations
+namespace WeeControl.Frontend.ServiceLibrary.Operations
 {
-    public class UserOperation : IUserOperation
+    public class CredentialsOperation : IUserOperation
     {
         private readonly IUserDevice device;
         
-        public UserOperation(IUserDevice device)
+        public CredentialsOperation(IUserDevice device)
         {
             this.device = device;
         }
@@ -24,9 +23,9 @@ namespace WeeControl.Common.BoundedContext.Credentials.Operations
 
             HttpRequestMessage message = new()
             {
-                RequestUri = new Uri(ApiRouteLink.Register.Absolute(device.ServerBaseAddress)),
-                Version = new Version(ApiRouteLink.Register.Version),
-                Method = ApiRouteLink.Register.Method,
+                RequestUri = new Uri(CredentialsLink.Register.Absolute(device.ServerBaseAddress)),
+                Version = new Version(CredentialsLink.Register.Version),
+                Method = CredentialsLink.Register.Method,
                 Content = RequestDto.BuildHttpContentAsJson(requestDto)
             };
 
@@ -45,9 +44,9 @@ namespace WeeControl.Common.BoundedContext.Credentials.Operations
 
             HttpRequestMessage message = new()
             {
-                RequestUri = new Uri(ApiRouteLink.Login.Absolute(device.ServerBaseAddress)),
-                Version = new Version(ApiRouteLink.Login.Version),
-                Method = ApiRouteLink.Login.Method,
+                RequestUri = new Uri(CredentialsLink.Login.Absolute(device.ServerBaseAddress)),
+                Version = new Version(CredentialsLink.Login.Version),
+                Method = CredentialsLink.Login.Method,
                 Content = RequestDto.BuildHttpContentAsJson(requestDto)
             };
 
@@ -67,9 +66,9 @@ namespace WeeControl.Common.BoundedContext.Credentials.Operations
 
             HttpRequestMessage message = new()
             {
-                RequestUri = new Uri(ApiRouteLink.RequestRefreshToken.Absolute(device.ServerBaseAddress)),
-                Version = new Version(ApiRouteLink.RequestRefreshToken.Version),
-                Method = ApiRouteLink.RequestRefreshToken.Method,
+                RequestUri = new Uri(CredentialsLink.RequestRefreshToken.Absolute(device.ServerBaseAddress)),
+                Version = new Version(CredentialsLink.RequestRefreshToken.Version),
+                Method = CredentialsLink.RequestRefreshToken.Method,
                 Content = RequestDto.BuildHttpContentAsJson(requestDto)
             };
         

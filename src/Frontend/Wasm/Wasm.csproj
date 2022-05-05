@@ -30,6 +30,7 @@
     <ProjectReference Include="..\..\Common\BoundedContext\BoundedContext.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
+    <ProjectReference Include="..\ServiceLibrary\ServiceLibrary.csproj" />
   </ItemGroup>
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Pages\Authentication\ForgotPassword.razor" />

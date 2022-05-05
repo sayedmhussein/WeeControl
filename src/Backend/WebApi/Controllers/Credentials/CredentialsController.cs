@@ -7,14 +7,14 @@ using Microsoft.AspNetCore.Mvc;
 using WeeControl.Backend.Application.BoundContexts.Credentials.Commands;
 using WeeControl.Backend.Application.BoundContexts.Credentials.Queries;
 using WeeControl.Backend.Application.Interfaces;
+using WeeControl.Common.BoundedContext.Credentials;
 using WeeControl.Common.BoundedContext.Credentials.DataTransferObjects;
-using WeeControl.Common.BoundedContext.Credentials.Operations;
 using WeeControl.Common.SharedKernel.RequestsResponses;
 
 namespace WeeControl.Backend.WebApi.Controllers.Credentials
 {
     [ApiController]
-    [Route(ApiRouteLink.Route)]
+    [Route(CredentialsLink.Route)]
     public class CredentialsController : Controller
     {
         private readonly IMediator mediatR;
@@ -27,8 +27,8 @@ namespace WeeControl.Backend.WebApi.Controllers.Credentials
         }
 
         [AllowAnonymous]
-        [HttpPost(ApiRouteLink.Register.EndPoint)]
-        [MapToApiVersion(ApiRouteLink.Register.Version)]
+        [HttpPost(CredentialsLink.Register.EndPoint)]
+        [MapToApiVersion(CredentialsLink.Register.Version)]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -46,8 +46,8 @@ namespace WeeControl.Backend.WebApi.Controllers.Credentials
         }
 
         [AllowAnonymous]
-        [HttpPost(ApiRouteLink.Login.EndPoint)]
-        [MapToApiVersion(ApiRouteLink.Login.Version)]
+        [HttpPost(CredentialsLink.Login.EndPoint)]
+        [MapToApiVersion(CredentialsLink.Login.Version)]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -69,8 +69,8 @@ namespace WeeControl.Backend.WebApi.Controllers.Credentials
         /// <param name="dto"></param>
         /// <returns></returns>
         [Authorize]
-        [HttpPut(ApiRouteLink.RequestRefreshToken.EndPoint)]
-        [MapToApiVersion(ApiRouteLink.Login.Version)]
+        [HttpPut(CredentialsLink.RequestRefreshToken.EndPoint)]
+        [MapToApiVersion(CredentialsLink.Login.Version)]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResponseDto<TokenDto>), (int)HttpStatusCode.OK)]
@@ -85,8 +85,8 @@ namespace WeeControl.Backend.WebApi.Controllers.Credentials
         }
 
         [Authorize]
-        [HttpDelete(ApiRouteLink.Logout.EndPoint)]
-        [MapToApiVersion(ApiRouteLink.Logout.Version)]
+        [HttpDelete(CredentialsLink.Logout.EndPoint)]
+        [MapToApiVersion(CredentialsLink.Logout.Version)]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.OK)]

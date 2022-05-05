@@ -1,8 +1,8 @@
 ﻿using System.Net.Http;
 
-namespace WeeControl.Common.BoundedContext.Credentials.Operations
+namespace WeeControl.Common.BoundedContext.Credentials
 {
-    public class ApiRouteLink
+    public class CredentialsLink
     {
         public const string Route = "Api/Credentials/";
 

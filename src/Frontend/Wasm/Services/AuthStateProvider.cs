@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using WeeControl.Common.BoundedContext.Credentials.Operations;
+using WeeControl.Common.BoundedContext.Credentials;
 using WeeControl.Common.UserSecurityLib.Interfaces;
 using WeeControl.Frontend.Wasm.Interfaces;
 

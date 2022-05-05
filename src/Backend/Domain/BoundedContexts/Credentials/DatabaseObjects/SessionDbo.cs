@@ -4,7 +4,7 @@ using WeeControl.Common.BoundedContext.Credentials.BaseObjects;
 
 namespace WeeControl.Backend.Domain.BoundedContexts.Credentials.DatabaseObjects
 {
-    public class SessionDbo : Session
+    public class SessionDbo
     {
         [Key]
         public Guid SessionId { get; set; }
