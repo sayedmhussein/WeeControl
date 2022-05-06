@@ -21,7 +21,6 @@ namespace WeeControl.Backend.Application.BoundContexts.Credentials.Queries
 
         public RequestDto Request { get; }
         public LoginDto Payload { get; }
-
         public Guid? SessionId { get; set; }
     }
 }

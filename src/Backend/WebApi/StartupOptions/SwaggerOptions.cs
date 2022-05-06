@@ -17,7 +17,7 @@ namespace WeeControl.Backend.WebApi.StartupOptions
             {
                 Title = "WeeControl.Api",
                 Version = "v1",
-                Description = "WeeControl is an API to surve customers as needed, for more information please contact us.",
+                Description = "WeeControl is an API to serve customers as needed, for more information please contact us.",
                 Contact = new OpenApiContact()
                 {
                     Name = "Sayed M. Hussein",
