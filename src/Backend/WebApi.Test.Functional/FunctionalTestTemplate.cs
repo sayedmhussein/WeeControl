@@ -2,10 +2,8 @@
 using System.Globalization;
 using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
-using Moq;
 using WeeControl.Backend.Domain.BoundedContexts.Credentials;
 using WeeControl.Backend.WebApi.Test.Functional.TestHelpers;
-using WeeControl.Common.SharedKernel.Interfaces;
 using Xunit;
 
 namespace WeeControl.Backend.WebApi.Test.Functional
@@ -18,7 +16,7 @@ namespace WeeControl.Backend.WebApi.Test.Functional
         private readonly ICredentialsDbContext dbContext;
         private readonly string device;
 
-        private Mock<IUserDevice> clientDeviceMock;
+        //private Mock<IUserDevice> clientDeviceMock;
         
         public FunctionalTestTemplate(CustomWebApplicationFactory<Startup> factory)
         {
@@ -29,14 +27,14 @@ namespace WeeControl.Backend.WebApi.Test.Functional
             
             device = nameof(FunctionalTestTemplate);
 
-            clientDeviceMock = new Mock<IUserDevice>();
-            clientDeviceMock.SetupAllProperties();
-            clientDeviceMock.Setup(x => x.DeviceId).Returns(device);
+            // clientDeviceMock = new Mock<IUserDevice>();
+            // clientDeviceMock.SetupAllProperties();
+            // clientDeviceMock.Setup(x => x.DeviceId).Returns(device);
         }
         
         public void Dispose()
         {
-            clientDeviceMock = null;
+            //clientDeviceMock = null;
         }
 
         [Fact]

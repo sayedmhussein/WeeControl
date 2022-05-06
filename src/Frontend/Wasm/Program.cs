@@ -7,9 +7,8 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using WeeControl.Frontend.Wasm.Services;
 using DependencyInjection = WeeControl.Common.UserSecurityLib.DependencyInjection;
-using WeeControl.Common.SharedKernel.Interfaces;
-using WeeControl.Frontend.ServiceLibrary.Operations;
-using WeeControl.Frontend.ServiceLibrary.Operations.Credentials;
+using WeeControl.Frontend.ServiceLibrary.BoundedContexts.Authorization;
+using WeeControl.Frontend.ServiceLibrary.Interfaces;
 using WeeControl.Frontend.Wasm.Interfaces;
 
 namespace WeeControl.Frontend.Wasm
@@ -33,11 +32,12 @@ namespace WeeControl.Frontend.Wasm
             DependencyInjection.AddUserSecurityService(builder.Services);
             
 
-            builder.Services.AddScoped<Common.BoundedContext.Credentials.IUserOperation>(provider =>
+            builder.Services.AddScoped<IUserOperation>(provider =>
             {
                 var device = provider.GetService<IUserDevice>();
-                var factory = provider.GetService<IUserCommunication>();
-                return new CredentialsOperation(device, factory);
+                var communication = provider.GetService<IUserCommunication>();
+                var storage = provider.GetService<IUserStorage>();
+                return new UserOperation(device, communication, storage);
             });
 
             builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();

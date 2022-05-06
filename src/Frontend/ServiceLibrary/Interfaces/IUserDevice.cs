@@ -1,4 +1,4 @@
-﻿namespace WeeControl.Common.SharedKernel.Interfaces
+﻿namespace WeeControl.Frontend.ServiceLibrary.Interfaces
 {
     public interface IUserDevice
     {

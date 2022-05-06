@@ -1,4 +1,4 @@
-﻿namespace WeeControl.Common.BoundedContext.Credentials.DataTransferObjects
+﻿namespace WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User
 {
     public class TokenDto
     {

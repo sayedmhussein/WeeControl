@@ -1,31 +1,29 @@
 ﻿using System;
 using WeeControl.Backend.WebApi.Test.Functional.TestHelpers;
 using Xunit;
-using Moq;
-using WeeControl.Common.SharedKernel.Interfaces;
 
 namespace WeeControl.Backend.WebApi.Test.Functional.BoundedContexts.Credentials
 {
     public class RegisterTests : IClassFixture<CustomWebApplicationFactory<Startup>>, IDisposable
     {
         private readonly CustomWebApplicationFactory<Startup> factory;
-        private Mock<IUserDevice> device;
+        //private Mock<IUserDevice> device;
 
         public RegisterTests(CustomWebApplicationFactory<Startup> factory)
         {
             this.factory = factory;
 
-            device = new();
-            device.SetupAllProperties();
+            // device = new();
+            // device.SetupAllProperties();
             //device.Setup(x => x.ServerBaseAddress).Returns("http://10.0.2.2:5000/");
             //device.Setup(x => x.ServerBaseAddress).Returns(CustomWebApplicationFactory<Startup>.GetLocalIPAddress());
-            device.Setup(x => x.DeviceId).Returns(nameof(RegisterTests));
-            device.Setup(x => x.TimeStamp).Returns(DateTime.UtcNow);
+            // device.Setup(x => x.DeviceId).Returns(nameof(RegisterTests));
+            // device.Setup(x => x.TimeStamp).Returns(DateTime.UtcNow);
         }
 
         public void Dispose()
         {
-            device = null;
+            //device = null;
         }
 
         [Fact]

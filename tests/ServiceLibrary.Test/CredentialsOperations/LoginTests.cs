@@ -1,9 +1,8 @@
 using Xunit;
 using Moq;
-using WeeControl.Common.BoundedContext.Credentials.DataTransferObjects;
-using WeeControl.Common.SharedKernel.Interfaces;
-using WeeControl.Frontend.ServiceLibrary.Operations;
-using WeeControl.Frontend.ServiceLibrary.Operations.Credentials;
+using WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User;
+using WeeControl.Frontend.ServiceLibrary.BoundedContexts.Authorization;
+using WeeControl.Frontend.ServiceLibrary.Interfaces;
 
 namespace WeeControl.Common.ServiceLibrary.Test.CredentialsOperations;
 
@@ -23,7 +22,7 @@ public class LoginTests
     {
         var dto = new LoginDto() { UsernameOrEmail = "admin", Password = "admin"};
 
-        await new CredentialsOperation(null, null).LoginAsync(dto);
+        await new UserOperation(null, null).LoginAsync(dto);
         
         
     }

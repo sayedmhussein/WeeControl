@@ -1,13 +1,13 @@
 ﻿using System.Net;
-using System.Threading.Tasks;
-using WeeControl.Common.BoundedContext.Credentials.DataTransferObjects;
+using WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User;
+using WeeControl.Frontend.ServiceLibrary.BoundedContexts.Authorization.UiResponsObjects;
 
-namespace WeeControl.Common.BoundedContext.Credentials
+namespace WeeControl.Frontend.ServiceLibrary.BoundedContexts.Authorization
 {
     public interface IUserOperation
     {
         Task RegisterAsync(RegisterDto loginDto);
-        Task<(HttpStatusCode, string Token)> LoginAsync(LoginDto loginDto);
+        Task<LoginResponse> LoginAsync(LoginDto loginDto);
         Task GetTokenAsync();
         Task LogoutAsync();
         Task UpdateEmailAsync(UpdateEmailAsync loginDto);

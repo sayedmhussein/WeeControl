@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using WeeControl.Common.BoundedContext.Credentials.BaseObjects;
 
-namespace WeeControl.Common.BoundedContext.Credentials.DataTransferObjects
+namespace WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User
 {
     public class RegisterDto
     {

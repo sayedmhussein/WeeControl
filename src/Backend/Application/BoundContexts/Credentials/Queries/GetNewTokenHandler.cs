@@ -12,7 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using WeeControl.Backend.Application.Exceptions;
 using WeeControl.Backend.Domain.BoundedContexts.Credentials;
 using WeeControl.Backend.Domain.BoundedContexts.Credentials.DatabaseObjects;
-using WeeControl.Common.BoundedContext.Credentials.DataTransferObjects;
+using WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User;
 using WeeControl.Common.SharedKernel.RequestsResponses;
 using WeeControl.Common.UserSecurityLib.BoundedContexts.HumanResources;
 using WeeControl.Common.UserSecurityLib.Interfaces;

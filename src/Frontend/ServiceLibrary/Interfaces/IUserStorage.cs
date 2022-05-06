@@ -1,6 +1,6 @@
-using WeeControl.Common.SharedKernel.Enums;
+using WeeControl.Frontend.ServiceLibrary.Enums;
 
-namespace WeeControl.Common.SharedKernel.Interfaces
+namespace WeeControl.Frontend.ServiceLibrary.Interfaces
 {
     public interface IUserStorage
     {

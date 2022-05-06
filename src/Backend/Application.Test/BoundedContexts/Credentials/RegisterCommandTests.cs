@@ -10,7 +10,7 @@ using WeeControl.Backend.Application.BoundContexts.Shared.Queries;
 using WeeControl.Backend.Application.Exceptions;
 using WeeControl.Backend.Domain.BoundedContexts.Credentials;
 using WeeControl.Backend.Persistence;
-using WeeControl.Common.BoundedContext.Credentials.DataTransferObjects;
+using WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User;
 using WeeControl.Common.SharedKernel.RequestsResponses;
 using Xunit;
 

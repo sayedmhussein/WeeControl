@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace WeeControl.Common.BoundedContext.Credentials.DataTransferObjects
+namespace WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User
 {
     public class ForgotPasswordDto
     {

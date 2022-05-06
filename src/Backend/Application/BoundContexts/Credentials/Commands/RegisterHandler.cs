@@ -7,7 +7,7 @@ using WeeControl.Backend.Application.BoundContexts.Shared.Queries;
 using WeeControl.Backend.Application.Exceptions;
 using WeeControl.Backend.Domain.BoundedContexts.Credentials;
 using WeeControl.Backend.Domain.BoundedContexts.Credentials.DatabaseObjects;
-using WeeControl.Common.BoundedContext.Credentials.DataTransferObjects;
+using WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User;
 
 namespace WeeControl.Backend.Application.BoundContexts.Credentials.Commands
 {

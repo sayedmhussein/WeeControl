@@ -1,5 +1,5 @@
 using System.Net.Http;
-using WeeControl.Common.SharedKernel.Interfaces;
+using WeeControl.Frontend.ServiceLibrary.Interfaces;
 
 namespace WeeControl.Frontend.Wasm.Services;
 

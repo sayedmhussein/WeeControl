@@ -9,10 +9,10 @@
 @inject ISecurityService bla
 
 @using System.Net
-@using WeeControl.Common.BoundedContext.Credentials
-@using WeeControl.Common.BoundedContext.Credentials.DataTransferObjects
-@using WeeControl.Common.SharedKernel.Enums
-@using WeeControl.Common.SharedKernel.Interfaces
+@using WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User
+@using WeeControl.Frontend.ServiceLibrary.BoundedContexts.Authorization
+@using WeeControl.Frontend.ServiceLibrary.Enums
+@using WeeControl.Frontend.ServiceLibrary.Interfaces
 @using WeeControl.Frontend.Wasm.Interfaces
 
 <div class="card">
@@ -73,25 +73,17 @@
         loading = true;
         try
         {
-            var (code, token) = await authentication.LoginAsync(loginDto);
-            switch (code)
+            var response = await authentication.LoginAsync(loginDto);
+            if (response.IsSuccess)
             {
-                case HttpStatusCode.OK:
-                    await userStorage.SaveAsync(UserDataEnum.Token, token);
-                    stringAlert = "Logged in successfully";
-                    await Task.Delay(3000);
-                    //bla.Update(token);
-                    StateHasChanged();
-                    navManager.NavigateTo("/Home", true);
-                    break;
-                case HttpStatusCode.NotFound:
-                    stringAlert = "Invalid username or password!";
-                    break;
-                default:
-                    stringAlert = "An error occured, please try again. error code:" + code.ToString();
-                    break;
+                StateHasChanged();
+                navManager.NavigateTo("/Home", true);
             }
-            
+            else
+            {
+                stringAlert = response.MessageToUser;
+            }
+
             loginDto.Password = string.Empty;
         }
         catch (Exception e)
