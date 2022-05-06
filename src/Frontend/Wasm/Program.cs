@@ -9,6 +9,7 @@ using WeeControl.Frontend.Wasm.Services;
 using DependencyInjection = WeeControl.Common.UserSecurityLib.DependencyInjection;
 using WeeControl.Common.SharedKernel.Interfaces;
 using WeeControl.Frontend.ServiceLibrary.Operations;
+using WeeControl.Frontend.ServiceLibrary.Operations.Credentials;
 using WeeControl.Frontend.Wasm.Interfaces;
 
 namespace WeeControl.Frontend.Wasm

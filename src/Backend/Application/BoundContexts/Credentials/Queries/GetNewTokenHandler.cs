@@ -36,10 +36,10 @@ namespace WeeControl.Backend.Application.BoundContexts.Credentials.Queries
 
         public async Task<ResponseDto<TokenDto>> Handle(GetNewTokenQuery request, CancellationToken cancellationToken)
         {
-            if (!string.IsNullOrWhiteSpace(request.Payload?.Username) && !string.IsNullOrWhiteSpace(request.Payload?.Password))
+            if (!string.IsNullOrWhiteSpace(request.Payload?.UsernameOrEmail) && !string.IsNullOrWhiteSpace(request.Payload?.Password))
             {
                 var employee = await context.Users.FirstOrDefaultAsync(x =>
-                    x.Username == request.Payload.Username &&
+                    (x.Username == request.Payload.UsernameOrEmail || x.Email == request.Payload.UsernameOrEmail) &&
                     x.Password == request.Payload.Password, cancellationToken);
 
                 if (employee is null) throw new NotFoundException();
@@ -47,7 +47,7 @@ namespace WeeControl.Backend.Application.BoundContexts.Credentials.Queries
                 var session = await context.Sessions.FirstOrDefaultAsync(x => x.UserId == employee.UserId && x.TerminationTs == null, cancellationToken);
                 if (session is null)
                 {
-                    session = new SessionDbo() { UserId = employee.UserId, DeviceId = request.Request.DeviceId };
+                    session = new SessionDbo() { UserId = employee.UserId, DeviceId = request.Request.DeviceId};
                     await context.Sessions.AddAsync(session, cancellationToken);
                 }
                 else

@@ -14,7 +14,6 @@
 @using WeeControl.Common.SharedKernel.Enums
 @using WeeControl.Common.SharedKernel.Interfaces
 @using WeeControl.Frontend.Wasm.Interfaces
-@using WeeControl.Frontend.Wasm.Services
 
 <div class="card">
     <h4 class="card-header">Please enter your username and password</h4>
@@ -22,9 +21,9 @@
         <EditForm Model="@loginDto" OnValidSubmit="ProcessLoginAsync">
             <DataAnnotationsValidator/>
             <div class="form-group">
-                <label>Username</label>
-                <InputText @bind-Value="loginDto.Username" class="form-control"/>
-                <ValidationMessage For="@(() => loginDto.Username)"/>
+                <label>Username or Email</label>
+                <InputText @bind-Value="loginDto.UsernameOrEmail" class="form-control"/>
+                <ValidationMessage For="@(() => loginDto.UsernameOrEmail)"/>
             </div>
             <div class="form-group">
                 <label>Password</label>
@@ -77,16 +76,22 @@
             var (code, token) = await authentication.LoginAsync(loginDto);
             switch (code)
             {
-                case HttpStatusCode.Accepted:
+                case HttpStatusCode.OK:
                     await userStorage.SaveAsync(UserDataEnum.Token, token);
-                    Console.WriteLine("Token Updated to: ", token);
-                    //var b = (AuthStateProvider) (await AuthState);
-                    bla.Update(token);
-                    //(await AuthState).NotifyUserAuthentication(token);
+                    stringAlert = "Logged in successfully";
+                    await Task.Delay(3000);
+                    //bla.Update(token);
                     StateHasChanged();
-                break;
+                    navManager.NavigateTo("/Home", true);
+                    break;
+                case HttpStatusCode.NotFound:
+                    stringAlert = "Invalid username or password!";
+                    break;
+                default:
+                    stringAlert = "An error occured, please try again. error code:" + code.ToString();
+                    break;
             }
-            navManager.NavigateTo("/Home");
+            
             loginDto.Password = string.Empty;
         }
         catch (Exception e)

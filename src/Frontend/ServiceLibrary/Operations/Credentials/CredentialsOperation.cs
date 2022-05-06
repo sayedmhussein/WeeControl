@@ -1,14 +1,12 @@
 ﻿using System.Net;
-using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using WeeControl.Common.BoundedContext.Credentials;
 using WeeControl.Common.BoundedContext.Credentials.DataTransferObjects;
-using WeeControl.Common.SharedKernel.Enums;
 using WeeControl.Common.SharedKernel.Interfaces;
 using WeeControl.Common.SharedKernel.RequestsResponses;
 using IUserOperation = WeeControl.Common.BoundedContext.Credentials.IUserOperation;
 
-namespace WeeControl.Frontend.ServiceLibrary.Operations
+namespace WeeControl.Frontend.ServiceLibrary.Operations.Credentials
 {
     public class CredentialsOperation : IUserOperation
     {
@@ -97,7 +95,8 @@ namespace WeeControl.Frontend.ServiceLibrary.Operations
 
         public Task LogoutAsync()
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
+            //throw new NotImplementedException();
         }
 
         public Task UpdateEmailAsync(UpdateEmailAsync loginDto)

@@ -3,6 +3,7 @@ using Moq;
 using WeeControl.Common.BoundedContext.Credentials.DataTransferObjects;
 using WeeControl.Common.SharedKernel.Interfaces;
 using WeeControl.Frontend.ServiceLibrary.Operations;
+using WeeControl.Frontend.ServiceLibrary.Operations.Credentials;
 
 namespace WeeControl.Common.ServiceLibrary.Test.CredentialsOperations;
 
@@ -20,9 +21,9 @@ public class LoginTests
     [Fact]
     public async void WhenValidLoginCredentials_TokenIsSaved()
     {
-        var dto = new LoginDto() { Username = "admin", Password = "admin"};
+        var dto = new LoginDto() { UsernameOrEmail = "admin", Password = "admin"};
 
-        await new CredentialsOperation(userDeviceMock.Object).LoginAsync(dto);
+        await new CredentialsOperation(null, null).LoginAsync(dto);
         
         
     }

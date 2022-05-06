@@ -26,22 +26,22 @@ namespace WeeControl.Backend.Application.BoundContexts.Credentials.Commands
         {
             await mediator.Send(new VerifyRequestQuery(cmd.Request), cancellationToken);
 
-            // if (string.IsNullOrWhiteSpace(cmd.Payload.Password) ||
-            //     (string.IsNullOrWhiteSpace(cmd.Payload.Username) && string.IsNullOrWhiteSpace(cmd.Payload.Email)))
-            // {
-            //     throw new ValidationException();
-            // }
+            if (string.IsNullOrWhiteSpace(cmd.Payload.Password) ||
+                (string.IsNullOrWhiteSpace(cmd.Payload.Username) && string.IsNullOrWhiteSpace(cmd.Payload.Email)))
+            {
+                throw new ValidationException();
+            }
 
-            // if (context.Users.Where(x =>
-            // (string.IsNullOrWhiteSpace(cmd.Payload.Username) == false && x.Username == cmd.Payload.Username) ||
-            // (string.IsNullOrWhiteSpace(cmd.Payload.Username) && x.Email == cmd.Payload.Email)).Any())
-            // {
-            //     throw new ConflictFailureException();
-            // }
+            if (context.Users.Where(x =>
+            (string.IsNullOrWhiteSpace(cmd.Payload.Username) == false && x.Username == cmd.Payload.Username) ||
+            (string.IsNullOrWhiteSpace(cmd.Payload.Username) && x.Email == cmd.Payload.Email)).Any())
+            {
+                throw new ConflictFailureException();
+            }
 
             var user = new UserDbo()
             {
-                //Email = cmd.Payload.Email,
+                Email = cmd.Payload.Email,
                 Username = cmd.Payload.Username,
                 Password = cmd.Payload.Password
             };
@@ -49,7 +49,7 @@ namespace WeeControl.Backend.Application.BoundContexts.Credentials.Commands
             await context.Users.AddAsync(user, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
 
-            var b= await mediator.Send(new GetNewTokenQuery(cmd.Request, new LoginDto() { Username = user.Username, Password = user.Password }), cancellationToken);
+            var b= await mediator.Send(new GetNewTokenQuery(cmd.Request, new LoginDto() { UsernameOrEmail = user.Username, Password = user.Password }), cancellationToken);
             return b.Payload;
         }
     }

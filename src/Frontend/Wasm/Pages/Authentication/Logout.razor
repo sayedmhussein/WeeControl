@@ -1,6 +1,10 @@
 @using WeeControl.Common.BoundedContext.Credentials
+@using WeeControl.Common.SharedKernel.Interfaces
+@using WeeControl.Frontend.Wasm.Interfaces
 @inject IUserOperation authentication
 @inject NavigationManager navManager
+@inject IUserStorage userStorage
+@inject ISecurityService bla
 
 <button class="btn btn-danger ml-md-auto" @onclick="@LogoutUser">
     @if (loading)
@@ -15,7 +19,10 @@
     private async Task LogoutUser()
     {
         loading = true;
+        await userStorage.ClearAsync();
         await authentication.LogoutAsync();
-        navManager.NavigateTo("/login");
+        StateHasChanged();
+        //bla.Update(null);
+        navManager.NavigateTo("/login", true);
     }
 }
