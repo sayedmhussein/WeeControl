@@ -16,5 +16,10 @@ namespace WeeControl.Backend.Domain.Databases.Databases.DatabaseObjects.Essentia
         public DateTime CreatedTs { get; set; }
 
         public DateTime? TerminationTs { get; set; }
+
+        public static SessionDbo Create(Guid userid, string deviceid)
+        {
+            return new SessionDbo() { UserId = userid, DeviceId = deviceid, CreatedTs = DateTime.UtcNow };
+        }
     }
 }

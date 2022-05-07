@@ -19,7 +19,7 @@ namespace WeeControl.Backend.Application.EssentialContext.Queries
             Payload = new LoginDto(dto.Payload.UsernameOrEmail, dto.Payload.Password);
         }
         
-        [Obsolete("Use other constructor")]
+        [Obsolete("Use other constructor which has one argument.")]
         public GetNewTokenQuery(RequestDto request, LoginDto payload)
         {
             Request = request;

@@ -42,13 +42,13 @@
     <None Remove="Microsoft.AspNet.WebApi.Client" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Frontend\ServiceLibrary\ServiceLibrary.csproj" />
     <ProjectReference Include="..\WebApi\WebApi.csproj" />
     <ProjectReference Include="..\Persistence\Persistence.csproj" />
     <ProjectReference Include="..\..\Common\BoundedContext\BoundedContext.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="BoundedContexts\" />
-    <Folder Include="BoundedContexts\HumanResources\Employee" />
-    <Folder Include="BoundedContexts\Credentials\" />
+    <Folder Include="Controllers\" />
+    <Folder Include="Controllers\Essentials\" />
   </ItemGroup>
 </Project>

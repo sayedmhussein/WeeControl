@@ -11,7 +11,7 @@ using WeeControl.Common.SharedKernel;
 using WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User;
 using WeeControl.Common.SharedKernel.RequestsResponses;
 
-namespace WeeControl.Backend.WebApi.Controllers.Credentials
+namespace WeeControl.Backend.WebApi.Controllers.Essentials
 {
     [ApiController]
     [Route(AuthorizationLink.Route)]

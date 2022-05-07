@@ -4,9 +4,6 @@ namespace WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User
 {
     public class LoginDto
     {
-        private readonly string usernameOrEmail;
-        private readonly string password;
-
         [Required]
         [StringLength(45, ErrorMessage = "username cannot be longer than 45 characters.")]
         public string UsernameOrEmail { get; set; } = string.Empty;
@@ -19,8 +16,8 @@ namespace WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User
         
         public LoginDto(string usernameOrEmail, string password)
         {
-            this.usernameOrEmail = usernameOrEmail;
-            this.password = password;
+            UsernameOrEmail = usernameOrEmail;
+            Password = password;
         }
     }
 }

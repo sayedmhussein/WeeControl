@@ -1,5 +1,5 @@
 using System;
-using WeeControl.Frontend.ServiceLibrary.Interfaces;
+using WeeControl.Common.FunctionalService.Interfaces;
 
 namespace WeeControl.Frontend.Wasm.Services
 {

@@ -54,15 +54,14 @@ namespace WeeControl.Backend.Application.Test.EssentialContext.Queries
 
         #region using username and password
         [Fact]
-        public async void WhenValidUsernameAndPassword_ReturnProperDto()
+        public async void WhenValidUsernameAndPassword_ReturnToken()
         {
-            var dto = new RequestDto<LoginDto>(nameof(WhenValidUsernameAndPassword_ReturnProperDto), new LoginDto(Username, Password));
+            var dto = new RequestDto<LoginDto>(nameof(WhenValidUsernameAndPassword_ReturnToken), new LoginDto(Username, Password));
             var query = new GetNewTokenQuery(dto);
 
             var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object);
             var response = await service.Handle(query, default);
             
-            Assert.Equal(HttpStatusCode.OK, response.StatuesCode);
             Assert.NotEmpty(response.Payload.Token);
             Assert.NotEmpty(response.Payload.FullName);
         }
@@ -70,7 +69,7 @@ namespace WeeControl.Backend.Application.Test.EssentialContext.Queries
         [Fact]
         public async void WhenValidUsernameAndPasswordButExistingSessionIsActive_ShouldNotCreatAnotherSession()
         {
-            var service = new Application.EssentialContext.Queries.GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object);
+            var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object);
             
             var query = new GetNewTokenQuery(
                 new RequestDto<LoginDto>(nameof(WhenValidUsernameAndPasswordButExistingSessionIsActive_ShouldNotCreatAnotherSession), 
@@ -87,7 +86,7 @@ namespace WeeControl.Backend.Application.Test.EssentialContext.Queries
         [Fact]
         public async void WhenValidUsernameAndPasswordButExistingSessionIsNotActive_ShouldCreatAnotherSession()
         {
-            var service = new Application.EssentialContext.Queries.GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object);
+            var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object);
             
             var query = new GetNewTokenQuery(new RequestDto<LoginDto>(
                 nameof(WhenValidUsernameAndPasswordButExistingSessionIsNotActive_ShouldCreatAnotherSession), 
@@ -134,22 +133,21 @@ namespace WeeControl.Backend.Application.Test.EssentialContext.Queries
         }
         #endregion
 
-        /*#region using session-id and device-id
+        #region using session-id and device-id
         [Fact]
-        public async void WhenExistingSessionIsValid_ReturnProperResponse()
+        public async void WhenExistingSessionIsValid_ReturnToken()
         {
             var request = new RequestDto("device");
 
-            var session = Session.Create(Guid.NewGuid(), "device");
-            session.Employee = context.Employees.First();
+            var session = SessionDbo.Create(Guid.NewGuid(), "device");
+            session.User = context.Users.First();
             await context.Sessions.AddAsync(session , default);
             await context.SaveChangesAsync(default);
             
             var query = new GetNewTokenQuery(request, session.SessionId);
             
-            var response = await new Application.EssentialContext.Queries.GetNewTokenHandler(context, jwtService, null, configurationMock.Object).Handle(query, default);
+            var response = await new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object).Handle(query, default);
             
-            Assert.Equal(HttpStatusCode.OK, response.StatuesCode);
             Assert.NotEmpty(response.Payload.Token);
             Assert.NotEmpty(response.Payload.FullName);
         }
@@ -159,33 +157,34 @@ namespace WeeControl.Backend.Application.Test.EssentialContext.Queries
         {
             var request = new RequestDto("device");
 
-            var session = Session.Create(Guid.NewGuid(), "device");
-            session.Employee = context.Employees.First();
+            var session = SessionDbo.Create(Guid.NewGuid(), "device");
+            session.User = context.Users.First();
             session.TerminationTs = DateTime.UtcNow;
             await context.Sessions.AddAsync(session , default);
             await context.SaveChangesAsync(default);
             
             var query = new GetNewTokenQuery(request, session.SessionId);
             
-            var service = new Application.EssentialContext.Queries.GetNewTokenHandler(context, jwtService, null, configurationMock.Object);
+            var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object);
             
             await Assert.ThrowsAsync<NotAllowedException>(() => service.Handle(query, default));
         }
 
+        [Fact]
         public async void WhenUsingDifferentDevice_ThrowNotAllowedException()
         {
             var request = new RequestDto("other device");
 
-            var session = Session.Create(Guid.NewGuid(), "device");
-            session.Employee = context.Employees.First();
+            var session = SessionDbo.Create(Guid.NewGuid(), "device");
+            session.User = context.Users.First();
             await context.Sessions.AddAsync(session , default);
             await context.SaveChangesAsync(default);
             
             var query = new GetNewTokenQuery(request, session.SessionId);
-            var service = new Application.EssentialContext.Queries.GetNewTokenHandler(context, jwtService, null, configurationMock.Object);
+            var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object);
             
             await Assert.ThrowsAsync<NotAllowedException>(() => service.Handle(query, default));
         }
-        #endregion*/
+        #endregion
     }
 }

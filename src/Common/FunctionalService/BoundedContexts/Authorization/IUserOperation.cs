@@ -1,8 +1,7 @@
-﻿using System.Net;
+﻿using WeeControl.Common.FunctionalService.BoundedContexts.Authorization.UiResponsObjects;
 using WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User;
-using WeeControl.Frontend.ServiceLibrary.BoundedContexts.Authorization.UiResponsObjects;
 
-namespace WeeControl.Frontend.ServiceLibrary.BoundedContexts.Authorization
+namespace WeeControl.Common.FunctionalService.BoundedContexts.Authorization
 {
     public interface IUserOperation
     {

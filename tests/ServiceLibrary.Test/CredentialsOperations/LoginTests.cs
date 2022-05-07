@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using Xunit;
 using Moq;
 using Moq.Protected;
+using WeeControl.Common.FunctionalService.BoundedContexts.Authorization;
+using WeeControl.Common.FunctionalService.Enums;
+using WeeControl.Common.FunctionalService.Interfaces;
 using WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User;
 using WeeControl.Common.SharedKernel.RequestsResponses;
-using WeeControl.Frontend.ServiceLibrary.BoundedContexts.Authorization;
-using WeeControl.Frontend.ServiceLibrary.Enums;
-using WeeControl.Frontend.ServiceLibrary.Interfaces;
 
 namespace WeeControl.Common.ServiceLibrary.Test.CredentialsOperations;
 

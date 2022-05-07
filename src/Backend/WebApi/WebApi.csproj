@@ -26,7 +26,7 @@
   <ItemGroup>
     <Folder Include="Services\" />
     <Folder Include="StartupOptions\" />
-    <Folder Include="Controllers\Credentials\" />
+    <Folder Include="Controllers\Essentials\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Security\Policy\Employee\" />

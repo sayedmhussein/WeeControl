@@ -24,6 +24,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\src\Common\FunctionalService\FunctionalService.csproj" />
       <ProjectReference Include="..\..\src\Common\SharedKernel\SharedKernel.csproj" />
       <ProjectReference Include="..\..\src\Frontend\ServiceLibrary\ServiceLibrary.csproj" />
     </ItemGroup>

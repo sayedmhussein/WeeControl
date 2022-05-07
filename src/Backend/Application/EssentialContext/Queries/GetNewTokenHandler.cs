@@ -80,7 +80,7 @@ namespace WeeControl.Backend.Application.EssentialContext.Queries
                 };
                 var token = jwtService.GenerateToken(descriptor);
 
-                return new ResponseDto<TokenDto>(new TokenDto(token, employee.Username, "url")) { StatuesCode = HttpStatusCode.OK };
+                return new ResponseDto<TokenDto>(new TokenDto(token, employee.Username, "url"));
             }
             else if (request.SessionId is not null)
             {

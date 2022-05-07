@@ -1,4 +1,4 @@
-namespace WeeControl.Frontend.ServiceLibrary.Interfaces;
+namespace WeeControl.Common.FunctionalService.Interfaces;
 
 public interface IUserCommunication
 {

@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using WeeControl.Common.FunctionalService.BoundedContexts.Authorization;
+using WeeControl.Common.FunctionalService.Interfaces;
 using WeeControl.Frontend.Wasm.Services;
 using DependencyInjection = WeeControl.Common.UserSecurityLib.DependencyInjection;
-using WeeControl.Frontend.ServiceLibrary.BoundedContexts.Authorization;
-using WeeControl.Frontend.ServiceLibrary.Interfaces;
 using WeeControl.Frontend.Wasm.Interfaces;
 
 namespace WeeControl.Frontend.Wasm

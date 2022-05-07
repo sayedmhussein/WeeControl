@@ -1,5 +1,5 @@
 using System.Net.Http;
-using WeeControl.Frontend.ServiceLibrary.Interfaces;
+using WeeControl.Common.FunctionalService.Interfaces;
 
 namespace WeeControl.Frontend.Wasm.Services;
 

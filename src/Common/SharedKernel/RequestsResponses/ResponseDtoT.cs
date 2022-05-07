@@ -14,6 +14,7 @@ namespace WeeControl.Common.SharedKernel.RequestsResponses
             Payload = payload;
         }
 
+        [Obsolete]
         public ResponseDto(HttpStatusCode httpStatuesCode) : base(httpStatuesCode)
         {
         }

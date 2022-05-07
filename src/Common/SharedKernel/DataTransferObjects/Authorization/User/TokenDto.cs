@@ -15,6 +15,8 @@
         public TokenDto(string token, string fullName, string photoUrl)
         {
             Token = token;
+            FullName = fullName;
+            PhotoUrl = photoUrl;
         }
     }
 }

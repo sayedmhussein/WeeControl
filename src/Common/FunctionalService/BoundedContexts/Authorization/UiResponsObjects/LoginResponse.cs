@@ -1,6 +1,4 @@
-using WeeControl.Frontend.ServiceLibrary.Enums;
-
-namespace WeeControl.Frontend.ServiceLibrary.BoundedContexts.Authorization.UiResponsObjects;
+namespace WeeControl.Common.FunctionalService.BoundedContexts.Authorization.UiResponsObjects;
 
 public class LoginResponse
 {

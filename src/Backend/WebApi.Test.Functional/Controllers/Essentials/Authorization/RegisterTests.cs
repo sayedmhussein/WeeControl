@@ -2,7 +2,7 @@
 using WeeControl.Backend.WebApi.Test.Functional.TestHelpers;
 using Xunit;
 
-namespace WeeControl.Backend.WebApi.Test.Functional.BoundedContexts.Credentials
+namespace WeeControl.Backend.WebApi.Test.Functional.Controllers.Essentials.Authorization
 {
     public class RegisterTests : IClassFixture<CustomWebApplicationFactory<Startup>>, IDisposable
     {

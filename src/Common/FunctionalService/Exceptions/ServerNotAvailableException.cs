@@ -1,4 +1,4 @@
-namespace WeeControl.Frontend.ServiceLibrary.Exceptions;
+namespace WeeControl.Common.FunctionalService.Exceptions;
 
 public class ServerNotAvailableException : Exception
 {
