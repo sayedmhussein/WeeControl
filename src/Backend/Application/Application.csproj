@@ -6,15 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="BoundContexts\" />
-    <Folder Include="BoundContexts\Credentials\" />
-    <Folder Include="BoundContexts\Credentials\Commands\" />
-    <Folder Include="BoundContexts\Credentials\Queries\" />
-    <Folder Include="BoundContexts\Credentials\Notifications\" />
-    <Folder Include="BoundContexts\Shared\" />
-    <Folder Include="BoundContexts\Shared\Commands\" />
-    <Folder Include="BoundContexts\Shared\Queries\" />
-    <Folder Include="BoundContexts\Shared\Notifications\" />
+    <Folder Include="CommonContext\Commands" />
+    <Folder Include="EssentialContext\" />
+    <Folder Include="EssentialContext\Notifications" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="10.0.1" />

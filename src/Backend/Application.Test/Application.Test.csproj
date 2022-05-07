@@ -23,9 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Common\" />
-    <Folder Include="Common\Behaviours\" />
-    <Folder Include="BoundedContexts\Credentials\" />
+    <Folder Include="CommonContext\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Territory\" />

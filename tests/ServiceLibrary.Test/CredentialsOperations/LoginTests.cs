@@ -19,7 +19,7 @@ public class LoginTests : IDisposable
     private Mock<IUserDevice> userDeviceMock;
     private Mock<IUserCommunication> userCommunicationMockMock;
     private Mock<IUserStorage> userStorageMockMock;
-    private LoginDto loginDto = new() {UsernameOrEmail = "admin", Password = "admin"};
+    private LoginDto loginDto = new("admin", "admin");
 
     public LoginTests()
     {

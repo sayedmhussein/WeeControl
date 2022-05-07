@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace WeeControl.Frontend.ServiceLibrary.BoundedContexts.Authorization
+namespace WeeControl.Common.SharedKernel
 {
     public class AuthorizationLink
     {

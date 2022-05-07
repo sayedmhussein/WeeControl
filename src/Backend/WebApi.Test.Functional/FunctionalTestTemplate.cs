@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.Backend.Domain.BoundedContexts.Credentials;
+using WeeControl.Backend.Domain.Databases.Databases;
 using WeeControl.Backend.WebApi.Test.Functional.TestHelpers;
 using Xunit;
 
@@ -13,7 +13,7 @@ namespace WeeControl.Backend.WebApi.Test.Functional
         private static string RandomText => new Random().NextDouble().ToString(CultureInfo.InvariantCulture);
 
         private readonly HttpClient httpClient;
-        private readonly ICredentialsDbContext dbContext;
+        private readonly IEssentialDbContext dbContext;
         private readonly string device;
 
         //private Mock<IUserDevice> clientDeviceMock;
@@ -23,7 +23,7 @@ namespace WeeControl.Backend.WebApi.Test.Functional
             httpClient = factory.CreateClient();
             
             var scope = factory.Services.GetService<IServiceScopeFactory>().CreateScope();
-            dbContext = scope.ServiceProvider.GetService<ICredentialsDbContext>();
+            dbContext = scope.ServiceProvider.GetService<IEssentialDbContext>();
             
             device = nameof(FunctionalTestTemplate);
 

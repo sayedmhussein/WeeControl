@@ -4,12 +4,12 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WeeControl.Backend.Application.BoundContexts.Credentials.Commands;
-using WeeControl.Backend.Application.BoundContexts.Credentials.Queries;
+using WeeControl.Backend.Application.EssentialContext.Commands;
+using WeeControl.Backend.Application.EssentialContext.Queries;
 using WeeControl.Backend.Application.Interfaces;
+using WeeControl.Common.SharedKernel;
 using WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User;
 using WeeControl.Common.SharedKernel.RequestsResponses;
-using WeeControl.Frontend.ServiceLibrary.BoundedContexts.Authorization;
 
 namespace WeeControl.Backend.WebApi.Controllers.Credentials
 {
@@ -31,6 +31,7 @@ namespace WeeControl.Backend.WebApi.Controllers.Credentials
         [MapToApiVersion(AuthorizationLink.Register.Version)]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult<ResponseDto<TokenDto>>> RegisterV1([FromBody] RequestDto<RegisterDto> dto)
@@ -55,9 +56,6 @@ namespace WeeControl.Backend.WebApi.Controllers.Credentials
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult<ResponseDto<TokenDto>>> LoginV1([FromBody] RequestDto<LoginDto> dto)
         {
-            if (dto.Payload is null)
-                return BadRequest();
-
             var query = new GetNewTokenQuery(dto, dto.Payload);
             var response = await mediatR.Send(query);
 

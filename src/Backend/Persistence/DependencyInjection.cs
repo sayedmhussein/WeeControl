@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.Backend.Domain.BoundedContexts.Credentials;
+using WeeControl.Backend.Domain.Databases.Databases;
 using WeeControl.Backend.Persistence.BoundedContext.Credentials;
 
 namespace WeeControl.Backend.Persistence
@@ -13,8 +13,8 @@ namespace WeeControl.Backend.Persistence
     {
         public static IServiceCollection AddPersistenceAsPostgreSql(this IServiceCollection services, IConfiguration configuration, string migrationAssemblyName)
         {
-            services.AddScoped<ICredentialsDbContext>(p =>
-                new CredentialsDbContext(GetPostgresOptions<CredentialsDbContext>(configuration.GetConnectionString("HumanResourcesDbProvider"), migrationAssemblyName)));
+            services.AddScoped<IEssentialDbContext>(p =>
+                new EssentialDbContext(GetPostgresOptions<EssentialDbContext>(configuration.GetConnectionString("HumanResourcesDbProvider"), migrationAssemblyName)));
 
             return services;
         }
@@ -22,8 +22,8 @@ namespace WeeControl.Backend.Persistence
         public static IServiceCollection AddPersistenceAsInMemory(this IServiceCollection services)
         {
             //services.RemoveDbFromServices<CredentialsDbContext>();
-            services.AddScoped<ICredentialsDbContext>(p =>
-                new CredentialsDbContext(GetInMemoryOptions<CredentialsDbContext>(new Random().NextDouble().ToString())));
+            services.AddScoped<IEssentialDbContext>(p =>
+                new EssentialDbContext(GetInMemoryOptions<EssentialDbContext>(new Random().NextDouble().ToString())));
 
             return services;
         }
