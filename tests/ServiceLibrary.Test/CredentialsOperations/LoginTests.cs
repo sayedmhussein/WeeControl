@@ -9,6 +9,7 @@ using Moq.Protected;
 using WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User;
 using WeeControl.Common.SharedKernel.RequestsResponses;
 using WeeControl.Frontend.ServiceLibrary.BoundedContexts.Authorization;
+using WeeControl.Frontend.ServiceLibrary.Enums;
 using WeeControl.Frontend.ServiceLibrary.Interfaces;
 
 namespace WeeControl.Common.ServiceLibrary.Test.CredentialsOperations;
@@ -18,7 +19,8 @@ public class LoginTests : IDisposable
     private Mock<IUserDevice> userDeviceMock;
     private Mock<IUserCommunication> userCommunicationMockMock;
     private Mock<IUserStorage> userStorageMockMock;
-    
+    private LoginDto loginDto = new() {UsernameOrEmail = "admin", Password = "admin"};
+
     public LoginTests()
     {
         userDeviceMock = new Mock<IUserDevice>();
@@ -41,19 +43,21 @@ public class LoginTests : IDisposable
     }
 
     [Fact]
-    public async void WhenValidLoginCredentials_TokenIsSaved()
+    public async void WhenValidLoginCredentials_ReturnIsSuccessAndTokenIsSaved()
     {
+        var token = "token";
         userCommunicationMockMock.Setup(x => x.HttpClient)
             .Returns(GetHttpClientForTesting(
                 HttpStatusCode.OK, 
                 RequestDto.BuildHttpContentAsJson(
-                new ResponseDto<TokenDto>(new TokenDto("token", "fullname", "")))));
+                new ResponseDto<TokenDto>(new TokenDto(token, "fullname", "")))));
         
         var response = 
             await new UserOperation(userDeviceMock.Object, userCommunicationMockMock.Object, userStorageMockMock.Object)
-            .LoginAsync(new LoginDto() {UsernameOrEmail = "admin", Password = "admin"});
+            .LoginAsync(loginDto);
         
         Assert.True(response.IsSuccess);
+        userStorageMockMock.Verify(x => x.SaveAsync(UserDataEnum.Token, token));
     }
 
     private HttpClient GetHttpClientForTesting(HttpStatusCode statusCode, HttpContent content)

@@ -23,6 +23,5 @@
     <None Remove="BoundedContexts\Credentials\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\BoundedContext\BoundedContext.csproj" />
   </ItemGroup>
 </Project>
