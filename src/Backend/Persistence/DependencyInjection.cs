@@ -21,7 +21,7 @@ namespace WeeControl.Backend.Persistence
 
         public static IServiceCollection AddPersistenceAsInMemory(this IServiceCollection services)
         {
-            //services.RemoveDbFromServices<CredentialsDbContext>();
+            services.RemoveDbFromServices<EssentialDbContext>();
             services.AddScoped<IEssentialDbContext>(p =>
                 new EssentialDbContext(GetInMemoryOptions<EssentialDbContext>(new Random().NextDouble().ToString())));
 

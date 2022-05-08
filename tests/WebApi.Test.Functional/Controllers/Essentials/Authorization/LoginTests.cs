@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Moq.Protected;
+using WeeControl.Backend.Domain.Databases.Databases.DatabaseObjects.EssentialsObjects;
+using WeeControl.Backend.Persistence.BoundedContext.Credentials;
 using WeeControl.Backend.WebApi.Test.Functional.TestHelpers;
 using WeeControl.Common.FunctionalService.BoundedContexts.Authorization;
 using WeeControl.Common.FunctionalService.BoundedContexts.Authorization.UiResponsObjects;
@@ -114,6 +116,22 @@ namespace WeeControl.Backend.WebApi.Test.Functional.Controllers.Essentials.Autho
             var client = factory.CreateClient();
             
             var token = await LoginAsync(client, "admin", "admin", nameof(WhenSendingValidRequest_HttpResponseIsSuccessCode2));
+            
+            Assert.NotEmpty(token);
+        }
+
+        [Fact]
+        public async void Bla()
+        {
+            var scope = factory.Server.Host.Services.CreateScope();
+            var db = scope.ServiceProvider.GetRequiredService<EssentialDbContext>();
+
+            await db.Users.AddAsync(new UserDbo() { Username = "bla", Password = "bla"});
+            await db.SaveChangesAsync();
+            
+            var client = factory.CreateClient();
+            
+            var token = await LoginAsync(client, "bla", "bla", nameof(WhenSendingValidRequest_HttpResponseIsSuccessCode2));
             
             Assert.NotEmpty(token);
         }
