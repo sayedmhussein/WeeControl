@@ -8,119 +8,93 @@ using Moq;
 using Moq.Protected;
 using WeeControl.Backend.WebApi.Test.Functional.TestHelpers;
 using WeeControl.Common.FunctionalService.BoundedContexts.Authorization;
+using WeeControl.Common.FunctionalService.BoundedContexts.Authorization.UiResponsObjects;
 using WeeControl.Common.FunctionalService.Enums;
 using WeeControl.Common.FunctionalService.Interfaces;
 using WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User;
 using Xunit;
+using Xunit.Sdk;
 
 namespace WeeControl.Backend.WebApi.Test.Functional.Controllers.Essentials.Authorization
 {
-    public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>, IDisposable, ITestsNotRequireAuthentication
+    public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         #region static
         public static async Task<string> LoginAsync(HttpClient client, string username, string password, string device)
         {
             var token = string.Empty;
 
-            
-            
-            var userDeviceMock = new Mock<IUserDevice>();
-            userDeviceMock.SetupAllProperties();
-            userDeviceMock.Setup(x => x.DeviceId).Returns(device);
-            
-            var userCommunicationMock = new Mock<IUserCommunication>();
-            userCommunicationMock.SetupAllProperties();
-            userCommunicationMock.Setup(x => x.ServerBaseAddress).Returns("http://localhost.com/");
-            userCommunicationMock.Setup(x => x.HttpClient)
-                .Returns(client);
-            
-            var userStorageMockMock = new Mock<IUserStorage>();
-            userStorageMockMock.SetupAllProperties();
-            userStorageMockMock.Setup(x => x.SaveAsync(UserDataEnum.Token, It.IsAny<string>()))
+            var userMock = ApplicationMocks.GetUserDeviceMock(device);
+            var commMock = ApplicationMocks.GetUserCommunicationMock(client);
+            var storageMock = ApplicationMocks.GetUserStorageMockMock();    
+            storageMock.Setup(x => x.SaveAsync(UserDataEnum.Token, It.IsAny<string>()))
                 .Callback((UserDataEnum en, string tkn) => token = tkn);
-        
+            
             var response = 
-                await new UserOperation(userDeviceMock.Object, userCommunicationMock.Object, userStorageMockMock.Object)
+                await new UserOperation(
+                        userMock.Object, 
+                        commMock.Object, 
+                        storageMock.Object)
                     .LoginAsync(new LoginDto(username, password));
             
-            Assert.True(response.IsSuccess);
-            userStorageMockMock.Verify(x => x.SaveAsync(UserDataEnum.Token, It.IsAny<string>()));
+            Assert.Equal(HttpStatusCode.OK, response.HttpStatusCode);
+            Assert.NotEmpty(token);
             
             return token;
+        }
+
+        private static Task<LoginResponse> LoginDebugAsync(HttpClient client, string username, string password, string device)
+        {
+            var userMock = ApplicationMocks.GetUserDeviceMock(device);
+            var commMock = ApplicationMocks.GetUserCommunicationMock(client);
+            var storageMock = ApplicationMocks.GetUserStorageMockMock();
+
+            var response = new UserOperation(
+                        userMock.Object, 
+                        commMock.Object, 
+                        storageMock.Object)
+                    .LoginAsync(new LoginDto(username, password));
+
+            return response;
         }
         #endregion
         
         private readonly CustomWebApplicationFactory<Startup> factory;
-        private Mock<IUserDevice> userDeviceMock;
-        private Mock<IUserCommunication> userCommunicationMockMock;
-        private Mock<IUserStorage> userStorageMockMock;
-        private LoginDto loginDto = new LoginDto("admin", "admin");
 
         public LoginTests(CustomWebApplicationFactory<Startup> factory)
         {
             this.factory = factory;
-            userDeviceMock = new Mock<IUserDevice>();
-            userDeviceMock.SetupAllProperties();
-            userDeviceMock.Setup(x => x.DeviceId).Returns(nameof(LoginTests));
-
-            userCommunicationMockMock = new Mock<IUserCommunication>();
-            userCommunicationMockMock.SetupAllProperties();
-            userCommunicationMockMock.Setup(x => x.ServerBaseAddress).Returns("http://localhost.com/");
-
-            userStorageMockMock = new Mock<IUserStorage>();
-            userStorageMockMock.SetupAllProperties();
         }
 
-        public void Dispose()
+        [Theory]
+        [InlineData("", "")]
+        [InlineData("", "password")]
+        [InlineData("username", "")]
+        public async void WhenSendingInvalidRequest_HttpResponseIsBadRequest(string username, string password)
         {
-            userDeviceMock = null;
-            userCommunicationMockMock = null;
-            userStorageMockMock = null;
+            var client = factory.CreateClient();
+            
+            var response = await LoginDebugAsync(client, username, password, nameof(WhenSendingInvalidRequest_HttpResponseIsBadRequest));
+            
+            Assert.Equal(HttpStatusCode.BadRequest, response.HttpStatusCode);
         }
-
+        
         [Fact]
-        public async void WhenSendingInvalidRequest_HttpResponseIsBadRequest()
+        public async void WhenUserNotExist_HttpResponseIsNotFound()
         {
-            // Mock<IUserDevice> deviceMock = new();
-            // deviceMock.SetupAllProperties();
-            // deviceMock.Setup(x => x.DeviceId).Returns(device);
-            //
-            // IUserOperation service = new UserOperation(factory.CreateClient(), deviceMock.Object);
-            // var response2 = await service.RequestNewToken(null);
-            //
-            // Assert.Equal(HttpStatusCode.BadRequest, response2.StatuesCode);
+            var client = factory.CreateClient();
+            
+            var response = await LoginDebugAsync(client, "unknown", "unknown", nameof(WhenSendingInvalidRequest_HttpResponseIsBadRequest));
+            
+            Assert.Equal(HttpStatusCode.NotFound, response.HttpStatusCode);
         }
 
         [Fact]
         public async void WhenSendingValidRequest_HttpResponseIsSuccessCode()
         {
-            var client = factory.CreateClient();
-            
-            var token = await LoginAsync(client, "admin", "admin", "device");
-            
-            Assert.NotEmpty(token);
-        }
-        
-        [Fact]
-        public async void WhenSendingValidRequest_HttpResponseIsSuccessCode2()
-        {
-            userCommunicationMockMock.Setup(x => x.HttpClient)
-                .Returns(factory.CreateClient());
-        
-            var response = 
-                await new UserOperation(userDeviceMock.Object, userCommunicationMockMock.Object, userStorageMockMock.Object)
-                    .LoginAsync(loginDto);
-            
-            Assert.True(response.IsSuccess);
-            userStorageMockMock.Verify(x => x.SaveAsync(UserDataEnum.Token, It.IsAny<string>()));
-        }
-        
-        [Fact]
-        public async void WhenSendingValidRequest_HttpResponseIsSuccessCode3()
-        {
-            var userMock = factory.GetUserDeviceMock(nameof(WhenSendingValidRequest_HttpResponseIsSuccessCode));
-            var commMock = factory.GetUserCommunicationMock(factory.CreateClient());
-            var storageMock = factory.GetUserStorageMockMock();            
+            var userMock = ApplicationMocks.GetUserDeviceMock(nameof(WhenSendingValidRequest_HttpResponseIsSuccessCode));
+            var commMock = ApplicationMocks.GetUserCommunicationMock(factory.CreateClient());
+            var storageMock = ApplicationMocks.GetUserStorageMockMock();            
             
             var response = 
                 await new UserOperation(
@@ -129,8 +103,19 @@ namespace WeeControl.Backend.WebApi.Test.Functional.Controllers.Essentials.Autho
                         storageMock.Object)
                     .LoginAsync(new LoginDto("admin", "admin"));
             
+            Assert.Equal(HttpStatusCode.OK, response.HttpStatusCode);
             Assert.True(response.IsSuccess);
             storageMock.Verify(x => x.SaveAsync(UserDataEnum.Token, It.IsAny<string>()));
+        }
+        
+        [Fact]
+        public async void WhenSendingValidRequest_HttpResponseIsSuccessCode2()
+        {
+            var client = factory.CreateClient();
+            
+            var token = await LoginAsync(client, "admin", "admin", nameof(WhenSendingValidRequest_HttpResponseIsSuccessCode2));
+            
+            Assert.NotEmpty(token);
         }
         
         private HttpClient GetHttpClientForTesting(HttpStatusCode statusCode, HttpContent content)

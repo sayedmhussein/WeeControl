@@ -67,11 +67,11 @@ namespace WeeControl.Common.FunctionalService.BoundedContexts.Authorization
                     var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<TokenDto>>();
                     var token = responseDto?.Payload?.Token;
                     await userStorage.SaveAsync(UserDataEnum.Token, token);
-                    return LoginResponse.Success();
+                    return LoginResponse.Accepted(response.StatusCode);
                 case HttpStatusCode.NotFound:
-                    return LoginResponse.Failed("Invalid username or password!");
+                    return LoginResponse.Rejected(response.StatusCode, "Invalid username or password!");
                 default:
-                    return LoginResponse.Failed("Unexpected error occured, error code: " + response.StatusCode);
+                    return LoginResponse.Rejected(response.StatusCode, "Unexpected error occured, error code: " + response.StatusCode);
             }
         }
 

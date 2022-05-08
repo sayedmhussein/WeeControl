@@ -1,3 +1,5 @@
+using System.Net;
+
 namespace WeeControl.Common.FunctionalService.BoundedContexts.Authorization.UiResponsObjects;
 
 public class LoginResponse
@@ -5,14 +7,16 @@ public class LoginResponse
     public bool IsSuccess { get; set; } = false;
 
     public string MessageToUser { get; set; } = string.Empty;
+
+    public HttpStatusCode HttpStatusCode { get; set; }
     
-    public static LoginResponse Success()
+    public static LoginResponse Accepted(HttpStatusCode code = HttpStatusCode.Accepted)
     {
-        return new LoginResponse() { IsSuccess = true};
+        return new LoginResponse() { IsSuccess = true, HttpStatusCode = code};
     }
 
-    public static LoginResponse Failed(string messageToUser)
+    public static LoginResponse Rejected(HttpStatusCode code, string messageToUser)
     {
-        return new LoginResponse() { MessageToUser = messageToUser};
+        return new LoginResponse() { MessageToUser = messageToUser, HttpStatusCode = code };
     }
 }
