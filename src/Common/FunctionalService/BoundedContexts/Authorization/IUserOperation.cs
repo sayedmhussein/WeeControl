@@ -1,4 +1,5 @@
-﻿using WeeControl.Common.FunctionalService.BoundedContexts.Authorization.UiResponsObjects;
+﻿using System.Threading.Tasks;
+using WeeControl.Common.FunctionalService.BoundedContexts.Authorization.UiResponsObjects;
 using WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User;
 
 namespace WeeControl.Common.FunctionalService.BoundedContexts.Authorization

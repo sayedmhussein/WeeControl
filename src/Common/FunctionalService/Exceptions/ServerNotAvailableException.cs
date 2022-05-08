@@ -1,3 +1,5 @@
+using System;
+
 namespace WeeControl.Common.FunctionalService.Exceptions;
 
 public class ServerNotAvailableException : Exception
