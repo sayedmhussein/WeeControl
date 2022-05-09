@@ -3,11 +3,13 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Moq.Protected;
 using WeeControl.Backend.Domain.Databases.Databases;
 using WeeControl.Backend.Domain.Databases.Databases.DatabaseObjects.EssentialsObjects;
+using WeeControl.Backend.Persistence;
 using WeeControl.Backend.Persistence.BoundedContext.Credentials;
 using WeeControl.Backend.WebApi.Test.Functional.TestHelpers;
 using WeeControl.Common.FunctionalService.BoundedContexts.Authorization;
@@ -124,13 +126,27 @@ namespace WeeControl.Backend.WebApi.Test.Functional.Controllers.Essentials.Autho
         [Fact]
         public async void Bla()
         {
-            using var a = factory.Services.GetRequiredService<IServiceScopeFactory>().CreateScope();
-            var db = a.ServiceProvider.GetRequiredService<IEssentialDbContext>();
+            var client = factory.WithWebHostBuilder(builder =>
+            {
+                builder.ConfigureServices(services =>
+                {
+                    services.AddPersistenceAsInMemory();
+                    var serviceProvider = services.BuildServiceProvider();
+                    using var scope = serviceProvider.CreateScope();
+                    var scopedServices = scope.ServiceProvider;
+                    
+                    using var a = scopedServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
+                    var db = a.ServiceProvider.GetRequiredService<IEssentialDbContext>();
+                    db.Users.Add(new UserDbo() { Username = "bla", Password = "bla"});
+                    db.SaveChanges();
+                });
+            }).CreateClient();
             
-            await db.Users.AddAsync(new UserDbo() { Username = "bla", Password = "bla"});
-            await db.SaveChangesAsync(default);
             
-            var client = factory.CreateClient();
+            
+            
+            
+            //var client = factory.CreateClient();
             
             var token = await LoginAsync(client, "bla", "bla", nameof(WhenSendingValidRequest_HttpResponseIsSuccessCode2));
             
