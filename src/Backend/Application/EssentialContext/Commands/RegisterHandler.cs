@@ -39,12 +39,7 @@ namespace WeeControl.Backend.Application.EssentialContext.Commands
                 throw new ConflictFailureException();
             }
 
-            var user = new UserDbo()
-            {
-                Email = cmd.Payload.Email,
-                Username = cmd.Payload.Username,
-                Password = cmd.Payload.Password
-            };
+            var user = UserDbo.Create(cmd.Payload.Email, cmd.Payload.Username, cmd.Payload.Password);
 
             await context.Users.AddAsync(user, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);

@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Net;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

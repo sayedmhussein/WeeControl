@@ -1,16 +1,13 @@
-﻿using System;
-using System.Net;
-using System.Net.Http;
+﻿using System.Net;
 using System.Net.Http.Json;
-using System.Threading.Tasks;
-using WeeControl.Common.FunctionalService.BoundedContexts.Authorization.UiResponsObjects;
 using WeeControl.Common.FunctionalService.Enums;
+using WeeControl.Common.FunctionalService.EssentialContext.Authorization.UiResponseObjects;
 using WeeControl.Common.FunctionalService.Interfaces;
 using WeeControl.Common.SharedKernel;
 using WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User;
 using WeeControl.Common.SharedKernel.RequestsResponses;
 
-namespace WeeControl.Common.FunctionalService.BoundedContexts.Authorization
+namespace WeeControl.Common.FunctionalService.EssentialContext.Authorization
 {
     public class UserOperation : IUserOperation
     {
@@ -100,10 +97,9 @@ namespace WeeControl.Common.FunctionalService.BoundedContexts.Authorization
             return;
         }
 
-        public Task LogoutAsync()
+        public Task<LogoutResponse> LogoutAsync()
         {
-            return Task.CompletedTask;
-            //throw new NotImplementedException();
+            return new Task<LogoutResponse>(() => new LogoutResponse());
         }
 
         public Task UpdateEmailAsync(UpdateEmailAsync loginDto)

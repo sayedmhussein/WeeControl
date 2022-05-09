@@ -1,24 +1,18 @@
-using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Moq.Protected;
 using WeeControl.Backend.Domain.Databases.Databases;
 using WeeControl.Backend.Domain.Databases.Databases.DatabaseObjects.EssentialsObjects;
 using WeeControl.Backend.Persistence;
-using WeeControl.Backend.Persistence.BoundedContext.Credentials;
-using WeeControl.Backend.WebApi.Test.Functional.TestHelpers;
-using WeeControl.Common.FunctionalService.BoundedContexts.Authorization;
-using WeeControl.Common.FunctionalService.BoundedContexts.Authorization.UiResponsObjects;
 using WeeControl.Common.FunctionalService.Enums;
-using WeeControl.Common.FunctionalService.Interfaces;
+using WeeControl.Common.FunctionalService.EssentialContext.Authorization;
+using WeeControl.Common.FunctionalService.EssentialContext.Authorization.UiResponseObjects;
 using WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User;
 using Xunit;
-using Xunit.Sdk;
 
 namespace WeeControl.Backend.WebApi.Test.Functional.Controllers.Essentials.Authorization
 {
@@ -126,27 +120,44 @@ namespace WeeControl.Backend.WebApi.Test.Functional.Controllers.Essentials.Autho
         [Fact]
         public async void Bla()
         {
-            var client = factory.WithWebHostBuilder(builder =>
-            {
-                builder.ConfigureServices(services =>
-                {
-                    services.AddPersistenceAsInMemory();
-                    var serviceProvider = services.BuildServiceProvider();
-                    using var scope = serviceProvider.CreateScope();
-                    var scopedServices = scope.ServiceProvider;
-                    
-                    using var a = scopedServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
-                    var db = a.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-                    db.Users.Add(new UserDbo() { Username = "bla", Password = "bla"});
-                    db.SaveChanges();
-                });
-            }).CreateClient();
+            // var client = factory.WithWebHostBuilder(builder =>
+            // {
+            //     builder.ConfigureServices(services =>
+            //     {
+            //         services.AddPersistenceAsInMemory();
+            //         var serviceProvider = services.BuildServiceProvider();
+            //         using var scope = serviceProvider.CreateScope();
+            //
+            //         using var a = scope.ServiceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope();
+            //         var db = a.ServiceProvider.GetRequiredService<IEssentialDbContext>();
+            //         db.Users.Add(UserDbo.Create("bla@bla.bla", "blabla", "blabla"));
+            //         db.SaveChanges();
+            //     });
+            // }).CreateClient();
+
+
+            // var client = factory.WithWebHostBuilder((IWebHostBuilder hostBuilder) =>
+            // {
+            //     hostBuilder.ConfigureTestServices(services =>
+            //     {
+            //         services.AddPersistenceAsInMemory();
+            //         
+            //         var serviceProvider = services.BuildServiceProvider();
+            //         using var scope = serviceProvider.CreateScope();
+            //         var scopedServices = scope.ServiceProvider;
+            //         
+            //         using var a = scopedServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
+            //         var db = a.ServiceProvider.GetRequiredService<IEssentialDbContext>();
+            //         db.Users.Add(new UserDbo() { Username = "bla", Password = "bla"});
+            //         db.SaveChanges();
+            //     });
+            // }).CreateClient();
             
-            
-            
-            
-            
-            //var client = factory.CreateClient();
+            var scope = factory.Services.GetService<IServiceScopeFactory>().CreateScope();
+            var db = scope.ServiceProvider.GetService<IEssentialDbContext>();
+            db.Users.Add(UserDbo.Create("bla@bla.bla", "blabla", "blabla"));
+            db.SaveChanges();
+            var client = factory.CreateClient();
             
             var token = await LoginAsync(client, "bla", "bla", nameof(WhenSendingValidRequest_HttpResponseIsSuccessCode2));
             

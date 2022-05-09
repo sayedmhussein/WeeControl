@@ -1,85 +1,72 @@
-//using System;
-//using System.Net;
-//using Microsoft.Extensions.DependencyInjection;
-//using Moq;
-//using WeeControl.Backend.Domain.BoundedContexts.HumanResources;
-//using WeeControl.Backend.Domain.BoundedContexts.HumanResources.EmployeeModule.Entities;
-//using WeeControl.Backend.WebApi.Test.Functional.TestHelpers;
-//using WeeControl.Common.SharedKernel.BoundedContexts.HumanResources.ClientSideServices;
-//using WeeControl.Common.SharedKernel.Interfaces;
-//using Xunit;
+using System;
+using System.Net;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.Extensions.DependencyInjection;
+using Moq;
+using WeeControl.Common.FunctionalService.EssentialContext.Authorization;
+using WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User;
+using Xunit;
 
-//namespace WeeControl.Backend.WebApi.Test.Functional.BoundedContexts.HumanResources.Authorization
-//{
-//    public class LogoutEmployee : IClassFixture<CustomWebApplicationFactory<Startup>>, IDisposable, ITestsRequireAuthentication
-//    {
-//        private static string RandomText => new Random().NextDouble().ToString();
-        
-//        private readonly CustomWebApplicationFactory<Startup> factory;
-//        private readonly IHumanResourcesDbContext dbContext;
-//        private readonly string device;
-//        private Mock<IClientDevice> clientDeviceMock;
-        
-//        public LogoutEmployee(CustomWebApplicationFactory<Startup> factory)
-//        {
-//            this.factory = factory;
-//            var scope = factory.Services.GetService<IServiceScopeFactory>().CreateScope();
-//            dbContext = scope.ServiceProvider.GetService<IHumanResourcesDbContext>();
+namespace WeeControl.Backend.WebApi.Test.Functional.Controllers.Essentials.Authorization
+{
+    public class LogoutEmployee : IClassFixture<CustomWebApplicationFactory<Startup>>
+    {
+        private readonly CustomWebApplicationFactory<Startup> factory;
+
+        public LogoutEmployee(CustomWebApplicationFactory<Startup> factory)
+        {
+            this.factory = factory;
+        }
+
+        [Fact]
+        public async void WhenSendingValidRequest_HttpResponseIsSuccessCode()
+        {
+            var userMock = ApplicationMocks.GetUserDeviceMock(nameof(WhenSendingValidRequest_HttpResponseIsSuccessCode));
+            var commMock = ApplicationMocks.GetUserCommunicationMock(factory.CreateClient());
+            var storageMock = ApplicationMocks.GetUserStorageMockMock();            
             
-//            device = nameof(LogoutEmployee);
+            var response = 
+                await new UserOperation(
+                        userMock.Object, 
+                        commMock.Object, 
+                        storageMock.Object)
+                    .LogoutAsync();
             
-//            clientDeviceMock = new Mock<IClientDevice>();
-//            clientDeviceMock.SetupAllProperties();
-//            clientDeviceMock.Setup(x => x.DeviceId).Returns(device);
-//        }
+            Assert.Equal(HttpStatusCode.OK, response.HttpStatusCode);
+        }
 
-//        public void Dispose()
-//        {
-//            clientDeviceMock = null;
-//        }
-
-//        [Fact]
-//        public async void WhenSendingValidRequest_HttpResponseIsSuccessCode()
-//        {
-//            var employee = Employee.Create(RandomText, RandomText, RandomText, RandomText, RandomText);
-//            await dbContext.Employees.AddAsync(employee);
-//            await dbContext.SaveChangesAsync(default);
+        [Fact]
+        public async void WhenUnAuthenticatedUser_HttpResponseIsUnauthorized()
+        {
+            var userMock = ApplicationMocks.GetUserDeviceMock(nameof(WhenSendingValidRequest_HttpResponseIsSuccessCode));
+            var commMock = ApplicationMocks.GetUserCommunicationMock(factory.CreateClient());
+            var storageMock = ApplicationMocks.GetUserStorageMockMock();            
             
-//            var token = await RefreshCurrentTokenTests.GetRefreshedTokenAsync(factory.CreateClient(), employee.Credentials.Username, employee.Credentials.Password, device);
-//            clientDeviceMock.Setup(x => x.GetTokenAsync()).ReturnsAsync(token);
-//            var service = new AuthenticationService(factory.CreateClient(), clientDeviceMock.Object);
-
-//            var response = await service.Logout();
+            var response = 
+                await new UserOperation(
+                        userMock.Object, 
+                        commMock.Object, 
+                        storageMock.Object)
+                    .LogoutAsync();
             
-//            Assert.Equal(HttpStatusCode.OK, response.StatuesCode);
-//        }
+            Assert.Equal(HttpStatusCode.OK, response.HttpStatusCode);
+        }
 
-//        [Fact]
-//        public async void WhenUnAuthenticatedUser_HttpResponseIsUnauthorized()
-//        {
-//            var service = new AuthenticationService(factory.CreateClient(), clientDeviceMock.Object);
-
-//            var response = await service.Logout();
+        [Fact]
+        public async void WhenAuthenticatedButNotAuthorized_HttpResponseIsForbidden()
+        {
+            var userMock = ApplicationMocks.GetUserDeviceMock(nameof(WhenSendingValidRequest_HttpResponseIsSuccessCode));
+            var commMock = ApplicationMocks.GetUserCommunicationMock(factory.CreateClient());
+            var storageMock = ApplicationMocks.GetUserStorageMockMock();            
             
-//            Assert.Equal(HttpStatusCode.Unauthorized, response.StatuesCode);
-//        }
-
-//        [Fact]
-//        public async void WhenAuthenticatedButNotAuthorized_HttpResponseIsForbidden()
-//        {
-//            var username = new Random().NextDouble().ToString();
-//            await dbContext.Employees.AddAsync(Employee.Create("Code", "FirstName", "LastName", username, "password"));
-//            await dbContext.SaveChangesAsync(default);
-
-//            var token = await RefreshCurrentTokenTests.GetRefreshedTokenAsync(factory.CreateClient(), username, "password", device);
-//            clientDeviceMock.Setup(x => x.GetTokenAsync()).ReturnsAsync(token);
-//            var service = new AuthenticationService(factory.CreateClient(), clientDeviceMock.Object);
-
-//            var response1 = await service.Logout();
-//            Assert.Equal(HttpStatusCode.OK, response1.StatuesCode);
+            var response = 
+                await new UserOperation(
+                        userMock.Object, 
+                        commMock.Object, 
+                        storageMock.Object)
+                    .LogoutAsync();
             
-//            var response2 = await service.Logout();
-//            Assert.Equal(HttpStatusCode.Forbidden, response2.StatuesCode);
-//        }
-//    }
-//}
+            Assert.Equal(HttpStatusCode.OK, response.HttpStatusCode);
+        }
+    }
+}

@@ -1,4 +1,3 @@
-using System;
 using System.Threading;
 using WeeControl.Backend.Application.CommonContext.Queries;
 using WeeControl.Backend.Application.Exceptions;

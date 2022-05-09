@@ -1,4 +1,3 @@
-using System;
 using System.Net;
 using WeeControl.Common.SharedKernel.Interfaces;
 

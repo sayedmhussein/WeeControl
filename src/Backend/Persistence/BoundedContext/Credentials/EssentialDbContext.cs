@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using WeeControl.Backend.Domain.Databases.Databases;
-using WeeControl.Backend.Domain.Databases.Databases.DatabaseObjects;
 using WeeControl.Backend.Domain.Databases.Databases.DatabaseObjects.EssentialsObjects;
 using WeeControl.Backend.Persistence.BoundedContext.Credentials.Configurations;
 using WeeControl.Common.UserSecurityLib.BoundedContexts.HumanResources;
@@ -31,7 +30,7 @@ namespace WeeControl.Backend.Persistence.BoundedContext.Credentials
                 Territories.Add(territory);
                 SaveChanges();
 
-                var user = new UserDbo() { Username = "admin", Password = "admin", TerritoryCode = territory.TerritoryCode };
+                var user = UserDbo.Create("admin@admin.com", "admin", "admin", territory.TerritoryCode);
                 Users.Add(user);
                 SaveChanges();
 

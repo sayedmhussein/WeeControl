@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using WeeControl.Common.FunctionalService.Enums;
 
 namespace WeeControl.Common.FunctionalService.Interfaces

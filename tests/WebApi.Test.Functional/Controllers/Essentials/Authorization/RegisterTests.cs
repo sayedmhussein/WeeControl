@@ -1,5 +1,4 @@
 ﻿using System;
-using WeeControl.Backend.WebApi.Test.Functional.TestHelpers;
 using Xunit;
 
 namespace WeeControl.Backend.WebApi.Test.Functional.Controllers.Essentials.Authorization
