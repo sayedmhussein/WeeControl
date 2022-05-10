@@ -14,7 +14,7 @@ using WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User;
 using WeeControl.Common.SharedKernel.RequestsResponses;
 using Xunit;
 
-namespace WeeControl.Backend.Application.Test.EssentialContext.Commands
+namespace WeeControl.test.Application.Test.EssentialContext.Commands
 {
     public class RegisterCommandTests : IDisposable
     {

@@ -1,7 +1,8 @@
 ﻿using System;
+using WeeControl.Backend.WebApi;
 using Xunit;
 
-namespace WeeControl.Backend.WebApi.Test.Functional.Controllers.Essentials.Authorization
+namespace WeeControl.test.WebApi.Test.Functional.Controllers.Essentials.Authorization
 {
     public class RegisterTests : IClassFixture<CustomWebApplicationFactory<Startup>>, IDisposable
     {

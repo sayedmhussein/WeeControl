@@ -5,7 +5,7 @@ using WeeControl.Backend.Domain.Interfaces;
 using WeeControl.Backend.Infrastructure;
 using Xunit;
 
-namespace WeeControl.Server.Infrastructure.Test;
+namespace WeeControl.test.Infrastructure.Test;
 
 public class DependencyInjectionTesters
 {

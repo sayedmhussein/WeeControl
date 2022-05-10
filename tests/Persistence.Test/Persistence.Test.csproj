@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
-    <RootNamespace>WeeControl.Server.Persistence.Test</RootNamespace>
+    <RootNamespace>WeeControl.test.Persistence.Test</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

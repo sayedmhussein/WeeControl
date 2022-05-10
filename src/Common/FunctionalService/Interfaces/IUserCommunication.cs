@@ -1,3 +1,5 @@
+using System.Net.Http;
+
 namespace WeeControl.Common.FunctionalService.Interfaces;
 
 public interface IUserCommunication

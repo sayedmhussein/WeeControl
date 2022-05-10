@@ -26,13 +26,8 @@
     <Folder Include="wwwroot\js" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\tests\ServiceLibrary.Test\ServiceLibrary.Test.csproj" />
     <ProjectReference Include="..\..\Common\FunctionalService\FunctionalService.csproj" />
     <ProjectReference Include="..\..\Common\UserSecurityLib\UserSecurityLib.csproj" />
-    <ProjectReference Include="..\..\Common\BoundedContext\BoundedContext.csproj">
-      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
-    </ProjectReference>
-    <ProjectReference Include="..\ServiceLibrary\ServiceLibrary.csproj" />
   </ItemGroup>
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Pages\Authentication\ForgotPassword.razor" />

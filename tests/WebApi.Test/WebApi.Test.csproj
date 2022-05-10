@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
-    <RootNamespace>WeeControl.Backend.WebApi.Test</RootNamespace>
+    <RootNamespace>WeeControl.test.WebApi.Test</RootNamespace>
     <Configurations>Release;Debug</Configurations>
   </PropertyGroup>
 

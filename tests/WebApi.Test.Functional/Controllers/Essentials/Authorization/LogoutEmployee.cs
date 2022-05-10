@@ -1,13 +1,9 @@
-using System;
 using System.Net;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.Extensions.DependencyInjection;
-using Moq;
+using WeeControl.Backend.WebApi;
 using WeeControl.Common.FunctionalService.EssentialContext.Authorization;
-using WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User;
 using Xunit;
 
-namespace WeeControl.Backend.WebApi.Test.Functional.Controllers.Essentials.Authorization
+namespace WeeControl.test.WebApi.Test.Functional.Controllers.Essentials.Authorization
 {
     public class LogoutEmployee : IClassFixture<CustomWebApplicationFactory<Startup>>
     {

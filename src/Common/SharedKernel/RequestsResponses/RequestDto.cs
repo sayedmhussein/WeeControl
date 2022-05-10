@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Net.Http;
+using System.Text;
 using Newtonsoft.Json;
 using WeeControl.Common.SharedKernel.Interfaces;
 

@@ -1,5 +1,8 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
+using System.Net.Http;
 using System.Net.Http.Json;
+using System.Threading.Tasks;
 using WeeControl.Common.FunctionalService.Enums;
 using WeeControl.Common.FunctionalService.EssentialContext.Authorization.UiResponseObjects;
 using WeeControl.Common.FunctionalService.Interfaces;

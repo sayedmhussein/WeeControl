@@ -1,15 +1,15 @@
 ﻿using System;
-using Xunit;
-using Moq;
-using Microsoft.AspNetCore.Http;
-using System.Security.Claims;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading;
-using WeeControl.Backend.WebApi.Services;
 using MediatR;
+using Microsoft.AspNetCore.Http;
+using Moq;
+using WeeControl.Backend.WebApi.Services;
 using WeeControl.Common.UserSecurityLib.BoundedContexts.HumanResources;
+using Xunit;
 
-namespace WeeControl.Backend.WebApi.Test.Services
+namespace WeeControl.test.WebApi.Test.Services
 {
     public class UserInfoServiceTests : IDisposable
     {

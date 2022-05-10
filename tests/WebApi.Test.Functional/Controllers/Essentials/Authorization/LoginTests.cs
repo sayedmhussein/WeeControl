@@ -7,14 +7,14 @@ using Moq;
 using Moq.Protected;
 using WeeControl.Backend.Domain.Databases.Databases;
 using WeeControl.Backend.Domain.Databases.Databases.DatabaseObjects.EssentialsObjects;
-using WeeControl.Backend.Persistence;
+using WeeControl.Backend.WebApi;
 using WeeControl.Common.FunctionalService.Enums;
 using WeeControl.Common.FunctionalService.EssentialContext.Authorization;
 using WeeControl.Common.FunctionalService.EssentialContext.Authorization.UiResponseObjects;
 using WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User;
 using Xunit;
 
-namespace WeeControl.Backend.WebApi.Test.Functional.Controllers.Essentials.Authorization
+namespace WeeControl.test.WebApi.Test.Functional.Controllers.Essentials.Authorization
 {
     public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
@@ -153,10 +153,11 @@ namespace WeeControl.Backend.WebApi.Test.Functional.Controllers.Essentials.Autho
             //     });
             // }).CreateClient();
             
-            var scope = factory.Services.GetService<IServiceScopeFactory>().CreateScope();
+            using var scope = factory.Services.GetService<IServiceScopeFactory>().CreateScope();
             var db = scope.ServiceProvider.GetService<IEssentialDbContext>();
             db.Users.Add(UserDbo.Create("bla@bla.bla", "blabla", "blabla"));
             db.SaveChanges();
+            
             var client = factory.CreateClient();
             
             var token = await LoginAsync(client, "bla", "bla", nameof(WhenSendingValidRequest_HttpResponseIsSuccessCode2));

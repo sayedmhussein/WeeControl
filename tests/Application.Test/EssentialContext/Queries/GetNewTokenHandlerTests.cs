@@ -16,7 +16,7 @@ using WeeControl.Common.UserSecurityLib.Interfaces;
 using WeeControl.Common.UserSecurityLib.Services;
 using Xunit;
 
-namespace WeeControl.Backend.Application.Test.EssentialContext.Queries
+namespace WeeControl.test.Application.Test.EssentialContext.Queries
 {
     public class GetNewTokenHandlerTests : IDisposable
     {
