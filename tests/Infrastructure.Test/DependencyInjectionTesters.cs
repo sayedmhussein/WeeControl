@@ -14,11 +14,12 @@ public class DependencyInjectionTesters
     {
         var configMock = new Mock<IConfiguration>();
         configMock.Setup(x => x.GetSection("ConnectionStrings")["EmailProvider"])
-            .Returns("MySystem.Api.UnitTest.Controllers.V1.CredentialsController");
+            .Returns("Connection String of Email Provider");
 
         var services = new ServiceCollection();
         services.AddInfrastructure(configMock.Object);
         var provider = services.BuildServiceProvider();
+        
         var service = provider.GetService<IEmailNotificationService>();
 
         Assert.NotNull(service);

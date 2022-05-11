@@ -5,7 +5,17 @@ namespace WeeControl.Common.FunctionalService.EssentialContext.Authorization.UiR
 
 public class LogoutResponse : IResponseToUi
 {
-    public bool IsSuccess { get; }
-    public string MessageToUser { get; }
-    public HttpStatusCode HttpStatusCode { get; }
+    public bool IsSuccess { get; private set; }
+    public string MessageToUser { get; private set;}
+    public HttpStatusCode HttpStatusCode { get; private set;}
+    
+    public static LogoutResponse Accepted(HttpStatusCode code = HttpStatusCode.Accepted)
+    {
+        return new LogoutResponse() { IsSuccess = true, HttpStatusCode = code};
+    }
+
+    public static LogoutResponse Rejected(HttpStatusCode code, string messageToUser)
+    {
+        return new LogoutResponse() { MessageToUser = messageToUser, HttpStatusCode = code };
+    }
 }

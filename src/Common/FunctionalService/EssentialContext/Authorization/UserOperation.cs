@@ -99,8 +99,29 @@ namespace WeeControl.Common.FunctionalService.EssentialContext.Authorization
 
         public async Task<LogoutResponse> LogoutAsync()
         {
-            await Task.Delay(10);
-            return new LogoutResponse();
+            var requestDto = new RequestDto(userDevice.DeviceId);
+
+            HttpRequestMessage message = new()
+            {
+                RequestUri = new Uri(AuthorizationLink.Logout.Absolute(userCommunication.ServerBaseAddress)),
+                Version = new Version(AuthorizationLink.Logout.Version),
+                Method = AuthorizationLink.Logout.Method,
+                Content = RequestDto.BuildHttpContentAsJson(requestDto)
+            };
+
+            var response = await userCommunication.HttpClient.SendAsync(message);
+
+            switch (response.StatusCode)
+            {
+                case HttpStatusCode.OK:
+                case HttpStatusCode.Accepted:
+                    var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<LogoutResponse>>();
+                    return LogoutResponse.Accepted(response.StatusCode);
+                case HttpStatusCode.Forbidden:
+                    return LogoutResponse.Rejected(response.StatusCode, "Illegal Request!");
+                default:
+                    return LogoutResponse.Rejected(response.StatusCode, "Unexpected error occured, error code: " + response.StatusCode);
+            }
         }
 
         public Task UpdateEmailAsync(UpdateEmailAsync loginDto)

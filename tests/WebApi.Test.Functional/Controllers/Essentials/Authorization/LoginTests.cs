@@ -91,20 +91,18 @@ namespace WeeControl.test.WebApi.Test.Functional.Controllers.Essentials.Authoriz
         [Fact]
         public async void WhenSendingValidRequest_HttpResponseIsSuccessCode()
         {
-            var userMock = ApplicationMocks.GetUserDeviceMock(nameof(WhenSendingValidRequest_HttpResponseIsSuccessCode));
-            var commMock = ApplicationMocks.GetUserCommunicationMock(factory.CreateClient());
-            var storageMock = ApplicationMocks.GetUserStorageMockMock();            
-            
+            var mocks = ApplicationMocks.GetMocks(factory.CreateClient(), typeof(LoginTests).Namespace);
+
             var response = 
                 await new UserOperation(
-                        userMock.Object, 
-                        commMock.Object, 
-                        storageMock.Object)
+                        mocks.userDevice.Object, 
+                        mocks.userCommunication.Object, 
+                        mocks.userStorage.Object)
                     .LoginAsync(new LoginDto("admin", "admin"));
             
             Assert.Equal(HttpStatusCode.OK, response.HttpStatusCode);
             Assert.True(response.IsSuccess);
-            storageMock.Verify(x => x.SaveAsync(UserDataEnum.Token, It.IsAny<string>()));
+            mocks.userStorage.Verify(x => x.SaveAsync(UserDataEnum.Token, It.IsAny<string>()));
         }
         
         // [Fact]

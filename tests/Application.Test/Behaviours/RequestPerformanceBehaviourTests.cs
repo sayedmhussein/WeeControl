@@ -1,23 +1,24 @@
-﻿// using Microsoft.Extensions.Logging;
-// using Moq;
-// using WeeControl.Backend.Application.Behaviours;
-// using WeeControl.Backend.Application.Interfaces;
-// using Xunit;
-//
-// namespace WeeControl.Backend.Application.Test.Common.Behaviours
-// {
-//     public class RequestPerformanceBehaviourTests
-//     {
-//         [Fact]
-//         public void HandleShouldReturnTimeBetweenRequestAndResponse()
-//         {
-//             var loggerMock = new Mock<ILogger<string>>();
-//             var userMock = new Mock<ICurrentUserInfo>();
-//
-//             var behaviour = new RequestPerformanceBehaviour<string, string>(loggerMock.Object, userMock.Object);
-//             //var requestHandler = new RequestHandlerDelegate()
-//
-//             //var response = await behaviour.Handle("request", default, "");
-//         }
-//     }
-// }
+﻿using MediatR;
+using Microsoft.Extensions.Logging;
+using Moq;
+using WeeControl.Backend.Application.Interfaces;
+using Xunit;
+
+namespace WeeControl.test.Application.Test.Behaviours
+{
+    public class RequestPerformanceBehaviourTests
+    {
+        [Fact(Skip = "Issue in this unit test!")]
+        public void HandleShouldReturnTimeBetweenRequestAndResponse()
+        {
+            var loggerMock = new Mock<IRequest<ILogger<string>>>();
+            var userMock = new Mock<ICurrentUserInfo>();
+
+            //var behaviour = new RequestPerformanceBehaviour<IRequest<ILogger<string>>, ICurrentUserInfo>(loggerMock.Object, userMock.Object);
+            //var behaviour = new RequestPerformanceBehaviour<string, string>(loggerMock.Object, userMock.Object);
+            //var requestHandler = new RequestHandlerDelegate()
+
+            //var response = await behaviour.Handle("request", default, "");
+        }
+    }
+}

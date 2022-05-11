@@ -9,6 +9,15 @@ namespace WeeControl.test.WebApi.Test.Functional;
 
 public static class ApplicationMocks
 {
+    public static (
+        Mock<IUserDevice>  userDevice,
+        Mock<IUserCommunication> userCommunication,
+        Mock<IUserStorage> userStorage
+        ) GetMocks(HttpClient httpClient, string device)
+    {
+        return (GetUserDeviceMock(device), GetUserCommunicationMock(httpClient), GetUserStorageMockMock());
+    }
+
     public static Mock<IUserDevice> GetUserDeviceMock(string device)
     {
         var mock = new Mock<IUserDevice>();

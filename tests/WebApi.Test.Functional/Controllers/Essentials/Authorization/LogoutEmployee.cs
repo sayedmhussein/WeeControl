@@ -1,4 +1,5 @@
 using System.Net;
+using System.Net.Http.Headers;
 using WeeControl.Backend.WebApi;
 using WeeControl.Common.FunctionalService.EssentialContext.Authorization;
 using Xunit;
@@ -17,15 +18,17 @@ namespace WeeControl.test.WebApi.Test.Functional.Controllers.Essentials.Authoriz
         [Fact]
         public async void WhenSendingValidRequest_HttpResponseIsSuccessCode()
         {
-            var userMock = ApplicationMocks.GetUserDeviceMock(nameof(WhenSendingValidRequest_HttpResponseIsSuccessCode));
-            var commMock = ApplicationMocks.GetUserCommunicationMock(factory.CreateClient());
-            var storageMock = ApplicationMocks.GetUserStorageMockMock();            
+            var client = factory.CreateClient();
+            var token = await LoginTests.LoginAsync(client, "admin", "admin", typeof(LogoutEmployee).Namespace);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             
+            var mocks = ApplicationMocks.GetMocks(client, typeof(LogoutEmployee).Namespace);
+
             var response = 
                 await new UserOperation(
-                        userMock.Object, 
-                        commMock.Object, 
-                        storageMock.Object)
+                        mocks.userDevice.Object, 
+                        mocks.userCommunication.Object, 
+                        mocks.userStorage.Object)
                     .LogoutAsync();
             
             Assert.Equal(HttpStatusCode.OK, response.HttpStatusCode);
@@ -51,18 +54,26 @@ namespace WeeControl.test.WebApi.Test.Functional.Controllers.Essentials.Authoriz
         [Fact]
         public async void WhenAuthenticatedButNotAuthorized_HttpResponseIsForbidden()
         {
-            var userMock = ApplicationMocks.GetUserDeviceMock(nameof(WhenSendingValidRequest_HttpResponseIsSuccessCode));
-            var commMock = ApplicationMocks.GetUserCommunicationMock(factory.CreateClient());
-            var storageMock = ApplicationMocks.GetUserStorageMockMock();            
+            var client = factory.CreateClient();
+            var token = await LoginTests.LoginAsync(client, "admin", "admin", typeof(LogoutEmployee).Namespace);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             
-            var response = 
+            var mocks = ApplicationMocks.GetMocks(client, typeof(LogoutEmployee).Namespace);
+
+            var response1 = 
                 await new UserOperation(
-                        userMock.Object, 
-                        commMock.Object, 
-                        storageMock.Object)
+                        mocks.userDevice.Object, 
+                        mocks.userCommunication.Object, 
+                        mocks.userStorage.Object)
                     .LogoutAsync();
             
-            Assert.Equal(HttpStatusCode.Forbidden, response.HttpStatusCode);
+            var response2 = 
+                await new UserOperation(
+                        mocks.userDevice.Object, 
+                        mocks.userCommunication.Object, 
+                        mocks.userStorage.Object)
+                    .LogoutAsync();
+            Assert.Equal(HttpStatusCode.Forbidden, response2.HttpStatusCode);
         }
     }
 }
