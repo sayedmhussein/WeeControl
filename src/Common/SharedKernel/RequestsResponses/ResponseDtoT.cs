@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using WeeControl.Common.SharedKernel.Interfaces;
 
 namespace WeeControl.Common.SharedKernel.RequestsResponses

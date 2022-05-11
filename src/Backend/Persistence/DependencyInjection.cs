@@ -19,11 +19,14 @@ namespace WeeControl.Backend.Persistence
             return services;
         }
 
-        public static IServiceCollection AddPersistenceAsInMemory(this IServiceCollection services)
+        public static IServiceCollection AddPersistenceAsInMemory(this IServiceCollection services, string dbName = null)
         {
             services.RemoveDbFromServices<EssentialDbContext>();
+
+            if (dbName is null)
+                dbName = new Random().NextDouble().ToString();
             services.AddScoped<IEssentialDbContext>(p =>
-                new EssentialDbContext(GetInMemoryOptions<EssentialDbContext>(new Random().NextDouble().ToString())));
+                new EssentialDbContext(GetInMemoryOptions<EssentialDbContext>(dbName)));
 
             return services;
         }

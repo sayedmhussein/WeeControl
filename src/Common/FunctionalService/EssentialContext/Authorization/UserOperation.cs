@@ -1,8 +1,5 @@
-﻿using System;
-using System.Net;
-using System.Net.Http;
+﻿using System.Net;
 using System.Net.Http.Json;
-using System.Threading.Tasks;
 using WeeControl.Common.FunctionalService.Enums;
 using WeeControl.Common.FunctionalService.EssentialContext.Authorization.UiResponseObjects;
 using WeeControl.Common.FunctionalService.Interfaces;
@@ -100,9 +97,10 @@ namespace WeeControl.Common.FunctionalService.EssentialContext.Authorization
             return;
         }
 
-        public Task<LogoutResponse> LogoutAsync()
+        public async Task<LogoutResponse> LogoutAsync()
         {
-            return new Task<LogoutResponse>(() => new LogoutResponse());
+            await Task.Delay(10);
+            return new LogoutResponse();
         }
 
         public Task UpdateEmailAsync(UpdateEmailAsync loginDto)

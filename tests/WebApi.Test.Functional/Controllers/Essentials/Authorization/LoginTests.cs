@@ -107,60 +107,33 @@ namespace WeeControl.test.WebApi.Test.Functional.Controllers.Essentials.Authoriz
             storageMock.Verify(x => x.SaveAsync(UserDataEnum.Token, It.IsAny<string>()));
         }
         
+        // [Fact]
+        // public async void WhenSendingValidRequest_HttpResponseIsSuccessCode2()
+        // {
+        //     var client = factory.CreateClient();
+        //     await Task.Delay(2000);
+        //     var token = await LoginAsync(client, "admin", "admin", nameof(WhenSendingValidRequest_HttpResponseIsSuccessCode2));
+        //     
+        //     Assert.NotEmpty(token);
+        // }
+
         [Fact]
         public async void WhenSendingValidRequest_HttpResponseIsSuccessCode2()
         {
-            var client = factory.CreateClient();
+            var user = (Email: "test@test.test", Username: "test", Password: "test", Device: typeof(LoginTests).Namespace);
+            var client = factory.WithWebHostBuilder(builder =>
+                {
+                    builder.ConfigureServices(services =>
+                    {
+                        using var scope = services.BuildServiceProvider().CreateScope();
+                        var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
+                        db.Users.Add(UserDbo.Create(user.Email, user.Username, user.Password));
+                        db.SaveChanges();
+                    });
+                })
+                .CreateClient();
             
-            var token = await LoginAsync(client, "admin", "admin", nameof(WhenSendingValidRequest_HttpResponseIsSuccessCode2));
-            
-            Assert.NotEmpty(token);
-        }
-
-        [Fact]
-        public async void Bla()
-        {
-            // var client = factory.WithWebHostBuilder(builder =>
-            // {
-            //     builder.ConfigureServices(services =>
-            //     {
-            //         services.AddPersistenceAsInMemory();
-            //         var serviceProvider = services.BuildServiceProvider();
-            //         using var scope = serviceProvider.CreateScope();
-            //
-            //         using var a = scope.ServiceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope();
-            //         var db = a.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-            //         db.Users.Add(UserDbo.Create("bla@bla.bla", "blabla", "blabla"));
-            //         db.SaveChanges();
-            //     });
-            // }).CreateClient();
-
-
-            // var client = factory.WithWebHostBuilder((IWebHostBuilder hostBuilder) =>
-            // {
-            //     hostBuilder.ConfigureTestServices(services =>
-            //     {
-            //         services.AddPersistenceAsInMemory();
-            //         
-            //         var serviceProvider = services.BuildServiceProvider();
-            //         using var scope = serviceProvider.CreateScope();
-            //         var scopedServices = scope.ServiceProvider;
-            //         
-            //         using var a = scopedServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
-            //         var db = a.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-            //         db.Users.Add(new UserDbo() { Username = "bla", Password = "bla"});
-            //         db.SaveChanges();
-            //     });
-            // }).CreateClient();
-            
-            using var scope = factory.Services.GetService<IServiceScopeFactory>().CreateScope();
-            var db = scope.ServiceProvider.GetService<IEssentialDbContext>();
-            db.Users.Add(UserDbo.Create("bla@bla.bla", "blabla", "blabla"));
-            db.SaveChanges();
-            
-            var client = factory.CreateClient();
-            
-            var token = await LoginAsync(client, "bla", "bla", nameof(WhenSendingValidRequest_HttpResponseIsSuccessCode2));
+            var token = await LoginAsync(client, user.Username, user.Password, user.Device);
             
             Assert.NotEmpty(token);
         }

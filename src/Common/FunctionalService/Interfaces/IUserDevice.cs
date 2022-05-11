@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace WeeControl.Common.FunctionalService.Interfaces
+﻿namespace WeeControl.Common.FunctionalService.Interfaces
 {
     public interface IUserDevice
     {

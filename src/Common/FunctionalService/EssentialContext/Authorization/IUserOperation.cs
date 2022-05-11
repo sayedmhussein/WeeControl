@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using WeeControl.Common.FunctionalService.EssentialContext.Authorization.UiResponseObjects;
+﻿using WeeControl.Common.FunctionalService.EssentialContext.Authorization.UiResponseObjects;
 using WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User;
 
 namespace WeeControl.Common.FunctionalService.EssentialContext.Authorization

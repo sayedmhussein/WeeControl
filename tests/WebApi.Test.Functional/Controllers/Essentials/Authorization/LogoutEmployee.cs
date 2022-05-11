@@ -45,7 +45,7 @@ namespace WeeControl.test.WebApi.Test.Functional.Controllers.Essentials.Authoriz
                         storageMock.Object)
                     .LogoutAsync();
             
-            Assert.Equal(HttpStatusCode.OK, response.HttpStatusCode);
+            Assert.Equal(HttpStatusCode.Unauthorized, response.HttpStatusCode);
         }
 
         [Fact]
@@ -62,7 +62,7 @@ namespace WeeControl.test.WebApi.Test.Functional.Controllers.Essentials.Authoriz
                         storageMock.Object)
                     .LogoutAsync();
             
-            Assert.Equal(HttpStatusCode.OK, response.HttpStatusCode);
+            Assert.Equal(HttpStatusCode.Forbidden, response.HttpStatusCode);
         }
     }
 }
