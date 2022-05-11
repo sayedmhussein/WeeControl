@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using WeeControl.Backend.Domain.Databases.Databases;
+using WeeControl.Backend.Domain.Databases.Essential;
 using WeeControl.Backend.Persistence;
 using Xunit;
 

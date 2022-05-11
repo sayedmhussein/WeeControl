@@ -10,6 +10,7 @@ namespace WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User
         [DisplayName("Username")]
         public string Username { get; set; }
 
+        [Required]
         [MaxLength(45)]
         [EmailAddress]
         [DisplayName("Email")]

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace WeeControl.Backend.Domain.Databases.Databases.DatabaseObjects.EssentialsObjects
+namespace WeeControl.Backend.Domain.Databases.Essential.DatabaseObjects.EssentialsObjects
 {
     public class SessionDbo
     {
@@ -11,6 +11,7 @@ namespace WeeControl.Backend.Domain.Databases.Databases.DatabaseObjects.Essentia
         public Guid UserId { get; set; }
         public UserDbo User { get; set; }
 
+        [Required]
         public string DeviceId { get; set; }
 
         public DateTime CreatedTs { get; set; }

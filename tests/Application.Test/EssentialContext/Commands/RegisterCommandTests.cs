@@ -8,7 +8,7 @@ using WeeControl.Backend.Application.CommonContext.Queries;
 using WeeControl.Backend.Application.EssentialContext.Commands;
 using WeeControl.Backend.Application.EssentialContext.Queries;
 using WeeControl.Backend.Application.Exceptions;
-using WeeControl.Backend.Domain.Databases.Databases;
+using WeeControl.Backend.Domain.Databases.Essential;
 using WeeControl.Backend.Persistence;
 using WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User;
 using WeeControl.Common.SharedKernel.RequestsResponses;
@@ -36,7 +36,7 @@ namespace WeeControl.test.Application.Test.EssentialContext.Commands
         public async void WhenRegisterNewUser_ReturnSuccessAndToken()
         {
             mediatorMock.Setup(x => x.Send(It.IsAny<GetNewTokenQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ResponseDto<TokenDto>() { Payload = new TokenDto() { Token = "Token"}});
-            var command = new RegisterCommand(new RequestDto() { DeviceId = "device" }, new RegisterDto() { Username = "username",Password = "password" });
+            var command = new RegisterCommand(new RequestDto() { DeviceId = "device" }, new RegisterDto() { Email = "email@emial.com", Username = "username",Password = "password" });
             
             var tokenDto = await new RegisterHandler(context, mediatorMock.Object).Handle(command, default);
 

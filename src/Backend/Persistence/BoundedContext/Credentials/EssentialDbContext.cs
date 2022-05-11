@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using WeeControl.Backend.Domain.Databases.Databases;
-using WeeControl.Backend.Domain.Databases.Databases.DatabaseObjects.EssentialsObjects;
+using WeeControl.Backend.Domain.Databases.Essential;
+using WeeControl.Backend.Domain.Databases.Essential.DatabaseObjects.EssentialsObjects;
 using WeeControl.Backend.Persistence.BoundedContext.Credentials.Configurations;
 using WeeControl.Common.UserSecurityLib.BoundedContexts.HumanResources;
 

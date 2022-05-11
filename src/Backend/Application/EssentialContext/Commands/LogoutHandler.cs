@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using WeeControl.Backend.Application.Exceptions;
-using WeeControl.Backend.Domain.Databases.Databases;
+using WeeControl.Backend.Domain.Databases.Essential;
 
 namespace WeeControl.Backend.Application.EssentialContext.Commands
 {

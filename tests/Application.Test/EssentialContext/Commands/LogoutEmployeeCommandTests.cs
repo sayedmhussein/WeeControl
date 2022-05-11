@@ -1,16 +1,15 @@
 using System;
 using System.Linq;
-using System.Net;
 using Microsoft.Extensions.DependencyInjection;
 using WeeControl.Backend.Application.EssentialContext.Commands;
 using WeeControl.Backend.Application.Exceptions;
-using WeeControl.Backend.Domain.Databases.Databases;
-using WeeControl.Backend.Domain.Databases.Databases.DatabaseObjects.EssentialsObjects;
+using WeeControl.Backend.Domain.Databases.Essential;
+using WeeControl.Backend.Domain.Databases.Essential.DatabaseObjects.EssentialsObjects;
 using WeeControl.Backend.Persistence;
 using WeeControl.Common.SharedKernel.RequestsResponses;
 using Xunit;
 
-namespace WeeControl.Test.Application.Test.EssentialContext.Commands
+namespace WeeControl.test.Application.Test.EssentialContext.Commands
 {
     public class LogoutEmployeeCommandTests : IDisposable
     {
