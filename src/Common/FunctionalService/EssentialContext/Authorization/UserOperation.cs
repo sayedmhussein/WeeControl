@@ -73,6 +73,8 @@ namespace WeeControl.Common.FunctionalService.EssentialContext.Authorization
                     var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<TokenDto>>();
                     var token = responseDto?.Payload?.Token;
                     await userStorage.SaveAsync(UserDataEnum.Token, token);
+                    await userStorage.SaveAsync(UserDataEnum.FullName, responseDto?.Payload?.FullName);
+                    await userStorage.SaveAsync(UserDataEnum.PhotoUrl, responseDto?.Payload?.PhotoUrl);
                     return LoginResponse.Accepted(response.StatusCode);
                 case HttpStatusCode.NotFound:
                     return LoginResponse.Rejected(response.StatusCode, "Invalid username or password!");
@@ -106,6 +108,8 @@ namespace WeeControl.Common.FunctionalService.EssentialContext.Authorization
                     var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<TokenDto>>();
                     var token = responseDto?.Payload?.Token;
                     await userStorage.SaveAsync(UserDataEnum.Token, token);
+                    await userStorage.SaveAsync(UserDataEnum.FullName, responseDto?.Payload?.FullName);
+                    await userStorage.SaveAsync(UserDataEnum.PhotoUrl, responseDto?.Payload?.PhotoUrl);
                     return LoginResponse.Accepted(response.StatusCode);
                 case HttpStatusCode.Forbidden:
                     return LoginResponse.Rejected(response.StatusCode, "Please login again.");
@@ -116,6 +120,8 @@ namespace WeeControl.Common.FunctionalService.EssentialContext.Authorization
 
         public async Task<LogoutResponse> LogoutAsync()
         {
+            await userStorage.ClearAsync();
+            
             var requestDto = new RequestDto(userDevice.DeviceId);
 
             HttpRequestMessage message = new()

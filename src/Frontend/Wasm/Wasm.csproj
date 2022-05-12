@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>WeeControl.Frontend.Wasm</RootNamespace>
+    <Company>sayed.hussein@gmx.com</Company>
+    <Product>WeeControl App</Product>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'Wasm' ">

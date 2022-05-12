@@ -1,3 +1,4 @@
+using System;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.JSInterop;
@@ -17,12 +18,12 @@ public class UserStorageService : IUserStorage
     
     public Task SaveAsync(UserDataEnum name, string value)
     {
-        return SetItem(nameof(name), value);
+        return SetItem(Enum.GetName(typeof(UserDataEnum), name), value);
     }
 
     public Task<string> GetAsync(UserDataEnum name)
     {
-        return GetItem<string>(nameof(name));
+        return GetItem<string>(Enum.GetName(typeof(UserDataEnum), name));
     }
     
     public Task ClearAsync()

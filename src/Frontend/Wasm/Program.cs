@@ -43,8 +43,7 @@ namespace WeeControl.Frontend.Wasm
             builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
             builder.Services.AddScoped<ISecurityService, AuthStateProvider>(); ///////////////////////////////////////////
             builder.Services.AddOptions();
-            //builder.Services.AddAuthorizationCore();
-            
+
             builder.Services.AddAuthorizationCore();
 
             builder.Services.AddHttpClient("UnSecured", 

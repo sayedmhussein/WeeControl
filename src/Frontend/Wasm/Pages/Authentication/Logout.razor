@@ -20,10 +20,8 @@
     private async Task LogoutUser()
     {
         loading = true;
-        await userStorage.ClearAsync();
         await authentication.LogoutAsync();
         StateHasChanged();
-        //bla.Update(null);
         navManager.NavigateTo("/login", true);
     }
 }
