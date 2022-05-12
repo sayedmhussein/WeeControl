@@ -11,15 +11,17 @@ namespace WeeControl.Backend.Persistence
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddPersistenceAsPostgreSql(this IServiceCollection services, IConfiguration configuration, string migrationAssemblyName)
+        public static IServiceCollection AddPersistenceAsPostgres(this IServiceCollection services, IConfiguration configuration, string migrationAssemblyName)
         {
             services.AddScoped<IEssentialDbContext>(p =>
-                new EssentialDbContext(GetPostgresOptions<EssentialDbContext>(configuration.GetConnectionString("HumanResourcesDbProvider"), migrationAssemblyName)));
+                new EssentialDbContext(GetPostgresOptions<EssentialDbContext>(configuration.GetConnectionString("EssentialDbProvider"),
+                    migrationAssemblyName)));
 
             return services;
         }
 
-        public static IServiceCollection AddPersistenceAsInMemory(this IServiceCollection services, string dbName = null)
+        public static IServiceCollection AddPersistenceAsInMemory(this IServiceCollection services,
+            string dbName = null)
         {
             services.RemoveDbFromServices<EssentialDbContext>();
 
@@ -31,21 +33,19 @@ namespace WeeControl.Backend.Persistence
             return services;
         }
 
-        static private DbContextOptions<T> GetPostgresOptions<T>(string dbName, string migrationAssemblyName) where T :DbContext
+        private static DbContextOptions<T> GetPostgresOptions<T>(string dbName, string migrationAssemblyName)
+            where T : DbContext
         {
             var options = new DbContextOptionsBuilder<T>();
 #if DEBUG
             options.EnableSensitiveDataLogging();
 #endif
-            options.UseNpgsql(dbName, o =>
-            {
-                o.MigrationsAssembly(migrationAssemblyName);
-            });
+            options.UseNpgsql(dbName, o => { o.MigrationsAssembly(migrationAssemblyName); });
 
             return options.Options;
         }
 
-        static private IServiceCollection RemoveDbFromServices<T>(this IServiceCollection services) where T: DbContext
+        private static IServiceCollection RemoveDbFromServices<T>(this IServiceCollection services) where T: DbContext
         {
             var descriptor = services.SingleOrDefault(
                     d => d.ServiceType ==
@@ -55,7 +55,7 @@ namespace WeeControl.Backend.Persistence
             return services;
         }
 
-        static private DbContextOptions<T> GetInMemoryOptions<T>(string dbName) where T: DbContext
+        private static DbContextOptions<T> GetInMemoryOptions<T>(string dbName) where T: DbContext
         {
             var options = new DbContextOptionsBuilder<T>();
             options.EnableDetailedErrors();

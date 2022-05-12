@@ -40,7 +40,7 @@ namespace WeeControl.Backend.WebApi
             services.AddUserSecurityService();
             services.AddApplication();
             services.AddInfrastructure(Configuration);
-            services.AddPersistenceAsPostgreSql(Configuration, Assembly.GetExecutingAssembly().GetName().Name);
+            services.AddPersistenceAsPostgres(Configuration, Assembly.GetExecutingAssembly().GetName().Name);
 
             services.AddApiVersioning(ApiVersionOptions.ConfigureApiVersioning);
             
