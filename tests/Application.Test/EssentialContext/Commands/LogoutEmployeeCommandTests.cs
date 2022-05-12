@@ -1,8 +1,10 @@
 using System;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
+using Moq;
 using WeeControl.Backend.Application.EssentialContext.Commands;
 using WeeControl.Backend.Application.Exceptions;
+using WeeControl.Backend.Application.Interfaces;
 using WeeControl.Backend.Domain.Databases.Essential;
 using WeeControl.Backend.Domain.Databases.Essential.DatabaseObjects.EssentialsObjects;
 using WeeControl.Backend.Persistence;
@@ -15,11 +17,13 @@ namespace WeeControl.test.Application.Test.EssentialContext.Commands
     {
         private IEssentialDbContext context;
         private RequestDto requestDto;
+        private Mock<ICurrentUserInfo> currentUserInfoMock;
 
         public LogoutEmployeeCommandTests()
         {
             context = new ServiceCollection().AddPersistenceAsInMemory(nameof(LogoutEmployeeCommandTests)).BuildServiceProvider().GetService<IEssentialDbContext>();
             requestDto = new RequestDto("device");
+            currentUserInfoMock = new Mock<ICurrentUserInfo>();
         }
 
         public void Dispose()
@@ -35,8 +39,10 @@ namespace WeeControl.test.Application.Test.EssentialContext.Commands
             await context.Sessions.AddAsync(session);
             await context.SaveChangesAsync(default);
 
-            var handler = new LogoutHandler(context);
-            var response = await handler.Handle(new LogoutCommand(requestDto, session.SessionId), default);
+            currentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
+
+            var handler = new LogoutHandler(context, currentUserInfoMock.Object);
+            var response = await handler.Handle(new LogoutCommand(requestDto), default);
             ;
             Assert.NotNull(context.Sessions.First(x => x.SessionId == session.SessionId).TerminationTs);
         }
@@ -47,11 +53,12 @@ namespace WeeControl.test.Application.Test.EssentialContext.Commands
             var session = SessionDbo.Create(Guid.NewGuid(), "device");
             await context.Sessions.AddAsync(session);
             await context.SaveChangesAsync(default);
+            currentUserInfoMock.Setup(x => x.GetSessionId()).Returns(Guid.NewGuid());
 
-            var handler = new LogoutHandler(context);
+            var handler = new LogoutHandler(context, currentUserInfoMock.Object);
 
             await Assert.ThrowsAsync<NotAllowedException>(() =>
-                handler.Handle(new LogoutCommand(requestDto, Guid.NewGuid()), default));
+                handler.Handle(new LogoutCommand(requestDto), default));
         }
         
         [Fact]
@@ -61,11 +68,12 @@ namespace WeeControl.test.Application.Test.EssentialContext.Commands
             await context.Sessions.AddAsync(session);
             await context.SaveChangesAsync(default);
             requestDto.DeviceId = "Another Device ID";
+            currentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
 
-            var handler = new LogoutHandler(context);
+            var handler = new LogoutHandler(context, currentUserInfoMock.Object);
 
             await Assert.ThrowsAsync<NotAllowedException>(() =>
-                handler.Handle(new LogoutCommand(requestDto, session.SessionId), default));
+                handler.Handle(new LogoutCommand(requestDto), default));
         }
         
         [Fact]
@@ -75,11 +83,12 @@ namespace WeeControl.test.Application.Test.EssentialContext.Commands
             session.TerminationTs = DateTime.UtcNow;
             await context.Sessions.AddAsync(session);
             await context.SaveChangesAsync(default);
+            currentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
 
-            var handler = new LogoutHandler(context);
+            var handler = new LogoutHandler(context, currentUserInfoMock.Object);
 
             await Assert.ThrowsAsync<NotAllowedException>(() =>
-                handler.Handle(new LogoutCommand(requestDto, session.SessionId), default));
+                handler.Handle(new LogoutCommand(requestDto), default));
         }
     }
 }

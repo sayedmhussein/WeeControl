@@ -26,15 +26,7 @@ namespace WeeControl.Backend.Application.EssentialContext.Queries
             Payload = payload;
         }
 
-        [Obsolete("Better pass request only then inject CurrentUserInfo in handler.")]
-        public GetNewTokenQuery(RequestDto request, Guid? sessionId)
-        {
-            Request = request;
-            SessionId = sessionId;
-        }
-
         public IRequestDto Request { get; }
         public LoginDto Payload { get; }
-        public Guid? SessionId { get; set; }
     }
 }

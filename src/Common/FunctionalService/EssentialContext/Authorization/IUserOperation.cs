@@ -5,7 +5,7 @@ namespace WeeControl.Common.FunctionalService.EssentialContext.Authorization
 {
     public interface IUserOperation
     {
-        Task RegisterAsync(RegisterDto loginDto);
+        Task<LoginResponse> RegisterAsync(RegisterDto loginDto);
         Task<LoginResponse> LoginAsync(LoginDto loginDto);
         Task<LoginResponse> GetTokenAsync();
         Task<LogoutResponse> LogoutAsync();

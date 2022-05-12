@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using WeeControl.Backend.Application.Exceptions;
+using WeeControl.Backend.Application.Interfaces;
 using WeeControl.Backend.Domain.Databases.Essential;
 using WeeControl.Backend.Domain.Databases.Essential.DatabaseObjects.EssentialsObjects;
 using WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User;
@@ -25,17 +26,20 @@ namespace WeeControl.Backend.Application.EssentialContext.Queries
         private readonly IJwtService jwtService;
         private readonly IMediator mediator;
         private readonly IConfiguration configuration;
+        private readonly ICurrentUserInfo currentUserInfo;
 
         public GetNewTokenHandler(
             IEssentialDbContext context, 
             IJwtService jwtService, 
             IMediator mediator, 
-            IConfiguration configuration)
+            IConfiguration configuration,
+            ICurrentUserInfo currentUserInfo)
         {
             this.context = context;
             this.jwtService = jwtService;
             this.mediator = mediator;
             this.configuration = configuration;
+            this.currentUserInfo = currentUserInfo;
         }
 
         public async Task<ResponseDto<TokenDto>> Handle(GetNewTokenQuery request, CancellationToken cancellationToken)
@@ -82,9 +86,9 @@ namespace WeeControl.Backend.Application.EssentialContext.Queries
 
                 return new ResponseDto<TokenDto>(new TokenDto(token, employee.Username, "url"));
             }
-            else if (request.SessionId is not null)
+            else if (currentUserInfo.GetSessionId() is not null)
             {
-                var session = await context.Sessions.FirstOrDefaultAsync(x => x.SessionId == request.SessionId && x.TerminationTs == null && x.DeviceId == request.Request.DeviceId, cancellationToken);
+                var session = await context.Sessions.FirstOrDefaultAsync(x => x.SessionId == currentUserInfo.GetSessionId() && x.TerminationTs == null && x.DeviceId == request.Request.DeviceId, cancellationToken);
                 if (session is null) throw new NotAllowedException("Please login again.");
 
                 //session.Logs.Add(new SessionLog("Verified."));

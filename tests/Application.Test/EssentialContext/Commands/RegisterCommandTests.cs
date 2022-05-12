@@ -36,7 +36,7 @@ namespace WeeControl.test.Application.Test.EssentialContext.Commands
         public async void WhenRegisterNewUser_ReturnSuccessAndToken()
         {
             mediatorMock.Setup(x => x.Send(It.IsAny<GetNewTokenQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ResponseDto<TokenDto>() { Payload = new TokenDto() { Token = "Token"}});
-            var command = new RegisterCommand(new RequestDto() { DeviceId = "device" }, new RegisterDto() { Email = "email@emial.com", Username = "username",Password = "password" });
+            var command = new RegisterCommand(new RequestDto() { DeviceId = "device" }, RegisterDto.Create("email@emial.com", "username", "password"));
             
             var tokenDto = await new RegisterHandler(context, mediatorMock.Object).Handle(command, default);
 
@@ -48,7 +48,7 @@ namespace WeeControl.test.Application.Test.EssentialContext.Commands
         public async void WhenRegisterExistingUser_ThrowException()
         {
             var user = await context.Users.FirstOrDefaultAsync();
-            var command = new RegisterCommand(new RequestDto() { DeviceId = "device" }, new RegisterDto() { Username = user.Username, Password = user.Password });
+            var command = new RegisterCommand(new RequestDto() { DeviceId = "device" }, RegisterDto.Create(user.Email, user.Username, user.Password));
 
             await Assert.ThrowsAsync<ConflictFailureException>(() => new RegisterHandler(context, mediatorMock.Object).Handle(command, default));
         }
@@ -59,7 +59,7 @@ namespace WeeControl.test.Application.Test.EssentialContext.Commands
         [InlineData("username", "email", "")]
         public async void WhenInvalidInputs_ThrowException(string username, string email, string password)
         {
-            var command = new RegisterCommand(new RequestDto() { DeviceId = "device" }, new RegisterDto() { Username = username, Email = email, Password = password });
+            var command = new RegisterCommand(new RequestDto() { DeviceId = "device" }, RegisterDto.Create(email, username, password));
 
             await Assert.ThrowsAnyAsync<ValidationException>(() => new RegisterHandler(context, mediatorMock.Object).Handle(command, default));
         }

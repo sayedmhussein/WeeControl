@@ -1,7 +1,9 @@
 ﻿@using WeeControl.Frontend.Wasm.Pages.Authentication
+@using WeeControl.Common.FunctionalService.Interfaces
+@using WeeControl.Common.FunctionalService.Enums
 @inherits LayoutComponentBase
 
-@* @inject ILocalStorage localStorage *@
+@inject IUserStorage localStorage
 
 
 <div class="page">
@@ -30,6 +32,6 @@
     {
         await base.OnInitializedAsync();
 
-        //greetingMessage = "Hello " + await localStorage.GetItem<string>("username");
+        greetingMessage = "Hello " + await localStorage.GetAsync(UserDataEnum.Token);
     }
 }

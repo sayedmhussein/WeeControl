@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.Backend.Application.EssentialContext.Queries;
 using WeeControl.Backend.Application.Exceptions;
+using WeeControl.Backend.Application.Interfaces;
 using WeeControl.Backend.Domain.Databases.Essential;
 using WeeControl.Backend.Domain.Databases.Essential.DatabaseObjects.EssentialsObjects;
 using WeeControl.Backend.Persistence;
@@ -29,6 +30,7 @@ namespace WeeControl.test.Application.Test.EssentialContext.Queries
         private IEssentialDbContext context;
         private Mock<IMediator> mediatRMock;
         private Mock<IConfiguration> configurationMock;
+        private Mock<ICurrentUserInfo> currentUserInfoMock;
         
         public GetNewTokenHandlerTests()
         {
@@ -42,6 +44,8 @@ namespace WeeControl.test.Application.Test.EssentialContext.Queries
             
             configurationMock = new Mock<IConfiguration>();
             configurationMock.Setup(x => x["Jwt:Key"]).Returns(new string('a', 30));
+
+            currentUserInfoMock = new Mock<ICurrentUserInfo>();
         }
 
         public void Dispose()
@@ -58,7 +62,7 @@ namespace WeeControl.test.Application.Test.EssentialContext.Queries
             var dto = new RequestDto<LoginDto>(nameof(WhenValidUsernameAndPassword_ReturnToken), new LoginDto(Username, Password));
             var query = new GetNewTokenQuery(dto);
 
-            var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object);
+            var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object, currentUserInfoMock.Object);
             var response = await service.Handle(query, default);
             
             Assert.NotEmpty(response.Payload.Token);
@@ -68,7 +72,7 @@ namespace WeeControl.test.Application.Test.EssentialContext.Queries
         [Fact]
         public async void WhenValidUsernameAndPasswordButExistingSessionIsActive_ShouldNotCreatAnotherSession()
         {
-            var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object);
+            var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object, currentUserInfoMock.Object);
             
             var query = new GetNewTokenQuery(
                 new RequestDto<LoginDto>(nameof(WhenValidUsernameAndPasswordButExistingSessionIsActive_ShouldNotCreatAnotherSession), 
@@ -85,7 +89,7 @@ namespace WeeControl.test.Application.Test.EssentialContext.Queries
         [Fact]
         public async void WhenValidUsernameAndPasswordButExistingSessionIsNotActive_ShouldCreatAnotherSession()
         {
-            var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object);
+            var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object, currentUserInfoMock.Object);
             
             var query = new GetNewTokenQuery(new RequestDto<LoginDto>(
                 nameof(WhenValidUsernameAndPasswordButExistingSessionIsNotActive_ShouldCreatAnotherSession), 
@@ -109,7 +113,7 @@ namespace WeeControl.test.Application.Test.EssentialContext.Queries
                 nameof(WhenUsernameAndPasswordNotMatched_ThrowsNotFoundException),
                 new LoginDto("unmatched", "unmatched")));
             
-            var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object);
+            var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object, currentUserInfoMock.Object);
             
             await Assert.ThrowsAsync<NotFoundException>(() => service.Handle(query, default));
         }
@@ -126,7 +130,7 @@ namespace WeeControl.test.Application.Test.EssentialContext.Queries
                 device,
                 new LoginDto(username, password)));
             
-            var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object);
+            var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object, currentUserInfoMock.Object);
             
             await Assert.ThrowsAsync<BadRequestException>(() => service.Handle(query, default));
         }
@@ -142,10 +146,12 @@ namespace WeeControl.test.Application.Test.EssentialContext.Queries
             session.User = context.Users.First();
             await context.Sessions.AddAsync(session , default);
             await context.SaveChangesAsync(default);
+
+            currentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
             
-            var query = new GetNewTokenQuery(request, session.SessionId);
+            var query = new GetNewTokenQuery(request);
             
-            var response = await new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object).Handle(query, default);
+            var response = await new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object, currentUserInfoMock.Object).Handle(query, default);
             
             Assert.NotEmpty(response.Payload.Token);
             Assert.NotEmpty(response.Payload.FullName);
@@ -161,10 +167,11 @@ namespace WeeControl.test.Application.Test.EssentialContext.Queries
             session.TerminationTs = DateTime.UtcNow;
             await context.Sessions.AddAsync(session , default);
             await context.SaveChangesAsync(default);
+            currentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
             
-            var query = new GetNewTokenQuery(request, session.SessionId);
+            var query = new GetNewTokenQuery(request);
             
-            var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object);
+            var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object, currentUserInfoMock.Object);
             
             await Assert.ThrowsAsync<NotAllowedException>(() => service.Handle(query, default));
         }
@@ -179,8 +186,10 @@ namespace WeeControl.test.Application.Test.EssentialContext.Queries
             await context.Sessions.AddAsync(session , default);
             await context.SaveChangesAsync(default);
             
-            var query = new GetNewTokenQuery(request, session.SessionId);
-            var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object);
+            currentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
+            
+            var query = new GetNewTokenQuery(request);
+            var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object, currentUserInfoMock.Object);
             
             await Assert.ThrowsAsync<NotAllowedException>(() => service.Handle(query, default));
         }

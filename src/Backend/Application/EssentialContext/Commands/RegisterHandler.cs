@@ -32,9 +32,8 @@ namespace WeeControl.Backend.Application.EssentialContext.Commands
                 throw new ValidationException();
             }
 
-            if (context.Users.Where(x =>
-            (string.IsNullOrWhiteSpace(cmd.Payload.Username) == false && x.Username == cmd.Payload.Username) ||
-            (string.IsNullOrWhiteSpace(cmd.Payload.Username) && x.Email == cmd.Payload.Email)).Any())
+            if (context.Users.Any(x => (string.IsNullOrWhiteSpace(cmd.Payload.Username) == false && x.Username == cmd.Payload.Username) ||
+                                       (string.IsNullOrWhiteSpace(cmd.Payload.Username) && x.Email == cmd.Payload.Email)))
             {
                 throw new ConflictFailureException();
             }

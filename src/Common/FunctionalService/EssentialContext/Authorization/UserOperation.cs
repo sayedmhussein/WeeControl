@@ -23,7 +23,7 @@ namespace WeeControl.Common.FunctionalService.EssentialContext.Authorization
             this.userStorage = userStorage;
         }
 
-        public async Task RegisterAsync(RegisterDto loginDto)
+        public async Task<LoginResponse> RegisterAsync(RegisterDto loginDto)
         {
             var requestDto = new RequestDto<RegisterDto>() { Payload = loginDto, DeviceId = userDevice.DeviceId };
 
@@ -37,11 +37,19 @@ namespace WeeControl.Common.FunctionalService.EssentialContext.Authorization
 
             var response = await userCommunication.HttpClient.SendAsync(message);
 
-            if (!response.IsSuccessStatusCode)
-                return;
-            
-            var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<TokenDto>>();
-            return;
+            switch (response.StatusCode)
+            {
+                case HttpStatusCode.OK:
+                case HttpStatusCode.Accepted:
+                    var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<TokenDto>>();
+                    var token = responseDto?.Payload?.Token;
+                    await userStorage.SaveAsync(UserDataEnum.Token, token);
+                    return LoginResponse.Accepted(response.StatusCode);
+                case HttpStatusCode.NotFound:
+                    return LoginResponse.Rejected(response.StatusCode, "Please try again!");
+                default:
+                    return LoginResponse.Rejected(response.StatusCode, "Unexpected error occured, error code: " + response.StatusCode);
+            }
         }
 
         public async Task<LoginResponse> LoginAsync(LoginDto loginDto)

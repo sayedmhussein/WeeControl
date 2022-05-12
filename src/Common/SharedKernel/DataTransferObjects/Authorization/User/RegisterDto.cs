@@ -21,5 +21,14 @@ namespace WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User
         [DataType(DataType.Password)]
         [DisplayName("Password")]
         public string Password { get; set; }
+
+        private RegisterDto()
+        {
+        }
+
+        public static RegisterDto Create(string email, string username, string password)
+        {
+            return new RegisterDto() { Email = email, Username = username, Password = password };
+        }
     }
 }

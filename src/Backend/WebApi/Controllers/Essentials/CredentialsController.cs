@@ -18,12 +18,10 @@ namespace WeeControl.Backend.WebApi.Controllers.Essentials
     public class CredentialsController : Controller
     {
         private readonly IMediator mediatR;
-        private readonly ICurrentUserInfo currentUserInfo;
 
-        public CredentialsController(IMediator mediatR, ICurrentUserInfo currentUserInfo)
+        public CredentialsController(IMediator mediatR)
         {
             this.mediatR = mediatR;
-            this.currentUserInfo = currentUserInfo;
         }
 
         [AllowAnonymous]
@@ -36,9 +34,6 @@ namespace WeeControl.Backend.WebApi.Controllers.Essentials
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult<ResponseDto<TokenDto>>> RegisterV1([FromBody] RequestDto<RegisterDto> dto)
         {
-            if (dto.Payload is null)
-                return BadRequest();
-
             var command = new RegisterCommand(dto, dto.Payload);
             var response = await mediatR.Send(command);
 
@@ -56,7 +51,7 @@ namespace WeeControl.Backend.WebApi.Controllers.Essentials
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult<ResponseDto<TokenDto>>> LoginV1([FromBody] RequestDto<LoginDto> dto)
         {
-            var query = new GetNewTokenQuery(dto, dto.Payload);
+            var query = new GetNewTokenQuery(dto);
             var response = await mediatR.Send(query);
 
             return Ok(response);
@@ -77,7 +72,7 @@ namespace WeeControl.Backend.WebApi.Controllers.Essentials
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         public async Task<ActionResult<ResponseDto<TokenDto>>> RefreshTokenV1([FromBody] RequestDto dto)
         {
-            var query = new GetNewTokenQuery(dto, currentUserInfo.GetSessionId());
+            var query = new GetNewTokenQuery(dto);
             var response = await mediatR.Send(query);
 
             return Ok(response);
@@ -93,7 +88,7 @@ namespace WeeControl.Backend.WebApi.Controllers.Essentials
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         public async Task<ActionResult<ResponseDto>> LogoutV1([FromBody] RequestDto dto)
         {
-            var command = new LogoutCommand(dto, currentUserInfo.GetSessionId());
+            var command = new LogoutCommand(dto);
             var response = await mediatR.Send(command);
 
             return Ok(response);
