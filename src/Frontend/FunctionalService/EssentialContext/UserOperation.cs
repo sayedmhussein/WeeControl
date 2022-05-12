@@ -29,9 +29,9 @@ namespace WeeControl.Frontend.FunctionalService.EssentialContext
 
             HttpRequestMessage message = new()
             {
-                RequestUri = new Uri(AuthorizationLink.Register.Absolute(userCommunication.ServerBaseAddress)),
-                Version = new Version(AuthorizationLink.Register.Version),
-                Method = AuthorizationLink.Register.Method,
+                RequestUri = new Uri(RegisterDto.HttpPostMethod.AbsoluteUri(userCommunication.ServerBaseAddress)),
+                Version = new Version(RegisterDto.HttpPostMethod.Version),
+                Method = HttpMethod.Post,
                 Content = RequestDto.BuildHttpContentAsJson(requestDto)
             };
 
@@ -58,9 +58,9 @@ namespace WeeControl.Frontend.FunctionalService.EssentialContext
 
             HttpRequestMessage message = new()
             {
-                RequestUri = new Uri(AuthorizationLink.Login.Absolute(userCommunication.ServerBaseAddress)),
-                Version = new Version(AuthorizationLink.Login.Version),
-                Method = AuthorizationLink.Login.Method,
+                RequestUri = new Uri(EssentialUserApiLink.Login.Absolute(userCommunication.ServerBaseAddress)),
+                Version = new Version(EssentialUserApiLink.Login.Version),
+                Method = EssentialUserApiLink.Login.Method,
                 Content = RequestDto.BuildHttpContentAsJson(requestDto)
             };
 
@@ -89,9 +89,9 @@ namespace WeeControl.Frontend.FunctionalService.EssentialContext
 
             HttpRequestMessage message = new()
             {
-                RequestUri = new Uri(AuthorizationLink.RequestRefreshToken.Absolute(userCommunication.ServerBaseAddress)),
-                Version = new Version(AuthorizationLink.RequestRefreshToken.Version),
-                Method = AuthorizationLink.RequestRefreshToken.Method,
+                RequestUri = new Uri(EssentialUserApiLink.RequestRefreshToken.Absolute(userCommunication.ServerBaseAddress)),
+                Version = new Version(EssentialUserApiLink.RequestRefreshToken.Version),
+                Method = EssentialUserApiLink.RequestRefreshToken.Method,
                 Content = RequestDto.BuildHttpContentAsJson(requestDto)
             };
             
@@ -126,9 +126,9 @@ namespace WeeControl.Frontend.FunctionalService.EssentialContext
 
             HttpRequestMessage message = new()
             {
-                RequestUri = new Uri(AuthorizationLink.Logout.Absolute(userCommunication.ServerBaseAddress)),
-                Version = new Version(AuthorizationLink.Logout.Version),
-                Method = AuthorizationLink.Logout.Method,
+                RequestUri = new Uri(EssentialUserApiLink.Logout.Absolute(userCommunication.ServerBaseAddress)),
+                Version = new Version(EssentialUserApiLink.Logout.Version),
+                Method = EssentialUserApiLink.Logout.Method,
                 Content = RequestDto.BuildHttpContentAsJson(requestDto)
             };
 

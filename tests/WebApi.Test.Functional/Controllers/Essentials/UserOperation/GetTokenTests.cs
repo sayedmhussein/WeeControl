@@ -4,10 +4,9 @@ using System.Threading.Tasks;
 using Moq;
 using WeeControl.Backend.WebApi;
 using WeeControl.Frontend.FunctionalService.Enums;
-using WeeControl.Frontend.FunctionalService.EssentialContext;
 using Xunit;
 
-namespace WeeControl.Test.WebApi.Test.Functional.Controllers.Essentials.Authorization
+namespace WeeControl.Test.WebApi.Test.Functional.Controllers.Essentials.UserOperation
 {
     public class GetTokenTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
@@ -24,7 +23,7 @@ namespace WeeControl.Test.WebApi.Test.Functional.Controllers.Essentials.Authoriz
                 .Callback((UserDataEnum en, string tkn) => token2 = tkn);
 
             var response = 
-                await new UserOperation(
+                await new Frontend.FunctionalService.EssentialContext.UserOperation(
                         mocks.userDevice.Object, 
                         mocks.userCommunication.Object, 
                         mocks.userStorage.Object)
@@ -54,7 +53,7 @@ namespace WeeControl.Test.WebApi.Test.Functional.Controllers.Essentials.Authoriz
             mocks.userStorage.Setup(x => x.GetAsync(UserDataEnum.Token)).ReturnsAsync(token);
 
             var response = 
-                await new UserOperation(
+                await new Frontend.FunctionalService.EssentialContext.UserOperation(
                         mocks.userDevice.Object, 
                         mocks.userCommunication.Object, 
                         mocks.userStorage.Object)
@@ -79,7 +78,7 @@ namespace WeeControl.Test.WebApi.Test.Functional.Controllers.Essentials.Authoriz
             var mocks = ApplicationMocks.GetMocks(client, typeof(GetTokenTests).Namespace);
 
             var response = 
-                await new UserOperation(
+                await new Frontend.FunctionalService.EssentialContext.UserOperation(
                         mocks.userDevice.Object, 
                         mocks.userCommunication.Object, 
                         mocks.userStorage.Object)
@@ -99,7 +98,7 @@ namespace WeeControl.Test.WebApi.Test.Functional.Controllers.Essentials.Authoriz
             mocks.userStorage.Setup(x => x.GetAsync(UserDataEnum.Token)).ReturnsAsync(token);
 
             var response = 
-                await new UserOperation(
+                await new Frontend.FunctionalService.EssentialContext.UserOperation(
                         mocks.userDevice.Object, 
                         mocks.userCommunication.Object, 
                         mocks.userStorage.Object)

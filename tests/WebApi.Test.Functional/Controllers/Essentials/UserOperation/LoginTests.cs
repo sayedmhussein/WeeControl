@@ -10,11 +10,10 @@ using WeeControl.Backend.Domain.Databases.Essential.DatabaseObjects.EssentialsOb
 using WeeControl.Backend.WebApi;
 using WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User;
 using WeeControl.Frontend.FunctionalService.Enums;
-using WeeControl.Frontend.FunctionalService.EssentialContext;
 using WeeControl.Frontend.FunctionalService.Interfaces;
 using Xunit;
 
-namespace WeeControl.Test.WebApi.Test.Functional.Controllers.Essentials.Authorization
+namespace WeeControl.Test.WebApi.Test.Functional.Controllers.Essentials.UserOperation
 {
     public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
@@ -30,7 +29,7 @@ namespace WeeControl.Test.WebApi.Test.Functional.Controllers.Essentials.Authoriz
                 .Callback((UserDataEnum en, string tkn) => token = tkn);
             
             var response = 
-                await new UserOperation(
+                await new Frontend.FunctionalService.EssentialContext.UserOperation(
                         userMock.Object, 
                         commMock.Object, 
                         storageMock.Object)
@@ -48,7 +47,7 @@ namespace WeeControl.Test.WebApi.Test.Functional.Controllers.Essentials.Authoriz
             var commMock = ApplicationMocks.GetUserCommunicationMock(client);
             var storageMock = ApplicationMocks.GetUserStorageMockMock();
 
-            var response = new UserOperation(
+            var response = new Frontend.FunctionalService.EssentialContext.UserOperation(
                         userMock.Object, 
                         commMock.Object, 
                         storageMock.Object)
@@ -94,7 +93,7 @@ namespace WeeControl.Test.WebApi.Test.Functional.Controllers.Essentials.Authoriz
             var mocks = ApplicationMocks.GetMocks(factory.CreateClient(), typeof(LoginTests).Namespace);
 
             var response = 
-                await new UserOperation(
+                await new Frontend.FunctionalService.EssentialContext.UserOperation(
                         mocks.userDevice.Object, 
                         mocks.userCommunication.Object, 
                         mocks.userStorage.Object)

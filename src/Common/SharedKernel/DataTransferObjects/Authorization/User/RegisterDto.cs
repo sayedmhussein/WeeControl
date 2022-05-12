@@ -30,5 +30,13 @@ namespace WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User
         {
             return new RegisterDto() { Email = email, Username = username, Password = password };
         }
+        
+        public static class HttpPostMethod
+        {
+            public const string EndPoint = "Register";
+            public const string Version = "1.0";
+            public static string AbsoluteUri(string server) => server + Relative;
+            private const string Relative = "Api/Credentials/" + EndPoint;
+        }
     }
 }

@@ -6,10 +6,9 @@ using WeeControl.Backend.Domain.Databases.Essential.DatabaseObjects.EssentialsOb
 using WeeControl.Backend.WebApi;
 using WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User;
 using WeeControl.Frontend.FunctionalService.Enums;
-using WeeControl.Frontend.FunctionalService.EssentialContext;
 using Xunit;
 
-namespace WeeControl.Test.WebApi.Test.Functional.Controllers.Essentials.Authorization
+namespace WeeControl.Test.WebApi.Test.Functional.Controllers.Essentials.UserOperation
 {
     public class RegisterTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
@@ -27,7 +26,7 @@ namespace WeeControl.Test.WebApi.Test.Functional.Controllers.Essentials.Authoriz
             var mocks = ApplicationMocks.GetMocks(factory.CreateClient(), typeof(RegisterTests).Namespace);
 
             var response = 
-                await new UserOperation(
+                await new Frontend.FunctionalService.EssentialContext.UserOperation(
                     mocks.userDevice.Object, 
                     mocks.userCommunication.Object, 
                     mocks.userStorage.Object).RegisterAsync(RegisterDto.Create("email@email.com", "username", "password"));
@@ -51,7 +50,7 @@ namespace WeeControl.Test.WebApi.Test.Functional.Controllers.Essentials.Authoriz
             var mocks = ApplicationMocks.GetMocks(factory.CreateClient(), typeof(RegisterTests).Namespace);
 
             var response = 
-                await new UserOperation(
+                await new Frontend.FunctionalService.EssentialContext.UserOperation(
                     mocks.userDevice.Object, 
                     mocks.userCommunication.Object, 
                     mocks.userStorage.Object).RegisterAsync(RegisterDto.Create(email, username, password));
@@ -78,7 +77,7 @@ namespace WeeControl.Test.WebApi.Test.Functional.Controllers.Essentials.Authoriz
             var mocks = ApplicationMocks.GetMocks(client, typeof(RegisterTests).Namespace);
 
             var responseSameEmail = 
-                await new UserOperation(
+                await new Frontend.FunctionalService.EssentialContext.UserOperation(
                     mocks.userDevice.Object, 
                     mocks.userCommunication.Object, 
                     mocks.userStorage.Object).RegisterAsync(RegisterDto.Create(user.Email, "username", "password"));
@@ -87,7 +86,7 @@ namespace WeeControl.Test.WebApi.Test.Functional.Controllers.Essentials.Authoriz
             Assert.Equal(HttpStatusCode.Conflict, responseSameEmail.HttpStatusCode);
             
             var responseSameUsername = 
-                await new UserOperation(
+                await new Frontend.FunctionalService.EssentialContext.UserOperation(
                     mocks.userDevice.Object, 
                     mocks.userCommunication.Object, 
                     mocks.userStorage.Object).RegisterAsync(RegisterDto.Create("someemail@email.com", user.Username, "password"));
