@@ -62,15 +62,13 @@ Still this project is in its initial developing stage, lots of bugs are expected
 ## Credits and Acknowledgments
 Appreciate the opensoure community for inspiring and supporting such project:
 
-* The Markdown Guide [Markdown Guide](https://www.markdownguide.org).
-* How to create a README.md file on [Medium](https://medium.com/@latoyazamill/how-to-create-a-readme-md-file-37cffa2d7ab4).
+* The Markdown Guide [Markdown Guide](https://www.markdownguide.org), how to create a README.md file on [Medium](https://medium.com/@latoyazamill/how-to-create-a-readme-md-file-37cffa2d7ab4).
 * JWT authentication was inspired from this [aspnet-core-3-jwt-authentication-api](https://github.com/cornflourblue/aspnet-core-3-jwt-authentication-api).
 * Clean architecture pattern was inspired from this [CleanArchitecture](https://github.com/ardalis/CleanArchitecture) and his [NorthwindTraders](https://github.com/jasontaylordev/NorthwindTraders).
-* The youtube channel [IAmTimCorey](https://www.youtube.com/user/IAmTimCorey) was like the godfather for learning C#.
-* The youtube channel [VoidRealms](https://www.youtube.com/channel/UCYP0nk48grsMwO3iL8YaAKA) gave the courage to start getting a workable programming application.
+* The youtube channel [IAmTimCorey](https://www.youtube.com/user/IAmTimCorey) and [VoidRealms](https://www.youtube.com/channel/UCYP0nk48grsMwO3iL8YaAKA) gave the courage to start getting a workable programming application.
 * Jetbrains for approving licence to use [Rider](https://www.jetbrains.com/rider/) to develop this opensource project.
 
-**<mark>List not Completed Yet</mark>**
+[//]: # (**<mark>List not Completed Yet</mark>**)
 
 [comment]: <> (## A changelog &#40;usually for programmers&#41;)
 

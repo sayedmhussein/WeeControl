@@ -5,10 +5,10 @@ using WeeControl.Common.SharedKernel;
 using WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User;
 using WeeControl.Common.SharedKernel.RequestsResponses;
 using WeeControl.Frontend.FunctionalService.Enums;
-using WeeControl.Frontend.FunctionalService.EssentialContext.Authorization.UiResponseObjects;
 using WeeControl.Frontend.FunctionalService.Interfaces;
+using WeeControl.Frontend.FunctionalService.Models;
 
-namespace WeeControl.Frontend.FunctionalService.EssentialContext.Authorization
+namespace WeeControl.Frontend.FunctionalService.EssentialContext
 {
     public class UserOperation : IUserOperation
     {
@@ -23,7 +23,7 @@ namespace WeeControl.Frontend.FunctionalService.EssentialContext.Authorization
             this.userStorage = userStorage;
         }
 
-        public async Task<LoginResponse> RegisterAsync(RegisterDto loginDto)
+        public async Task<IResponseToUi> RegisterAsync(RegisterDto loginDto)
         {
             var requestDto = new RequestDto<RegisterDto>() { Payload = loginDto, DeviceId = userDevice.DeviceId };
 
@@ -44,15 +44,15 @@ namespace WeeControl.Frontend.FunctionalService.EssentialContext.Authorization
                     var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<TokenDto>>();
                     var token = responseDto?.Payload?.Token;
                     await userStorage.SaveAsync(UserDataEnum.Token, token);
-                    return LoginResponse.Accepted(response.StatusCode);
+                    return ResponseToUi.Accepted(response.StatusCode);
                 case HttpStatusCode.NotFound:
-                    return LoginResponse.Rejected(response.StatusCode, "Please try again!");
+                    return ResponseToUi.Rejected(response.StatusCode, "Please try again!");
                 default:
-                    return LoginResponse.Rejected(response.StatusCode, "Unexpected error occured, error code: " + response.StatusCode);
+                    return ResponseToUi.Rejected(response.StatusCode, "Unexpected error occured, error code: " + response.StatusCode);
             }
         }
 
-        public async Task<LoginResponse> LoginAsync(LoginDto loginDto)
+        public async Task<IResponseToUi> LoginAsync(LoginDto loginDto)
         {
             var requestDto = new RequestDto<LoginDto>() { Payload = loginDto, DeviceId = userDevice.DeviceId };
 
@@ -75,15 +75,15 @@ namespace WeeControl.Frontend.FunctionalService.EssentialContext.Authorization
                     await userStorage.SaveAsync(UserDataEnum.Token, token);
                     await userStorage.SaveAsync(UserDataEnum.FullName, responseDto?.Payload?.FullName);
                     await userStorage.SaveAsync(UserDataEnum.PhotoUrl, responseDto?.Payload?.PhotoUrl);
-                    return LoginResponse.Accepted(response.StatusCode);
+                    return ResponseToUi.Accepted(response.StatusCode);
                 case HttpStatusCode.NotFound:
-                    return LoginResponse.Rejected(response.StatusCode, "Invalid username or password!");
+                    return ResponseToUi.Rejected(response.StatusCode, "Invalid username or password!");
                 default:
-                    return LoginResponse.Rejected(response.StatusCode, "Unexpected error occured, error code: " + response.StatusCode);
+                    return ResponseToUi.Rejected(response.StatusCode, "Unexpected error occured, error code: " + response.StatusCode);
             }
         }
 
-        public async Task<LoginResponse> GetTokenAsync()
+        public async Task<IResponseToUi> GetTokenAsync()
         {
             var requestDto = new RequestDto() { DeviceId = userDevice.DeviceId };
 
@@ -110,15 +110,15 @@ namespace WeeControl.Frontend.FunctionalService.EssentialContext.Authorization
                     await userStorage.SaveAsync(UserDataEnum.Token, token);
                     await userStorage.SaveAsync(UserDataEnum.FullName, responseDto?.Payload?.FullName);
                     await userStorage.SaveAsync(UserDataEnum.PhotoUrl, responseDto?.Payload?.PhotoUrl);
-                    return LoginResponse.Accepted(response.StatusCode);
+                    return ResponseToUi.Accepted(response.StatusCode);
                 case HttpStatusCode.Forbidden:
-                    return LoginResponse.Rejected(response.StatusCode, "Please login again.");
+                    return ResponseToUi.Rejected(response.StatusCode, "Please login again.");
                 default:
-                    return LoginResponse.Rejected(response.StatusCode, "Unexpected error occured, error code: " + response.StatusCode);
+                    return ResponseToUi.Rejected(response.StatusCode, "Unexpected error occured, error code: " + response.StatusCode);
             }
         }
 
-        public async Task<LogoutResponse> LogoutAsync()
+        public async Task<IResponseToUi> LogoutAsync()
         {
             await userStorage.ClearAsync();
             
@@ -140,26 +140,26 @@ namespace WeeControl.Frontend.FunctionalService.EssentialContext.Authorization
             {
                 case HttpStatusCode.OK:
                 case HttpStatusCode.Accepted:
-                    var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<LogoutResponse>>();
-                    return LogoutResponse.Accepted(response.StatusCode);
+                    var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<ResponseToUi>>();
+                    return ResponseToUi.Accepted(response.StatusCode);
                 case HttpStatusCode.Forbidden:
-                    return LogoutResponse.Rejected(response.StatusCode, "Illegal Request!");
+                    return ResponseToUi.Rejected(response.StatusCode, "Illegal Request!");
                 default:
-                    return LogoutResponse.Rejected(response.StatusCode, "Unexpected error occured, error code: " + response.StatusCode);
+                    return ResponseToUi.Rejected(response.StatusCode, "Unexpected error occured, error code: " + response.StatusCode);
             }
         }
 
-        public Task UpdateEmailAsync(UpdateEmailAsync loginDto)
+        public Task<IResponseToUi> UpdateEmailAsync(UpdateEmailAsync loginDto)
         {
             throw new NotImplementedException();
         }
 
-        public Task UpdatePasswordAsync(UpdatePasswordDto loginDto)
+        public Task<IResponseToUi> UpdatePasswordAsync(UpdatePasswordDto loginDto)
         {
             throw new NotImplementedException();
         }
 
-        public Task ForgotPasswordAsync(ForgotPasswordDto forgotPasswordDto)
+        public Task<IResponseToUi> ForgotPasswordAsync(ForgotPasswordDto forgotPasswordDto)
         {
             throw new NotImplementedException();
         }

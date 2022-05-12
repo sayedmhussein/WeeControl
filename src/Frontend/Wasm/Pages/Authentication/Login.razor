@@ -6,7 +6,7 @@
 @inject NavigationManager navManager
 @inject IUserOperation authentication
 @using WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User
-@using WeeControl.Frontend.FunctionalService.EssentialContext.Authorization
+@using WeeControl.Frontend.FunctionalService.EssentialContext
 
 <div class="card">
     <h4 class="card-header">Please enter your username and password</h4>
@@ -35,6 +35,7 @@
             {
                 <div class="alert alert-danger mt-3 mb-0">@stringAlert</div>
             }
+            <button class="btn btn-outline-secondary" @onclick="@Register">Register</button>
         </EditForm>
     </div>
 </div>
@@ -90,6 +91,12 @@
     private Task RequestPasswordReset()
     {
         navManager.NavigateTo("/ForgotPassword");
+        return Task.CompletedTask;
+    }
+
+    private Task Register()
+    {
+        navManager.NavigateTo("/Register");
         return Task.CompletedTask;
     }
 }

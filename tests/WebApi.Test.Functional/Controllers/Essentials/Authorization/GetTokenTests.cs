@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Moq;
 using WeeControl.Backend.WebApi;
 using WeeControl.Frontend.FunctionalService.Enums;
-using WeeControl.Frontend.FunctionalService.EssentialContext.Authorization;
+using WeeControl.Frontend.FunctionalService.EssentialContext;
 using Xunit;
 
 namespace WeeControl.Test.WebApi.Test.Functional.Controllers.Essentials.Authorization

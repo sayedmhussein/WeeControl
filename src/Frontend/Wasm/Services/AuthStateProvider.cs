@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using WeeControl.Common.UserSecurityLib.Interfaces;
 using WeeControl.Frontend.FunctionalService.Enums;
-using WeeControl.Frontend.FunctionalService.EssentialContext.Authorization;
+using WeeControl.Frontend.FunctionalService.EssentialContext;
 using WeeControl.Frontend.FunctionalService.Interfaces;
 using WeeControl.Frontend.Wasm.Interfaces;
 

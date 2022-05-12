@@ -10,8 +10,8 @@ using WeeControl.Backend.Domain.Databases.Essential.DatabaseObjects.EssentialsOb
 using WeeControl.Backend.WebApi;
 using WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User;
 using WeeControl.Frontend.FunctionalService.Enums;
-using WeeControl.Frontend.FunctionalService.EssentialContext.Authorization;
-using WeeControl.Frontend.FunctionalService.EssentialContext.Authorization.UiResponseObjects;
+using WeeControl.Frontend.FunctionalService.EssentialContext;
+using WeeControl.Frontend.FunctionalService.Interfaces;
 using Xunit;
 
 namespace WeeControl.Test.WebApi.Test.Functional.Controllers.Essentials.Authorization
@@ -42,7 +42,7 @@ namespace WeeControl.Test.WebApi.Test.Functional.Controllers.Essentials.Authoriz
             return token;
         }
 
-        private static Task<LoginResponse> LoginDebugAsync(HttpClient client, string username, string password, string device)
+        private static Task<IResponseToUi> LoginDebugAsync(HttpClient client, string username, string password, string device)
         {
             var userMock = ApplicationMocks.GetUserDeviceMock(device);
             var commMock = ApplicationMocks.GetUserCommunicationMock(client);
