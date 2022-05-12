@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using WeeControl.Common.FunctionalService.Enums;
 using WeeControl.Common.FunctionalService.EssentialContext.Authorization.UiResponseObjects;
@@ -72,7 +73,7 @@ namespace WeeControl.Common.FunctionalService.EssentialContext.Authorization
             }
         }
 
-        public async Task GetTokenAsync()
+        public async Task<LoginResponse> GetTokenAsync()
         {
             var requestDto = new RequestDto() { DeviceId = userDevice.DeviceId };
 
@@ -83,18 +84,26 @@ namespace WeeControl.Common.FunctionalService.EssentialContext.Authorization
                 Method = AuthorizationLink.RequestRefreshToken.Method,
                 Content = RequestDto.BuildHttpContentAsJson(requestDto)
             };
-        
-            //userCommunication.HttpClient.DefaultRequestHeaders.Authorization =
-                //new AuthenticationHeaderValue("Bearer", await userCommunication.GetAsync(UserDataEnum.Token));
+            
+            userCommunication.HttpClient.DefaultRequestHeaders.Clear();
+            userCommunication.HttpClient.DefaultRequestHeaders.Authorization = 
+                new AuthenticationHeaderValue("Brear", await userStorage.GetAsync(UserDataEnum.Token));
+            
             var response = await userCommunication.HttpClient.SendAsync(message);
 
-            if (!response.IsSuccessStatusCode)
-                return;
-
-            var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<TokenDto>>();
-            //await userDevice.SaveAsync(UserDataEnum.Token, responseDto?.Payload?.Token);
-            responseDto.StatuesCode = response.StatusCode;
-            return;
+            switch (response.StatusCode)
+            {
+                case HttpStatusCode.OK:
+                case HttpStatusCode.Accepted:
+                    var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<TokenDto>>();
+                    var token = responseDto?.Payload?.Token;
+                    await userStorage.SaveAsync(UserDataEnum.Token, token);
+                    return LoginResponse.Accepted(response.StatusCode);
+                case HttpStatusCode.Forbidden:
+                    return LoginResponse.Rejected(response.StatusCode, "Please login again.");
+                default:
+                    return LoginResponse.Rejected(response.StatusCode, "Unexpected error occured, error code: " + response.StatusCode);
+            }
         }
 
         public async Task<LogoutResponse> LogoutAsync()
@@ -108,6 +117,8 @@ namespace WeeControl.Common.FunctionalService.EssentialContext.Authorization
                 Method = AuthorizationLink.Logout.Method,
                 Content = RequestDto.BuildHttpContentAsJson(requestDto)
             };
+
+            await UpdateAuthorization();
 
             var response = await userCommunication.HttpClient.SendAsync(message);
 
@@ -137,6 +148,13 @@ namespace WeeControl.Common.FunctionalService.EssentialContext.Authorization
         public Task ForgotPasswordAsync(ForgotPasswordDto forgotPasswordDto)
         {
             throw new NotImplementedException();
+        }
+
+        private async Task UpdateAuthorization()
+        {
+            userCommunication.HttpClient.DefaultRequestHeaders.Clear();
+            userCommunication.HttpClient.DefaultRequestHeaders.Authorization = 
+                new AuthenticationHeaderValue("Brear", await userStorage.GetAsync(UserDataEnum.Token));
         }
     }
 }

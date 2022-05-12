@@ -1,16 +1,18 @@
 using System.Net;
 using System.Net.Http.Headers;
+using Moq;
 using WeeControl.Backend.WebApi;
+using WeeControl.Common.FunctionalService.Enums;
 using WeeControl.Common.FunctionalService.EssentialContext.Authorization;
 using Xunit;
 
 namespace WeeControl.test.WebApi.Test.Functional.Controllers.Essentials.Authorization
 {
-    public class LogoutEmployee : IClassFixture<CustomWebApplicationFactory<Startup>>
+    public class LogoutTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         private readonly CustomWebApplicationFactory<Startup> factory;
 
-        public LogoutEmployee(CustomWebApplicationFactory<Startup> factory)
+        public LogoutTests(CustomWebApplicationFactory<Startup> factory)
         {
             this.factory = factory;
         }
@@ -19,10 +21,10 @@ namespace WeeControl.test.WebApi.Test.Functional.Controllers.Essentials.Authoriz
         public async void WhenSendingValidRequest_HttpResponseIsSuccessCode()
         {
             var client = factory.CreateClient();
-            var token = await LoginTests.LoginAsync(client, "admin", "admin", typeof(LogoutEmployee).Namespace);
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             
-            var mocks = ApplicationMocks.GetMocks(client, typeof(LogoutEmployee).Namespace);
+            var mocks = ApplicationMocks.GetMocks(client, typeof(LogoutTests).Namespace);
+            var token = await GetTokenTests.GetRefreshedTokenAsync(client, "admin", "admin", typeof(LogoutTests).Namespace);
+            mocks.userStorage.Setup(x => x.GetAsync(UserDataEnum.Token)).ReturnsAsync(token);
 
             var response = 
                 await new UserOperation(
@@ -55,11 +57,11 @@ namespace WeeControl.test.WebApi.Test.Functional.Controllers.Essentials.Authoriz
         public async void WhenAuthenticatedButNotAuthorized_HttpResponseIsForbidden()
         {
             var client = factory.CreateClient();
-            var token = await LoginTests.LoginAsync(client, "admin", "admin", typeof(LogoutEmployee).Namespace);
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             
-            var mocks = ApplicationMocks.GetMocks(client, typeof(LogoutEmployee).Namespace);
-
+            var mocks = ApplicationMocks.GetMocks(client, typeof(LogoutTests).Namespace);
+            var token = await GetTokenTests.GetRefreshedTokenAsync(client, "admin", "admin", typeof(LogoutTests).Namespace);
+            mocks.userStorage.Setup(x => x.GetAsync(UserDataEnum.Token)).ReturnsAsync(token);
+            
             var response1 = 
                 await new UserOperation(
                         mocks.userDevice.Object, 

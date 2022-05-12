@@ -104,16 +104,6 @@ namespace WeeControl.test.WebApi.Test.Functional.Controllers.Essentials.Authoriz
             Assert.True(response.IsSuccess);
             mocks.userStorage.Verify(x => x.SaveAsync(UserDataEnum.Token, It.IsAny<string>()));
         }
-        
-        // [Fact]
-        // public async void WhenSendingValidRequest_HttpResponseIsSuccessCode2()
-        // {
-        //     var client = factory.CreateClient();
-        //     await Task.Delay(2000);
-        //     var token = await LoginAsync(client, "admin", "admin", nameof(WhenSendingValidRequest_HttpResponseIsSuccessCode2));
-        //     
-        //     Assert.NotEmpty(token);
-        // }
 
         [Fact]
         public async void WhenSendingValidRequest_HttpResponseIsSuccessCode2()

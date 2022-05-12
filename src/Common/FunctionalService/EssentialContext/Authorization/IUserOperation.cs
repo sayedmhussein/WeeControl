@@ -7,7 +7,7 @@ namespace WeeControl.Common.FunctionalService.EssentialContext.Authorization
     {
         Task RegisterAsync(RegisterDto loginDto);
         Task<LoginResponse> LoginAsync(LoginDto loginDto);
-        Task GetTokenAsync();
+        Task<LoginResponse> GetTokenAsync();
         Task<LogoutResponse> LogoutAsync();
         Task UpdateEmailAsync(UpdateEmailAsync loginDto);
         Task UpdatePasswordAsync(UpdatePasswordDto loginDto);
