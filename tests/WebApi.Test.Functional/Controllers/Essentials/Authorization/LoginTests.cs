@@ -8,13 +8,13 @@ using Moq.Protected;
 using WeeControl.Backend.Domain.Databases.Essential;
 using WeeControl.Backend.Domain.Databases.Essential.DatabaseObjects.EssentialsObjects;
 using WeeControl.Backend.WebApi;
-using WeeControl.Common.FunctionalService.Enums;
-using WeeControl.Common.FunctionalService.EssentialContext.Authorization;
-using WeeControl.Common.FunctionalService.EssentialContext.Authorization.UiResponseObjects;
 using WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User;
+using WeeControl.Frontend.FunctionalService.Enums;
+using WeeControl.Frontend.FunctionalService.EssentialContext.Authorization;
+using WeeControl.Frontend.FunctionalService.EssentialContext.Authorization.UiResponseObjects;
 using Xunit;
 
-namespace WeeControl.test.WebApi.Test.Functional.Controllers.Essentials.Authorization
+namespace WeeControl.Test.WebApi.Test.Functional.Controllers.Essentials.Authorization
 {
     public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {

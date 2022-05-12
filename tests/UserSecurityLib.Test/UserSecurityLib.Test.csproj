@@ -5,7 +5,7 @@
 
         <IsPackable>false</IsPackable>
 
-        <RootNamespace>WeeControl.test.UserSecurityLib.Test</RootNamespace>
+        <RootNamespace>WeeControl.Test.UserSecurityLib.Test</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

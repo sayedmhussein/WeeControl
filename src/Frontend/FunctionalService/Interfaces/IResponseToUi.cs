@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace WeeControl.Common.FunctionalService.Interfaces;
+namespace WeeControl.Frontend.FunctionalService.Interfaces;
 
 public interface IResponseToUi
 {

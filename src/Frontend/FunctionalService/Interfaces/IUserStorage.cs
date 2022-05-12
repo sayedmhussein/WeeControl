@@ -1,6 +1,6 @@
-using WeeControl.Common.FunctionalService.Enums;
+using WeeControl.Frontend.FunctionalService.Enums;
 
-namespace WeeControl.Common.FunctionalService.Interfaces
+namespace WeeControl.Frontend.FunctionalService.Interfaces
 {
     public interface IUserStorage
     {

@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using WeeControl.Common.FunctionalService.Enums;
-using WeeControl.Common.FunctionalService.EssentialContext.Authorization;
-using WeeControl.Common.FunctionalService.Interfaces;
 using WeeControl.Common.UserSecurityLib.Interfaces;
+using WeeControl.Frontend.FunctionalService.Enums;
+using WeeControl.Frontend.FunctionalService.EssentialContext.Authorization;
+using WeeControl.Frontend.FunctionalService.Interfaces;
 using WeeControl.Frontend.Wasm.Interfaces;
 
 namespace WeeControl.Frontend.Wasm.Services

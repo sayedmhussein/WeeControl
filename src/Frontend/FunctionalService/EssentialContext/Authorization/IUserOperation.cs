@@ -1,7 +1,7 @@
-﻿using WeeControl.Common.FunctionalService.EssentialContext.Authorization.UiResponseObjects;
-using WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User;
+﻿using WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User;
+using WeeControl.Frontend.FunctionalService.EssentialContext.Authorization.UiResponseObjects;
 
-namespace WeeControl.Common.FunctionalService.EssentialContext.Authorization
+namespace WeeControl.Frontend.FunctionalService.EssentialContext.Authorization
 {
     public interface IUserOperation
     {

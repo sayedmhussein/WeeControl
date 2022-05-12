@@ -1,14 +1,13 @@
 ﻿using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
 using Moq;
 using WeeControl.Backend.WebApi;
-using WeeControl.Common.FunctionalService.Enums;
-using WeeControl.Common.FunctionalService.EssentialContext.Authorization;
+using WeeControl.Frontend.FunctionalService.Enums;
+using WeeControl.Frontend.FunctionalService.EssentialContext.Authorization;
 using Xunit;
 
-namespace WeeControl.test.WebApi.Test.Functional.Controllers.Essentials.Authorization
+namespace WeeControl.Test.WebApi.Test.Functional.Controllers.Essentials.Authorization
 {
     public class GetTokenTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {

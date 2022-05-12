@@ -1,7 +1,7 @@
 using System.Net;
-using WeeControl.Common.FunctionalService.Interfaces;
+using WeeControl.Frontend.FunctionalService.Interfaces;
 
-namespace WeeControl.Common.FunctionalService.EssentialContext.Authorization.UiResponseObjects;
+namespace WeeControl.Frontend.FunctionalService.EssentialContext.Authorization.UiResponseObjects;
 
 public class LoginResponse : IResponseToUi
 {

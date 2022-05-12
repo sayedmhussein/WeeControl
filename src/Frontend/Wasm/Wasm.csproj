@@ -28,8 +28,8 @@
     <Folder Include="wwwroot\js" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\FunctionalService\FunctionalService.csproj" />
     <ProjectReference Include="..\..\Common\UserSecurityLib\UserSecurityLib.csproj" />
+    <ProjectReference Include="..\FunctionalService\FunctionalService.csproj" />
   </ItemGroup>
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Pages\Authentication\ForgotPassword.razor" />

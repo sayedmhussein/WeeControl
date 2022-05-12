@@ -4,11 +4,11 @@
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>WeeControl.Common.FunctionalService</RootNamespace>
+        <RootNamespace>WeeControl.Frontend.FunctionalService</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\SharedKernel\SharedKernel.csproj" />
+      <ProjectReference Include="..\..\Common\SharedKernel\SharedKernel.csproj" />
     </ItemGroup>
 
 </Project>

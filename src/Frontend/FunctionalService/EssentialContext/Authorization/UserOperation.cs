@@ -1,14 +1,14 @@
 ﻿using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using WeeControl.Common.FunctionalService.Enums;
-using WeeControl.Common.FunctionalService.EssentialContext.Authorization.UiResponseObjects;
-using WeeControl.Common.FunctionalService.Interfaces;
 using WeeControl.Common.SharedKernel;
 using WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User;
 using WeeControl.Common.SharedKernel.RequestsResponses;
+using WeeControl.Frontend.FunctionalService.Enums;
+using WeeControl.Frontend.FunctionalService.EssentialContext.Authorization.UiResponseObjects;
+using WeeControl.Frontend.FunctionalService.Interfaces;
 
-namespace WeeControl.Common.FunctionalService.EssentialContext.Authorization
+namespace WeeControl.Frontend.FunctionalService.EssentialContext.Authorization
 {
     public class UserOperation : IUserOperation
     {

@@ -8,7 +8,7 @@ using WeeControl.Common.UserSecurityLib.Interfaces;
 using WeeControl.Common.UserSecurityLib.Services;
 using Xunit;
 
-namespace WeeControl.test.UserSecurityLib.Test.Services
+namespace WeeControl.Test.UserSecurityLib.Test.Services
 {
     public class JwtServiceTests : IDisposable
     {

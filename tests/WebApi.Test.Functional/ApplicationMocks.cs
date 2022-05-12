@@ -3,9 +3,9 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Sockets;
 using Moq;
-using WeeControl.Common.FunctionalService.Interfaces;
+using WeeControl.Frontend.FunctionalService.Interfaces;
 
-namespace WeeControl.test.WebApi.Test.Functional;
+namespace WeeControl.Test.WebApi.Test.Functional;
 
 public static class ApplicationMocks
 {

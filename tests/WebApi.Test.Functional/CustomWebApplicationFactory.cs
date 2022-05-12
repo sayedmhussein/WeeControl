@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.DependencyInjection;
 using WeeControl.Backend.Persistence;
 using Xunit;
 
 [assembly: CollectionBehavior(CollectionBehavior.CollectionPerAssembly, DisableTestParallelization = true, MaxParallelThreads = 1)]
 
-namespace WeeControl.test.WebApi.Test.Functional
+namespace WeeControl.Test.WebApi.Test.Functional
 {
     public class CustomWebApplicationFactory<TStartup>
         : WebApplicationFactory<TStartup> where TStartup : class

@@ -2,8 +2,8 @@ using System;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.JSInterop;
-using WeeControl.Common.FunctionalService.Enums;
-using WeeControl.Common.FunctionalService.Interfaces;
+using WeeControl.Frontend.FunctionalService.Enums;
+using WeeControl.Frontend.FunctionalService.Interfaces;
 
 namespace WeeControl.Frontend.Wasm.Services;
 
