@@ -14,44 +14,41 @@ using WeeControl.Common.SharedKernel.RequestsResponses;
 namespace WeeControl.Backend.WebApi.Controllers.Essentials
 {
     [ApiController]
-    public class CredentialsController : Controller
+    [Consumes(MediaTypeNames.Application.Json)]
+    [Produces(MediaTypeNames.Application.Json)]
+    public class UserController : Controller
     {
-        private readonly IMediator mediatR;
+        private readonly IMediator mediator;
 
-        public CredentialsController(IMediator mediatR)
+        public UserController(IMediator mediator)
         {
-            this.mediatR = mediatR;
+            this.mediator = mediator;
         }
 
         [AllowAnonymous]
         [HttpPost(RegisterDto.HttpPostMethod.EndPoint)]
         [MapToApiVersion(RegisterDto.HttpPostMethod.Version)]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Conflict)]
         public async Task<ActionResult<ResponseDto<TokenDto>>> RegisterV1([FromBody] RequestDto<RegisterDto> dto)
         {
             var command = new RegisterCommand(dto, dto.Payload);
-            var response = await mediatR.Send(command);
+            var response = await mediator.Send(command);
 
             return Ok(new ResponseDto<TokenDto>(response));
-
         }
 
         [AllowAnonymous]
         [HttpPost(TokenDto.HttpPostMethod.EndPoint)]
         [MapToApiVersion(TokenDto.HttpPostMethod.Version)]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult<ResponseDto<TokenDto>>> LoginV1([FromBody] RequestDto<LoginDto> dto)
         {
             var query = new GetNewTokenQuery(dto);
-            var response = await mediatR.Send(query);
+            var response = await mediator.Send(query);
 
             return Ok(response);
         }
@@ -64,15 +61,13 @@ namespace WeeControl.Backend.WebApi.Controllers.Essentials
         [Authorize]
         [HttpPut(TokenDto.HttpPutMethod.EndPoint)]
         [MapToApiVersion(TokenDto.HttpPutMethod.Version)]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResponseDto<TokenDto>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         public async Task<ActionResult<ResponseDto<TokenDto>>> RefreshTokenV1([FromBody] RequestDto dto)
         {
             var query = new GetNewTokenQuery(dto);
-            var response = await mediatR.Send(query);
+            var response = await mediator.Send(query);
 
             return Ok(response);
         }
@@ -80,15 +75,13 @@ namespace WeeControl.Backend.WebApi.Controllers.Essentials
         [Authorize]
         [HttpDelete(TokenDto.HttpDeleteMethod.EndPoint)]
         [MapToApiVersion(TokenDto.HttpDeleteMethod.Version)]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         public async Task<ActionResult<ResponseDto>> LogoutV1([FromBody] RequestDto dto)
         {
             var command = new LogoutCommand(dto);
-            var response = await mediatR.Send(command);
+            var response = await mediator.Send(command);
 
             return Ok(response);
         }
@@ -96,15 +89,13 @@ namespace WeeControl.Backend.WebApi.Controllers.Essentials
         [Authorize]
         [HttpPatch(UpdatePasswordDto.HttpPatchMethod.EndPoint)]
         [MapToApiVersion(UpdatePasswordDto.HttpPatchMethod.Version)]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Forbidden)]
         public async Task<ActionResult<ResponseDto>> UpdatePasswordV1([FromBody] RequestDto<UpdatePasswordDto> dto)
         {
             var command = new UpdatePasswordCommand(dto, dto.Payload.Password);
-            var response = await mediatR.Send(command);
+            var response = await mediator.Send(command);
 
             return Ok(response);
         }

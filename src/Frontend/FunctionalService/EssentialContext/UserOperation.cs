@@ -148,11 +148,6 @@ namespace WeeControl.Frontend.FunctionalService.EssentialContext
             }
         }
 
-        public Task<IResponseToUi> UpdateEmailAsync(UpdateEmailAsync loginDto)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<IResponseToUi> UpdatePasswordAsync(UpdatePasswordDto loginDto)
         {
             var requestDto = new RequestDto<UpdatePasswordDto>(userDevice.DeviceId, loginDto);
