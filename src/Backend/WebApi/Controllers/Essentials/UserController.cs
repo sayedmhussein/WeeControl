@@ -91,11 +91,12 @@ public class UserController : Controller
     [HttpPatch(PasswordSetForgottenDto.HttpPatchMethod.EndPoint)]
     [MapToApiVersion(PasswordSetForgottenDto.HttpPatchMethod.Version)]
     [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.Forbidden)]
     public async Task<ActionResult<ResponseDto>> UpdatePasswordV1([FromBody] RequestDto<PasswordSetForgottenDto> dto)
     {
-        var command = new UpdatePasswordCommand(dto, dto.Payload.Password);
+        var command = new UpdatePasswordCommand(dto, dto.Payload.OldPassword, dto.Payload.NewPassword);
         var response = await mediator.Send(command);
 
         return Ok(response);

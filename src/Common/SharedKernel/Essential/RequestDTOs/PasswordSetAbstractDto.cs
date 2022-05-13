@@ -7,14 +7,14 @@ namespace WeeControl.Common.SharedKernel.Essential.RequestDTOs;
 public abstract class PasswordSetAbstractDto
 {
     [Required(ErrorMessage = "Password is required")]
-    [StringLength(50, MinimumLength = 3, ErrorMessage = "Password length is between 3 and 50 letters.")]
+    [StringLength(50, MinimumLength = 6, ErrorMessage = "Password length is between 6 and 50 letters.")]
     [DataType(DataType.Password)]
-    [DisplayName("Password")]
-    public string Password { get; set; }
+    [DisplayName("New Password")]
+    public string NewPassword { get; set; }
 
     [Required(ErrorMessage = "Confirm Password is required")]
     [DataType(DataType.Password)]
-    [Compare("Password")]
+    [Compare(nameof(NewPassword))]
     [NotMapped]
-    public string ConfirmPassword { get; set; }
+    public string ConfirmNewPassword { get; set; }
 }

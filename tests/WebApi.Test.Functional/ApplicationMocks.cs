@@ -9,40 +9,19 @@ namespace WeeControl.Test.WebApi.Test.Functional;
 
 public static class ApplicationMocks
 {
-    public static (
-        Mock<IUserDevice>  userDevice,
-        Mock<IUserCommunication> userCommunication,
-        Mock<IUserStorage> userStorage
-        ) GetMocks(HttpClient httpClient, string device)
+    public static Mock<IEssentialUserDevice> GetEssentialMock(HttpClient httpClient, string device)
     {
-        return (GetUserDeviceMock(device), GetUserCommunicationMock(httpClient), GetUserStorageMockMock());
-    }
-
-    public static Mock<IUserDevice> GetUserDeviceMock(string device)
-    {
-        var mock = new Mock<IUserDevice>();
+        var mock = new Mock<IEssentialUserDevice>();
         mock.SetupAllProperties();
         mock.Setup(x => x.DeviceId).Returns(device);
         mock.Setup(x => x.TimeStamp).Returns(DateTime.UtcNow);
-        return mock;
-    }
-
-    public static Mock<IUserCommunication> GetUserCommunicationMock(HttpClient httpClient)
-    {
-        var mock = new Mock<IUserCommunication>();
-        mock.SetupAllProperties();
+        
         mock.Setup(x => x.ServerBaseAddress).Returns(GetLocalIpAddress());
         mock.Setup(x => x.HttpClient).Returns(httpClient);
+
         return mock;
     }
 
-    public static Mock<IUserStorage> GetUserStorageMockMock()
-    {
-        var mock = new Mock<IUserStorage>();
-        mock.SetupAllProperties();
-        return mock;
-    }
-        
     private static string GetLocalIpAddress()
     {
         var host = Dns.GetHostEntry(Dns.GetHostName());

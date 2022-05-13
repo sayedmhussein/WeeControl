@@ -6,6 +6,7 @@ using WeeControl.Backend.Domain.Databases.Essential.DatabaseObjects.EssentialsOb
 using WeeControl.Backend.WebApi;
 using WeeControl.Common.SharedKernel.Essential.RequestDTOs;
 using WeeControl.Frontend.FunctionalService.Enums;
+using WeeControl.Frontend.FunctionalService.Interfaces;
 using Xunit;
 
 namespace WeeControl.Test.WebApi.Test.Functional.Controllers.Essentials.UserOperation;
@@ -13,7 +14,6 @@ namespace WeeControl.Test.WebApi.Test.Functional.Controllers.Essentials.UserOper
 public class RegisterTests : IClassFixture<CustomWebApplicationFactory<Startup>>
 {
     private readonly CustomWebApplicationFactory<Startup> factory;
-    //private Mock<IUserDevice> device;
 
     public RegisterTests(CustomWebApplicationFactory<Startup> factory)
     {
@@ -23,18 +23,17 @@ public class RegisterTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     [Fact]
     public async void WhenNewUserRegisterWithValidData_ReturnSuccess()
     {
-        var mocks = ApplicationMocks.GetMocks(factory.CreateClient(), typeof(RegisterTests).Namespace);
+        var mocks = ApplicationMocks.GetEssentialMock(factory.CreateClient(), typeof(RegisterTests).Namespace);
 
         var response = 
             await new Frontend.FunctionalService.EssentialContext.UserOperation(
-                mocks.userDevice.Object, 
-                mocks.userCommunication.Object, 
-                mocks.userStorage.Object).RegisterAsync(RegisterDto.Create("email@email.com", "username", "password"));
+                mocks.Object, 
+                new Mock<IDisplayAlert>().Object).RegisterAsync(RegisterDto.Create("email@email.com", "username", "password"));
             
 
         Assert.Equal(HttpStatusCode.OK, response.HttpStatusCode);
         Assert.True(response.IsSuccess);
-        mocks.userStorage.Verify(x => x.SaveAsync(UserDataEnum.Token, It.IsAny<string>()));
+        mocks.Verify(x => x.SaveAsync(UserDataEnum.Token, It.IsAny<string>()));
     }
         
     [Theory]
@@ -47,13 +46,12 @@ public class RegisterTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     [InlineData("email@email.com", "username", "pas")]
     public async void WhenNewUserRegisterWithInValidData_ReturnBadRequest(string email, string username, string password)
     {
-        var mocks = ApplicationMocks.GetMocks(factory.CreateClient(), typeof(RegisterTests).Namespace);
+        var mocks = ApplicationMocks.GetEssentialMock(factory.CreateClient(), typeof(RegisterTests).Namespace);
 
         var response = 
             await new Frontend.FunctionalService.EssentialContext.UserOperation(
-                mocks.userDevice.Object, 
-                mocks.userCommunication.Object, 
-                mocks.userStorage.Object).RegisterAsync(RegisterDto.Create(email, username, password));
+                mocks.Object, 
+                new Mock<IDisplayAlert>().Object).RegisterAsync(RegisterDto.Create(email, username, password));
             
 
         Assert.Equal(HttpStatusCode.BadRequest, response.HttpStatusCode);
@@ -74,22 +72,20 @@ public class RegisterTests : IClassFixture<CustomWebApplicationFactory<Startup>>
                 });
             })
             .CreateClient();
-        var mocks = ApplicationMocks.GetMocks(client, typeof(RegisterTests).Namespace);
+        var mocks = ApplicationMocks.GetEssentialMock(client, typeof(RegisterTests).Namespace);
 
         var responseSameEmail = 
             await new Frontend.FunctionalService.EssentialContext.UserOperation(
-                mocks.userDevice.Object, 
-                mocks.userCommunication.Object, 
-                mocks.userStorage.Object).RegisterAsync(RegisterDto.Create(user.Email, "username", "password"));
+                mocks.Object, 
+                new Mock<IDisplayAlert>().Object).RegisterAsync(RegisterDto.Create(user.Email, "username", "password"));
             
 
         Assert.Equal(HttpStatusCode.Conflict, responseSameEmail.HttpStatusCode);
             
         var responseSameUsername = 
             await new Frontend.FunctionalService.EssentialContext.UserOperation(
-                mocks.userDevice.Object, 
-                mocks.userCommunication.Object, 
-                mocks.userStorage.Object).RegisterAsync(RegisterDto.Create("someemail@email.com", user.Username, "password"));
+                mocks.Object, 
+                new Mock<IDisplayAlert>().Object).RegisterAsync(RegisterDto.Create("someemail@email.com", user.Username, "password"));
         Assert.Equal(HttpStatusCode.Conflict, responseSameUsername.HttpStatusCode);
     }
 }

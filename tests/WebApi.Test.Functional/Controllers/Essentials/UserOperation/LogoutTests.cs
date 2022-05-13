@@ -2,6 +2,7 @@ using System.Net;
 using Moq;
 using WeeControl.Backend.WebApi;
 using WeeControl.Frontend.FunctionalService.Enums;
+using WeeControl.Frontend.FunctionalService.Interfaces;
 using Xunit;
 
 namespace WeeControl.Test.WebApi.Test.Functional.Controllers.Essentials.UserOperation;
@@ -20,15 +21,14 @@ public class LogoutTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         var client = factory.CreateClient();
             
-        var mocks = ApplicationMocks.GetMocks(client, typeof(LogoutTests).Namespace);
+        var mocks = ApplicationMocks.GetEssentialMock(client, typeof(LogoutTests).Namespace);
         var token = await GetTokenTests.GetRefreshedTokenAsync(client, "admin", "admin", typeof(LogoutTests).Namespace);
-        mocks.userStorage.Setup(x => x.GetAsync(UserDataEnum.Token)).ReturnsAsync(token);
+        mocks.Setup(x => x.GetAsync(UserDataEnum.Token)).ReturnsAsync(token);
 
         var response = 
             await new Frontend.FunctionalService.EssentialContext.UserOperation(
-                    mocks.userDevice.Object, 
-                    mocks.userCommunication.Object, 
-                    mocks.userStorage.Object)
+                    mocks.Object, 
+                    new Mock<IDisplayAlert>().Object)
                 .LogoutAsync();
             
         Assert.Equal(HttpStatusCode.OK, response.HttpStatusCode);
@@ -37,15 +37,12 @@ public class LogoutTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     [Fact]
     public async void WhenUnAuthenticatedUser_HttpResponseIsUnauthorized()
     {
-        var userMock = ApplicationMocks.GetUserDeviceMock(nameof(WhenSendingValidRequest_HttpResponseIsSuccessCode));
-        var commMock = ApplicationMocks.GetUserCommunicationMock(factory.CreateClient());
-        var storageMock = ApplicationMocks.GetUserStorageMockMock();            
-            
+        var mocks = ApplicationMocks.GetEssentialMock(factory.CreateClient(), nameof(WhenSendingValidRequest_HttpResponseIsSuccessCode));
+
         var response = 
             await new Frontend.FunctionalService.EssentialContext.UserOperation(
-                    userMock.Object, 
-                    commMock.Object, 
-                    storageMock.Object)
+                    mocks.Object, 
+                    new Mock<IDisplayAlert>().Object)
                 .LogoutAsync();
             
         Assert.Equal(HttpStatusCode.Unauthorized, response.HttpStatusCode);
@@ -56,22 +53,20 @@ public class LogoutTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         var client = factory.CreateClient();
             
-        var mocks = ApplicationMocks.GetMocks(client, typeof(LogoutTests).Namespace);
+        var mocks = ApplicationMocks.GetEssentialMock(client, typeof(LogoutTests).Namespace);
         var token = await GetTokenTests.GetRefreshedTokenAsync(client, "admin", "admin", typeof(LogoutTests).Namespace);
-        mocks.userStorage.Setup(x => x.GetAsync(UserDataEnum.Token)).ReturnsAsync(token);
+        mocks.Setup(x => x.GetAsync(UserDataEnum.Token)).ReturnsAsync(token);
             
         var response1 = 
             await new Frontend.FunctionalService.EssentialContext.UserOperation(
-                    mocks.userDevice.Object, 
-                    mocks.userCommunication.Object, 
-                    mocks.userStorage.Object)
+                    mocks.Object, 
+                    new Mock<IDisplayAlert>().Object)
                 .LogoutAsync();
             
         var response2 = 
             await new Frontend.FunctionalService.EssentialContext.UserOperation(
-                    mocks.userDevice.Object, 
-                    mocks.userCommunication.Object, 
-                    mocks.userStorage.Object)
+                    mocks.Object, 
+                    new Mock<IDisplayAlert>().Object)
                 .LogoutAsync();
         Assert.Equal(HttpStatusCode.Forbidden, response2.HttpStatusCode);
     }

@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using WeeControl.Common.SharedKernel;
 using WeeControl.Common.SharedKernel.Essential;
 using WeeControl.Common.SharedKernel.Essential.RequestDTOs;
 using WeeControl.Common.SharedKernel.Essential.ResponseDTOs;
@@ -18,12 +17,14 @@ public class UserOperation : IUserOperation
     private readonly IUserDevice userDevice;
     private readonly IUserCommunication userCommunication;
     private readonly IUserStorage userStorage;
+    private readonly IDisplayAlert alert;
 
-    public UserOperation(IUserDevice userDevice, IUserCommunication userCommunication, IUserStorage userStorage)
+    public UserOperation(IEssentialUserDevice device, IDisplayAlert alert)
     {
-        this.userDevice = userDevice;
-        this.userCommunication = userCommunication;
-        this.userStorage = userStorage;
+        this.userDevice = device;
+        this.userCommunication = device;
+        this.userStorage = device;
+        this.alert = alert;
     }
 
     public async Task<IResponseDto> RegisterAsync(RegisterDto loginDto)
@@ -171,7 +172,10 @@ public class UserOperation : IUserOperation
         {
             case HttpStatusCode.OK:
             case HttpStatusCode.Accepted:
+                await alert.DisplaySimpleAlertAsync("Password was updated successfully");
                 return ResponseToUi.Accepted(response.StatusCode);
+            case HttpStatusCode.NotFound:
+                return ResponseToUi.Rejected(response.StatusCode, "Old password is not correct!");
             case HttpStatusCode.Unauthorized:
                 return ResponseToUi.Rejected(response.StatusCode, "You are not authorized to to this!");
             default:

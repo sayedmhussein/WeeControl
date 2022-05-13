@@ -22,24 +22,28 @@ public class Program
             
         builder.RootComponents.Add<App>("#app");
 
-        builder.Services.AddTransient<IUserDevice, UserDeviceService>();
+        // builder.Services.AddTransient<IUserDevice, UserDeviceService>();
         builder.Services.AddScoped<IUserStorage, UserStorageService>();
-        builder.Services.AddScoped<IUserCommunication>(provider =>
-        {
-            var factory = provider.GetService<IHttpClientFactory>();
-            return new UserCommunicationService(factory);
-        });
+        // builder.Services.AddScoped<IUserCommunication>(provider =>
+        // {
+        //     var factory = provider.GetService<IHttpClientFactory>();
+        //     return new UserCommunicationService(factory);
+        // });
             
         DependencyInjection.AddUserSecurityService(builder.Services);
-            
+           
+        builder.Services.AddScoped<IEssentialUserDevice, EssentialUserDeviceService>();
+        builder.Services.AddScoped<IDisplayAlert, DisplaySimpleAlert>();
 
-        builder.Services.AddScoped<IUserOperation>(provider =>
-        {
-            var device = provider.GetService<IUserDevice>();
-            var communication = provider.GetService<IUserCommunication>();
-            var storage = provider.GetService<IUserStorage>();
-            return new UserOperation(device, communication, storage);
-        });
+        // builder.Services.AddScoped<IUserOperation>(provider =>
+        // {
+        //     var device = provider.GetService<IUserDevice>();
+        //     var communication = provider.GetService<IUserCommunication>();
+        //     var storage = provider.GetService<IUserStorage>();
+        //     return new UserOperation(device, communication, storage);
+        // });
+
+        builder.Services.AddScoped<IUserOperation, UserOperation>();
 
         builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
         builder.Services.AddScoped<ISecurityService, AuthStateProvider>(); ///////////////////////////////////////////

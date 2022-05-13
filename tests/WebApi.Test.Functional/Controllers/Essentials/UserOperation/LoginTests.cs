@@ -23,17 +23,14 @@ public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         var token = string.Empty;
 
-        var userMock = ApplicationMocks.GetUserDeviceMock(device);
-        var commMock = ApplicationMocks.GetUserCommunicationMock(client);
-        var storageMock = ApplicationMocks.GetUserStorageMockMock();    
-        storageMock.Setup(x => x.SaveAsync(UserDataEnum.Token, It.IsAny<string>()))
+        var mocks = ApplicationMocks.GetEssentialMock(client, device);
+        mocks.Setup(x => x.SaveAsync(UserDataEnum.Token, It.IsAny<string>()))
             .Callback((UserDataEnum en, string tkn) => token = tkn);
             
         var response = 
             await new Frontend.FunctionalService.EssentialContext.UserOperation(
-                    userMock.Object, 
-                    commMock.Object, 
-                    storageMock.Object)
+                    mocks.Object, 
+                    new Mock<IDisplayAlert>().Object)
                 .LoginAsync(new LoginDto(username, password));
             
         Assert.Equal(HttpStatusCode.OK, response.HttpStatusCode);
@@ -44,14 +41,11 @@ public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>
 
     private static Task<IResponseDto> LoginDebugAsync(HttpClient client, string username, string password, string device)
     {
-        var userMock = ApplicationMocks.GetUserDeviceMock(device);
-        var commMock = ApplicationMocks.GetUserCommunicationMock(client);
-        var storageMock = ApplicationMocks.GetUserStorageMockMock();
+        var mocks = ApplicationMocks.GetEssentialMock(client, device);
 
         var response = new Frontend.FunctionalService.EssentialContext.UserOperation(
-                userMock.Object, 
-                commMock.Object, 
-                storageMock.Object)
+                mocks.Object, 
+                new Mock<IDisplayAlert>().Object)
             .LoginAsync(new LoginDto(username, password));
 
         return response;
@@ -91,18 +85,17 @@ public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     [Fact]
     public async void WhenSendingValidRequest_HttpResponseIsSuccessCode()
     {
-        var mocks = ApplicationMocks.GetMocks(factory.CreateClient(), typeof(LoginTests).Namespace);
+        var mocks = ApplicationMocks.GetEssentialMock(factory.CreateClient(), typeof(LoginTests).Namespace);
 
         var response = 
             await new Frontend.FunctionalService.EssentialContext.UserOperation(
-                    mocks.userDevice.Object, 
-                    mocks.userCommunication.Object, 
-                    mocks.userStorage.Object)
+                    mocks.Object, 
+                    new Mock<IDisplayAlert>().Object)
                 .LoginAsync(new LoginDto("admin", "admin"));
             
         Assert.Equal(HttpStatusCode.OK, response.HttpStatusCode);
         Assert.True(response.IsSuccess);
-        mocks.userStorage.Verify(x => x.SaveAsync(UserDataEnum.Token, It.IsAny<string>()));
+        mocks.Verify(x => x.SaveAsync(UserDataEnum.Token, It.IsAny<string>()));
     }
 
     [Fact]

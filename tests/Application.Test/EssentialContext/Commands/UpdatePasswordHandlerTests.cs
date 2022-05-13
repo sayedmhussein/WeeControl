@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.Backend.Application.EssentialContext.Commands;
+using WeeControl.Backend.Application.Exceptions;
 using WeeControl.Backend.Application.Interfaces;
 using WeeControl.Backend.Domain.Databases.Essential;
 using WeeControl.Backend.Domain.Databases.Essential.DatabaseObjects.EssentialsObjects;
@@ -32,7 +33,7 @@ public class UpdatePasswordHandlerTests : IDisposable
     }
 
     [Fact]
-    public async void WhenRequestSent_PasswordIsChangedSuccessfully()
+    public async void WhenRequestSentCorrect_PasswordIsChangedSuccessfully()
     {
         var info = (Email: "email@email.com", Username: nameof(UpdatePasswordHandlerTests), Password: "password");
         var user = UserDbo.Create(info.Email, info.Username, info.Password);
@@ -47,8 +48,28 @@ public class UpdatePasswordHandlerTests : IDisposable
         currentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
 
         var handler = new UpdatePasswordHandler(context, currentUserInfoMock.Object);
-        await handler.Handle(new UpdatePasswordCommand(requestDto, "NewPassword"), default);
+        await handler.Handle(new UpdatePasswordCommand(requestDto, info.Password, "NewPassword"), default);
         
         Assert.Equal("NewPassword", user.Password);
+    }
+    
+    [Fact]
+    public async void WhenRequestSentInvalidOldPassword_ThrowNotFound()
+    {
+        var info = (Email: "email@email.com", Username: nameof(UpdatePasswordHandlerTests), Password: "password");
+        var user = UserDbo.Create(info.Email, info.Username, info.Password);
+        await context.Users.AddAsync(user);
+        await context.SaveChangesAsync(default);
+        
+        var session = SessionDbo.Create(Guid.NewGuid(), "device");
+        session.UserId = user.UserId;
+        await context.Sessions.AddAsync(session);
+        await context.SaveChangesAsync(default);
+
+        currentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
+
+        var handler = new UpdatePasswordHandler(context, currentUserInfoMock.Object);
+        
+        await Assert.ThrowsAsync<NotFoundException>(() => handler.Handle(new UpdatePasswordCommand(requestDto, "OtherPassword", "NewPassword"), default));
     }
 }

@@ -6,6 +6,12 @@ namespace WeeControl.Common.SharedKernel.Essential.RequestDTOs;
 
 public class PasswordSetForgottenDto : PasswordSetAbstractDto
 {
+    [Required(ErrorMessage = "Old Password is required")]
+    [StringLength(50, MinimumLength = 3, ErrorMessage = "Password length is between 3 and 50 letters.")]
+    [DataType(DataType.Password)]
+    [DisplayName("Old Password")]
+    public string OldPassword { get; set; }
+    
     public static class HttpPatchMethod
     {
         public const string EndPoint = "Api/Credentials/UpdatePassword";
