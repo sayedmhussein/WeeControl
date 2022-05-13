@@ -5,63 +5,63 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using WeeControl.Common.SharedKernel.Essential;
 using WeeControl.Frontend.FunctionalService.EssentialContext;
 using WeeControl.Frontend.FunctionalService.Interfaces;
 using WeeControl.Frontend.Wasm.Services;
 using DependencyInjection = WeeControl.Common.UserSecurityLib.DependencyInjection;
 using WeeControl.Frontend.Wasm.Interfaces;
 
-namespace WeeControl.Frontend.Wasm
+namespace WeeControl.Frontend.Wasm;
+
+public class Program
 {
-    public class Program
+    public static async Task Main(string[] args)
     {
-        public static async Task Main(string[] args)
+        var builder = WebAssemblyHostBuilder.CreateDefault(args);
+            
+        builder.RootComponents.Add<App>("#app");
+
+        builder.Services.AddTransient<IUserDevice, UserDeviceService>();
+        builder.Services.AddScoped<IUserStorage, UserStorageService>();
+        builder.Services.AddScoped<IUserCommunication>(provider =>
         {
-            var builder = WebAssemblyHostBuilder.CreateDefault(args);
+            var factory = provider.GetService<IHttpClientFactory>();
+            return new UserCommunicationService(factory);
+        });
             
-            builder.RootComponents.Add<App>("#app");
-
-            builder.Services.AddTransient<IUserDevice, UserDeviceService>();
-            builder.Services.AddScoped<IUserStorage, UserStorageService>();
-            builder.Services.AddScoped<IUserCommunication>(provider =>
-            {
-                var factory = provider.GetService<IHttpClientFactory>();
-                return new UserCommunicationService(factory);
-            });
-            
-            DependencyInjection.AddUserSecurityService(builder.Services);
+        DependencyInjection.AddUserSecurityService(builder.Services);
             
 
-            builder.Services.AddScoped<IUserOperation>(provider =>
-            {
-                var device = provider.GetService<IUserDevice>();
-                var communication = provider.GetService<IUserCommunication>();
-                var storage = provider.GetService<IUserStorage>();
-                return new UserOperation(device, communication, storage);
-            });
+        builder.Services.AddScoped<IUserOperation>(provider =>
+        {
+            var device = provider.GetService<IUserDevice>();
+            var communication = provider.GetService<IUserCommunication>();
+            var storage = provider.GetService<IUserStorage>();
+            return new UserOperation(device, communication, storage);
+        });
 
-            builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
-            builder.Services.AddScoped<ISecurityService, AuthStateProvider>(); ///////////////////////////////////////////
-            builder.Services.AddOptions();
+        builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
+        builder.Services.AddScoped<ISecurityService, AuthStateProvider>(); ///////////////////////////////////////////
+        builder.Services.AddOptions();
 
-            builder.Services.AddAuthorizationCore();
+        builder.Services.AddAuthorizationCore();
 
-            builder.Services.AddHttpClient("UnSecured", 
+        builder.Services.AddHttpClient("UnSecured", 
             client => client.BaseAddress = new Uri("https://localhost:5001/"));
             
-            builder.Services.AddHttpClient("Secured", 
-                    client => client.BaseAddress = new Uri("https://localhost:5001/"))
-                .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
+        builder.Services.AddHttpClient("Secured", 
+                client => client.BaseAddress = new Uri("https://localhost:5001/"))
+            .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
 
-            builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>()
-                .CreateClient("Secured"));
+        builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>()
+            .CreateClient("Secured"));
             
-            builder.Services.AddApiAuthorization(options =>
-            {
-                options.AuthenticationPaths.LogInPath = "login";
-            });
+        builder.Services.AddApiAuthorization(options =>
+        {
+            options.AuthenticationPaths.LogInPath = "login";
+        });
             
-            await builder.Build().RunAsync();
-        }
+        await builder.Build().RunAsync();
     }
 }

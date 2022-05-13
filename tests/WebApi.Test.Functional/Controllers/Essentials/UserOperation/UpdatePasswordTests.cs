@@ -1,7 +1,7 @@
 using System.Net;
 using Moq;
 using WeeControl.Backend.WebApi;
-using WeeControl.Common.SharedKernel.DataTransferObjects.Essential.User;
+using WeeControl.Common.SharedKernel.Essential.RequestDTOs;
 using WeeControl.Frontend.FunctionalService.Enums;
 using Xunit;
 
@@ -30,7 +30,7 @@ public class UpdatePasswordTests : IClassFixture<CustomWebApplicationFactory<Sta
                     mocks.userDevice.Object, 
                     mocks.userCommunication.Object, 
                     mocks.userStorage.Object)
-                .UpdatePasswordAsync(new UpdatePasswordDto() { Password = "NewPassword", ConfirmPassword = "NewPassword"});
+                .UpdatePasswordAsync(new PasswordSetForgottenDto() { Password = "NewPassword", ConfirmPassword = "NewPassword"});
         
         Assert.Equal(HttpStatusCode.OK, response.HttpStatusCode);
     }
@@ -47,7 +47,7 @@ public class UpdatePasswordTests : IClassFixture<CustomWebApplicationFactory<Sta
                     mocks.userDevice.Object, 
                     mocks.userCommunication.Object, 
                     mocks.userStorage.Object)
-                .UpdatePasswordAsync(new UpdatePasswordDto() { Password = "NewPassword", ConfirmPassword = "NewPassword"});
+                .UpdatePasswordAsync(new PasswordSetForgottenDto() { Password = "NewPassword", ConfirmPassword = "NewPassword"});
         
         Assert.Equal(HttpStatusCode.Unauthorized, response.HttpStatusCode);
     }

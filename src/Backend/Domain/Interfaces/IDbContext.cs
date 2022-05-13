@@ -1,12 +1,11 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace WeeControl.Backend.Domain.Interfaces
+namespace WeeControl.Backend.Domain.Interfaces;
+
+public interface IDbContext
 {
-    public interface IDbContext
-    {
-        int SaveChanges();
+    int SaveChanges();
         
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken);
-    }
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

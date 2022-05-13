@@ -1,18 +1,18 @@
 ﻿using MediatR;
-using WeeControl.Common.SharedKernel.DataTransferObjects.Essential.User;
+using WeeControl.Common.SharedKernel.Essential.RequestDTOs;
+using WeeControl.Common.SharedKernel.Essential.ResponseDTOs;
 using WeeControl.Common.SharedKernel.RequestsResponses;
 
-namespace WeeControl.Backend.Application.EssentialContext.Commands
+namespace WeeControl.Backend.Application.EssentialContext.Commands;
+
+public class RegisterCommand : IRequest<TokenDto>
 {
-    public class RegisterCommand : IRequest<TokenDto>
-    {
-        public RequestDto Request { get; }
-        public RegisterDto Payload { get; }
+    public RequestDto Request { get; }
+    public RegisterDto Payload { get; }
         
-        public RegisterCommand(RequestDto request, RegisterDto payload)
-        {
-            Request = request;
-            Payload = payload;
-        }
+    public RegisterCommand(RequestDto request, RegisterDto payload)
+    {
+        Request = request;
+        Payload = payload;
     }
 }

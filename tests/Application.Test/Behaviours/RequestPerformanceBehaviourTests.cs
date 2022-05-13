@@ -4,21 +4,20 @@ using Moq;
 using WeeControl.Backend.Application.Interfaces;
 using Xunit;
 
-namespace WeeControl.test.Application.Test.Behaviours
+namespace WeeControl.test.Application.Test.Behaviours;
+
+public class RequestPerformanceBehaviourTests
 {
-    public class RequestPerformanceBehaviourTests
+    [Fact(Skip = "Issue in this unit test!")]
+    public void HandleShouldReturnTimeBetweenRequestAndResponse()
     {
-        [Fact(Skip = "Issue in this unit test!")]
-        public void HandleShouldReturnTimeBetweenRequestAndResponse()
-        {
-            var loggerMock = new Mock<IRequest<ILogger<string>>>();
-            var userMock = new Mock<ICurrentUserInfo>();
+        var loggerMock = new Mock<IRequest<ILogger<string>>>();
+        var userMock = new Mock<ICurrentUserInfo>();
 
-            //var behaviour = new RequestPerformanceBehaviour<IRequest<ILogger<string>>, ICurrentUserInfo>(loggerMock.Object, userMock.Object);
-            //var behaviour = new RequestPerformanceBehaviour<string, string>(loggerMock.Object, userMock.Object);
-            //var requestHandler = new RequestHandlerDelegate()
+        //var behaviour = new RequestPerformanceBehaviour<IRequest<ILogger<string>>, ICurrentUserInfo>(loggerMock.Object, userMock.Object);
+        //var behaviour = new RequestPerformanceBehaviour<string, string>(loggerMock.Object, userMock.Object);
+        //var requestHandler = new RequestHandlerDelegate()
 
-            //var response = await behaviour.Handle("request", default, "");
-        }
+        //var response = await behaviour.Handle("request", default, "");
     }
 }

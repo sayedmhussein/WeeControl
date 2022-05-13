@@ -5,25 +5,24 @@ using WeeControl.Common.UserSecurityLib.Helpers.CustomHandlers.TokenRefreshment;
 using WeeControl.Common.UserSecurityLib.Interfaces;
 using WeeControl.Common.UserSecurityLib.Services;
 
-namespace WeeControl.Common.UserSecurityLib
+namespace WeeControl.Common.UserSecurityLib;
+
+public static class DependencyInjection
 {
-    public static class DependencyInjection
+    public static IServiceCollection AddUserSecurityService(this IServiceCollection services)
     {
-        public static IServiceCollection AddUserSecurityService(this IServiceCollection services)
+        services.AddSingleton<IAuthorizationHandler, TokenRefreshmentHandler>();
+
+        services.AddSingleton<IJwtService, JwtService>();
+
+        services.AddAuthorizationCore(options =>
         {
-            services.AddSingleton<IAuthorizationHandler, TokenRefreshmentHandler>();
-
-            services.AddSingleton<IJwtService, JwtService>();
-
-            services.AddAuthorizationCore(options =>
-            {
-                options.DefaultPolicy = new AuthorizationPolicyBuilder().AddAuthenticationSchemes("Bearer").RequireAuthenticatedUser().Build();
-                options.FallbackPolicy = new AuthorizationPolicyBuilder().AddAuthenticationSchemes("Bearer").RequireAuthenticatedUser().Build();
+            options.DefaultPolicy = new AuthorizationPolicyBuilder().AddAuthenticationSchemes("Bearer").RequireAuthenticatedUser().Build();
+            options.FallbackPolicy = new AuthorizationPolicyBuilder().AddAuthenticationSchemes("Bearer").RequireAuthenticatedUser().Build();
                 
-                HumanResourcesPolicyOptions.Configure(options);
-            });
+            HumanResourcesPolicyOptions.Configure(options);
+        });
 
-            return services;
-        }
+        return services;
     }
 }

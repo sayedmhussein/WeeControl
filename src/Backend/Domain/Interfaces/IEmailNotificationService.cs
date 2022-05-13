@@ -1,6 +1,5 @@
-﻿namespace WeeControl.Backend.Domain.Interfaces
+﻿namespace WeeControl.Backend.Domain.Interfaces;
+
+public interface IEmailNotificationService : INotificationService
 {
-    public interface IEmailNotificationService : INotificationService
-    {
-    }
 }

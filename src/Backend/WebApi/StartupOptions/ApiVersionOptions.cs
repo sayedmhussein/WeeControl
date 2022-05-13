@@ -1,16 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 
-namespace WeeControl.Backend.WebApi.StartupOptions
+namespace WeeControl.Backend.WebApi.StartupOptions;
+
+public class ApiVersionOptions
 {
-    public class ApiVersionOptions
+    public static void ConfigureApiVersioning(ApiVersioningOptions options)
     {
-        public static void ConfigureApiVersioning(ApiVersioningOptions options)
-        {
-            options.DefaultApiVersion = new ApiVersion(1, 0);
-            options.AssumeDefaultVersionWhenUnspecified = true;
-            options.ApiVersionReader = new MediaTypeApiVersionReader();
-            options.ReportApiVersions = true;
-        }
+        options.DefaultApiVersion = new ApiVersion(1, 0);
+        options.AssumeDefaultVersionWhenUnspecified = true;
+        options.ApiVersionReader = new MediaTypeApiVersionReader();
+        options.ReportApiVersions = true;
     }
 }

@@ -1,11 +1,10 @@
-﻿namespace WeeControl.Common.SharedKernel.Interfaces
+﻿namespace WeeControl.Common.SharedKernel.Interfaces;
+
+public interface IRequestDto
 {
-    public interface IRequestDto
-    {
-        string DeviceId { get; set; }
+    string DeviceId { get; set; }
 
-        double? Latitude { get; set; }
+    double? Latitude { get; set; }
 
-        double? Longitude { get; set; }
-    }
+    double? Longitude { get; set; }
 }

@@ -1,13 +1,12 @@
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 
-namespace WeeControl.Common.UserSecurityLib.Interfaces
-{
-    public interface IJwtService
-    {
-        string GenerateToken(SecurityTokenDescriptor descriptor);
+namespace WeeControl.Common.UserSecurityLib.Interfaces;
 
-        ClaimsPrincipal ExtractClaimPrincipal(string token);
-        ClaimsPrincipal ExtractClaimPrincipal(TokenValidationParameters parameters, string token);
-    }
+public interface IJwtService
+{
+    string GenerateToken(SecurityTokenDescriptor descriptor);
+
+    ClaimsPrincipal ExtractClaimPrincipal(string token);
+    ClaimsPrincipal ExtractClaimPrincipal(TokenValidationParameters parameters, string token);
 }

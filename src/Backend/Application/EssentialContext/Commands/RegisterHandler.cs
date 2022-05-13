@@ -7,44 +7,44 @@ using WeeControl.Backend.Application.EssentialContext.Queries;
 using WeeControl.Backend.Application.Exceptions;
 using WeeControl.Backend.Domain.Databases.Essential;
 using WeeControl.Backend.Domain.Databases.Essential.DatabaseObjects.EssentialsObjects;
-using WeeControl.Common.SharedKernel.DataTransferObjects.Essential.User;
+using WeeControl.Common.SharedKernel.Essential.RequestDTOs;
+using WeeControl.Common.SharedKernel.Essential.ResponseDTOs;
 
-namespace WeeControl.Backend.Application.EssentialContext.Commands
+namespace WeeControl.Backend.Application.EssentialContext.Commands;
+
+public class RegisterHandler : IRequestHandler<RegisterCommand, TokenDto>
 {
-    public class RegisterHandler : IRequestHandler<RegisterCommand, TokenDto>
+    private readonly IEssentialDbContext context;
+    private readonly IMediator mediator;
+
+    public RegisterHandler(IEssentialDbContext context, IMediator mediator)
     {
-        private readonly IEssentialDbContext context;
-        private readonly IMediator mediator;
+        this.context = context;
+        this.mediator = mediator;
+    }
 
-        public RegisterHandler(IEssentialDbContext context, IMediator mediator)
+    public async Task<TokenDto> Handle(RegisterCommand cmd, CancellationToken cancellationToken)
+    {
+        await mediator.Send(new VerifyRequestQuery(cmd.Request), cancellationToken);
+
+        if (string.IsNullOrWhiteSpace(cmd.Payload.Password) ||
+            (string.IsNullOrWhiteSpace(cmd.Payload.Username) && string.IsNullOrWhiteSpace(cmd.Payload.Email)))
         {
-            this.context = context;
-            this.mediator = mediator;
+            throw new ValidationException();
         }
 
-        public async Task<TokenDto> Handle(RegisterCommand cmd, CancellationToken cancellationToken)
+        if (context.Users.Any(x => (x.Username == cmd.Payload.Username) ||
+                                   ( x.Email == cmd.Payload.Email)))
         {
-            await mediator.Send(new VerifyRequestQuery(cmd.Request), cancellationToken);
-
-            if (string.IsNullOrWhiteSpace(cmd.Payload.Password) ||
-                (string.IsNullOrWhiteSpace(cmd.Payload.Username) && string.IsNullOrWhiteSpace(cmd.Payload.Email)))
-            {
-                throw new ValidationException();
-            }
-
-            if (context.Users.Any(x => (x.Username == cmd.Payload.Username) ||
-                                       ( x.Email == cmd.Payload.Email)))
-            {
-                throw new ConflictFailureException();
-            }
-
-            var user = UserDbo.Create(cmd.Payload.Email, cmd.Payload.Username, cmd.Payload.Password);
-
-            await context.Users.AddAsync(user, cancellationToken);
-            await context.SaveChangesAsync(cancellationToken);
-
-            var b= await mediator.Send(new GetNewTokenQuery(cmd.Request, new LoginDto(user.Username, user.Password)), cancellationToken);
-            return b.Payload;
+            throw new ConflictFailureException();
         }
+
+        var user = UserDbo.Create(cmd.Payload.Email, cmd.Payload.Username, cmd.Payload.Password);
+
+        await context.Users.AddAsync(user, cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
+
+        var b= await mediator.Send(new GetNewTokenQuery(cmd.Request, new LoginDto(user.Username, user.Password)), cancellationToken);
+        return b.Payload;
     }
 }

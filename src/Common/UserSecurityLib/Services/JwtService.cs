@@ -4,35 +4,34 @@ using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using WeeControl.Common.UserSecurityLib.Interfaces;
 
-namespace WeeControl.Common.UserSecurityLib.Services
+namespace WeeControl.Common.UserSecurityLib.Services;
+
+public class JwtService : IJwtService
 {
-    public class JwtService : IJwtService
+    public string GenerateToken(SecurityTokenDescriptor descriptor)
     {
-        public string GenerateToken(SecurityTokenDescriptor descriptor)
-        {
-            descriptor.IssuedAt ??= DateTime.UtcNow;
-            descriptor.Issuer ??= nameof(WeeControl);
+        descriptor.IssuedAt ??= DateTime.UtcNow;
+        descriptor.Issuer ??= nameof(WeeControl);
 
-            var tokenHandler = new JwtSecurityTokenHandler();
+        var tokenHandler = new JwtSecurityTokenHandler();
 
-            var token = tokenHandler.CreateToken(descriptor);
-            return tokenHandler.WriteToken(token);
-        }
+        var token = tokenHandler.CreateToken(descriptor);
+        return tokenHandler.WriteToken(token);
+    }
 
-        public ClaimsPrincipal ExtractClaimPrincipal(string token)
-        {
-            var handler = new JwtSecurityTokenHandler();
-            var securityToken = handler.ReadJwtToken(token);
-            var ci = new ClaimsIdentity("custom");
-            ci.AddClaims(securityToken.Claims);
-            var cp = new ClaimsPrincipal(ci);
-            return cp;
-        }
+    public ClaimsPrincipal ExtractClaimPrincipal(string token)
+    {
+        var handler = new JwtSecurityTokenHandler();
+        var securityToken = handler.ReadJwtToken(token);
+        var ci = new ClaimsIdentity("custom");
+        ci.AddClaims(securityToken.Claims);
+        var cp = new ClaimsPrincipal(ci);
+        return cp;
+    }
 
-        public ClaimsPrincipal ExtractClaimPrincipal(TokenValidationParameters parameters, string token)
-        {
-            var handler = new JwtSecurityTokenHandler();
-            return handler.ValidateToken(token, parameters, out var _);
-        }
+    public ClaimsPrincipal ExtractClaimPrincipal(TokenValidationParameters parameters, string token)
+    {
+        var handler = new JwtSecurityTokenHandler();
+        return handler.ValidateToken(token, parameters, out var _);
     }
 }

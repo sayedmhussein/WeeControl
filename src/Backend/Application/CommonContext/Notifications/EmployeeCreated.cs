@@ -4,26 +4,25 @@ using System.Threading.Tasks;
 using MediatR;
 using WeeControl.Backend.Domain.Interfaces;
 
-namespace WeeControl.Backend.Application.CommonContext.Notifications
+namespace WeeControl.Backend.Application.CommonContext.Notifications;
+
+public class EmployeeCreated : INotification
 {
-    public class EmployeeCreated : INotification
+    public Guid EmployeeId { get; set; }
+
+    public class EmployeeCreatedHandler : INotificationHandler<EmployeeCreated>
     {
-        public Guid EmployeeId { get; set; }
+        private readonly IEmailNotificationService notification;
 
-        public class EmployeeCreatedHandler : INotificationHandler<EmployeeCreated>
+        public EmployeeCreatedHandler(IEmailNotificationService notification)
         {
-            private readonly IEmailNotificationService notification;
+            this.notification = notification;
+        }
 
-            public EmployeeCreatedHandler(IEmailNotificationService notification)
-            {
-                this.notification = notification;
-            }
-
-            public Task Handle(EmployeeCreated notif, CancellationToken cancellationToken)
-            {
-                //await _notification.SendAsync(new MessageDto());
-                return Task.CompletedTask;
-            }
+        public Task Handle(EmployeeCreated notif, CancellationToken cancellationToken)
+        {
+            //await _notification.SendAsync(new MessageDto());
+            return Task.CompletedTask;
         }
     }
 }

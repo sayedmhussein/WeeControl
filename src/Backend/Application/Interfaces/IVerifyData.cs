@@ -1,7 +1,6 @@
-﻿namespace WeeControl.Backend.Application.Interfaces
+﻿namespace WeeControl.Backend.Application.Interfaces;
+
+public interface IVerifyData
 {
-    public interface IVerifyData
-    {
-        bool Verify();
-    }
+    bool Verify();
 }

@@ -8,55 +8,54 @@ using WeeControl.Common.UserSecurityLib.Interfaces;
 using WeeControl.Common.UserSecurityLib.Services;
 using Xunit;
 
-namespace WeeControl.Test.UserSecurityLib.Test.Services
+namespace WeeControl.Test.UserSecurityLib.Test.Services;
+
+public class JwtServiceTests : IDisposable
 {
-    public class JwtServiceTests : IDisposable
-    {
-        private IJwtService service;
-        private string securityKey = new string('a', 30);
+    private IJwtService service;
+    private string securityKey = new string('a', 30);
         
-        public JwtServiceTests()
+    public JwtServiceTests()
+    {
+        service = new JwtService();
+    }
+
+    public void Dispose()
+    {
+        service = null;
+    }
+
+    [Fact]
+    public void WhenGeneratingATokenUsingClaims_WhenExtractingSameClaimShouldBeExist()
+    {
+        var key = Encoding.ASCII.GetBytes(securityKey);
+        var claim = new Claim("Type", "Value");
+        var list = new List<Claim>() { claim };
+
+        var descriptor = new SecurityTokenDescriptor()
         {
-            service = new JwtService();
-        }
+            Subject = new ClaimsIdentity(list),
+            IssuedAt = DateTime.UtcNow,
+            Expires = DateTime.UtcNow.AddMinutes(1),
+            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
+        };
 
-        public void Dispose()
-        {
-            service = null;
-        }
-
-        [Fact]
-        public void WhenGeneratingATokenUsingClaims_WhenExtractingSameClaimShouldBeExist()
-        {
-            var key = Encoding.ASCII.GetBytes(securityKey);
-            var claim = new Claim("Type", "Value");
-            var list = new List<Claim>() { claim };
-
-            var descriptor = new SecurityTokenDescriptor()
-            {
-                Subject = new ClaimsIdentity(list),
-                IssuedAt = DateTime.UtcNow,
-                Expires = DateTime.UtcNow.AddMinutes(1),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
-            };
-
-            var token = service.GenerateToken(descriptor);
+        var token = service.GenerateToken(descriptor);
             
-            Assert.NotEmpty(token);
+        Assert.NotEmpty(token);
 
-            var parameters = new TokenValidationParameters()
-            {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(key),
-                ValidateLifetime = true,
-                ValidateAudience = false,
-                ValidateIssuer = false
-            };
+        var parameters = new TokenValidationParameters()
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ValidateLifetime = true,
+            ValidateAudience = false,
+            ValidateIssuer = false
+        };
 
-            var claimPrincible = service.ExtractClaimPrincipal(parameters, token);
+        var claimPrincible = service.ExtractClaimPrincipal(parameters, token);
             
-            Assert.Equal("Type", claimPrincible.Claims.First().Type);
-            Assert.Equal("Value", claimPrincible.Claims.First().Value);
-        }
+        Assert.Equal("Type", claimPrincible.Claims.First().Type);
+        Assert.Equal("Value", claimPrincible.Claims.First().Value);
     }
 }

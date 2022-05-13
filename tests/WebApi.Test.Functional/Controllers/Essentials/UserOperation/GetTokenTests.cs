@@ -6,105 +6,104 @@ using WeeControl.Backend.WebApi;
 using WeeControl.Frontend.FunctionalService.Enums;
 using Xunit;
 
-namespace WeeControl.Test.WebApi.Test.Functional.Controllers.Essentials.UserOperation
+namespace WeeControl.Test.WebApi.Test.Functional.Controllers.Essentials.UserOperation;
+
+public class GetTokenTests : IClassFixture<CustomWebApplicationFactory<Startup>>
 {
-    public class GetTokenTests : IClassFixture<CustomWebApplicationFactory<Startup>>
+    #region static
+    public static async Task<string> GetRefreshedTokenAsync(HttpClient client, string username, string password,
+        string device)
     {
-        #region static
-        public static async Task<string> GetRefreshedTokenAsync(HttpClient client, string username, string password,
-            string device)
-        {
-            var token1 = await LoginTests.LoginAsync(client, username, password, device);
-            var token2 = string.Empty;
+        var token1 = await LoginTests.LoginAsync(client, username, password, device);
+        var token2 = string.Empty;
             
-            var mocks = ApplicationMocks.GetMocks(client, device);
-            mocks.userStorage.Setup(x => x.GetAsync(UserDataEnum.Token)).ReturnsAsync(token1);
-            mocks.userStorage.Setup(x => x.SaveAsync(UserDataEnum.Token, It.IsAny<string>()))
-                .Callback((UserDataEnum en, string tkn) => token2 = tkn);
+        var mocks = ApplicationMocks.GetMocks(client, device);
+        mocks.userStorage.Setup(x => x.GetAsync(UserDataEnum.Token)).ReturnsAsync(token1);
+        mocks.userStorage.Setup(x => x.SaveAsync(UserDataEnum.Token, It.IsAny<string>()))
+            .Callback((UserDataEnum en, string tkn) => token2 = tkn);
 
-            var response = 
-                await new Frontend.FunctionalService.EssentialContext.UserOperation(
-                        mocks.userDevice.Object, 
-                        mocks.userCommunication.Object, 
-                        mocks.userStorage.Object)
-                    .GetTokenAsync();
+        var response = 
+            await new Frontend.FunctionalService.EssentialContext.UserOperation(
+                    mocks.userDevice.Object, 
+                    mocks.userCommunication.Object, 
+                    mocks.userStorage.Object)
+                .GetTokenAsync();
             
-            Assert.Equal(HttpStatusCode.OK, response.HttpStatusCode);
-            Assert.NotEmpty(token2);
+        Assert.Equal(HttpStatusCode.OK, response.HttpStatusCode);
+        Assert.NotEmpty(token2);
         
-            return token2;
-        }
-        #endregion
+        return token2;
+    }
+    #endregion
         
-        private readonly CustomWebApplicationFactory<Startup> factory;
+    private readonly CustomWebApplicationFactory<Startup> factory;
 
-        public GetTokenTests(CustomWebApplicationFactory<Startup> factory)
-        {
-            this.factory = factory;
-        }
+    public GetTokenTests(CustomWebApplicationFactory<Startup> factory)
+    {
+        this.factory = factory;
+    }
         
-        [Fact]
-        public async void WhenSendingValidRequest_HttpResponseIsSuccessCode()
-        {
-            var client = factory.CreateClient();
+    [Fact]
+    public async void WhenSendingValidRequest_HttpResponseIsSuccessCode()
+    {
+        var client = factory.CreateClient();
             
-            var mocks = ApplicationMocks.GetMocks(client, typeof(GetTokenTests).Namespace);
-            var token = await LoginTests.LoginAsync(client, "admin", "admin", typeof(GetTokenTests).Namespace);
-            mocks.userStorage.Setup(x => x.GetAsync(UserDataEnum.Token)).ReturnsAsync(token);
+        var mocks = ApplicationMocks.GetMocks(client, typeof(GetTokenTests).Namespace);
+        var token = await LoginTests.LoginAsync(client, "admin", "admin", typeof(GetTokenTests).Namespace);
+        mocks.userStorage.Setup(x => x.GetAsync(UserDataEnum.Token)).ReturnsAsync(token);
 
-            var response = 
-                await new Frontend.FunctionalService.EssentialContext.UserOperation(
-                        mocks.userDevice.Object, 
-                        mocks.userCommunication.Object, 
-                        mocks.userStorage.Object)
-                    .GetTokenAsync();
+        var response = 
+            await new Frontend.FunctionalService.EssentialContext.UserOperation(
+                    mocks.userDevice.Object, 
+                    mocks.userCommunication.Object, 
+                    mocks.userStorage.Object)
+                .GetTokenAsync();
             
-            Assert.Equal(HttpStatusCode.OK, response.HttpStatusCode);
-        }
+        Assert.Equal(HttpStatusCode.OK, response.HttpStatusCode);
+    }
 
-        [Fact]
-        public async void WhenSendingValidRequest_HttpResponseIsSuccessCode2()
-        {
-            var token = await GetRefreshedTokenAsync(factory.CreateClient(), "admin", "admin", typeof(GetTokenTests).Namespace);
+    [Fact]
+    public async void WhenSendingValidRequest_HttpResponseIsSuccessCode2()
+    {
+        var token = await GetRefreshedTokenAsync(factory.CreateClient(), "admin", "admin", typeof(GetTokenTests).Namespace);
             
-            Assert.NotEmpty(token);
-        }
+        Assert.NotEmpty(token);
+    }
         
-        [Fact]
-        public async void WhenUnAuthenticatedUser_HttpResponseIsUnauthorized()
-        {
-            var client = factory.CreateClient();
+    [Fact]
+    public async void WhenUnAuthenticatedUser_HttpResponseIsUnauthorized()
+    {
+        var client = factory.CreateClient();
             
-            var mocks = ApplicationMocks.GetMocks(client, typeof(GetTokenTests).Namespace);
+        var mocks = ApplicationMocks.GetMocks(client, typeof(GetTokenTests).Namespace);
 
-            var response = 
-                await new Frontend.FunctionalService.EssentialContext.UserOperation(
-                        mocks.userDevice.Object, 
-                        mocks.userCommunication.Object, 
-                        mocks.userStorage.Object)
-                    .GetTokenAsync();
+        var response = 
+            await new Frontend.FunctionalService.EssentialContext.UserOperation(
+                    mocks.userDevice.Object, 
+                    mocks.userCommunication.Object, 
+                    mocks.userStorage.Object)
+                .GetTokenAsync();
 
-            Assert.Equal(HttpStatusCode.Unauthorized, response.HttpStatusCode);
-        }
+        Assert.Equal(HttpStatusCode.Unauthorized, response.HttpStatusCode);
+    }
 
-        [Fact]
-        public async void WhenAuthenticatedButNotAuthorized_HttpResponseIsForbidden()
-        {
-            //When different device...
-            var client = factory.CreateClient();
+    [Fact]
+    public async void WhenAuthenticatedButNotAuthorized_HttpResponseIsForbidden()
+    {
+        //When different device...
+        var client = factory.CreateClient();
             
-            var mocks = ApplicationMocks.GetMocks(client, "Some Other Device");
-            var token = await LoginTests.LoginAsync(client, "admin", "admin", typeof(GetTokenTests).Namespace);
-            mocks.userStorage.Setup(x => x.GetAsync(UserDataEnum.Token)).ReturnsAsync(token);
+        var mocks = ApplicationMocks.GetMocks(client, "Some Other Device");
+        var token = await LoginTests.LoginAsync(client, "admin", "admin", typeof(GetTokenTests).Namespace);
+        mocks.userStorage.Setup(x => x.GetAsync(UserDataEnum.Token)).ReturnsAsync(token);
 
-            var response = 
-                await new Frontend.FunctionalService.EssentialContext.UserOperation(
-                        mocks.userDevice.Object, 
-                        mocks.userCommunication.Object, 
-                        mocks.userStorage.Object)
-                    .GetTokenAsync();
+        var response = 
+            await new Frontend.FunctionalService.EssentialContext.UserOperation(
+                    mocks.userDevice.Object, 
+                    mocks.userCommunication.Object, 
+                    mocks.userStorage.Object)
+                .GetTokenAsync();
 
-            Assert.Equal(HttpStatusCode.Forbidden, response.HttpStatusCode);
-        }
+        Assert.Equal(HttpStatusCode.Forbidden, response.HttpStatusCode);
     }
 }

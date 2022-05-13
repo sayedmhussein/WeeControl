@@ -1,13 +1,12 @@
 using WeeControl.Frontend.FunctionalService.Enums;
 
-namespace WeeControl.Frontend.FunctionalService.Interfaces
-{
-    public interface IUserStorage
-    {
-        Task SaveAsync(UserDataEnum name, string value);
+namespace WeeControl.Frontend.FunctionalService.Interfaces;
 
-        Task<string> GetAsync(UserDataEnum name);
+public interface IUserStorage
+{
+    Task SaveAsync(UserDataEnum name, string value);
+
+    Task<string> GetAsync(UserDataEnum name);
         
-        Task ClearAsync();
-    }
+    Task ClearAsync();
 }

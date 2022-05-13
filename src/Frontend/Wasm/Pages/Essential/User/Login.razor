@@ -1,11 +1,12 @@
 ﻿@page "/Login"
 @page "/authentication/login"
+@using WeeControl.Common.SharedKernel.Essential
+@using WeeControl.Common.SharedKernel.Essential.RequestDTOs
 @layout RestrictedLayout
 @attribute [AllowAnonymous]
 
 @inject NavigationManager navManager
 @inject IUserOperation authentication
-@using WeeControl.Common.SharedKernel.DataTransferObjects.Essential.User
 
 <div class="card">
     <h4 class="card-header">Please enter your username and password</h4>

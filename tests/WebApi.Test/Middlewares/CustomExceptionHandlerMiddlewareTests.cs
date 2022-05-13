@@ -5,36 +5,35 @@ using Microsoft.AspNetCore.Http;
 using WeeControl.Backend.WebApi.Middlewares;
 using Xunit;
 
-namespace WeeControl.test.WebApi.Test.Middlewares
+namespace WeeControl.test.WebApi.Test.Middlewares;
+
+public class CustomExceptionHandlerMiddlewareTests
 {
-    public class CustomExceptionHandlerMiddlewareTests
+    [Fact]
+    public async void WhenContextNotThrowException_TaskInvoked()
     {
-        [Fact]
-        public async void WhenContextNotThrowException_TaskInvoked()
-        {
-            var httpContext = new DefaultHttpContext();
-            httpContext.Response.StatusCode = 200;
-            //
-            var requestDelegate = new RequestDelegate((innerContext) => Task.FromResult(0));
-            var middleware = new CustomExceptionHandlerMiddleware(requestDelegate);
+        var httpContext = new DefaultHttpContext();
+        httpContext.Response.StatusCode = 200;
+        //
+        var requestDelegate = new RequestDelegate((innerContext) => Task.FromResult(0));
+        var middleware = new CustomExceptionHandlerMiddleware(requestDelegate);
 
-            await middleware.Invoke(httpContext);
+        await middleware.Invoke(httpContext);
 
-            Assert.Equal(HttpStatusCode.OK, (HttpStatusCode)httpContext.Response.StatusCode);
-        }
+        Assert.Equal(HttpStatusCode.OK, (HttpStatusCode)httpContext.Response.StatusCode);
+    }
 
-        [Fact]
-        public async void WhenContextThrowException_TaskInvoked()
-        {
-            var httpContext = new DefaultHttpContext();
-            httpContext.Response.StatusCode = 200;
-            //
-            var requestDelegate = new RequestDelegate((innerContext) => throw new Exception());
-            var middleware = new CustomExceptionHandlerMiddleware(requestDelegate);
+    [Fact]
+    public async void WhenContextThrowException_TaskInvoked()
+    {
+        var httpContext = new DefaultHttpContext();
+        httpContext.Response.StatusCode = 200;
+        //
+        var requestDelegate = new RequestDelegate((innerContext) => throw new Exception());
+        var middleware = new CustomExceptionHandlerMiddleware(requestDelegate);
 
-            await middleware.Invoke(httpContext);
+        await middleware.Invoke(httpContext);
 
-            Assert.Equal(HttpStatusCode.InternalServerError, (HttpStatusCode)httpContext.Response.StatusCode);
-        }
+        Assert.Equal(HttpStatusCode.InternalServerError, (HttpStatusCode)httpContext.Response.StatusCode);
     }
 }

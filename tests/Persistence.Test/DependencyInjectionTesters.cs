@@ -6,34 +6,33 @@ using WeeControl.Backend.Domain.Databases.Essential;
 using WeeControl.Backend.Persistence;
 using Xunit;
 
-namespace WeeControl.Test.Persistence.Test
+namespace WeeControl.Test.Persistence.Test;
+
+public class DependencyInjectionTesters : IDisposable
 {
-    public class DependencyInjectionTesters : IDisposable
+    private IServiceCollection services;
+    public DependencyInjectionTesters()
     {
-        private IServiceCollection services;
-        public DependencyInjectionTesters()
-        {
-            var configMock = new Mock<IConfiguration>();
-            configMock.Setup(x => x.GetSection("ConnectionStrings")["DatabaseProvider"]).Returns("Connection");
+        var configMock = new Mock<IConfiguration>();
+        configMock.Setup(x => x.GetSection("ConnectionStrings")["DatabaseProvider"]).Returns("Connection");
 
-            services = new ServiceCollection();
-        }
-        
-        public void Dispose()
-        {
-            services = null;
-        }
-        
-        [Fact]
-        public void WhenAddingPresistenceInMemory_ReturnEssentialDbContextObjectAsNotNull()
-        {
-            services.AddPersistenceAsInMemory();
-            
-            var service = services.BuildServiceProvider().GetService<IEssentialDbContext>();
-
-            Assert.NotNull(service);
-        }
-
-        
+        services = new ServiceCollection();
     }
+        
+    public void Dispose()
+    {
+        services = null;
+    }
+        
+    [Fact]
+    public void WhenAddingPresistenceInMemory_ReturnEssentialDbContextObjectAsNotNull()
+    {
+        services.AddPersistenceAsInMemory();
+            
+        var service = services.BuildServiceProvider().GetService<IEssentialDbContext>();
+
+        Assert.NotNull(service);
+    }
+
+        
 }

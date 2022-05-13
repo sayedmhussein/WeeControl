@@ -7,70 +7,69 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
-namespace WeeControl.Backend.WebApi.StartupOptions
+namespace WeeControl.Backend.WebApi.StartupOptions;
+
+public class SwaggerOptions
 {
-    public class SwaggerOptions
+    public static void ConfigureSwaggerGen(SwaggerGenOptions swaggerOptions)
     {
-        public static void ConfigureSwaggerGen(SwaggerGenOptions swaggerOptions)
+        swaggerOptions.SwaggerDoc("v1", new OpenApiInfo
         {
-            swaggerOptions.SwaggerDoc("v1", new OpenApiInfo
+            Title = "WeeControl.Api",
+            Version = "v1",
+            Description = "WeeControl is an API to serve customers as needed, for more information please contact us.",
+            Contact = new OpenApiContact()
             {
-                Title = "WeeControl.Api",
-                Version = "v1",
-                Description = "WeeControl is an API to serve customers as needed, for more information please contact us.",
-                Contact = new OpenApiContact()
-                {
-                    Name = "Sayed M. Hussein",
-                    Email = "Sayed.Hussein@gmx.com"
-                },
-                License = new OpenApiLicense()
-                {
-                    Name = "MIT License",
-                    Url = new Uri("https://en.wikipedia.org/wiki/MIT_License")
-                }
-            });
-
-            // Set the comments path for the Swagger JSON and UI.
-            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-            swaggerOptions.IncludeXmlComments(xmlPath);
-
-            swaggerOptions.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                Name = "Sayed M. Hussein",
+                Email = "Sayed.Hussein@gmx.com"
+            },
+            License = new OpenApiLicense()
             {
-                Description = "JWT Authorization header using the Bearer scheme (Example: 'Bearer 12345abcdef')",
-                Name = "Authorization",
-                In = ParameterLocation.Header,
-                Type = SecuritySchemeType.ApiKey,
-                Scheme = "Bearer"
-            });
+                Name = "MIT License",
+                Url = new Uri("https://en.wikipedia.org/wiki/MIT_License")
+            }
+        });
 
-            swaggerOptions.AddSecurityRequirement(new OpenApiSecurityRequirement
+        // Set the comments path for the Swagger JSON and UI.
+        var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+        var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+        swaggerOptions.IncludeXmlComments(xmlPath);
+
+        swaggerOptions.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+        {
+            Description = "JWT Authorization header using the Bearer scheme (Example: 'Bearer 12345abcdef')",
+            Name = "Authorization",
+            In = ParameterLocation.Header,
+            Type = SecuritySchemeType.ApiKey,
+            Scheme = "Bearer"
+        });
+
+        swaggerOptions.AddSecurityRequirement(new OpenApiSecurityRequirement
+        {
+            {
+                new OpenApiSecurityScheme
                 {
+                    Reference = new OpenApiReference
                     {
-                    new OpenApiSecurityScheme
-                    {
-                        Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            }
-                        },
-                        Array.Empty<string>()
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "Bearer"
                     }
-                });
-        }
-
-        public static void ConfigureSwagger(Swashbuckle.AspNetCore.Swagger.SwaggerOptions swaggerOptions)
-        {
-            swaggerOptions.RouteTemplate = "api-docs/{documentName}/swagger.json";
-        }
-
-        public static void ConfigureSwaggerUI(SwaggerUIOptions swaggerUIOptions)
-        {
-            swaggerUIOptions.SwaggerEndpoint($"/swagger/v1/swagger.json", "MySystem.Api v1");
-            //swaggerUIOptions.RoutePrefix = "api-docs";
-        }
-
-
+                },
+                Array.Empty<string>()
+            }
+        });
     }
+
+    public static void ConfigureSwagger(Swashbuckle.AspNetCore.Swagger.SwaggerOptions swaggerOptions)
+    {
+        swaggerOptions.RouteTemplate = "api-docs/{documentName}/swagger.json";
+    }
+
+    public static void ConfigureSwaggerUI(SwaggerUIOptions swaggerUIOptions)
+    {
+        swaggerUIOptions.SwaggerEndpoint($"/swagger/v1/swagger.json", "MySystem.Api v1");
+        //swaggerUIOptions.RoutePrefix = "api-docs";
+    }
+
+
 }

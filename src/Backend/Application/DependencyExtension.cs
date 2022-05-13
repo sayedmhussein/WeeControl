@@ -2,19 +2,18 @@
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace WeeControl.Backend.Application
-{
-    public static class DependencyExtension
-    {
-        public static IServiceCollection AddApplication(this IServiceCollection services)
-        {
-            services.AddMediatR(Assembly.GetExecutingAssembly());
+namespace WeeControl.Backend.Application;
 
-            //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestDtoBehaviour<,>));
-            //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
+public static class DependencyExtension
+{
+    public static IServiceCollection AddApplication(this IServiceCollection services)
+    {
+        services.AddMediatR(Assembly.GetExecutingAssembly());
+
+        //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestDtoBehaviour<,>));
+        //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
             
 
-            return services;
-        }
+        return services;
     }
 }

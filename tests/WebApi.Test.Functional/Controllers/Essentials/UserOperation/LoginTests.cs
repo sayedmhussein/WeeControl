@@ -8,141 +8,141 @@ using Moq.Protected;
 using WeeControl.Backend.Domain.Databases.Essential;
 using WeeControl.Backend.Domain.Databases.Essential.DatabaseObjects.EssentialsObjects;
 using WeeControl.Backend.WebApi;
-using WeeControl.Common.SharedKernel.DataTransferObjects.Essential.User;
+using WeeControl.Common.SharedKernel.Essential.RequestDTOs;
+using WeeControl.Common.SharedKernel.Interfaces;
 using WeeControl.Frontend.FunctionalService.Enums;
 using WeeControl.Frontend.FunctionalService.Interfaces;
 using Xunit;
 
-namespace WeeControl.Test.WebApi.Test.Functional.Controllers.Essentials.UserOperation
+namespace WeeControl.Test.WebApi.Test.Functional.Controllers.Essentials.UserOperation;
+
+public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>
 {
-    public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>
+    #region static
+    public static async Task<string> LoginAsync(HttpClient client, string username, string password, string device)
     {
-        #region static
-        public static async Task<string> LoginAsync(HttpClient client, string username, string password, string device)
-        {
-            var token = string.Empty;
+        var token = string.Empty;
 
-            var userMock = ApplicationMocks.GetUserDeviceMock(device);
-            var commMock = ApplicationMocks.GetUserCommunicationMock(client);
-            var storageMock = ApplicationMocks.GetUserStorageMockMock();    
-            storageMock.Setup(x => x.SaveAsync(UserDataEnum.Token, It.IsAny<string>()))
-                .Callback((UserDataEnum en, string tkn) => token = tkn);
+        var userMock = ApplicationMocks.GetUserDeviceMock(device);
+        var commMock = ApplicationMocks.GetUserCommunicationMock(client);
+        var storageMock = ApplicationMocks.GetUserStorageMockMock();    
+        storageMock.Setup(x => x.SaveAsync(UserDataEnum.Token, It.IsAny<string>()))
+            .Callback((UserDataEnum en, string tkn) => token = tkn);
             
-            var response = 
-                await new Frontend.FunctionalService.EssentialContext.UserOperation(
-                        userMock.Object, 
-                        commMock.Object, 
-                        storageMock.Object)
-                    .LoginAsync(new LoginDto(username, password));
+        var response = 
+            await new Frontend.FunctionalService.EssentialContext.UserOperation(
+                    userMock.Object, 
+                    commMock.Object, 
+                    storageMock.Object)
+                .LoginAsync(new LoginDto(username, password));
             
-            Assert.Equal(HttpStatusCode.OK, response.HttpStatusCode);
-            Assert.NotEmpty(token);
+        Assert.Equal(HttpStatusCode.OK, response.HttpStatusCode);
+        Assert.NotEmpty(token);
             
-            return token;
-        }
+        return token;
+    }
 
-        private static Task<IResponseToUi> LoginDebugAsync(HttpClient client, string username, string password, string device)
-        {
-            var userMock = ApplicationMocks.GetUserDeviceMock(device);
-            var commMock = ApplicationMocks.GetUserCommunicationMock(client);
-            var storageMock = ApplicationMocks.GetUserStorageMockMock();
+    private static Task<IResponseDto> LoginDebugAsync(HttpClient client, string username, string password, string device)
+    {
+        var userMock = ApplicationMocks.GetUserDeviceMock(device);
+        var commMock = ApplicationMocks.GetUserCommunicationMock(client);
+        var storageMock = ApplicationMocks.GetUserStorageMockMock();
 
-            var response = new Frontend.FunctionalService.EssentialContext.UserOperation(
-                        userMock.Object, 
-                        commMock.Object, 
-                        storageMock.Object)
-                    .LoginAsync(new LoginDto(username, password));
+        var response = new Frontend.FunctionalService.EssentialContext.UserOperation(
+                userMock.Object, 
+                commMock.Object, 
+                storageMock.Object)
+            .LoginAsync(new LoginDto(username, password));
 
-            return response;
-        }
-        #endregion
+        return response;
+    }
+    #endregion
         
-        private readonly CustomWebApplicationFactory<Startup> factory;
+    private readonly CustomWebApplicationFactory<Startup> factory;
 
-        public LoginTests(CustomWebApplicationFactory<Startup> factory)
-        {
-            this.factory = factory;
-        }
+    public LoginTests(CustomWebApplicationFactory<Startup> factory)
+    {
+        this.factory = factory;
+    }
 
-        [Theory]
-        [InlineData("", "")]
-        [InlineData("", "password")]
-        [InlineData("username", "")]
-        public async void WhenSendingInvalidRequest_HttpResponseIsBadRequest(string username, string password)
-        {
-            var client = factory.CreateClient();
+    [Theory]
+    [InlineData("", "")]
+    [InlineData("", "password")]
+    [InlineData("username", "")]
+    public async void WhenSendingInvalidRequest_HttpResponseIsBadRequest(string username, string password)
+    {
+        var client = factory.CreateClient();
             
-            var response = await LoginDebugAsync(client, username, password, nameof(WhenSendingInvalidRequest_HttpResponseIsBadRequest));
+        var response = await LoginDebugAsync(client, username, password, nameof(WhenSendingInvalidRequest_HttpResponseIsBadRequest));
             
-            Assert.Equal(HttpStatusCode.BadRequest, response.HttpStatusCode);
-        }
+        Assert.Equal(HttpStatusCode.BadRequest, response.HttpStatusCode);
+    }
         
-        [Fact]
-        public async void WhenUserNotExist_HttpResponseIsNotFound()
-        {
-            var client = factory.CreateClient();
+    [Fact]
+    public async void WhenUserNotExist_HttpResponseIsNotFound()
+    {
+        var client = factory.CreateClient();
             
-            var response = await LoginDebugAsync(client, "unknown", "unknown", nameof(WhenSendingInvalidRequest_HttpResponseIsBadRequest));
+        var response = await LoginDebugAsync(client, "unknown", "unknown", nameof(WhenSendingInvalidRequest_HttpResponseIsBadRequest));
             
-            Assert.Equal(HttpStatusCode.NotFound, response.HttpStatusCode);
-        }
+        Assert.Equal(HttpStatusCode.NotFound, response.HttpStatusCode);
+    }
 
-        [Fact]
-        public async void WhenSendingValidRequest_HttpResponseIsSuccessCode()
-        {
-            var mocks = ApplicationMocks.GetMocks(factory.CreateClient(), typeof(LoginTests).Namespace);
+    [Fact]
+    public async void WhenSendingValidRequest_HttpResponseIsSuccessCode()
+    {
+        var mocks = ApplicationMocks.GetMocks(factory.CreateClient(), typeof(LoginTests).Namespace);
 
-            var response = 
-                await new Frontend.FunctionalService.EssentialContext.UserOperation(
-                        mocks.userDevice.Object, 
-                        mocks.userCommunication.Object, 
-                        mocks.userStorage.Object)
-                    .LoginAsync(new LoginDto("admin", "admin"));
+        var response = 
+            await new Frontend.FunctionalService.EssentialContext.UserOperation(
+                    mocks.userDevice.Object, 
+                    mocks.userCommunication.Object, 
+                    mocks.userStorage.Object)
+                .LoginAsync(new LoginDto("admin", "admin"));
             
-            Assert.Equal(HttpStatusCode.OK, response.HttpStatusCode);
-            Assert.True(response.IsSuccess);
-            mocks.userStorage.Verify(x => x.SaveAsync(UserDataEnum.Token, It.IsAny<string>()));
-        }
+        Assert.Equal(HttpStatusCode.OK, response.HttpStatusCode);
+        Assert.True(response.IsSuccess);
+        mocks.userStorage.Verify(x => x.SaveAsync(UserDataEnum.Token, It.IsAny<string>()));
+    }
 
-        [Fact]
-        public async void WhenSendingValidRequest_HttpResponseIsSuccessCode2()
-        {
-            var user = (Email: "test@test.test", Username: "test", Password: "test", Device: typeof(LoginTests).Namespace);
-            var client = factory.WithWebHostBuilder(builder =>
-                {
-                    builder.ConfigureServices(services =>
-                    {
-                        using var scope = services.BuildServiceProvider().CreateScope();
-                        var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-                        db.Users.Add(UserDbo.Create(user.Email, user.Username, user.Password));
-                        db.SaveChanges();
-                    });
-                })
-                .CreateClient();
-            
-            var token = await LoginAsync(client, user.Username, user.Password, user.Device);
-            
-            Assert.NotEmpty(token);
-        }
-        
-        private HttpClient GetHttpClientForTesting(HttpStatusCode statusCode, HttpContent content)
-        {
-            var httpMessageHandlerMock = new Mock<HttpMessageHandler>();
-            var response = new HttpResponseMessage
+    [Fact]
+    public async void WhenSendingValidRequest_HttpResponseIsSuccessCode2()
+    {
+        var user = (Email: "test@test.test", Username: "test", Password: "test", Device: typeof(LoginTests).Namespace);
+        var client = factory.WithWebHostBuilder(builder =>
             {
-                StatusCode = statusCode, 
-                Content = content
-            };
+                builder.ConfigureServices(services =>
+                {
+                    using var scope = services.BuildServiceProvider().CreateScope();
+                    var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
+                    db.Users.Add(UserDbo.Create(user.Email, user.Username, user.Password));
+                    db.SaveChanges();
+                });
+            })
+            .CreateClient();
+            
+        var token = await LoginAsync(client, user.Username, user.Password, user.Device);
+            
+        Assert.NotEmpty(token);
+    }
         
-            httpMessageHandlerMock
-                .Protected()
-                .Setup<Task<HttpResponseMessage>>(
-                    "SendAsync",
-                    ItExpr.IsAny<HttpRequestMessage>(),
-                    ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(response);
+    private HttpClient GetHttpClientForTesting(HttpStatusCode statusCode, HttpContent content)
+    {
+        var httpMessageHandlerMock = new Mock<HttpMessageHandler>();
+        var response = new HttpResponseMessage
+        {
+            StatusCode = statusCode, 
+            Content = content
+        };
         
-            return new HttpClient(httpMessageHandlerMock.Object);
-        }
+        httpMessageHandlerMock
+            .Protected()
+            .Setup<Task<HttpResponseMessage>>(
+                "SendAsync",
+                ItExpr.IsAny<HttpRequestMessage>(),
+                ItExpr.IsAny<CancellationToken>())
+            .ReturnsAsync(response);
+        
+        return new HttpClient(httpMessageHandlerMock.Object);
     }
 }

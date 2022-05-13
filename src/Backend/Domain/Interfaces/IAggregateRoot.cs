@@ -1,6 +1,5 @@
-namespace WeeControl.Backend.Domain.Interfaces
+namespace WeeControl.Backend.Domain.Interfaces;
+
+public interface IAggregateRoot
 {
-    public interface IAggregateRoot
-    {
-    }
 }

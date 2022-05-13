@@ -1,10 +1,9 @@
-﻿namespace WeeControl.Backend.Application.Interfaces
+﻿namespace WeeControl.Backend.Application.Interfaces;
+
+public interface IMessage
 {
-    public interface IMessage
-    {
-        string From { get; set; }
-        string To { get; set; }
-        string Subject { get; set; }
-        string Body { get; set; }
-    }
+    string From { get; set; }
+    string To { get; set; }
+    string Subject { get; set; }
+    string Body { get; set; }
 }

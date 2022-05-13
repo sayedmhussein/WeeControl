@@ -1,8 +1,7 @@
 using WeeControl.Common.UserSecurityLib.Helpers;
 
-namespace WeeControl.Common.UserSecurityLib.BoundedContexts.HumanResources.Policies
+namespace WeeControl.Common.UserSecurityLib.BoundedContexts.HumanResources.Policies;
+
+internal class CanAlterEmployeePolicy : PolicyBuilderBase
 {
-    internal class CanAlterEmployeePolicy : PolicyBuilderBase
-    {
-    }
 }

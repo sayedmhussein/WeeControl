@@ -1,13 +1,12 @@
-﻿namespace WeeControl.Frontend.FunctionalService.Interfaces
+﻿namespace WeeControl.Frontend.FunctionalService.Interfaces;
+
+public interface IUserDevice
 {
-    public interface IUserDevice
-    {
-        public string DeviceId { get; }
+    public string DeviceId { get; }
 
-        public DateTime TimeStamp { get; }
+    public DateTime TimeStamp { get; }
 
-        public double? Latitude { get; }
+    public double? Latitude { get; }
 
-        public double? Longitude { get; }
-    }
+    public double? Longitude { get; }
 }

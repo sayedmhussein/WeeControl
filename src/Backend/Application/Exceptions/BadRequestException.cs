@@ -1,12 +1,11 @@
 ﻿using System;
 
-namespace WeeControl.Backend.Application.Exceptions
+namespace WeeControl.Backend.Application.Exceptions;
+
+public class BadRequestException : Exception
 {
-    public class BadRequestException : Exception
+    public BadRequestException(string message)
+        : base(message)
     {
-        public BadRequestException(string message)
-            : base(message)
-        {
-        }
     }
 }
