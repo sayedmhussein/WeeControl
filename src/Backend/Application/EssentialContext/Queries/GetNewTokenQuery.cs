@@ -1,6 +1,6 @@
 ﻿using System;
 using MediatR;
-using WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User;
+using WeeControl.Common.SharedKernel.DataTransferObjects.Essential.User;
 using WeeControl.Common.SharedKernel.Interfaces;
 using WeeControl.Common.SharedKernel.RequestsResponses;
 

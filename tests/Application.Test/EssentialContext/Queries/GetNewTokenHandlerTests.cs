@@ -11,7 +11,7 @@ using WeeControl.Backend.Application.Interfaces;
 using WeeControl.Backend.Domain.Databases.Essential;
 using WeeControl.Backend.Domain.Databases.Essential.DatabaseObjects.EssentialsObjects;
 using WeeControl.Backend.Persistence;
-using WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User;
+using WeeControl.Common.SharedKernel.DataTransferObjects.Essential.User;
 using WeeControl.Common.SharedKernel.RequestsResponses;
 using WeeControl.Common.UserSecurityLib.Interfaces;
 using WeeControl.Common.UserSecurityLib.Services;

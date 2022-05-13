@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User
+namespace WeeControl.Common.SharedKernel.DataTransferObjects.Essential.User
 {
     public class LoginDto
     {

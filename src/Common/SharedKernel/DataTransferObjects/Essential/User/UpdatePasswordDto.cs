@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User
+namespace WeeControl.Common.SharedKernel.DataTransferObjects.Essential.User
 {
     public class UpdatePasswordDto
     {

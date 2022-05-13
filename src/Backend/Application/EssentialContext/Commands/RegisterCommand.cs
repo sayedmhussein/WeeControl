@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User;
+using WeeControl.Common.SharedKernel.DataTransferObjects.Essential.User;
 using WeeControl.Common.SharedKernel.RequestsResponses;
 
 namespace WeeControl.Backend.Application.EssentialContext.Commands

@@ -2,7 +2,7 @@
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using WeeControl.Common.SharedKernel;
-using WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User;
+using WeeControl.Common.SharedKernel.DataTransferObjects.Essential.User;
 using WeeControl.Common.SharedKernel.RequestsResponses;
 using WeeControl.Frontend.FunctionalService.Enums;
 using WeeControl.Frontend.FunctionalService.Interfaces;
@@ -25,7 +25,7 @@ namespace WeeControl.Frontend.FunctionalService.EssentialContext
 
         public async Task<IResponseToUi> RegisterAsync(RegisterDto loginDto)
         {
-            var requestDto = new RequestDto<RegisterDto>() { Payload = loginDto, DeviceId = userDevice.DeviceId };
+            var requestDto = new RequestDto<RegisterDto>(userDevice.DeviceId, loginDto);
 
             HttpRequestMessage message = new()
             {
@@ -45,8 +45,8 @@ namespace WeeControl.Frontend.FunctionalService.EssentialContext
                     var token = responseDto?.Payload?.Token;
                     await userStorage.SaveAsync(UserDataEnum.Token, token);
                     return ResponseToUi.Accepted(response.StatusCode);
-                case HttpStatusCode.NotFound:
-                    return ResponseToUi.Rejected(response.StatusCode, "Please try again!");
+                case HttpStatusCode.Conflict:
+                    return ResponseToUi.Rejected(response.StatusCode, "Either username or password already exist!");
                 default:
                     return ResponseToUi.Rejected(response.StatusCode, "Unexpected error occured, error code: " + response.StatusCode);
             }
@@ -54,13 +54,13 @@ namespace WeeControl.Frontend.FunctionalService.EssentialContext
 
         public async Task<IResponseToUi> LoginAsync(LoginDto loginDto)
         {
-            var requestDto = new RequestDto<LoginDto>() { Payload = loginDto, DeviceId = userDevice.DeviceId };
+            var requestDto = new RequestDto<LoginDto>(userDevice.DeviceId, loginDto);
 
             HttpRequestMessage message = new()
             {
-                RequestUri = new Uri(EssentialUserApiLink.Login.Absolute(userCommunication.ServerBaseAddress)),
-                Version = new Version(EssentialUserApiLink.Login.Version),
-                Method = EssentialUserApiLink.Login.Method,
+                RequestUri = new Uri(TokenDto.HttpPostMethod.AbsoluteUri(userCommunication.ServerBaseAddress)),
+                Version = new Version(TokenDto.HttpPostMethod.Version),
+                Method = HttpMethod.Post,
                 Content = RequestDto.BuildHttpContentAsJson(requestDto)
             };
 
@@ -85,13 +85,13 @@ namespace WeeControl.Frontend.FunctionalService.EssentialContext
 
         public async Task<IResponseToUi> GetTokenAsync()
         {
-            var requestDto = new RequestDto() { DeviceId = userDevice.DeviceId };
+            var requestDto = new RequestDto(userDevice.DeviceId);
 
             HttpRequestMessage message = new()
             {
-                RequestUri = new Uri(EssentialUserApiLink.RequestRefreshToken.Absolute(userCommunication.ServerBaseAddress)),
-                Version = new Version(EssentialUserApiLink.RequestRefreshToken.Version),
-                Method = EssentialUserApiLink.RequestRefreshToken.Method,
+                RequestUri = new Uri(TokenDto.HttpPutMethod.AbsoluteUri(userCommunication.ServerBaseAddress)),
+                Version = new Version(TokenDto.HttpPutMethod.Version),
+                Method = HttpMethod.Put,
                 Content = RequestDto.BuildHttpContentAsJson(requestDto)
             };
             
@@ -126,9 +126,9 @@ namespace WeeControl.Frontend.FunctionalService.EssentialContext
 
             HttpRequestMessage message = new()
             {
-                RequestUri = new Uri(EssentialUserApiLink.Logout.Absolute(userCommunication.ServerBaseAddress)),
-                Version = new Version(EssentialUserApiLink.Logout.Version),
-                Method = EssentialUserApiLink.Logout.Method,
+                RequestUri = new Uri(TokenDto.HttpDeleteMethod.AbsoluteUri(userCommunication.ServerBaseAddress)),
+                Version = new Version(TokenDto.HttpDeleteMethod.Version),
+                Method = HttpMethod.Delete,
                 Content = RequestDto.BuildHttpContentAsJson(requestDto)
             };
 
@@ -140,7 +140,6 @@ namespace WeeControl.Frontend.FunctionalService.EssentialContext
             {
                 case HttpStatusCode.OK:
                 case HttpStatusCode.Accepted:
-                    var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<ResponseToUi>>();
                     return ResponseToUi.Accepted(response.StatusCode);
                 case HttpStatusCode.Forbidden:
                     return ResponseToUi.Rejected(response.StatusCode, "Illegal Request!");

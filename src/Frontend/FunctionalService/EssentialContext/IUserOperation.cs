@@ -1,4 +1,4 @@
-﻿using WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User;
+﻿using WeeControl.Common.SharedKernel.DataTransferObjects.Essential.User;
 using WeeControl.Frontend.FunctionalService.Interfaces;
 
 namespace WeeControl.Frontend.FunctionalService.EssentialContext

@@ -8,13 +8,12 @@ using WeeControl.Backend.Application.EssentialContext.Commands;
 using WeeControl.Backend.Application.EssentialContext.Queries;
 using WeeControl.Backend.Application.Interfaces;
 using WeeControl.Common.SharedKernel;
-using WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User;
+using WeeControl.Common.SharedKernel.DataTransferObjects.Essential.User;
 using WeeControl.Common.SharedKernel.RequestsResponses;
 
 namespace WeeControl.Backend.WebApi.Controllers.Essentials
 {
     [ApiController]
-    [Route(EssentialUserApiLink.Route)]
     public class CredentialsController : Controller
     {
         private readonly IMediator mediatR;
@@ -27,8 +26,6 @@ namespace WeeControl.Backend.WebApi.Controllers.Essentials
         [AllowAnonymous]
         [HttpPost(RegisterDto.HttpPostMethod.EndPoint)]
         [MapToApiVersion(RegisterDto.HttpPostMethod.Version)]
-        //[HttpPost(EssentialUserApiLink.Register.EndPoint)]
-        //[MapToApiVersion(EssentialUserApiLink.Register.Version)]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType((int)HttpStatusCode.OK)]
@@ -44,8 +41,8 @@ namespace WeeControl.Backend.WebApi.Controllers.Essentials
         }
 
         [AllowAnonymous]
-        [HttpPost(EssentialUserApiLink.Login.EndPoint)]
-        [MapToApiVersion(EssentialUserApiLink.Login.Version)]
+        [HttpPost(TokenDto.HttpPostMethod.EndPoint)]
+        [MapToApiVersion(TokenDto.HttpPostMethod.Version)]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType((int)HttpStatusCode.OK)]
@@ -65,8 +62,8 @@ namespace WeeControl.Backend.WebApi.Controllers.Essentials
         /// <param name="dto"></param>
         /// <returns></returns>
         [Authorize]
-        [HttpPut(EssentialUserApiLink.RequestRefreshToken.EndPoint)]
-        [MapToApiVersion(EssentialUserApiLink.Login.Version)]
+        [HttpPut(TokenDto.HttpPutMethod.EndPoint)]
+        [MapToApiVersion(TokenDto.HttpPutMethod.Version)]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResponseDto<TokenDto>), (int)HttpStatusCode.OK)]
@@ -81,8 +78,8 @@ namespace WeeControl.Backend.WebApi.Controllers.Essentials
         }
 
         [Authorize]
-        [HttpDelete(EssentialUserApiLink.Logout.EndPoint)]
-        [MapToApiVersion(EssentialUserApiLink.Logout.Version)]
+        [HttpDelete(TokenDto.HttpDeleteMethod.EndPoint)]
+        [MapToApiVersion(TokenDto.HttpDeleteMethod.Version)]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.OK)]

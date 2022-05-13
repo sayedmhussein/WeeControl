@@ -13,7 +13,7 @@ using WeeControl.Backend.Application.Exceptions;
 using WeeControl.Backend.Application.Interfaces;
 using WeeControl.Backend.Domain.Databases.Essential;
 using WeeControl.Backend.Domain.Databases.Essential.DatabaseObjects.EssentialsObjects;
-using WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User;
+using WeeControl.Common.SharedKernel.DataTransferObjects.Essential.User;
 using WeeControl.Common.SharedKernel.RequestsResponses;
 using WeeControl.Common.UserSecurityLib.BoundedContexts.HumanResources;
 using WeeControl.Common.UserSecurityLib.Interfaces;
@@ -124,8 +124,7 @@ namespace WeeControl.Backend.Application.EssentialContext.Queries
                     Token = token,
                     FullName = employee.UserId.ToString(),
                     PhotoUrl = "url"
-                })
-                { StatuesCode = HttpStatusCode.OK };
+                });
             }
             else
             {

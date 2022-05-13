@@ -7,7 +7,7 @@ using WeeControl.Backend.Application.EssentialContext.Queries;
 using WeeControl.Backend.Application.Exceptions;
 using WeeControl.Backend.Domain.Databases.Essential;
 using WeeControl.Backend.Domain.Databases.Essential.DatabaseObjects.EssentialsObjects;
-using WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User;
+using WeeControl.Common.SharedKernel.DataTransferObjects.Essential.User;
 
 namespace WeeControl.Backend.Application.EssentialContext.Commands
 {

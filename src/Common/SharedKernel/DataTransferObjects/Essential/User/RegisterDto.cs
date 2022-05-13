@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User
+namespace WeeControl.Common.SharedKernel.DataTransferObjects.Essential.User
 {
     public class RegisterDto
     {
@@ -22,7 +22,7 @@ namespace WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User
         [DisplayName("Password")]
         public string Password { get; set; }
 
-        private RegisterDto()
+        public RegisterDto()
         {
         }
 
@@ -33,10 +33,9 @@ namespace WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User
         
         public static class HttpPostMethod
         {
-            public const string EndPoint = "Register";
+            public const string EndPoint = "Api/Credentials/Register";
             public const string Version = "1.0";
-            public static string AbsoluteUri(string server) => server + Relative;
-            private const string Relative = "Api/Credentials/" + EndPoint;
+            public static string AbsoluteUri(string server) => server + EndPoint;
         }
     }
 }

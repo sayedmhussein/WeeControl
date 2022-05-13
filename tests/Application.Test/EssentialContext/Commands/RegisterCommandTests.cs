@@ -10,7 +10,7 @@ using WeeControl.Backend.Application.EssentialContext.Queries;
 using WeeControl.Backend.Application.Exceptions;
 using WeeControl.Backend.Domain.Databases.Essential;
 using WeeControl.Backend.Persistence;
-using WeeControl.Common.SharedKernel.DataTransferObjects.Authorization.User;
+using WeeControl.Common.SharedKernel.DataTransferObjects.Essential.User;
 using WeeControl.Common.SharedKernel.RequestsResponses;
 using Xunit;
 
@@ -35,8 +35,8 @@ namespace WeeControl.test.Application.Test.EssentialContext.Commands
         [Fact]
         public async void WhenRegisterNewUser_ReturnSuccessAndToken()
         {
-            mediatorMock.Setup(x => x.Send(It.IsAny<GetNewTokenQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ResponseDto<TokenDto>() { Payload = new TokenDto() { Token = "Token"}});
-            var command = new RegisterCommand(new RequestDto() { DeviceId = "device" }, RegisterDto.Create("email@emial.com", "username", "password"));
+            mediatorMock.Setup(x => x.Send(It.IsAny<GetNewTokenQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ResponseDto<TokenDto>(new TokenDto() { Token = "Token"}));
+            var command = new RegisterCommand(new RequestDto("device"), RegisterDto.Create("email@emial.com", "username", "password"));
             
             var tokenDto = await new RegisterHandler(context, mediatorMock.Object).Handle(command, default);
 
@@ -48,7 +48,7 @@ namespace WeeControl.test.Application.Test.EssentialContext.Commands
         public async void WhenRegisterExistingUser_ThrowException()
         {
             var user = await context.Users.FirstOrDefaultAsync();
-            var command = new RegisterCommand(new RequestDto() { DeviceId = "device" }, RegisterDto.Create(user.Email, user.Username, user.Password));
+            var command = new RegisterCommand(new RequestDto("device"), RegisterDto.Create(user.Email, user.Username, user.Password));
 
             await Assert.ThrowsAsync<ConflictFailureException>(() => new RegisterHandler(context, mediatorMock.Object).Handle(command, default));
         }
@@ -59,7 +59,7 @@ namespace WeeControl.test.Application.Test.EssentialContext.Commands
         [InlineData("username", "email", "")]
         public async void WhenInvalidInputs_ThrowException(string username, string email, string password)
         {
-            var command = new RegisterCommand(new RequestDto() { DeviceId = "device" }, RegisterDto.Create(email, username, password));
+            var command = new RegisterCommand(new RequestDto("device"), RegisterDto.Create(email, username, password));
 
             await Assert.ThrowsAnyAsync<ValidationException>(() => new RegisterHandler(context, mediatorMock.Object).Handle(command, default));
         }

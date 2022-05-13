@@ -6,7 +6,7 @@ namespace WeeControl.Common.SharedKernel.RequestsResponses
     {
         public T Payload { get; set; }
 
-        public RequestDto()
+        private RequestDto() : base()
         {
         }
         

@@ -17,8 +17,9 @@ namespace WeeControl.Common.SharedKernel.RequestsResponses
 
         public double? Longitude { get; set; }
 
-        public RequestDto()
+        protected RequestDto()
         {
+            DeviceId = string.Empty;
         }
 
         public RequestDto(string device) : this()
