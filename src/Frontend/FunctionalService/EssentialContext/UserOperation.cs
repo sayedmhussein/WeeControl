@@ -153,9 +153,32 @@ namespace WeeControl.Frontend.FunctionalService.EssentialContext
             throw new NotImplementedException();
         }
 
-        public Task<IResponseToUi> UpdatePasswordAsync(UpdatePasswordDto loginDto)
+        public async Task<IResponseToUi> UpdatePasswordAsync(UpdatePasswordDto loginDto)
         {
-            throw new NotImplementedException();
+            var requestDto = new RequestDto<UpdatePasswordDto>(userDevice.DeviceId, loginDto);
+
+            HttpRequestMessage message = new()
+            {
+                RequestUri = new Uri(UpdatePasswordDto.HttpPatchMethod.AbsoluteUri(userCommunication.ServerBaseAddress)),
+                Version = new Version(UpdatePasswordDto.HttpPatchMethod.Version),
+                Method = HttpMethod.Patch,
+                Content = RequestDto.BuildHttpContentAsJson(requestDto)
+            };
+
+            await UpdateAuthorization();
+
+            var response = await userCommunication.HttpClient.SendAsync(message);
+
+            switch (response.StatusCode)
+            {
+                case HttpStatusCode.OK:
+                case HttpStatusCode.Accepted:
+                    return ResponseToUi.Accepted(response.StatusCode);
+                case HttpStatusCode.Unauthorized:
+                    return ResponseToUi.Rejected(response.StatusCode, "You are not authorized to to this!");
+                default:
+                    return ResponseToUi.Rejected(response.StatusCode, "Unexpected error occured, error code: " + response.StatusCode);
+            }
         }
 
         public Task<IResponseToUi> ForgotPasswordAsync(ForgotPasswordDto forgotPasswordDto)

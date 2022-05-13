@@ -93,5 +93,20 @@ namespace WeeControl.Backend.WebApi.Controllers.Essentials
             return Ok(response);
         }
 
+        [Authorize]
+        [HttpPatch(UpdatePasswordDto.HttpPatchMethod.EndPoint)]
+        [MapToApiVersion(UpdatePasswordDto.HttpPatchMethod.Version)]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
+        public async Task<ActionResult<ResponseDto>> UpdatePasswordV1([FromBody] RequestDto<UpdatePasswordDto> dto)
+        {
+            var command = new UpdatePasswordCommand(dto, dto.Payload.Password);
+            var response = await mediatR.Send(command);
+
+            return Ok(response);
+        }
     }
 }

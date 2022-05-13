@@ -17,5 +17,12 @@ namespace WeeControl.Common.SharedKernel.DataTransferObjects.Essential.User
         [Compare("Password")]
         [NotMapped]
         public string ConfirmPassword { get; set; }
+        
+        public static class HttpPatchMethod
+        {
+            public const string EndPoint = "Api/Credentials/UpdatePassword";
+            public const string Version = "1.0";
+            public static string AbsoluteUri(string server) => server + EndPoint;
+        }
     }
 }

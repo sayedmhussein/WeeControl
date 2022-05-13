@@ -9,8 +9,8 @@ namespace WeeControl.Frontend.FunctionalService.EssentialContext
         Task<IResponseToUi> LoginAsync(LoginDto loginDto);
         Task<IResponseToUi> GetTokenAsync();
         Task<IResponseToUi> LogoutAsync();
-        Task<IResponseToUi> UpdateEmailAsync(UpdateEmailAsync loginDto);
         Task<IResponseToUi> UpdatePasswordAsync(UpdatePasswordDto loginDto);
+        Task<IResponseToUi> UpdateEmailAsync(UpdateEmailAsync loginDto);
         Task<IResponseToUi> ForgotPasswordAsync(ForgotPasswordDto forgotPasswordDto);
     }
 }
