@@ -10,6 +10,7 @@ using WeeControl.Backend.Domain.Databases.Essential.DatabaseObjects.EssentialsOb
 using WeeControl.Backend.WebApi;
 using WeeControl.Common.SharedKernel.Essential.RequestDTOs;
 using WeeControl.Common.SharedKernel.Interfaces;
+using WeeControl.Common.UserSecurityLib.Services;
 using WeeControl.Frontend.FunctionalService.Enums;
 using WeeControl.Frontend.FunctionalService.Interfaces;
 using Xunit;
@@ -108,7 +109,7 @@ public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>
                 {
                     using var scope = services.BuildServiceProvider().CreateScope();
                     var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-                    db.Users.Add(UserDbo.Create(user.Email, user.Username, user.Password));
+                    db.Users.Add(UserDbo.Create(user.Email, user.Username, new PasswordSecurity().Hash(user.Password)));
                     db.SaveChanges();
                 });
             })

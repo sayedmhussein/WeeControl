@@ -2,16 +2,19 @@
 using Microsoft.EntityFrameworkCore;
 using WeeControl.Backend.Domain.Databases.Essential;
 using WeeControl.Backend.Domain.Databases.Essential.DatabaseObjects.EssentialsObjects;
-using WeeControl.Backend.Persistence.BoundedContext.Credentials.Configurations;
+using WeeControl.Backend.Persistence.Essential.Configurations;
 using WeeControl.Common.UserSecurityLib.BoundedContexts.HumanResources;
+using WeeControl.Common.UserSecurityLib.Services;
 
-namespace WeeControl.Backend.Persistence.BoundedContext.Credentials
+namespace WeeControl.Backend.Persistence.Essential
 {
     public class EssentialDbContext : DbContext, IEssentialDbContext
     {
         public DbSet<UserDbo> Users { get; set; }
 
         public DbSet<SessionDbo> Sessions { get; set; }
+        
+        public DbSet<SessionLogDbo> Logs { get; set; }
 
         public DbSet<TerritoryDbo> Territories { get; set; }
 
@@ -30,7 +33,7 @@ namespace WeeControl.Backend.Persistence.BoundedContext.Credentials
                 Territories.Add(territory);
                 SaveChanges();
 
-                var user = UserDbo.Create("admin@admin.com", "admin", "admin", territory.TerritoryCode);
+                var user = UserDbo.Create("admin@admin.com", "admin", new PasswordSecurity().Hash("admin"), territory.TerritoryCode);
                 Users.Add(user);
                 SaveChanges();
 

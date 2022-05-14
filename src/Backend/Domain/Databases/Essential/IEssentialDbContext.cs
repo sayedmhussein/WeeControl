@@ -9,6 +9,8 @@ public interface IEssentialDbContext : IDbContext
     DbSet<UserDbo> Users { get; set; }
 
     DbSet<SessionDbo> Sessions { get; set; }
+    
+    DbSet<SessionLogDbo> Logs { get; set; }
 
     DbSet<TerritoryDbo> Territories { get; set; }
 

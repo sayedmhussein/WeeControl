@@ -3,13 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WeeControl.Backend.Domain.Databases.Essential.DatabaseObjects.EssentialsObjects;
 
-namespace WeeControl.Backend.Persistence.BoundedContext.Credentials.Configurations
+namespace WeeControl.Backend.Persistence.Essential.Configurations
 {
     public class ClaimEntityTypeConfiguration : IEntityTypeConfiguration<ClaimDbo>
     {
         public void Configure(EntityTypeBuilder<ClaimDbo> builder)
         {
-            builder.ToTable("claim", "credentials");
+            builder.ToTable(nameof(ClaimDbo), nameof(Essential));
             builder.Property(p => p.ClaimId).ValueGeneratedOnAdd();
             builder.Property(p => p.GrantedTs).HasDefaultValue(DateTime.UtcNow);
         }

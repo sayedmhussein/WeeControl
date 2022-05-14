@@ -17,14 +17,16 @@ public class GetNewTokenQuery : IRequest<ResponseDto<TokenDto>>
     public GetNewTokenQuery(IRequestDto<LoginDto> dto)
     {
         Request = dto;
-        Payload = new LoginDto(dto.Payload.UsernameOrEmail, dto.Payload.Password);
+        Payload = new LoginDto(dto.Payload.UsernameOrEmail.ToLower(), dto.Payload.Password);
     }
         
     [Obsolete("Use other constructor which has one argument.")]
-    public GetNewTokenQuery(RequestDto request, LoginDto payload)
+    public GetNewTokenQuery(IRequestDto request, LoginDto payload)
     {
         Request = request;
         Payload = payload;
+
+        Payload.UsernameOrEmail = payload.UsernameOrEmail.ToLower();
     }
 
     public IRequestDto Request { get; }

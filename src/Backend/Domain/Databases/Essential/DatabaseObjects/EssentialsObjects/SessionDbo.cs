@@ -5,6 +5,11 @@ namespace WeeControl.Backend.Domain.Databases.Essential.DatabaseObjects.Essentia
 
 public class SessionDbo
 {
+    public static SessionDbo Create(Guid userid, string deviceid)
+    {
+        return new SessionDbo() { UserId = userid, DeviceId = deviceid, CreatedTs = DateTime.UtcNow };
+    }
+    
     [Key]
     public Guid SessionId { get; set; }
 
@@ -18,8 +23,12 @@ public class SessionDbo
 
     public DateTime? TerminationTs { get; set; }
 
-    public static SessionDbo Create(Guid userid, string deviceid)
+    public SessionLogDbo CreateLog(string context, string details)
     {
-        return new SessionDbo() { UserId = userid, DeviceId = deviceid, CreatedTs = DateTime.UtcNow };
+        return new SessionLogDbo() { SessionId = this.SessionId, LogTs = DateTime.UtcNow, Context = context, Details = details };
+    }
+
+    private SessionDbo()
+    {
     }
 }

@@ -27,19 +27,22 @@ public class GetNewTokenHandler : IRequestHandler<GetNewTokenQuery, ResponseDto<
     private readonly IMediator mediator;
     private readonly IConfiguration configuration;
     private readonly ICurrentUserInfo currentUserInfo;
+    private readonly IPasswordSecurity passwordSecurity;
 
     public GetNewTokenHandler(
         IEssentialDbContext context, 
         IJwtService jwtService, 
         IMediator mediator, 
         IConfiguration configuration,
-        ICurrentUserInfo currentUserInfo)
+        ICurrentUserInfo currentUserInfo,
+        IPasswordSecurity passwordSecurity)
     {
         this.context = context;
         this.jwtService = jwtService;
         this.mediator = mediator;
         this.configuration = configuration;
         this.currentUserInfo = currentUserInfo;
+        this.passwordSecurity = passwordSecurity;
     }
 
     public async Task<ResponseDto<TokenDto>> Handle(GetNewTokenQuery request, CancellationToken cancellationToken)
@@ -48,15 +51,17 @@ public class GetNewTokenHandler : IRequestHandler<GetNewTokenQuery, ResponseDto<
         {
             var employee = await context.Users.FirstOrDefaultAsync(x =>
                 (x.Username == request.Payload.UsernameOrEmail || x.Email == request.Payload.UsernameOrEmail) &&
-                x.Password == request.Payload.Password, cancellationToken);
+                x.Password == passwordSecurity.Hash(request.Payload.Password), cancellationToken);
 
             if (employee is null) throw new NotFoundException();
 
             var session = await context.Sessions.FirstOrDefaultAsync(x => x.UserId == employee.UserId && x.TerminationTs == null, cancellationToken);
             if (session is null)
             {
-                session = new SessionDbo() { UserId = employee.UserId, DeviceId = request.Request.DeviceId};
+                session = SessionDbo.Create(employee.UserId, request.Request.DeviceId);
                 await context.Sessions.AddAsync(session, cancellationToken);
+                await context.SaveChangesAsync(cancellationToken);
+                await context.Logs.AddAsync(session.CreateLog("Login", "Created New Session."), cancellationToken);
             }
             else
             {
@@ -122,7 +127,7 @@ public class GetNewTokenHandler : IRequestHandler<GetNewTokenQuery, ResponseDto<
             return new ResponseDto<TokenDto>(new TokenDto()
             {
                 Token = token,
-                FullName = employee.UserId.ToString(),
+                FullName = employee.Username,
                 PhotoUrl = "url"
             });
         }

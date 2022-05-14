@@ -2,13 +2,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WeeControl.Backend.Domain.Databases.Essential.DatabaseObjects.EssentialsObjects;
 
-namespace WeeControl.Backend.Persistence.BoundedContext.Credentials.Configurations
+namespace WeeControl.Backend.Persistence.Essential.Configurations
 {
     public class TerritoryEntityTypeConfiguration : IEntityTypeConfiguration<TerritoryDbo>
     {
         public void Configure(EntityTypeBuilder<TerritoryDbo> builder)
         {
-            builder.ToTable("territory", "credentials");
+            builder.ToTable(nameof(TerritoryDbo), nameof(Essential));
             builder.HasComment("Territory of corporate.");
             
             builder.Property(p => p.TerritoryCode).ValueGeneratedOnAdd();

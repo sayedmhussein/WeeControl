@@ -37,7 +37,4 @@
     <ProjectReference Include="..\..\Common\UserSecurityLib\UserSecurityLib.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="BoundedContext" />
-  </ItemGroup>
 </Project>

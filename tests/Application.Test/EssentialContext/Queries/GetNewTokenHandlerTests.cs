@@ -26,6 +26,7 @@ public class GetNewTokenHandlerTests : IDisposable
     private const string Password = "password";
         
     private readonly IJwtService jwtService;
+    private readonly IPasswordSecurity passwordSecurity;
         
     private IEssentialDbContext context;
     private Mock<IMediator> mediatRMock;
@@ -35,10 +36,11 @@ public class GetNewTokenHandlerTests : IDisposable
     public GetNewTokenHandlerTests()
     {
         context = new ServiceCollection().AddPersistenceAsInMemory().BuildServiceProvider().GetService<IEssentialDbContext>();
-        context.Users.Add(UserDbo.Create(Email, Username, Password));
+        context.Users.Add(UserDbo.Create(Email, Username, new PasswordSecurity().Hash(Password)));
         context.SaveChanges();
 
         jwtService = new JwtService();
+        passwordSecurity = new PasswordSecurity();
 
         mediatRMock = new Mock<IMediator>();
             
@@ -62,7 +64,33 @@ public class GetNewTokenHandlerTests : IDisposable
         var dto = new RequestDto<LoginDto>(nameof(WhenValidUsernameAndPassword_ReturnToken), new LoginDto(Username, Password));
         var query = new GetNewTokenQuery(dto);
 
-        var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object, currentUserInfoMock.Object);
+        var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object, currentUserInfoMock.Object, passwordSecurity);
+        var response = await service.Handle(query, default);
+            
+        Assert.NotEmpty(response.Payload.Token);
+        Assert.NotEmpty(response.Payload.FullName);
+    }
+    
+    [Fact]
+    public async void WhenValidUsernameAndPasswordButCapitalInputs_ReturnToken()
+    {
+        var dto = new RequestDto<LoginDto>(nameof(WhenValidUsernameAndPassword_ReturnToken), new LoginDto(Username.ToUpper(), Password));
+        var query = new GetNewTokenQuery(dto);
+
+        var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object, currentUserInfoMock.Object, passwordSecurity);
+        var response = await service.Handle(query, default);
+            
+        Assert.NotEmpty(response.Payload.Token);
+        Assert.NotEmpty(response.Payload.FullName);
+    }
+    
+    [Fact]
+    public async void WhenValidUEmailAndPasswordButCapitalInputs_ReturnToken()
+    {
+        var dto = new RequestDto<LoginDto>(nameof(WhenValidUsernameAndPassword_ReturnToken), new LoginDto(Email.ToUpper(), Password));
+        var query = new GetNewTokenQuery(dto);
+
+        var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object, currentUserInfoMock.Object, passwordSecurity);
         var response = await service.Handle(query, default);
             
         Assert.NotEmpty(response.Payload.Token);
@@ -72,7 +100,7 @@ public class GetNewTokenHandlerTests : IDisposable
     [Fact]
     public async void WhenValidUsernameAndPasswordButExistingSessionIsActive_ShouldNotCreatAnotherSession()
     {
-        var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object, currentUserInfoMock.Object);
+        var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object, currentUserInfoMock.Object, passwordSecurity);
             
         var query = new GetNewTokenQuery(
             new RequestDto<LoginDto>(nameof(WhenValidUsernameAndPasswordButExistingSessionIsActive_ShouldNotCreatAnotherSession), 
@@ -89,7 +117,7 @@ public class GetNewTokenHandlerTests : IDisposable
     [Fact]
     public async void WhenValidUsernameAndPasswordButExistingSessionIsNotActive_ShouldCreatAnotherSession()
     {
-        var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object, currentUserInfoMock.Object);
+        var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object, currentUserInfoMock.Object, passwordSecurity);
             
         var query = new GetNewTokenQuery(new RequestDto<LoginDto>(
             nameof(WhenValidUsernameAndPasswordButExistingSessionIsNotActive_ShouldCreatAnotherSession), 
@@ -113,7 +141,7 @@ public class GetNewTokenHandlerTests : IDisposable
             nameof(WhenUsernameAndPasswordNotMatched_ThrowsNotFoundException),
             new LoginDto("unmatched", "unmatched")));
             
-        var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object, currentUserInfoMock.Object);
+        var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object, currentUserInfoMock.Object, passwordSecurity);
             
         await Assert.ThrowsAsync<NotFoundException>(() => service.Handle(query, default));
     }
@@ -130,7 +158,7 @@ public class GetNewTokenHandlerTests : IDisposable
             device,
             new LoginDto(username, password)));
             
-        var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object, currentUserInfoMock.Object);
+        var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object, currentUserInfoMock.Object, passwordSecurity);
             
         await Assert.ThrowsAsync<BadRequestException>(() => service.Handle(query, default));
     }
@@ -151,7 +179,7 @@ public class GetNewTokenHandlerTests : IDisposable
             
         var query = new GetNewTokenQuery(request);
             
-        var response = await new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object, currentUserInfoMock.Object).Handle(query, default);
+        var response = await new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object, currentUserInfoMock.Object, passwordSecurity).Handle(query, default);
             
         Assert.NotEmpty(response.Payload.Token);
         Assert.NotEmpty(response.Payload.FullName);
@@ -171,7 +199,7 @@ public class GetNewTokenHandlerTests : IDisposable
             
         var query = new GetNewTokenQuery(request);
             
-        var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object, currentUserInfoMock.Object);
+        var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object, currentUserInfoMock.Object, passwordSecurity);
             
         await Assert.ThrowsAsync<NotAllowedException>(() => service.Handle(query, default));
     }
@@ -189,7 +217,7 @@ public class GetNewTokenHandlerTests : IDisposable
         currentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
             
         var query = new GetNewTokenQuery(request);
-        var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object, currentUserInfoMock.Object);
+        var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object, currentUserInfoMock.Object, passwordSecurity);
             
         await Assert.ThrowsAsync<NotAllowedException>(() => service.Handle(query, default));
     }

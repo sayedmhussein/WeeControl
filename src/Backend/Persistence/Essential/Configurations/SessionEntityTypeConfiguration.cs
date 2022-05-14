@@ -3,13 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WeeControl.Backend.Domain.Databases.Essential.DatabaseObjects.EssentialsObjects;
 
-namespace WeeControl.Backend.Persistence.BoundedContext.Credentials.Configurations
+namespace WeeControl.Backend.Persistence.Essential.Configurations
 {
     public class SessionEntityTypeConfiguration : IEntityTypeConfiguration<SessionDbo>
     {
         public void Configure(EntityTypeBuilder<SessionDbo> builder)
         {
-            builder.ToTable("session", "credentials");
+            builder.ToTable(nameof(SessionDbo), nameof(Essential));
             builder.Property(p => p.SessionId).ValueGeneratedOnAdd();
             builder.Property(p => p.CreatedTs).HasDefaultValue(DateTime.UtcNow);
         }

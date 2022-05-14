@@ -9,6 +9,8 @@ using WeeControl.Backend.Domain.Databases.Essential;
 using WeeControl.Backend.Domain.Databases.Essential.DatabaseObjects.EssentialsObjects;
 using WeeControl.Backend.Persistence;
 using WeeControl.Common.SharedKernel.RequestsResponses;
+using WeeControl.Common.UserSecurityLib.Interfaces;
+using WeeControl.Common.UserSecurityLib.Services;
 using Xunit;
 
 namespace WeeControl.test.Application.Test.EssentialContext.Commands;
@@ -16,12 +18,14 @@ namespace WeeControl.test.Application.Test.EssentialContext.Commands;
 public class UpdatePasswordHandlerTests : IDisposable
 {
     private IEssentialDbContext context;
+    private readonly IPasswordSecurity passwordSecurity;
     private RequestDto requestDto;
     private Mock<ICurrentUserInfo> currentUserInfoMock;
 
     public UpdatePasswordHandlerTests()
     {
         context = new ServiceCollection().AddPersistenceAsInMemory(nameof(UpdatePasswordHandlerTests)).BuildServiceProvider().GetService<IEssentialDbContext>();
+        passwordSecurity = new PasswordSecurity();
         requestDto = new RequestDto("device");
         currentUserInfoMock = new Mock<ICurrentUserInfo>();
     }
@@ -36,7 +40,7 @@ public class UpdatePasswordHandlerTests : IDisposable
     public async void WhenRequestSentCorrect_PasswordIsChangedSuccessfully()
     {
         var info = (Email: "email@email.com", Username: nameof(UpdatePasswordHandlerTests), Password: "password");
-        var user = UserDbo.Create(info.Email, info.Username, info.Password);
+        var user = UserDbo.Create(info.Email, info.Username, passwordSecurity.Hash(info.Password));
         await context.Users.AddAsync(user);
         await context.SaveChangesAsync(default);
         
@@ -47,10 +51,10 @@ public class UpdatePasswordHandlerTests : IDisposable
 
         currentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
 
-        var handler = new UpdatePasswordHandler(context, currentUserInfoMock.Object);
+        var handler = new UpdatePasswordHandler(context, currentUserInfoMock.Object, passwordSecurity);
         await handler.Handle(new UpdatePasswordCommand(requestDto, info.Password, "NewPassword"), default);
         
-        Assert.Equal("NewPassword", user.Password);
+        Assert.Equal(passwordSecurity.Hash("NewPassword"), user.Password);
     }
     
     [Fact]
@@ -68,7 +72,7 @@ public class UpdatePasswordHandlerTests : IDisposable
 
         currentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
 
-        var handler = new UpdatePasswordHandler(context, currentUserInfoMock.Object);
+        var handler = new UpdatePasswordHandler(context, currentUserInfoMock.Object, passwordSecurity);
         
         await Assert.ThrowsAsync<NotFoundException>(() => handler.Handle(new UpdatePasswordCommand(requestDto, "OtherPassword", "NewPassword"), default));
     }

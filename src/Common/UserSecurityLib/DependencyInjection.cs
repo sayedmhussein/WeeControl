@@ -11,6 +11,8 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddUserSecurityService(this IServiceCollection services)
     {
+        services.AddSingleton<IPasswordSecurity, PasswordSecurity>();
+        
         services.AddSingleton<IAuthorizationHandler, TokenRefreshmentHandler>();
 
         services.AddSingleton<IJwtService, JwtService>();
