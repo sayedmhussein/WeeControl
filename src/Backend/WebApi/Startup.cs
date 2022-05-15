@@ -17,7 +17,7 @@ using WeeControl.Backend.Persistence;
 using WeeControl.Backend.WebApi.Middlewares;
 using WeeControl.Backend.WebApi.Services;
 using WeeControl.Backend.WebApi.StartupOptions;
-using WeeControl.Common.UserSecurityLib;
+using WeeControl.Common.SharedKernel;
 
 namespace WeeControl.Backend.WebApi;
 

@@ -4,8 +4,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
-using WeeControl.Common.UserSecurityLib.Interfaces;
-using WeeControl.Common.UserSecurityLib.Services;
+using WeeControl.Common.SharedKernel.Interfaces;
+using WeeControl.Common.SharedKernel.Services;
 using Xunit;
 
 namespace WeeControl.Test.UserSecurityLib.Test.Services;

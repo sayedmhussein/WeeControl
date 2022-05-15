@@ -1,4 +1,4 @@
-﻿namespace WeeControl.Common.UserSecurityLib.Interfaces;
+﻿namespace WeeControl.Common.SharedKernel.Interfaces;
 
 public interface IPasswordSecurity
 {

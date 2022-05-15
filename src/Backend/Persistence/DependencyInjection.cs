@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.Backend.Domain.Databases.Essential;
+using WeeControl.Backend.Application.EssentialContext;
 using WeeControl.Backend.Persistence.Essential;
 
 namespace WeeControl.Backend.Persistence

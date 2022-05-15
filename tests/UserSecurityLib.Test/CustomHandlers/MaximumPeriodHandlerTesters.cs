@@ -4,7 +4,7 @@ using System.Reflection.Metadata;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using WeeControl.Common.UserSecurityLib.Helpers.CustomHandlers.TokenRefreshment;
+using WeeControl.Common.SharedKernel.Services.PolicyBuild.CustomHandlers.TokenRefreshment;
 using Xunit;
 
 namespace WeeControl.Test.UserSecurityLib.Test.CustomHandlers;

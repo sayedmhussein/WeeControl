@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using WeeControl.Backend.Application.Interfaces;
-using WeeControl.Common.UserSecurityLib.BoundedContexts.HumanResources;
+using WeeControl.Common.SharedKernel.Essential;
 
 namespace WeeControl.Backend.WebApi.Services;
 

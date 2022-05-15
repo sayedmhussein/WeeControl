@@ -1,8 +1,8 @@
 ﻿using System.Net;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using WeeControl.Backend.Domain.Databases.Essential;
-using WeeControl.Backend.Domain.Databases.Essential.DatabaseObjects.EssentialsObjects;
+using WeeControl.Backend.Application.EssentialContext;
+using WeeControl.Backend.Domain.Essential.Entities;
 using WeeControl.Backend.WebApi;
 using WeeControl.Common.SharedKernel.Essential.RequestDTOs;
 using WeeControl.Frontend.FunctionalService.Enums;

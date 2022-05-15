@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace WeeControl.Backend.Domain.Databases.Essential.DatabaseObjects.EssentialsObjects;
+namespace WeeControl.Backend.Domain.Essential.Entities;
 
 public class SessionLogDbo
 {

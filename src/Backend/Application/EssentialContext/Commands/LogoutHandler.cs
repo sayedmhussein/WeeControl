@@ -5,7 +5,6 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using WeeControl.Backend.Application.Exceptions;
 using WeeControl.Backend.Application.Interfaces;
-using WeeControl.Backend.Domain.Databases.Essential;
 
 namespace WeeControl.Backend.Application.EssentialContext.Commands;
 

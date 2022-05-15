@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using WeeControl.Backend.Domain.Databases.Essential;
-using WeeControl.Backend.Domain.Databases.Essential.DatabaseObjects.EssentialsObjects;
+using WeeControl.Backend.Application.EssentialContext;
+using WeeControl.Backend.Domain.Essential.Entities;
 using WeeControl.Backend.Persistence.Essential.Configurations;
-using WeeControl.Common.UserSecurityLib.BoundedContexts.HumanResources;
-using WeeControl.Common.UserSecurityLib.Services;
+using WeeControl.Common.SharedKernel.Essential;
+using WeeControl.Common.SharedKernel.Services;
 
 namespace WeeControl.Backend.Persistence.Essential
 {

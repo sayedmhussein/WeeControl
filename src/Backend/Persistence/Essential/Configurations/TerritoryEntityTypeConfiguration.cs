@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using WeeControl.Backend.Domain.Databases.Essential.DatabaseObjects.EssentialsObjects;
+using WeeControl.Backend.Domain.Essential.Entities;
 
 namespace WeeControl.Backend.Persistence.Essential.Configurations
 {

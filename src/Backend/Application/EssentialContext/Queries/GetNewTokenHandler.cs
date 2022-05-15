@@ -11,12 +11,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using WeeControl.Backend.Application.Exceptions;
 using WeeControl.Backend.Application.Interfaces;
-using WeeControl.Backend.Domain.Databases.Essential;
-using WeeControl.Backend.Domain.Databases.Essential.DatabaseObjects.EssentialsObjects;
+using WeeControl.Backend.Domain.Essential.Entities;
+using WeeControl.Common.SharedKernel.Essential;
 using WeeControl.Common.SharedKernel.Essential.ResponseDTOs;
+using WeeControl.Common.SharedKernel.Interfaces;
 using WeeControl.Common.SharedKernel.RequestsResponses;
-using WeeControl.Common.UserSecurityLib.BoundedContexts.HumanResources;
-using WeeControl.Common.UserSecurityLib.Interfaces;
 
 namespace WeeControl.Backend.Application.EssentialContext.Queries;
 

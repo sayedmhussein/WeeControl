@@ -1,8 +1,6 @@
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 
-namespace WeeControl.Common.UserSecurityLib.BoundedContexts.HumanResources;
+namespace WeeControl.Common.SharedKernel.Essential;
 
 public static class HumanResourcesData
 {

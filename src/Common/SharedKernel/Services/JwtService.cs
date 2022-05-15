@@ -1,10 +1,9 @@
-using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
-using WeeControl.Common.UserSecurityLib.Interfaces;
+using WeeControl.Common.SharedKernel.Interfaces;
 
-namespace WeeControl.Common.UserSecurityLib.Services;
+namespace WeeControl.Common.SharedKernel.Services;
 
 public class JwtService : IJwtService
 {

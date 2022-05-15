@@ -6,11 +6,10 @@ using WeeControl.Backend.Application.CommonContext.Queries;
 using WeeControl.Backend.Application.EssentialContext.Queries;
 using WeeControl.Backend.Application.Exceptions;
 using WeeControl.Backend.Application.Interfaces;
-using WeeControl.Backend.Domain.Databases.Essential;
-using WeeControl.Backend.Domain.Databases.Essential.DatabaseObjects.EssentialsObjects;
+using WeeControl.Backend.Domain.Essential.Entities;
 using WeeControl.Common.SharedKernel.Essential.RequestDTOs;
 using WeeControl.Common.SharedKernel.Essential.ResponseDTOs;
-using WeeControl.Common.UserSecurityLib.Interfaces;
+using WeeControl.Common.SharedKernel.Interfaces;
 
 namespace WeeControl.Backend.Application.EssentialContext.Commands;
 

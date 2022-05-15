@@ -9,7 +9,7 @@ using WeeControl.Common.SharedKernel.Essential;
 using WeeControl.Frontend.FunctionalService.EssentialContext;
 using WeeControl.Frontend.FunctionalService.Interfaces;
 using WeeControl.Frontend.Wasm.Services;
-using DependencyInjection = WeeControl.Common.UserSecurityLib.DependencyInjection;
+using DependencyInjection = WeeControl.Common.SharedKernel.DependencyInjection;
 using WeeControl.Frontend.Wasm.Interfaces;
 
 namespace WeeControl.Frontend.Wasm;

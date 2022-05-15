@@ -1,9 +1,8 @@
-using System;
 using System.Security.Cryptography;
 using System.Text;
-using WeeControl.Common.UserSecurityLib.Interfaces;
+using WeeControl.Common.SharedKernel.Interfaces;
 
-namespace WeeControl.Common.UserSecurityLib.Services;
+namespace WeeControl.Common.SharedKernel.Services;
 
 public class PasswordSecurity : IPasswordSecurity
 {

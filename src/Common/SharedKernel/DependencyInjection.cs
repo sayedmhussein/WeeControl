@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.Common.UserSecurityLib.BoundedContexts.HumanResources;
-using WeeControl.Common.UserSecurityLib.Helpers.CustomHandlers.TokenRefreshment;
-using WeeControl.Common.UserSecurityLib.Interfaces;
-using WeeControl.Common.UserSecurityLib.Services;
+using WeeControl.Common.SharedKernel.Essential;
+using WeeControl.Common.SharedKernel.Interfaces;
+using WeeControl.Common.SharedKernel.Services;
+using WeeControl.Common.SharedKernel.Services.PolicyBuild.CustomHandlers.TokenRefreshment;
 
-namespace WeeControl.Common.UserSecurityLib;
+namespace WeeControl.Common.SharedKernel;
 
 public static class DependencyInjection
 {

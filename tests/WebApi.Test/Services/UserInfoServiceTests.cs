@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Moq;
 using WeeControl.Backend.WebApi.Services;
-using WeeControl.Common.UserSecurityLib.BoundedContexts.HumanResources;
+using WeeControl.Common.SharedKernel.Essential;
 using Xunit;
 
 namespace WeeControl.test.WebApi.Test.Services;

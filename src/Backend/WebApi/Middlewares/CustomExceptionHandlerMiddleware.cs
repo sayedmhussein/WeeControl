@@ -44,7 +44,7 @@ public class CustomExceptionHandlerMiddleware
                 code = HttpStatusCode.BadRequest;
                 result = badRequestException.Message;
                 break;
-            case NotFoundException _:
+            case NotFoundException:
                 code = HttpStatusCode.NotFound;
                 break;
             case NotAllowedException:
