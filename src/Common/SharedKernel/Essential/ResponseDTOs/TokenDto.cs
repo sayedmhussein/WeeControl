@@ -1,4 +1,4 @@
-﻿namespace WeeControl.Common.SharedKernel.Essential.ResponseDTOs;
+﻿namespace WeeControl.SharedKernel.Essential.ResponseDTOs;
 
 public class TokenDto
 {

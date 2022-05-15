@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace WeeControl.Backend.Application.Exceptions;
+namespace WeeControl.Application.Exceptions;
 
 public class ValidationException : Exception
 {

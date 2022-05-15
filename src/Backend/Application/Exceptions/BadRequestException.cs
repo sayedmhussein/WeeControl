@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WeeControl.Backend.Application.Exceptions;
+namespace WeeControl.Application.Exceptions;
 
 public class BadRequestException : Exception
 {

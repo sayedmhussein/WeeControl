@@ -1,6 +1,6 @@
-﻿using WeeControl.Backend.Domain.Interfaces;
+﻿using WeeControl.Domain.Interfaces;
 
-namespace WeeControl.Backend.Domain.Models;
+namespace WeeControl.Domain.Models;
 
 public class MessageDto : IMessageDto
 {

@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.Backend.Domain.Interfaces;
-using WeeControl.Backend.Infrastructure.Notifications;
+using WeeControl.Domain.Interfaces;
+using WeeControl.Infrastructure.Notifications;
 
-namespace WeeControl.Backend.Infrastructure;
+namespace WeeControl.Infrastructure;
 
 public static class DependencyInjection
 {

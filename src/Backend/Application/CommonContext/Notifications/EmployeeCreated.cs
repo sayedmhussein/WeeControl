@@ -2,9 +2,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using WeeControl.Backend.Domain.Interfaces;
+using WeeControl.Domain.Interfaces;
 
-namespace WeeControl.Backend.Application.CommonContext.Notifications;
+namespace WeeControl.Application.CommonContext.Notifications;
 
 public class EmployeeCreated : INotification
 {

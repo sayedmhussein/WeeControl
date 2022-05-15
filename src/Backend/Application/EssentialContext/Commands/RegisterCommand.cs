@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using WeeControl.Common.SharedKernel.Essential.RequestDTOs;
-using WeeControl.Common.SharedKernel.Essential.ResponseDTOs;
-using WeeControl.Common.SharedKernel.RequestsResponses;
+using WeeControl.SharedKernel.Essential.RequestDTOs;
+using WeeControl.SharedKernel.Essential.ResponseDTOs;
+using WeeControl.SharedKernel.RequestsResponses;
 
-namespace WeeControl.Backend.Application.EssentialContext.Commands;
+namespace WeeControl.Application.EssentialContext.Commands;
 
 public class RegisterCommand : IRequest<TokenDto>
 {

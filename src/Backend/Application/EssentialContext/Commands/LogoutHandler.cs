@@ -3,10 +3,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using WeeControl.Backend.Application.Exceptions;
-using WeeControl.Backend.Application.Interfaces;
+using WeeControl.Application.Exceptions;
+using WeeControl.Application.Interfaces;
 
-namespace WeeControl.Backend.Application.EssentialContext.Commands;
+namespace WeeControl.Application.EssentialContext.Commands;
 
 public class LogoutHandler : IRequestHandler<LogoutCommand>
 {

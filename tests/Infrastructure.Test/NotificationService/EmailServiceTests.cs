@@ -1,4 +1,4 @@
-﻿using WeeControl.Backend.Infrastructure.Notifications;
+﻿using WeeControl.Infrastructure.Notifications;
 using Xunit;
 
 namespace WeeControl.test.Infrastructure.Test.NotificationService;

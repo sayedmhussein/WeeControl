@@ -4,15 +4,13 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WeeControl.Backend.Application.EssentialContext.Commands;
-using WeeControl.Backend.Application.EssentialContext.Queries;
-using WeeControl.Backend.Application.Interfaces;
-using WeeControl.Common.SharedKernel;
-using WeeControl.Common.SharedKernel.Essential.RequestDTOs;
-using WeeControl.Common.SharedKernel.Essential.ResponseDTOs;
-using WeeControl.Common.SharedKernel.RequestsResponses;
+using WeeControl.Application.EssentialContext.Commands;
+using WeeControl.Application.EssentialContext.Queries;
+using WeeControl.SharedKernel.Essential.RequestDTOs;
+using WeeControl.SharedKernel.Essential.ResponseDTOs;
+using WeeControl.SharedKernel.RequestsResponses;
 
-namespace WeeControl.Backend.WebApi.Controllers.Essentials;
+namespace WeeControl.WebApi.Controllers.Essentials;
 
 [ApiController]
 [Consumes(MediaTypeNames.Application.Json)]

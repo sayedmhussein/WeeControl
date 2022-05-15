@@ -1,9 +1,9 @@
 using System.Net;
 using Moq;
-using WeeControl.Backend.WebApi;
-using WeeControl.Common.SharedKernel.Essential.RequestDTOs;
 using WeeControl.Frontend.FunctionalService.Enums;
 using WeeControl.Frontend.FunctionalService.Interfaces;
+using WeeControl.SharedKernel.Essential.RequestDTOs;
+using WeeControl.WebApi;
 using Xunit;
 
 namespace WeeControl.Test.WebApi.Test.Functional.Controllers.Essentials.UserOperation;

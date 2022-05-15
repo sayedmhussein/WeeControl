@@ -1,8 +1,8 @@
 ﻿using System.Text;
 using Newtonsoft.Json;
-using WeeControl.Common.SharedKernel.Interfaces;
+using WeeControl.SharedKernel.Interfaces;
 
-namespace WeeControl.Common.SharedKernel.RequestsResponses;
+namespace WeeControl.SharedKernel.RequestsResponses;
 
 public class RequestDto : IRequestDto
 {

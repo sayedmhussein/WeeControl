@@ -1,12 +1,12 @@
 ﻿using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using WeeControl.Backend.Application.EssentialContext;
-using WeeControl.Backend.Domain.Essential.Entities;
-using WeeControl.Backend.Persistence.Essential.Configurations;
-using WeeControl.Common.SharedKernel.Essential;
-using WeeControl.Common.SharedKernel.Services;
+using WeeControl.Application.EssentialContext;
+using WeeControl.Domain.Essential.Entities;
+using WeeControl.Persistence.Essential.Configurations;
+using WeeControl.SharedKernel.Essential;
+using WeeControl.SharedKernel.Services;
 
-namespace WeeControl.Backend.Persistence.Essential
+namespace WeeControl.Persistence.Essential
 {
     public class EssentialDbContext : DbContext, IEssentialDbContext
     {

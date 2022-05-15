@@ -2,7 +2,7 @@
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using WeeControl.Backend.WebApi.Middlewares;
+using WeeControl.WebApi.Middlewares;
 using Xunit;
 
 namespace WeeControl.test.WebApi.Test.Middlewares;

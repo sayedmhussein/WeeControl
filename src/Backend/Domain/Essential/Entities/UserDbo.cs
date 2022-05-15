@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace WeeControl.Backend.Domain.Essential.Entities;
+namespace WeeControl.Domain.Essential.Entities;
 
 public class UserDbo
 {

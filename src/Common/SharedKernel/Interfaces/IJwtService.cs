@@ -1,7 +1,7 @@
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 
-namespace WeeControl.Common.SharedKernel.Interfaces;
+namespace WeeControl.SharedKernel.Interfaces;
 
 public interface IJwtService
 {

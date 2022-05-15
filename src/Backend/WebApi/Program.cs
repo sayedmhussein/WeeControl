@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace WeeControl.Backend.WebApi;
+namespace WeeControl.WebApi;
 
 public class Program
 {

@@ -1,11 +1,11 @@
 ﻿using System;
 using MediatR;
-using WeeControl.Common.SharedKernel.Essential.RequestDTOs;
-using WeeControl.Common.SharedKernel.Essential.ResponseDTOs;
-using WeeControl.Common.SharedKernel.Interfaces;
-using WeeControl.Common.SharedKernel.RequestsResponses;
+using WeeControl.SharedKernel.Essential.RequestDTOs;
+using WeeControl.SharedKernel.Essential.ResponseDTOs;
+using WeeControl.SharedKernel.Interfaces;
+using WeeControl.SharedKernel.RequestsResponses;
 
-namespace WeeControl.Backend.Application.EssentialContext.Queries;
+namespace WeeControl.Application.EssentialContext.Queries;
 
 public class GetNewTokenQuery : IRequest<ResponseDto<TokenDto>>
 {

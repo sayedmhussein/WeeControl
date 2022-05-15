@@ -1,4 +1,4 @@
-﻿namespace WeeControl.Common.SharedKernel.Interfaces;
+﻿namespace WeeControl.SharedKernel.Interfaces;
 
 public interface IRequestDto
 {

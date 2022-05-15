@@ -5,10 +5,10 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using WeeControl.Backend.Application.Interfaces;
-using WeeControl.Common.SharedKernel.Essential;
+using WeeControl.Application.Interfaces;
+using WeeControl.SharedKernel.Essential;
 
-namespace WeeControl.Backend.WebApi.Services;
+namespace WeeControl.WebApi.Services;
 
 public class UserInfoService : ICurrentUserInfo
 {

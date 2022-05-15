@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.Common.SharedKernel.Essential;
 using WeeControl.Frontend.FunctionalService.EssentialContext;
 using WeeControl.Frontend.FunctionalService.Interfaces;
 using WeeControl.Frontend.Wasm.Services;
-using DependencyInjection = WeeControl.Common.SharedKernel.DependencyInjection;
+using DependencyInjection = WeeControl.SharedKernel.DependencyInjection;
 using WeeControl.Frontend.Wasm.Interfaces;
+using WeeControl.SharedKernel.Essential;
 
 namespace WeeControl.Frontend.Wasm;
 

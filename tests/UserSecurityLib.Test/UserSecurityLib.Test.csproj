@@ -5,7 +5,9 @@
 
         <IsPackable>false</IsPackable>
 
-        <RootNamespace>WeeControl.Test.UserSecurityLib.Test</RootNamespace>
+        <RootNamespace>WeeControl.SharedKernel.Test</RootNamespace>
+
+        <AssemblyName>SharedKernel.Test</AssemblyName>
     </PropertyGroup>
 
     <ItemGroup>

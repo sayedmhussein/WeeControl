@@ -1,9 +1,8 @@
 ﻿using System.Reflection;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.Backend.Application.Interfaces;
 
-namespace WeeControl.Backend.Application;
+namespace WeeControl.Application;
 
 public static class DependencyExtension
 {

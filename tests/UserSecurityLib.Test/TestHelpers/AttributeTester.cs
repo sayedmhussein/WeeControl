@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using Xunit;
 
-namespace WeeControl.Test.UserSecurityLib.Test.TestHelpers;
+namespace WeeControl.SharedKernel.Test.TestHelpers;
 
 public class AttributeTester
 {

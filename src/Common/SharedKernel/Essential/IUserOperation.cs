@@ -1,7 +1,7 @@
-﻿using WeeControl.Common.SharedKernel.Essential.RequestDTOs;
-using WeeControl.Common.SharedKernel.Interfaces;
+﻿using WeeControl.SharedKernel.Essential.RequestDTOs;
+using WeeControl.SharedKernel.Interfaces;
 
-namespace WeeControl.Common.SharedKernel.Essential;
+namespace WeeControl.SharedKernel.Essential;
 
 public interface IUserOperation
 {

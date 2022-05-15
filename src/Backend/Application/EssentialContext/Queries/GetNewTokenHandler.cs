@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Net;
 using System.Security.Claims;
 using System.Text;
 using System.Threading;
@@ -9,15 +8,15 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using WeeControl.Backend.Application.Exceptions;
-using WeeControl.Backend.Application.Interfaces;
-using WeeControl.Backend.Domain.Essential.Entities;
-using WeeControl.Common.SharedKernel.Essential;
-using WeeControl.Common.SharedKernel.Essential.ResponseDTOs;
-using WeeControl.Common.SharedKernel.Interfaces;
-using WeeControl.Common.SharedKernel.RequestsResponses;
+using WeeControl.Application.Exceptions;
+using WeeControl.Application.Interfaces;
+using WeeControl.Domain.Essential.Entities;
+using WeeControl.SharedKernel.Essential;
+using WeeControl.SharedKernel.Essential.ResponseDTOs;
+using WeeControl.SharedKernel.Interfaces;
+using WeeControl.SharedKernel.RequestsResponses;
 
-namespace WeeControl.Backend.Application.EssentialContext.Queries;
+namespace WeeControl.Application.EssentialContext.Queries;
 
 public class GetNewTokenHandler : IRequestHandler<GetNewTokenQuery, ResponseDto<TokenDto>>
 {

@@ -1,6 +1,6 @@
 using System.Reflection;
 
-namespace WeeControl.Common.SharedKernel.Essential;
+namespace WeeControl.SharedKernel.Essential;
 
 public static class HumanResourcesData
 {

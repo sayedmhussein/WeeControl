@@ -1,6 +1,6 @@
-using WeeControl.Common.SharedKernel.Services.PolicyBuild;
+using WeeControl.SharedKernel.Services.PolicyBuild;
 
-namespace WeeControl.Common.SharedKernel.Essential.Policies;
+namespace WeeControl.SharedKernel.Essential.Policies;
 
 internal class CanAlterEmployeePolicy : PolicyBuilderBase
 {

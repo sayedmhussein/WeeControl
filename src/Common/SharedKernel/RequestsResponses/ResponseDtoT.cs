@@ -1,7 +1,6 @@
-﻿using System.Net;
-using WeeControl.Common.SharedKernel.Interfaces;
+﻿using WeeControl.SharedKernel.Interfaces;
 
-namespace WeeControl.Common.SharedKernel.RequestsResponses;
+namespace WeeControl.SharedKernel.RequestsResponses;
 
 public class ResponseDto<T> : ResponseDto, IResponseDto<T> where T : class
 {

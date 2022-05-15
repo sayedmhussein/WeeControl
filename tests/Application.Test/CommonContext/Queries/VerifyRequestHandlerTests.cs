@@ -1,7 +1,7 @@
 using System.Threading;
-using WeeControl.Backend.Application.CommonContext.Queries;
-using WeeControl.Backend.Application.Exceptions;
-using WeeControl.Common.SharedKernel.RequestsResponses;
+using WeeControl.Application.CommonContext.Queries;
+using WeeControl.Application.Exceptions;
+using WeeControl.SharedKernel.RequestsResponses;
 using Xunit;
 
 namespace WeeControl.test.Application.Test.CommonContext.Queries;

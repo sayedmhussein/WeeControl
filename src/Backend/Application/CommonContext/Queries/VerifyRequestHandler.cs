@@ -1,9 +1,9 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using WeeControl.Backend.Application.Exceptions;
+using WeeControl.Application.Exceptions;
 
-namespace WeeControl.Backend.Application.CommonContext.Queries;
+namespace WeeControl.Application.CommonContext.Queries;
 
 public class VerifyRequestHandler : IRequestHandler<VerifyRequestQuery>
 {

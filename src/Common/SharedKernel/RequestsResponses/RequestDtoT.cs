@@ -1,6 +1,6 @@
-﻿using WeeControl.Common.SharedKernel.Interfaces;
+﻿using WeeControl.SharedKernel.Interfaces;
 
-namespace WeeControl.Common.SharedKernel.RequestsResponses;
+namespace WeeControl.SharedKernel.RequestsResponses;
 
 public class RequestDto<T> : RequestDto, IRequestDto<T> where T : class
 {

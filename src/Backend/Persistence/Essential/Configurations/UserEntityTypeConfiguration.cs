@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using WeeControl.Backend.Domain.Essential.Entities;
+using WeeControl.Domain.Essential.Entities;
 
-namespace WeeControl.Backend.Persistence.Essential.Configurations
+namespace WeeControl.Persistence.Essential.Configurations
 {
     public class UserEntityTypeConfiguration : IEntityTypeConfiguration<UserDbo>
     {

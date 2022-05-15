@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace WeeControl.Backend.Domain.Common;
+namespace WeeControl.Domain.Common;
 
 public abstract class ValueObject
 {

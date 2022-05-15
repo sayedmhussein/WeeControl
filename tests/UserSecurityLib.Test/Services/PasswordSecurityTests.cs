@@ -1,8 +1,8 @@
-using WeeControl.Common.SharedKernel.Interfaces;
-using WeeControl.Common.SharedKernel.Services;
+using WeeControl.SharedKernel.Interfaces;
+using WeeControl.SharedKernel.Services;
 using Xunit;
 
-namespace WeeControl.Test.UserSecurityLib.Test.Services;
+namespace WeeControl.SharedKernel.Test.Services;
 
 public class PasswordSecurityTests
 {

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
-using WeeControl.Common.SharedKernel.Essential.Policies;
+using WeeControl.SharedKernel.Essential.Policies;
 
-namespace WeeControl.Common.SharedKernel.Essential;
+namespace WeeControl.SharedKernel.Essential;
 
 internal static class HumanResourcesPolicyOptions
 {

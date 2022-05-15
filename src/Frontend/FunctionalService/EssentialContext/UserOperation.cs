@@ -1,14 +1,14 @@
 ﻿using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using WeeControl.Common.SharedKernel.Essential;
-using WeeControl.Common.SharedKernel.Essential.RequestDTOs;
-using WeeControl.Common.SharedKernel.Essential.ResponseDTOs;
-using WeeControl.Common.SharedKernel.Interfaces;
-using WeeControl.Common.SharedKernel.RequestsResponses;
 using WeeControl.Frontend.FunctionalService.Enums;
 using WeeControl.Frontend.FunctionalService.Interfaces;
 using WeeControl.Frontend.FunctionalService.Models;
+using WeeControl.SharedKernel.Essential;
+using WeeControl.SharedKernel.Essential.RequestDTOs;
+using WeeControl.SharedKernel.Essential.ResponseDTOs;
+using WeeControl.SharedKernel.Interfaces;
+using WeeControl.SharedKernel.RequestsResponses;
 
 namespace WeeControl.Frontend.FunctionalService.EssentialContext;
 

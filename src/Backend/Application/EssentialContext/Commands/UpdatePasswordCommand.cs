@@ -1,7 +1,7 @@
 using MediatR;
-using WeeControl.Common.SharedKernel.Interfaces;
+using WeeControl.SharedKernel.Interfaces;
 
-namespace WeeControl.Backend.Application.EssentialContext.Commands;
+namespace WeeControl.Application.EssentialContext.Commands;
 
 public class UpdatePasswordCommand : IRequest
 {

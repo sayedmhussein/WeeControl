@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
 using Moq;
-using WeeControl.Backend.Application.Interfaces;
+using WeeControl.Application.Interfaces;
 using Xunit;
 
 namespace WeeControl.test.Application.Test.Behaviours;

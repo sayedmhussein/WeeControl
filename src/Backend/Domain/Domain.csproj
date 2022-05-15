@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <RootNamespace>WeeControl.Backend.Domain</RootNamespace>
+    <RootNamespace>WeeControl.Domain</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

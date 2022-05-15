@@ -1,6 +1,6 @@
 using System.Net;
-using WeeControl.Common.SharedKernel.Interfaces;
 using WeeControl.Frontend.FunctionalService.Interfaces;
+using WeeControl.SharedKernel.Interfaces;
 
 namespace WeeControl.Frontend.FunctionalService.Models;
 

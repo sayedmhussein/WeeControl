@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using WeeControl.Backend.Domain.Interfaces;
-using WeeControl.Backend.Infrastructure;
+using WeeControl.Domain.Interfaces;
+using WeeControl.Infrastructure;
 using Xunit;
 
 namespace WeeControl.test.Infrastructure.Test;

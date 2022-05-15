@@ -2,11 +2,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using WeeControl.Backend.Application.Exceptions;
-using WeeControl.Backend.Application.Interfaces;
-using WeeControl.Common.SharedKernel.Interfaces;
+using WeeControl.Application.Exceptions;
+using WeeControl.Application.Interfaces;
+using WeeControl.SharedKernel.Interfaces;
 
-namespace WeeControl.Backend.Application.EssentialContext.Commands;
+namespace WeeControl.Application.EssentialContext.Commands;
 
 public class UpdatePasswordHandler : IRequestHandler<UpdatePasswordCommand>
 {

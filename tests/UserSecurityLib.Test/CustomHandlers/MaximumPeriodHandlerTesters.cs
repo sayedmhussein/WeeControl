@@ -4,10 +4,10 @@ using System.Reflection.Metadata;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using WeeControl.Common.SharedKernel.Services.PolicyBuild.CustomHandlers.TokenRefreshment;
+using WeeControl.SharedKernel.Services.PolicyBuild.CustomHandlers.TokenRefreshment;
 using Xunit;
 
-namespace WeeControl.Test.UserSecurityLib.Test.CustomHandlers;
+namespace WeeControl.SharedKernel.Test.CustomHandlers;
 
 public class MaximumPeriodHandlerTesters : TokenRefreshmentHandler
 {

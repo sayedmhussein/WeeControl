@@ -2,7 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 
-namespace WeeControl.Backend.Application.EssentialContext.Commands;
+namespace WeeControl.Application.EssentialContext.Commands;
 
 public class SeedEssentialDatabaseHandler : IRequestHandler<SeedEssentialDatabaseCommand>
 {

@@ -1,12 +1,12 @@
 ﻿using System.Net;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using WeeControl.Backend.Application.EssentialContext;
-using WeeControl.Backend.Domain.Essential.Entities;
-using WeeControl.Backend.WebApi;
-using WeeControl.Common.SharedKernel.Essential.RequestDTOs;
+using WeeControl.Application.EssentialContext;
+using WeeControl.Domain.Essential.Entities;
 using WeeControl.Frontend.FunctionalService.Enums;
 using WeeControl.Frontend.FunctionalService.Interfaces;
+using WeeControl.SharedKernel.Essential.RequestDTOs;
+using WeeControl.WebApi;
 using Xunit;
 
 namespace WeeControl.Test.WebApi.Test.Functional.Controllers.Essentials.UserOperation;

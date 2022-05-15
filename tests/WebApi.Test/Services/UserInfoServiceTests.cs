@@ -5,8 +5,8 @@ using System.Threading;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Moq;
-using WeeControl.Backend.WebApi.Services;
-using WeeControl.Common.SharedKernel.Essential;
+using WeeControl.SharedKernel.Essential;
+using WeeControl.WebApi.Services;
 using Xunit;
 
 namespace WeeControl.test.WebApi.Test.Services;

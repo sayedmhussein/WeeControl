@@ -2,16 +2,15 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using WeeControl.Backend.Application.CommonContext.Queries;
-using WeeControl.Backend.Application.EssentialContext.Queries;
-using WeeControl.Backend.Application.Exceptions;
-using WeeControl.Backend.Application.Interfaces;
-using WeeControl.Backend.Domain.Essential.Entities;
-using WeeControl.Common.SharedKernel.Essential.RequestDTOs;
-using WeeControl.Common.SharedKernel.Essential.ResponseDTOs;
-using WeeControl.Common.SharedKernel.Interfaces;
+using WeeControl.Application.CommonContext.Queries;
+using WeeControl.Application.EssentialContext.Queries;
+using WeeControl.Application.Exceptions;
+using WeeControl.Domain.Essential.Entities;
+using WeeControl.SharedKernel.Essential.RequestDTOs;
+using WeeControl.SharedKernel.Essential.ResponseDTOs;
+using WeeControl.SharedKernel.Interfaces;
 
-namespace WeeControl.Backend.Application.EssentialContext.Commands;
+namespace WeeControl.Application.EssentialContext.Commands;
 
 public class RegisterHandler : IRequestHandler<RegisterCommand, TokenDto>
 {

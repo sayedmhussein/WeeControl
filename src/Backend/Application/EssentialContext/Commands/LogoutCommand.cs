@@ -1,8 +1,7 @@
-﻿using System;
-using MediatR;
-using WeeControl.Common.SharedKernel.RequestsResponses;
+﻿using MediatR;
+using WeeControl.SharedKernel.RequestsResponses;
 
-namespace WeeControl.Backend.Application.EssentialContext.Commands;
+namespace WeeControl.Application.EssentialContext.Commands;
 
 public class LogoutCommand : IRequest
 {
