@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.Application.EssentialContext;
@@ -13,7 +12,7 @@ using WeeControl.SharedKernel.RequestsResponses;
 using WeeControl.SharedKernel.Services;
 using Xunit;
 
-namespace WeeControl.test.Application.Test.EssentialContext.Commands;
+namespace WeeControl.Application.Test.EssentialContext.Commands;
 
 public class UpdatePasswordHandlerTests : IDisposable
 {

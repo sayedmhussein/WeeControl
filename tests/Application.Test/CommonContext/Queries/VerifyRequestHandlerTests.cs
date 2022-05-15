@@ -4,7 +4,7 @@ using WeeControl.Application.Exceptions;
 using WeeControl.SharedKernel.RequestsResponses;
 using Xunit;
 
-namespace WeeControl.test.Application.Test.CommonContext.Queries;
+namespace WeeControl.Application.Test.CommonContext.Queries;
 
 public class VerifyRequestHandlerTests
 {

@@ -4,7 +4,7 @@ using Moq;
 using WeeControl.Application.Interfaces;
 using Xunit;
 
-namespace WeeControl.test.Application.Test.Behaviours;
+namespace WeeControl.Application.Test.Behaviours;
 
 public class RequestPerformanceBehaviourTests
 {

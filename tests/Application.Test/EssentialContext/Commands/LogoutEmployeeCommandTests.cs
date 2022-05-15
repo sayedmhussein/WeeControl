@@ -11,7 +11,7 @@ using WeeControl.Persistence;
 using WeeControl.SharedKernel.RequestsResponses;
 using Xunit;
 
-namespace WeeControl.test.Application.Test.EssentialContext.Commands;
+namespace WeeControl.Application.Test.EssentialContext.Commands;
 
 public class LogoutEmployeeCommandTests : IDisposable
 {

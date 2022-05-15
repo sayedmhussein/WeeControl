@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
-    <RootNamespace>WeeControl.test.Application.Test</RootNamespace>
+    <RootNamespace>WeeControl.Application.Test</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' " />
@@ -35,7 +35,7 @@
     <None Remove="BoundedContexts\Credentials\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Backend\Application\Application.csproj" />
-    <ProjectReference Include="..\..\src\Backend\Persistence\Persistence.csproj" />
+    <ProjectReference Include="..\..\src\Application\Application.csproj" />
+    <ProjectReference Include="..\..\src\Persistence\Persistence.csproj" />
   </ItemGroup>
 </Project>

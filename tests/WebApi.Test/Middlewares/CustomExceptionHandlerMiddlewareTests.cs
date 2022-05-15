@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 using WeeControl.WebApi.Middlewares;
 using Xunit;
 
-namespace WeeControl.test.WebApi.Test.Middlewares;
+namespace WeeControl.WebApi.Test.Middlewares;
 
 public class CustomExceptionHandlerMiddlewareTests
 {

@@ -9,7 +9,7 @@ using WeeControl.SharedKernel.Essential;
 using WeeControl.WebApi.Services;
 using Xunit;
 
-namespace WeeControl.test.WebApi.Test.Services;
+namespace WeeControl.WebApi.Test.Services;
 
 public class UserInfoServiceTests : IDisposable
 {

@@ -1,0 +1,46 @@
+﻿@using WeeControl.Presentations.FunctionalService.Interfaces
+@using WeeControl.Presentations.FunctionalService.Enums
+@inherits LayoutComponentBase
+
+@inject NavigationManager NavManager
+@inject IUserStorage localStorage
+
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <div class="main">
+        <div class="top-row px-4">
+            <p class="text-primary ml-md-auto">@greetingMessage</p>
+            <button class="btn btn-danger ml-md-auto" @onclick="@OpenChangePasswordWindow">
+                Change Password
+            </button>
+            <Logout/>
+        </div>
+
+        <div class="content px-4">
+            @Body
+        </div>
+    </div>
+</div>
+
+
+@code
+{
+    private string greetingMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        greetingMessage = "Hello " + await localStorage.GetAsync(UserDataEnum.FullName);
+    }
+
+    private Task OpenChangePasswordWindow()
+    {
+        NavManager.NavigateTo("NewPassword");
+        return Task.CompletedTask;
+    }
+}

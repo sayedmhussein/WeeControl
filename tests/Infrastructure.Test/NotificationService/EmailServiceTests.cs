@@ -1,7 +1,7 @@
 ﻿using WeeControl.Infrastructure.Notifications;
 using Xunit;
 
-namespace WeeControl.test.Infrastructure.Test.NotificationService;
+namespace WeeControl.Infrastructure.Test.NotificationService;
 
 public class EmailServiceTests
 {

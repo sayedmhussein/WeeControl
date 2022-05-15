@@ -3,10 +3,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.Application.EssentialContext;
-using WeeControl.Persistence;
 using Xunit;
 
-namespace WeeControl.Test.Persistence.Test;
+namespace WeeControl.Persistence.Test;
 
 public class DependencyInjectionTesters : IDisposable
 {

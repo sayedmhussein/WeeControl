@@ -3,13 +3,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.Application.EssentialContext;
 using WeeControl.Domain.Essential.Entities;
-using WeeControl.Frontend.FunctionalService.Enums;
-using WeeControl.Frontend.FunctionalService.Interfaces;
+using WeeControl.Presentations.FunctionalService.Enums;
+using WeeControl.Presentations.FunctionalService.Interfaces;
 using WeeControl.SharedKernel.Essential.RequestDTOs;
-using WeeControl.WebApi;
 using Xunit;
 
-namespace WeeControl.Test.WebApi.Test.Functional.Controllers.Essentials.UserOperation;
+namespace WeeControl.WebApi.Test.Functional.Controllers.Essentials.UserOperation;
 
 public class RegisterTests : IClassFixture<CustomWebApplicationFactory<Startup>>
 {
@@ -26,7 +25,7 @@ public class RegisterTests : IClassFixture<CustomWebApplicationFactory<Startup>>
         var mocks = ApplicationMocks.GetEssentialMock(factory.CreateClient(), typeof(RegisterTests).Namespace);
 
         var response = 
-            await new Frontend.FunctionalService.EssentialContext.UserOperation(
+            await new Presentations.FunctionalService.EssentialContext.UserOperation(
                 mocks.Object, 
                 new Mock<IDisplayAlert>().Object).RegisterAsync(RegisterDto.Create("email@email.com", "username", "password"));
             
@@ -49,7 +48,7 @@ public class RegisterTests : IClassFixture<CustomWebApplicationFactory<Startup>>
         var mocks = ApplicationMocks.GetEssentialMock(factory.CreateClient(), typeof(RegisterTests).Namespace);
 
         var response = 
-            await new Frontend.FunctionalService.EssentialContext.UserOperation(
+            await new Presentations.FunctionalService.EssentialContext.UserOperation(
                 mocks.Object, 
                 new Mock<IDisplayAlert>().Object).RegisterAsync(RegisterDto.Create(email, username, password));
             
@@ -75,7 +74,7 @@ public class RegisterTests : IClassFixture<CustomWebApplicationFactory<Startup>>
         var mocks = ApplicationMocks.GetEssentialMock(client, typeof(RegisterTests).Namespace);
 
         var responseSameEmail = 
-            await new Frontend.FunctionalService.EssentialContext.UserOperation(
+            await new Presentations.FunctionalService.EssentialContext.UserOperation(
                 mocks.Object, 
                 new Mock<IDisplayAlert>().Object).RegisterAsync(RegisterDto.Create(user.Email, "username", "password"));
             
@@ -83,7 +82,7 @@ public class RegisterTests : IClassFixture<CustomWebApplicationFactory<Startup>>
         Assert.Equal(HttpStatusCode.Conflict, responseSameEmail.HttpStatusCode);
             
         var responseSameUsername = 
-            await new Frontend.FunctionalService.EssentialContext.UserOperation(
+            await new Presentations.FunctionalService.EssentialContext.UserOperation(
                 mocks.Object, 
                 new Mock<IDisplayAlert>().Object).RegisterAsync(RegisterDto.Create("someemail@email.com", user.Username, "password"));
         Assert.Equal(HttpStatusCode.Conflict, responseSameUsername.HttpStatusCode);

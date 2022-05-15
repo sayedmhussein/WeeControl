@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
-    <RootNamespace>WeeControl.Test.WebApi.Test.Functional</RootNamespace>
+    <RootNamespace>WeeControl.WebApi.Test.Functional</RootNamespace>
     <Configurations>Release;Debug</Configurations>
   </PropertyGroup>
 
@@ -42,9 +42,9 @@
     <None Remove="Microsoft.AspNet.WebApi.Client" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Backend\Persistence\Persistence.csproj" />
-    <ProjectReference Include="..\..\src\Backend\WebApi\WebApi.csproj" />
-    <ProjectReference Include="..\..\src\Frontend\FunctionalService\FunctionalService.csproj" />
+    <ProjectReference Include="..\..\src\Persistence\Persistence.csproj" />
+    <ProjectReference Include="..\..\src\WebApi\WebApi.csproj" />
+    <ProjectReference Include="..\..\src\Presentations\FunctionalService\FunctionalService.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />

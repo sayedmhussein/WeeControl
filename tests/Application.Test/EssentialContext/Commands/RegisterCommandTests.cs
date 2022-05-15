@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +17,7 @@ using WeeControl.SharedKernel.RequestsResponses;
 using WeeControl.SharedKernel.Services;
 using Xunit;
 
-namespace WeeControl.test.Application.Test.EssentialContext.Commands;
+namespace WeeControl.Application.Test.EssentialContext.Commands;
 
 public class RegisterCommandTests : IDisposable
 {

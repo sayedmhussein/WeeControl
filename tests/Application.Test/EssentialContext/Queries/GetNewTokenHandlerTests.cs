@@ -17,7 +17,7 @@ using WeeControl.SharedKernel.RequestsResponses;
 using WeeControl.SharedKernel.Services;
 using Xunit;
 
-namespace WeeControl.test.Application.Test.EssentialContext.Queries;
+namespace WeeControl.Application.Test.EssentialContext.Queries;
 
 public class GetNewTokenHandlerTests : IDisposable
 {

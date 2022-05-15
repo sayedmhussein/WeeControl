@@ -7,15 +7,14 @@ using Moq;
 using Moq.Protected;
 using WeeControl.Application.EssentialContext;
 using WeeControl.Domain.Essential.Entities;
-using WeeControl.Frontend.FunctionalService.Enums;
-using WeeControl.Frontend.FunctionalService.Interfaces;
+using WeeControl.Presentations.FunctionalService.Enums;
+using WeeControl.Presentations.FunctionalService.Interfaces;
 using WeeControl.SharedKernel.Essential.RequestDTOs;
 using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.Services;
-using WeeControl.WebApi;
 using Xunit;
 
-namespace WeeControl.Test.WebApi.Test.Functional.Controllers.Essentials.UserOperation;
+namespace WeeControl.WebApi.Test.Functional.Controllers.Essentials.UserOperation;
 
 public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>
 {
@@ -29,7 +28,7 @@ public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>
             .Callback((UserDataEnum en, string tkn) => token = tkn);
             
         var response = 
-            await new Frontend.FunctionalService.EssentialContext.UserOperation(
+            await new Presentations.FunctionalService.EssentialContext.UserOperation(
                     mocks.Object, 
                     new Mock<IDisplayAlert>().Object)
                 .LoginAsync(new LoginDto(username, password));
@@ -44,7 +43,7 @@ public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         var mocks = ApplicationMocks.GetEssentialMock(client, device);
 
-        var response = new Frontend.FunctionalService.EssentialContext.UserOperation(
+        var response = new Presentations.FunctionalService.EssentialContext.UserOperation(
                 mocks.Object, 
                 new Mock<IDisplayAlert>().Object)
             .LoginAsync(new LoginDto(username, password));
@@ -89,7 +88,7 @@ public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>
         var mocks = ApplicationMocks.GetEssentialMock(factory.CreateClient(), typeof(LoginTests).Namespace);
 
         var response = 
-            await new Frontend.FunctionalService.EssentialContext.UserOperation(
+            await new Presentations.FunctionalService.EssentialContext.UserOperation(
                     mocks.Object, 
                     new Mock<IDisplayAlert>().Object)
                 .LoginAsync(new LoginDto("admin", "admin"));

@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
-    <RootNamespace>WeeControl.Test.Persistence.Test</RootNamespace>
+    <RootNamespace>WeeControl.Persistence.Test</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,6 +26,6 @@
     <None Remove="Territory\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Backend\Persistence\Persistence.csproj" />
+    <ProjectReference Include="..\..\src\Persistence\Persistence.csproj" />
   </ItemGroup>
 </Project>

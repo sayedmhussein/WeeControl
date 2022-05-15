@@ -5,7 +5,7 @@ using Xunit;
 
 [assembly: CollectionBehavior(CollectionBehavior.CollectionPerAssembly, DisableTestParallelization = true, MaxParallelThreads = 1)]
 
-namespace WeeControl.Test.WebApi.Test.Functional;
+namespace WeeControl.WebApi.Test.Functional;
 
 public class CustomWebApplicationFactory<TStartup>
     : WebApplicationFactory<TStartup> where TStartup : class
