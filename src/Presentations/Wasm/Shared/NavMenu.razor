@@ -1,7 +1,12 @@
-﻿<div class="top-row pl-4 navbar navbar-dark">
+﻿@using WeeControl.Presentations.FunctionalService.Enums
+@using WeeControl.Presentations.FunctionalService.Interfaces
+@inject IUserStorage UserStorage
+
+<div class="top-row pl-4 navbar navbar-dark">
     <a class="navbar-brand" href="">
         <img src="images/logo.png" alt="WeeControl" width="20" height="20"/>
     </a>
+    <p class="text-primary ml-md-auto">@greetingMessage</p>
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -11,19 +16,35 @@
     <ul class="nav flex-column">
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
+                <span class="oi oi-home" aria-hidden="true"></span>
+                Home
             </NavLink>
         </li>
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
+                <span class="oi oi-plus" aria-hidden="true"></span>
+                Counter
             </NavLink>
         </li>
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="HumanResources">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Human Resources
+                <span class="oi oi-list-rich" aria-hidden="true"></span>
+                Human Resources
             </NavLink>
         </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="NewPassword">
+                <span class="oi oi-lightbulb" aria-hidden="true"></span>
+                Change Password
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="Logout">
+                <span class="oi oi-account-logout" aria-hidden="true"></span>
+                Logout
+            </NavLink>
+        </li>
+
         @* <li class="nav-item px-3"> *@
         @*     <NavLink class="nav-link" href="login">Login Page</NavLink> *@
         @* </li> *@
@@ -46,6 +67,8 @@
         collapseNavMenu = !collapseNavMenu;
     }
 
+    private string greetingMessage = "Hello User";
+
     protected override async void OnInitialized()
     {
         await base.OnInitializedAsync();
@@ -54,6 +77,8 @@
         {
             NavManager.NavigateTo("login");
         }
+        
+        greetingMessage = "Hello " + await UserStorage.GetAsync(UserDataEnum.FullName);
     }
-
+    
 }

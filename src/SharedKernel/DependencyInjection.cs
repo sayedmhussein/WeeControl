@@ -9,7 +9,7 @@ namespace WeeControl.SharedKernel;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddUserSecurityService(this IServiceCollection services)
+    public static IServiceCollection AddUserSecurityServiceForServer(this IServiceCollection services)
     {
         services.AddSingleton<IPasswordSecurity, PasswordSecurity>();
         
@@ -25,6 +25,12 @@ public static class DependencyInjection
             HumanResourcesPolicyOptions.Configure(options);
         });
 
+        return services;
+    }
+
+    public static IServiceCollection AddUserSecurityServiceForApplication(this IServiceCollection services)
+    {
+        services.AddSingleton<IJwtService, JwtService>();
         return services;
     }
 }

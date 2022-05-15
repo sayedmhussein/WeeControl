@@ -37,7 +37,7 @@ public class Startup
 
         services.AddHttpContextAccessor();
 
-        services.AddUserSecurityService();
+        services.AddUserSecurityServiceForServer();
         services.AddApplication();
         services.AddInfrastructure(Configuration);
         services.AddPersistenceAsPostgres(Configuration, Assembly.GetExecutingAssembly().GetName().Name);

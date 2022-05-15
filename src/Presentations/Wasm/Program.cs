@@ -30,7 +30,7 @@ public class Program
         //     return new UserCommunicationService(factory);
         // });
             
-        DependencyInjection.AddUserSecurityService(builder.Services);
+        DependencyInjection.AddUserSecurityServiceForApplication(builder.Services);
            
         builder.Services.AddScoped<IEssentialUserDevice, EssentialUserDeviceService>();
         builder.Services.AddScoped<IDisplayAlert, DisplaySimpleAlert>();

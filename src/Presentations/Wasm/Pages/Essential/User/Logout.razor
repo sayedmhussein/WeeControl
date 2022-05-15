@@ -1,24 +1,15 @@
+@page "/Logout"
+
 @using WeeControl.SharedKernel.Essential
-@using WeeControl.Presentations.FunctionalService.Interfaces
-@using WeeControl.Presentations.Wasm.Interfaces
 @inject IUserOperation authentication
 @inject NavigationManager navManager
-@inject IUserStorage userStorage
-@inject ISecurityService bla
 
-<button class="btn btn-danger ml-md-auto" @onclick="@LogoutUser">
-    @if (loading)
-                    {
-                        <span class="spinner-border spinner-border-sm mr-1"></span>
-                    }
-    Logout
-</button>
+<h1>Good By :)</h1>
 
 @code {
-    private bool loading;
-    private async Task LogoutUser()
+    protected override async Task OnInitializedAsync()
     {
-        loading = true;
+        await base.OnInitializedAsync();
         await authentication.LogoutAsync();
         StateHasChanged();
         navManager.NavigateTo("/login", true);
