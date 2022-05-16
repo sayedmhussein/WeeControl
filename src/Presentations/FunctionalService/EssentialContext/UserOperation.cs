@@ -114,6 +114,7 @@ public class UserOperation : IUserOperation
                 await userStorage.SaveAsync(UserDataEnum.PhotoUrl, responseDto?.Payload?.PhotoUrl);
                 return ResponseToUi.Accepted(response.StatusCode);
             case HttpStatusCode.Forbidden:
+                await alert.DisplaySimpleAlertAsync("Please login again!");
                 return ResponseToUi.Rejected(response.StatusCode, "Please login again.");
             default:
                 return ResponseToUi.Rejected(response.StatusCode, "Unexpected error occured, error code: " + response.StatusCode);

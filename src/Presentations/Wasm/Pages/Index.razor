@@ -1,8 +1,11 @@
 ﻿@page "/index"
 @page "/Home"
+
 @using System.Security.Claims
-@using IUserOperation = WeeControl.Presentations.FunctionalService.Interfaces.IUserStorage
-@inject IUserOperation device
+@using WeeControl.Presentations.FunctionalService.EssentialContext
+@using WeeControl.SharedKernel.Essential
+
+@inject IUserOperation UserOperation
 
 <h1>Hello, world!</h1>
 
@@ -34,12 +37,22 @@ Welcome to your new app.
     [CascadingParameter]
     public Task<AuthenticationState> AuthState { get; set; }
     
-    private ICollection<Claim> claims = new List<Claim>();
-
+    private readonly ICollection<Claim> claims = new List<Claim>();
+    
     protected override async void OnInitialized()
     {
         await base.OnInitializedAsync();
+
+        var response = await UserOperation.GetTokenAsync();
+        if (response.IsSuccess)
+        {
+        }
+        else
+        {
+        }
+        
         await GetClaims();
+        StateHasChanged();
     }
 
     private async Task GetClaims()
