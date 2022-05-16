@@ -19,6 +19,7 @@ public class TokenDto
         PhotoUrl = photoUrl;
     }
         
+    [Obsolete]
     public static class HttpPostMethod
     {
         public const string EndPoint = "Api/Credentials";

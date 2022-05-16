@@ -6,6 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Moq;
 using WeeControl.SharedKernel.Essential;
+using WeeControl.SharedKernel.Essential.Security;
 using WeeControl.WebApi.Services;
 using Xunit;
 
@@ -20,8 +21,8 @@ public class UserInfoServiceTests : IDisposable
 
     public UserInfoServiceTests()
     {
-        sessionClaim = new Claim(HumanResourcesData.Claims.Session, Guid.NewGuid().ToString());
-        territoryClaim = new Claim(HumanResourcesData.Claims.Territory, Guid.NewGuid().ToString());
+        sessionClaim = new Claim(ClaimsTagsList.Claims.Session, Guid.NewGuid().ToString());
+        territoryClaim = new Claim(ClaimsTagsList.Claims.Territory, Guid.NewGuid().ToString());
 
         var claims = new List<Claim>()
         {

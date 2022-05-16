@@ -23,4 +23,11 @@ public class LoginDto
         UsernameOrEmail = usernameOrEmail;
         Password = password;
     }
+    
+    public static class HttpPostMethod
+    {
+        public const string EndPoint = "Api/Credentials";
+        public const string Version = "1.0";
+        public static string AbsoluteUri(string server) => server + EndPoint;
+    }
 }

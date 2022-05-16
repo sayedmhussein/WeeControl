@@ -1,5 +1,6 @@
 ﻿@page "/counter"
 @using WeeControl.SharedKernel.Essential
+@using WeeControl.SharedKernel.Essential.Security
 @attribute [Authorize]
 
 <h1>Counter</h1>
@@ -34,7 +35,7 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        claimValues = HumanResourcesData.GetTagDictionary();
+        claimValues = ClaimsTagsList.GetTagsDictionary();
     }
 
     private void IncrementCount()

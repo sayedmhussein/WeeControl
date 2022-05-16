@@ -4,6 +4,7 @@ using WeeControl.Application.EssentialContext;
 using WeeControl.Domain.Essential.Entities;
 using WeeControl.Persistence.Essential.Configurations;
 using WeeControl.SharedKernel.Essential;
+using WeeControl.SharedKernel.Essential.Security;
 using WeeControl.SharedKernel.Services;
 
 namespace WeeControl.Persistence.Essential
@@ -37,7 +38,7 @@ namespace WeeControl.Persistence.Essential
                 Users.Add(user);
                 SaveChanges();
 
-                var claim = new ClaimDbo() { UserId = user.UserId, ClaimType = HumanResourcesData.Role, ClaimValue = HumanResourcesData.Claims.Tags.SuperUser };
+                var claim = new ClaimDbo() { UserId = user.UserId, ClaimType = ClaimsTagsList.Role, ClaimValue = ClaimsTagsList.Tags.SuperUser };
                 Claims.Add(claim);
                 SaveChanges();
             }

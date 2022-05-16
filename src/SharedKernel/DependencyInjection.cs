@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using WeeControl.SharedKernel.Essential;
+using WeeControl.SharedKernel.Essential.Security;
 using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.Services;
 using WeeControl.SharedKernel.Services.PolicyBuild.CustomHandlers.TokenRefreshment;
@@ -22,7 +23,7 @@ public static class DependencyInjection
             options.DefaultPolicy = new AuthorizationPolicyBuilder().AddAuthenticationSchemes("Bearer").RequireAuthenticatedUser().Build();
             options.FallbackPolicy = new AuthorizationPolicyBuilder().AddAuthenticationSchemes("Bearer").RequireAuthenticatedUser().Build();
                 
-            HumanResourcesPolicyOptions.Configure(options);
+            EssentialContextPolicyOptions.Configure(options);
         });
 
         return services;
