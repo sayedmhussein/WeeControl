@@ -43,4 +43,12 @@ public class PasswordSecurityTests
         
         Assert.False(isValid);
     }
+
+    [Fact]
+    public void WhenGeneratingPassword_StringIsCreated()
+    {
+        var str = passwordSecurity.GenerateRandomPassword();
+        
+        Assert.NotEmpty(str);
+    }
 }

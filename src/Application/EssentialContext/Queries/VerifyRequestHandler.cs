@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using MediatR;
 using WeeControl.Application.Exceptions;
 
-namespace WeeControl.Application.CommonContext.Queries;
+namespace WeeControl.Application.EssentialContext.Queries;
 
 public class VerifyRequestHandler : IRequestHandler<VerifyRequestQuery>
 {

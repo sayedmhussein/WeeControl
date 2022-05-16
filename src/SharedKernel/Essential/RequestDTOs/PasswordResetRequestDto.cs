@@ -15,4 +15,11 @@ public class PasswordResetRequestDto
     [EmailAddress]
     [DisplayName("Email")]
     public string Email { get; set; }
+    
+    public static class HttpPostMethod
+    {
+        public const string EndPoint = "Api/Credentials/reset";
+        public const string Version = "1.0";
+        public static string AbsoluteUri(string server) => server + EndPoint;
+    }
 }

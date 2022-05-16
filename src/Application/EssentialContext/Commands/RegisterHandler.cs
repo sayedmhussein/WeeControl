@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using WeeControl.Application.CommonContext.Queries;
 using WeeControl.Application.EssentialContext.Queries;
 using WeeControl.Application.Exceptions;
 using WeeControl.Domain.Essential.Entities;

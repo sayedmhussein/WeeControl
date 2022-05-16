@@ -89,6 +89,8 @@ public class UserOperation : IUserOperation
 
     public async Task<IResponseDto> GetTokenAsync()
     {
+        await UpdateAuthorizationAsync();
+        
         var requestDto = new RequestDto(userDevice.DeviceId);
 
         HttpRequestMessage message = new()
@@ -98,11 +100,7 @@ public class UserOperation : IUserOperation
             Method = HttpMethod.Put,
             Content = RequestDto.BuildHttpContentAsJson(requestDto)
         };
-            
-        userCommunication.HttpClient.DefaultRequestHeaders.Clear();
-        userCommunication.HttpClient.DefaultRequestHeaders.Authorization = 
-            new AuthenticationHeaderValue("Brear", await userStorage.GetAsync(UserDataEnum.Token));
-            
+
         var response = await userCommunication.HttpClient.SendAsync(message);
 
         switch (response.StatusCode)
@@ -124,6 +122,7 @@ public class UserOperation : IUserOperation
 
     public async Task<IResponseDto> LogoutAsync()
     {
+        await UpdateAuthorizationAsync();
         await userStorage.ClearAsync();
             
         var requestDto = new RequestDto(userDevice.DeviceId);
@@ -135,8 +134,6 @@ public class UserOperation : IUserOperation
             Method = HttpMethod.Delete,
             Content = RequestDto.BuildHttpContentAsJson(requestDto)
         };
-
-        await UpdateAuthorization();
 
         var response = await userCommunication.HttpClient.SendAsync(message);
 
@@ -164,7 +161,7 @@ public class UserOperation : IUserOperation
             Content = RequestDto.BuildHttpContentAsJson(requestDto)
         };
 
-        await UpdateAuthorization();
+        await UpdateAuthorizationAsync();
 
         var response = await userCommunication.HttpClient.SendAsync(message);
 
@@ -183,12 +180,26 @@ public class UserOperation : IUserOperation
         }
     }
 
-    public Task<IResponseDto> ForgotPasswordAsync(PasswordResetRequestDto passwordResetRequestDto)
+    public async Task<IResponseDto> ForgotPasswordAsync(PasswordResetRequestDto passwordResetRequestDto)
     {
-        throw new NotImplementedException();
+        await UpdateAuthorizationAsync();
+        
+        var requestDto = new RequestDto<PasswordResetRequestDto>(userDevice.DeviceId, passwordResetRequestDto);
+
+        HttpRequestMessage message = new()
+        {
+            RequestUri = new Uri(PasswordResetRequestDto.HttpPostMethod.AbsoluteUri(userCommunication.ServerBaseAddress)),
+            Version = new Version(PasswordResetRequestDto.HttpPostMethod.Version),
+            Method = HttpMethod.Post,
+            Content = RequestDto.BuildHttpContentAsJson(requestDto)
+        };
+        
+        var response = await userCommunication.HttpClient.SendAsync(message);
+        await alert.DisplaySimpleAlertAsync("You will receive new password, please check your email.");
+        return ResponseToUi.Accepted(response.StatusCode);
     }
 
-    private async Task UpdateAuthorization()
+    private async Task UpdateAuthorizationAsync()
     {
         userCommunication.HttpClient.DefaultRequestHeaders.Clear();
         userCommunication.HttpClient.DefaultRequestHeaders.Authorization = 

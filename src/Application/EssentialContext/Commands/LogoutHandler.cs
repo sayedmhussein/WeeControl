@@ -35,12 +35,14 @@ public class LogoutHandler : IRequestHandler<LogoutCommand>
         if (session is not null)
         {
             session.TerminationTs = DateTime.UtcNow;
-            await context.SaveChangesAsync(cancellationToken);
+            await context.Logs.AddAsync(session.CreateLog("Logout","Terminating session id:" + session.SessionId), cancellationToken);
         }
         else
         {
-            throw new NotAllowedException();
+            throw new NotAllowedException("Already logged out!");
         }
+        
+        await context.SaveChangesAsync(cancellationToken);
 
         return Unit.Value;
     }

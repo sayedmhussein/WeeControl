@@ -99,4 +99,16 @@ public class UserController : Controller
 
         return Ok(response);
     }
+    
+    [AllowAnonymous]
+    [HttpPost(PasswordResetRequestDto.HttpPostMethod.EndPoint)]
+    [MapToApiVersion(PasswordResetRequestDto.HttpPostMethod.Version)]
+    [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.OK)]
+    public async Task<ActionResult<ResponseDto>> ResetPasswordV1([FromBody] RequestDto<PasswordResetRequestDto> dto)
+    {
+        var command = new ResetPasswordCommand(dto, dto.Payload.Email, dto.Payload.Username);
+        await mediator.Send(command);
+
+        return Ok();
+    }
 }

@@ -6,9 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="CommonContext\Commands" />
     <Folder Include="EssentialContext\" />
-    <Folder Include="EssentialContext\Notifications" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="10.0.1" />

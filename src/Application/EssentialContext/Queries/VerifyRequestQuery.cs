@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using WeeControl.SharedKernel.Interfaces;
 
-namespace WeeControl.Application.CommonContext.Queries;
+namespace WeeControl.Application.EssentialContext.Queries;
 
 public class VerifyRequestQuery : IRequest
 {
