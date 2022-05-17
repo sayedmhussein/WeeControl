@@ -1,5 +1,4 @@
-using WeeControl.SharedKernel.Services.PolicyBuild;
-using WeeControl.SharedKernel.Services.PolicyBuild.CustomHandlers.TokenRefreshment;
+using WeeControl.SharedKernel.Essential.Security.CustomHandlers.TokenRefreshment;
 
 namespace WeeControl.SharedKernel.Essential.Security.Policies;
 

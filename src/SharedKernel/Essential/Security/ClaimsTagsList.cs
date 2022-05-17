@@ -4,8 +4,6 @@ namespace WeeControl.SharedKernel.Essential.Security;
 
 public static class ClaimsTagsList
 {
-    public const string Role = "hr_r";
-
     public static Dictionary<string, string> GetClaimsDictionary()
     {
         var fieldInfos =
@@ -30,8 +28,10 @@ public static class ClaimsTagsList
         
     public static class Claims
     {
-        public const string Session = "e_s";
-        public const string Territory = "e_r";
+        public const string SessionClaim = "e_s";
+        public const string TerritoryClaim = "e_r";
+        
+        public const string DeveloperClaim = "e_dv";
     }
     
     public static class Tags

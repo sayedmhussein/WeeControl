@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace WeeControl.SharedKernel.Services.PolicyBuild.CustomHandlers.TokenRefreshment;
+namespace WeeControl.SharedKernel.Essential.Security.CustomHandlers.TokenRefreshment;
 
 public class TokenRefreshmentRequirement : IAuthorizationRequirement
 {

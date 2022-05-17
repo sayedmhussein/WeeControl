@@ -2,9 +2,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using WeeControl.SharedKernel.Essential;
 using WeeControl.SharedKernel.Essential.Security;
+using WeeControl.SharedKernel.Essential.Security.CustomHandlers.TokenRefreshment;
 using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.Services;
-using WeeControl.SharedKernel.Services.PolicyBuild.CustomHandlers.TokenRefreshment;
 
 namespace WeeControl.SharedKernel;
 

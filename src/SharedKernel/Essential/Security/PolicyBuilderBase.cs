@@ -1,10 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
-using WeeControl.SharedKernel.Essential;
-using WeeControl.SharedKernel.Essential.Security;
 
-namespace WeeControl.SharedKernel.Services.PolicyBuild;
+namespace WeeControl.SharedKernel.Essential.Security;
 
-public abstract class PolicyBuilderBase
+internal abstract class PolicyBuilderBase
 {
     protected readonly AuthorizationPolicyBuilder Builder;
 
@@ -12,10 +10,10 @@ public abstract class PolicyBuilderBase
     {
         Builder = new AuthorizationPolicyBuilder();
         Builder.AddAuthenticationSchemes("Bearer");
-        Builder.RequireClaim(ClaimsTagsList.Claims.Session);
+        Builder.RequireClaim(ClaimsTagsList.Claims.SessionClaim);
     }
 
-    public Microsoft.AspNetCore.Authorization.AuthorizationPolicy GetPolicy()
+    internal Microsoft.AspNetCore.Authorization.AuthorizationPolicy GetPolicy()
     {
         return Builder.Build();
     }

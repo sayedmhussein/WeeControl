@@ -38,7 +38,7 @@ namespace WeeControl.Persistence.Essential
                 Users.Add(user);
                 SaveChanges();
 
-                var claim = new ClaimDbo() { UserId = user.UserId, ClaimType = ClaimsTagsList.Role, ClaimValue = ClaimsTagsList.Tags.SuperUser };
+                var claim = new ClaimDbo() { UserId = user.UserId, ClaimType = ClaimsTagsList.Claims.DeveloperClaim, ClaimValue = ClaimsTagsList.Tags.SuperUser };
                 Claims.Add(claim);
                 SaveChanges();
             }
