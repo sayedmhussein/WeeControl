@@ -30,7 +30,7 @@ public class UserInfoService : ICurrentUserInfo
     {
         if (sessionid != null) return sessionid;
 
-        var session_guid = Claims.FirstOrDefault(c => c.Type == ClaimsTagsList.Claims.SessionClaim)?.Value;
+        var session_guid = Claims.FirstOrDefault(c => c.Type == ClaimsTagsList.Claims.Session)?.Value;
         if (Guid.TryParse(session_guid, out Guid session_string))
         {
             sessionid = session_string;
@@ -48,7 +48,7 @@ public class UserInfoService : ICurrentUserInfo
     {
         if (territories.Count != 0) return territories;
             
-        var territoryCode = Claims.FirstOrDefault(c => c.Type == ClaimsTagsList.Claims.TerritoryClaim)?.Value;
+        var territoryCode = Claims.FirstOrDefault(c => c.Type == ClaimsTagsList.Claims.Territory)?.Value;
         territories.Add(territoryCode);
         //var cla = await mediatR.Send(new GetTerritoriesQuery(territoryCode));
 

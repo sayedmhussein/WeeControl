@@ -1,5 +1,4 @@
 ﻿@using WeeControl.Presentations.FunctionalService.Interfaces
-@using WeeControl.Presentations.FunctionalService.Enums
 @inherits LayoutComponentBase
 
 @inject NavigationManager NavManager
@@ -8,7 +7,7 @@
 
 <div class="page">
     <div class="sidebar">
-        <NavMenu />
+        <NavMenu></NavMenu>
     </div>
 
     <div class="main">
@@ -33,18 +32,5 @@
 
 @code
 {
-    private string greetingMessage;
-
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-
-        greetingMessage = "Hello " + await localStorage.GetAsync(UserDataEnum.FullName);
-    }
-
-    private Task OpenChangePasswordWindow()
-    {
-        NavManager.NavigateTo("NewPassword");
-        return Task.CompletedTask;
-    }
+    
 }

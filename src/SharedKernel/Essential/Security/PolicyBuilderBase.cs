@@ -10,7 +10,7 @@ internal abstract class PolicyBuilderBase
     {
         Builder = new AuthorizationPolicyBuilder();
         Builder.AddAuthenticationSchemes("Bearer");
-        Builder.RequireClaim(ClaimsTagsList.Claims.SessionClaim);
+        Builder.RequireClaim(ClaimsTagsList.Claims.Session);
     }
 
     internal Microsoft.AspNetCore.Authorization.AuthorizationPolicy GetPolicy()

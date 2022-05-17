@@ -62,8 +62,8 @@ public class UserOperation : IUserOperation
 
         HttpRequestMessage message = new()
         {
-            RequestUri = new Uri(TokenDto.HttpPostMethod.AbsoluteUri(userCommunication.ServerBaseAddress)),
-            Version = new Version(TokenDto.HttpPostMethod.Version),
+            RequestUri = new Uri(LoginDto.HttpPostMethod.AbsoluteUri(userCommunication.ServerBaseAddress)),
+            Version = new Version(LoginDto.HttpPostMethod.Version),
             Method = HttpMethod.Post,
             Content = RequestDto.BuildHttpContentAsJson(requestDto)
         };

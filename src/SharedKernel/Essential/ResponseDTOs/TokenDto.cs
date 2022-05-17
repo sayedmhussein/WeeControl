@@ -18,15 +18,8 @@ public class TokenDto
         FullName = fullName;
         PhotoUrl = photoUrl;
     }
-        
+
     [Obsolete]
-    public static class HttpPostMethod
-    {
-        public const string EndPoint = "Api/Credentials";
-        public const string Version = "1.0";
-        public static string AbsoluteUri(string server) => server + EndPoint;
-    }
-        
     public static class HttpPutMethod
     {
         public const string EndPoint = "Api/Credentials";
@@ -34,6 +27,7 @@ public class TokenDto
         public static string AbsoluteUri(string server) => server + EndPoint;
     }
         
+    [Obsolete]
     public static class HttpDeleteMethod
     {
         public const string EndPoint = "Api/Credentials";
