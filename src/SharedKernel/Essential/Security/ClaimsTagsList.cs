@@ -18,13 +18,6 @@ public static class ClaimsTagsList
         return fieldInfos.ToDictionary(info => info.Name, info => info?.GetValue(null)?.ToString());
     }
 
-    [Obsolete("To put policy names inside DTO class")]
-    public static class Policies
-    {
-        public const string CanAlterTerritories = "CanAlterTerritories";
-        public const string CanAlterEmployee = "CanAddNewEmployee";
-    }
-        
     public static class Claims
     {
         public const string SessionClaim = "e_s";
