@@ -22,7 +22,6 @@ public static class ClaimsTagsList
     public static class Policies
     {
         public const string CanAlterTerritories = "CanAlterTerritories";
-            
         public const string CanAlterEmployee = "CanAddNewEmployee";
     }
         
