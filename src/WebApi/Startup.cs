@@ -40,8 +40,12 @@ public class Startup
         services.AddUserSecurityServiceForServer();
         services.AddApplication();
         services.AddInfrastructure(Configuration);
-        services.AddPersistenceAsPostgres(Configuration, Assembly.GetExecutingAssembly().GetName().Name);
-
+        
+        _ = Configuration["UseInMemoryDb"] == true.ToString() ?
+            services.AddPersistenceAsPostgres(Configuration, Assembly.GetExecutingAssembly().GetName().Name) :
+            services.AddPersistenceAsInMemory();
+        
+        
         services.AddApiVersioning(ApiVersionOptions.ConfigureApiVersioning);
             
         services.AddScoped<ICurrentUserInfo, UserInfoService>();
