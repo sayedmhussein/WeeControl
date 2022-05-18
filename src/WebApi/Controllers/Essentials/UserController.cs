@@ -39,8 +39,8 @@ public class UserController : Controller
     }
 
     [AllowAnonymous]
-    [HttpPost(TokenDto.HttpPostMethod.EndPoint)]
-    [MapToApiVersion(TokenDto.HttpPostMethod.Version)]
+    [HttpPost(LoginDto.HttpPostMethod.EndPoint)]
+    [MapToApiVersion(LoginDto.HttpPostMethod.Version)]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]

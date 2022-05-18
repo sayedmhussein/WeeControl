@@ -1,0 +1,66 @@
+﻿@page "/UserData"
+@using WeeControl.SharedKernel.Essential.Security
+@attribute [Authorize]
+
+<h1>Counter</h1>
+
+<p>Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+<h1>List of Claim Types</h1>
+<table class="table table-bordered table-hover">
+    <thead>
+    <tr>
+        <th>Claim Type Name</th>
+        <th>Claim Type Value</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var claim in claimTypes)
+    {
+        <tr>
+            <td>@claim.Key</td>
+            <td>@claim.Value</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<h1>List of Claim Tags</h1>
+<table class="table table-bordered table-hover">
+    <thead>
+    <tr>
+        <th>Claim Tag Name</th>
+        <th>Claim Tag Value</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var tags in claimTags)
+    {
+        <tr>
+            <td>@tags.Key</td>
+            <td>@tags.Value</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+@code {
+    private int currentCount;
+    
+    private IDictionary<string,string> claimTypes = new Dictionary<string, string>();
+    private IDictionary<string,string> claimTags = new Dictionary<string, string>();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        claimTypes = ClaimsTagsList.GetClaimsDictionary();
+        claimTags = ClaimsTagsList.GetTagsDictionary();
+    }
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+}

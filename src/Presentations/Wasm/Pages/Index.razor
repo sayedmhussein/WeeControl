@@ -2,8 +2,8 @@
 @page "/Home"
 
 @using System.Security.Claims
-@using WeeControl.Presentations.FunctionalService.EssentialContext
 @using WeeControl.SharedKernel.Essential
+@using Pages.Essential.User
 
 @inject IUserOperation UserOperation
 
@@ -50,8 +50,9 @@ Welcome to your new app.
         else
         {
         }
-        
+
         await GetClaims();
+        
         StateHasChanged();
     }
 

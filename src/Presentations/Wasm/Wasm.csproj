@@ -23,7 +23,6 @@
     <None Remove="Pages\Employee\Session\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Shared\Component" />
     <Folder Include="wwwroot\html" />
     <Folder Include="wwwroot\js" />
   </ItemGroup>
@@ -39,5 +38,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FunctionalService\FunctionalService.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="Pages\Essential\Admin\AdminMainComponent.razor" />
   </ItemGroup>
 </Project>

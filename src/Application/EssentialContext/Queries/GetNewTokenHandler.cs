@@ -75,7 +75,7 @@ public class GetNewTokenHandler : IRequestHandler<GetNewTokenQuery, ResponseDto<
             await context.SaveChangesAsync(cancellationToken);
 
             var ci = new ClaimsIdentity("custom");
-            ci.AddClaim(new Claim(ClaimsTagsList.Claims.SessionClaim, session.SessionId.ToString()));
+            ci.AddClaim(new Claim(ClaimsTagsList.Claims.Session, session.SessionId.ToString()));
 
             var key = Encoding.ASCII.GetBytes(configuration["Jwt:Key"]);
 
@@ -104,8 +104,8 @@ public class GetNewTokenHandler : IRequestHandler<GetNewTokenQuery, ResponseDto<
 
 
             var ci = new ClaimsIdentity("custom");
-            ci.AddClaim(new Claim(ClaimsTagsList.Claims.SessionClaim, session.SessionId.ToString()));
-            ci.AddClaim(new Claim(ClaimsTagsList.Claims.TerritoryClaim, employee.TerritoryCode));
+            ci.AddClaim(new Claim(ClaimsTagsList.Claims.Session, session.SessionId.ToString()));
+            ci.AddClaim(new Claim(ClaimsTagsList.Claims.Territory, employee.TerritoryCode));
             //foreach (var c in employee.Claims.Where(x => x.RevokedTs == null).ToList())
             foreach (var c in employee.Claims?.Where(x => x.RevokedTs == null)?.ToList())
             {
