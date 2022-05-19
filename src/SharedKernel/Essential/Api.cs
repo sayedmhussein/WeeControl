@@ -4,11 +4,19 @@ public static class Api
 {
     public static class Essential
     {
-        public static class User
+        private const string Route = nameof(Api) + "/" + nameof(Essential) + "/";
+        
+        public static class Users
         {
-            public const string Login = nameof(Api) + "/" + nameof(Essential) + "/" + nameof(User) + "/Login";
-            public const string Logout = nameof(Essential) + "/" + nameof(User) + "/Login";
-            public const string Bla = nameof(Essential) + "/" + nameof(User) + "/Login{id}";
+            public const string Login = nameof(Api) + "/" + nameof(Essential) + "/" + nameof(Users) + "/Login";
+            public const string Logout = nameof(Essential) + "/" + nameof(Users) + "/Login";
+            public const string Bla = nameof(Essential) + "/" + nameof(Users) + "/Login{id}";
+        }
+        
+        public static class Admin
+        {
+            public const string User = Route + "User";
+            public const string Territory = Route + "Territory";
         }
     }
 }

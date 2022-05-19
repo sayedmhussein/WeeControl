@@ -11,7 +11,6 @@ using Microsoft.IdentityModel.Tokens;
 using WeeControl.Application.Exceptions;
 using WeeControl.Application.Interfaces;
 using WeeControl.Domain.Essential.Entities;
-using WeeControl.SharedKernel.Essential;
 using WeeControl.SharedKernel.Essential.ResponseDTOs;
 using WeeControl.SharedKernel.Essential.Security;
 using WeeControl.SharedKernel.Interfaces;
@@ -54,7 +53,7 @@ public class GetNewTokenHandler : IRequestHandler<GetNewTokenQuery, ResponseDto<
 
             if (employee is null) throw new NotFoundException();
 
-            var session = await context.Sessions.FirstOrDefaultAsync(x => x.UserId == employee.UserId && x.TerminationTs == null, cancellationToken);
+            var session = await context.Sessions.FirstOrDefaultAsync(x => x.UserId == employee.UserId && x.DeviceId == request.Request.DeviceId && x.TerminationTs == null, cancellationToken);
             if (session is null)
             {
                 session = SessionDbo.Create(employee.UserId, request.Request.DeviceId);
@@ -62,15 +61,15 @@ public class GetNewTokenHandler : IRequestHandler<GetNewTokenQuery, ResponseDto<
                 await context.SaveChangesAsync(cancellationToken);
                 await context.Logs.AddAsync(session.CreateLog("Login", "Created New Session."), cancellationToken);
             }
-            else
-            {
-                if (session.DeviceId != request.Request.DeviceId)
-                {
-                    session.TerminationTs = DateTime.UtcNow;
-                    await context.SaveChangesAsync(cancellationToken);
-                    throw new NotAllowedException("User used session not related to device!");
-                }
-            }
+            // else
+            // {
+            //     if (session.DeviceId != request.Request.DeviceId)
+            //     {
+            //         session.TerminationTs = DateTime.UtcNow;
+            //         await context.SaveChangesAsync(cancellationToken);
+            //         throw new NotAllowedException("User used session not related to device!");
+            //     }
+            // }
 
             await context.SaveChangesAsync(cancellationToken);
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace WeeControl.Application.Interfaces;
@@ -11,8 +12,10 @@ namespace WeeControl.Application.Interfaces;
 public interface ICurrentUserInfo
 {
     Guid? GetSessionId();
-
+    
     IEnumerable<Claim> GetClaimList();
         
     Task<IEnumerable<string>> GetTerritoriesListAsync();
+
+    Task LogUserActivityAsync(string context, string details, CancellationToken cancellationToken);
 }

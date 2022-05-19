@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using WeeControl.Application.EssentialContext;
 using WeeControl.Domain.Essential.Entities;
 using WeeControl.Persistence.Essential.Configurations;
-using WeeControl.SharedKernel.Essential;
 using WeeControl.SharedKernel.Essential.Security;
 using WeeControl.SharedKernel.Services;
 

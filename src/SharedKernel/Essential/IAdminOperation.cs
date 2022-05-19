@@ -5,13 +5,10 @@ namespace WeeControl.SharedKernel.Essential;
 
 public interface IAdminOperation
 {
-    Task<IResponseDto> GetListOfUsers();
+    Task<IResponseDto<IEnumerable<UserDto>>> GetListOfUsers();
     Task<IResponseDto> GetListOfTerritories();
-    Task<IResponseDto> GetListOfUserClaims();
-    Task<IResponseDto> GetListOfUserSessions(bool activeOnly = false);
-    Task<IResponseDto> GetListOfUserLogs();
-
+    Task<IResponseDto<UserDto>> GetUserDetails(string username);
     Task<IResponseDto> UpdateUser(UserDto userDto);
     Task<IResponseDto> AddTerritory(string parentCode, string territoryCode, string territoryName, string countryCode);
-    Task<IResponseDto> EditTerritory(string territoryCode);
+    Task<IResponseDto> EditTerritory(TerritoryDto territory);
 }

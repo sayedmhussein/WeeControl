@@ -41,7 +41,7 @@ public class Startup
         services.AddApplication();
         services.AddInfrastructure(Configuration);
         
-        _ = Configuration["UseInMemoryDb"] == true.ToString() ?
+        _ = Configuration["UseInMemoryDb"] == false.ToString() ?
             services.AddPersistenceAsPostgres(Configuration, Assembly.GetExecutingAssembly().GetName().Name) :
             services.AddPersistenceAsInMemory();
         

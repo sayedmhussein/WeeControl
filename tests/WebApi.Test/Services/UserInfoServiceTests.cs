@@ -5,7 +5,6 @@ using System.Threading;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Moq;
-using WeeControl.SharedKernel.Essential;
 using WeeControl.SharedKernel.Essential.Security;
 using WeeControl.WebApi.Services;
 using Xunit;

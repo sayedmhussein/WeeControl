@@ -26,7 +26,7 @@ public class LoginDto
     
     public static class HttpPostMethod
     {
-        public const string EndPoint = Api.Essential.User.Login;
+        public const string EndPoint = Api.Essential.Users.Login;
         public const string Version = "1.0";
         public static string AbsoluteUri(string server) => server + EndPoint;
     }

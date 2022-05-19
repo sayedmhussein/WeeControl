@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using WeeControl.Application.EssentialContext.Commands;
 using WeeControl.Application.Interfaces;
-using WeeControl.SharedKernel.Essential;
 using WeeControl.SharedKernel.Essential.Security;
 
 namespace WeeControl.WebApi.Services;
@@ -58,5 +59,10 @@ public class UserInfoService : ICurrentUserInfo
         // }
 
         return territories;
+    }
+
+    public Task LogUserActivityAsync(string context, string details, CancellationToken cancellationToken)
+    {
+        return mediatR.Send(new LogActivityCommand(context, details, GetSessionId()), cancellationToken);
     }
 }

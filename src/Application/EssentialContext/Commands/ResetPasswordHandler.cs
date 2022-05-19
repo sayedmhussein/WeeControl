@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -26,6 +27,7 @@ public class ResetPasswordHandler : IRequestHandler<ResetPasswordCommand>
         if (user is not null)
         {
             var password = passwordSecurity.GenerateRandomPassword();
+            Console.WriteLine("New Password is: {0}", password);
             user.Password = passwordSecurity.Hash(password);
             await context.SaveChangesAsync(cancellationToken);
             

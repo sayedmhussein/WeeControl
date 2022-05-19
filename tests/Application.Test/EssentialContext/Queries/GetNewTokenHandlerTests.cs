@@ -133,6 +133,26 @@ public class GetNewTokenHandlerTests : IDisposable
             
         Assert.Equal(count1 + 1, count2);
     }
+    
+    [Fact]
+    public async void WhenValidUsernameAndPasswordWithExistingSessionAndLoginDifferentDevice_ShouldCreatAnotherSession()
+    {
+        var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object, currentUserInfoMock.Object, passwordSecurity);
+            
+        var query1 = new GetNewTokenQuery(new RequestDto<LoginDto>(
+            nameof(WhenValidUsernameAndPasswordButExistingSessionIsNotActive_ShouldCreatAnotherSession), 
+            new LoginDto(Username, Password)));
+        await service.Handle(query1, default);
+        var count1 = await context.Sessions.CountAsync();
+
+        var query2 = new GetNewTokenQuery(new RequestDto<LoginDto>(
+            nameof(WhenValidUsernameAndPasswordButExistingSessionIsNotActive_ShouldCreatAnotherSession) + "bla", 
+            new LoginDto(Username, Password)));
+        await service.Handle(query2, default);
+        var count2 = await context.Sessions.CountAsync();
+            
+        Assert.Equal(count1 + 1, count2);
+    }
         
     [Fact]
     public async void WhenUsernameAndPasswordNotMatched_ThrowsNotFoundException()
