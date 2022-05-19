@@ -18,7 +18,7 @@ using WeeControl.SharedKernel.RequestsResponses;
 
 namespace WeeControl.Application.EssentialContext.Queries;
 
-public class GetNewTokenHandler : IRequestHandler<GetNewTokenQuery, ResponseDto<TokenDto>>
+public class GetNewTokenHandler : IRequestHandler<GetNewTokenQuery, ResponseDto<TokenDtoV1>>
 {
     private readonly IEssentialDbContext context;
     private readonly IJwtService jwtService;
@@ -43,7 +43,7 @@ public class GetNewTokenHandler : IRequestHandler<GetNewTokenQuery, ResponseDto<
         this.passwordSecurity = passwordSecurity;
     }
 
-    public async Task<ResponseDto<TokenDto>> Handle(GetNewTokenQuery request, CancellationToken cancellationToken)
+    public async Task<ResponseDto<TokenDtoV1>> Handle(GetNewTokenQuery request, CancellationToken cancellationToken)
     {
         if (!string.IsNullOrWhiteSpace(request.Payload?.UsernameOrEmail) && !string.IsNullOrWhiteSpace(request.Payload?.Password))
         {
@@ -87,7 +87,7 @@ public class GetNewTokenHandler : IRequestHandler<GetNewTokenQuery, ResponseDto<
             };
             var token = jwtService.GenerateToken(descriptor);
 
-            return new ResponseDto<TokenDto>(new TokenDto(token, employee.Username, "url"));
+            return new ResponseDto<TokenDtoV1>(new TokenDtoV1(token, employee.Username, "url"));
         }
         else if (currentUserInfo.GetSessionId() is not null)
         {
@@ -104,7 +104,7 @@ public class GetNewTokenHandler : IRequestHandler<GetNewTokenQuery, ResponseDto<
 
             var ci = new ClaimsIdentity("custom");
             ci.AddClaim(new Claim(ClaimsTagsList.Claims.Session, session.SessionId.ToString()));
-            ci.AddClaim(new Claim(ClaimsTagsList.Claims.Territory, employee.TerritoryCode));
+            ci.AddClaim(new Claim(ClaimsTagsList.Claims.Territory, employee.TerritoryId));
             //foreach (var c in employee.Claims.Where(x => x.RevokedTs == null).ToList())
             foreach (var c in employee.Claims?.Where(x => x.RevokedTs == null)?.ToList())
             {
@@ -122,7 +122,7 @@ public class GetNewTokenHandler : IRequestHandler<GetNewTokenQuery, ResponseDto<
             };
             var token = jwtService.GenerateToken(descriptor);
 
-            return new ResponseDto<TokenDto>(new TokenDto()
+            return new ResponseDto<TokenDtoV1>(new TokenDtoV1()
             {
                 Token = token,
                 FullName = employee.Username,

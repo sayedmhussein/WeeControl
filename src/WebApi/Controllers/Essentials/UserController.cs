@@ -25,26 +25,26 @@ public class UserController : Controller
     }
 
     [AllowAnonymous]
-    [HttpPost(RegisterDto.HttpPostMethod.EndPoint)]
-    [MapToApiVersion(RegisterDto.HttpPostMethod.Version)]
+    [HttpPost(Api.Essential.User.Base)]
+    [MapToApiVersion("1.0")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.Conflict)]
-    public async Task<ActionResult<ResponseDto<TokenDto>>> RegisterV1([FromBody] RequestDto<RegisterDto> dto)
+    public async Task<ActionResult<ResponseDto<TokenDtoV1>>> RegisterV1([FromBody] RequestDto<RegisterDto> dto)
     {
         var command = new RegisterCommand(dto, dto.Payload);
         var response = await mediator.Send(command);
 
-        return Ok(new ResponseDto<TokenDto>(response));
+        return Ok(new ResponseDto<TokenDtoV1>(response));
     }
 
     [AllowAnonymous]
     [HttpPost(Api.Essential.User.Session)]
-    [MapToApiVersion(LoginDto.HttpPostMethod.Version)]
+    [MapToApiVersion("1.0")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<ActionResult<ResponseDto<TokenDto>>> LoginV1([FromBody] RequestDto<LoginDto> dto)
+    public async Task<ActionResult<ResponseDto<TokenDtoV1>>> LoginV1([FromBody] RequestDto<LoginDtoV1> dto)
     {
         var query = new GetNewTokenQuery(dto);
         var response = await mediator.Send(query);
@@ -58,12 +58,12 @@ public class UserController : Controller
     /// <param name="dto"></param>
     /// <returns></returns>
     [Authorize]
-    [HttpPut(TokenDto.HttpPutMethod.EndPoint)]
-    [MapToApiVersion(TokenDto.HttpPutMethod.Version)]
-    [ProducesResponseType(typeof(ResponseDto<TokenDto>), (int)HttpStatusCode.OK)]
+    [HttpPut(Api.Essential.User.Session)]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(typeof(ResponseDto<TokenDtoV1>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.Forbidden)]
-    public async Task<ActionResult<ResponseDto<TokenDto>>> RefreshTokenV1([FromBody] RequestDto dto)
+    public async Task<ActionResult<ResponseDto<TokenDtoV1>>> RefreshTokenV1([FromBody] RequestDto dto)
     {
         var query = new GetNewTokenQuery(dto);
         var response = await mediator.Send(query);
@@ -72,8 +72,8 @@ public class UserController : Controller
     }
 
     [Authorize]
-    [HttpDelete(TokenDto.HttpDeleteMethod.EndPoint)]
-    [MapToApiVersion(TokenDto.HttpDeleteMethod.Version)]
+    [HttpDelete(Api.Essential.User.Session)]
+    [MapToApiVersion("1.0")]
     [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.Forbidden)]

@@ -13,17 +13,17 @@
 <div class="card">
     <h4 class="card-header">Please enter your username and password</h4>
     <div class="card-body">
-        <EditForm Model="@loginDto" OnValidSubmit="ProcessLoginAsync">
+        <EditForm Model="@loginDtoV1" OnValidSubmit="ProcessLoginAsync">
             <DataAnnotationsValidator/>
             <div class="form-group">
                 <label>Username or Email</label>
-                <InputText @bind-Value="loginDto.UsernameOrEmail" class="form-control"/>
-                <ValidationMessage For="@(() => loginDto.UsernameOrEmail)"/>
+                <InputText @bind-Value="loginDtoV1.UsernameOrEmail" class="form-control"/>
+                <ValidationMessage For="@(() => loginDtoV1.UsernameOrEmail)"/>
             </div>
             <div class="form-group">
                 <label>Password</label>
-                <InputText @bind-Value="loginDto.Password" type="password" class="form-control"/>
-                <ValidationMessage For="@(() => loginDto.Password)"/>
+                <InputText @bind-Value="loginDtoV1.Password" type="password" class="form-control"/>
+                <ValidationMessage For="@(() => loginDtoV1.Password)"/>
             </div>
             <button class="btn btn-primary">
                 @if (loading)
@@ -47,7 +47,7 @@
     [CascadingParameter]
     public Task<AuthenticationState> AuthState { get; set; }
     
-    private readonly LoginDto loginDto = new();
+    private readonly LoginDtoV1 loginDtoV1 = new();
     private bool loading;
     private string stringAlert;
 
@@ -61,7 +61,7 @@
             navManager.NavigateTo("/Home");
         }
 
-        loginDto.Password = string.Empty;
+        loginDtoV1.Password = string.Empty;
     }
 
     private async Task ProcessLoginAsync()
@@ -69,7 +69,7 @@
         loading = true;
         try
         {
-            var response = await authentication.LoginAsync(loginDto);
+            var response = await authentication.LoginAsync(loginDtoV1);
             if (response.IsSuccess)
             {
                 StateHasChanged();
@@ -80,7 +80,7 @@
                 //stringAlert = response.MessageToUser;
             }
 
-            loginDto.Password = string.Empty;
+            loginDtoV1.Password = string.Empty;
         }
         catch (Exception e)
         {

@@ -6,21 +6,21 @@ using WeeControl.SharedKernel.RequestsResponses;
 
 namespace WeeControl.Application.EssentialContext.Queries;
 
-public class GetNewTokenQuery : IRequest<ResponseDto<TokenDto>>
+public class GetNewTokenQuery : IRequest<ResponseDto<TokenDtoV1>>
 {
     public GetNewTokenQuery(IRequestDto request)
     {
         Request = request;
     }
 
-    public GetNewTokenQuery(IRequestDto<LoginDto> dto)
+    public GetNewTokenQuery(IRequestDto<LoginDtoV1> dto)
     {
         Request = dto;
-        Payload = new LoginDto(dto.Payload.UsernameOrEmail.ToLower(), dto.Payload.Password);
+        Payload = new LoginDtoV1(dto.Payload.UsernameOrEmail.ToLower(), dto.Payload.Password);
     }
         
     [Obsolete("Use other constructor which has one argument.")]
-    public GetNewTokenQuery(IRequestDto request, LoginDto payload)
+    public GetNewTokenQuery(IRequestDto request, LoginDtoV1 payload)
     {
         Request = request;
         Payload = payload;
@@ -29,5 +29,5 @@ public class GetNewTokenQuery : IRequest<ResponseDto<TokenDto>>
     }
 
     public IRequestDto Request { get; }
-    public LoginDto Payload { get; }
+    public LoginDtoV1 Payload { get; }
 }

@@ -81,7 +81,7 @@ public class GetUserDetailsQuery : IRequest<ResponseDto<UserDetailedDto>>
 
             var user = new UserDetailedDto()
             {
-                Email = userDbo.Email, Username = userDbo.Username, TerritoryCode = userDbo.TerritoryCode, 
+                Email = userDbo.Email, Username = userDbo.Username, TerritoryCode = userDbo.TerritoryId, 
                 Claims = claims,
                 Sessions = sessions
             };

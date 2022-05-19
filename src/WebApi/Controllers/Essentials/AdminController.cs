@@ -29,7 +29,7 @@ public class AdminController  : Controller
         this.mediator = mediator;
     }
 
-    [Authorize(Policy = SharedKernel.Essential.Security.Policies.CanResetDatabaseContentPolicy.Name)]
+    [Authorize(Policy = SharedKernel.Essential.Security.Policies.DeveloperWithDatabaseOperationPolicy.Name)]
     [HttpHead(Api.Essential.Admin.Base)]
     public async Task<ActionResult> PopulateDatabase()
     {
@@ -38,7 +38,7 @@ public class AdminController  : Controller
     }
     
     [HttpGet(Api.Essential.Admin.User)]
-    [MapToApiVersion(RegisterDto.HttpPostMethod.Version)]
+    [MapToApiVersion("1.0")]
     public async Task<ActionResult<ResponseDto<IEnumerable<UserDto>>>> GetListOfUsersV1()
     {
         var command = new GetListOfUsersQuery();
@@ -48,8 +48,7 @@ public class AdminController  : Controller
     }
     
     [HttpGet(Api.Essential.Admin.User + "/{username}")]
-    [MapToApiVersion(RegisterDto.HttpPostMethod.Version)]
-    
+    [MapToApiVersion("1.0")]
     public async Task<ActionResult<ResponseDto<IEnumerable<UserDto>>>> GetUserDetailsV1(string username)
     {
         var command = new GetUserDetailsQuery(username);
@@ -59,7 +58,7 @@ public class AdminController  : Controller
     }
     
     [HttpGet(Api.Essential.Admin.Territory)]
-    [MapToApiVersion(RegisterDto.HttpPostMethod.Version)]
+    [MapToApiVersion("1.0")]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     public async Task<ActionResult<ResponseDto<IEnumerable<UserDto>>>> GetListOfTerritoriesV1()
     {

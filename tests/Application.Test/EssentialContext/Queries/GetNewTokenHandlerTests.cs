@@ -61,7 +61,7 @@ public class GetNewTokenHandlerTests : IDisposable
     [Fact]
     public async void WhenValidUsernameAndPassword_ReturnToken()
     {
-        var dto = new RequestDto<LoginDto>(nameof(WhenValidUsernameAndPassword_ReturnToken), new LoginDto(Username, Password));
+        var dto = new RequestDto<LoginDtoV1>(nameof(WhenValidUsernameAndPassword_ReturnToken), new LoginDtoV1(Username, Password));
         var query = new GetNewTokenQuery(dto);
 
         var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object, currentUserInfoMock.Object, passwordSecurity);
@@ -74,7 +74,7 @@ public class GetNewTokenHandlerTests : IDisposable
     [Fact]
     public async void WhenValidUsernameAndPasswordButCapitalInputs_ReturnToken()
     {
-        var dto = new RequestDto<LoginDto>(nameof(WhenValidUsernameAndPassword_ReturnToken), new LoginDto(Username.ToUpper(), Password));
+        var dto = new RequestDto<LoginDtoV1>(nameof(WhenValidUsernameAndPassword_ReturnToken), new LoginDtoV1(Username.ToUpper(), Password));
         var query = new GetNewTokenQuery(dto);
 
         var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object, currentUserInfoMock.Object, passwordSecurity);
@@ -87,7 +87,7 @@ public class GetNewTokenHandlerTests : IDisposable
     [Fact]
     public async void WhenValidUEmailAndPasswordButCapitalInputs_ReturnToken()
     {
-        var dto = new RequestDto<LoginDto>(nameof(WhenValidUsernameAndPassword_ReturnToken), new LoginDto(Email.ToUpper(), Password));
+        var dto = new RequestDto<LoginDtoV1>(nameof(WhenValidUsernameAndPassword_ReturnToken), new LoginDtoV1(Email.ToUpper(), Password));
         var query = new GetNewTokenQuery(dto);
 
         var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object, currentUserInfoMock.Object, passwordSecurity);
@@ -103,8 +103,8 @@ public class GetNewTokenHandlerTests : IDisposable
         var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object, currentUserInfoMock.Object, passwordSecurity);
             
         var query = new GetNewTokenQuery(
-            new RequestDto<LoginDto>(nameof(WhenValidUsernameAndPasswordButExistingSessionIsActive_ShouldNotCreatAnotherSession), 
-                new LoginDto(Username, Password)));
+            new RequestDto<LoginDtoV1>(nameof(WhenValidUsernameAndPasswordButExistingSessionIsActive_ShouldNotCreatAnotherSession), 
+                new LoginDtoV1(Username, Password)));
         await service.Handle(query, default);
         var count1 = await context.Sessions.CountAsync();
             
@@ -119,9 +119,9 @@ public class GetNewTokenHandlerTests : IDisposable
     {
         var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object, currentUserInfoMock.Object, passwordSecurity);
             
-        var query = new GetNewTokenQuery(new RequestDto<LoginDto>(
+        var query = new GetNewTokenQuery(new RequestDto<LoginDtoV1>(
             nameof(WhenValidUsernameAndPasswordButExistingSessionIsNotActive_ShouldCreatAnotherSession), 
-            new LoginDto(Username, Password)));
+            new LoginDtoV1(Username, Password)));
         await service.Handle(query, default);
         var count1 = await context.Sessions.CountAsync();
             
@@ -139,15 +139,15 @@ public class GetNewTokenHandlerTests : IDisposable
     {
         var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object, currentUserInfoMock.Object, passwordSecurity);
             
-        var query1 = new GetNewTokenQuery(new RequestDto<LoginDto>(
+        var query1 = new GetNewTokenQuery(new RequestDto<LoginDtoV1>(
             nameof(WhenValidUsernameAndPasswordButExistingSessionIsNotActive_ShouldCreatAnotherSession), 
-            new LoginDto(Username, Password)));
+            new LoginDtoV1(Username, Password)));
         await service.Handle(query1, default);
         var count1 = await context.Sessions.CountAsync();
 
-        var query2 = new GetNewTokenQuery(new RequestDto<LoginDto>(
+        var query2 = new GetNewTokenQuery(new RequestDto<LoginDtoV1>(
             nameof(WhenValidUsernameAndPasswordButExistingSessionIsNotActive_ShouldCreatAnotherSession) + "bla", 
-            new LoginDto(Username, Password)));
+            new LoginDtoV1(Username, Password)));
         await service.Handle(query2, default);
         var count2 = await context.Sessions.CountAsync();
             
@@ -157,9 +157,9 @@ public class GetNewTokenHandlerTests : IDisposable
     [Fact]
     public async void WhenUsernameAndPasswordNotMatched_ThrowsNotFoundException()
     {
-        var query = new GetNewTokenQuery(new RequestDto<LoginDto>(
+        var query = new GetNewTokenQuery(new RequestDto<LoginDtoV1>(
             nameof(WhenUsernameAndPasswordNotMatched_ThrowsNotFoundException),
-            new LoginDto("unmatched", "unmatched")));
+            new LoginDtoV1("unmatched", "unmatched")));
             
         var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object, currentUserInfoMock.Object, passwordSecurity);
             
@@ -174,9 +174,9 @@ public class GetNewTokenHandlerTests : IDisposable
     [InlineData("", "", "password")]
     public async void WhenUsernameAndPasswordAndDeviceNotProper_ThrowBadRequestException(string device, string username, string password)
     {
-        var query = new GetNewTokenQuery(new RequestDto<LoginDto>(
+        var query = new GetNewTokenQuery(new RequestDto<LoginDtoV1>(
             device,
-            new LoginDto(username, password)));
+            new LoginDtoV1(username, password)));
             
         var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object, currentUserInfoMock.Object, passwordSecurity);
             

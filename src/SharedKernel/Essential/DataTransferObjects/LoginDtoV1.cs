@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WeeControl.SharedKernel.Essential.DataTransferObjects;
 
-public class LoginDto
+public class LoginDtoV1
 {
     [Required]
     [StringLength(45, ErrorMessage = "username cannot be longer than 45 characters.")]
@@ -14,20 +14,13 @@ public class LoginDto
     [DisplayName("Password")]
     public string Password { get; set; } = string.Empty;
 
-    public LoginDto()
+    public LoginDtoV1()
     {
     }
         
-    public LoginDto(string usernameOrEmail, string password)
+    public LoginDtoV1(string usernameOrEmail, string password)
     {
         UsernameOrEmail = usernameOrEmail;
         Password = password;
-    }
-    
-    public static class HttpPostMethod
-    {
-        //public const string EndPoint = Api.Essential.User.Session;
-        public const string Version = "1.0";
-        //public static string AbsoluteUri(string server) => server + EndPoint;
     }
 }

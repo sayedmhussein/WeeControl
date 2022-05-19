@@ -44,7 +44,7 @@ public class SeedEssentialDatabaseCommand : IRequest
             }
 
             var admin = await context.Users.FirstOrDefaultAsync(x => x.Username == "admin", cancellationToken);
-            admin.TerritoryCode = "USA-HO";
+            admin.TerritoryId = "USA-HO";
             await context.SaveChangesAsync(cancellationToken);
 
             if (await context.Claims.AnyAsync() == false)

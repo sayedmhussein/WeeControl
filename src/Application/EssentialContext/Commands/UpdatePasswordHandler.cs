@@ -31,7 +31,7 @@ public class UpdatePasswordHandler : IRequestHandler<UpdatePasswordCommand>
             throw new NotFoundException();
         }
 
-        user.Password = passwordSecurity.Hash(request.NewPassword);
+        user.UpdatePassword(passwordSecurity.Hash(request.NewPassword));
 
         await context.SaveChangesAsync(cancellationToken);
         

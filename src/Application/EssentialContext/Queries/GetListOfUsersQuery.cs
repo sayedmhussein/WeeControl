@@ -32,7 +32,7 @@ public class GetListOfUsersQuery : IRequest<ResponseDto<IEnumerable<UserDto>>>
             {
                 users.Add(new UserDto()
                 {
-                    Email = userDbo.Email, Username = userDbo.Username, TerritoryCode = userDbo.TerritoryCode
+                    Email = userDbo.Email, Username = userDbo.Username, TerritoryCode = userDbo.TerritoryId
                 });
             }
 

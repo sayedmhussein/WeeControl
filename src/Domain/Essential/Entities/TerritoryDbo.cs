@@ -9,7 +9,7 @@ public class TerritoryDbo
     {
         return new TerritoryDbo
         {
-            TerritoryCode = code,
+            TerritoryId = code,
             ReportToId = parent,
             CountryCode = country,
             TerritoryName = name
@@ -18,7 +18,7 @@ public class TerritoryDbo
     
     [Key]
     [StringLength(10, MinimumLength = 3)]
-    public string TerritoryCode { get; set; }
+    public string TerritoryId { get; set; }
 
     public TerritoryDbo ReportTo { get; set; }
     public string ReportToId { get; set; }

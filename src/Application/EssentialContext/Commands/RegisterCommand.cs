@@ -4,7 +4,7 @@ using WeeControl.SharedKernel.RequestsResponses;
 
 namespace WeeControl.Application.EssentialContext.Commands;
 
-public class RegisterCommand : IRequest<TokenDto>
+public class RegisterCommand : IRequest<TokenDtoV1>
 {
     public RequestDto Request { get; }
     public RegisterDto Payload { get; }

@@ -6,7 +6,7 @@ namespace WeeControl.SharedKernel.Essential;
 public interface IUserOperation
 {
     Task<IResponseDto> RegisterAsync(RegisterDto loginDto);
-    Task<IResponseDto> LoginAsync(LoginDto loginDto);
+    Task<IResponseDto> LoginAsync(LoginDtoV1 loginDtoV1);
     Task<IResponseDto> GetTokenAsync();
     Task<IResponseDto> LogoutAsync();
     Task<IResponseDto> UpdatePasswordAsync(PasswordSetForgottenDto loginSetForgottenDto);

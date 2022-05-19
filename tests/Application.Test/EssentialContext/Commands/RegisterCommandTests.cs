@@ -40,7 +40,7 @@ public class RegisterCommandTests : IDisposable
     [Fact]
     public async void WhenRegisterNewUser_ReturnSuccessAndToken()
     {
-        mediatorMock.Setup(x => x.Send(It.IsAny<GetNewTokenQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ResponseDto<TokenDto>(new TokenDto() { Token = "Token"}));
+        mediatorMock.Setup(x => x.Send(It.IsAny<GetNewTokenQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ResponseDto<TokenDtoV1>(new TokenDtoV1() { Token = "Token"}));
         var command = new RegisterCommand(new RequestDto("device"), RegisterDto.Create("email@emial.com", "username", "password"));
             
         var tokenDto = await new RegisterHandler(context, mediatorMock.Object, passwordSecurity).Handle(command, default);
@@ -54,7 +54,7 @@ public class RegisterCommandTests : IDisposable
     {
         string email = "Email@someprovider.com";
         string username = "ThisIsUsername";
-        mediatorMock.Setup(x => x.Send(It.IsAny<GetNewTokenQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ResponseDto<TokenDto>(new TokenDto() { Token = "Token"}));
+        mediatorMock.Setup(x => x.Send(It.IsAny<GetNewTokenQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ResponseDto<TokenDtoV1>(new TokenDtoV1() { Token = "Token"}));
         var command = new RegisterCommand(new RequestDto("device"), RegisterDto.Create(email.ToUpper(), username.ToUpper(), "password"));
             
         await new RegisterHandler(context, mediatorMock.Object, passwordSecurity).Handle(command, default);
@@ -70,7 +70,7 @@ public class RegisterCommandTests : IDisposable
     public async void WhenRegisterNewUser_PasswordIsEncrypted()
     {
         string postedPassword = "ThisIsPostedPassword";
-        mediatorMock.Setup(x => x.Send(It.IsAny<GetNewTokenQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ResponseDto<TokenDto>(new TokenDto() { Token = "Token"}));
+        mediatorMock.Setup(x => x.Send(It.IsAny<GetNewTokenQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ResponseDto<TokenDtoV1>(new TokenDtoV1() { Token = "Token"}));
         var command = new RegisterCommand(new RequestDto("device"), RegisterDto.Create("email@emial.com", "username", "password"));
             
         await new RegisterHandler(context, mediatorMock.Object, passwordSecurity).Handle(command, default);
@@ -83,7 +83,7 @@ public class RegisterCommandTests : IDisposable
     [Fact]
     public async void WhenRegisterNewUser_VerifyingCorrectDeviceIsExecuted()
     {
-        mediatorMock.Setup(x => x.Send(It.IsAny<GetNewTokenQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ResponseDto<TokenDto>(new TokenDto() { Token = "Token"}));
+        mediatorMock.Setup(x => x.Send(It.IsAny<GetNewTokenQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ResponseDto<TokenDtoV1>(new TokenDtoV1() { Token = "Token"}));
         var command = new RegisterCommand(new RequestDto("device"), RegisterDto.Create("email@emial.com", "username", "password"));
             
         var tokenDto = await new RegisterHandler(context, mediatorMock.Object, passwordSecurity).Handle(command, default);

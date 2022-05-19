@@ -8,7 +8,7 @@ internal static class EssentialContextPolicyOptions
 {
     internal static void Configure(AuthorizationOptions options)
     {
-        options.AddPolicy(CanResetDatabaseContentPolicy.Name, new CanResetDatabaseContentPolicy().GetPolicy());
+        options.AddPolicy(DeveloperWithDatabaseOperationPolicy.Name, new DeveloperWithDatabaseOperationPolicy().GetPolicy());
         
         options.AddPolicy(CanEditTerritoriesPolicy.Name, new CanEditUserPolicy().GetPolicy());
         options.AddPolicy(TerritoryDto.HttpPutMethod.CanEditTerritoryPolicy, new CanEditTerritoriesPolicy().GetPolicy());

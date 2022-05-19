@@ -1,9 +1,12 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WeeControl.Application.EssentialContext;
 using WeeControl.Domain.Essential.Entities;
 using WeeControl.Persistence.Essential.Configurations;
+using WeeControl.SharedKernel.Essential.Security;
+using WeeControl.SharedKernel.Services;
 
 namespace WeeControl.Persistence.Essential
 {
@@ -21,6 +24,22 @@ namespace WeeControl.Persistence.Essential
 
         public EssentialDbContext(DbContextOptions<EssentialDbContext> options) : base(options)
         {
+            Database.EnsureCreated();
+            if (Territories.Any() == false)
+            {
+                var territory = TerritoryDbo.Create("def", null, "def", "Default");
+                Territories.Add(territory);
+                SaveChanges();
+                
+                var admin = UserDbo.Create("admin@admin.com", "admin", new PasswordSecurity().Hash("admin"), territory.TerritoryId);
+                Users.Add(admin);
+                SaveChanges();
+                
+                Claims.Add(ClaimDbo.Create(admin.UserId, 
+                    ClaimsTagsList.Claims.Developer, ClaimsTagsList.Tags.SuperUser,
+                    admin.UserId));
+                SaveChanges();
+            }
         }
 
         public async Task ResetDatabaseAsync(CancellationToken cancellationToken)

@@ -10,7 +10,7 @@ using WeeControl.SharedKernel.Interfaces;
 
 namespace WeeControl.Application.EssentialContext.Commands;
 
-public class RegisterHandler : IRequestHandler<RegisterCommand, TokenDto>
+public class RegisterHandler : IRequestHandler<RegisterCommand, TokenDtoV1>
 {
     private readonly IEssentialDbContext context;
     private readonly IMediator mediator;
@@ -23,7 +23,7 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, TokenDto>
         this.passwordSecurity = passwordSecurity;
     }
 
-    public async Task<TokenDto> Handle(RegisterCommand cmd, CancellationToken cancellationToken)
+    public async Task<TokenDtoV1> Handle(RegisterCommand cmd, CancellationToken cancellationToken)
     {
         await mediator.Send(new VerifyRequestQuery(cmd.Request), cancellationToken);
 
@@ -44,7 +44,7 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, TokenDto>
         await context.Users.AddAsync(user, cancellationToken);
         await context.SaveChangesAsync(cancellationToken);
 
-        var b= await mediator.Send(new GetNewTokenQuery(cmd.Request, new LoginDto(user.Username, cmd.Payload.Password)), cancellationToken);
+        var b= await mediator.Send(new GetNewTokenQuery(cmd.Request, new LoginDtoV1(user.Username, cmd.Payload.Password)), cancellationToken);
         return b.Payload;
     }
 }

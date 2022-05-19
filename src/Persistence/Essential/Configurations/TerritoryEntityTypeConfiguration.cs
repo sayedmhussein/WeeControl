@@ -11,7 +11,7 @@ namespace WeeControl.Persistence.Essential.Configurations
             builder.ToTable(nameof(TerritoryDbo), nameof(Essential));
             builder.HasComment("Territory of corporate.");
             
-            builder.Property(p => p.TerritoryCode).ValueGeneratedOnAdd();
+            builder.Property(p => p.TerritoryId).ValueGeneratedOnAdd();
             
             builder.HasIndex(x => new { x.CountryCode, x.TerritoryName }).IsUnique(true);
             
@@ -20,7 +20,7 @@ namespace WeeControl.Persistence.Essential.Configurations
 
             //builder.OwnsOne(x => x.Address);
 
-            builder.HasMany(x => x.Users).WithOne().HasForeignKey(x => x.TerritoryCode);
+            //builder.HasMany(x => x.Users).WithOne().HasForeignKey(x => x.TerritoryId);
         }
     }
 }

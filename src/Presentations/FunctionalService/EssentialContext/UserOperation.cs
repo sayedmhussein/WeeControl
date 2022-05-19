@@ -32,8 +32,8 @@ public class UserOperation : IUserOperation
 
         HttpRequestMessage message = new()
         {
-            RequestUri = new Uri(RegisterDto.HttpPostMethod.AbsoluteUri(userCommunication.ServerBaseAddress)),
-            Version = new Version(RegisterDto.HttpPostMethod.Version),
+            RequestUri = new Uri(userCommunication.FullAddress(Api.Essential.User.Base)),
+            Version = new Version("1.0"),
             Method = HttpMethod.Post,
             Content = RequestDto.BuildHttpContentAsJson(requestDto)
         };
@@ -44,7 +44,7 @@ public class UserOperation : IUserOperation
         {
             case HttpStatusCode.OK:
             case HttpStatusCode.Accepted:
-                var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<TokenDto>>();
+                var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<TokenDtoV1>>();
                 var token = responseDto?.Payload?.Token;
                 await userStorage.SaveAsync(UserDataEnum.Token, token);
                 return ResponseToUi.Accepted(response.StatusCode);
@@ -55,14 +55,14 @@ public class UserOperation : IUserOperation
         }
     }
 
-    public async Task<IResponseDto> LoginAsync(LoginDto loginDto)
+    public async Task<IResponseDto> LoginAsync(LoginDtoV1 loginDtoV1)
     {
-        var requestDto = new RequestDto<LoginDto>(userDevice.DeviceId, loginDto);
+        var requestDto = new RequestDto<LoginDtoV1>(userDevice.DeviceId, loginDtoV1);
 
         HttpRequestMessage message = new()
         {
             RequestUri = new Uri(userCommunication.FullAddress(Api.Essential.User.Session)),
-            Version = new Version(LoginDto.HttpPostMethod.Version),
+            Version = new Version("1.0"),
             Method = HttpMethod.Post,
             Content = RequestDto.BuildHttpContentAsJson(requestDto)
         };
@@ -73,7 +73,7 @@ public class UserOperation : IUserOperation
         {
             case HttpStatusCode.OK:
             case HttpStatusCode.Accepted:
-                var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<TokenDto>>();
+                var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<TokenDtoV1>>();
                 var token = responseDto?.Payload?.Token;
                 await userStorage.SaveAsync(UserDataEnum.Token, token);
                 await userStorage.SaveAsync(UserDataEnum.FullName, responseDto?.Payload?.FullName);
@@ -96,8 +96,8 @@ public class UserOperation : IUserOperation
 
         HttpRequestMessage message = new()
         {
-            RequestUri = new Uri(TokenDto.HttpPutMethod.AbsoluteUri(userCommunication.ServerBaseAddress)),
-            Version = new Version(TokenDto.HttpPutMethod.Version),
+            RequestUri = new Uri(userCommunication.FullAddress(Api.Essential.User.Session)),
+            Version = new Version("1.0"),
             Method = HttpMethod.Put,
             Content = RequestDto.BuildHttpContentAsJson(requestDto)
         };
@@ -108,7 +108,7 @@ public class UserOperation : IUserOperation
         {
             case HttpStatusCode.OK:
             case HttpStatusCode.Accepted:
-                var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<TokenDto>>();
+                var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<TokenDtoV1>>();
                 var token = responseDto?.Payload?.Token;
                 await userStorage.SaveAsync(UserDataEnum.Token, token);
                 await userStorage.SaveAsync(UserDataEnum.FullName, responseDto?.Payload?.FullName);
@@ -132,8 +132,8 @@ public class UserOperation : IUserOperation
 
         HttpRequestMessage message = new()
         {
-            RequestUri = new Uri(TokenDto.HttpDeleteMethod.AbsoluteUri(userCommunication.ServerBaseAddress)),
-            Version = new Version(TokenDto.HttpDeleteMethod.Version),
+            RequestUri = new Uri(userCommunication.FullAddress(Api.Essential.User.Session)),
+            Version = new Version("1.0"),
             Method = HttpMethod.Delete,
             Content = RequestDto.BuildHttpContentAsJson(requestDto)
         };

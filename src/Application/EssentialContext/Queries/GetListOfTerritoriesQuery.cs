@@ -33,7 +33,7 @@ public class GetListOfTerritoriesQuery : IRequest<IResponseDto<IEnumerable<Terri
             {
                 list.Add(new TerritoryDto()
                 {
-                    TerritoryCode = x.TerritoryCode, ReportToId = x.ReportToId,
+                    TerritoryCode = x.TerritoryId, ReportToId = x.ReportToId,
                     TerritoryName = x.TerritoryName, CountryCode = x.CountryCode
                 });
             }, cancellationToken);

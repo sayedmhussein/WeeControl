@@ -31,7 +31,7 @@ public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>
             await new Presentations.FunctionalService.EssentialContext.UserOperation(
                     mocks.Object, 
                     new Mock<IDisplayAlert>().Object)
-                .LoginAsync(new LoginDto(username, password));
+                .LoginAsync(new LoginDtoV1(username, password));
             
         Assert.Equal(HttpStatusCode.OK, response.HttpStatusCode);
         Assert.NotEmpty(token);
@@ -46,7 +46,7 @@ public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>
         var response = new Presentations.FunctionalService.EssentialContext.UserOperation(
                 mocks.Object, 
                 new Mock<IDisplayAlert>().Object)
-            .LoginAsync(new LoginDto(username, password));
+            .LoginAsync(new LoginDtoV1(username, password));
 
         return response;
     }
@@ -104,7 +104,7 @@ public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>
             await new Presentations.FunctionalService.EssentialContext.UserOperation(
                     mocks.Object, 
                     new Mock<IDisplayAlert>().Object)
-                .LoginAsync(new LoginDto(user.Username, user.Password));
+                .LoginAsync(new LoginDtoV1(user.Username, user.Password));
             
         Assert.Equal(HttpStatusCode.OK, response.HttpStatusCode);
         Assert.True(response.IsSuccess);

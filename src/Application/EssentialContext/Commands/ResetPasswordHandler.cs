@@ -28,7 +28,7 @@ public class ResetPasswordHandler : IRequestHandler<ResetPasswordCommand>
         {
             var password = passwordSecurity.GenerateRandomPassword();
             Console.WriteLine("New Password is: {0}", password);
-            user.Password = passwordSecurity.Hash(password);
+            user.UpdatePassword(passwordSecurity.Hash(password));
             await context.SaveChangesAsync(cancellationToken);
             
             await mediator.Publish(new PasswordReset(user.UserId, password), cancellationToken);

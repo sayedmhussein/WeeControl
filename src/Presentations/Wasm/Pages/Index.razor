@@ -40,7 +40,7 @@ Welcome to your new app.
     
     protected override async void OnInitialized()
     {
-        await base.OnInitializedAsync();
+        
 
         var response = await UserOperation.GetTokenAsync();
         if (response.IsSuccess)
@@ -53,6 +53,8 @@ Welcome to your new app.
         await GetClaims();
         
         StateHasChanged();
+        
+        await base.OnInitializedAsync();
     }
 
     private async Task GetClaims()
