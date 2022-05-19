@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace WeeControl.SharedKernel.Essential.RequestDTOs;
+namespace WeeControl.SharedKernel.Essential.DataTransferObjects;
 
 public class LoginDto
 {
@@ -26,8 +26,8 @@ public class LoginDto
     
     public static class HttpPostMethod
     {
-        public const string EndPoint = Api.Essential.Users.Login;
+        //public const string EndPoint = Api.Essential.User.Session;
         public const string Version = "1.0";
-        public static string AbsoluteUri(string server) => server + EndPoint;
+        //public static string AbsoluteUri(string server) => server + EndPoint;
     }
 }

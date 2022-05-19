@@ -22,6 +22,7 @@ public class UserDbo
     [MinLength(6)]
     public string Password { get; set; }
 
+    //public TerritoryDbo Territory { get; set; }
     public string TerritoryCode { get; set; }
 
     public DateTime? SuspendTs { get; set; }
@@ -36,7 +37,7 @@ public class UserDbo
         
     public static UserDbo Create(string email, string username, string password, string territory)
     {
-        return new UserDbo() { Email = email, Username = username, Password = password, TerritoryCode = territory};
+        return new UserDbo() { Email = email, Username = username, Password = password, TerritoryCode = territory.ToUpper()};
     }
 
     private UserDbo()

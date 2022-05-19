@@ -19,7 +19,11 @@ public class EssentialUserDeviceService : UserStorageService, IEssentialUserDevi
     }
 
     public HttpClient HttpClient { get; }
-    
+    public string FullAddress(string relative)
+    {
+        return ServerBaseAddress + relative;
+    }
+
     public string DeviceId => "This is device _Blazor_";
     public DateTime TimeStamp => DateTime.UtcNow;
     public double? Latitude => null;

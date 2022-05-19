@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace WeeControl.SharedKernel.Essential.Security;
 
-internal abstract class PolicyBuilderBase
+public abstract class PolicyBuilderBase
 {
     protected readonly AuthorizationPolicyBuilder Builder;
 
@@ -13,7 +13,7 @@ internal abstract class PolicyBuilderBase
         Builder.RequireClaim(ClaimsTagsList.Claims.Session);
     }
 
-    internal Microsoft.AspNetCore.Authorization.AuthorizationPolicy GetPolicy()
+    internal AuthorizationPolicy GetPolicy()
     {
         return Builder.Build();
     }

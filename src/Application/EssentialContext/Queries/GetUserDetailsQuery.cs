@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -7,7 +6,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using WeeControl.Application.Exceptions;
 using WeeControl.Application.Interfaces;
-using WeeControl.SharedKernel.Essential.ResponseDTOs;
+using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
 
 namespace WeeControl.Application.EssentialContext.Queries;

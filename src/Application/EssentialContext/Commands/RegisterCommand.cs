@@ -1,6 +1,5 @@
 ﻿using MediatR;
-using WeeControl.SharedKernel.Essential.RequestDTOs;
-using WeeControl.SharedKernel.Essential.ResponseDTOs;
+using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
 
 namespace WeeControl.Application.EssentialContext.Commands;

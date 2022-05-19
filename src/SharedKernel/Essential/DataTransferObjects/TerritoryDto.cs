@@ -1,4 +1,4 @@
-namespace WeeControl.SharedKernel.Essential.RequestDTOs;
+namespace WeeControl.SharedKernel.Essential.DataTransferObjects;
 
 public class TerritoryDto
 {

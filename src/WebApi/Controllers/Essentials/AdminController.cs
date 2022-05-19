@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WeeControl.Application.EssentialContext.Commands;
 using WeeControl.Application.EssentialContext.Queries;
 using WeeControl.SharedKernel.Essential;
-using WeeControl.SharedKernel.Essential.RequestDTOs;
+using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
 
 namespace WeeControl.WebApi.Controllers.Essentials;
@@ -26,6 +27,14 @@ public class AdminController  : Controller
     public AdminController(IMediator mediator)
     {
         this.mediator = mediator;
+    }
+
+    [Authorize(Policy = SharedKernel.Essential.Security.Policies.CanResetDatabaseContentPolicy.Name)]
+    [HttpHead(Api.Essential.Admin.Base)]
+    public async Task<ActionResult> PopulateDatabase()
+    {
+        await mediator.Send(new SeedEssentialDatabaseCommand());
+        return Ok();
     }
     
     [HttpGet(Api.Essential.Admin.User)]

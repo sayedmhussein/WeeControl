@@ -9,7 +9,7 @@ using WeeControl.Application.EssentialContext;
 using WeeControl.Domain.Essential.Entities;
 using WeeControl.Presentations.FunctionalService.Enums;
 using WeeControl.Presentations.FunctionalService.Interfaces;
-using WeeControl.SharedKernel.Essential.RequestDTOs;
+using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.Services;
 using Xunit;
@@ -85,13 +85,26 @@ public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     [Fact]
     public async void WhenSendingValidRequest_HttpResponseIsSuccessCode()
     {
-        var mocks = ApplicationMocks.GetEssentialMock(factory.CreateClient(), typeof(LoginTests).Namespace);
+        var user = (Email: "test@test.test", Username: "test", Password: "test", Device: typeof(LoginTests).Namespace);
+        var client = factory.WithWebHostBuilder(builder =>
+            {
+                builder.ConfigureServices(services =>
+                {
+                    using var scope = services.BuildServiceProvider().CreateScope();
+                    var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
+                    db.Users.Add(UserDbo.Create(user.Email, user.Username, new PasswordSecurity().Hash(user.Password)));
+                    db.SaveChanges();
+                });
+            })
+            .CreateClient();
+        
+        var mocks = ApplicationMocks.GetEssentialMock(client, typeof(LoginTests).Namespace);
 
         var response = 
             await new Presentations.FunctionalService.EssentialContext.UserOperation(
                     mocks.Object, 
                     new Mock<IDisplayAlert>().Object)
-                .LoginAsync(new LoginDto("admin", "admin"));
+                .LoginAsync(new LoginDto(user.Username, user.Password));
             
         Assert.Equal(HttpStatusCode.OK, response.HttpStatusCode);
         Assert.True(response.IsSuccess);

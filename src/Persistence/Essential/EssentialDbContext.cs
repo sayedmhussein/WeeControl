@@ -1,10 +1,9 @@
-﻿using System.Linq;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WeeControl.Application.EssentialContext;
 using WeeControl.Domain.Essential.Entities;
 using WeeControl.Persistence.Essential.Configurations;
-using WeeControl.SharedKernel.Essential.Security;
-using WeeControl.SharedKernel.Services;
 
 namespace WeeControl.Persistence.Essential
 {
@@ -22,25 +21,12 @@ namespace WeeControl.Persistence.Essential
 
         public EssentialDbContext(DbContextOptions<EssentialDbContext> options) : base(options)
         {
-            //Database.EnsureDeleted();
-            //Database.EnsureCreated();
-            //Database.Migrate();
-            Database.EnsureCreated();
+        }
 
-            if (!Territories.Any())
-            {
-                var territory = new TerritoryDbo() { CountryCode = "EGP", TerritoryCode = "CAI", TerritoryName = "Cairo" };
-                Territories.Add(territory);
-                SaveChanges();
-
-                var user = UserDbo.Create("admin@admin.com", "admin", new PasswordSecurity().Hash("admin"), territory.TerritoryCode);
-                Users.Add(user);
-                SaveChanges();
-
-                var claim = new ClaimDbo() { UserId = user.UserId, ClaimType = ClaimsTagsList.Claims.Developer, ClaimValue = ClaimsTagsList.Tags.SuperUser };
-                Claims.Add(claim);
-                SaveChanges();
-            }
+        public async Task ResetDatabaseAsync(CancellationToken cancellationToken)
+        {
+            await Database.EnsureDeletedAsync(cancellationToken);
+            await Database.EnsureCreatedAsync(cancellationToken);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -49,6 +35,7 @@ namespace WeeControl.Persistence.Essential
 
             modelBuilder.ApplyConfiguration(new UserEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new SessionEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new SessionLogEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new ClaimEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new TerritoryEntityTypeConfiguration());
         }

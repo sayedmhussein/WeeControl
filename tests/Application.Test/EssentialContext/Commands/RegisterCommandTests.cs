@@ -8,9 +8,9 @@ using WeeControl.Application.EssentialContext;
 using WeeControl.Application.EssentialContext.Commands;
 using WeeControl.Application.EssentialContext.Queries;
 using WeeControl.Application.Exceptions;
+using WeeControl.Domain.Essential.Entities;
 using WeeControl.Persistence;
-using WeeControl.SharedKernel.Essential.RequestDTOs;
-using WeeControl.SharedKernel.Essential.ResponseDTOs;
+using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.RequestsResponses;
 using WeeControl.SharedKernel.Services;
@@ -95,6 +95,8 @@ public class RegisterCommandTests : IDisposable
     [Fact]
     public async void WhenRegisterExistingUser_ThrowException()
     {
+        await context.Users.AddAsync(UserDbo.Create("email@email.com", "username", "password"));
+        await context.SaveChangesAsync(default);
         var user = await context.Users.FirstOrDefaultAsync();
         var command = new RegisterCommand(new RequestDto("device"), RegisterDto.Create(user.Email, user.Username, user.Password));
 

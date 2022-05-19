@@ -11,7 +11,7 @@ using WeeControl.Application.Exceptions;
 using WeeControl.Application.Interfaces;
 using WeeControl.Domain.Essential.Entities;
 using WeeControl.Persistence;
-using WeeControl.SharedKernel.Essential.RequestDTOs;
+using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.RequestsResponses;
 using WeeControl.SharedKernel.Services;
@@ -188,10 +188,13 @@ public class GetNewTokenHandlerTests : IDisposable
     [Fact]
     public async void WhenExistingSessionIsValid_ReturnToken()
     {
+        var user = UserDbo.Create("email@mail.com", "uesdff", "fdfdfdf", "ttr");
+        await context.Users.AddAsync(user, default);
+        await context.SaveChangesAsync(default);
         var request = new RequestDto("device");
 
         var session = SessionDbo.Create(Guid.NewGuid(), "device");
-        session.User = context.Users.First();
+        session.User = user;
         await context.Sessions.AddAsync(session , default);
         await context.SaveChangesAsync(default);
 

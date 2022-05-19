@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace WeeControl.SharedKernel.Essential.RequestDTOs;
+namespace WeeControl.SharedKernel.Essential.DataTransferObjects;
 
 public class PasswordResetRequestDto
 {

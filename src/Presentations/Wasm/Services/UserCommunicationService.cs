@@ -12,6 +12,10 @@ public class UserCommunicationService : IUserCommunication
     }
 
     public HttpClient HttpClient { get; }
+    public string FullAddress(string relative)
+    {
+        return ServerBaseAddress + relative;
+    }
 
     public UserCommunicationService(IHttpClientFactory factory)
     {

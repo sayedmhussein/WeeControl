@@ -1,6 +1,4 @@
-using WeeControl.SharedKernel.Essential.RequestDTOs;
-
-namespace WeeControl.SharedKernel.Essential.ResponseDTOs;
+namespace WeeControl.SharedKernel.Essential.DataTransferObjects;
 
 public class UserDetailedDto : UserDto
 {

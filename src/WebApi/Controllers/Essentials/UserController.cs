@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WeeControl.Application.EssentialContext.Commands;
 using WeeControl.Application.EssentialContext.Queries;
-using WeeControl.SharedKernel.Essential.RequestDTOs;
-using WeeControl.SharedKernel.Essential.ResponseDTOs;
+using WeeControl.SharedKernel.Essential;
+using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
 
 namespace WeeControl.WebApi.Controllers.Essentials;
@@ -39,7 +39,7 @@ public class UserController : Controller
     }
 
     [AllowAnonymous]
-    [HttpPost(LoginDto.HttpPostMethod.EndPoint)]
+    [HttpPost(Api.Essential.User.Session)]
     [MapToApiVersion(LoginDto.HttpPostMethod.Version)]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]

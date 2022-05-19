@@ -2,7 +2,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WeeControl.SharedKernel.Essential.RequestDTOs;
+namespace WeeControl.SharedKernel.Essential.DataTransferObjects;
 
 public abstract class PasswordSetAbstractDto
 {

@@ -2,8 +2,8 @@
 @page "/authentication/login"
 
 @using WeeControl.SharedKernel.Essential
-@using WeeControl.SharedKernel.Essential.RequestDTOs
 @using WeeControl.Presentations.Wasm.Shared
+@using WeeControl.SharedKernel.Essential.DataTransferObjects
 @layout RestrictedLayout
 @attribute [AllowAnonymous]
 
@@ -77,7 +77,7 @@
             }
             else
             {
-                stringAlert = response.MessageToUser;
+                //stringAlert = response.MessageToUser;
             }
 
             loginDto.Password = string.Empty;

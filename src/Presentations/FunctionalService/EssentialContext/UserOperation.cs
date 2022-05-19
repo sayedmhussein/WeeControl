@@ -5,8 +5,7 @@ using WeeControl.Presentations.FunctionalService.Enums;
 using WeeControl.Presentations.FunctionalService.Interfaces;
 using WeeControl.Presentations.FunctionalService.Models;
 using WeeControl.SharedKernel.Essential;
-using WeeControl.SharedKernel.Essential.RequestDTOs;
-using WeeControl.SharedKernel.Essential.ResponseDTOs;
+using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.RequestsResponses;
 
@@ -62,7 +61,7 @@ public class UserOperation : IUserOperation
 
         HttpRequestMessage message = new()
         {
-            RequestUri = new Uri(LoginDto.HttpPostMethod.AbsoluteUri(userCommunication.ServerBaseAddress)),
+            RequestUri = new Uri(userCommunication.FullAddress(Api.Essential.User.Session)),
             Version = new Version(LoginDto.HttpPostMethod.Version),
             Method = HttpMethod.Post,
             Content = RequestDto.BuildHttpContentAsJson(requestDto)
@@ -81,8 +80,10 @@ public class UserOperation : IUserOperation
                 await userStorage.SaveAsync(UserDataEnum.PhotoUrl, responseDto?.Payload?.PhotoUrl);
                 return ResponseToUi.Accepted(response.StatusCode);
             case HttpStatusCode.NotFound:
+                await alert.DisplaySimpleAlertAsync("Invalid username or password!");
                 return ResponseToUi.Rejected(response.StatusCode, "Invalid username or password!");
             default:
+                await alert.DisplaySimpleAlertAsync("Unexpected error occured, error code: " + response.StatusCode);
                 return ResponseToUi.Rejected(response.StatusCode, "Unexpected error occured, error code: " + response.StatusCode);
         }
     }
@@ -115,6 +116,7 @@ public class UserOperation : IUserOperation
                 return ResponseToUi.Accepted(response.StatusCode);
             case HttpStatusCode.Forbidden:
                 await alert.DisplaySimpleAlertAsync("Please login again!");
+                await userStorage.ClearAsync();
                 return ResponseToUi.Rejected(response.StatusCode, "Please login again.");
             default:
                 return ResponseToUi.Rejected(response.StatusCode, "Unexpected error occured, error code: " + response.StatusCode);

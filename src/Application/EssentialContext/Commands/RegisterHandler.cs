@@ -5,8 +5,7 @@ using MediatR;
 using WeeControl.Application.EssentialContext.Queries;
 using WeeControl.Application.Exceptions;
 using WeeControl.Domain.Essential.Entities;
-using WeeControl.SharedKernel.Essential.RequestDTOs;
-using WeeControl.SharedKernel.Essential.ResponseDTOs;
+using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.Interfaces;
 
 namespace WeeControl.Application.EssentialContext.Commands;
