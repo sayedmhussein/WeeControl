@@ -4,5 +4,7 @@ namespace WeeControl.SharedKernel.Essential.ResponseDTOs;
 
 public class UserDetailedDto : UserDto
 {
-    public string Temp { get; set; }
+    public IEnumerable<ClaimDto> Claims { get; set; }
+    public IEnumerable<SessionDto> Sessions { get; set; }
+    
 }

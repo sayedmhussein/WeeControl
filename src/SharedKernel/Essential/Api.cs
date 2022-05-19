@@ -8,15 +8,15 @@ public static class Api
         
         public static class Users
         {
-            public const string Login = nameof(Api) + "/" + nameof(Essential) + "/" + nameof(Users) + "/Login";
-            public const string Logout = nameof(Essential) + "/" + nameof(Users) + "/Login";
-            public const string Bla = nameof(Essential) + "/" + nameof(Users) + "/Login{id}";
+            public const string Login = Route + nameof(Users) + "/Login";
+            public const string Logout = Route + nameof(Users) + "/Login";
+            public const string Bla = Route + nameof(Users) + "/Login{id}";
         }
         
         public static class Admin
         {
-            public const string User = Route + "User";
-            public const string Territory = Route + "Territory";
+            public const string User = Route + nameof(Admin) + "/User";
+            public const string Territory = Route + nameof(Admin) + "/Territory";
         }
     }
 }

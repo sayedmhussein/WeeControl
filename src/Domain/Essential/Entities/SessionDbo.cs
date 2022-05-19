@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace WeeControl.Domain.Essential.Entities;
@@ -22,6 +23,8 @@ public class SessionDbo
     public DateTime CreatedTs { get; set; }
 
     public DateTime? TerminationTs { get; set; }
+
+    public virtual IEnumerable<SessionLogDbo> Logs { get; set; }
 
     public SessionLogDbo CreateLog(string context, string details)
     {
