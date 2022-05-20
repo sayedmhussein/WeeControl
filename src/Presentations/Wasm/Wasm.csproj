@@ -37,7 +37,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FunctionalService\FunctionalService.csproj" />
+    <ProjectReference Include="..\ServiceLibrary\ServiceLibrary.csproj" />
   </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="Pages\Essential\Admin\AdminMainComponent.razor" />

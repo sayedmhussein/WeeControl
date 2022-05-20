@@ -3,8 +3,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.Application.EssentialContext;
 using WeeControl.Domain.Essential.Entities;
-using WeeControl.Presentations.FunctionalService.Enums;
-using WeeControl.Presentations.FunctionalService.Interfaces;
+using WeeControl.Presentations.ServiceLibrary.Enums;
+using WeeControl.Presentations.ServiceLibrary.Interfaces;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using Xunit;
 
@@ -25,9 +25,9 @@ public class RegisterTests : IClassFixture<CustomWebApplicationFactory<Startup>>
         var mocks = ApplicationMocks.GetEssentialMock(factory.CreateClient(), typeof(RegisterTests).Namespace);
 
         var response = 
-            await new Presentations.FunctionalService.EssentialContext.UserOperation(
+            await new Presentations.ServiceLibrary.EssentialContext.UserOperation(
                 mocks.Object, 
-                new Mock<IDisplayAlert>().Object).RegisterAsync(RegisterDtoV1.Create("email@email.com", "username", "password"));
+                new Mock<IDeviceAlert>().Object).RegisterAsync(RegisterDtoV1.Create("email@email.com", "username", "password"));
             
 
         Assert.Equal(HttpStatusCode.OK, response.HttpStatusCode);
@@ -48,9 +48,9 @@ public class RegisterTests : IClassFixture<CustomWebApplicationFactory<Startup>>
         var mocks = ApplicationMocks.GetEssentialMock(factory.CreateClient(), typeof(RegisterTests).Namespace);
 
         var response = 
-            await new Presentations.FunctionalService.EssentialContext.UserOperation(
+            await new Presentations.ServiceLibrary.EssentialContext.UserOperation(
                 mocks.Object, 
-                new Mock<IDisplayAlert>().Object).RegisterAsync(RegisterDtoV1.Create(email, username, password));
+                new Mock<IDeviceAlert>().Object).RegisterAsync(RegisterDtoV1.Create(email, username, password));
             
 
         Assert.Equal(HttpStatusCode.BadRequest, response.HttpStatusCode);
@@ -74,17 +74,17 @@ public class RegisterTests : IClassFixture<CustomWebApplicationFactory<Startup>>
         var mocks = ApplicationMocks.GetEssentialMock(client, typeof(RegisterTests).Namespace);
 
         var responseSameEmail = 
-            await new Presentations.FunctionalService.EssentialContext.UserOperation(
+            await new Presentations.ServiceLibrary.EssentialContext.UserOperation(
                 mocks.Object, 
-                new Mock<IDisplayAlert>().Object).RegisterAsync(RegisterDtoV1.Create(user.Email, "username", "password"));
+                new Mock<IDeviceAlert>().Object).RegisterAsync(RegisterDtoV1.Create(user.Email, "username", "password"));
             
 
         Assert.Equal(HttpStatusCode.Conflict, responseSameEmail.HttpStatusCode);
             
         var responseSameUsername = 
-            await new Presentations.FunctionalService.EssentialContext.UserOperation(
+            await new Presentations.ServiceLibrary.EssentialContext.UserOperation(
                 mocks.Object, 
-                new Mock<IDisplayAlert>().Object).RegisterAsync(RegisterDtoV1.Create("someemail@email.com", user.Username, "password"));
+                new Mock<IDeviceAlert>().Object).RegisterAsync(RegisterDtoV1.Create("someemail@email.com", user.Username, "password"));
         Assert.Equal(HttpStatusCode.Conflict, responseSameUsername.HttpStatusCode);
     }
 }

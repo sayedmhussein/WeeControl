@@ -29,7 +29,7 @@ EndProject
 
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentations", "Presentations", "{D311A494-F342-4B0A-8A9F-045AD1D91C9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionalService", "src\Presentations\FunctionalService\FunctionalService.csproj", "{AFE5D9F2-EAA0-419F-B812-0AF8793BEFDB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceLibrary", "src\Presentations\ServiceLibrary\ServiceLibrary.csproj", "{AFE5D9F2-EAA0-419F-B812-0AF8793BEFDB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wasm", "src\Presentations\Wasm\Wasm.csproj", "{C1ECA065-9D5C-4833-B71E-6675697FB9A6}"
 EndProject

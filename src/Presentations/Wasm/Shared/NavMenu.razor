@@ -1,9 +1,9 @@
-﻿@using WeeControl.Presentations.FunctionalService.Enums
-@using WeeControl.Presentations.FunctionalService.Interfaces
-@using System.Runtime.CompilerServices
+﻿@using System.Runtime.CompilerServices
 @using System.Security.Claims
+@using WeeControl.Presentations.ServiceLibrary.Enums
+@using WeeControl.Presentations.ServiceLibrary.Interfaces
 @using WeeControl.SharedKernel.Essential.Security
-@inject IUserStorage UserStorage
+@inject IDeviceStorage DeviceStorage
 
 <div class="top-row pl-4 navbar navbar-dark">
     <a class="navbar-brand" href="">
@@ -117,7 +117,7 @@
             NavManager.NavigateTo("login");
         }
         
-        greetingMessage = "Hello " + await UserStorage.GetAsync(UserDataEnum.FullName);
+        greetingMessage = "Hello " + await DeviceStorage.GetAsync(UserDataEnum.FullName);
         foreach (var claim in (await AuthState).User.Claims)
         {
             claims.Add(claim);

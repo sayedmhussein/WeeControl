@@ -1,5 +1,6 @@
-﻿namespace WeeControl.Presentations.FunctionalService.Interfaces;
+﻿namespace WeeControl.Presentations.ServiceLibrary.Interfaces;
 
+[Obsolete("Use IDevice instead.")]
 public interface IUserDevice
 {
     public string DeviceId { get; }

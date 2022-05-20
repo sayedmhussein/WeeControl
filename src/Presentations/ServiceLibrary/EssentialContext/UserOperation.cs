@@ -1,28 +1,28 @@
 ﻿using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using WeeControl.Presentations.FunctionalService.Enums;
-using WeeControl.Presentations.FunctionalService.Interfaces;
-using WeeControl.Presentations.FunctionalService.Models;
+using WeeControl.Presentations.ServiceLibrary.Enums;
+using WeeControl.Presentations.ServiceLibrary.Interfaces;
+using WeeControl.Presentations.ServiceLibrary.Models;
 using WeeControl.SharedKernel.Essential;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.RequestsResponses;
 
-namespace WeeControl.Presentations.FunctionalService.EssentialContext;
+namespace WeeControl.Presentations.ServiceLibrary.EssentialContext;
 
 public class UserOperation : IUserOperation
 {
     private readonly IUserDevice userDevice;
-    private readonly IUserCommunication userCommunication;
-    private readonly IUserStorage userStorage;
-    private readonly IDisplayAlert alert;
+    private readonly IDeviceServerCommunication deviceServerCommunication;
+    private readonly IDeviceStorage deviceStorage;
+    private readonly IDeviceAlert alert;
 
-    public UserOperation(IEssentialUserDevice device, IDisplayAlert alert)
+    public UserOperation(IEssentialDeviceServerDevice device, IDeviceAlert alert)
     {
         this.userDevice = device;
-        this.userCommunication = device;
-        this.userStorage = device;
+        this.deviceServerCommunication = device;
+        this.deviceStorage = device;
         this.alert = alert;
     }
 
@@ -32,13 +32,13 @@ public class UserOperation : IUserOperation
 
         HttpRequestMessage message = new()
         {
-            RequestUri = new Uri(userCommunication.FullAddress(Api.Essential.User.Base)),
+            RequestUri = new Uri(deviceServerCommunication.GetFullAddress(Api.Essential.User.Base)),
             Version = new Version("1.0"),
             Method = HttpMethod.Post,
             Content = RequestDto.BuildHttpContentAsJson(requestDto)
         };
 
-        var response = await userCommunication.HttpClient.SendAsync(message);
+        var response = await deviceServerCommunication.HttpClient.SendAsync(message);
 
         switch (response.StatusCode)
         {
@@ -46,7 +46,7 @@ public class UserOperation : IUserOperation
             case HttpStatusCode.Accepted:
                 var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<TokenDtoV1>>();
                 var token = responseDto?.Payload?.Token;
-                await userStorage.SaveAsync(UserDataEnum.Token, token);
+                await deviceStorage.SaveAsync(UserDataEnum.Token, token);
                 return ResponseToUi.Accepted(response.StatusCode);
             case HttpStatusCode.Conflict:
                 return ResponseToUi.Rejected(response.StatusCode, "Either username or password already exist!");
@@ -61,13 +61,13 @@ public class UserOperation : IUserOperation
 
         HttpRequestMessage message = new()
         {
-            RequestUri = new Uri(userCommunication.FullAddress(Api.Essential.User.Session)),
+            RequestUri = new Uri(deviceServerCommunication.GetFullAddress(Api.Essential.User.Session)),
             Version = new Version("1.0"),
             Method = HttpMethod.Post,
             Content = RequestDto.BuildHttpContentAsJson(requestDto)
         };
 
-        var response = await userCommunication.HttpClient.SendAsync(message);
+        var response = await deviceServerCommunication.HttpClient.SendAsync(message);
 
         switch (response.StatusCode)
         {
@@ -75,9 +75,9 @@ public class UserOperation : IUserOperation
             case HttpStatusCode.Accepted:
                 var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<TokenDtoV1>>();
                 var token = responseDto?.Payload?.Token;
-                await userStorage.SaveAsync(UserDataEnum.Token, token);
-                await userStorage.SaveAsync(UserDataEnum.FullName, responseDto?.Payload?.FullName);
-                await userStorage.SaveAsync(UserDataEnum.PhotoUrl, responseDto?.Payload?.PhotoUrl);
+                await deviceStorage.SaveAsync(UserDataEnum.Token, token);
+                await deviceStorage.SaveAsync(UserDataEnum.FullName, responseDto?.Payload?.FullName);
+                await deviceStorage.SaveAsync(UserDataEnum.PhotoUrl, responseDto?.Payload?.PhotoUrl);
                 return ResponseToUi.Accepted(response.StatusCode);
             case HttpStatusCode.NotFound:
                 await alert.DisplaySimpleAlertAsync("Invalid username or password!");
@@ -96,13 +96,13 @@ public class UserOperation : IUserOperation
 
         HttpRequestMessage message = new()
         {
-            RequestUri = new Uri(userCommunication.FullAddress(Api.Essential.User.Session)),
+            RequestUri = new Uri(deviceServerCommunication.GetFullAddress(Api.Essential.User.Session)),
             Version = new Version("1.0"),
             Method = HttpMethod.Put,
             Content = RequestDto.BuildHttpContentAsJson(requestDto)
         };
 
-        var response = await userCommunication.HttpClient.SendAsync(message);
+        var response = await deviceServerCommunication.HttpClient.SendAsync(message);
 
         switch (response.StatusCode)
         {
@@ -110,13 +110,13 @@ public class UserOperation : IUserOperation
             case HttpStatusCode.Accepted:
                 var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<TokenDtoV1>>();
                 var token = responseDto?.Payload?.Token;
-                await userStorage.SaveAsync(UserDataEnum.Token, token);
-                await userStorage.SaveAsync(UserDataEnum.FullName, responseDto?.Payload?.FullName);
-                await userStorage.SaveAsync(UserDataEnum.PhotoUrl, responseDto?.Payload?.PhotoUrl);
+                await deviceStorage.SaveAsync(UserDataEnum.Token, token);
+                await deviceStorage.SaveAsync(UserDataEnum.FullName, responseDto?.Payload?.FullName);
+                await deviceStorage.SaveAsync(UserDataEnum.PhotoUrl, responseDto?.Payload?.PhotoUrl);
                 return ResponseToUi.Accepted(response.StatusCode);
             case HttpStatusCode.Forbidden:
                 await alert.DisplaySimpleAlertAsync("Please login again!");
-                await userStorage.ClearAsync();
+                await deviceStorage.ClearAsync();
                 return ResponseToUi.Rejected(response.StatusCode, "Please login again.");
             default:
                 return ResponseToUi.Rejected(response.StatusCode, "Unexpected error occured, error code: " + response.StatusCode);
@@ -126,19 +126,19 @@ public class UserOperation : IUserOperation
     public async Task<IResponseDto> LogoutAsync()
     {
         await UpdateAuthorizationAsync();
-        await userStorage.ClearAsync();
+        await deviceStorage.ClearAsync();
             
         var requestDto = new RequestDto(userDevice.DeviceId);
 
         HttpRequestMessage message = new()
         {
-            RequestUri = new Uri(userCommunication.FullAddress(Api.Essential.User.Session)),
+            RequestUri = new Uri(deviceServerCommunication.GetFullAddress(Api.Essential.User.Session)),
             Version = new Version("1.0"),
             Method = HttpMethod.Delete,
             Content = RequestDto.BuildHttpContentAsJson(requestDto)
         };
 
-        var response = await userCommunication.HttpClient.SendAsync(message);
+        var response = await deviceServerCommunication.HttpClient.SendAsync(message);
 
         switch (response.StatusCode)
         {
@@ -158,7 +158,7 @@ public class UserOperation : IUserOperation
 
         HttpRequestMessage message = new()
         {
-            RequestUri = new Uri(userCommunication.FullAddress(Api.Essential.User.Reset)),
+            RequestUri = new Uri(deviceServerCommunication.GetFullAddress(Api.Essential.User.Reset)),
             Version = new Version("1.0"),
             Method = HttpMethod.Patch,
             Content = RequestDto.BuildHttpContentAsJson(requestDto)
@@ -166,7 +166,7 @@ public class UserOperation : IUserOperation
 
         await UpdateAuthorizationAsync();
 
-        var response = await userCommunication.HttpClient.SendAsync(message);
+        var response = await deviceServerCommunication.HttpClient.SendAsync(message);
 
         switch (response.StatusCode)
         {
@@ -191,21 +191,21 @@ public class UserOperation : IUserOperation
 
         HttpRequestMessage message = new()
         {
-            RequestUri = new Uri(userCommunication.FullAddress(Api.Essential.User.Reset)),
+            RequestUri = new Uri(deviceServerCommunication.GetFullAddress(Api.Essential.User.Reset)),
             Version = new Version("1.0"),
             Method = HttpMethod.Post,
             Content = RequestDto.BuildHttpContentAsJson(requestDto)
         };
         
-        var response = await userCommunication.HttpClient.SendAsync(message);
+        var response = await deviceServerCommunication.HttpClient.SendAsync(message);
         await alert.DisplaySimpleAlertAsync("You will receive new password, please check your email.");
         return ResponseToUi.Accepted(response.StatusCode);
     }
 
     private async Task UpdateAuthorizationAsync()
     {
-        userCommunication.HttpClient.DefaultRequestHeaders.Clear();
-        userCommunication.HttpClient.DefaultRequestHeaders.Authorization = 
-            new AuthenticationHeaderValue("Brear", await userStorage.GetAsync(UserDataEnum.Token));
+        deviceServerCommunication.HttpClient.DefaultRequestHeaders.Clear();
+        deviceServerCommunication.HttpClient.DefaultRequestHeaders.Authorization = 
+            new AuthenticationHeaderValue("Brear", await deviceStorage.GetAsync(UserDataEnum.Token));
     }
 }

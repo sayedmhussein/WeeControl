@@ -4,8 +4,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.Application.EssentialContext;
 using WeeControl.Domain.Essential.Entities;
-using WeeControl.Presentations.FunctionalService.Enums;
-using WeeControl.Presentations.FunctionalService.Interfaces;
+using WeeControl.Presentations.ServiceLibrary.Enums;
+using WeeControl.Presentations.ServiceLibrary.Interfaces;
 using WeeControl.SharedKernel.Services;
 using Xunit;
 
@@ -47,9 +47,9 @@ public class LogoutTests : IClassFixture<CustomWebApplicationFactory<Startup>>, 
         mocks.Setup(x => x.GetAsync(UserDataEnum.Token)).ReturnsAsync(token);
 
         var response = 
-            await new Presentations.FunctionalService.EssentialContext.UserOperation(
+            await new Presentations.ServiceLibrary.EssentialContext.UserOperation(
                     mocks.Object, 
-                    new Mock<IDisplayAlert>().Object)
+                    new Mock<IDeviceAlert>().Object)
                 .LogoutAsync();
             
         Assert.Equal(HttpStatusCode.OK, response.HttpStatusCode);
@@ -61,9 +61,9 @@ public class LogoutTests : IClassFixture<CustomWebApplicationFactory<Startup>>, 
         var mocks = ApplicationMocks.GetEssentialMock(client, nameof(WhenSendingValidRequest_HttpResponseIsSuccessCode));
 
         var response = 
-            await new Presentations.FunctionalService.EssentialContext.UserOperation(
+            await new Presentations.ServiceLibrary.EssentialContext.UserOperation(
                     mocks.Object, 
-                    new Mock<IDisplayAlert>().Object)
+                    new Mock<IDeviceAlert>().Object)
                 .LogoutAsync();
             
         Assert.Equal(HttpStatusCode.Unauthorized, response.HttpStatusCode);
@@ -79,15 +79,15 @@ public class LogoutTests : IClassFixture<CustomWebApplicationFactory<Startup>>, 
         mocks.Setup(x => x.GetAsync(UserDataEnum.Token)).ReturnsAsync(token);
             
         var response1 = 
-            await new Presentations.FunctionalService.EssentialContext.UserOperation(
+            await new Presentations.ServiceLibrary.EssentialContext.UserOperation(
                     mocks.Object, 
-                    new Mock<IDisplayAlert>().Object)
+                    new Mock<IDeviceAlert>().Object)
                 .LogoutAsync();
             
         var response2 = 
-            await new Presentations.FunctionalService.EssentialContext.UserOperation(
+            await new Presentations.ServiceLibrary.EssentialContext.UserOperation(
                     mocks.Object, 
-                    new Mock<IDisplayAlert>().Object)
+                    new Mock<IDeviceAlert>().Object)
                 .LogoutAsync();
         Assert.Equal(HttpStatusCode.Forbidden, response2.HttpStatusCode);
     }

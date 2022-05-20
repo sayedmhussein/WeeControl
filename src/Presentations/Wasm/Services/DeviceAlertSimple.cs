@@ -1,14 +1,14 @@
 using System.Threading.Tasks;
 using Microsoft.JSInterop;
-using WeeControl.Presentations.FunctionalService.Interfaces;
+using WeeControl.Presentations.ServiceLibrary.Interfaces;
 
 namespace WeeControl.Presentations.Wasm.Services;
 
-public class DisplaySimpleAlert : IDisplayAlert
+public class DeviceAlertSimple : IDeviceAlert
 {
     private readonly IJSRuntime jsRuntime;
 
-    public DisplaySimpleAlert(IJSRuntime jsRuntime)
+    public DeviceAlertSimple(IJSRuntime jsRuntime)
     {
         this.jsRuntime = jsRuntime;
     }

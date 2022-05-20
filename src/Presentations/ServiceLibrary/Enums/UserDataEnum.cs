@@ -1,4 +1,4 @@
-namespace WeeControl.Presentations.FunctionalService.Enums;
+namespace WeeControl.Presentations.ServiceLibrary.Enums;
 
 public enum UserDataEnum
 {

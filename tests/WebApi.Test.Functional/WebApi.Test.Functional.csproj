@@ -44,7 +44,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Persistence\Persistence.csproj" />
     <ProjectReference Include="..\..\src\WebApi\WebApi.csproj" />
-    <ProjectReference Include="..\..\src\Presentations\FunctionalService\FunctionalService.csproj" />
+    <ProjectReference Include="..\..\src\Presentations\ServiceLibrary\ServiceLibrary.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />

@@ -5,9 +5,8 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.Presentations.FunctionalService.EssentialContext;
-using WeeControl.Presentations.FunctionalService.Interfaces;
-using WeeControl.Presentations.Wasm.Interfaces;
+using WeeControl.Presentations.ServiceLibrary.EssentialContext;
+using WeeControl.Presentations.ServiceLibrary.Interfaces;
 using WeeControl.Presentations.Wasm.Services;
 using WeeControl.SharedKernel.Essential;
 using DependencyInjection = WeeControl.SharedKernel.DependencyInjection;
@@ -19,20 +18,22 @@ public class Program
     public static async Task Main(string[] args)
     {
         var builder = WebAssemblyHostBuilder.CreateDefault(args);
-            
         builder.RootComponents.Add<App>("#app");
         
-        builder.Services.AddScoped<IUserStorage, UserStorageService>();
+        builder.Services.AddScoped<IDeviceAlert, DeviceAlertSimple>();
+        builder.Services.AddScoped<IDeviceLocation, DeviceLocationService>();
+        builder.Services.AddScoped<IDevicePageNavigation, DevicePageNavicationService>();
+        
+        builder.Services.AddScoped<IDeviceStorage, DeviceStorageService>();
 
         DependencyInjection.AddUserSecurityServiceForApplication(builder.Services);
            
-        builder.Services.AddScoped<IEssentialUserDevice, EssentialUserDeviceService>();
-        builder.Services.AddScoped<IDisplayAlert, DisplaySimpleAlert>();
+        builder.Services.AddScoped<IEssentialDeviceServerDevice, EssentialDeviceServerDeviceService>();
+        
         
         builder.Services.AddScoped<IUserOperation, UserOperation>();
 
         builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
-        builder.Services.AddScoped<ISecurityService, AuthStateProvider>(); ///////////////////////////////////////////
         builder.Services.AddOptions();
 
         builder.Services.AddAuthorizationCore();

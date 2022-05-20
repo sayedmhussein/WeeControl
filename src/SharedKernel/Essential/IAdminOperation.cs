@@ -5,7 +5,7 @@ namespace WeeControl.SharedKernel.Essential;
 
 public interface IAdminOperation
 {
-    Task<IResponseDto> GetListOfTerritories();
+    Task<IResponseDto<IEnumerable<TerritoryDto>>> GetListOfTerritories();
     Task<IResponseDto> AddTerritory(TerritoryDto territory);
     Task<IResponseDto> EditTerritory(TerritoryDto territory);
     

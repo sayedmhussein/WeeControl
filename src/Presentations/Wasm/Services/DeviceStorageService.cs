@@ -2,16 +2,16 @@ using System;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.JSInterop;
-using WeeControl.Presentations.FunctionalService.Enums;
-using WeeControl.Presentations.FunctionalService.Interfaces;
+using WeeControl.Presentations.ServiceLibrary.Enums;
+using WeeControl.Presentations.ServiceLibrary.Interfaces;
 
 namespace WeeControl.Presentations.Wasm.Services;
 
-public class UserStorageService : IUserStorage
+public class DeviceStorageService : IDeviceStorage
 {
     private readonly IJSRuntime jsRuntime;
 
-    public UserStorageService(IJSRuntime jsRuntime)
+    public DeviceStorageService(IJSRuntime jsRuntime)
     {
         this.jsRuntime = jsRuntime;
     }

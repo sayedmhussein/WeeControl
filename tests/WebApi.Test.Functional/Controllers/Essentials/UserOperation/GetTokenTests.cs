@@ -6,8 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.Application.EssentialContext;
 using WeeControl.Domain.Essential.Entities;
-using WeeControl.Presentations.FunctionalService.Enums;
-using WeeControl.Presentations.FunctionalService.Interfaces;
+using WeeControl.Presentations.ServiceLibrary.Enums;
+using WeeControl.Presentations.ServiceLibrary.Interfaces;
 using WeeControl.SharedKernel.Services;
 using Xunit;
 
@@ -28,9 +28,9 @@ public class GetTokenTests : IClassFixture<CustomWebApplicationFactory<Startup>>
             .Callback((UserDataEnum en, string tkn) => token2 = tkn);
 
         var response = 
-            await new Presentations.FunctionalService.EssentialContext.UserOperation(
+            await new Presentations.ServiceLibrary.EssentialContext.UserOperation(
                     mocks.Object, 
-                    new Mock<IDisplayAlert>().Object)
+                    new Mock<IDeviceAlert>().Object)
                 .GetTokenAsync();
             
         Assert.Equal(HttpStatusCode.OK, response.HttpStatusCode);
@@ -75,9 +75,9 @@ public class GetTokenTests : IClassFixture<CustomWebApplicationFactory<Startup>>
         mocks.Setup(x => x.GetAsync(UserDataEnum.Token)).ReturnsAsync(token);
 
         var response = 
-            await new Presentations.FunctionalService.EssentialContext.UserOperation(
+            await new Presentations.ServiceLibrary.EssentialContext.UserOperation(
                     mocks.Object, 
-                    new Mock<IDisplayAlert>().Object)
+                    new Mock<IDeviceAlert>().Object)
                 .GetTokenAsync();
             
         Assert.Equal(HttpStatusCode.OK, response.HttpStatusCode);
@@ -99,9 +99,9 @@ public class GetTokenTests : IClassFixture<CustomWebApplicationFactory<Startup>>
         var mocks = ApplicationMocks.GetEssentialMock(client, typeof(GetTokenTests).Namespace);
 
         var response = 
-            await new Presentations.FunctionalService.EssentialContext.UserOperation(
+            await new Presentations.ServiceLibrary.EssentialContext.UserOperation(
                     mocks.Object, 
-                    new Mock<IDisplayAlert>().Object)
+                    new Mock<IDeviceAlert>().Object)
                 .GetTokenAsync();
 
         Assert.Equal(HttpStatusCode.Unauthorized, response.HttpStatusCode);
@@ -118,9 +118,9 @@ public class GetTokenTests : IClassFixture<CustomWebApplicationFactory<Startup>>
         mocks.Setup(x => x.GetAsync(UserDataEnum.Token)).ReturnsAsync(token);
 
         var response = 
-            await new Presentations.FunctionalService.EssentialContext.UserOperation(
+            await new Presentations.ServiceLibrary.EssentialContext.UserOperation(
                     mocks.Object, 
-                    new Mock<IDisplayAlert>().Object)
+                    new Mock<IDeviceAlert>().Object)
                 .GetTokenAsync();
 
         Assert.Equal(HttpStatusCode.Forbidden, response.HttpStatusCode);

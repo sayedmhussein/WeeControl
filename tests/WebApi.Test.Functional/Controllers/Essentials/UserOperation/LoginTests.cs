@@ -7,8 +7,8 @@ using Moq;
 using Moq.Protected;
 using WeeControl.Application.EssentialContext;
 using WeeControl.Domain.Essential.Entities;
-using WeeControl.Presentations.FunctionalService.Enums;
-using WeeControl.Presentations.FunctionalService.Interfaces;
+using WeeControl.Presentations.ServiceLibrary.Enums;
+using WeeControl.Presentations.ServiceLibrary.Interfaces;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.Services;
@@ -28,9 +28,9 @@ public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>
             .Callback((UserDataEnum en, string tkn) => token = tkn);
             
         var response = 
-            await new Presentations.FunctionalService.EssentialContext.UserOperation(
+            await new Presentations.ServiceLibrary.EssentialContext.UserOperation(
                     mocks.Object, 
-                    new Mock<IDisplayAlert>().Object)
+                    new Mock<IDeviceAlert>().Object)
                 .LoginAsync(new LoginDtoV1(username, password));
             
         Assert.Equal(HttpStatusCode.OK, response.HttpStatusCode);
@@ -43,9 +43,9 @@ public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         var mocks = ApplicationMocks.GetEssentialMock(client, device);
 
-        var response = new Presentations.FunctionalService.EssentialContext.UserOperation(
+        var response = new Presentations.ServiceLibrary.EssentialContext.UserOperation(
                 mocks.Object, 
-                new Mock<IDisplayAlert>().Object)
+                new Mock<IDeviceAlert>().Object)
             .LoginAsync(new LoginDtoV1(username, password));
 
         return response;
@@ -101,9 +101,9 @@ public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>
         var mocks = ApplicationMocks.GetEssentialMock(client, typeof(LoginTests).Namespace);
 
         var response = 
-            await new Presentations.FunctionalService.EssentialContext.UserOperation(
+            await new Presentations.ServiceLibrary.EssentialContext.UserOperation(
                     mocks.Object, 
-                    new Mock<IDisplayAlert>().Object)
+                    new Mock<IDeviceAlert>().Object)
                 .LoginAsync(new LoginDtoV1(user.Username, user.Password));
             
         Assert.Equal(HttpStatusCode.OK, response.HttpStatusCode);

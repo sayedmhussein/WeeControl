@@ -3,22 +3,22 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Sockets;
 using Moq;
-using WeeControl.Presentations.FunctionalService.Interfaces;
+using WeeControl.Presentations.ServiceLibrary.Interfaces;
 
 namespace WeeControl.WebApi.Test.Functional;
 
 public static class ApplicationMocks
 {
-    public static Mock<IEssentialUserDevice> GetEssentialMock(HttpClient httpClient, string device)
+    public static Mock<IEssentialDeviceServerDevice> GetEssentialMock(HttpClient httpClient, string device)
     {
-        var mock = new Mock<IEssentialUserDevice>();
+        var mock = new Mock<IEssentialDeviceServerDevice>();
         mock.SetupAllProperties();
         mock.Setup(x => x.DeviceId).Returns(device);
         mock.Setup(x => x.TimeStamp).Returns(DateTime.UtcNow);
         
         mock.Setup(x => x.ServerBaseAddress).Returns(GetLocalIpAddress());
         mock.Setup(x => x.HttpClient).Returns(httpClient);
-        mock.Setup(x => x.FullAddress(It.IsAny<string>())).Returns((string a) => GetLocalIpAddress() + a);
+        mock.Setup(x => x.GetFullAddress(It.IsAny<string>())).Returns((string a) => GetLocalIpAddress() + a);
 
         return mock;
     }

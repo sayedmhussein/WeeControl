@@ -5,23 +5,22 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using WeeControl.Presentations.FunctionalService.Enums;
-using WeeControl.Presentations.FunctionalService.Interfaces;
-using WeeControl.Presentations.Wasm.Interfaces;
+using WeeControl.Presentations.ServiceLibrary.Enums;
+using WeeControl.Presentations.ServiceLibrary.Interfaces;
 using WeeControl.SharedKernel.Essential;
 using WeeControl.SharedKernel.Interfaces;
 
 namespace WeeControl.Presentations.Wasm.Services;
 
-public class AuthStateProvider : AuthenticationStateProvider, ISecurityService
+public class AuthStateProvider : AuthenticationStateProvider
 {
-    private readonly IUserStorage localStorage;
+    private readonly IDeviceStorage localStorage;
     private readonly IJwtService jwtService;
     private readonly IConfiguration configuration;
     private readonly IUserOperation service;
     private readonly AuthenticationState anonymous;
 
-    public AuthStateProvider(IUserStorage localStorage, IJwtService jwtService, IConfiguration configuration, IUserOperation service)
+    public AuthStateProvider(IDeviceStorage localStorage, IJwtService jwtService, IConfiguration configuration, IUserOperation service)
     {
         this.localStorage = localStorage;
         this.jwtService = jwtService;

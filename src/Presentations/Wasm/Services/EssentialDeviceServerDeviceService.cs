@@ -1,13 +1,13 @@
 using System;
 using System.Net.Http;
 using Microsoft.JSInterop;
-using WeeControl.Presentations.FunctionalService.Interfaces;
+using WeeControl.Presentations.ServiceLibrary.Interfaces;
 
 namespace WeeControl.Presentations.Wasm.Services;
 
-public class EssentialUserDeviceService : UserStorageService, IEssentialUserDevice
+public class EssentialDeviceServerDeviceService : DeviceStorageService, IEssentialDeviceServerDevice
 {
-    public EssentialUserDeviceService(IJSRuntime jsRuntime, IHttpClientFactory factory) : base(jsRuntime)
+    public EssentialDeviceServerDeviceService(IJSRuntime jsRuntime, IHttpClientFactory factory) : base(jsRuntime)
     {
         HttpClient = factory.CreateClient();
     }
@@ -19,7 +19,7 @@ public class EssentialUserDeviceService : UserStorageService, IEssentialUserDevi
     }
 
     public HttpClient HttpClient { get; }
-    public string FullAddress(string relative)
+    public string GetFullAddress(string relative)
     {
         return ServerBaseAddress + relative;
     }

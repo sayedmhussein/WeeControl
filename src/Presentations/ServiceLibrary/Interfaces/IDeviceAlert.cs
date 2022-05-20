@@ -1,6 +1,6 @@
-namespace WeeControl.Presentations.FunctionalService.Interfaces;
+namespace WeeControl.Presentations.ServiceLibrary.Interfaces;
 
-public interface IDisplayAlert
+public interface IDeviceAlert
 {
     Task DisplaySimpleAlertAsync(string message);
     Task<bool> DisplayBooleanAlertAsync(string message);

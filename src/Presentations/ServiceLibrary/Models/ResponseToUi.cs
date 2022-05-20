@@ -1,8 +1,9 @@
 using System.Net;
 using WeeControl.SharedKernel.Interfaces;
 
-namespace WeeControl.Presentations.FunctionalService.Models;
+namespace WeeControl.Presentations.ServiceLibrary.Models;
 
+[Obsolete("To use different methods.")]
 public class ResponseToUi : IResponseDto
 {
     public bool IsSuccess { get; private set; }
