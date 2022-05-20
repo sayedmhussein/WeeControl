@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using WeeControl.Application.EssentialContext.Commands;
+using WeeControl.Application.EssentialContext.Queries;
 using WeeControl.Application.Interfaces;
 using WeeControl.SharedKernel.Essential.Security;
 
@@ -14,15 +15,15 @@ namespace WeeControl.WebApi.Services;
 
 public class UserInfoService : ICurrentUserInfo
 {
-    private readonly IMediator mediatR;
+    private readonly IMediator mediator;
     private Guid? sessionid = null;
     private readonly ICollection<string> territories = new List<string>();
         
-    public UserInfoService(IHttpContextAccessor httpContextAccessor, IMediator mediatR)
+    public UserInfoService(IHttpContextAccessor httpContextAccessor, IMediator mediator)
     {
         Claims = httpContextAccessor?.HttpContext?.User.Claims;
 
-        this.mediatR = mediatR;
+        this.mediator = mediator;
     }
 
     public IEnumerable<Claim> Claims { get; private set; }
@@ -45,24 +46,24 @@ public class UserInfoService : ICurrentUserInfo
         return Claims;
     }
 
-    public async Task<IEnumerable<string>> GetTerritoriesListAsync()
+    public async Task<IEnumerable<string>> GetTerritoriesListAsync(CancellationToken cancellationToken)
     {
         if (territories.Count != 0) return territories;
             
         var territoryCode = Claims.FirstOrDefault(c => c.Type == ClaimsTagsList.Claims.Territory)?.Value;
         territories.Add(territoryCode);
-        //var cla = await mediatR.Send(new GetTerritoriesQuery(territoryCode));
+        var cla = await mediator.Send(new GetListOfTerritoriesQuery(territoryCode), cancellationToken);
 
-        // foreach (var bra in cla.Payload)
-        // {
-        //     territories.Add(bra.Id.ToString());
-        // }
+         foreach (var bra in cla.Payload)
+         {
+             territories.Add(bra.TerritoryCode);
+         }
 
         return territories;
     }
 
     public Task LogUserActivityAsync(string context, string details, CancellationToken cancellationToken)
     {
-        return mediatR.Send(new LogActivityCommand(context, details, GetSessionId()), cancellationToken);
+        return mediator.Send(new LogActivityCommand(context, details, GetSessionId()), cancellationToken);
     }
 }

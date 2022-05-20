@@ -5,7 +5,10 @@ using System.Threading;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Moq;
+using WeeControl.Application.EssentialContext.Queries;
+using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.Essential.Security;
+using WeeControl.SharedKernel.RequestsResponses;
 using WeeControl.WebApi.Services;
 using Xunit;
 
@@ -74,13 +77,16 @@ public class UserInfoServiceTests : IDisposable
     public async void WhenTerritoryClaimInContextExist_()
     {
         var mediatrMock = new Mock<IMediator>();
-        mediatrMock.Setup(x => 
-                x.Send(It.IsAny<object>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new List<string>() { "string1", "string2" });
+        mediatrMock.Setup(x => x
+                .Send(new GetListOfTerritoriesQuery(It.IsAny<string>()), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new ResponseDto<IEnumerable<TerritoryDto>>(new List<TerritoryDto>()
+            {
+                new() { TerritoryCode = "cod1"}
+            }));
 
         var service = new UserInfoService(httpContextMock.Object, mediatrMock.Object);
 
-        var territoties = await service.GetTerritoriesListAsync();
+        var territoties = await service.GetTerritoriesListAsync(default);
 
         Assert.NotEmpty(territoties);
     }

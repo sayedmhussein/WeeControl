@@ -15,7 +15,7 @@ public interface ICurrentUserInfo
     
     IEnumerable<Claim> GetClaimList();
         
-    Task<IEnumerable<string>> GetTerritoriesListAsync();
+    Task<IEnumerable<string>> GetTerritoriesListAsync(CancellationToken cancellationToken);
 
     Task LogUserActivityAsync(string context, string details, CancellationToken cancellationToken);
 }

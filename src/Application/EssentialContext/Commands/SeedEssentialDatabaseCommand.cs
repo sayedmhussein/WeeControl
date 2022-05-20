@@ -26,11 +26,9 @@ public class SeedEssentialDatabaseCommand : IRequest
     
         public async Task<Unit> Handle(SeedEssentialDatabaseCommand request, CancellationToken cancellationToken)
         {
-            //await context.ResetDatabaseAsync(cancellationToken);
-            
             if (await context.Territories.AnyAsync(cancellationToken) == false)
             {
-                foreach (var t in GetTerritores())
+                foreach (var t in GetTerritories())
                 {
                     await context.Territories.AddAsync(t, cancellationToken);
                     await context.SaveChangesAsync(cancellationToken);
@@ -56,7 +54,7 @@ public class SeedEssentialDatabaseCommand : IRequest
             return Unit.Value;
         }
 
-        private IEnumerable<TerritoryDbo> GetTerritores()
+        private IEnumerable<TerritoryDbo> GetTerritories()
         {
             return new List<TerritoryDbo>()
             {

@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -12,6 +14,22 @@ namespace WeeControl.Application.EssentialContext.Queries;
 
 public class GetListOfTerritoriesQuery : IRequest<IResponseDto<IEnumerable<TerritoryDto>>>
 {
+    private IEnumerable<string> TerritoryCode { get; }
+
+    public GetListOfTerritoriesQuery()
+    {
+        TerritoryCode = null;
+    }
+    
+    public GetListOfTerritoriesQuery(string territoryCode)
+    {
+        TerritoryCode = new List<string>() { territoryCode };
+    }
+    
+    public GetListOfTerritoriesQuery(IEnumerable<string> territoryCodes)
+    {
+        TerritoryCode = territoryCodes;
+    }
     
     public class GetListOfTerritoriesHandler : IRequestHandler<GetListOfTerritoriesQuery, IResponseDto<IEnumerable<TerritoryDto>>>
     {
@@ -26,17 +44,42 @@ public class GetListOfTerritoriesQuery : IRequest<IResponseDto<IEnumerable<Terri
         
         public async Task<IResponseDto<IEnumerable<TerritoryDto>>> Handle(GetListOfTerritoriesQuery request, CancellationToken cancellationToken)
         {
-            await userInfo.LogUserActivityAsync("", "Get Terriroes", cancellationToken);
+            await userInfo.LogUserActivityAsync("Essential", "Getting List of Territories", cancellationToken);
 
             var list = new List<TerritoryDto>();
-            await context.Territories.ForEachAsync(x =>
+
+            if (request.TerritoryCode is null)
             {
-                list.Add(new TerritoryDto()
+                await context.Territories.ForEachAsync(x =>
                 {
-                    TerritoryCode = x.TerritoryId, ReportToId = x.ReportToId,
-                    TerritoryName = x.TerritoryName, CountryCode = x.CountryCode
-                });
-            }, cancellationToken);
+                    list.Add(new TerritoryDto()
+                    {
+                        TerritoryCode = x.TerritoryId, ReportToId = x.ReportToId,
+                        TerritoryName = x.TerritoryName, CountryCode = x.CountryCode
+                    });
+                }, cancellationToken);
+            }
+            else
+            {
+                var ids = new List<string>();
+                ids.AddRange(request.TerritoryCode);
+
+                await context.Territories.Where(x => ids.Contains(x.ReportToId)).ForEachAsync(x =>
+                {
+                    ids.Add(x.TerritoryId);
+                }, cancellationToken);
+                
+                var q = context.Territories.Include(a => a.Reporting).Where(x => ids.Contains(x.TerritoryId));
+                
+                await q.ForEachAsync(x =>
+                {
+                    list.Add(new TerritoryDto()
+                    {
+                        TerritoryCode = x.TerritoryId, ReportToId = x.ReportToId,
+                        TerritoryName = x.TerritoryName, CountryCode = x.CountryCode
+                    });
+                }, cancellationToken);
+            }
 
             return new ResponseDto<IEnumerable<TerritoryDto>>(list);
         }
