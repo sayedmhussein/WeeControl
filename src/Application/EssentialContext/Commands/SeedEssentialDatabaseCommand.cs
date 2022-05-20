@@ -26,7 +26,7 @@ public class SeedEssentialDatabaseCommand : IRequest
     
         public async Task<Unit> Handle(SeedEssentialDatabaseCommand request, CancellationToken cancellationToken)
         {
-            await context.ResetDatabaseAsync(cancellationToken);
+            //await context.ResetDatabaseAsync(cancellationToken);
             
             if (await context.Territories.AnyAsync(cancellationToken) == false)
             {

@@ -18,6 +18,7 @@ public static class ApplicationMocks
         
         mock.Setup(x => x.ServerBaseAddress).Returns(GetLocalIpAddress());
         mock.Setup(x => x.HttpClient).Returns(httpClient);
+        mock.Setup(x => x.FullAddress(It.IsAny<string>())).Returns((string a) => GetLocalIpAddress() + a);
 
         return mock;
     }

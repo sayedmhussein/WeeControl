@@ -24,22 +24,22 @@ namespace WeeControl.Persistence.Essential
 
         public EssentialDbContext(DbContextOptions<EssentialDbContext> options) : base(options)
         {
-            Database.EnsureCreated();
-            if (Territories.Any() == false)
-            {
-                var territory = TerritoryDbo.Create("def", null, "def", "Default");
-                Territories.Add(territory);
-                SaveChanges();
-                
-                var admin = UserDbo.Create("admin@admin.com", "admin", new PasswordSecurity().Hash("admin"), territory.TerritoryId);
-                Users.Add(admin);
-                SaveChanges();
-                
-                Claims.Add(ClaimDbo.Create(admin.UserId, 
-                    ClaimsTagsList.Claims.Developer, ClaimsTagsList.Tags.SuperUser,
-                    admin.UserId));
-                SaveChanges();
-            }
+            // Database.EnsureCreated();
+            // if (Territories.Any() == false)
+            // {
+            //     var territory = TerritoryDbo.Create("def", null, "def", "Default");
+            //     Territories.Add(territory);
+            //     SaveChanges();
+            //     
+            //     var admin = UserDbo.Create("admin@admin.com", "admin", new PasswordSecurity().Hash("admin"), territory.TerritoryId);
+            //     Users.Add(admin);
+            //     SaveChanges();
+            //     
+            //     Claims.Add(ClaimDbo.Create(admin.UserId, 
+            //         ClaimsTagsList.Claims.Developer, ClaimsTagsList.Tags.SuperUser,
+            //         admin.UserId));
+            //     SaveChanges();
+            // }
         }
 
         public async Task ResetDatabaseAsync(CancellationToken cancellationToken)
@@ -51,7 +51,7 @@ namespace WeeControl.Persistence.Essential
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
+            
             modelBuilder.ApplyConfiguration(new UserEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new SessionEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new SessionLogEntityTypeConfiguration());
