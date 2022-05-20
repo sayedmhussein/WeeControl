@@ -11,6 +11,6 @@ internal static class EssentialContextPolicyOptions
         options.AddPolicy(DeveloperWithDatabaseOperationPolicy.Name, new DeveloperWithDatabaseOperationPolicy().GetPolicy());
         
         options.AddPolicy(CanEditTerritoriesPolicy.Name, new CanEditUserPolicy().GetPolicy());
-        options.AddPolicy(TerritoryDto.HttpPutMethod.CanEditTerritoryPolicy, new CanEditTerritoriesPolicy().GetPolicy());
+        options.AddPolicy(CanEditTerritoriesPolicy.Name, new CanEditTerritoriesPolicy().GetPolicy());
     }
 }
