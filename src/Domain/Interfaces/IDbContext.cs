@@ -8,11 +8,4 @@ public interface IDbContext
     int SaveChanges();
         
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
-
-    /// <summary>
-    /// DANGER danger !!! ONLY FOR DEVELOPMET
-    /// </summary>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    Task ResetDatabaseAsync(CancellationToken cancellationToken);
 }

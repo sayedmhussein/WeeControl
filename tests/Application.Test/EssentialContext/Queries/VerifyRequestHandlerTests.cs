@@ -12,7 +12,7 @@ public class VerifyRequestHandlerTests
     public async void WhenRequestIsValid_NoErrorBeThrown()
     {
         var query = new VerifyRequestQuery(new RequestDto("DeviceName"));
-        var handler = new VerifyRequestHandler();
+        var handler = new VerifyRequestQuery.VerifyRequestHandler();
 
         var response = await handler.Handle(query, CancellationToken.None);
 
@@ -23,7 +23,7 @@ public class VerifyRequestHandlerTests
     public async void WhenRequestDeviceIsEmptyOrNull_ThrownException()
     {
         var query = new VerifyRequestQuery(new RequestDto(string.Empty));
-        var handler = new VerifyRequestHandler();
+        var handler = new VerifyRequestQuery.VerifyRequestHandler();
 
         await Assert.ThrowsAsync<BadRequestException>(() => handler.Handle(query, CancellationToken.None)); ;
     }

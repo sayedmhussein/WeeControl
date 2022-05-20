@@ -5,10 +5,10 @@ namespace WeeControl.SharedKernel.Essential;
 
 public interface IUserOperation
 {
-    Task<IResponseDto> RegisterAsync(RegisterDto loginDto);
+    Task<IResponseDto> RegisterAsync(RegisterDtoV1 loginDtoV1);
     Task<IResponseDto> LoginAsync(LoginDtoV1 loginDtoV1);
     Task<IResponseDto> GetTokenAsync();
     Task<IResponseDto> LogoutAsync();
-    Task<IResponseDto> UpdatePasswordAsync(PasswordSetForgottenDto loginSetForgottenDto);
-    Task<IResponseDto> ForgotPasswordAsync(PasswordResetRequestDto passwordResetRequestDto);
+    Task<IResponseDto> UpdatePasswordAsync(MeForgotPasswordDtoV1 loginDtoV1);
+    Task<IResponseDto> ForgotPasswordAsync(PutNewPasswordDtoV1 putNewPasswordDtoV1);
 }

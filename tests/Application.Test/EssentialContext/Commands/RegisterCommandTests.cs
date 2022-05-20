@@ -41,12 +41,12 @@ public class RegisterCommandTests : IDisposable
     public async void WhenRegisterNewUser_ReturnSuccessAndToken()
     {
         mediatorMock.Setup(x => x.Send(It.IsAny<GetNewTokenQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ResponseDto<TokenDtoV1>(new TokenDtoV1() { Token = "Token"}));
-        var command = new RegisterCommand(new RequestDto("device"), RegisterDto.Create("email@emial.com", "username", "password"));
+        var command = new RegisterCommand(new RequestDto("device"), RegisterDtoV1.Create("email@emial.com", "username", "password"));
             
         var tokenDto = await new RegisterHandler(context, mediatorMock.Object, passwordSecurity).Handle(command, default);
 
         mediatorMock.Verify(mock => mock.Send(It.IsAny<VerifyRequestQuery>(), It.IsAny<CancellationToken>()), Times.Once);
-        Assert.NotEmpty(tokenDto.Token);
+        Assert.NotEmpty(tokenDto.Payload.Token);
     }
     
     [Fact]
@@ -55,7 +55,7 @@ public class RegisterCommandTests : IDisposable
         string email = "Email@someprovider.com";
         string username = "ThisIsUsername";
         mediatorMock.Setup(x => x.Send(It.IsAny<GetNewTokenQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ResponseDto<TokenDtoV1>(new TokenDtoV1() { Token = "Token"}));
-        var command = new RegisterCommand(new RequestDto("device"), RegisterDto.Create(email.ToUpper(), username.ToUpper(), "password"));
+        var command = new RegisterCommand(new RequestDto("device"), RegisterDtoV1.Create(email.ToUpper(), username.ToUpper(), "password"));
             
         await new RegisterHandler(context, mediatorMock.Object, passwordSecurity).Handle(command, default);
 
@@ -71,7 +71,7 @@ public class RegisterCommandTests : IDisposable
     {
         string postedPassword = "ThisIsPostedPassword";
         mediatorMock.Setup(x => x.Send(It.IsAny<GetNewTokenQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ResponseDto<TokenDtoV1>(new TokenDtoV1() { Token = "Token"}));
-        var command = new RegisterCommand(new RequestDto("device"), RegisterDto.Create("email@emial.com", "username", "password"));
+        var command = new RegisterCommand(new RequestDto("device"), RegisterDtoV1.Create("email@emial.com", "username", "password"));
             
         await new RegisterHandler(context, mediatorMock.Object, passwordSecurity).Handle(command, default);
 
@@ -84,12 +84,12 @@ public class RegisterCommandTests : IDisposable
     public async void WhenRegisterNewUser_VerifyingCorrectDeviceIsExecuted()
     {
         mediatorMock.Setup(x => x.Send(It.IsAny<GetNewTokenQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ResponseDto<TokenDtoV1>(new TokenDtoV1() { Token = "Token"}));
-        var command = new RegisterCommand(new RequestDto("device"), RegisterDto.Create("email@emial.com", "username", "password"));
+        var command = new RegisterCommand(new RequestDto("device"), RegisterDtoV1.Create("email@emial.com", "username", "password"));
             
         var tokenDto = await new RegisterHandler(context, mediatorMock.Object, passwordSecurity).Handle(command, default);
 
         mediatorMock.Verify(mock => mock.Send(It.IsAny<VerifyRequestQuery>(), It.IsAny<CancellationToken>()), Times.Once);
-        Assert.NotEmpty(tokenDto.Token);
+        Assert.NotEmpty(tokenDto.Payload.Token);
     }
 
     [Fact]
@@ -98,7 +98,7 @@ public class RegisterCommandTests : IDisposable
         await context.Users.AddAsync(UserDbo.Create("email@email.com", "username", "password"));
         await context.SaveChangesAsync(default);
         var user = await context.Users.FirstOrDefaultAsync();
-        var command = new RegisterCommand(new RequestDto("device"), RegisterDto.Create(user.Email, user.Username, user.Password));
+        var command = new RegisterCommand(new RequestDto("device"), RegisterDtoV1.Create(user.Email, user.Username, user.Password));
 
         await Assert.ThrowsAsync<ConflictFailureException>(() => new RegisterHandler(context, mediatorMock.Object, passwordSecurity).Handle(command, default));
     }
@@ -109,7 +109,7 @@ public class RegisterCommandTests : IDisposable
     [InlineData("username", "email", "")]
     public async void WhenInvalidInputs_ThrowException(string username, string email, string password)
     {
-        var command = new RegisterCommand(new RequestDto("device"), RegisterDto.Create(email, username, password));
+        var command = new RegisterCommand(new RequestDto("device"), RegisterDtoV1.Create(email, username, password));
 
         await Assert.ThrowsAnyAsync<ValidationException>(() => new RegisterHandler(context, mediatorMock.Object, passwordSecurity).Handle(command, default));
     }

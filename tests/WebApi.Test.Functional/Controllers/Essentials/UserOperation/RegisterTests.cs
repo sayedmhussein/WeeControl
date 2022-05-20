@@ -27,7 +27,7 @@ public class RegisterTests : IClassFixture<CustomWebApplicationFactory<Startup>>
         var response = 
             await new Presentations.FunctionalService.EssentialContext.UserOperation(
                 mocks.Object, 
-                new Mock<IDisplayAlert>().Object).RegisterAsync(RegisterDto.Create("email@email.com", "username", "password"));
+                new Mock<IDisplayAlert>().Object).RegisterAsync(RegisterDtoV1.Create("email@email.com", "username", "password"));
             
 
         Assert.Equal(HttpStatusCode.OK, response.HttpStatusCode);
@@ -50,7 +50,7 @@ public class RegisterTests : IClassFixture<CustomWebApplicationFactory<Startup>>
         var response = 
             await new Presentations.FunctionalService.EssentialContext.UserOperation(
                 mocks.Object, 
-                new Mock<IDisplayAlert>().Object).RegisterAsync(RegisterDto.Create(email, username, password));
+                new Mock<IDisplayAlert>().Object).RegisterAsync(RegisterDtoV1.Create(email, username, password));
             
 
         Assert.Equal(HttpStatusCode.BadRequest, response.HttpStatusCode);
@@ -76,7 +76,7 @@ public class RegisterTests : IClassFixture<CustomWebApplicationFactory<Startup>>
         var responseSameEmail = 
             await new Presentations.FunctionalService.EssentialContext.UserOperation(
                 mocks.Object, 
-                new Mock<IDisplayAlert>().Object).RegisterAsync(RegisterDto.Create(user.Email, "username", "password"));
+                new Mock<IDisplayAlert>().Object).RegisterAsync(RegisterDtoV1.Create(user.Email, "username", "password"));
             
 
         Assert.Equal(HttpStatusCode.Conflict, responseSameEmail.HttpStatusCode);
@@ -84,7 +84,7 @@ public class RegisterTests : IClassFixture<CustomWebApplicationFactory<Startup>>
         var responseSameUsername = 
             await new Presentations.FunctionalService.EssentialContext.UserOperation(
                 mocks.Object, 
-                new Mock<IDisplayAlert>().Object).RegisterAsync(RegisterDto.Create("someemail@email.com", user.Username, "password"));
+                new Mock<IDisplayAlert>().Object).RegisterAsync(RegisterDtoV1.Create("someemail@email.com", user.Username, "password"));
         Assert.Equal(HttpStatusCode.Conflict, responseSameUsername.HttpStatusCode);
     }
 }

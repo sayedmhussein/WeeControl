@@ -30,12 +30,12 @@ public class UserController : Controller
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.Conflict)]
-    public async Task<ActionResult<ResponseDto<TokenDtoV1>>> RegisterV1([FromBody] RequestDto<RegisterDto> dto)
+    public async Task<ActionResult<ResponseDto<TokenDtoV1>>> RegisterV1([FromBody] RequestDto<RegisterDtoV1> dto)
     {
         var command = new RegisterCommand(dto, dto.Payload);
         var response = await mediator.Send(command);
 
-        return Ok(new ResponseDto<TokenDtoV1>(response));
+        return Ok(response);
     }
 
     [AllowAnonymous]
@@ -86,13 +86,13 @@ public class UserController : Controller
     }
 
     [Authorize]
-    [HttpPatch(PasswordSetForgottenDto.HttpPatchMethod.EndPoint)]
-    [MapToApiVersion(PasswordSetForgottenDto.HttpPatchMethod.Version)]
+    [HttpPatch(Api.Essential.User.Reset)]
+    [MapToApiVersion("1.0")]
     [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.Forbidden)]
-    public async Task<ActionResult<ResponseDto>> UpdatePasswordV1([FromBody] RequestDto<PasswordSetForgottenDto> dto)
+    public async Task<ActionResult<ResponseDto>> UpdatePasswordV1([FromBody] RequestDto<MeForgotPasswordDtoV1> dto)
     {
         var command = new UpdatePasswordCommand(dto, dto.Payload.OldPassword, dto.Payload.NewPassword);
         var response = await mediator.Send(command);
@@ -101,10 +101,10 @@ public class UserController : Controller
     }
     
     [AllowAnonymous]
-    [HttpPost(PasswordResetRequestDto.HttpPostMethod.EndPoint)]
-    [MapToApiVersion(PasswordResetRequestDto.HttpPostMethod.Version)]
+    [HttpPost(Api.Essential.User.Reset)]
+    [MapToApiVersion("1.0")]
     [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.OK)]
-    public async Task<ActionResult<ResponseDto>> ResetPasswordV1([FromBody] RequestDto<PasswordResetRequestDto> dto)
+    public async Task<ActionResult<ResponseDto>> ResetPasswordV1([FromBody] RequestDto<PutNewPasswordDtoV1> dto)
     {
         var command = new ResetPasswordCommand(dto, dto.Payload.Email, dto.Payload.Username);
         await mediator.Send(command);

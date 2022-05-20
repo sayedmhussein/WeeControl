@@ -7,10 +7,11 @@ using WeeControl.Application.Exceptions;
 using WeeControl.Domain.Essential.Entities;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.Interfaces;
+using WeeControl.SharedKernel.RequestsResponses;
 
 namespace WeeControl.Application.EssentialContext.Commands;
 
-public class RegisterHandler : IRequestHandler<RegisterCommand, TokenDtoV1>
+public class RegisterHandler : IRequestHandler<RegisterCommand, ResponseDto<TokenDtoV1>>
 {
     private readonly IEssentialDbContext context;
     private readonly IMediator mediator;
@@ -23,7 +24,7 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, TokenDtoV1>
         this.passwordSecurity = passwordSecurity;
     }
 
-    public async Task<TokenDtoV1> Handle(RegisterCommand cmd, CancellationToken cancellationToken)
+    public async Task<ResponseDto<TokenDtoV1>> Handle(RegisterCommand cmd, CancellationToken cancellationToken)
     {
         await mediator.Send(new VerifyRequestQuery(cmd.Request), cancellationToken);
 
@@ -45,6 +46,6 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, TokenDtoV1>
         await context.SaveChangesAsync(cancellationToken);
 
         var b= await mediator.Send(new GetNewTokenQuery(cmd.Request, new LoginDtoV1(user.Username, cmd.Payload.Password)), cancellationToken);
-        return b.Payload;
+        return new ResponseDto<TokenDtoV1>(b.Payload);
     }
 }

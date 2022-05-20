@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WeeControl.SharedKernel.Essential.DataTransferObjects;
 
-public class RegisterDto
+public class RegisterDtoV1
 {
     [Required]
     [EmailAddress]
@@ -22,12 +22,12 @@ public class RegisterDto
     [DisplayName("Password")]
     public string Password { get; set; }
 
-    public RegisterDto()
+    public RegisterDtoV1()
     {
     }
 
-    public static RegisterDto Create(string email, string username, string password)
+    public static RegisterDtoV1 Create(string email, string username, string password)
     {
-        return new RegisterDto() { Email = email, Username = username, Password = password };
+        return new RegisterDtoV1() { Email = email, Username = username, Password = password };
     }
 }

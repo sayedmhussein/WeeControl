@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using WeeControl.Domain.Interfaces;
+using WeeControl.Domain.Models;
 
 namespace WeeControl.Application.EssentialContext.Notifications;
 
@@ -31,5 +32,15 @@ public class PasswordReset : INotification
         {
             return Task.CompletedTask;
         }
+    }
+    
+    private IMessageDto GetMessage(string to, string newPassword)
+    {
+        return new MessageDto()
+        {
+            To = to,
+            Subject = "WeeControl - A New Password Has Been Created",
+            Body = "Your new password is: " + newPassword
+        };
     }
 }

@@ -26,9 +26,9 @@ public class UserOperation : IUserOperation
         this.alert = alert;
     }
 
-    public async Task<IResponseDto> RegisterAsync(RegisterDto loginDto)
+    public async Task<IResponseDto> RegisterAsync(RegisterDtoV1 loginDtoV1)
     {
-        var requestDto = new RequestDto<RegisterDto>(userDevice.DeviceId, loginDto);
+        var requestDto = new RequestDto<RegisterDtoV1>(userDevice.DeviceId, loginDtoV1);
 
         HttpRequestMessage message = new()
         {
@@ -152,14 +152,14 @@ public class UserOperation : IUserOperation
         }
     }
 
-    public async Task<IResponseDto> UpdatePasswordAsync(PasswordSetForgottenDto loginSetForgottenDto)
+    public async Task<IResponseDto> UpdatePasswordAsync(MeForgotPasswordDtoV1 loginDtoV1)
     {
-        var requestDto = new RequestDto<PasswordSetForgottenDto>(userDevice.DeviceId, loginSetForgottenDto);
+        var requestDto = new RequestDto<MeForgotPasswordDtoV1>(userDevice.DeviceId, loginDtoV1);
 
         HttpRequestMessage message = new()
         {
-            RequestUri = new Uri(PasswordSetForgottenDto.HttpPatchMethod.AbsoluteUri(userCommunication.ServerBaseAddress)),
-            Version = new Version(PasswordSetForgottenDto.HttpPatchMethod.Version),
+            RequestUri = new Uri(userCommunication.FullAddress(Api.Essential.User.Reset)),
+            Version = new Version("1.0"),
             Method = HttpMethod.Patch,
             Content = RequestDto.BuildHttpContentAsJson(requestDto)
         };
@@ -183,16 +183,16 @@ public class UserOperation : IUserOperation
         }
     }
 
-    public async Task<IResponseDto> ForgotPasswordAsync(PasswordResetRequestDto passwordResetRequestDto)
+    public async Task<IResponseDto> ForgotPasswordAsync(PutNewPasswordDtoV1 putNewPasswordDtoV1)
     {
         await UpdateAuthorizationAsync();
         
-        var requestDto = new RequestDto<PasswordResetRequestDto>(userDevice.DeviceId, passwordResetRequestDto);
+        var requestDto = new RequestDto<PutNewPasswordDtoV1>(userDevice.DeviceId, putNewPasswordDtoV1);
 
         HttpRequestMessage message = new()
         {
-            RequestUri = new Uri(PasswordResetRequestDto.HttpPostMethod.AbsoluteUri(userCommunication.ServerBaseAddress)),
-            Version = new Version(PasswordResetRequestDto.HttpPostMethod.Version),
+            RequestUri = new Uri(userCommunication.FullAddress(Api.Essential.User.Reset)),
+            Version = new Version("1.0"),
             Method = HttpMethod.Post,
             Content = RequestDto.BuildHttpContentAsJson(requestDto)
         };

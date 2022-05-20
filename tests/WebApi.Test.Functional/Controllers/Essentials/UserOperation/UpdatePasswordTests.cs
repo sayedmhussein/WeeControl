@@ -46,7 +46,7 @@ public class UpdatePasswordTests : IClassFixture<CustomWebApplicationFactory<Sta
         var token = await GetTokenTests.GetRefreshedTokenAsync(client, user.Username, user.Password, typeof(LogoutTests).Namespace);
         mocks.Setup(x => x.GetAsync(UserDataEnum.Token)).ReturnsAsync(token);
 
-        var dto = new PasswordSetForgottenDto()
+        var dto = new MeForgotPasswordDtoV1()
             {OldPassword = user.Password, NewPassword = "NewPassword", ConfirmNewPassword = "NewPassword"};
         var response = 
             await new Presentations.FunctionalService.EssentialContext.UserOperation(
@@ -68,7 +68,7 @@ public class UpdatePasswordTests : IClassFixture<CustomWebApplicationFactory<Sta
             await new Presentations.FunctionalService.EssentialContext.UserOperation(
                     mocks.Object, 
                     new Mock<IDisplayAlert>().Object)
-                .UpdatePasswordAsync(new PasswordSetForgottenDto() { NewPassword = "NewPassword", ConfirmNewPassword = "NewPassword"});
+                .UpdatePasswordAsync(new MeForgotPasswordDtoV1() { NewPassword = "NewPassword", ConfirmNewPassword = "NewPassword"});
         
         Assert.Equal(HttpStatusCode.Unauthorized, response.HttpStatusCode);
     }
