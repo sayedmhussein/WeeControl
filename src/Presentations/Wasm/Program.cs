@@ -28,7 +28,7 @@ public class Program
 
         DependencyInjection.AddUserSecurityServiceForApplication(builder.Services);
            
-        builder.Services.AddScoped<IEssentialDeviceServerDevice, EssentialDeviceServerDeviceService>();
+        //builder.Services.AddScoped<IEssentialDeviceServerDevice, EssentialDeviceServerDeviceService>();
         
         
         builder.Services.AddScoped<IUserOperation, UserOperation>();

@@ -5,7 +5,7 @@ using WeeControl.Presentations.ServiceLibrary.Interfaces;
 
 namespace WeeControl.Presentations.Wasm.Services;
 
-public class EssentialDeviceServerDeviceService : DeviceStorageService, IEssentialDeviceServerDevice
+public class EssentialDeviceServerDeviceService : DeviceStorageService, IDeviceServerCommunication
 {
     public EssentialDeviceServerDeviceService(IJSRuntime jsRuntime, IHttpClientFactory factory) : base(jsRuntime)
     {
@@ -23,9 +23,4 @@ public class EssentialDeviceServerDeviceService : DeviceStorageService, IEssenti
     {
         return ServerBaseAddress + relative;
     }
-
-    public string DeviceId => "This is device _Blazor_";
-    public DateTime TimeStamp => DateTime.UtcNow;
-    public double? Latitude => null;
-    public double? Longitude => null;
 }

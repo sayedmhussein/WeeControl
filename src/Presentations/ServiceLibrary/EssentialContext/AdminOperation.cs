@@ -7,10 +7,10 @@ namespace WeeControl.Presentations.ServiceLibrary.EssentialContext;
 
 public class AdminOperation : OperationBase, IAdminOperation
 {
-    private readonly IEssentialDeviceServerDevice device;
+    private readonly IDevice device;
     private readonly IDeviceAlert alert;
 
-    public AdminOperation(IEssentialDeviceServerDevice device, IDeviceAlert alert) : base(device)
+    public AdminOperation(IDevice device, IDeviceAlert alert) : base(device)
     {
         this.device = device;
         this.alert = alert;
@@ -20,7 +20,7 @@ public class AdminOperation : OperationBase, IAdminOperation
     {
         HttpRequestMessage message = new()
         {
-            RequestUri = new Uri(device.GetFullAddress(Api.Essential.Admin.Territory)),
+            RequestUri = new Uri(device.DeviceServerCommunication.GetFullAddress(Api.Essential.Admin.Territory)),
             Version = new Version("1.0"),
             Method = HttpMethod.Get,
         };

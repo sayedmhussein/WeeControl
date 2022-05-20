@@ -11,51 +11,53 @@ using WeeControl.SharedKernel.RequestsResponses;
 
 namespace WeeControl.Presentations.ServiceLibrary.EssentialContext;
 
-public class UserOperation : IUserOperation
+public class UserOperation : OperationBase, IUserOperation
 {
-    private readonly IUserDevice userDevice;
+    private readonly IDevice userDevice;
     private readonly IDeviceServerCommunication deviceServerCommunication;
     private readonly IDeviceStorage deviceStorage;
     private readonly IDeviceAlert alert;
 
-    public UserOperation(IEssentialDeviceServerDevice device, IDeviceAlert alert)
+    public UserOperation(IDevice device, IDeviceAlert alert) : base(device)
     {
         this.userDevice = device;
-        this.deviceServerCommunication = device;
-        this.deviceStorage = device;
+        this.deviceServerCommunication = device.DeviceServerCommunication;
+        this.deviceStorage = device.DeviceStorage;
         this.alert = alert;
     }
 
-    public async Task<IResponseDto> RegisterAsync(RegisterDtoV1 loginDtoV1)
+    public async Task RegisterAsync(RegisterDtoV1 loginDtoV1)
     {
-        var requestDto = new RequestDto<RegisterDtoV1>(userDevice.DeviceId, loginDtoV1);
-
         HttpRequestMessage message = new()
         {
             RequestUri = new Uri(deviceServerCommunication.GetFullAddress(Api.Essential.User.Base)),
             Version = new Version("1.0"),
             Method = HttpMethod.Post,
-            Content = RequestDto.BuildHttpContentAsJson(requestDto)
+            Content = ConvertObjectToJsonContent(loginDtoV1)
         };
 
-        var response = await deviceServerCommunication.HttpClient.SendAsync(message);
-
+        var response = await SendMessageAsync(message);
         switch (response.StatusCode)
         {
             case HttpStatusCode.OK:
             case HttpStatusCode.Accepted:
-                var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<TokenDtoV1>>();
-                var token = responseDto?.Payload?.Token;
-                await deviceStorage.SaveAsync(UserDataEnum.Token, token);
-                return ResponseToUi.Accepted(response.StatusCode);
+                var dto = await GetObjectAsync<ResponseDto<TokenDtoV1>>(response);
+                var token = dto?.Payload?.Token;
+                await userDevice.DeviceStorage.SaveAsync(UserDataEnum.Token, token);
+                userDevice.DeviceSecurity.UpdateToken(token);
+                await userDevice.DevicePageNavigation.NavigateToAsync(PagesEnum.Home);
+                break;
             case HttpStatusCode.Conflict:
-                return ResponseToUi.Rejected(response.StatusCode, "Either username or password already exist!");
+                await userDevice.DeviceAlert.DisplaySimpleAlertAsync("Either username or password already exist!");
+                break;
             default:
-                return ResponseToUi.Rejected(response.StatusCode, "Unexpected error occured, error code: " + response.StatusCode);
+                await userDevice.DeviceAlert.DisplaySimpleAlertAsync("Unexpected error occured, error code: " +
+                                                                     response.StatusCode);
+                break;
         }
     }
 
-    public async Task<IResponseDto> LoginAsync(LoginDtoV1 loginDtoV1)
+    public async Task LoginAsync(LoginDtoV1 loginDtoV1)
     {
         var requestDto = new RequestDto<LoginDtoV1>(userDevice.DeviceId, loginDtoV1);
 
@@ -88,7 +90,7 @@ public class UserOperation : IUserOperation
         }
     }
 
-    public async Task<IResponseDto> GetTokenAsync()
+    public async Task GetTokenAsync()
     {
         await UpdateAuthorizationAsync();
         
@@ -123,7 +125,7 @@ public class UserOperation : IUserOperation
         }
     }
 
-    public async Task<IResponseDto> LogoutAsync()
+    public async Task LogoutAsync()
     {
         await UpdateAuthorizationAsync();
         await deviceStorage.ClearAsync();
@@ -152,7 +154,7 @@ public class UserOperation : IUserOperation
         }
     }
 
-    public async Task<IResponseDto> UpdatePasswordAsync(MeForgotPasswordDtoV1 loginDtoV1)
+    public async Task UpdatePasswordAsync(MeForgotPasswordDtoV1 loginDtoV1)
     {
         var requestDto = new RequestDto<MeForgotPasswordDtoV1>(userDevice.DeviceId, loginDtoV1);
 
@@ -183,7 +185,7 @@ public class UserOperation : IUserOperation
         }
     }
 
-    public async Task<IResponseDto> ForgotPasswordAsync(PutNewPasswordDtoV1 putNewPasswordDtoV1)
+    public async Task ForgotPasswordAsync(PutNewPasswordDtoV1 putNewPasswordDtoV1)
     {
         await UpdateAuthorizationAsync();
         
