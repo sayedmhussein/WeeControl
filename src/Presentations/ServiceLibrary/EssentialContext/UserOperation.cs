@@ -119,6 +119,8 @@ public class UserOperation : OperationBase, IUserOperation
                 await userDevice.Alert.DisplayAlert(AlertEnum.SessionIsExpiredPleaseLoginAgain);
                 await userDevice.Navigation.NavigateToAsync(PagesEnum.Login, forceLoad: true);
                 break;
+            case HttpStatusCode.BadGateway:
+                break;
             default:
                 await userDevice.Alert.DisplayAlert(AlertEnum.DeveloperMinorBug);
                 break;

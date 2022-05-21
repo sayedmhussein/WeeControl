@@ -7,7 +7,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using WeeControl.Presentations.ServiceLibrary.Enums;
 using WeeControl.Presentations.ServiceLibrary.Interfaces;
-using WeeControl.SharedKernel.Essential;
 using WeeControl.SharedKernel.Interfaces;
 
 namespace WeeControl.Presentations.Wasm.Services;
@@ -24,14 +23,8 @@ public class AuthStateProvider : AuthenticationStateProvider, IDeviceSecurity
         this.localStorage = localStorage;
         this.jwtService = jwtService;
         this.configuration = configuration;
-
-        //service.TokenChanged += (sender, args) =>
-        //{
-        //    NotifyUserAuthentication(args);
-        //};
-
+        
         var identity = new ClaimsIdentity();
-            
         var cp = new ClaimsPrincipal(identity);
         anonymous = new AuthenticationState(cp);
     }
@@ -48,7 +41,7 @@ public class AuthStateProvider : AuthenticationStateProvider, IDeviceSecurity
         return new AuthenticationState(cp);
     }
 
-    public void NotifyUserAuthentication(string token)
+    private void NotifyUserAuthentication(string token)
     {
         if (string.IsNullOrWhiteSpace(token) == false)
         {
@@ -62,24 +55,7 @@ public class AuthStateProvider : AuthenticationStateProvider, IDeviceSecurity
             NotifyAuthenticationStateChanged(Task.FromResult(anonymous));
         }
     }
-        
-    [Obsolete]
-    public async Task NotifyUserAuthenticationAsyc()
-    {
-        var token = await localStorage.GetAsync(UserDataEnum.Token);
-        if (string.IsNullOrWhiteSpace(token) == false)
-        {
-            var cp = GetClaimPrincipal(token);
-            var state = new AuthenticationState(cp);
-            var authState = Task.FromResult(state);
-            NotifyAuthenticationStateChanged(authState);
-        }
-        else
-        {
-            NotifyAuthenticationStateChanged(Task.FromResult(anonymous));
-        }
-    }
-
+    
     private ClaimsPrincipal GetClaimPrincipal(string token)
     {
         var key = configuration["Jwt:Key"] ?? throw new NullReferenceException("Jwt:Key in IConfiguration can't be null!");

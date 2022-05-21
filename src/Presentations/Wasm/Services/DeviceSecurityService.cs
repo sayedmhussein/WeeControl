@@ -1,5 +1,4 @@
 using System;
-using Microsoft.AspNetCore.Components.Authorization;
 using WeeControl.Presentations.ServiceLibrary.Interfaces;
 
 namespace WeeControl.Presentations.Wasm.Services;

@@ -1,3 +1,4 @@
+using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
@@ -45,6 +46,12 @@ public abstract class OperationBase
         {
             await UpdateAuthorizationAsync();
             return await device.Server.HttpClient.SendAsync(message);
+        }
+        catch (HttpRequestException e)
+        {
+            await device.Alert.DisplayAlert(AlertEnum.FailedToCommunicateWithServer);
+            await device.Navigation.NavigateToAsync(PagesEnum.NoInternet);
+            return new HttpResponseMessage(HttpStatusCode.BadGateway);
         }
         catch (Exception e)
         {
