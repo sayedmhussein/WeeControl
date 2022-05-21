@@ -67,27 +67,13 @@
     private async Task ProcessLoginAsync()
     {
         loading = true;
-        try
-        {
-            var response = await authentication.LoginAsync(loginDtoV1);
-            if (response.IsSuccess)
-            {
-                StateHasChanged();
-                navManager.NavigateTo("/Home", true);
-            }
-            else
-            {
-                //stringAlert = response.MessageToUser;
-            }
-
-            loginDtoV1.Password = string.Empty;
-        }
-        catch (Exception e)
-        {
-            stringAlert = e.GetType() + e.Message + e.StackTrace;
-        }
-
+        await authentication.LoginAsync(loginDtoV1);
+        loginDtoV1.Password = string.Empty;
         loading = false;
+        
+        StateHasChanged();
+
+
     }
 
     private Task RequestPasswordReset()

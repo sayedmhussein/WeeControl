@@ -1,4 +1,4 @@
-using System.Threading;
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using WeeControl.Presentations.ServiceLibrary.Enums;
@@ -15,9 +15,9 @@ public class DevicePageNavicationService : IDevicePageNavigation
         this.navigationManager = navigationManager;
     }
     
-    public Task NavigateToAsync(PagesEnum page, bool force = false)
+    public Task NavigateToAsync(PagesEnum page, bool forceLoad = false)
     {
-        navigationManager.NavigateTo("/" + page.ToString());
+        navigationManager.NavigateTo("/" + Enum.GetName(typeof(PagesEnum), page), forceLoad);
         return Task.CompletedTask;
     }
 }

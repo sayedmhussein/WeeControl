@@ -35,7 +35,7 @@ public class UserDbo
     public TerritoryDbo Territory { get; set; }
     public string TerritoryId { get; set; }
 
-    public DateTime? SuspendTs { get; private set; }
+    public string? SuspendArgs { get; private set; }
 
     public virtual IEnumerable<SessionDbo> Sessions { get; }
     public virtual IEnumerable<ClaimDbo> Claims { get; }
@@ -43,6 +43,16 @@ public class UserDbo
     public void UpdatePassword(string newPassword)
     {
         Password = newPassword;
+    }
+
+    public void Suspend(string reason)
+    {
+        SuspendArgs = DateTime.UtcNow.ToLongDateString() + " - " + reason;
+    }
+
+    public void Activate()
+    {
+        SuspendArgs = null;
     }
     
     private UserDbo()

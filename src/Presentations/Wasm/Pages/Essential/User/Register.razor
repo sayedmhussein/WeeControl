@@ -54,15 +54,7 @@
     private async Task RegisterAsync()
     {
         isLoading = true;
-        var response = await UserOperation.RegisterAsync(dtoV1);
-        if (response.IsSuccess)
-        {
-            NavManager.NavigateTo("/Index", true);
-        }
-        else
-        {
-        //alertMessage = response.MessageToUser;
-        }
+        await UserOperation.RegisterAsync(dtoV1);
         isLoading = false;
     }
 }

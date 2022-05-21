@@ -40,15 +40,7 @@ Welcome to your new app.
     
     protected override async void OnInitialized()
     {
-        
-
-        var response = await UserOperation.GetTokenAsync();
-        if (response.IsSuccess)
-        {
-        }
-        else
-        {
-        }
+        await UserOperation.GetTokenAsync();
 
         await GetClaims();
         

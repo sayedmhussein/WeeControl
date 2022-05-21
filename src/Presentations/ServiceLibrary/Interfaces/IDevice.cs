@@ -2,12 +2,12 @@ namespace WeeControl.Presentations.ServiceLibrary.Interfaces;
 
 public interface IDevice
 {
-    IDeviceAlert DeviceAlert { get; }
-    IDeviceLocation DeviceLocation { get; }
-    IDeviceSecurity DeviceSecurity { get; }
-    IDeviceServerCommunication DeviceServerCommunication { get; }
-    IDeviceStorage DeviceStorage { get; }
-    IDevicePageNavigation DevicePageNavigation { get; }
+    IDeviceAlert Alert { get; }
+    IDeviceLocation Location { get; }
+    IDeviceSecurity Security { get; }
+    IDeviceServerCommunication Server { get; }
+    IDeviceStorage Storage { get; }
+    IDevicePageNavigation Navigation { get; }
     
     public string DeviceId { get; }
     public DateTime CurrentTs { get; }

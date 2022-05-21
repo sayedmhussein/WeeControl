@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,7 +6,6 @@ using Moq;
 using WeeControl.Application.EssentialContext;
 using WeeControl.Domain.Essential.Entities;
 using WeeControl.Presentations.ServiceLibrary.Enums;
-using WeeControl.Presentations.ServiceLibrary.Interfaces;
 using WeeControl.SharedKernel.Services;
 using Xunit;
 
@@ -22,31 +20,28 @@ public class GetTokenTests : IClassFixture<CustomWebApplicationFactory<Startup>>
         var token1 = await LoginTests.LoginAsync(client, username, password, device);
         var token2 = string.Empty;
             
-        var mocks = ApplicationMocks.GetEssentialMock(client, device);
-        mocks.Setup(x => x.GetAsync(UserDataEnum.Token)).ReturnsAsync(token1);
-        mocks.Setup(x => x.SaveAsync(UserDataEnum.Token, It.IsAny<string>()))
+        var mocks = new DeviceServiceMock(device);
+        mocks.StorageMock.Setup(x => x.GetAsync(UserDataEnum.Token)).ReturnsAsync(token1);
+        mocks.StorageMock.Setup(x => x.SaveAsync(UserDataEnum.Token, It.IsAny<string>()))
             .Callback((UserDataEnum en, string tkn) => token2 = tkn);
 
-        var response = 
-            await new Presentations.ServiceLibrary.EssentialContext.UserOperation(
-                    mocks.Object, 
-                    new Mock<IDeviceAlert>().Object)
+        await new Presentations.ServiceLibrary.EssentialContext.UserOperation(mocks.GetObject(client))
                 .GetTokenAsync();
-            
-        Assert.Equal(HttpStatusCode.OK, response.HttpStatusCode);
+        
         Assert.NotEmpty(token2);
         
         return token2;
     }
     #endregion
-        
-    private readonly CustomWebApplicationFactory<Startup> factory;
+    
     private HttpClient client;
-    private readonly (string Email, string Username, string Password, string Device) user = (Email: "test@test.test", Username: "test", Password: "test", Device: typeof(GetTokenTests).Namespace);
+    private readonly string deviceName = nameof(GetTokenTests);
+    private DeviceServiceMock deviceMock;
+    private readonly (string Email, string Username, string Password, string Device) user = 
+        (Email: "test@test.test", Username: "test", Password: "test", Device: typeof(GetTokenTests).Namespace);
 
     public GetTokenTests(CustomWebApplicationFactory<Startup> factory)
     {
-        this.factory = factory;
         client = factory.WithWebHostBuilder(builder =>
             {
                 builder.ConfigureServices(services =>
@@ -58,29 +53,27 @@ public class GetTokenTests : IClassFixture<CustomWebApplicationFactory<Startup>>
                 });
             })
             .CreateClient();
+
+        deviceMock = new DeviceServiceMock(deviceName);
     }
 
     public void Dispose()
     {
         client = null;
+        deviceMock = null;
     }
         
     [Fact]
     public async void WhenSendingValidRequest_HttpResponseIsSuccessCode()
     {
-        //var client = factory.CreateClient();
-            
-        var mocks = ApplicationMocks.GetEssentialMock(client, typeof(GetTokenTests).Namespace);
-        var token = await LoginTests.LoginAsync(client, user.Email, user.Password, typeof(GetTokenTests).Namespace);
-        mocks.Setup(x => x.GetAsync(UserDataEnum.Token)).ReturnsAsync(token);
+        var token = await LoginTests.LoginAsync(client, user.Email, user.Password, deviceName);
+        deviceMock.StorageMock.Setup(x => x.GetAsync(UserDataEnum.Token)).ReturnsAsync(token);
 
-        var response = 
-            await new Presentations.ServiceLibrary.EssentialContext.UserOperation(
-                    mocks.Object, 
-                    new Mock<IDeviceAlert>().Object)
+        await new Presentations.ServiceLibrary.EssentialContext.UserOperation(deviceMock.GetObject(client))
                 .GetTokenAsync();
             
-        Assert.Equal(HttpStatusCode.OK, response.HttpStatusCode);
+        deviceMock.StorageMock.Verify(x => x.
+            SaveAsync(UserDataEnum.Token, It.IsAny<string>()));
     }
 
     [Fact]
@@ -92,37 +85,35 @@ public class GetTokenTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     }
         
     [Fact]
-    public async void WhenUnAuthenticatedUser_HttpResponseIsUnauthorized()
+    public async void WhenUnAuthenticatedUserOrAuthorized_DisplayLoginAgain()
     {
-        //var client = factory.CreateClient();
+        await new Presentations.ServiceLibrary.EssentialContext.UserOperation(deviceMock.GetObject(client))
+            .GetTokenAsync();
             
-        var mocks = ApplicationMocks.GetEssentialMock(client, typeof(GetTokenTests).Namespace);
-
-        var response = 
-            await new Presentations.ServiceLibrary.EssentialContext.UserOperation(
-                    mocks.Object, 
-                    new Mock<IDeviceAlert>().Object)
-                .GetTokenAsync();
-
-        Assert.Equal(HttpStatusCode.Unauthorized, response.HttpStatusCode);
+        deviceMock.NavigationMock.Verify(x => 
+            x.NavigateToAsync(PagesEnum.Login, It.IsAny<bool>()), Times.Once);
+        
+        deviceMock.StorageMock.Verify(x => 
+            x.ClearAsync(), Times.AtLeastOnce);
     }
 
     [Fact]
     public async void WhenAuthenticatedButNotAuthorized_HttpResponseIsForbidden()
     {
         //When different device...
-        //var client = factory.CreateClient();
-            
-        var mocks = ApplicationMocks.GetEssentialMock(client, "Some Other Device");
-        var token = await LoginTests.LoginAsync(client, user.Username, user.Password, typeof(GetTokenTests).Namespace);
-        mocks.Setup(x => x.GetAsync(UserDataEnum.Token)).ReturnsAsync(token);
+        var token = await LoginTests.LoginAsync(client, user.Username, user.Password, "some other device");
+        deviceMock.StorageMock.Setup(x => x.GetAsync(UserDataEnum.Token)).ReturnsAsync(token);
 
-        var response = 
-            await new Presentations.ServiceLibrary.EssentialContext.UserOperation(
-                    mocks.Object, 
-                    new Mock<IDeviceAlert>().Object)
+        await new Presentations.ServiceLibrary.EssentialContext.UserOperation(deviceMock.GetObject(client))
                 .GetTokenAsync();
 
-        Assert.Equal(HttpStatusCode.Forbidden, response.HttpStatusCode);
+        deviceMock.NavigationMock.Verify(x => 
+            x.NavigateToAsync(PagesEnum.Login, It.IsAny<bool>()), Times.Once);
+        
+        deviceMock.StorageMock.Verify(x => 
+            x.ClearAsync(), Times.AtLeastOnce);
+        
+        deviceMock.AlertMock.Verify(x => 
+            x.DisplayAlert(AlertEnum.SessionIsExpiredPleaseLoginAgain), Times.Once);
     }
 }

@@ -19,7 +19,7 @@ public abstract class OperationBase
     
     protected HttpContent ConvertObjectToJsonContent<T>(T? payload = null, string mediaType = "application/json") where T : class
     {
-        var location = device.DeviceLocation.GetLastKnownLocationAsync();
+        var location = device.Location.GetLastKnownLocationAsync();
         var dto = payload == null ? 
             new RequestDto(device.DeviceId) : 
             new RequestDto<T>(device.DeviceId, payload);
@@ -34,16 +34,17 @@ public abstract class OperationBase
     
     protected async Task UpdateAuthorizationAsync()
     {
-        device.DeviceServerCommunication.HttpClient.DefaultRequestHeaders.Clear();
-        device.DeviceServerCommunication.HttpClient.DefaultRequestHeaders.Authorization = 
-            new AuthenticationHeaderValue("Brear", await device.DeviceStorage.GetAsync(UserDataEnum.Token));
+        device.Server.HttpClient.DefaultRequestHeaders.Clear();
+        device.Server.HttpClient.DefaultRequestHeaders.Authorization = 
+            new AuthenticationHeaderValue("Brear", await device.Storage.GetAsync(UserDataEnum.Token));
     }
 
     protected async Task<HttpResponseMessage> SendMessageAsync(HttpRequestMessage message)
     {
         try
         {
-            return await device.DeviceServerCommunication.HttpClient.SendAsync(message);
+            await UpdateAuthorizationAsync();
+            return await device.Server.HttpClient.SendAsync(message);
         }
         catch (Exception e)
         {

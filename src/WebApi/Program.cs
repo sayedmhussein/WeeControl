@@ -21,7 +21,8 @@ public class Program
         {
             var context = (EssentialDbContext)scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
             await context.Database.EnsureCreatedAsync();
-            await context.Database.MigrateAsync();
+            if (context.Database.IsRelational())
+                await context.Database.MigrateAsync();
 
             var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
             await mediator.Send(new SeedEssentialDatabaseCommand());

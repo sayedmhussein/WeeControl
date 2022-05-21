@@ -53,6 +53,11 @@ public class GetNewTokenHandler : IRequestHandler<GetNewTokenQuery, ResponseDto<
 
             if (employee is null) throw new NotFoundException();
 
+            if (employee.SuspendArgs is not null)
+            {
+                throw new NotAllowedException();
+            }
+
             var session = await context.Sessions.FirstOrDefaultAsync(x => x.UserId == employee.UserId && x.DeviceId == request.Request.DeviceId && x.TerminationTs == null, cancellationToken);
             if (session is null)
             {
@@ -92,7 +97,7 @@ public class GetNewTokenHandler : IRequestHandler<GetNewTokenQuery, ResponseDto<
         else if (currentUserInfo.GetSessionId() is not null)
         {
             var session = await context.Sessions.FirstOrDefaultAsync(x => x.SessionId == currentUserInfo.GetSessionId() && x.TerminationTs == null && x.DeviceId == request.Request.DeviceId, cancellationToken);
-            if (session is null) throw new NotAllowedException("Please login again.");
+            if (session is null) throw new NotAllowedException("Different Device!!! or session expired");
 
             //session.Logs.Add(new SessionLog("Verified."));
             await context.SaveChangesAsync(cancellationToken);

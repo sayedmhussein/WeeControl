@@ -1,4 +1,3 @@
-using System;
 using System.Net.Http;
 using Microsoft.JSInterop;
 using WeeControl.Presentations.ServiceLibrary.Interfaces;

@@ -12,20 +12,18 @@ using WeeControl.SharedKernel.Interfaces;
 
 namespace WeeControl.Presentations.Wasm.Services;
 
-public class AuthStateProvider : AuthenticationStateProvider
+public class AuthStateProvider : AuthenticationStateProvider, IDeviceSecurity
 {
     private readonly IDeviceStorage localStorage;
     private readonly IJwtService jwtService;
     private readonly IConfiguration configuration;
-    private readonly IUserOperation service;
     private readonly AuthenticationState anonymous;
 
-    public AuthStateProvider(IDeviceStorage localStorage, IJwtService jwtService, IConfiguration configuration, IUserOperation service)
+    public AuthStateProvider(IDeviceStorage localStorage, IJwtService jwtService, IConfiguration configuration)
     {
         this.localStorage = localStorage;
         this.jwtService = jwtService;
         this.configuration = configuration;
-        this.service = service;
 
         //service.TokenChanged += (sender, args) =>
         //{
@@ -98,8 +96,13 @@ public class AuthStateProvider : AuthenticationStateProvider
 
         return jwtService.ExtractClaimPrincipal(token);
     }
+    
+    public bool IsAuthenticated()
+    {
+        throw new NotImplementedException();
+    }
 
-    public void Update(string token)
+    public void UpdateToken(string token = null)
     {
         NotifyUserAuthentication(token);
     }

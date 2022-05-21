@@ -1,11 +1,9 @@
-using System.Net;
 using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.Application.EssentialContext;
 using WeeControl.Domain.Essential.Entities;
 using WeeControl.Presentations.ServiceLibrary.Enums;
-using WeeControl.Presentations.ServiceLibrary.Interfaces;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.Services;
 using Xunit;
@@ -15,6 +13,7 @@ namespace WeeControl.WebApi.Test.Functional.Controllers.Essentials.UserOperation
 public class UpdatePasswordTests : IClassFixture<CustomWebApplicationFactory<Startup>>, System.IDisposable
 {
     private HttpClient client;
+    private DeviceServiceMock deviceMock;
     private readonly (string Email, string Username, string Password, string Device) user = (Email: "test@test.test", Username: "test", Password: "test", Device: typeof(UpdatePasswordTests).Namespace);
 
     public UpdatePasswordTests(CustomWebApplicationFactory<Startup> factory)
@@ -30,46 +29,53 @@ public class UpdatePasswordTests : IClassFixture<CustomWebApplicationFactory<Sta
                 });
             })
             .CreateClient();
+
+        deviceMock = new DeviceServiceMock(nameof(UpdatePasswordTests));
     }
 
     public void Dispose()
     {
-        
+        client = null;
+        deviceMock = null;
     }
 
     [Fact]
     public async void WhenUserAuthenticatedAndSendRequest_ReturnOk()
     {
-        //var client = factory.CreateClient();
-            
-        var mocks = ApplicationMocks.GetEssentialMock(client, typeof(UpdatePasswordTests).Namespace);
-        var token = await GetTokenTests.GetRefreshedTokenAsync(client, user.Username, user.Password, typeof(LogoutTests).Namespace);
-        mocks.Setup(x => x.GetAsync(UserDataEnum.Token)).ReturnsAsync(token);
+        var token = await GetTokenTests.GetRefreshedTokenAsync(client, user.Username, user.Password, nameof(UpdatePasswordTests));
+        deviceMock.StorageMock.Setup(x => x.GetAsync(UserDataEnum.Token)).ReturnsAsync(token);
 
         var dto = new MeForgotPasswordDtoV1()
             {OldPassword = user.Password, NewPassword = "NewPassword", ConfirmNewPassword = "NewPassword"};
-        var response = 
-            await new Presentations.ServiceLibrary.EssentialContext.UserOperation(
-                    mocks.Object, 
-                    new Mock<IDeviceAlert>().Object)
+        
+        await new Presentations.ServiceLibrary.EssentialContext.UserOperation(
+                    deviceMock.GetObject(client))
                 .UpdatePasswordAsync(dto);
         
-        Assert.Equal(HttpStatusCode.OK, response.HttpStatusCode);
+        deviceMock.NavigationMock.Verify(x => 
+            x.NavigateToAsync(PagesEnum.Home, It.IsAny<bool>()), Times.Once);
+        
+        deviceMock.AlertMock.Verify(x => 
+            x.DisplayAlert(AlertEnum.PasswordUpdatedSuccessfully), Times.Once);
     }
     
     [Fact]
-    public async void WhenUserUnAuthenticated_ReturnUnAuthorized()
+    public async void WhenOldPasswordIsWrong()
     {
-        //var client = factory.CreateClient();
-            
-        var mocks = ApplicationMocks.GetEssentialMock(client, typeof(UpdatePasswordTests).Namespace);
+        var token = await GetTokenTests.GetRefreshedTokenAsync(client, user.Username, user.Password, nameof(UpdatePasswordTests));
+        deviceMock.StorageMock.Setup(x => x.GetAsync(UserDataEnum.Token)).ReturnsAsync(token);
 
-        var response = 
-            await new Presentations.ServiceLibrary.EssentialContext.UserOperation(
-                    mocks.Object, 
-                    new Mock<IDeviceAlert>().Object)
-                .UpdatePasswordAsync(new MeForgotPasswordDtoV1() { NewPassword = "NewPassword", ConfirmNewPassword = "NewPassword"});
+        var dto = new MeForgotPasswordDtoV1()
+            {OldPassword = user.Password + "bla", NewPassword = "NewPassword", ConfirmNewPassword = "NewPassword"};
         
-        Assert.Equal(HttpStatusCode.Unauthorized, response.HttpStatusCode);
+        await new Presentations.ServiceLibrary.EssentialContext.UserOperation(
+                deviceMock.GetObject(client))
+            .UpdatePasswordAsync(dto);
+        
+        deviceMock.NavigationMock.Verify(x => 
+            x.NavigateToAsync(PagesEnum.Home, It.IsAny<bool>()), Times.Never);
+        
+        deviceMock.AlertMock.Verify(x => 
+            x.DisplayAlert(AlertEnum.InvalidPassword), Times.Once);
     }
 }

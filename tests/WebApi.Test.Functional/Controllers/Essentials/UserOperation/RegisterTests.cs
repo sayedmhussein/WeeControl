@@ -1,38 +1,38 @@
-﻿using System.Net;
+﻿using System;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.Application.EssentialContext;
 using WeeControl.Domain.Essential.Entities;
 using WeeControl.Presentations.ServiceLibrary.Enums;
-using WeeControl.Presentations.ServiceLibrary.Interfaces;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using Xunit;
 
 namespace WeeControl.WebApi.Test.Functional.Controllers.Essentials.UserOperation;
 
-public class RegisterTests : IClassFixture<CustomWebApplicationFactory<Startup>>
+public class RegisterTests : IClassFixture<CustomWebApplicationFactory<Startup>>, IDisposable
 {
     private readonly CustomWebApplicationFactory<Startup> factory;
+    private DeviceServiceMock deviceMock;
 
     public RegisterTests(CustomWebApplicationFactory<Startup> factory)
     {
         this.factory = factory;
+        deviceMock = new DeviceServiceMock(typeof(RegisterTests).Namespace);
+    }
+
+    public void Dispose()
+    {
+        deviceMock = null;
     }
 
     [Fact]
     public async void WhenNewUserRegisterWithValidData_ReturnSuccess()
     {
-        var mocks = ApplicationMocks.GetEssentialMock(factory.CreateClient(), typeof(RegisterTests).Namespace);
-
-        var response = 
-            await new Presentations.ServiceLibrary.EssentialContext.UserOperation(
-                mocks.Object, 
-                new Mock<IDeviceAlert>().Object).RegisterAsync(RegisterDtoV1.Create("email@email.com", "username", "password"));
-            
-
-        Assert.Equal(HttpStatusCode.OK, response.HttpStatusCode);
-        Assert.True(response.IsSuccess);
-        mocks.Verify(x => x.SaveAsync(UserDataEnum.Token, It.IsAny<string>()));
+        await new Presentations.ServiceLibrary.EssentialContext.UserOperation(
+                deviceMock.GetObject(factory.CreateClient())).RegisterAsync(RegisterDtoV1.Create("email@email.com", "username", "password"));
+        
+        deviceMock.StorageMock.Verify(x => x.SaveAsync(UserDataEnum.Token, It.IsAny<string>()));
+        deviceMock.NavigationMock.Verify(x => x.NavigateToAsync(PagesEnum.Home, It.IsAny<bool>()), Times.Once);
     }
         
     [Theory]
@@ -43,17 +43,14 @@ public class RegisterTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     [InlineData("emil", "username", "password")]
     [InlineData("email@email.com", "us", "password")]
     [InlineData("email@email.com", "username", "pas")]
-    public async void WhenNewUserRegisterWithInValidData_ReturnBadRequest(string email, string username, string password)
+    public async void WhenNewUserRegisterWithInValidData_DisplayDeveloperInvalidData(string email, string username, string password)
     {
-        var mocks = ApplicationMocks.GetEssentialMock(factory.CreateClient(), typeof(RegisterTests).Namespace);
-
-        var response = 
-            await new Presentations.ServiceLibrary.EssentialContext.UserOperation(
-                mocks.Object, 
-                new Mock<IDeviceAlert>().Object).RegisterAsync(RegisterDtoV1.Create(email, username, password));
+        await new Presentations.ServiceLibrary.EssentialContext.UserOperation(
+                deviceMock.GetObject(factory.CreateClient())).RegisterAsync(RegisterDtoV1.Create(email, username, password));
             
 
-        Assert.Equal(HttpStatusCode.BadRequest, response.HttpStatusCode);
+        deviceMock.AlertMock.Verify(x => 
+            x.DisplayAlert(AlertEnum.DeveloperInvalidUserInput), Times.Once);
     }
         
     [Fact]
@@ -71,20 +68,17 @@ public class RegisterTests : IClassFixture<CustomWebApplicationFactory<Startup>>
                 });
             })
             .CreateClient();
-        var mocks = ApplicationMocks.GetEssentialMock(client, typeof(RegisterTests).Namespace);
 
-        var responseSameEmail = 
-            await new Presentations.ServiceLibrary.EssentialContext.UserOperation(
-                mocks.Object, 
-                new Mock<IDeviceAlert>().Object).RegisterAsync(RegisterDtoV1.Create(user.Email, "username", "password"));
+        await new Presentations.ServiceLibrary.EssentialContext.UserOperation(
+                deviceMock.GetObject(client)).RegisterAsync(RegisterDtoV1.Create(user.Email, "username", "password"));
             
-
-        Assert.Equal(HttpStatusCode.Conflict, responseSameEmail.HttpStatusCode);
+        deviceMock.AlertMock.Verify(x => 
+            x.DisplayAlert(AlertEnum.ExistingEmailOrUsernameExist), Times.Once);
+        
+        await new Presentations.ServiceLibrary.EssentialContext.UserOperation(
+            deviceMock.GetObject(client)).RegisterAsync(RegisterDtoV1.Create("someemail@email.com", user.Username, "password"));
             
-        var responseSameUsername = 
-            await new Presentations.ServiceLibrary.EssentialContext.UserOperation(
-                mocks.Object, 
-                new Mock<IDeviceAlert>().Object).RegisterAsync(RegisterDtoV1.Create("someemail@email.com", user.Username, "password"));
-        Assert.Equal(HttpStatusCode.Conflict, responseSameUsername.HttpStatusCode);
+        deviceMock.AlertMock.Verify(x => 
+            x.DisplayAlert(AlertEnum.ExistingEmailOrUsernameExist), Times.Exactly(2));
     }
 }

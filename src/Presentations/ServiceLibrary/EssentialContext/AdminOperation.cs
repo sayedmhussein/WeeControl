@@ -20,7 +20,7 @@ public class AdminOperation : OperationBase, IAdminOperation
     {
         HttpRequestMessage message = new()
         {
-            RequestUri = new Uri(device.DeviceServerCommunication.GetFullAddress(Api.Essential.Admin.Territory)),
+            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Admin.Territory)),
             Version = new Version("1.0"),
             Method = HttpMethod.Get,
         };

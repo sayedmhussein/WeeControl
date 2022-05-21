@@ -1,12 +1,9 @@
 ﻿using System.Net;
-using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using WeeControl.Presentations.ServiceLibrary.Enums;
 using WeeControl.Presentations.ServiceLibrary.Interfaces;
-using WeeControl.Presentations.ServiceLibrary.Models;
 using WeeControl.SharedKernel.Essential;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
-using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.RequestsResponses;
 
 namespace WeeControl.Presentations.ServiceLibrary.EssentialContext;
@@ -16,14 +13,12 @@ public class UserOperation : OperationBase, IUserOperation
     private readonly IDevice userDevice;
     private readonly IDeviceServerCommunication deviceServerCommunication;
     private readonly IDeviceStorage deviceStorage;
-    private readonly IDeviceAlert alert;
 
-    public UserOperation(IDevice device, IDeviceAlert alert) : base(device)
+    public UserOperation(IDevice device) : base(device)
     {
         this.userDevice = device;
-        this.deviceServerCommunication = device.DeviceServerCommunication;
-        this.deviceStorage = device.DeviceStorage;
-        this.alert = alert;
+        this.deviceServerCommunication = device.Server;
+        this.deviceStorage = device.Storage;
     }
 
     public async Task RegisterAsync(RegisterDtoV1 loginDtoV1)
@@ -43,33 +38,33 @@ public class UserOperation : OperationBase, IUserOperation
             case HttpStatusCode.Accepted:
                 var dto = await GetObjectAsync<ResponseDto<TokenDtoV1>>(response);
                 var token = dto?.Payload?.Token;
-                await userDevice.DeviceStorage.SaveAsync(UserDataEnum.Token, token);
-                userDevice.DeviceSecurity.UpdateToken(token);
-                await userDevice.DevicePageNavigation.NavigateToAsync(PagesEnum.Home);
+                await userDevice.Storage.SaveAsync(UserDataEnum.Token, token);
+                userDevice.Security.UpdateToken(token);
+                await userDevice.Navigation.NavigateToAsync(PagesEnum.Home, forceLoad: true);
                 break;
             case HttpStatusCode.Conflict:
-                await userDevice.DeviceAlert.DisplaySimpleAlertAsync("Either username or password already exist!");
+                await userDevice.Alert.DisplayAlert(AlertEnum.ExistingEmailOrUsernameExist);
+                break;
+            case HttpStatusCode.BadRequest:
+                await userDevice.Alert.DisplayAlert(AlertEnum.DeveloperInvalidUserInput);
                 break;
             default:
-                await userDevice.DeviceAlert.DisplaySimpleAlertAsync("Unexpected error occured, error code: " +
-                                                                     response.StatusCode);
+                await userDevice.Alert.DisplayAlert(AlertEnum.DeveloperMinorBug);
                 break;
         }
     }
 
     public async Task LoginAsync(LoginDtoV1 loginDtoV1)
     {
-        var requestDto = new RequestDto<LoginDtoV1>(userDevice.DeviceId, loginDtoV1);
-
         HttpRequestMessage message = new()
         {
             RequestUri = new Uri(deviceServerCommunication.GetFullAddress(Api.Essential.User.Session)),
             Version = new Version("1.0"),
             Method = HttpMethod.Post,
-            Content = RequestDto.BuildHttpContentAsJson(requestDto)
+            Content = ConvertObjectToJsonContent(loginDtoV1)
         };
 
-        var response = await deviceServerCommunication.HttpClient.SendAsync(message);
+        var response = await SendMessageAsync(message);
 
         switch (response.StatusCode)
         {
@@ -80,20 +75,22 @@ public class UserOperation : OperationBase, IUserOperation
                 await deviceStorage.SaveAsync(UserDataEnum.Token, token);
                 await deviceStorage.SaveAsync(UserDataEnum.FullName, responseDto?.Payload?.FullName);
                 await deviceStorage.SaveAsync(UserDataEnum.PhotoUrl, responseDto?.Payload?.PhotoUrl);
-                return ResponseToUi.Accepted(response.StatusCode);
+                await userDevice.Navigation.NavigateToAsync(PagesEnum.Home, forceLoad: true);
+                break;
             case HttpStatusCode.NotFound:
-                await alert.DisplaySimpleAlertAsync("Invalid username or password!");
-                return ResponseToUi.Rejected(response.StatusCode, "Invalid username or password!");
+                await userDevice.Alert.DisplayAlert(AlertEnum.InvalidUsernameOrPassword);
+                break;
+            case HttpStatusCode.Forbidden:
+                await userDevice.Alert.DisplayAlert(AlertEnum.AccountIsLocked);
+                break;
             default:
-                await alert.DisplaySimpleAlertAsync("Unexpected error occured, error code: " + response.StatusCode);
-                return ResponseToUi.Rejected(response.StatusCode, "Unexpected error occured, error code: " + response.StatusCode);
+                await userDevice.Alert.DisplayAlert(AlertEnum.DeveloperInvalidUserInput);
+                break;
         }
     }
 
     public async Task GetTokenAsync()
     {
-        await UpdateAuthorizationAsync();
-        
         var requestDto = new RequestDto(userDevice.DeviceId);
 
         HttpRequestMessage message = new()
@@ -104,8 +101,8 @@ public class UserOperation : OperationBase, IUserOperation
             Content = RequestDto.BuildHttpContentAsJson(requestDto)
         };
 
-        var response = await deviceServerCommunication.HttpClient.SendAsync(message);
-
+        var response = await SendMessageAsync(message);
+        
         switch (response.StatusCode)
         {
             case HttpStatusCode.OK:
@@ -115,19 +112,21 @@ public class UserOperation : OperationBase, IUserOperation
                 await deviceStorage.SaveAsync(UserDataEnum.Token, token);
                 await deviceStorage.SaveAsync(UserDataEnum.FullName, responseDto?.Payload?.FullName);
                 await deviceStorage.SaveAsync(UserDataEnum.PhotoUrl, responseDto?.Payload?.PhotoUrl);
-                return ResponseToUi.Accepted(response.StatusCode);
+                break;
+            case HttpStatusCode.Unauthorized:
             case HttpStatusCode.Forbidden:
-                await alert.DisplaySimpleAlertAsync("Please login again!");
-                await deviceStorage.ClearAsync();
-                return ResponseToUi.Rejected(response.StatusCode, "Please login again.");
+                await userDevice.Storage.ClearAsync();
+                await userDevice.Alert.DisplayAlert(AlertEnum.SessionIsExpiredPleaseLoginAgain);
+                await userDevice.Navigation.NavigateToAsync(PagesEnum.Login, forceLoad: true);
+                break;
             default:
-                return ResponseToUi.Rejected(response.StatusCode, "Unexpected error occured, error code: " + response.StatusCode);
+                await userDevice.Alert.DisplayAlert(AlertEnum.DeveloperMinorBug);
+                break;
         }
     }
 
     public async Task LogoutAsync()
     {
-        await UpdateAuthorizationAsync();
         await deviceStorage.ClearAsync();
             
         var requestDto = new RequestDto(userDevice.DeviceId);
@@ -146,11 +145,11 @@ public class UserOperation : OperationBase, IUserOperation
         {
             case HttpStatusCode.OK:
             case HttpStatusCode.Accepted:
-                return ResponseToUi.Accepted(response.StatusCode);
-            case HttpStatusCode.Forbidden:
-                return ResponseToUi.Rejected(response.StatusCode, "Illegal Request!");
+                await userDevice.Navigation.NavigateToAsync(PagesEnum.Login, forceLoad: true);
+                break;
             default:
-                return ResponseToUi.Rejected(response.StatusCode, "Unexpected error occured, error code: " + response.StatusCode);
+                await userDevice.Alert.DisplayAlert(AlertEnum.DeveloperMinorBug);
+                break;
         }
     }
 
@@ -165,23 +164,22 @@ public class UserOperation : OperationBase, IUserOperation
             Method = HttpMethod.Patch,
             Content = RequestDto.BuildHttpContentAsJson(requestDto)
         };
-
-        await UpdateAuthorizationAsync();
-
+        
         var response = await deviceServerCommunication.HttpClient.SendAsync(message);
 
         switch (response.StatusCode)
         {
             case HttpStatusCode.OK:
             case HttpStatusCode.Accepted:
-                await alert.DisplaySimpleAlertAsync("Password was updated successfully");
-                return ResponseToUi.Accepted(response.StatusCode);
+                await userDevice.Alert.DisplayAlert(AlertEnum.PasswordUpdatedSuccessfully);
+                await userDevice.Navigation.NavigateToAsync(PagesEnum.Home);
+                break;
             case HttpStatusCode.NotFound:
-                return ResponseToUi.Rejected(response.StatusCode, "Old password is not correct!");
-            case HttpStatusCode.Unauthorized:
-                return ResponseToUi.Rejected(response.StatusCode, "You are not authorized to to this!");
+                await userDevice.Alert.DisplayAlert(AlertEnum.InvalidPassword);
+                break;
             default:
-                return ResponseToUi.Rejected(response.StatusCode, "Unexpected error occured, error code: " + response.StatusCode);
+                await userDevice.Alert.DisplayAlert(AlertEnum.DeveloperMinorBug);
+                break;
         }
     }
 
@@ -200,14 +198,7 @@ public class UserOperation : OperationBase, IUserOperation
         };
         
         var response = await deviceServerCommunication.HttpClient.SendAsync(message);
-        await alert.DisplaySimpleAlertAsync("You will receive new password, please check your email.");
-        return ResponseToUi.Accepted(response.StatusCode);
-    }
-
-    private async Task UpdateAuthorizationAsync()
-    {
-        deviceServerCommunication.HttpClient.DefaultRequestHeaders.Clear();
-        deviceServerCommunication.HttpClient.DefaultRequestHeaders.Authorization = 
-            new AuthenticationHeaderValue("Brear", await deviceStorage.GetAsync(UserDataEnum.Token));
+        await userDevice.Navigation.NavigateToAsync(PagesEnum.Login);
+        await userDevice.Alert.DisplayAlert(AlertEnum.NewPasswordSent);
     }
 }

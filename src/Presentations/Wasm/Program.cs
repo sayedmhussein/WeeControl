@@ -20,20 +20,23 @@ public class Program
         var builder = WebAssemblyHostBuilder.CreateDefault(args);
         builder.RootComponents.Add<App>("#app");
         
+        builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
+        
+        builder.Services.AddScoped<IDevice, DeviceService>();
         builder.Services.AddScoped<IDeviceAlert, DeviceAlertSimple>();
         builder.Services.AddScoped<IDeviceLocation, DeviceLocationService>();
         builder.Services.AddScoped<IDevicePageNavigation, DevicePageNavicationService>();
-        
+        builder.Services.AddScoped<IDeviceServerCommunication, EssentialDeviceServerDeviceService>();
         builder.Services.AddScoped<IDeviceStorage, DeviceStorageService>();
+        
+        //builder.Services.AddScoped<IDeviceSecurity>(p => p.GetService<AuthStateProvider>());
+        builder.Services.AddScoped<IDeviceSecurity, AuthStateProvider>();
 
         DependencyInjection.AddUserSecurityServiceForApplication(builder.Services);
-           
-        //builder.Services.AddScoped<IEssentialDeviceServerDevice, EssentialDeviceServerDeviceService>();
         
         
         builder.Services.AddScoped<IUserOperation, UserOperation>();
-
-        builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
+        
         builder.Services.AddOptions();
 
         builder.Services.AddAuthorizationCore();
