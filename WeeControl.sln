@@ -47,7 +47,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.Test", "tests\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi.Test", "tests\WebApi.Test\WebApi.Test.csproj", "{F700359B-D75E-4145-9AA1-1C2599DCFADD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceCore.Test.Integration", "tests\ServiceCore.Test.Integration\ServiceCore.Test.Integration.csproj", "{B063A0E4-D130-4288-A9D5-48CE704DA9A6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserServiceCore.Test.Integration", "tests\UserServiceCore.Test.Integration\UserServiceCore.Test.Integration.csproj", "{B063A0E4-D130-4288-A9D5-48CE704DA9A6}"
 EndProject
 
 
