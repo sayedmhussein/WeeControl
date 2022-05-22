@@ -26,7 +26,7 @@ public class Program
         builder.Services.AddScoped<IDevice, DeviceService>();
         builder.Services.AddScoped<IDeviceAlert, DeviceAlertSimple>();
         builder.Services.AddScoped<IDeviceLocation, DeviceLocationService>();
-        builder.Services.AddScoped<IDevicePageNavigation, DevicePageNavicationService>();
+        builder.Services.AddScoped<IDevicePageNavigation, DevicePageNavigationService>();
         builder.Services.AddScoped<IDeviceServerCommunication, EssentialDeviceServerDeviceService>();
         builder.Services.AddScoped<IDeviceStorage, DeviceStorageService>();
         
