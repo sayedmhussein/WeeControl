@@ -21,11 +21,11 @@ This is open source project, while you need to read and accept each nuget packag
 ## Configuration Instructions
 In order to use this application you need to do the following:
 
-1. Edit values in \"/src/Backend/WebApi/appsettins.json\" including:
+1. Edit values in \"/src/WebApi/appsettings.json\" including:
     1. Change "UseInMemoryDb" to false if you didn't want to use in memory database.
     2. Database connection string (recommended to use postgres as backend database).
     3. <del>File storage connection string, you can use your own server directory</del>.
-3. Edit values in \"/src/Frontend/Wasm/wwwroot/appsettins.json\" including:
+3. Edit values in \"/src/user/Wasm/wwwroot/appsettings.json\" including:
     1. Api base address of WebApi server.
 4. Run WebApi server.
 5. Run Wasm (Blazor App).

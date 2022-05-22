@@ -8,7 +8,7 @@ public static class ClaimsTagsList
     {
         var fieldInfos =
             typeof(Claims).GetFields(BindingFlags.Static | BindingFlags.Public);
-        return fieldInfos.ToDictionary(info => info.Name, info => info?.GetValue(null)?.ToString());
+        return fieldInfos.ToDictionary(info => info.Name, info => info?.GetValue(null)?.ToString())!;
     }
     
     public static Dictionary<string, string> GetTagsDictionary()

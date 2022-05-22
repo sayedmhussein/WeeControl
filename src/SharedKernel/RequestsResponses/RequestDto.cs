@@ -27,7 +27,7 @@ public class RequestDto : IRequestDto
         DeviceId = device;
     }
 
-    public RequestDto(string device, double latitude, double longitude) : this(device)
+    public RequestDto(string device, double? latitude, double? longitude) : this(device)
     {
         Latitude = latitude;
         Longitude = longitude;

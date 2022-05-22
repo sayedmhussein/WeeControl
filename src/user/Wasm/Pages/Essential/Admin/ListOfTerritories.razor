@@ -1,0 +1,41 @@
+@page "/ListOfTerritories"
+@inject IAdminService AdminService
+
+@using WeeControl.SharedKernel.Essential.DataTransferObjects
+@using WeeControl.SharedKernel.Essential
+
+<h3>ListOfTerritories</h3>
+
+<div class="dropdown">
+    <table class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Code</th>
+                <th scope="col">Name</th>
+                <th scope="col">Country</th>
+                <th scope="col">Report To</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var t in territories)
+            {
+                <tr>
+                    <td>@t.TerritoryCode</td>
+                    <td>@t.TerritoryName</td>
+                    <td>@t.CountryCode</td>
+                    <td>@t.ReportToId</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+</div>
+
+@code {
+    private IEnumerable<TerritoryDto> territories = new List<TerritoryDto>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        territories = await AdminService.GetListOfTerritories();
+        await base.OnInitializedAsync();
+    }
+}

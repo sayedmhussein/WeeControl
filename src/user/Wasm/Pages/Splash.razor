@@ -1,0 +1,30 @@
+@page "/"
+@page "/Splash"
+@using WeeControl.User.Wasm.Shared
+@layout RestrictedLayout
+@attribute [AllowAnonymous]
+
+<h3>Splash</h3>
+
+@code {
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthState { get; set; }
+    
+    [Inject]
+    public NavigationManager NavManager { get; set; }
+    
+    protected override async void OnInitialized()
+    {
+        await base.OnInitializedAsync();
+        var user = (await AuthState).User;
+        if (user?.Identity?.IsAuthenticated == false)
+        {
+            NavManager.NavigateTo("login");
+        }
+        else
+        {
+            NavManager.NavigateTo("Index");
+        }
+    }
+    
+}

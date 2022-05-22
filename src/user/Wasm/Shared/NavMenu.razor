@@ -1,0 +1,120 @@
+﻿@using System.Runtime.CompilerServices
+@using System.Security.Claims
+@using WeeControl.SharedKernel.Essential.Security
+@using WeeControl.User.UserServiceCore.Enums
+@using WeeControl.User.UserServiceCore.Interfaces
+@inject IDeviceStorage DeviceStorage
+
+<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand" href="">
+        <img src="images/logo.png" alt="WeeControl" width="20" height="20"/>
+    </a>
+    <p class="text-primary ml-md-auto">@greetingMessage</p>
+    <button class="navbar-toggler" @onclick="ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <ul class="nav flex-column">
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span>
+                Home
+            </NavLink>
+        </li>
+        <li class="nav-item px-3" @onclick="ToggleNavMenu">
+            <NavLink class="nav-link" @onclick="()=>expandSubNav = !expandSubNav">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> SubMenu
+            </NavLink>
+            @if (expandSubNav)
+            {
+                <NavLink class="nav-item px-3" href="ListOfTerritories">
+                    <span>List of Territories</span>
+                </NavLink>
+                <NavLink class="nav-item px-3" href="">
+                    <span>Sub2</span>
+                </NavLink>
+            }
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="UserData">
+                <span class="oi oi-pencil" aria-hidden="true"></span>
+                My Account
+            </NavLink>
+        </li>
+        @if(claims.Select(x => x.Type).Contains(ClaimsTagsList.Claims.Developer))
+        {
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="Developer">
+                    <span class="oi oi-lightbulb" aria-hidden="true"></span>
+                    Developer
+                </NavLink>
+            </li>
+        }
+        @if(claims.Select(x => x.Type).Contains(ClaimsTagsList.Claims.Administrator))
+        {
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="Administrator">
+                    <span class="oi oi-lightbulb" aria-hidden="true"></span>
+                    Administrator
+                </NavLink>
+            </li>
+        }
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="NewPassword">
+                <span class="oi oi-lightbulb" aria-hidden="true"></span>
+                Change Password
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="Logout">
+                <span class="oi oi-account-logout" aria-hidden="true"></span>
+                Logout
+            </NavLink>
+        </li>
+
+        @* <li class="nav-item px-3"> *@
+        @*     <NavLink class="nav-link" href="login">Login Page</NavLink> *@
+        @* </li> *@
+    </ul>
+</div>
+
+@code {
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthState { get; set; }
+    
+    [Inject]
+    public NavigationManager NavManager { get; set; }
+    
+    private bool collapseNavMenu = true;
+
+    private readonly ICollection<Claim> claims = new List<Claim>();
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+    
+    private bool expandSubNav;
+
+    private string greetingMessage = "Hello User";
+
+    protected override async void OnInitialized()
+    {
+        await base.OnInitializedAsync();
+        var user = (await AuthState).User;
+        if (user?.Identity?.IsAuthenticated == false)
+        {
+            NavManager.NavigateTo("login");
+        }
+        
+        greetingMessage = "Hello " + await DeviceStorage.GetAsync(UserDataEnum.FullName);
+        foreach (var claim in (await AuthState).User.Claims)
+        {
+            claims.Add(claim);
+        }
+    }
+}

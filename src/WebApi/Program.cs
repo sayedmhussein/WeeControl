@@ -19,18 +19,21 @@ public class Program
         using var scope = host.Services.CreateScope();
         try
         {
-            var context = (EssentialDbContext)scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-            await context.Database.EnsureCreatedAsync();
-            if (context.Database.IsRelational())
-                await context.Database.MigrateAsync();
-
-            var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
-            await mediator.Send(new SeedEssentialDatabaseCommand());
+            await PrepareDatabase(scope);
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
-            throw;
+            try
+            {
+                await DeleteDatabase(scope);
+                await PrepareDatabase(scope);
+
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+                throw;
+            }
         }
         
         await host.RunAsync();
@@ -42,4 +45,22 @@ public class Program
             {
                 webBuilder.UseStartup<Startup>();
             });
+
+    private static async Task PrepareDatabase(IServiceScope scope)
+    {
+        var context = (EssentialDbContext)scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
+        await context.Database.EnsureCreatedAsync();
+        if (context.Database.IsRelational())
+            await context.Database.MigrateAsync();
+
+        var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+        await mediator.Send(new SeedEssentialDatabaseCommand());
+    }
+
+    private static async Task DeleteDatabase(IServiceScope scope)
+    {
+        var context = (EssentialDbContext)scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
+        //await context.Database.EnsureDeletedAsync();
+        await context.Database.MigrateAsync();
+    }
 }

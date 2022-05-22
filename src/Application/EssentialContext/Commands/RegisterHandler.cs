@@ -44,7 +44,7 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, ResponseDto<Toke
 
         await context.Users.AddAsync(user, cancellationToken);
         await context.SaveChangesAsync(cancellationToken);
-
+        
         var b= await mediator.Send(new GetNewTokenQuery(cmd.Request, new LoginDtoV1(user.Username, cmd.Payload.Password)), cancellationToken);
         return new ResponseDto<TokenDtoV1>(b.Payload);
     }

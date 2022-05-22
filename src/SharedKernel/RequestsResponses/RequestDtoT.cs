@@ -10,12 +10,13 @@ public class RequestDto<T> : RequestDto, IRequestDto<T> where T : class
     {
     }
         
+    [Obsolete("Use other constructor which contains location parameters.")]
     public RequestDto(string device, T payload) : base(device)
     {
         Payload = payload;
     }
 
-    public RequestDto(string device, T payload, double latitude, double longitude) : base(device, latitude, longitude)
+    public RequestDto(string device, T payload, double? latitude, double? longitude) : base(device, latitude, longitude)
     {
         Payload = payload;
     }

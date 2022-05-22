@@ -27,11 +27,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "src\WebApi\WebApi.csproj", "{D48BF60E-9F2D-4224-AE88-DB2C342F2169}"
 EndProject
 
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentations", "Presentations", "{D311A494-F342-4B0A-8A9F-045AD1D91C9E}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "user", "user", "{D311A494-F342-4B0A-8A9F-045AD1D91C9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceLibrary", "src\Presentations\ServiceLibrary\ServiceLibrary.csproj", "{AFE5D9F2-EAA0-419F-B812-0AF8793BEFDB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserServiceCore", "src\user\UserServiceCore\UserServiceCore.csproj", "{AFE5D9F2-EAA0-419F-B812-0AF8793BEFDB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wasm", "src\Presentations\Wasm\Wasm.csproj", "{C1ECA065-9D5C-4833-B71E-6675697FB9A6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wasm", "src\user\Wasm\Wasm.csproj", "{C1ECA065-9D5C-4833-B71E-6675697FB9A6}"
 EndProject
 
 
@@ -47,7 +47,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.Test", "tests\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi.Test", "tests\WebApi.Test\WebApi.Test.csproj", "{F700359B-D75E-4145-9AA1-1C2599DCFADD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi.Test.Functional", "tests\WebApi.Test.Functional\WebApi.Test.Functional.csproj", "{B063A0E4-D130-4288-A9D5-48CE704DA9A6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceCore.Test.Integration", "tests\ServiceCore.Test.Integration\ServiceCore.Test.Integration.csproj", "{B063A0E4-D130-4288-A9D5-48CE704DA9A6}"
 EndProject
 
 
