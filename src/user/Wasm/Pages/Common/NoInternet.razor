@@ -1,9 +1,17 @@
 @page "/NoInternet"
+@inject IDevicePageNavigation Navigation
 @using WeeControl.User.Wasm.Shared
+@using WeeControl.User.UserServiceCore.Interfaces
 @layout RestrictedLayout
 
 <h3>NoInternet</h3>
 
+<button class="btn btn-primary" @onclick=@GoBack>Try Again</button>
+
 @code {
-    
+
+    private Task GoBack()
+    {
+        return Navigation.GoBackAsync();
+    }
 }

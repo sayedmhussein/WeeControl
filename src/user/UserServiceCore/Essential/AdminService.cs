@@ -1,7 +1,6 @@
 using System.Net;
 using WeeControl.SharedKernel.Essential;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
-using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.RequestsResponses;
 using WeeControl.User.UserServiceCore.Enums;
 using WeeControl.User.UserServiceCore.Interfaces;
