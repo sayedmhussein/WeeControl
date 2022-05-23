@@ -38,7 +38,7 @@ public class UserDbo
     public string? SuspendArgs { get; private set; }
 
     public virtual IEnumerable<SessionDbo> Sessions { get; }
-    public virtual IEnumerable<ClaimDbo> Claims { get; }
+    public virtual ICollection<ClaimDbo> Claims { get; }
 
     public void UpdatePassword(string newPassword)
     {
@@ -53,6 +53,12 @@ public class UserDbo
     public void Activate()
     {
         SuspendArgs = null;
+    }
+
+    public void AddClaim(string claimType, string claimValue, Guid grantedBy)
+    {
+        var claim = ClaimDbo.Create(UserId, claimType, claimValue, grantedBy);
+        Claims.Add(claim);
     }
     
     private UserDbo()

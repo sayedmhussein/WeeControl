@@ -49,18 +49,20 @@ public class Program
     private static async Task PrepareDatabase(IServiceScope scope)
     {
         var context = (EssentialDbContext)scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-        await context.Database.EnsureCreatedAsync();
-        if (context.Database.IsRelational())
-            await context.Database.MigrateAsync();
+        if (await context.Database.EnsureCreatedAsync())
+        {
+            if (context.Database.IsRelational())
+                await context.Database.MigrateAsync();
 
-        var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
-        await mediator.Send(new SeedEssentialDatabaseCommand());
+            var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+            await mediator.Send(new SeedEssentialDatabaseCommand());
+        }
     }
 
     private static async Task DeleteDatabase(IServiceScope scope)
     {
         var context = (EssentialDbContext)scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-        //await context.Database.EnsureDeletedAsync();
-        await context.Database.MigrateAsync();
+        if (context.Database.IsRelational())
+            await context.Database.MigrateAsync();
     }
 }

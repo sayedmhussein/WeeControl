@@ -12,7 +12,6 @@ namespace WeeControl.Application.EssentialContext.Commands;
 
 public class SeedEssentialDatabaseCommand : IRequest
 {
-    
     public class SeedEssentialDatabaseHandler : IRequestHandler<SeedEssentialDatabaseCommand>
     {
         private readonly IEssentialDbContext context;
@@ -28,29 +27,11 @@ public class SeedEssentialDatabaseCommand : IRequest
         {
             if (await context.Territories.AnyAsync(cancellationToken) == false)
             {
-                foreach (var t in GetTerritories())
-                {
-                    await context.Territories.AddAsync(t, cancellationToken);
-                    await context.SaveChangesAsync(cancellationToken);
-                }
+                await context.Territories.AddRangeAsync(GetTerritories(), cancellationToken);
             }
 
-            if (await context.Users.AnyAsync(cancellationToken) == false)
-            {
-                await context.Users.AddRangeAsync(GetUsers(), cancellationToken);
-                await context.SaveChangesAsync(cancellationToken);
-            }
+            await AddDeveloper(cancellationToken);
 
-            var admin = await context.Users.FirstOrDefaultAsync(x => x.Username == "admin", cancellationToken);
-            admin.TerritoryId = "USA-HO";
-            await context.SaveChangesAsync(cancellationToken);
-
-            if (await context.Claims.AnyAsync() == false)
-            {
-                await context.Claims.AddRangeAsync(GetClaims(admin.UserId), cancellationToken);
-                await context.SaveChangesAsync(cancellationToken);
-            }
-            
             return Unit.Value;
         }
 
@@ -67,21 +48,17 @@ public class SeedEssentialDatabaseCommand : IRequest
             };
         }
 
-        private IEnumerable<UserDbo> GetUsers()
+        private async Task AddDeveloper(CancellationToken cancellationToken)
         {
-            return new List<UserDbo>()
-            {
-                UserDbo.Create("admin@weecontrol.com", "admin", passwordSecurity.Hash("admin"), "USA-HO"),
-                UserDbo.Create("user@weecontrol.com", "user", passwordSecurity.Hash("user"), "EGP-CAI")
-            };
-        }
+            await context.Users.AddAsync(UserDbo.Create("developer@weecontrol.com", 
+                "developer", 
+                passwordSecurity.Hash("developer"),
+                "USA-HO"), cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
 
-        private IEnumerable<ClaimDbo> GetClaims(Guid adminId)
-        {
-            return new List<ClaimDbo>()
-            {
-                ClaimDbo.Create(adminId, ClaimsTagsList.Claims.Developer, ClaimsTagsList.Tags.SuperUser, adminId)
-            };
+            var developer = await context.Users.Include(x => x.Claims).FirstAsync(x => x.Username == "developer", cancellationToken);
+            developer.AddClaim(ClaimsTagsList.Claims.Developer, ClaimsTagsList.Tags.SuperUser, developer.UserId);
+            await context.SaveChangesAsync(cancellationToken);
         }
     }
 }
