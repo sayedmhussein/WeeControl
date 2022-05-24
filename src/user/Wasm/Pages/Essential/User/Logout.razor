@@ -1,17 +1,15 @@
 @page "/Logout"
 
-@using WeeControl.SharedKernel.Essential
-@inject IUserService authentication
-@inject NavigationManager navManager
+@using WeeControl.User.UserServiceCore.ViewModels.Essentials
+@inject LogoutViewModel ViewModel
 
-<h1>Good By :)</h1>
+<h1>@ViewModel.GoodbyMessage</h1>
 
 @code {
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        await authentication.LogoutAsync();
+        await ViewModel.LogoutAsync();
         StateHasChanged();
-        navManager.NavigateTo("/login", true);
     }
 }

@@ -92,7 +92,7 @@ public class UserController : Controller
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.Forbidden)]
-    public async Task<ActionResult<ResponseDto>> UpdatePasswordV1([FromBody] RequestDto<MeForgotPasswordDtoV1> dto)
+    public async Task<ActionResult<ResponseDto>> UpdatePasswordV1([FromBody] RequestDto<SetNewPasswordDtoV1> dto)
     {
         var command = new UpdatePasswordCommand(dto, dto.Payload.OldPassword, dto.Payload.NewPassword);
         var response = await mediator.Send(command);
@@ -104,7 +104,7 @@ public class UserController : Controller
     [HttpPost(Api.Essential.User.Reset)]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.OK)]
-    public async Task<ActionResult<ResponseDto>> ResetPasswordV1([FromBody] RequestDto<PutNewPasswordDtoV1> dto)
+    public async Task<ActionResult<ResponseDto>> ResetPasswordV1([FromBody] RequestDto<ForgotMyPasswordDto> dto)
     {
         var command = new ResetPasswordCommand(dto, dto.Payload.Email, dto.Payload.Username);
         await mediator.Send(command);

@@ -2,9 +2,9 @@
 @page "/Home"
 
 @using System.Security.Claims
-@using WeeControl.SharedKernel.Essential
+@using WeeControl.User.UserServiceCore.ViewModels.Shared
 
-@inject IUserService UserService
+@inject HomeViewModel ViewModel
 
 <h1>Hello, world!</h1>
 
@@ -40,7 +40,7 @@ Welcome to your new app.
     
     protected override async void OnInitialized()
     {
-        await UserService.GetTokenAsync();
+        await ViewModel.RefreshToken();
 
         await GetClaims();
         

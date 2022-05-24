@@ -1,60 +1,46 @@
 @page "/Register"
 @using WeeControl.SharedKernel.Essential
 @using WeeControl.User.Wasm.Shared
-@using WeeControl.SharedKernel.Essential.DataTransferObjects
+@using WeeControl.User.UserServiceCore.ViewModels.Essentials
 
 @layout RestrictedLayout
 @attribute [AllowAnonymous]
 
-@inject NavigationManager NavManager
+@inject RegisterViewModel ViewModel
 
 @inject IUserService UserService
 
 <div class="card">
     <h4 class="card-header">Please fill the below fields</h4>
     <div class="card-body">
-        <EditForm Model="@dtoV1" OnValidSubmit="RegisterAsync">
+        <EditForm Model="@ViewModel" OnValidSubmit="ViewModel.RegisterAsync">
             <DataAnnotationsValidator/>
             <div class="form-group">
                 <label>Email Address</label>
-                <InputText @bind-Value="dtoV1.Email" class="form-control"/>
-                <ValidationMessage For="@(() => dtoV1.Email)"/>
+                <InputText @bind-Value="ViewModel.Email" class="form-control"/>
+                <ValidationMessage For="@(() => ViewModel.Email)"/>
             </div>
             <div class="form-group">
                 <label>Username</label>
-                <InputText @bind-Value="dtoV1.Username" class="form-control"/>
-                <ValidationMessage For="@(() => dtoV1.Username)"/>
+                <InputText @bind-Value="ViewModel.Username" class="form-control"/>
+                <ValidationMessage For="@(() => ViewModel.Username)"/>
             </div>
             <div class="form-group">
                 <label>Password</label>
-                <InputText @bind-Value="dtoV1.Password" type="password" class="form-control"/>
-                <ValidationMessage For="@(() => dtoV1.Password)"/>
+                <InputText @bind-Value="ViewModel.Password" type="password" class="form-control"/>
+                <ValidationMessage For="@(() => ViewModel.Password)"/>
             </div>
             <button class="btn btn-primary">
-                @if (isLoading)
+                @if (ViewModel.IsLoading)
                 {
                     <span class="spinner-border spinner-border-sm mr-1"></span>
                 }
                 Register
             </button>
-
-            @if (!string.IsNullOrEmpty(alertMessage))
-            {
-                <div class="alert alert-danger mt-3 mb-0">@alertMessage</div>
-            }
         </EditForm>
     </div>
 </div>
 
 @code {
-    private readonly RegisterDtoV1 dtoV1 = new();
-    private string alertMessage = string.Empty;
-    private bool isLoading = false;
-
-    private async Task RegisterAsync()
-    {
-        isLoading = true;
-        await UserService.RegisterAsync(dtoV1);
-        isLoading = false;
-    }
+    
 }

@@ -1,43 +1,42 @@
 ﻿@page "/Login"
 @page "/authentication/login"
-
-@using WeeControl.SharedKernel.Essential
 @using WeeControl.User.Wasm.Shared
-@using WeeControl.SharedKernel.Essential.DataTransferObjects
+@using WeeControl.User.UserServiceCore.ViewModels.Essentials
+@using Microsoft.AspNetCore.Components
 @layout RestrictedLayout
 @attribute [AllowAnonymous]
 
+@inject LoginViewModel ViewModel
 @inject NavigationManager navManager
-@inject IUserService authentication
 
 <div class="card">
-    <h4 class="card-header">Please enter your username and password</h4>
+    <h4 class="card-header">@ViewModel.CardHeaderString</h4>
     <div class="card-body">
-        <EditForm Model="@loginDtoV1" OnValidSubmit="ProcessLoginAsync">
+        <EditForm Model="@ViewModel" OnValidSubmit="ProcessLoginAsync">
             <DataAnnotationsValidator/>
             <div class="form-group">
-                <label>Username or Email</label>
-                <InputText @bind-Value="loginDtoV1.UsernameOrEmail" class="form-control"/>
-                <ValidationMessage For="@(() => loginDtoV1.UsernameOrEmail)"/>
+                <label>@ViewModel.UsernameOrEmailString</label>
+                <InputText @bind-Value="ViewModel.UsernameOrEmail" class="form-control"/>
+                <ValidationMessage For="@(() => ViewModel.UsernameOrEmail)"/>
             </div>
             <div class="form-group">
                 <label>Password</label>
-                <InputText @bind-Value="loginDtoV1.Password" type="password" class="form-control"/>
-                <ValidationMessage For="@(() => loginDtoV1.Password)"/>
+                <InputText @bind-Value="ViewModel.Password" type="password" class="form-control"/>
+                <ValidationMessage For="@(() => ViewModel.Password)"/>
             </div>
             <button class="btn btn-primary">
-                @if (loading)
+                @if (ViewModel.IsLoading)
                 {
                     <span class="spinner-border spinner-border-sm mr-1"></span>
                 }
                 Login
             </button>
-            <button class="btn btn-secondary" @onclick="@RequestPasswordReset">Forgot Password</button>
-            @if (!string.IsNullOrEmpty(stringAlert))
-            {
-                <div class="alert alert-danger mt-3 mb-0">@stringAlert</div>
-            }
-            <button class="btn btn-outline-secondary" @onclick="@Register">Register</button>
+            <button class="btn btn-secondary" @onclick="@ViewModel.NavigateToForgotMyPasswordPage">Forgot Password</button>
+            @* @if (!string.IsNullOrEmpty(stringAlert)) *@
+            @* { *@
+            @*     <div class="alert alert-danger mt-3 mb-0">@stringAlert</div> *@
+            @* } *@
+            <button class="btn btn-outline-secondary" @onclick="@ViewModel.NavigateToRegisterPage">Register</button>
         </EditForm>
     </div>
 </div>
@@ -46,10 +45,6 @@
 {
     [CascadingParameter]
     public Task<AuthenticationState> AuthState { get; set; }
-    
-    private readonly LoginDtoV1 loginDtoV1 = new();
-    private bool loading;
-    private string stringAlert;
 
     protected override async void OnInitialized()
     {
@@ -60,31 +55,11 @@
         {
             navManager.NavigateTo("/Home");
         }
-
-        loginDtoV1.Password = string.Empty;
     }
 
     private async Task ProcessLoginAsync()
     {
-        loading = true;
-        await authentication.LoginAsync(loginDtoV1);
-        loginDtoV1.Password = string.Empty;
-        loading = false;
-        
+        await ViewModel.LoginAsync();
         StateHasChanged();
-
-
-    }
-
-    private Task RequestPasswordReset()
-    {
-        navManager.NavigateTo("/ForgotPassword");
-        return Task.CompletedTask;
-    }
-
-    private Task Register()
-    {
-        navManager.NavigateTo("/Register");
-        return Task.CompletedTask;
     }
 }

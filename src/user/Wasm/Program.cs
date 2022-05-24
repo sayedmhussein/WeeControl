@@ -5,9 +5,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.SharedKernel.Essential;
 using WeeControl.User.UserServiceCore.Interfaces;
-using WeeControl.User.UserServiceCore.Services;
 using WeeControl.User.Wasm.Services;
 using SharedDependency = WeeControl.SharedKernel.DependencyInjection;
 using UserServiceDependency = WeeControl.User.UserServiceCore.DependencyExtension;
@@ -35,10 +33,7 @@ public class Program
 
         SharedDependency.AddUserSecurityServiceForApplication(builder.Services);
         UserServiceDependency.AddUserServiceCore(builder.Services);
-        
-        
-        builder.Services.AddScoped<IUserService, UserService>();
-        
+
         builder.Services.AddOptions();
 
         builder.Services.AddAuthorizationCore();
