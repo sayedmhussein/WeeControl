@@ -12,6 +12,7 @@ namespace WeeControl.Persistence.Essential.Configurations
             builder.ToTable(nameof(ClaimDbo), nameof(Essential));
             builder.Property(p => p.ClaimId).ValueGeneratedOnAdd();
             builder.Property(p => p.GrantedTs).HasDefaultValue(DateTime.UtcNow);
+            builder.HasIndex(i => new { i.ClaimType, i.ClaimValue }).IsUnique();
         }
     }
 }

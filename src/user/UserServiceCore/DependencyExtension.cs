@@ -1,7 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using WeeControl.SharedKernel.Essential;
-using WeeControl.User.UserServiceCore.Essential;
 using WeeControl.User.UserServiceCore.InternalHelpers;
+using WeeControl.User.UserServiceCore.Services;
 
 namespace WeeControl.User.UserServiceCore;
 

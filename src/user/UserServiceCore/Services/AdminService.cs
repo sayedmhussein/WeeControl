@@ -6,7 +6,7 @@ using WeeControl.User.UserServiceCore.Enums;
 using WeeControl.User.UserServiceCore.Interfaces;
 using WeeControl.User.UserServiceCore.InternalHelpers;
 
-namespace WeeControl.User.UserServiceCore.Essential;
+namespace WeeControl.User.UserServiceCore.Services;
 
 internal class AdminService : IAdminService
 {

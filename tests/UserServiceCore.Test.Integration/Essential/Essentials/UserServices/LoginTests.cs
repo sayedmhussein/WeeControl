@@ -11,7 +11,7 @@ using WeeControl.Domain.Essential.Entities;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.Services;
 using WeeControl.User.UserServiceCore.Enums;
-using WeeControl.User.UserServiceCore.Essential;
+using WeeControl.User.UserServiceCore.Services;
 using WeeControl.WebApi;
 using Xunit;
 

@@ -6,7 +6,7 @@ using WeeControl.SharedKernel.RequestsResponses;
 using WeeControl.User.UserServiceCore.Enums;
 using WeeControl.User.UserServiceCore.Interfaces;
 
-namespace WeeControl.User.UserServiceCore.Essential;
+namespace WeeControl.User.UserServiceCore.Services;
 
 public class UserService : BaseService, IUserService
 {

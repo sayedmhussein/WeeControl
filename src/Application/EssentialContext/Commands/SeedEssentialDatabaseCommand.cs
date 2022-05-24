@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -25,12 +26,26 @@ public class SeedEssentialDatabaseCommand : IRequest
     
         public async Task<Unit> Handle(SeedEssentialDatabaseCommand request, CancellationToken cancellationToken)
         {
-            if (await context.Territories.AnyAsync(cancellationToken) == false)
-            {
-                await context.Territories.AddRangeAsync(GetTerritories(), cancellationToken);
-            }
+            if (await context.Territories.AnyAsync(cancellationToken))
+                return Unit.Value;
 
-            await AddDeveloper(cancellationToken);
+            await context.Territories.AddRangeAsync(GetTerritories(), cancellationToken);
+
+            await AddUser("developer", "USA-HO", new List<(string Type, string Value)>()
+            {
+                (ClaimsTagsList.Claims.Developer, ClaimsTagsList.Tags.SuperUser)
+            }, cancellationToken);
+            
+            await AddUser("admin", "SAU-WEST", new List<(string Type, string Value)>()
+            {
+                (ClaimsTagsList.Claims.Administrator, ClaimsTagsList.Tags.SuperUser),
+                (ClaimsTagsList.Claims.Administrator, ClaimsTagsList.Tags.Manager)
+            }, cancellationToken);
+            
+            await AddUser("HrUser", "SAU-WEST", new List<(string Type, string Value)>()
+            {
+                (ClaimsTagsList.Claims.HumanResource, ClaimsTagsList.Tags.SuperUser)
+            }, cancellationToken);
 
             return Unit.Value;
         }
@@ -48,17 +63,27 @@ public class SeedEssentialDatabaseCommand : IRequest
             };
         }
 
-        private async Task AddDeveloper(CancellationToken cancellationToken)
+        private async Task AddUser(string name, string territoryId, IEnumerable<(string Type, string Value)> claims, CancellationToken cancellationToken)
         {
-            await context.Users.AddAsync(UserDbo.Create("developer@weecontrol.com", 
-                "developer", 
-                passwordSecurity.Hash("developer"),
-                "USA-HO"), cancellationToken);
+            await context.Users.AddAsync(UserDbo.Create($"{name}@WeeControl.com", 
+                name, 
+                passwordSecurity.Hash(name),
+                territoryId), cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
 
-            var developer = await context.Users.Include(x => x.Claims).FirstAsync(x => x.Username == "developer", cancellationToken);
-            developer.AddClaim(ClaimsTagsList.Claims.Developer, ClaimsTagsList.Tags.SuperUser, developer.UserId);
-            await context.SaveChangesAsync(cancellationToken);
+            if (claims is not null && claims.Any())
+            {
+                var user = await context.Users.Include(x => x.Claims)
+                    .FirstAsync(x => x.Username == name, cancellationToken);
+                
+                foreach (var c in claims)
+                {
+                    await context.Claims.AddAsync(ClaimDbo.Create(user.UserId, c.Type, c.Value, user.UserId), cancellationToken);
+                }
+                
+                await context.SaveChangesAsync(cancellationToken);
+            }
+            
         }
     }
 }
