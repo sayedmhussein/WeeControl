@@ -2,14 +2,14 @@
 @page "/Home"
 
 @using System.Security.Claims
-@using WeeControl.User.UserServiceCore.ViewModels.Shared
+@using WeeControl.User.UserServiceCore.ViewModels.Home
 
 @inject HomeViewModel ViewModel
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
-<p class="flex-wrap">Hello World</p>
+<p class="flex-wrap">Hello @ViewModel.NameOfUSer</p>
 
 <div class="dropdown">
     <table class="table table-bordered table-hover">

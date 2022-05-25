@@ -5,7 +5,7 @@ using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.User.UserServiceCore.Enums;
 using WeeControl.User.UserServiceCore.Interfaces;
 
-namespace WeeControl.User.UserServiceCore.ViewModels.Essentials;
+namespace WeeControl.User.UserServiceCore.ViewModels.Authentication;
 
 public class LoginViewModel : ViewModelBase
 {

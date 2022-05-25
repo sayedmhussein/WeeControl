@@ -1,13 +1,13 @@
 ﻿@page "/Login"
 @page "/authentication/login"
 @using WeeControl.User.Wasm.Shared
-@using WeeControl.User.UserServiceCore.ViewModels.Essentials
 @using Microsoft.AspNetCore.Components
+@using WeeControl.User.UserServiceCore.ViewModels.Authentication
 @layout RestrictedLayout
 @attribute [AllowAnonymous]
 
 @inject LoginViewModel ViewModel
-@inject NavigationManager navManager
+@inject NavigationManager NavManager
 
 <div class="card">
     <h4 class="card-header">@ViewModel.CardHeaderString</h4>
@@ -53,7 +53,7 @@
         var authenticated = (await AuthState)?.User?.Identity?.IsAuthenticated;
         if (authenticated != null && authenticated == true)
         {
-            navManager.NavigateTo("/Home");
+            NavManager.NavigateTo("/Home");
         }
     }
 

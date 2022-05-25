@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using WeeControl.SharedKernel.Essential;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 
-namespace WeeControl.User.UserServiceCore.ViewModels.Essentials;
+namespace WeeControl.User.UserServiceCore.ViewModels.Authentication;
 
 public class SetNewPasswordViewModel : INotifyPropertyChanged
 {

@@ -40,6 +40,11 @@
     <ProjectReference Include="..\UserServiceCore\UserServiceCore.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <AdditionalFiles Include="Pages\Authentication\ForgotPassword.razor" />
+    <AdditionalFiles Include="Pages\Authentication\Login.razor" />
+    <AdditionalFiles Include="Pages\Authentication\Logout.razor" />
+    <AdditionalFiles Include="Pages\Authentication\NewPassword.razor" />
+    <AdditionalFiles Include="Pages\Authentication\Register.razor" />
     <AdditionalFiles Include="Pages\Essential\Admin\AdminMainComponent.razor" />
   </ItemGroup>
 </Project>

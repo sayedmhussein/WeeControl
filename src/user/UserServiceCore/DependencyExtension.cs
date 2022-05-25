@@ -3,8 +3,8 @@ using WeeControl.SharedKernel.Essential;
 using WeeControl.User.UserServiceCore.Interfaces;
 using WeeControl.User.UserServiceCore.InternalHelpers;
 using WeeControl.User.UserServiceCore.Services;
-using WeeControl.User.UserServiceCore.ViewModels.Essentials;
-using WeeControl.User.UserServiceCore.ViewModels.Shared;
+using WeeControl.User.UserServiceCore.ViewModels.Authentication;
+using WeeControl.User.UserServiceCore.ViewModels.Home;
 
 namespace WeeControl.User.UserServiceCore;
 
