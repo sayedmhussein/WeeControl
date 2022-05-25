@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -76,12 +77,33 @@ public class AuthStateProvider : AuthenticationStateProvider, IDeviceSecurity
     public async Task<bool> IsAuthenticatedAsync()
     {
         var token = await localStorage.GetAsync(UserDataEnum.Token);
-        return string.IsNullOrWhiteSpace(token);
+        return !string.IsNullOrWhiteSpace(token);
     }
 
-    public Task UpdateTokenAsync(string token = null)
+    public Task UpdateTokenAsync(string token)
     {
+        localStorage.SaveAsync(UserDataEnum.Token, token);
         NotifyUserAuthentication(token);
         return Task.CompletedTask;
+    }
+
+    public Task DeleteTokenAsync()
+    {
+        return localStorage.SaveAsync(UserDataEnum.Token, string.Empty);
+    }
+
+    public async Task<IEnumerable<Claim>> GetClaimsAsync()
+    {
+        try
+        {
+            var token = await localStorage.GetAsync(UserDataEnum.Token);
+            var cp = GetClaimPrincipal(token);
+            return cp.Claims;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return new List<Claim>();
+        }
     }
 }

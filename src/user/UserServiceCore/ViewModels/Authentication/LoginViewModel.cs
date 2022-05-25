@@ -32,6 +32,18 @@ public class LoginViewModel : ViewModelBase
         
         SetUpStaticStrings();
     }
+
+    public async Task Init()
+    {
+        if (await device.Security.IsAuthenticatedAsync())
+        {
+            await userService.GetTokenAsync();
+            if (await device.Security.IsAuthenticatedAsync())
+            {
+                await device.Navigation.NavigateToAsync(PagesEnum.Home);
+            }
+        }
+    }
     
     public async Task LoginAsync()
     {

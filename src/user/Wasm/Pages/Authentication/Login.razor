@@ -49,17 +49,18 @@
     protected override async void OnInitialized()
     {
         await base.OnInitializedAsync();
-        
-        var authenticated = (await AuthState)?.User?.Identity?.IsAuthenticated;
-        if (authenticated != null && authenticated == true)
-        {
-            NavManager.NavigateTo("/Home");
-        }
+
+        await ViewModel.Init();
+    // var authenticated = (await AuthState)?.User?.Identity?.IsAuthenticated;
+    // if (authenticated != null && authenticated == true)
+    // {
+    //     NavManager.NavigateTo("/Home");
+    // }
     }
 
     private async Task ProcessLoginAsync()
     {
         await ViewModel.LoginAsync();
-        StateHasChanged();
+        //StateHasChanged();
     }
 }

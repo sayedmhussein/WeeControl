@@ -37,7 +37,7 @@ internal class UserService : IUserService
                 var dto = await server.GetObjectFromJsonResponseAsync<ResponseDto<TokenDtoV1>>(response);
                 var token = dto?.Payload?.Token;
                 await device.Storage.SaveAsync(UserDataEnum.Token, token);
-                device.Security.UpdateTokenAsync(token);
+                await device.Security.UpdateTokenAsync(token);
                 await device.Navigation.NavigateToAsync(PagesEnum.Home, forceLoad: true);
                 break;
             case HttpStatusCode.Conflict:
@@ -116,9 +116,11 @@ internal class UserService : IUserService
                 await device.Storage.SaveAsync(UserDataEnum.Token, token);
                 await device.Storage.SaveAsync(UserDataEnum.FullName, responseDto?.Payload?.FullName);
                 await device.Storage.SaveAsync(UserDataEnum.PhotoUrl, responseDto?.Payload?.PhotoUrl);
+                await device.Security.UpdateTokenAsync(token);
                 break;
             case HttpStatusCode.Unauthorized:
             case HttpStatusCode.Forbidden:
+                await device.Security.DeleteTokenAsync();
                 await device.Storage.ClearAsync();
                 await device.Alert.DisplayAlert(AlertEnum.SessionIsExpiredPleaseLoginAgain);
                 await device.Navigation.NavigateToAsync(PagesEnum.Login, forceLoad: true);

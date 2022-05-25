@@ -32,7 +32,13 @@ public class SeedEssentialDatabaseCommand : IRequest
 
             await AddUser("developer", "USA-HO", new List<(string Type, string Value)>()
             {
-                (ClaimsTagsList.Claims.Developer, ClaimsTagsList.Tags.SuperUser)
+                (ClaimsTagsList.Claims.Developer, ClaimsTagsList.Tags.SuperUser),
+                (ClaimsTagsList.Claims.Administrator, ClaimsTagsList.Tags.Supervisor),
+                (ClaimsTagsList.Claims.HumanResource, ClaimsTagsList.Tags.SuperUser),
+                (ClaimsTagsList.Claims.Sales, ClaimsTagsList.Tags.SuperUser),
+                (ClaimsTagsList.Claims.Director, ClaimsTagsList.Tags.SuperUser),
+                (ClaimsTagsList.Claims.Field, ClaimsTagsList.Tags.SuperUser),
+                (ClaimsTagsList.Claims.Finance, ClaimsTagsList.Tags.SuperUser)
             }, cancellationToken);
             
             await AddUser("admin", "SAU-WEST", new List<(string Type, string Value)>()

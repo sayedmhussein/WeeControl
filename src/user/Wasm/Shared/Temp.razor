@@ -1,11 +1,8 @@
-﻿@using System.Runtime.CompilerServices
+@using System.Runtime.CompilerServices
 @using System.Security.Claims
 @using WeeControl.SharedKernel.Essential.Security
 @using WeeControl.User.UserServiceCore.Enums
 @using WeeControl.User.UserServiceCore.Interfaces
-@using WeeControl.User.UserServiceCore.ViewModels
-@using WeeControl.User.UserServiceCore.ViewModels.Home
-@inject HomeNavigationMenuViewModel ViewModel
 @inject IDeviceStorage DeviceStorage
 
 <div class="top-row pl-4 navbar navbar-dark">
@@ -45,34 +42,24 @@
                 My Account
             </NavLink>
         </li>
-        @foreach(var v in ViewModel.MenuItems)
+        @if(claims.Select(x => x.Type).Contains(ClaimsTagsList.Claims.Developer))
         {
             <li class="nav-item px-3">
-                <NavLink class="nav-link" href="@v.PageName">
+                <NavLink class="nav-link" href="Developer">
                     <span class="oi oi-lightbulb" aria-hidden="true"></span>
-                    @v.Name
+                    Developer
                 </NavLink>
             </li>
         }
-        
-        @* @if(claims.Select(x => x.Type).Contains(ClaimsTagsList.Claims.Developer)) *@
-        @* { *@
-        @*     <li class="nav-item px-3"> *@
-        @*         <NavLink class="nav-link" href="Developer"> *@
-        @*             <span class="oi oi-lightbulb" aria-hidden="true"></span> *@
-        @*             Developer *@
-        @*         </NavLink> *@
-        @*     </li> *@
-        @* } *@
-        @* @if(claims.Select(x => x.Type).Contains(ClaimsTagsList.Claims.Administrator)) *@
-        @* { *@
-        @*     <li class="nav-item px-3"> *@
-        @*         <NavLink class="nav-link" href="Administrator"> *@
-        @*             <span class="oi oi-lightbulb" aria-hidden="true"></span> *@
-        @*             Administrator *@
-        @*         </NavLink> *@
-        @*     </li> *@
-        @* } *@
+        @if(claims.Select(x => x.Type).Contains(ClaimsTagsList.Claims.Administrator))
+        {
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="Administrator">
+                    <span class="oi oi-lightbulb" aria-hidden="true"></span>
+                    Administrator
+                </NavLink>
+            </li>
+        }
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="NewPassword">
                 <span class="oi oi-lightbulb" aria-hidden="true"></span>
@@ -93,7 +80,15 @@
 </div>
 
 @code {
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthState { get; set; }
+    
+    [Inject]
+    public NavigationManager NavManager { get; set; }
+    
     private bool collapseNavMenu = true;
+
+    private readonly ICollection<Claim> claims = new List<Claim>();
 
     private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
@@ -104,10 +99,18 @@
     
     private bool expandSubNav;
 
-    protected override async Task OnInitializedAsync()
+    protected override async void OnInitialized()
     {
         await base.OnInitializedAsync();
-        await ViewModel.SetupMenuAsync();
-        StateHasChanged();
+        var user = (await AuthState).User;
+        if (user?.Identity?.IsAuthenticated == false)
+        {
+            NavManager.NavigateTo("login");
+        }
+        
+        foreach (var claim in (await AuthState).User.Claims)
+        {
+            claims.Add(claim);
+        }
     }
 }

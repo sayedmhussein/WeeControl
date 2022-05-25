@@ -1,6 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
 using WeeControl.SharedKernel.Essential;
-using WeeControl.User.UserServiceCore.Interfaces;
 using WeeControl.User.UserServiceCore.InternalHelpers;
 using WeeControl.User.UserServiceCore.Services;
 using WeeControl.User.UserServiceCore.ViewModels.Authentication;
@@ -23,13 +22,13 @@ public static class DependencyExtension
         services.AddTransient<RegisterViewModel>();
         services.AddTransient<ForgotMyPasswordViewModel>();
         services.AddTransient<SetNewPasswordViewModel>();
-        services.AddTransient<SplashViewModel>();
+        
         #endregion
 
         #region SharedContext
-
+        services.AddTransient<SplashViewModel>();
         services.AddTransient<HomeViewModel>();
-
+        services.AddTransient<HomeNavigationMenuViewModel>();
         #endregion
         
         
