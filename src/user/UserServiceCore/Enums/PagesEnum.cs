@@ -3,7 +3,7 @@ namespace WeeControl.User.UserServiceCore.Enums;
 public enum PagesEnum
 {
     
-    Home, NoInternet,
+    Home, NoInternet, Splash,
     Login, Logout, ChangePassword, NewPassword, ForgotPassword, Register,
     Play,
     

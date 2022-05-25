@@ -2,7 +2,7 @@ namespace WeeControl.User.UserServiceCore.Interfaces;
 
 public interface IDeviceSecurity
 {
-    bool IsAuthenticated();
+    Task<bool> IsAuthenticatedAsync();
 
-    void UpdateToken(string? token = null);
+    Task UpdateTokenAsync(string? token = null);
 }

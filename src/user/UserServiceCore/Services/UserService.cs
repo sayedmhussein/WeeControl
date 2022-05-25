@@ -37,7 +37,7 @@ internal class UserService : IUserService
                 var dto = await server.GetObjectFromJsonResponseAsync<ResponseDto<TokenDtoV1>>(response);
                 var token = dto?.Payload?.Token;
                 await device.Storage.SaveAsync(UserDataEnum.Token, token);
-                device.Security.UpdateToken(token);
+                device.Security.UpdateTokenAsync(token);
                 await device.Navigation.NavigateToAsync(PagesEnum.Home, forceLoad: true);
                 break;
             case HttpStatusCode.Conflict:

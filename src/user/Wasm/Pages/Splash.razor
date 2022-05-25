@@ -1,10 +1,13 @@
 @page "/"
 @page "/Splash"
 @using WeeControl.User.Wasm.Shared
+@using WeeControl.User.UserServiceCore.ViewModels.Home
 @layout RestrictedLayout
 @attribute [AllowAnonymous]
 
-<h3>Splash</h3>
+@inject SplashViewModel ViewModel
+
+<h3>@ViewModel.SplashText</h3>
 
 @code {
     [CascadingParameter]
@@ -16,14 +19,16 @@
     protected override async void OnInitialized()
     {
         await base.OnInitializedAsync();
-        var user = (await AuthState).User;
-        if (user?.Identity?.IsAuthenticated == false)
-        {
-            NavManager.NavigateTo("login");
-        }
-        else
-        {
-            NavManager.NavigateTo("Index");
-        }
+        // var user = (await AuthState).User;
+        // if (user?.Identity?.IsAuthenticated == false)
+        // {
+        //     NavManager.NavigateTo("login");
+        // }
+        // else
+        // {
+        //     NavManager.NavigateTo("Index");
+        // }
+
+        await ViewModel.LoadAsync();
     }
 }

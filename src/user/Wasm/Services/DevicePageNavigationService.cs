@@ -18,7 +18,7 @@ public class DevicePageNavigationService : IDevicePageNavigation
         this.navigationManager = navigationManager;
         
         history = new List<PagesEnum>();
-        history.Add(PagesEnum.Home);
+        history.Add(PagesEnum.Splash);
     }
 
     public Task NavigateToAsync(PagesEnum page)

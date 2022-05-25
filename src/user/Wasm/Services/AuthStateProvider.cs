@@ -41,7 +41,7 @@ public class AuthStateProvider : AuthenticationStateProvider, IDeviceSecurity
         return new AuthenticationState(cp);
     }
 
-    private void NotifyUserAuthentication(string token)
+    private void NotifyUserAuthentication(string? token)
     {
         if (string.IsNullOrWhiteSpace(token) == false)
         {
@@ -73,13 +73,15 @@ public class AuthStateProvider : AuthenticationStateProvider, IDeviceSecurity
         return jwtService.ExtractClaimPrincipal(token);
     }
     
-    public bool IsAuthenticated()
+    public async Task<bool> IsAuthenticatedAsync()
     {
-        throw new NotImplementedException();
+        var token = await localStorage.GetAsync(UserDataEnum.Token);
+        return string.IsNullOrWhiteSpace(token);
     }
 
-    public void UpdateToken(string token = null)
+    public Task UpdateTokenAsync(string token = null)
     {
         NotifyUserAuthentication(token);
+        return Task.CompletedTask;
     }
 }

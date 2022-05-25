@@ -1,4 +1,5 @@
 using WeeControl.SharedKernel.Essential;
+using WeeControl.User.UserServiceCore.Enums;
 using WeeControl.User.UserServiceCore.Interfaces;
 
 namespace WeeControl.User.UserServiceCore.ViewModels.Home;
@@ -18,7 +19,15 @@ public class SplashViewModel : ViewModelBase
 
     public async Task LoadAsync()
     {
-        await Task.Delay(1000);
-        await userService.GetTokenAsync();
+        if (await device.Security.IsAuthenticatedAsync())
+        {
+            await Task.Delay(1000);
+            await userService.GetTokenAsync();
+            await device.Navigation.NavigateToAsync(PagesEnum.Home);
+        }
+        else
+        {
+            await device.Navigation.NavigateToAsync(PagesEnum.Login);
+        }
     }
 }

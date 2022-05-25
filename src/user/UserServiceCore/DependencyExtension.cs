@@ -17,12 +17,13 @@ public static class DependencyExtension
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IAdminService, AdminService>();
 
-        #region EssentialContext
+        #region AuthorizationContext
         services.AddTransient<LoginViewModel>();
         services.AddTransient<LogoutViewModel>();
         services.AddTransient<RegisterViewModel>();
         services.AddTransient<ForgotMyPasswordViewModel>();
         services.AddTransient<SetNewPasswordViewModel>();
+        services.AddTransient<SplashViewModel>();
         #endregion
 
         #region SharedContext
