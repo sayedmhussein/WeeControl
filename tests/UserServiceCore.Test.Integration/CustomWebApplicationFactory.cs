@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using WeeControl.Persistence;
 using WeeControl.User.UserServiceCore;
-using WeeControl.User.UserServiceCore.Interfaces;
+
 
 //[assembly: CollectionBehavior(CollectionBehavior.CollectionPerAssembly, DisableTestParallelization = true, MaxParallelThreads = 1)]
 
@@ -18,7 +18,8 @@ public class CustomWebApplicationFactory<TStartup>
         builder.ConfigureServices(services =>
         {
             services.AddPersistenceAsInMemory();
-            //DependencyExtension.AddUserServiceCore(services);
+
+            //services.AddUserServiceCore();
         });
     }
     

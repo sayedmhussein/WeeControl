@@ -48,6 +48,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Essential\" />
-    <Folder Include="Essential\Essentials\" />
+    <Folder Include="Essential\ViewModels\" />
   </ItemGroup>
 </Project>
