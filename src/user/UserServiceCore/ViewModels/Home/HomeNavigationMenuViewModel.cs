@@ -21,6 +21,11 @@ public class HomeNavigationMenuViewModel : ViewModelBase
         
         foreach (var claim in await device.Security.GetClaimsAsync())
         {
+            if (claim.Type == ClaimsTagsList.Claims.Session)
+            {
+                continue;
+            }
+
             if (ClaimsTagsList.GetClaimsDictionary().ContainsValue(claim.Type))
             {
                 var name = ClaimsTagsList.GetClaimsDictionary().First(x => x.Value == claim.Type);

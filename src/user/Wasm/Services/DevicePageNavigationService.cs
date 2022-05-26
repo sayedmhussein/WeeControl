@@ -21,6 +21,12 @@ public class DevicePageNavigationService : IDevicePageNavigation
         history.Add(PagesEnum.Splash);
     }
 
+    public Task NavigateToAsync(string pageName, bool forceLoad = false)
+    {
+        navigationManager.NavigateTo($"/{pageName}", forceLoad: forceLoad);
+        return Task.CompletedTask;
+    }
+
     public Task NavigateToAsync(PagesEnum page)
     {
         navigationManager.NavigateTo("/" + GetPageName(page));
@@ -32,14 +38,6 @@ public class DevicePageNavigationService : IDevicePageNavigation
         history.Add(page);
 
         navigationManager.NavigateTo("/" + GetPageName(page), forceLoad);
-        return Task.CompletedTask;
-    }
-
-    public Task NavigateToAsync(PagesEnum page, bool forceLoad = false, bool disableBackButton = false)
-    {
-        history.Add(page);
-        
-        navigationManager.NavigateTo("/" + Enum.GetName(typeof(PagesEnum), page), forceLoad);
         return Task.CompletedTask;
     }
 
