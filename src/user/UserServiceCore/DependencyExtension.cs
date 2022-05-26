@@ -11,6 +11,7 @@ public static class DependencyExtension
 {
     public static IServiceCollection AddUserServiceCore(this IServiceCollection services)
     {
+        services.AddScoped<IAlertService, AlertService>();
         services.AddScoped<IServerService, ServerService>();
         
         services.AddScoped<IUserService, UserService>();

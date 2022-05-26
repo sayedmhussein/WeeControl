@@ -11,11 +11,13 @@ internal class AdminService : IAdminService
 {
     private readonly IDevice device;
     private readonly IServerService server;
+    private readonly IAlertService alert;
 
-    public AdminService(IDevice device, IServerService server)
+    public AdminService(IDevice device, IServerService server, IAlertService alert)
     {
         this.device = device;
         this.server = server;
+        this.alert = alert;
     }
     
     public async Task<IEnumerable<TerritoryDto>> GetListOfTerritories()
@@ -36,7 +38,7 @@ internal class AdminService : IAdminService
                 var dto = await server.GetObjectFromJsonResponseAsync<ResponseDto<IEnumerable<TerritoryDto>>>(response);
                 return dto?.Payload ?? Array.Empty<TerritoryDto>();
             case HttpStatusCode.Conflict:
-                await device.Alert.DisplayAlert(AlertEnum.DeveloperMinorBug);
+                await alert.DisplayAsync(AlertEnum.DeveloperMinorBug);
                 return Array.Empty<TerritoryDto>();
             default:
                 return Array.Empty<TerritoryDto>();
@@ -71,7 +73,7 @@ internal class AdminService : IAdminService
                 var dto = await server.GetObjectFromJsonResponseAsync<ResponseDto<IEnumerable<UserDto>>>(response);
                 return dto?.Payload ?? Array.Empty<UserDto>();
             case HttpStatusCode.Conflict:
-                await device.Alert.DisplayAlert(AlertEnum.DeveloperMinorBug);
+                await alert.DisplayAsync(AlertEnum.DeveloperMinorBug);
                 return Array.Empty<UserDto>();
             default:
                 return Array.Empty<UserDto>();

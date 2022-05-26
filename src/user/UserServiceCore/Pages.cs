@@ -20,7 +20,7 @@ public static class Pages
         public const string Splash = "Splash";
         public const string Index = "Index";
         public const string Menu = "Menu";
-        public const string Invalid = "Menu";
+        public const string Invalid = "Invalid";
         public const string NoInternet = "NoInternet";
     }
 }

@@ -88,11 +88,11 @@ public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>, I
     }
 
     [Theory]
-    [InlineData("", "", AlertEnum.DeveloperInvalidUserInput)]
-    [InlineData("", "password", AlertEnum.DeveloperInvalidUserInput)]
-    [InlineData("username", "", AlertEnum.DeveloperInvalidUserInput)]
-    [InlineData("usernotexist", "usernotexist", AlertEnum.InvalidUsernameOrPassword)]
-    public async void TestsForFailedScenarios(string username, string password, AlertEnum alertEnum)
+    [InlineData("", "")]
+    [InlineData("", "password")]
+    [InlineData("username", "")]
+    [InlineData("usernotexist", "usernotexist")]
+    public async void TestsForFailedScenarios(string username, string password)
     {
         vm.UsernameOrEmail = username;
         vm.Password = password;
@@ -100,7 +100,7 @@ public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>, I
         await vm.LoginAsync();
             
         deviceMock.AlertMock.Verify(x => 
-            x.DisplayAlert(alertEnum), Times.Once);
+            x.DisplayAlert(It.IsAny<string>()), Times.Once);
         
         deviceMock.NavigationMock.Verify(x => 
             x.NavigateToAsync(Pages.Home.Index, It.IsAny<bool>()), Times.Never);
@@ -118,7 +118,7 @@ public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>, I
             x.NavigateToAsync(Pages.Home.Index, It.IsAny<bool>()), Times.Never);
         
         deviceMock.AlertMock.Verify(x => 
-            x.DisplayAlert(AlertEnum.AccountIsLocked), Times.Once);
+            x.DisplayAlert(It.IsAny<string>()), Times.Once);
     }
 
     [Fact]

@@ -2,7 +2,6 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using WeeControl.SharedKernel.Essential;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
-using WeeControl.User.UserServiceCore.Enums;
 using WeeControl.User.UserServiceCore.Interfaces;
 
 namespace WeeControl.User.UserServiceCore.ViewModels.Authentication;

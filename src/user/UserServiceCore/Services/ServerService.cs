@@ -13,10 +13,12 @@ namespace WeeControl.User.UserServiceCore.Services;
 internal class ServerService : IServerService
 {
     private readonly IDevice device;
+    private readonly IAlertService alert;
 
-    public ServerService(IDevice device)
+    public ServerService(IDevice device, IAlertService alert)
     {
         this.device = device;
+        this.alert = alert;
     }
 
     public Task<HttpResponseMessage> SendMessageAsync(HttpRequestMessage message, bool accurateLocation)
@@ -42,7 +44,7 @@ internal class ServerService : IServerService
         }
         catch (HttpRequestException e)
         {
-            await device.Alert.DisplayAlert(AlertEnum.FailedToCommunicateWithServer);
+            await alert.DisplayAsync(AlertEnum.FailedToCommunicateWithServer);
             await device.Navigation.NavigateToAsync(Pages.Home.NoInternet);
             return new HttpResponseMessage(HttpStatusCode.BadGateway);
         }

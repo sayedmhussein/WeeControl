@@ -12,11 +12,13 @@ internal class UserService : IUserService
 {
     private readonly IDevice device;
     private readonly IServerService server;
+    private readonly IAlertService alert;
 
-    public UserService(IDevice device, IServerService server)
+    public UserService(IDevice device, IServerService server, IAlertService alert)
     {
         this.device = device;
         this.server = server;
+        this.alert = alert;
     }
 
     public async Task RegisterAsync(RegisterDtoV1 loginDtoV1)
@@ -40,13 +42,13 @@ internal class UserService : IUserService
                 await device.Navigation.NavigateToAsync(Pages.Home.Index, forceLoad: true);
                 break;
             case HttpStatusCode.Conflict:
-                await device.Alert.DisplayAlert(AlertEnum.ExistingEmailOrUsernameExist);
+                await alert.DisplayAsync(AlertEnum.ExistingEmailOrUsernameExist);
                 break;
             case HttpStatusCode.BadRequest:
-                await device.Alert.DisplayAlert(AlertEnum.DeveloperInvalidUserInput);
+                await alert.DisplayAsync(AlertEnum.DeveloperInvalidUserInput);
                 break;
             default:
-                await device.Alert.DisplayAlert(AlertEnum.DeveloperMinorBug);
+                await alert.DisplayAsync(AlertEnum.DeveloperMinorBug);
                 break;
         }
     }
@@ -77,18 +79,18 @@ internal class UserService : IUserService
                 }
                 else
                 {
-                    await device.Alert.DisplayAlert(AlertEnum.DeveloperInvalidUserInput);
+                    await alert.DisplayAsync(AlertEnum.DeveloperInvalidUserInput);
                 }
                 
                 break;
             case HttpStatusCode.NotFound:
-                await device.Alert.DisplayAlert(AlertEnum.InvalidUsernameOrPassword);
+                await alert.DisplayAsync(AlertEnum.InvalidUsernameOrPassword);
                 break;
             case HttpStatusCode.Forbidden:
-                await device.Alert.DisplayAlert(AlertEnum.AccountIsLocked);
+                await alert.DisplayAsync(AlertEnum.AccountIsLocked);
                 break;
             default:
-                await device.Alert.DisplayAlert(AlertEnum.DeveloperInvalidUserInput);
+                await alert.DisplayAsync(AlertEnum.DeveloperInvalidUserInput);
                 break;
         }
     }
@@ -127,13 +129,13 @@ internal class UserService : IUserService
             case HttpStatusCode.Forbidden:
                 await device.Security.DeleteTokenAsync();
                 await device.Storage.ClearAsync();
-                await device.Alert.DisplayAlert(AlertEnum.SessionIsExpiredPleaseLoginAgain);
+                await alert.DisplayAsync(AlertEnum.SessionIsExpiredPleaseLoginAgain);
                 await device.Navigation.NavigateToAsync(Pages.Authentication.Login, forceLoad: true);
                 break;
             case HttpStatusCode.BadGateway:
                 break;
             default:
-                await device.Alert.DisplayAlert(AlertEnum.DeveloperMinorBug);
+                await alert.DisplayAsync(AlertEnum.DeveloperMinorBug);
                 break;
         }
     }
@@ -156,7 +158,7 @@ internal class UserService : IUserService
                 await device.Navigation.NavigateToAsync(Pages.Authentication.Login, forceLoad: true);
                 break;
             default:
-                await device.Alert.DisplayAlert(AlertEnum.DeveloperMinorBug);
+                await alert.DisplayAsync(AlertEnum.DeveloperMinorBug);
                 break;
         }
 
@@ -178,14 +180,14 @@ internal class UserService : IUserService
         {
             case HttpStatusCode.OK:
             case HttpStatusCode.Accepted:
-                await device.Alert.DisplayAlert(AlertEnum.PasswordUpdatedSuccessfully);
+                await alert.DisplayAsync(AlertEnum.PasswordUpdatedSuccessfully);
                 await device.Navigation.NavigateToAsync(Pages.Home.Index);
                 break;
             case HttpStatusCode.NotFound:
-                await device.Alert.DisplayAlert(AlertEnum.InvalidPassword);
+                await alert.DisplayAsync(AlertEnum.InvalidPassword);
                 break;
             default:
-                await device.Alert.DisplayAlert(AlertEnum.DeveloperMinorBug);
+                await alert.DisplayAsync(AlertEnum.DeveloperMinorBug);
                 break;
         }
     }
@@ -201,6 +203,6 @@ internal class UserService : IUserService
         
         var response = await server.SendMessageAsync(message, forgotMyPasswordDto);
         await device.Navigation.NavigateToAsync(Pages.Authentication.Login);
-        await device.Alert.DisplayAlert(AlertEnum.NewPasswordSent);
+        await alert.DisplayAsync(AlertEnum.NewPasswordSent);
     }
 }

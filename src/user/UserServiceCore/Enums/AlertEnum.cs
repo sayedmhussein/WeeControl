@@ -1,6 +1,6 @@
 namespace WeeControl.User.UserServiceCore.Enums;
 
-public enum AlertEnum
+internal enum AlertEnum
 {
     DeveloperInvalidUserInput,
     DeveloperMinorBug,
