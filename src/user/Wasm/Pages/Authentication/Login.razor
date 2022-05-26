@@ -1,13 +1,9 @@
-﻿@page "/Login"
-@page "/authentication/login"
-@using WeeControl.User.Wasm.Shared
-@using Microsoft.AspNetCore.Components
-@using WeeControl.User.UserServiceCore.ViewModels.Authentication
+﻿@attribute [Route(Pages.Authentication.Login)]
+
 @layout RestrictedLayout
 @attribute [AllowAnonymous]
 
 @inject LoginViewModel ViewModel
-@inject NavigationManager NavManager
 
 <div class="card">
     <h4 class="card-header">@ViewModel.CardHeaderString</h4>
@@ -43,24 +39,15 @@
 
 @code
 {
-    [CascadingParameter]
-    public Task<AuthenticationState> AuthState { get; set; }
-
     protected override async void OnInitialized()
     {
         await base.OnInitializedAsync();
 
         await ViewModel.Init();
-    // var authenticated = (await AuthState)?.User?.Identity?.IsAuthenticated;
-    // if (authenticated != null && authenticated == true)
-    // {
-    //     NavManager.NavigateTo("/Home");
-    // }
     }
 
     private async Task ProcessLoginAsync()
     {
         await ViewModel.LoginAsync();
-        //StateHasChanged();
     }
 }

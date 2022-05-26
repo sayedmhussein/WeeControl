@@ -1,5 +1,5 @@
-@page "/Logout"
-@using WeeControl.User.UserServiceCore.ViewModels.Authentication
+@attribute [Route(Pages.Authentication.Logout)]
+@layout RestrictedLayout
 @inject LogoutViewModel ViewModel
 
 <h1>@ViewModel.GoodbyMessage</h1>
@@ -9,6 +9,5 @@
     {
         await base.OnInitializedAsync();
         await ViewModel.LogoutAsync();
-        StateHasChanged();
     }
 }

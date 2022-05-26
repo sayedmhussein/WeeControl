@@ -1,5 +1,6 @@
 namespace WeeControl.User.UserServiceCore.Enums;
 
+[Obsolete("Use static class Pages instead")]
 public enum PagesEnum
 {
     NoInternet, Splash, 

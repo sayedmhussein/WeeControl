@@ -109,7 +109,10 @@ public class GetNewTokenHandler : IRequestHandler<GetNewTokenQuery, ResponseDto<
 
             var ci = new ClaimsIdentity("custom");
             ci.AddClaim(new Claim(ClaimsTagsList.Claims.Session, session.SessionId.ToString()));
-            ci.AddClaim(new Claim(ClaimsTagsList.Claims.Territory, employee?.TerritoryId ?? string.Empty));
+            if (employee?.TerritoryId is not null)
+            {
+                ci.AddClaim(new Claim(ClaimsTagsList.Claims.Territory, employee.TerritoryId));
+            }
             //foreach (var c in employee.Claims.Where(x => x.RevokedTs == null).ToList())
             foreach (var c in employee.Claims?.Where(x => x.RevokedTs == null)?.ToList())
             {

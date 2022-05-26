@@ -18,10 +18,9 @@ public class LogoutViewModel : INotifyPropertyChanged
         this.device = device;
     }
 
-    public async Task LogoutAsync()
+    public Task LogoutAsync()
     {
-        await userService.LogoutAsync();
-        await device.Navigation.NavigateToAsync(PagesEnum.Login, forceLoad: true);
+        return userService.LogoutAsync();
     }
     
     public event PropertyChangedEventHandler? PropertyChanged;

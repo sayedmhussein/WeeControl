@@ -8,6 +8,6 @@ public interface IUserService
     Task LoginAsync(LoginDtoV1 loginDtoV1);
     Task GetTokenAsync();
     Task LogoutAsync();
-    Task UpdatePasswordAsync(SetNewPasswordDtoV1 loginDtoV1);
+    Task UpdatePasswordAsync(SetNewPasswordDtoV1 dto);
     Task ForgotPasswordAsync(ForgotMyPasswordDto forgotMyPasswordDto);
 }

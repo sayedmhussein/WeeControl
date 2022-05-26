@@ -1,4 +1,4 @@
-namespace WeeControl.User.UserServiceCore.InternalHelpers;
+namespace WeeControl.User.UserServiceCore.Interfaces;
 
 internal interface IServerService
 {

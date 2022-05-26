@@ -1,4 +1,4 @@
-@page "/Register"
+@attribute [Route(Pages.User.Register)]
 @using WeeControl.SharedKernel.Essential
 @using WeeControl.User.UserServiceCore.ViewModels.Authentication
 @using WeeControl.User.Wasm.Shared
@@ -7,8 +7,6 @@
 @attribute [AllowAnonymous]
 
 @inject RegisterViewModel ViewModel
-
-@inject IUserService UserService
 
 <div class="card">
     <h4 class="card-header">Please fill the below fields</h4>

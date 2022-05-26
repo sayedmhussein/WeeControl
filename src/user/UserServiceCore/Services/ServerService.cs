@@ -8,7 +8,7 @@ using WeeControl.SharedKernel.RequestsResponses;
 using WeeControl.User.UserServiceCore.Enums;
 using WeeControl.User.UserServiceCore.Interfaces;
 
-namespace WeeControl.User.UserServiceCore.InternalHelpers;
+namespace WeeControl.User.UserServiceCore.Services;
 
 internal class ServerService : IServerService
 {
@@ -43,7 +43,7 @@ internal class ServerService : IServerService
         catch (HttpRequestException e)
         {
             await device.Alert.DisplayAlert(AlertEnum.FailedToCommunicateWithServer);
-            await device.Navigation.NavigateToAsync(PagesEnum.NoInternet);
+            await device.Navigation.NavigateToAsync(Pages.Home.NoInternet);
             return new HttpResponseMessage(HttpStatusCode.BadGateway);
         }
         catch (Exception e)

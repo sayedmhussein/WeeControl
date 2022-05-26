@@ -40,7 +40,7 @@ public class LoginViewModel : ViewModelBase
             await userService.GetTokenAsync();
             if (await device.Security.IsAuthenticatedAsync())
             {
-                await device.Navigation.NavigateToAsync(PagesEnum.Home);
+                await device.Navigation.NavigateToAsync(Pages.Home.Index);
             }
         }
     }
@@ -55,12 +55,12 @@ public class LoginViewModel : ViewModelBase
 
     public Task NavigateToRegisterPage()
     {
-        return device.Navigation.NavigateToAsync(PagesEnum.Register);
+        return device.Navigation.NavigateToAsync(Pages.User.Register);
     }
     
     public Task NavigateToForgotMyPasswordPage()
     {
-        return device.Navigation.NavigateToAsync(PagesEnum.ForgotPassword);
+        return device.Navigation.NavigateToAsync(Pages.User.RequestNewPassword);
     }
 
     private void SetUpStaticStrings()

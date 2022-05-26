@@ -4,7 +4,6 @@ using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
 using WeeControl.User.UserServiceCore.Enums;
 using WeeControl.User.UserServiceCore.Interfaces;
-using WeeControl.User.UserServiceCore.InternalHelpers;
 
 namespace WeeControl.User.UserServiceCore.Services;
 

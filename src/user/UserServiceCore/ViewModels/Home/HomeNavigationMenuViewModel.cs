@@ -1,4 +1,3 @@
-using WeeControl.SharedKernel.Essential;
 using WeeControl.SharedKernel.Essential.Security;
 using WeeControl.User.UserServiceCore.Interfaces;
 
@@ -14,6 +13,11 @@ public class HomeNavigationMenuViewModel : ViewModelBase
     {
         this.device = device;
     }
+    
+    public Task ChangeMyPasswordAsync()
+    {
+        return device.Navigation.NavigateToAsync(Pages.User.ResetPassword);
+    }
 
     public async Task SetupMenuAsync()
     {
@@ -21,7 +25,7 @@ public class HomeNavigationMenuViewModel : ViewModelBase
         
         foreach (var claim in await device.Security.GetClaimsAsync())
         {
-            if (claim.Type == ClaimsTagsList.Claims.Session)
+            if (claim.Type is ClaimsTagsList.Claims.Session or ClaimsTagsList.Claims.Territory)
             {
                 continue;
             }

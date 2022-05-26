@@ -103,7 +103,7 @@ public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>, I
             x.DisplayAlert(alertEnum), Times.Once);
         
         deviceMock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(PagesEnum.Home, It.IsAny<bool>()), Times.Never);
+            x.NavigateToAsync(Pages.Home.Index, It.IsAny<bool>()), Times.Never);
     }
         
     [Fact]
@@ -115,7 +115,7 @@ public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>, I
         await vm.LoginAsync();
         
         deviceMock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(PagesEnum.Home, It.IsAny<bool>()), Times.Never);
+            x.NavigateToAsync(Pages.Home.Index, It.IsAny<bool>()), Times.Never);
         
         deviceMock.AlertMock.Verify(x => 
             x.DisplayAlert(AlertEnum.AccountIsLocked), Times.Once);
@@ -131,7 +131,7 @@ public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>, I
         
         deviceMock.StorageMock.Verify(x => x.
             SaveAsync(UserDataEnum.Token, It.IsAny<string>()));
-        deviceMock.NavigationMock.Verify(x => x.NavigateToAsync(PagesEnum.Home, It.IsAny<bool>()), Times.Once);
+        deviceMock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.Index, It.IsAny<bool>()), Times.Once);
     }
     
     [Fact]
