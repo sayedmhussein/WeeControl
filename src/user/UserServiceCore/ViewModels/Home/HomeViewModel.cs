@@ -6,21 +6,20 @@ namespace WeeControl.User.UserServiceCore.ViewModels.Home;
 
 public class HomeViewModel : ViewModelBase
 {
-    private readonly IUserService userService;
     private readonly IDevice device;
 
-    public HomeViewModel(IUserService userService, IDevice device)
+    public HomeViewModel(IDevice device) : base(device)
     {
-        this.userService = userService;
         this.device = device;
     }
 
-    public string NameOfUSer { get; private set; }
+    public string NameOfUSer { get; private set; } = string.Empty;
 
     public async Task RefreshToken()
     {
-        await userService.GetTokenAsync();
-        NameOfUSer = await device.Storage.GetAsync(UserDataEnum.FullName);
-        //PropertyChanged.Invoke(this, nameof(NameOfUSer));
+        if (await RefreshTokenAsync())
+        {
+            NameOfUSer = await device.Storage.GetAsync(UserDataEnum.FullName);
+        }
     }
 }

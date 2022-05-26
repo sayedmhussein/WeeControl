@@ -5,28 +5,24 @@ namespace WeeControl.User.UserServiceCore.ViewModels.Home;
 
 public class SplashViewModel : ViewModelBase
 {
-    private readonly IUserService userService;
     private readonly IDevice device;
 
     public string SplashText => "Loading Please Wait..";
     
-    public SplashViewModel(IUserService userService, IDevice device)
+    public SplashViewModel(IDevice device) : base(device)
     {
-        this.userService = userService;
         this.device = device;
     }
 
     public async Task LoadAsync()
     {
-        if (await device.Security.IsAuthenticatedAsync())
+        if (await RefreshTokenAsync() && await device.Security.IsAuthenticatedAsync())
         {
             await Task.Delay(1000);
-            await userService.GetTokenAsync();
             await device.Navigation.NavigateToAsync(Pages.Home.Index);
+            return;
         }
-        else
-        {
-            await device.Navigation.NavigateToAsync(Pages.Authentication.Login);
-        }
+        
+        await device.Navigation.NavigateToAsync(Pages.Authentication.Login);
     }
 }

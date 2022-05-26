@@ -1,9 +1,10 @@
+using System.ComponentModel;
 using WeeControl.SharedKernel.Essential.Security;
 using WeeControl.User.UserServiceCore.Interfaces;
 
 namespace WeeControl.User.UserServiceCore.ViewModels.Home;
 
-public class HomeNavigationMenuViewModel : ViewModelBase
+public class HomeNavigationMenuViewModel : INotifyPropertyChanged
 {
     private readonly IDevice device;
 
@@ -54,4 +55,6 @@ public class HomeNavigationMenuViewModel : ViewModelBase
         {
         }
     }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
 }

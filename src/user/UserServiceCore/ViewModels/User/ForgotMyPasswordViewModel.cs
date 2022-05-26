@@ -4,11 +4,10 @@ using WeeControl.SharedKernel.Essential;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.User.UserServiceCore.Interfaces;
 
-namespace WeeControl.User.UserServiceCore.ViewModels.Authentication;
+namespace WeeControl.User.UserServiceCore.ViewModels.User;
 
-public class ForgotMyPasswordViewModel : INotifyPropertyChanged
+public class ForgotMyPasswordViewModel : ViewModelBase
 {
-    private readonly IUserService userService;
     private readonly IDevice device;
 
     [Required]
@@ -22,19 +21,29 @@ public class ForgotMyPasswordViewModel : INotifyPropertyChanged
     [DisplayName("Username")]
     public string Username { get; set; } = string.Empty;
 
-    public bool IsLoading { get; private set; } = false;
-    
-    public ForgotMyPasswordViewModel(IUserService userService, IDevice device)
+    public ForgotMyPasswordViewModel(IDevice device) : base(device)
     {
-        this.userService = userService;
         this.device = device;
     }
 
     public async Task RequestPasswordReset()
     {
-        await userService.ForgotPasswordAsync(ForgotMyPasswordDto.Create(Email, Username));
+        IsLoading = true;
+        await ProcessPasswordReset(ForgotMyPasswordDto.Create(Email, Username));
         await device.Navigation.NavigateToAsync(Pages.Authentication.Login);
     }
-    
-    public event PropertyChangedEventHandler? PropertyChanged;
+
+    private async Task ProcessPasswordReset(ForgotMyPasswordDto dto)
+    {
+        HttpRequestMessage message = new()
+        {
+            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.User.Reset)),
+            Version = new Version("1.0"),
+            Method = HttpMethod.Post,
+        };
+        
+        var response = await SendMessageAsync(message, dto);
+        await device.Navigation.NavigateToAsync(Pages.Authentication.Login);
+        await device.Alert.DisplayAlert("AlertEnum.NewPasswordSent");
+    }
 }

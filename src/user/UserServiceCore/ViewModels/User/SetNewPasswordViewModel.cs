@@ -1,14 +1,17 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Net;
 using WeeControl.SharedKernel.Essential;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
+using WeeControl.User.UserServiceCore.Enums;
+using WeeControl.User.UserServiceCore.Interfaces;
 
-namespace WeeControl.User.UserServiceCore.ViewModels.Authentication;
+namespace WeeControl.User.UserServiceCore.ViewModels.User;
 
-public class SetNewPasswordViewModel : INotifyPropertyChanged
+public class SetNewPasswordViewModel : ViewModelBase
 {
-    private readonly IUserService userService;
+    private readonly IDevice device;
 
     [Required(ErrorMessage = "Old Password is required")]
     [StringLength(50, MinimumLength = 3, ErrorMessage = "Password length is between 3 and 50 letters.")]
@@ -30,17 +33,42 @@ public class SetNewPasswordViewModel : INotifyPropertyChanged
     
     public bool IsLoading { get; private set; }
 
-    public SetNewPasswordViewModel(IUserService userService)
+    public SetNewPasswordViewModel(IDevice device) : base(device)
     {
-        this.userService = userService;
+        this.device = device;
     }
 
     public async Task ChangeMyPassword()
     {
         IsLoading = true;
-        await userService.UpdatePasswordAsync(SetNewPasswordDtoV1.Create(OldPassword, NewPassword));
+        await ProcessChangingPassword(SetNewPasswordDtoV1.Create(OldPassword, NewPassword));
         IsLoading = false;
     }
-    
-    public event PropertyChangedEventHandler? PropertyChanged;
+
+    private async Task ProcessChangingPassword(SetNewPasswordDtoV1 dto)
+    {
+        HttpRequestMessage message = new()
+        {
+            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.User.Reset)),
+            Version = new Version("1.0"),
+            Method = HttpMethod.Patch,
+        };
+        
+        var response = await SendMessageAsync(message, dto);
+
+        switch (response.StatusCode)
+        {
+            case HttpStatusCode.OK:
+            case HttpStatusCode.Accepted:
+                await device.Alert.DisplayAlert("AlertEnum.PasswordUpdatedSuccessfully");
+                await device.Navigation.NavigateToAsync(Pages.Home.Index);
+                break;
+            case HttpStatusCode.NotFound:
+                await device.Alert.DisplayAlert("AlertEnum.InvalidPassword");
+                break;
+            default:
+                await device.Alert.DisplayAlert("AlertEnum.DeveloperMinorBug");
+                break;
+        }
+    }
 }
