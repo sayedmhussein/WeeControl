@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.Interfaces;
-using WeeControl.User.UserServiceCore.Enums;
 using WeeControl.User.UserServiceCore.Interfaces;
 
 namespace WeeControl.User.Wasm.Services;
@@ -18,6 +18,7 @@ public class AuthStateProvider : AuthenticationStateProvider, IDeviceSecurity
     private readonly IJwtService jwtService;
     private readonly IConfiguration configuration;
     private readonly AuthenticationState anonymous;
+    private readonly string tokenKeyName;
 
     public AuthStateProvider(IDeviceStorage localStorage, IJwtService jwtService, IConfiguration configuration)
     {
@@ -28,11 +29,13 @@ public class AuthStateProvider : AuthenticationStateProvider, IDeviceSecurity
         var identity = new ClaimsIdentity();
         var cp = new ClaimsPrincipal(identity);
         anonymous = new AuthenticationState(cp);
+
+        tokenKeyName = nameof(TokenDtoV1.Token);
     }
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
-        var token = await localStorage.GetAsync(UserDataEnum.Token);
+        var token = await localStorage.GetAsync(tokenKeyName);
         if (string.IsNullOrWhiteSpace(token))
         {
             return anonymous;
@@ -76,27 +79,27 @@ public class AuthStateProvider : AuthenticationStateProvider, IDeviceSecurity
     
     public async Task<bool> IsAuthenticatedAsync()
     {
-        var token = await localStorage.GetAsync(UserDataEnum.Token);
+        var token = await localStorage.GetAsync(tokenKeyName);
         return !string.IsNullOrWhiteSpace(token);
     }
 
     public Task UpdateTokenAsync(string token)
     {
-        localStorage.SaveAsync(UserDataEnum.Token, token);
+        localStorage.SaveAsync(tokenKeyName, token);
         NotifyUserAuthentication(token);
         return Task.CompletedTask;
     }
 
     public Task DeleteTokenAsync()
     {
-        return localStorage.SaveAsync(UserDataEnum.Token, string.Empty);
+        return localStorage.SaveAsync(tokenKeyName, string.Empty);
     }
 
     public async Task<IEnumerable<Claim>> GetClaimsAsync()
     {
         try
         {
-            var token = await localStorage.GetAsync(UserDataEnum.Token);
+            var token = await localStorage.GetAsync(tokenKeyName);
             var cp = GetClaimPrincipal(token);
             return cp.Claims;
         }

@@ -4,7 +4,6 @@ using System.Net;
 using WeeControl.SharedKernel.Essential;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
-using WeeControl.User.UserServiceCore.Enums;
 using WeeControl.User.UserServiceCore.Interfaces;
 
 namespace WeeControl.User.UserServiceCore.ViewModels.Authentication;
@@ -86,9 +85,9 @@ public class LoginViewModel : ViewModelBase
                 var token = responseDto?.Payload?.Token;
                 if (token is not null)
                 {
-                    await device.Storage.SaveAsync(UserDataEnum.Token, token);
-                    await device.Storage.SaveAsync(UserDataEnum.FullName, responseDto?.Payload?.FullName);
-                    await device.Storage.SaveAsync(UserDataEnum.PhotoUrl, responseDto?.Payload?.PhotoUrl);
+                    await device.Storage.SaveAsync(nameof(TokenDtoV1.Token), token);
+                    await device.Storage.SaveAsync(nameof(TokenDtoV1.FullName), responseDto?.Payload?.FullName);
+                    await device.Storage.SaveAsync(nameof(TokenDtoV1.PhotoUrl), responseDto?.Payload?.PhotoUrl);
                     await device.Navigation.NavigateToAsync(Pages.Home.Index, forceLoad: true);
                 }
                 else

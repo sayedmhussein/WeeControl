@@ -1,4 +1,3 @@
-using WeeControl.SharedKernel.Essential;
 using WeeControl.User.UserServiceCore.Interfaces;
 
 namespace WeeControl.User.UserServiceCore.ViewModels.Home;

@@ -8,9 +8,9 @@ using Moq;
 using Moq.Protected;
 using WeeControl.Application.EssentialContext;
 using WeeControl.Domain.Essential.Entities;
+using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.Services;
 using WeeControl.User.UserServiceCore;
-using WeeControl.User.UserServiceCore.Enums;
 using WeeControl.User.UserServiceCore.ViewModels.Authentication;
 using WeeControl.WebApi;
 using Xunit;
@@ -25,11 +25,11 @@ public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>, I
         var token = string.Empty;
     
         var mocks = new DeviceServiceMock(device);
-        mocks.StorageMock.Setup(x => x.SaveAsync(UserDataEnum.Token, It.IsAny<string>()))
-            .Callback((UserDataEnum en, string tkn) => token = tkn);
+        mocks.StorageMock.Setup(x => x.SaveAsync(nameof(TokenDtoV1.Token), It.IsAny<string>()))
+            .Callback((string en, string tkn) => token = tkn);
         
         var appServiceCollection = new ServiceCollection();
-        appServiceCollection.AddUserServiceCore();
+        appServiceCollection.AddViewModels();
         appServiceCollection.AddScoped(p => mocks.GetObject(client));
         
         using var scope = appServiceCollection.BuildServiceProvider().CreateScope();
@@ -72,7 +72,7 @@ public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>, I
         deviceMock = new DeviceServiceMock(nameof(LoginTests));
         
         var appServiceCollection = new ServiceCollection();
-        appServiceCollection.AddUserServiceCore();
+        appServiceCollection.AddViewModels();
         appServiceCollection.AddScoped(p => deviceMock.GetObject(httpClient));
         
         using var scope = appServiceCollection.BuildServiceProvider().CreateScope();
@@ -130,7 +130,7 @@ public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>, I
         await vm.LoginAsync();
         
         deviceMock.StorageMock.Verify(x => x.
-            SaveAsync(UserDataEnum.Token, It.IsAny<string>()));
+            SaveAsync(nameof(TokenDtoV1.Token), It.IsAny<string>()));
         deviceMock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.Index, It.IsAny<bool>()), Times.Once);
     }
     

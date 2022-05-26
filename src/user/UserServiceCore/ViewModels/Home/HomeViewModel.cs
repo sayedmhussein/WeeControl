@@ -1,5 +1,4 @@
-using WeeControl.SharedKernel.Essential;
-using WeeControl.User.UserServiceCore.Enums;
+using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.User.UserServiceCore.Interfaces;
 
 namespace WeeControl.User.UserServiceCore.ViewModels.Home;
@@ -19,7 +18,7 @@ public class HomeViewModel : ViewModelBase
     {
         if (await RefreshTokenAsync())
         {
-            NameOfUSer = await device.Storage.GetAsync(UserDataEnum.FullName);
+            NameOfUSer = await device.Storage.GetAsync(nameof(TokenDtoV1.FullName));
         }
     }
 }

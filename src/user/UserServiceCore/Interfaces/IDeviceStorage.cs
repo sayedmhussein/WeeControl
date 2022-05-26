@@ -1,12 +1,10 @@
-using WeeControl.User.UserServiceCore.Enums;
-
 namespace WeeControl.User.UserServiceCore.Interfaces;
 
 public interface IDeviceStorage
 {
-    Task SaveAsync(UserDataEnum name, string value);
+    Task SaveAsync(string key, string value);
 
-    Task<string> GetAsync(UserDataEnum name);
+    Task<string> GetAsync(string key);
         
     Task ClearAsync();
 }

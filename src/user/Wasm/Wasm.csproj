@@ -42,6 +42,6 @@
   <ItemGroup>
     <AdditionalFiles Include="Pages\Authentication\Login.razor" />
     <AdditionalFiles Include="Pages\Authentication\Logout.razor" />
-    <AdditionalFiles Include="Pages\Essential\Admin\AdminMainComponent.razor" />
+    <AdditionalFiles Include="Pages\Business\Admin\AdminMainComponent.razor" />
   </ItemGroup>
 </Project>

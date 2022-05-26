@@ -1,8 +1,6 @@
-using System;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.JSInterop;
-using WeeControl.User.UserServiceCore.Enums;
 using WeeControl.User.UserServiceCore.Interfaces;
 
 namespace WeeControl.User.Wasm.Services;
@@ -16,14 +14,16 @@ public class DeviceStorageService : IDeviceStorage
         this.jsRuntime = jsRuntime;
     }
     
-    public Task SaveAsync(UserDataEnum name, string value)
+    public Task SaveAsync(string key, string value)
     {
-        return SetItem(Enum.GetName(typeof(UserDataEnum), name), value);
+        return SetItem(key, value);
+        //return SetItem(Enum.GetName(typeof(UserDataEnum), name), value);
     }
 
-    public Task<string> GetAsync(UserDataEnum name)
+    public Task<string> GetAsync(string key)
     {
-        return GetItem<string>(Enum.GetName(typeof(UserDataEnum), name));
+        return GetItem<string>(key);
+        //return GetItem<string>(Enum.GetName(typeof(UserDataEnum), name));
     }
     
     public Task ClearAsync()

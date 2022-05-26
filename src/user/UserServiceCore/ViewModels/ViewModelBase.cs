@@ -8,7 +8,6 @@ using WeeControl.SharedKernel.Essential;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.RequestsResponses;
-using WeeControl.User.UserServiceCore.Enums;
 using WeeControl.User.UserServiceCore.Interfaces;
 
 namespace WeeControl.User.UserServiceCore.ViewModels;
@@ -94,9 +93,9 @@ public class ViewModelBase : INotifyPropertyChanged
             var token = responseDto?.Payload?.Token;
             if (responseDto is not null && token is not null)
             {
-                await device.Storage.SaveAsync(UserDataEnum.Token, token);
-                await device.Storage.SaveAsync(UserDataEnum.FullName, responseDto?.Payload?.FullName);
-                await device.Storage.SaveAsync(UserDataEnum.PhotoUrl, responseDto?.Payload?.PhotoUrl);
+                await device.Storage.SaveAsync(nameof(TokenDtoV1.Token), token);
+                await device.Storage.SaveAsync(nameof(TokenDtoV1.FullName), responseDto?.Payload?.FullName);
+                await device.Storage.SaveAsync(nameof(TokenDtoV1.PhotoUrl), responseDto?.Payload?.PhotoUrl);
                 await device.Security.UpdateTokenAsync(token);
                 return true;
             }
@@ -127,7 +126,7 @@ public class ViewModelBase : INotifyPropertyChanged
     private async Task UpdateAuthorizationAsync()
     {
         device.Server.HttpClient.DefaultRequestHeaders.Authorization = 
-            new AuthenticationHeaderValue("Brear", await device.Storage.GetAsync(UserDataEnum.Token));
+            new AuthenticationHeaderValue("Brear", await device.Storage.GetAsync(nameof(TokenDtoV1.Token)));
     }
     
     

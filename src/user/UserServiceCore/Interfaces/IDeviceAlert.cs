@@ -1,5 +1,3 @@
-using WeeControl.User.UserServiceCore.Enums;
-
 namespace WeeControl.User.UserServiceCore.Interfaces;
 
 public interface IDeviceAlert

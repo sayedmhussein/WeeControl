@@ -4,7 +4,6 @@ using System.Net;
 using WeeControl.SharedKernel.Essential;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
-using WeeControl.User.UserServiceCore.Enums;
 using WeeControl.User.UserServiceCore.Interfaces;
 
 namespace WeeControl.User.UserServiceCore.ViewModels.User;
@@ -58,7 +57,6 @@ public class RegisterViewModel : ViewModelBase
             case HttpStatusCode.Accepted:
                 var dto_ = await GetObjectFromJsonResponseAsync<ResponseDto<TokenDtoV1>>(response);
                 var token = dto_?.Payload?.Token;
-                await device.Storage.SaveAsync(UserDataEnum.Token, token);
                 await device.Security.UpdateTokenAsync(token);
                 await device.Navigation.NavigateToAsync(Pages.Home.Index, forceLoad: true);
                 break;

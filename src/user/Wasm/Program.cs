@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using WeeControl.User.UserServiceCore;
 using WeeControl.User.UserServiceCore.Interfaces;
 using WeeControl.User.Wasm.Services;
 using SharedDependency = WeeControl.SharedKernel.DependencyInjection;
-using UserServiceDependency = WeeControl.User.UserServiceCore.DependencyExtension;
 
 namespace WeeControl.User.Wasm;
 
@@ -32,7 +32,7 @@ public class Program
         builder.Services.AddScoped<IDeviceSecurity, AuthStateProvider>();
 
         SharedDependency.AddUserSecurityServiceForApplication(builder.Services);
-        UserServiceDependency.AddUserServiceCore(builder.Services);
+        AddViewModelExtension.AddViewModels(builder.Services);
 
         builder.Services.AddOptions();
 

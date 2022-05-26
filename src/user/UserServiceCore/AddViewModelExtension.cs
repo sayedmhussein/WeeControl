@@ -1,16 +1,13 @@
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.SharedKernel.Essential;
-using WeeControl.User.UserServiceCore.Interfaces;
-using WeeControl.User.UserServiceCore.Services;
 using WeeControl.User.UserServiceCore.ViewModels.Authentication;
 using WeeControl.User.UserServiceCore.ViewModels.Home;
 using WeeControl.User.UserServiceCore.ViewModels.User;
 
 namespace WeeControl.User.UserServiceCore;
 
-public static class DependencyExtension
+public static class AddViewModelExtension
 {
-    public static IServiceCollection AddUserServiceCore(this IServiceCollection services)
+    public static IServiceCollection AddViewModels(this IServiceCollection services)
     {
         #region AuthorizationContext
         services.AddTransient<LoginViewModel>();
