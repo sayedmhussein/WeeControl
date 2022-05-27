@@ -1,4 +1,6 @@
-﻿@attribute [Route(Pages.Authentication.Login)]
+﻿@using WeeControl.User.UserApplication.ViewModels.Authentication
+@using WeeControl.User.UserApplication
+@attribute [Route(Pages.Authentication.Login)]
 
 @layout RestrictedLayout
 @attribute [AllowAnonymous]
@@ -6,33 +8,30 @@
 @inject LoginViewModel ViewModel
 
 <div class="card">
-    <h4 class="card-header">@ViewModel.CardHeaderString</h4>
+    <h4 class="card-header">@ViewModel.CardHeaderLabel</h4>
     <div class="card-body">
         <EditForm Model="@ViewModel" OnValidSubmit="ProcessLoginAsync">
             <DataAnnotationsValidator/>
             <div class="form-group">
-                <label>@ViewModel.UsernameOrEmailString</label>
-                <InputText @bind-Value="ViewModel.UsernameOrEmail" class="form-control"/>
+                <label>@ViewModel.UsernameOrEmailLabel</label>
+                <InputText @bind-Value="ViewModel.UsernameOrEmail" readonly="@ViewModel.IsLoading" class="form-control"/>
                 <ValidationMessage For="@(() => ViewModel.UsernameOrEmail)"/>
             </div>
             <div class="form-group">
-                <label>Password</label>
-                <InputText @bind-Value="ViewModel.Password" type="password" class="form-control"/>
+                <label>@ViewModel.PasswordLabel</label>
+                <InputText @bind-Value="ViewModel.Password" readonly="@ViewModel.IsLoading" type="password" class="form-control"/>
                 <ValidationMessage For="@(() => ViewModel.Password)"/>
             </div>
-            <button class="btn btn-primary">
+            <button class="btn btn-primary" disabled="@ViewModel.IsLoading">
                 @if (ViewModel.IsLoading)
                 {
                     <span class="spinner-border spinner-border-sm mr-1"></span>
                 }
                 Login
             </button>
-            <button class="btn btn-secondary" @onclick="@ViewModel.NavigateToForgotMyPasswordPage">Forgot Password</button>
-            @* @if (!string.IsNullOrEmpty(stringAlert)) *@
-            @* { *@
-            @*     <div class="alert alert-danger mt-3 mb-0">@stringAlert</div> *@
-            @* } *@
-            <button class="btn btn-outline-secondary" @onclick="@ViewModel.NavigateToRegisterPage">Register</button>
+            
+            <button class="btn btn-secondary" @onclick="@ViewModel.NavigateToForgotMyPasswordPage">@ViewModel.ForgotPasswordButtonLabel</button>
+            <button class="btn btn-outline-secondary" @onclick="@ViewModel.NavigateToRegisterPage">@ViewModel.RegisterButtonLabel</button>
         </EditForm>
     </div>
 </div>

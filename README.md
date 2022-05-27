@@ -13,7 +13,8 @@ This project is created as a milestone to develop and customize a software appli
 * Entity Framework Core as database persistence.
 
 ### Patterns:
-* CQRS using Mediator in backend side.
+* CQRS on backend side.
+* MVVM on frontend side.
 
 ## Copyright and Licensing
 This is open source project, while you need to read and accept each nuget package imported into this project.
@@ -39,8 +40,8 @@ Note that this project is **currently under heavy development** so if you faced 
 ## Operating Instructions
 1. Ensure that both API and Blazor servers are running.
 2. On Blazor webpage using credentials:
-   Username : admin
-   Password : admin
+   Username : developer
+   Password : developer
 3. If you face any issues try to migrate the db or drop the old database then try again.
 
 [comment]: <> (<del>“What is this? Where does this go?” Now is the time to demystify any assumptions around how to use your project.</del>)

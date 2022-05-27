@@ -1,0 +1,110 @@
+using System.ComponentModel.DataAnnotations;
+using System.Net;
+using WeeControl.SharedKernel;
+using WeeControl.SharedKernel.DataTransferObjects.Authentication;
+using WeeControl.SharedKernel.RequestsResponses;
+using WeeControl.User.UserApplication.Interfaces;
+
+namespace WeeControl.User.UserApplication.ViewModels.Authentication;
+
+public class LoginViewModel : ViewModelBase
+{
+    private readonly IDevice device;
+
+    #region Properties
+    public string CardHeaderLabel { get; private set; } = "Please enter your username and password";
+    public string UsernameOrEmailLabel { get; private set; } = "Username or Email";
+    public string PasswordLabel { get; private set; } = "Password";
+    public string ForgotPasswordButtonLabel { get; private set; } = "Forgot Password";
+    public string RegisterButtonLabel { get; private set; } = "Register";
+    
+    [Required]
+    [StringLength(45, MinimumLength = 3)]
+    public string UsernameOrEmail { get; set; } = string.Empty;
+
+    [Required]
+    [DataType(DataType.Password)]
+    public string Password { get; set; } = string.Empty;
+    #endregion
+    
+    public LoginViewModel(IDevice device) : base(device)
+    {
+        this.device = device;
+    }
+
+    public async Task Init()
+    {
+        if (await RefreshTokenAsync())
+        {
+            await device.Navigation.NavigateToAsync(Pages.Home.Index);
+        }
+    }
+    
+    public async Task LoginAsync()
+    {
+        if (string.IsNullOrWhiteSpace(UsernameOrEmail) || string.IsNullOrWhiteSpace(Password))
+        {
+            await device.Alert.DisplayAlert("Please enter your username and password then try again.");
+            return;
+        }
+
+        IsLoading = true;
+        await ProcessLoginCommand();
+        Password = string.Empty;
+        IsLoading = false;
+    }
+
+    public Task NavigateToRegisterPage()
+    {
+        return device.Navigation.NavigateToAsync(Pages.User.Register);
+    }
+    
+    public Task NavigateToForgotMyPasswordPage()
+    {
+        return device.Navigation.NavigateToAsync(Pages.User.RequestNewPassword);
+    }
+
+    private async Task ProcessLoginCommand()
+    {
+        var response = await SendMessageAsync(
+            new HttpRequestMessage
+            {
+                RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Authorization.Root)),
+                Version = new Version("1.0"),
+                Method = HttpMethod.Post,
+            }, 
+            LoginDtoV1.Create(UsernameOrEmail, Password));
+
+        if (response.IsSuccessStatusCode)
+        {
+            var responseDto = await GetObjectFromJsonResponseAsync<ResponseDto<TokenDtoV1>>(response);
+            var token = responseDto?.Payload?.Token;
+            if (token is not null)
+            {
+                await device.Security.UpdateTokenAsync(token);
+                await device.Storage.SaveAsync(nameof(TokenDtoV1.FullName), responseDto?.Payload?.FullName);
+                await device.Storage.SaveAsync(nameof(TokenDtoV1.PhotoUrl), responseDto?.Payload?.PhotoUrl);
+                await device.Navigation.NavigateToAsync(Pages.Home.Index, forceLoad: true);
+            }
+            else
+            {
+                await device.Alert.DisplayAlert("AlertEnum.DeveloperInvalidUserInput");
+            }
+            
+            return;
+        }
+
+        switch (response.StatusCode)
+        {
+            case HttpStatusCode.NotFound:
+                await device.Alert.DisplayAlert("AlertEnum.InvalidUsernameOrPassword");
+                break;
+            case HttpStatusCode.Forbidden:
+                await device.Alert.DisplayAlert("AlertEnum.AccountIsLocked");
+                break;
+            default:
+                await device.Alert.DisplayAlert("AlertEnum.DeveloperInvalidUserInput");
+                break;
+        }
+    }
+}

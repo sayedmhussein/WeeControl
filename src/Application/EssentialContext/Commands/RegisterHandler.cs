@@ -5,7 +5,7 @@ using MediatR;
 using WeeControl.Application.EssentialContext.Queries;
 using WeeControl.Application.Exceptions;
 using WeeControl.Domain.Essential.Entities;
-using WeeControl.SharedKernel.Essential.DataTransferObjects;
+using WeeControl.SharedKernel.DataTransferObjects.Authentication;
 using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.RequestsResponses;
 
@@ -45,7 +45,7 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, ResponseDto<Toke
         await context.Users.AddAsync(user, cancellationToken);
         await context.SaveChangesAsync(cancellationToken);
         
-        var b= await mediator.Send(new GetNewTokenQuery(cmd.Request, new LoginDtoV1(user.Username, cmd.Payload.Password)), cancellationToken);
+        var b= await mediator.Send(new GetNewTokenQuery(cmd.Request,  LoginDtoV1.Create(user.Username, cmd.Payload.Password)), cancellationToken);
         return new ResponseDto<TokenDtoV1>(b.Payload);
     }
 }

@@ -29,7 +29,7 @@ EndProject
 
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "user", "user", "{D311A494-F342-4B0A-8A9F-045AD1D91C9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserServiceCore", "src\user\UserServiceCore\UserServiceCore.csproj", "{AFE5D9F2-EAA0-419F-B812-0AF8793BEFDB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserApplication", "src\user\UserApplication\UserApplication.csproj", "{AFE5D9F2-EAA0-419F-B812-0AF8793BEFDB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wasm", "src\user\Wasm\Wasm.csproj", "{C1ECA065-9D5C-4833-B71E-6675697FB9A6}"
 EndProject
@@ -47,7 +47,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.Test", "tests\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi.Test", "tests\WebApi.Test\WebApi.Test.csproj", "{F700359B-D75E-4145-9AA1-1C2599DCFADD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserServiceCore.Test.Integration", "tests\UserServiceCore.Test.Integration\UserServiceCore.Test.Integration.csproj", "{B063A0E4-D130-4288-A9D5-48CE704DA9A6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserApplication.Test.Integration", "tests\UserApplication.Test.Integration\UserApplication.Test.Integration.csproj", "{B063A0E4-D130-4288-A9D5-48CE704DA9A6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserApplication.Test", "tests\UserApplication.Test\UserApplication.Test.csproj", "{7CA3FCCD-627B-493F-9F7D-2EC212F79B03}"
 EndProject
 
 
@@ -233,6 +235,18 @@ Global
 		{AFE5D9F2-EAA0-419F-B812-0AF8793BEFDB}.Debug|iPhone.Build.0 = Debug|Any CPU
 		{AFE5D9F2-EAA0-419F-B812-0AF8793BEFDB}.Release|iPhone.ActiveCfg = Release|Any CPU
 		{AFE5D9F2-EAA0-419F-B812-0AF8793BEFDB}.Release|iPhone.Build.0 = Release|Any CPU
+		{7CA3FCCD-627B-493F-9F7D-2EC212F79B03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CA3FCCD-627B-493F-9F7D-2EC212F79B03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CA3FCCD-627B-493F-9F7D-2EC212F79B03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CA3FCCD-627B-493F-9F7D-2EC212F79B03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CA3FCCD-627B-493F-9F7D-2EC212F79B03}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{7CA3FCCD-627B-493F-9F7D-2EC212F79B03}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{7CA3FCCD-627B-493F-9F7D-2EC212F79B03}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{7CA3FCCD-627B-493F-9F7D-2EC212F79B03}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{7CA3FCCD-627B-493F-9F7D-2EC212F79B03}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{7CA3FCCD-627B-493F-9F7D-2EC212F79B03}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{7CA3FCCD-627B-493F-9F7D-2EC212F79B03}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{7CA3FCCD-627B-493F-9F7D-2EC212F79B03}.Release|iPhone.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -256,5 +270,6 @@ Global
 		{F700359B-D75E-4145-9AA1-1C2599DCFADD} = {8E7291B9-A6C0-4CC8-924A-950BB1F743EA}
 		{B063A0E4-D130-4288-A9D5-48CE704DA9A6} = {8E7291B9-A6C0-4CC8-924A-950BB1F743EA}
 		{24614377-72B0-4CED-9DA5-2E0A004278F0} = {8E7291B9-A6C0-4CC8-924A-950BB1F743EA}
+		{7CA3FCCD-627B-493F-9F7D-2EC212F79B03} = {8E7291B9-A6C0-4CC8-924A-950BB1F743EA}
 	EndGlobalSection
 EndGlobal

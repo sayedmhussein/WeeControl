@@ -1,7 +1,7 @@
 // using System;
 // using System.Threading.Tasks;
-// using WeeControl.User.UserServiceCore.Enums;
-// using WeeControl.User.UserServiceCore.Interfaces;
+// using WeeControl.User.UserApplication.Enums;
+// using WeeControl.User.UserApplication.Interfaces;
 //
 // namespace WeeControl.User.Wasm.Services;
 //

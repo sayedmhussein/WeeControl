@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using WeeControl.SharedKernel.Essential.DataTransferObjects;
+using WeeControl.SharedKernel.DataTransferObjects.Authentication;
 using WeeControl.SharedKernel.Interfaces;
-using WeeControl.User.UserServiceCore.Interfaces;
+using WeeControl.User.UserApplication.Interfaces;
 
 namespace WeeControl.User.Wasm.Services;
 

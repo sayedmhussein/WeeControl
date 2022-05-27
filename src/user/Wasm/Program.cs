@@ -5,8 +5,9 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.User.UserServiceCore;
-using WeeControl.User.UserServiceCore.Interfaces;
+using WeeControl.SharedKernel;
+using WeeControl.User.UserApplication;
+using WeeControl.User.UserApplication.Interfaces;
 using WeeControl.User.Wasm.Services;
 using SharedDependency = WeeControl.SharedKernel.DependencyInjection;
 
@@ -31,8 +32,10 @@ public class Program
         //builder.Services.AddScoped<IDeviceSecurity>(p => p.GetService<AuthStateProvider>());
         builder.Services.AddScoped<IDeviceSecurity, AuthStateProvider>();
 
-        SharedDependency.AddUserSecurityServiceForApplication(builder.Services);
-        AddViewModelExtension.AddViewModels(builder.Services);
+        //SharedDependency.AddUserSecurityServiceForApplication(builder.Services);
+        builder.Services.AddUserSecurityServiceForApplication();
+        builder.Services.AddViewModels();
+        //ViewModelExtensions.AddViewModels(builder.Services);
 
         builder.Services.AddOptions();
 
@@ -50,7 +53,7 @@ public class Program
             
         builder.Services.AddApiAuthorization(options =>
         {
-            options.AuthenticationPaths.LogInPath = "login";
+            options.AuthenticationPaths.LogInPath = UserApplication.Pages.Authentication.Login;
         });
             
         await builder.Build().RunAsync();

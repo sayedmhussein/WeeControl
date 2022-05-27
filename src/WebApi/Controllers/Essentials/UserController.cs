@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WeeControl.Application.EssentialContext.Commands;
 using WeeControl.Application.EssentialContext.Queries;
-using WeeControl.SharedKernel.Essential;
-using WeeControl.SharedKernel.Essential.DataTransferObjects;
+using WeeControl.SharedKernel;
+using WeeControl.SharedKernel.DataTransferObjects;
+using WeeControl.SharedKernel.DataTransferObjects.Authentication;
 using WeeControl.SharedKernel.RequestsResponses;
 
 namespace WeeControl.WebApi.Controllers.Essentials;
@@ -37,20 +38,7 @@ public class UserController : Controller
 
         return Ok(response);
     }
-
-    [AllowAnonymous]
-    [HttpPost(Api.Essential.User.Session)]
-    [MapToApiVersion("1.0")]
-    [ProducesResponseType((int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<ActionResult<ResponseDto<TokenDtoV1>>> LoginV1([FromBody] RequestDto<LoginDtoV1> dto)
-    {
-        var query = new GetNewTokenQuery(dto);
-        var response = await mediator.Send(query);
-
-        return Ok(response);
-    }
+    
 
     /// <summary>
     ///     Used to get token which will be used to authorize user, device must match the same which had the temporary token.

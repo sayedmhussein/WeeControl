@@ -1,6 +1,6 @@
 ﻿using System;
 using MediatR;
-using WeeControl.SharedKernel.Essential.DataTransferObjects;
+using WeeControl.SharedKernel.DataTransferObjects.Authentication;
 using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.RequestsResponses;
 
@@ -16,7 +16,7 @@ public class GetNewTokenQuery : IRequest<ResponseDto<TokenDtoV1>>
     public GetNewTokenQuery(IRequestDto<LoginDtoV1> dto)
     {
         Request = dto;
-        Payload = new LoginDtoV1(dto.Payload.UsernameOrEmail.ToLower(), dto.Payload.Password);
+        Payload = LoginDtoV1.Create(dto.Payload.UsernameOrEmail.ToLower(), dto.Payload.Password);
     }
         
     [Obsolete("Use other constructor which has one argument.")]

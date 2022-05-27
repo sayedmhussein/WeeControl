@@ -4,6 +4,8 @@ namespace WeeControl.SharedKernel.RequestsResponses;
 
 public class ResponseDto<T> : ResponseDto, IResponseDto<T> where T : class
 {
+    public T Payload { get; set; }
+    
     private ResponseDto() : base()
     {
     }
@@ -12,6 +14,4 @@ public class ResponseDto<T> : ResponseDto, IResponseDto<T> where T : class
     {
         Payload = payload;
     }
-
-    public T Payload { get; set; }
 }

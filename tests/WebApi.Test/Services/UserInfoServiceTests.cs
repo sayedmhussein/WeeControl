@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Moq;
 using WeeControl.Application.EssentialContext.Queries;
-using WeeControl.SharedKernel.Essential.DataTransferObjects;
+using WeeControl.SharedKernel.DataTransferObjects;
 using WeeControl.SharedKernel.Essential.Security;
 using WeeControl.SharedKernel.RequestsResponses;
 using WeeControl.WebApi.Services;

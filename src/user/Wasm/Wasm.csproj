@@ -37,7 +37,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\UserServiceCore\UserServiceCore.csproj" />
+    <ProjectReference Include="..\UserApplication\UserApplication.csproj" />
   </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="Pages\Authentication\Login.razor" />

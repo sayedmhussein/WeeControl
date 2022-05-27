@@ -11,7 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using WeeControl.Application.Exceptions;
 using WeeControl.Application.Interfaces;
 using WeeControl.Domain.Essential.Entities;
-using WeeControl.SharedKernel.Essential.DataTransferObjects;
+using WeeControl.SharedKernel.DataTransferObjects.Authentication;
 using WeeControl.SharedKernel.Essential.Security;
 using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.RequestsResponses;
@@ -92,7 +92,7 @@ public class GetNewTokenHandler : IRequestHandler<GetNewTokenQuery, ResponseDto<
             };
             var token = jwtService.GenerateToken(descriptor);
 
-            return new ResponseDto<TokenDtoV1>(new TokenDtoV1(token, employee.Username, "url"));
+            return new ResponseDto<TokenDtoV1>( TokenDtoV1.Create(token, employee.Username, "url"));
         }
         else if (currentUserInfo.GetSessionId() is not null)
         {
@@ -130,12 +130,7 @@ public class GetNewTokenHandler : IRequestHandler<GetNewTokenQuery, ResponseDto<
             };
             var token = jwtService.GenerateToken(descriptor);
 
-            return new ResponseDto<TokenDtoV1>(new TokenDtoV1()
-            {
-                Token = token,
-                FullName = employee.Username,
-                PhotoUrl = "url"
-            });
+            return new ResponseDto<TokenDtoV1>(TokenDtoV1.Create(token, employee.Username, "url"));
         }
         else
         {

@@ -1,7 +1,7 @@
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.JSInterop;
-using WeeControl.User.UserServiceCore.Interfaces;
+using WeeControl.User.UserApplication.Interfaces;
 
 namespace WeeControl.User.Wasm.Services;
 
