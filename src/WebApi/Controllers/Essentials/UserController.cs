@@ -38,40 +38,6 @@ public class UserController : Controller
 
         return Ok(response);
     }
-    
-
-    /// <summary>
-    ///     Used to get token which will be used to authorize user, device must match the same which had the temporary token.
-    /// </summary>
-    /// <param name="dto"></param>
-    /// <returns></returns>
-    [Authorize]
-    [HttpPut(Api.Essential.User.Session)]
-    [MapToApiVersion("1.0")]
-    [ProducesResponseType(typeof(ResponseDto<TokenDtoV1>), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    [ProducesResponseType((int)HttpStatusCode.Forbidden)]
-    public async Task<ActionResult<ResponseDto<TokenDtoV1>>> RefreshTokenV1([FromBody] RequestDto dto)
-    {
-        var query = new GetNewTokenQuery(dto);
-        var response = await mediator.Send(query);
-
-        return Ok(response);
-    }
-
-    [Authorize]
-    [HttpDelete(Api.Essential.User.Session)]
-    [MapToApiVersion("1.0")]
-    [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    [ProducesResponseType((int)HttpStatusCode.Forbidden)]
-    public async Task<ActionResult<ResponseDto>> LogoutV1([FromBody] RequestDto dto)
-    {
-        var command = new LogoutCommand(dto);
-        var response = await mediator.Send(command);
-
-        return Ok(response);
-    }
 
     [Authorize]
     [HttpPatch(Api.Essential.User.Reset)]

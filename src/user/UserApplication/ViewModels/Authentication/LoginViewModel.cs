@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Net;
+using System.Net.Http.Json;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.DataTransferObjects.Authentication;
 using WeeControl.SharedKernel.RequestsResponses;
@@ -77,20 +78,27 @@ public class LoginViewModel : ViewModelBase
 
         if (response.IsSuccessStatusCode)
         {
-            var responseDto = await GetObjectFromJsonResponseAsync<ResponseDto<TokenDtoV1>>(response);
+            var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<TokenDtoV1>>();
             var token = responseDto?.Payload?.Token;
             if (token is not null)
             {
                 await device.Security.UpdateTokenAsync(token);
                 await device.Storage.SaveAsync(nameof(TokenDtoV1.FullName), responseDto?.Payload?.FullName);
                 await device.Storage.SaveAsync(nameof(TokenDtoV1.PhotoUrl), responseDto?.Payload?.PhotoUrl);
-                await device.Navigation.NavigateToAsync(Pages.Home.Index, forceLoad: true);
+                if (await RefreshTokenAsync())
+                {
+                    await device.Navigation.NavigateToAsync(Pages.Home.Index, forceLoad: true);
+                    return;
+                }
+
+                await device.Navigation.NavigateToAsync(Pages.Authentication.Login, forceLoad: true);
+                return;
             }
             else
             {
                 await device.Alert.DisplayAlert("AlertEnum.DeveloperInvalidUserInput");
             }
-            
+
             return;
         }
 

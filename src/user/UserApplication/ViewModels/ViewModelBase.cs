@@ -14,10 +14,11 @@ namespace WeeControl.User.UserApplication.ViewModels;
 
 public class ViewModelBase : INotifyPropertyChanged
 {
-    public bool IsLoading { get; protected set; } = false;
+    public bool IsLoading { get; protected set; }
     
     public event PropertyChangedEventHandler? PropertyChanged;
 
+    
     private readonly IDevice device;
     
     protected ViewModelBase(IDevice device)
@@ -25,34 +26,16 @@ public class ViewModelBase : INotifyPropertyChanged
         this.device = device;
     }
     
-    protected async Task<HttpResponseMessage> SendMessageAsync(HttpRequestMessage message, bool includeRequestDto = false, bool accurateLocation = false)
+    protected async Task<HttpResponseMessage> SendMessageAsync<T>(HttpRequestMessage message, T payload = null, bool accurateLocation = false) where T : class
     {
-        if (includeRequestDto)
+        if (message.Content is null && message.Method != HttpMethod.Get)
         {
-            var location = accurateLocation ? 
-                await device.Location.GetAccurateLocationAsync() :
-                await device.Location.GetLastKnownLocationAsync();
-            
-            message.Content = ConvertObjectToJsonContent<object>("application/json", location.Latitude, location.Longitude);
-        }
-
-        return await SendMessageAsync<IRequestDto>(message, null, accurateLocation);
-    }
-
-    protected async Task<HttpResponseMessage> SendMessageAsync<T>(HttpRequestMessage message, T? payload, bool accurateLocation = false) where T : class
-    {
-        if (message.Content is null && payload is not null)
-        {
-            var location = accurateLocation ? 
-                await device.Location.GetAccurateLocationAsync() :
-                await device.Location.GetLastKnownLocationAsync();
-            
-            message.Content = ConvertObjectToJsonContent("application/json", location.Latitude, location.Longitude, payload);
+            message.Content = await GetResponseDtoAsHttpContentAsync(accurateLocation, payload);
         }
 
         try
-        {
-            await UpdateAuthorizationAsync();
+        { 
+            UpdateHttpAuthorizationHeader(await device.Security.GetTokenAsync());
             return await device.Server.HttpClient.SendAsync(message);
         }
         catch (HttpRequestException e)
@@ -65,12 +48,7 @@ public class ViewModelBase : INotifyPropertyChanged
             throw;
         }
     }
-
-    protected Task<T?> GetObjectFromJsonResponseAsync<T>(HttpResponseMessage message)
-    {
-        return message.Content.ReadFromJsonAsync<T>();
-    }
-
+    
     protected async Task<bool> RefreshTokenAsync()
     {
         if (await device.Security.IsAuthenticatedAsync() == false)
@@ -80,15 +58,15 @@ public class ViewModelBase : INotifyPropertyChanged
 
         HttpRequestMessage message = new()
         {
-            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.User.Session)),
+            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Authorization.Root)),
             Version = new Version("1.0"),
             Method = HttpMethod.Put
         };
 
-        var response = await SendMessageAsync(message, includeRequestDto: true);
+        var response = await SendMessageAsync<object>(message);
         if (response.IsSuccessStatusCode)
         {
-            var responseDto = await GetObjectFromJsonResponseAsync<ResponseDto<TokenDtoV1>>(response);
+            var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<TokenDtoV1>>();
             var token = responseDto?.Payload?.Token;
             if (responseDto is not null && token is not null)
             {
@@ -112,21 +90,25 @@ public class ViewModelBase : INotifyPropertyChanged
 
         return false;
     }
-    
-    private HttpContent ConvertObjectToJsonContent<T>(string mediaType, double? latitude, double? longitude, T? payload = null) where T : class
+
+    private Task<(double? Latitude, double? Longitude)> GetCurrentLocationAsync(bool accurate)
     {
-        var dto = payload == null ? 
-            new RequestDto(device.DeviceId) : 
-            new RequestDto<T>(device.DeviceId, payload, latitude, longitude);
-        
-        return new StringContent(JsonConvert.SerializeObject(dto), Encoding.UTF8, mediaType);
+        return accurate ? device.Location.GetAccurateLocationAsync() : device.Location.GetLastKnownLocationAsync();
     }
     
-    private async Task UpdateAuthorizationAsync()
+    private async Task<HttpContent> GetResponseDtoAsHttpContentAsync<T>(bool locationAccuracy, T? payload = null) where T : class
+    {
+        var location = await GetCurrentLocationAsync(locationAccuracy);
+        var dto = payload == null ? 
+            new RequestDto(device.DeviceId, location.Latitude, location.Longitude) : 
+            new RequestDto<T>(device.DeviceId, payload, location.Latitude, location.Longitude);
+        
+        return new StringContent(JsonConvert.SerializeObject(dto), Encoding.UTF8, "application/json");
+    }
+    
+    private  void UpdateHttpAuthorizationHeader(string token)
     {
         device.Server.HttpClient.DefaultRequestHeaders.Authorization = 
-            new AuthenticationHeaderValue("Brear", await device.Storage.GetAsync(nameof(TokenDtoV1.Token)));
+            new AuthenticationHeaderValue("Brear", token);
     }
-    
-    
 }

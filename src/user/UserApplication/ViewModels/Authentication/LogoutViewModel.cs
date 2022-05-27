@@ -19,7 +19,7 @@ public class LogoutViewModel : ViewModelBase
     {
         HttpRequestMessage message = new()
         {
-            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.User.Session)),
+            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Authorization.Root)),
             Version = new Version("1.0"),
             Method = HttpMethod.Delete,
         };
@@ -28,8 +28,10 @@ public class LogoutViewModel : ViewModelBase
 
         switch (response.StatusCode)
         {
-            case HttpStatusCode.OK:
-            case HttpStatusCode.Accepted:
+            case HttpStatusCode.NotFound:
+            case HttpStatusCode.BadGateway:
+            case HttpStatusCode.Forbidden:
+            case HttpStatusCode.Unauthorized:
                 await device.Navigation.NavigateToAsync(Pages.Authentication.Login, forceLoad: true);
                 break;
             default:

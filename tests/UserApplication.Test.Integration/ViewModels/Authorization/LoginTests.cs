@@ -1,21 +1,23 @@
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.Application.EssentialContext;
 using WeeControl.Domain.Essential.Entities;
+using WeeControl.SharedKernel.DataTransferObjects.Authentication;
 using WeeControl.SharedKernel.Services;
 using WeeControl.User.UserApplication.ViewModels.Authentication;
 using WeeControl.WebApi;
 using Xunit;
 
-namespace WeeControl.User.UserApplication.Test.Integration.Essential.ViewModels.UserServices;
+namespace WeeControl.User.UserApplication.Test.Integration.ViewModels.Authorization;
 
 public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>, IDisposable
 {
     #region static
-    public static async Task<string> LoginAsync(HttpClient client, string username, string password, string device)
+    public static async Task<string> GetNewToken(HttpClient client, string username, string password, string device)
     {
         var token = string.Empty;
     
@@ -32,13 +34,14 @@ public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>, I
         vm.UsernameOrEmail = username;
         vm.Password = password;
         await vm.LoginAsync();
-            
+
         Assert.NotEmpty(token);
             
         return token;
     }
     #endregion
 
+    #region Preparation
     private LoginViewModel vm;
     private DeviceServiceMock deviceMock;
     private readonly CustomWebApplicationFactory<Startup> factory;
@@ -81,41 +84,9 @@ public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>, I
         deviceMock = null;
         vm = null;
     }
+    #endregion
 
-    [Theory]
-    [InlineData("", "")]
-    [InlineData("", "password")]
-    [InlineData("username", "")]
-    [InlineData("usernotexist", "usernotexist")]
-    public async void TestsForFailedScenarios(string username, string password)
-    {
-        vm.UsernameOrEmail = username;
-        vm.Password = password;
-        
-        await vm.LoginAsync();
-            
-        deviceMock.AlertMock.Verify(x => 
-            x.DisplayAlert(It.IsAny<string>()), Times.Once);
-        
-        deviceMock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Home.Index, It.IsAny<bool>()), Times.Never);
-    }
-        
-    [Fact]
-    public async void WhenUserIsLocked()
-    {
-        vm.UsernameOrEmail = lockedUserDbo.Username;
-        vm.Password = lockedUserDbo.Username;
-        
-        await vm.LoginAsync();
-        
-        deviceMock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Home.Index, It.IsAny<bool>()), Times.Never);
-        
-        deviceMock.AlertMock.Verify(x => 
-            x.DisplayAlert(It.IsAny<string>()), Times.Once);
-    }
-
+    #region Success
     [Fact]
     public async void WhenSendingValidRequest_HttpResponseIsSuccessCode()
     {
@@ -148,8 +119,32 @@ public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>, I
             })
             .CreateClient();
     
-        var token = await LoginAsync(client, username, password, "device");
+        var token = await GetNewToken(client, username, password, "device");
         
         Assert.NotEmpty(token);
     }
+    #endregion
+
+    #region Unauthorized
+
+    
+
+    #endregion
+
+    #region BusinessLogic
+    [Fact]
+    public async void WhenUserIsLocked()
+    {
+        vm.UsernameOrEmail = lockedUserDbo.Username;
+        vm.Password = lockedUserDbo.Username;
+        
+        await vm.LoginAsync();
+        
+        deviceMock.NavigationMock.Verify(x => 
+            x.NavigateToAsync(Pages.Home.Index, It.IsAny<bool>()), Times.Never);
+        
+        deviceMock.AlertMock.Verify(x => 
+            x.DisplayAlert(It.IsAny<string>()), Times.Once);
+    }
+    #endregion
 }

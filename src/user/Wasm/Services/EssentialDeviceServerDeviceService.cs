@@ -11,15 +11,9 @@ public class EssentialDeviceServerDeviceService : DeviceStorageService, IDeviceS
         HttpClient = factory.CreateClient();
     }
     
-    public string ServerBaseAddress
-    {
-        get => "https://localhost:5001/";
-        set => _ = value;
-    }
-
     public HttpClient HttpClient { get; }
     public string GetFullAddress(string relative)
     {
-        return ServerBaseAddress + relative;
+        return "https://localhost:5001/" + relative;
     }
 }

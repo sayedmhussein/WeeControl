@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
+using System.Net.Http.Json;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.DataTransferObjects;
 using WeeControl.SharedKernel.DataTransferObjects.Authentication;
@@ -56,7 +57,7 @@ public class RegisterViewModel : ViewModelBase
         {
             case HttpStatusCode.OK:
             case HttpStatusCode.Accepted:
-                var dto_ = await GetObjectFromJsonResponseAsync<ResponseDto<TokenDtoV1>>(response);
+                var dto_ = await response.Content.ReadFromJsonAsync<ResponseDto<TokenDtoV1>>();
                 var token = dto_?.Payload?.Token;
                 await device.Security.UpdateTokenAsync(token);
                 await device.Navigation.NavigateToAsync(Pages.Home.Index, forceLoad: true);

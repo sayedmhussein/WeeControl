@@ -48,7 +48,6 @@
     <ProjectReference Include="..\UserApplication.Test\UserApplication.Test.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Essential\" />
-    <Folder Include="Essential\ViewModels\" />
+    <Folder Include="ViewModels\" />
   </ItemGroup>
 </Project>

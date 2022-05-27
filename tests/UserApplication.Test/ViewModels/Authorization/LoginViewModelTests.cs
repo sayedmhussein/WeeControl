@@ -1,7 +1,4 @@
 using System.Net;
-using System.Text;
-using Moq.Protected;
-using Newtonsoft.Json;
 using WeeControl.SharedKernel.DataTransferObjects.Authentication;
 using WeeControl.SharedKernel.RequestsResponses;
 using WeeControl.User.UserApplication.ViewModels.Authentication;
@@ -10,6 +7,7 @@ namespace WeeControl.User.UserApplication.Test.ViewModels.Authorization;
 
 public class LoginViewModelTests : IDisposable
 {
+    #region Preparation
     private DeviceServiceMock mock;
     
     public LoginViewModelTests()
@@ -21,42 +19,15 @@ public class LoginViewModelTests : IDisposable
     {
         mock = null;
     }
-
-    [Theory]
-    [InlineData("", "")]
-    [InlineData("", "password")]
-    [InlineData("username", "")]
-    [InlineData("    ", "password")]
-    [InlineData("username", "    ")]
-    [InlineData("   ", "    ")]
-    public async void WhenEmptyProperties_DisplayAlertOnly(string username, string password)
-    {
-        var client = GetHttpClientForTesting_(HttpStatusCode.OK, 
-            new ResponseDto<TokenDtoV1>(TokenDtoV1.Create("token", "name", "url")));
-        var vm = new LoginViewModel(mock.GetObject(client))
-        {
-            UsernameOrEmail = username,
-            Password = password
-        };
-        
-        await vm.LoginAsync();
-        
-        mock.AlertMock.Verify(x => 
-            x.DisplayAlert(It.IsAny<string>()), Times.Once);
-        mock.SecurityMock.Verify(x => 
-            x.UpdateTokenAsync(It.IsAny<string>()), Times.Never);
-        mock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Home.Index,true), Times.Never);
-    }
+    #endregion
     
+    #region Success
     [Fact]
-    public async void WhenServerReturnsOkWithValidDto()
+    public async void SuccessTest()
     {
-        // var client = GetHttpClientForTesting_(HttpStatusCode.OK, 
-        //     TokenDtoV1.Create("token", "name", "url"));
-        var client = GetHttpClientForTesting_(HttpStatusCode.OK, 
-            new ResponseDto<TokenDtoV1>(TokenDtoV1.Create("token", "name", "url")));
-        var vm = new LoginViewModel(mock.GetObject(client))
+        var vm = new LoginViewModel(mock.GetObject(HttpStatusCode.OK, 
+            new ResponseDto<TokenDtoV1>(
+                TokenDtoV1.Create("token", "name", "url"))))
         {
             UsernameOrEmail = "username",
             Password = "password"
@@ -71,30 +42,65 @@ public class LoginViewModelTests : IDisposable
         mock.NavigationMock.Verify(x => 
             x.NavigateToAsync(Pages.Home.Index,true), Times.Once);
     }
-    
-    private HttpClient GetHttpClientForTesting_<T>(HttpStatusCode statusCode, T dto)
+    #endregion
+
+    #region CommunicationFailure
+    [Fact]
+    public async void HttpClientIsDefault()
     {
-        var content = new StringContent(JsonConvert.SerializeObject(dto), Encoding.UTF8, "application/json");
-        return GetHttpClientForTesting(statusCode, content);
-    }
-    
-    private HttpClient GetHttpClientForTesting(HttpStatusCode statusCode, HttpContent content)
-    {
-        var httpMessageHandlerMock = new Mock<HttpMessageHandler>();
-        var response = new HttpResponseMessage
+        var client = new HttpClient();
+        var vm = new LoginViewModel(mock.GetObject(client))
         {
-            StatusCode = statusCode, 
-            Content = content
+            UsernameOrEmail = "username",
+            Password = "password"
         };
         
-        httpMessageHandlerMock
-            .Protected()
-            .Setup<Task<HttpResponseMessage>>(
-                "SendAsync",
-                ItExpr.IsAny<HttpRequestMessage>(),
-                ItExpr.IsAny<CancellationToken>())
-            .ReturnsAsync(response);
+        await vm.LoginAsync();
         
-        return new HttpClient(httpMessageHandlerMock.Object);
+        mock.AlertMock.Verify(x => 
+            x.DisplayAlert(It.IsAny<string>()), Times.AtLeast(1));
+        mock.SecurityMock.Verify(x => 
+            x.UpdateTokenAsync("token"), Times.Never);
+        mock.NavigationMock.Verify(x => 
+            x.NavigateToAsync(Pages.Home.Index,It.IsAny<bool>()), Times.Never);
     }
+    #endregion
+
+    #region InvalidProperties
+    [Theory]
+    [InlineData("", "")]
+    [InlineData("", "password")]
+    [InlineData("username", "")]
+    [InlineData("    ", "password")]
+    [InlineData("username", "    ")]
+    [InlineData("   ", "    ")]
+    public async void WhenEmptyProperties_DisplayAlertOnly(string username, string password)
+    {
+        var vm = new LoginViewModel(mock.GetObject(HttpStatusCode.OK,
+            new ResponseDto<TokenDtoV1>(TokenDtoV1.Create("token", "name", "url"))))
+        {
+            UsernameOrEmail = username,
+            Password = password
+        };
+        
+        await vm.LoginAsync();
+        
+        mock.AlertMock.Verify(x => 
+            x.DisplayAlert(It.IsAny<string>()), Times.Once);
+        mock.SecurityMock.Verify(x => 
+            x.UpdateTokenAsync(It.IsAny<string>()), Times.Never);
+        mock.NavigationMock.Verify(x => 
+            x.NavigateToAsync(Pages.Home.Index,true), Times.Never);
+    }
+    #endregion
+
+    #region InvalidCommands
+    
+    #endregion
+    
+    #region HttpCodes
+
+    
+
+    #endregion  
 }

@@ -90,6 +90,11 @@ public class AuthStateProvider : AuthenticationStateProvider, IDeviceSecurity
         return Task.CompletedTask;
     }
 
+    public Task<string> GetTokenAsync()
+    {
+        return localStorage.GetAsync(tokenKeyName);
+    }
+
     public Task DeleteTokenAsync()
     {
         return localStorage.SaveAsync(tokenKeyName, string.Empty);

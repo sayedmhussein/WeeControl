@@ -8,6 +8,8 @@ public interface IDeviceSecurity
 
     Task UpdateTokenAsync(string token);
 
+    Task<string> GetTokenAsync();
+
     Task DeleteTokenAsync();
 
     Task<IEnumerable<Claim>> GetClaimsAsync();
