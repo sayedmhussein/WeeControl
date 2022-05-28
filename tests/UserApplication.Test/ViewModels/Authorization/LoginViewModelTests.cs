@@ -17,11 +17,11 @@ public class LoginViewModelTests : IDisposable
 
     public void Dispose()
     {
-        mock = null;
+        //mock = null;
     }
     #endregion
     
-    #region Success
+    #region Success And HttpActions
     [Fact]
     public async void SuccessTest()
     {
@@ -42,6 +42,29 @@ public class LoginViewModelTests : IDisposable
         mock.NavigationMock.Verify(x => 
             x.NavigateToAsync(Pages.Home.Index,true), Times.Once);
     }
+    
+    [Theory]
+    [InlineData(HttpStatusCode.BadRequest)]
+    [InlineData(HttpStatusCode.NotFound)]
+    public async void WhenBadRequest(HttpStatusCode code)
+         {
+             var vm = new LoginViewModel(mock.GetObject(code, 
+                 new ResponseDto<TokenDtoV1>(
+                     TokenDtoV1.Create("token", "name", "url"))))
+             {
+                 UsernameOrEmail = "username",
+                 Password = "password"
+             };
+             
+             await vm.LoginAsync();
+             
+             mock.AlertMock.Verify(x => 
+                 x.DisplayAlert(It.IsAny<string>()), Times.Once);
+             mock.NavigationMock.Verify(x => 
+                 x.NavigateToAsync(Pages.Home.Index,true), Times.Never);
+         }
+    
+    
     #endregion
 
     #region CommunicationFailure
@@ -97,10 +120,4 @@ public class LoginViewModelTests : IDisposable
     #region InvalidCommands
     
     #endregion
-    
-    #region HttpCodes
-
-    
-
-    #endregion  
 }

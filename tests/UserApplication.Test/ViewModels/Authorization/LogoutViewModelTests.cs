@@ -26,7 +26,7 @@ public class LogoutViewModelTests
         await vm.LogoutAsync();
         
         mock.SecurityMock.Verify(x => x.DeleteTokenAsync());
-        mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Authentication.Login, It.IsAny<bool>()));
+        mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()));
     }
     #endregion
 
@@ -39,7 +39,7 @@ public class LogoutViewModelTests
         await vm.LogoutAsync();
         
         mock.SecurityMock.Verify(x => x.DeleteTokenAsync());
-        mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Authentication.Login, It.IsAny<bool>()));
+        mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()));
     }
     #endregion
 

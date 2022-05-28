@@ -22,6 +22,6 @@ public class SplashViewModel : ViewModelBase
             return;
         }
         
-        await device.Navigation.NavigateToAsync(Pages.Authentication.Login);
+        await device.Navigation.NavigateToAsync(Pages.Authentication.LoginPage);
     }
 }

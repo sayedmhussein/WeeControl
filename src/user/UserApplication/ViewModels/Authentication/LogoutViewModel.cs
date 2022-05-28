@@ -32,7 +32,7 @@ public class LogoutViewModel : ViewModelBase
             case HttpStatusCode.BadGateway:
             case HttpStatusCode.Forbidden:
             case HttpStatusCode.Unauthorized:
-                await device.Navigation.NavigateToAsync(Pages.Authentication.Login, forceLoad: true);
+                await device.Navigation.NavigateToAsync(Pages.Authentication.LoginPage, forceLoad: true);
                 break;
             default:
                 await device.Alert.DisplayAlert("AlertEnum.DeveloperMinorBug");

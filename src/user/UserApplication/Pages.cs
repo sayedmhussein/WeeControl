@@ -4,7 +4,7 @@ public static class Pages
 {
     public static class Authentication
     {
-        public const string Login = "Login";
+        public const string LoginPage = "Login";
         public const string Logout = "Logout";
     }
 

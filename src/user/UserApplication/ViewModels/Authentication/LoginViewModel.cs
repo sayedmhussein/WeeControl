@@ -91,7 +91,7 @@ public class LoginViewModel : ViewModelBase
                     return;
                 }
 
-                await device.Navigation.NavigateToAsync(Pages.Authentication.Login, forceLoad: true);
+                await device.Navigation.NavigateToAsync(Pages.Authentication.LoginPage, forceLoad: true);
                 return;
             }
             else

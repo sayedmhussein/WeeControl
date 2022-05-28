@@ -30,7 +30,7 @@ public class ForgotMyPasswordViewModel : ViewModelBase
     {
         IsLoading = true;
         await ProcessPasswordReset(ForgotMyPasswordDto.Create(Email, Username));
-        await device.Navigation.NavigateToAsync(Pages.Authentication.Login);
+        await device.Navigation.NavigateToAsync(Pages.Authentication.LoginPage);
     }
 
     private async Task ProcessPasswordReset(ForgotMyPasswordDto dto)
@@ -43,7 +43,7 @@ public class ForgotMyPasswordViewModel : ViewModelBase
         };
         
         var response = await SendMessageAsync(message, dto);
-        await device.Navigation.NavigateToAsync(Pages.Authentication.Login);
+        await device.Navigation.NavigateToAsync(Pages.Authentication.LoginPage);
         await device.Alert.DisplayAlert("AlertEnum.NewPasswordSent");
     }
 }
