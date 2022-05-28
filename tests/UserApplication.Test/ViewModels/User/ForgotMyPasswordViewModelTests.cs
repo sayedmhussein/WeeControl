@@ -60,5 +60,6 @@ public class ForgotMyPasswordViewModelTests
         await vm.RequestPasswordReset();
         
         mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()), Times.Never);
+        Assert.False(vm.IsLoading);
     }
 }

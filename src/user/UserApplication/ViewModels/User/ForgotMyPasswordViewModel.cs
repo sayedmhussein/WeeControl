@@ -31,7 +31,7 @@ public class ForgotMyPasswordViewModel : ViewModelBase
     {
         IsLoading = true;
         await ProcessPasswordReset(ForgotMyPasswordDtoV1.Create(Email, Username));
-        await device.Navigation.NavigateToAsync(Pages.Authentication.LoginPage);
+        IsLoading = false;
     }
 
     private async Task ProcessPasswordReset(ForgotMyPasswordDtoV1 dtoV1)
@@ -51,6 +51,7 @@ public class ForgotMyPasswordViewModel : ViewModelBase
             return;
         }
         
+        Console.WriteLine("Invalid message");
         await device.Alert.DisplayAlert("Something went wrong!");
     }
 }
