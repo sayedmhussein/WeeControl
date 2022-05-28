@@ -48,7 +48,7 @@ public class SetNewPasswordViewModel : ViewModelBase
     {
         HttpRequestMessage message = new()
         {
-            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.User.Reset)),
+            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.User.ResetPassword)),
             Version = new Version("1.0"),
             Method = HttpMethod.Patch,
         };

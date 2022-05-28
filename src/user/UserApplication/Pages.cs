@@ -12,7 +12,7 @@ public static class Pages
     {
         public const string Register = "Register";
         public const string ResetPassword = "PasswordReset";
-        public const string RequestNewPassword = "ForgotPassword";
+        public const string ForgotMyPasswordPage = "ForgotPassword";
     }
 
     public static class Home

@@ -9,6 +9,7 @@ using WeeControl.Application.EssentialContext.Queries;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.DataTransferObjects;
 using WeeControl.SharedKernel.DataTransferObjects.Authentication;
+using WeeControl.SharedKernel.DataTransferObjects.User;
 using WeeControl.SharedKernel.RequestsResponses;
 
 namespace WeeControl.WebApi.Controllers.Essentials;
@@ -40,7 +41,7 @@ public class UserController : Controller
     }
 
     [Authorize]
-    [HttpPatch(Api.Essential.User.Reset)]
+    [HttpPatch(Api.Essential.User.ResetPassword)]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -55,12 +56,13 @@ public class UserController : Controller
     }
     
     [AllowAnonymous]
-    [HttpPost(Api.Essential.User.Reset)]
+    [HttpPost(Api.Essential.User.ResetPassword)]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.OK)]
-    public async Task<ActionResult<ResponseDto>> ResetPasswordV1([FromBody] RequestDto<ForgotMyPasswordDto> dto)
+    [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.BadRequest)]
+    public async Task<ActionResult> ResetPasswordV1([FromBody] RequestDto<ForgotMyPasswordDtoV1> dto)
     {
-        var command = new ResetPasswordCommand(dto, dto.Payload.Email, dto.Payload.Username);
+        var command = new ResetPasswordCommand(dto);
         await mediator.Send(command);
 
         return Ok();

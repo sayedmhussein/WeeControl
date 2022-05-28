@@ -15,7 +15,7 @@ public static class Api
         {
             public const string Base = Route + nameof(User);
             public const string Session = Route + nameof(Essential.User) + "/Session";
-            public const string Reset = Session + "/Forgot";
+            public const string ResetPassword = Session + "/Forgot";
         }
         
         public static class Admin

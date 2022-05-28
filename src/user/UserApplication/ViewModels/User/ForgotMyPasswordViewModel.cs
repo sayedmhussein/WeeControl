@@ -2,6 +2,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.DataTransferObjects;
+using WeeControl.SharedKernel.DataTransferObjects.User;
 using WeeControl.User.UserApplication.Interfaces;
 
 namespace WeeControl.User.UserApplication.ViewModels.User;
@@ -29,21 +30,27 @@ public class ForgotMyPasswordViewModel : ViewModelBase
     public async Task RequestPasswordReset()
     {
         IsLoading = true;
-        await ProcessPasswordReset(ForgotMyPasswordDto.Create(Email, Username));
+        await ProcessPasswordReset(ForgotMyPasswordDtoV1.Create(Email, Username));
         await device.Navigation.NavigateToAsync(Pages.Authentication.LoginPage);
     }
 
-    private async Task ProcessPasswordReset(ForgotMyPasswordDto dto)
+    private async Task ProcessPasswordReset(ForgotMyPasswordDtoV1 dtoV1)
     {
         HttpRequestMessage message = new()
         {
-            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.User.Reset)),
+            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.User.ResetPassword)),
             Version = new Version("1.0"),
             Method = HttpMethod.Post,
         };
         
-        var response = await SendMessageAsync(message, dto);
-        await device.Navigation.NavigateToAsync(Pages.Authentication.LoginPage);
-        await device.Alert.DisplayAlert("AlertEnum.NewPasswordSent");
+        var responseMessage = await SendMessageAsync(message, dtoV1);
+        if (responseMessage.IsSuccessStatusCode)
+        {
+            await device.Navigation.NavigateToAsync(Pages.Authentication.LoginPage);
+            await device.Alert.DisplayAlert("AlertEnum.NewPasswordSent");
+            return;
+        }
+        
+        await device.Alert.DisplayAlert("Something went wrong!");
     }
 }

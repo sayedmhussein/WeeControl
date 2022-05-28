@@ -62,7 +62,7 @@ public class LoginViewModel : ViewModelBase
     
     public Task NavigateToForgotMyPasswordPage()
     {
-        return device.Navigation.NavigateToAsync(Pages.User.RequestNewPassword);
+        return device.Navigation.NavigateToAsync(Pages.User.ForgotMyPasswordPage);
     }
 
     private async Task ProcessLoginCommand()
