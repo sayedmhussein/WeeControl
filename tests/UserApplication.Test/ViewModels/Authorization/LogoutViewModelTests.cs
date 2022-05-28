@@ -19,9 +19,31 @@ public class LogoutViewModelTests
     #region Success
 
     [Fact]
-    public async void Success()
+    public async void WhenNotFound()
     {
         var vm = new LogoutViewModel(mock.GetObject<ResponseDto>(HttpStatusCode.NotFound, null!));
+
+        await vm.LogoutAsync();
+        
+        mock.SecurityMock.Verify(x => x.DeleteTokenAsync());
+        mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()));
+    }
+    
+    [Fact]
+    public async void WhenBadRequest()
+    {
+        var vm = new LogoutViewModel(mock.GetObject<ResponseDto>(HttpStatusCode.BadRequest, null!));
+
+        await vm.LogoutAsync();
+        
+        mock.SecurityMock.Verify(x => x.DeleteTokenAsync());
+        mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()));
+    }
+    
+    [Fact]
+    public async void WhenUnauthorized()
+    {
+        var vm = new LogoutViewModel(mock.GetObject<ResponseDto>(HttpStatusCode.Unauthorized, null!));
 
         await vm.LogoutAsync();
         

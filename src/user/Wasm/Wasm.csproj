@@ -40,7 +40,7 @@
     <ProjectReference Include="..\UserApplication\UserApplication.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <AdditionalFiles Include="Pages\Authentication\Logout.razor" />
+    <AdditionalFiles Include="Pages\Authentication\LogoutPage.razor" />
     <AdditionalFiles Include="Pages\Business\Admin\AdminMainComponent.razor" />
   </ItemGroup>
 </Project>

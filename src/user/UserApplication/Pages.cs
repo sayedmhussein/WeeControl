@@ -5,7 +5,7 @@ public static class Pages
     public static class Authentication
     {
         public const string LoginPage = "Login";
-        public const string Logout = "Logout";
+        public const string LogoutPage = "Logout";
     }
 
     public static class User

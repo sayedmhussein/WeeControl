@@ -63,20 +63,27 @@ public class LogoutTests : IClassFixture<CustomWebApplicationFactory<Startup>>, 
     {
         var token = await LoginTests.GetNewToken(httpClient, normalUserDbo.Username, "normal", nameof(LogoutTests));
         deviceMock.InjectTokenToMock(token);
-        //deviceMock.SecurityMock.Setup(x => x.GetTokenAsync()).ReturnsAsync(token);
 
         await vm.LogoutAsync();
             
         deviceMock.NavigationMock.Verify(x => 
             x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()), Times.Once);
-        
-        // deviceMock.StorageMock.Verify(x => 
-        //     x.ClearAsync(), Times.AtLeastOnce);
     }
     
 
     #endregion
-    
 
+    #region UnAuthorized
+
+    [Fact]
+    public async void WhenUnAuthorized()
+    {
+        await vm.LogoutAsync();
+            
+        deviceMock.NavigationMock.Verify(x => 
+            x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()), Times.Once);
+    }
+
+    #endregion
     
 }

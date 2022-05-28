@@ -61,7 +61,6 @@ public class AuthorizationController : Controller
     [HttpDelete]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.NotFound)]
-    [ProducesResponseType((int)HttpStatusCode.Forbidden)]
     [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
     public async Task<ActionResult<ResponseDto>> LogoutV1([FromBody] RequestDto dto)
     {
