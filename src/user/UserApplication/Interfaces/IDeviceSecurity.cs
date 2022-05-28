@@ -13,4 +13,6 @@ public interface IDeviceSecurity
     Task DeleteTokenAsync();
 
     Task<IEnumerable<Claim>> GetClaimsAsync();
+    
+    string Token { get; }
 }

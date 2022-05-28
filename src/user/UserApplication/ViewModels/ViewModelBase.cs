@@ -108,6 +108,9 @@ public class ViewModelBase : INotifyPropertyChanged
     
     private  void UpdateHttpAuthorizationHeader(string token)
     {
+        if (string.IsNullOrWhiteSpace(token))
+            return;
+        
         device.Server.HttpClient.DefaultRequestHeaders.Authorization = 
             new AuthenticationHeaderValue("Brear", token);
     }

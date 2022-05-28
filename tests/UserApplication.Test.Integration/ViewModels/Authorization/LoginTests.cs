@@ -23,11 +23,13 @@ public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>, I
     
         var mocks = new DeviceServiceMock(device);
         mocks.SecurityMock.Setup(x => x.UpdateTokenAsync(It.IsAny<string>()))
-            .Callback((string tkn) => token = tkn);
-        
+             .Callback((string tkn) => token = tkn);
+
         var appServiceCollection = new ServiceCollection();
         appServiceCollection.AddViewModels();
         appServiceCollection.AddScoped(p => mocks.GetObject(client));
+        
+        
         
         using var scope = appServiceCollection.BuildServiceProvider().CreateScope();
         var vm = scope.ServiceProvider.GetRequiredService<LoginViewModel>();
@@ -61,7 +63,6 @@ public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>, I
                 using var scope = services.BuildServiceProvider().CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
                 db.Users.Add(normalUserDbo);
-                
                 db.Users.Add(lockedUserDbo);
                 db.SaveChanges();
             });

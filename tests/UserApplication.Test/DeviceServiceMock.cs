@@ -10,7 +10,8 @@ namespace WeeControl.User.UserApplication.Test;
 
 public class DeviceServiceMock
 {
-    private static string _token = string.Empty;
+    public string _token { get; set; }= string.Empty;
+
     public Mock<IDevice> DeviceMock { get; }
     public Mock<IDeviceAlert> AlertMock { get; }
     public Mock<IDeviceLocation> LocationMock { get; }
@@ -33,20 +34,13 @@ public class DeviceServiceMock
 
         LocationMock = new Mock<IDeviceLocation>();
         LocationMock.SetupAllProperties();
-
+        
         SecurityMock = new Mock<IDeviceSecurity>();
         SecurityMock.SetupAllProperties();
-        SecurityMock.Setup(x => x.UpdateTokenAsync(It.IsAny<string>()))
-            .Callback((string tkn) => _token = tkn);
-        SecurityMock.Setup(x => x.DeleteTokenAsync())
-            .Callback(() => _token = string.Empty);
-        SecurityMock.Setup(x => x.IsAuthenticatedAsync()).ReturnsAsync(!string.IsNullOrEmpty(_token));
-
+        TempMockForSecurity();
+        
         StorageMock = new Mock<IDeviceStorage>();
         StorageMock.SetupAllProperties();
-        StorageMock.Setup(x => x.SaveAsync(nameof(TokenDtoV1.Token), It.IsAny<string>()))
-            .Callback((string key, string tkn) => _token = tkn);
-        StorageMock.Setup(x => x.GetAsync(nameof(TokenDtoV1.Token))).ReturnsAsync(_token);
 
         NavigationMock = new Mock<IDevicePageNavigation>();
         NavigationMock.SetupAllProperties();
@@ -92,26 +86,58 @@ public class DeviceServiceMock
 
     public IDevice GetObject<T>(HttpStatusCode statusCode, T dataTransferObject)
     {
-        var content = new StringContent(JsonConvert.SerializeObject(dataTransferObject), Encoding.UTF8, "application/json");
+        var content1 = new StringContent(JsonConvert.SerializeObject(dataTransferObject), Encoding.UTF8, "application/json");
+        var content2 = new StringContent(JsonConvert.SerializeObject(dataTransferObject), Encoding.UTF8, "application/json");
 
-        var httpMessageHandlerMock = new Mock<HttpMessageHandler>();
-        var response = new HttpResponseMessage
+        var sequenceResponse = new List<Tuple<HttpStatusCode, HttpContent>>
         {
-            StatusCode = statusCode, 
-            Content = content
+            new Tuple<HttpStatusCode, HttpContent>(statusCode, content1),
+            new Tuple<HttpStatusCode, HttpContent>(statusCode, content2)
         };
         
-        httpMessageHandlerMock
-            .Protected()
-            .Setup<Task<HttpResponseMessage>>(
-                "SendAsync",
-                ItExpr.IsAny<HttpRequestMessage>(),
-                ItExpr.IsAny<CancellationToken>())
-            .ReturnsAsync(response);
         
-        var client = new HttpClient(httpMessageHandlerMock.Object);
+        var client = GetHttpClientWithHttpMessageHandlerSequenceResponseMock(sequenceResponse);
 
         return GetObject(client);
+    }
+    
+    private HttpClient GetHttpClientWithHttpMessageHandlerSequenceResponseMock(List<Tuple<HttpStatusCode,HttpContent>> returns)
+    {
+        var handlerMock = new Mock<HttpMessageHandler>(MockBehavior.Strict);
+        var handlerPart = handlerMock
+            .Protected()
+            // Setup the PROTECTED method to mock
+            .SetupSequence<Task<HttpResponseMessage>>(
+                "SendAsync",
+                ItExpr.IsAny<HttpRequestMessage>(),
+                ItExpr.IsAny<CancellationToken>()
+            );
+
+        foreach (var item in returns)
+        {
+            handlerPart = AddReturnPart(handlerPart,item.Item1,item.Item2);
+        }
+        handlerMock.Verify();
+        // use real http client with mocked handler here
+        var httpClient = new HttpClient(handlerMock.Object)
+        {
+            //BaseAddress = new Uri("http://test.com/"),
+            //BaseAddress = new Uri(GetLocalIpAddress())
+        };
+        return httpClient;
+    }
+
+    private Moq.Language.ISetupSequentialResult<Task<HttpResponseMessage>> AddReturnPart(Moq.Language.ISetupSequentialResult<Task<HttpResponseMessage>> handlerPart,
+        HttpStatusCode statusCode, HttpContent content)
+    {
+        return handlerPart
+
+            // prepare the expected response of the mocked http call
+            .ReturnsAsync(new HttpResponseMessage()
+            {
+                StatusCode = statusCode, // HttpStatusCode.Unauthorized,
+                Content = content //new StringContent("[{'id':1,'value':'1'}]"),
+            });
     }
 
     private static string GetLocalIpAddress()
@@ -125,5 +151,27 @@ public class DeviceServiceMock
             }
         }
         throw new Exception("No network adapters with an IPv4 address in the system!");
+    }
+
+    private void TempMockForSecurity()
+    {
+        SecurityMock.Setup(x => x.UpdateTokenAsync(It.IsAny<string>()))
+            .Callback((string tkn) =>
+            {
+                InjectTokenToMock(tkn);
+            });
+        SecurityMock.Setup(x => x.DeleteTokenAsync())
+            .Callback(() =>
+            {
+                InjectTokenToMock(string.Empty);
+            });
+    }
+
+    public void InjectTokenToMock(string tkn)
+    {
+        SecurityMock.SetupGet(x => x.Token).Returns(tkn);
+        SecurityMock.Setup(x => x.IsAuthenticatedAsync()).ReturnsAsync(!string.IsNullOrEmpty(tkn));
+        SecurityMock.Setup(x => x.GetTokenAsync()).ReturnsAsync(tkn);
+        StorageMock.Setup(x => x.GetAsync(nameof(TokenDtoV1.Token))).ReturnsAsync(tkn);
     }
 }

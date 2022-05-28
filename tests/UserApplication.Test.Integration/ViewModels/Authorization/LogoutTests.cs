@@ -34,14 +34,13 @@ public class LogoutTests : IClassFixture<CustomWebApplicationFactory<Startup>>, 
                 using var scope = services.BuildServiceProvider().CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
                 db.Users.Add(normalUserDbo);
-                
                 db.Users.Add(lockedUserDbo);
                 db.SaveChanges();
             });
         }).CreateClient();
         
         
-        deviceMock = new DeviceServiceMock(nameof(LoginTests));
+        deviceMock = new DeviceServiceMock(nameof(LogoutTests));
         
         var appServiceCollection = new ServiceCollection();
         appServiceCollection.AddViewModels();
@@ -62,8 +61,9 @@ public class LogoutTests : IClassFixture<CustomWebApplicationFactory<Startup>>, 
     [Fact]
     public async void WhenSendingValidRequest_HttpResponseIsSuccessCode()
     {
-        var token = await LoginTests.GetNewToken(httpClient, normalUserDbo.Username, normalUserDbo.Password, nameof(LoginTests));
-        deviceMock.StorageMock.Setup(x => x.GetAsync(nameof(TokenDtoV1.Token))).ReturnsAsync(token);
+        var token = await LoginTests.GetNewToken(httpClient, normalUserDbo.Username, "normal", nameof(LogoutTests));
+        deviceMock.InjectTokenToMock(token);
+        //deviceMock.SecurityMock.Setup(x => x.GetTokenAsync()).ReturnsAsync(token);
 
         await vm.LogoutAsync();
             

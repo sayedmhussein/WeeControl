@@ -35,7 +35,8 @@ public class AuthStateProvider : AuthenticationStateProvider, IDeviceSecurity
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
-        var token = await localStorage.GetAsync(tokenKeyName);
+        var token = await GetTokenAsync();
+        //var token = await localStorage.GetAsync(tokenKeyName);
         if (string.IsNullOrWhiteSpace(token))
         {
             return anonymous;
@@ -79,24 +80,25 @@ public class AuthStateProvider : AuthenticationStateProvider, IDeviceSecurity
     
     public async Task<bool> IsAuthenticatedAsync()
     {
-        var token = await localStorage.GetAsync(tokenKeyName);
+        var token = Token ?? await localStorage.GetAsync(tokenKeyName);
         return !string.IsNullOrWhiteSpace(token);
     }
 
-    public Task UpdateTokenAsync(string token)
+    public async Task UpdateTokenAsync(string token)
     {
-        localStorage.SaveAsync(tokenKeyName, token);
+        Token = token;
+        await localStorage.SaveAsync(tokenKeyName, token);
         NotifyUserAuthentication(token);
-        return Task.CompletedTask;
     }
 
-    public Task<string> GetTokenAsync()
+    public async Task<string> GetTokenAsync()
     {
-        return localStorage.GetAsync(tokenKeyName);
+        return Token ?? await localStorage.GetAsync(tokenKeyName);
     }
 
     public Task DeleteTokenAsync()
     {
+        Token = string.Empty;
         return localStorage.SaveAsync(tokenKeyName, string.Empty);
     }
 
@@ -114,4 +116,6 @@ public class AuthStateProvider : AuthenticationStateProvider, IDeviceSecurity
             return new List<Claim>();
         }
     }
+
+    public string Token { get; private set; }
 }
