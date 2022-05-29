@@ -34,7 +34,7 @@ public class UserController : Controller
     [ProducesResponseType((int)HttpStatusCode.Conflict)]
     public async Task<ActionResult<ResponseDto<TokenDtoV1>>> RegisterV1([FromBody] RequestDto<RegisterDtoV1> dto)
     {
-        var command = new RegisterCommand(dto, dto.Payload);
+        var command = new RegisterCommand(dto);
         var response = await mediator.Send(command);
 
         return Ok(response);

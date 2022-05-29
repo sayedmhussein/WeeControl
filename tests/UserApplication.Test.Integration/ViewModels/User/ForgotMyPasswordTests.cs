@@ -1,16 +1,14 @@
-using System;
 using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.Application.EssentialContext;
 using WeeControl.Domain.Essential.Entities;
 using WeeControl.SharedKernel.Services;
-using WeeControl.User.UserApplication.Test.Integration.ViewModels.Authorization;
 using WeeControl.User.UserApplication.ViewModels.User;
 using WeeControl.WebApi;
 using Xunit;
 
-namespace WeeControl.User.UserApplication.Test.Integration.ViewModels.UserServices;
+namespace WeeControl.User.UserApplication.Test.Integration.ViewModels.User;
 
 public class ForgotMyPasswordTests: IClassFixture<CustomWebApplicationFactory<Startup>>, System.IDisposable
 {
@@ -58,9 +56,10 @@ public class ForgotMyPasswordTests: IClassFixture<CustomWebApplicationFactory<St
     [Fact]
     public async void WhenSuccess()
     {
-        await vm.RequestPasswordReset();
         vm.Email = normalUserDbo.Email;
         vm.Username = normalUserDbo.Username;
+        
+        await vm.RequestPasswordReset();
             
         deviceMock.NavigationMock.Verify(x => 
             x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()), Times.Once);
@@ -69,9 +68,10 @@ public class ForgotMyPasswordTests: IClassFixture<CustomWebApplicationFactory<St
     [Fact]
     public async void WhenBusinessNotAllow_IsLockedUser()
     {
-        await vm.RequestPasswordReset();
         vm.Email = lockedUserDbo.Email;
         vm.Username = lockedUserDbo.Username;
+        
+        await vm.RequestPasswordReset();
             
         deviceMock.NavigationMock.Verify(x => 
             x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()), Times.Once);

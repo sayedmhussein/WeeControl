@@ -5,6 +5,7 @@ using System.Net.Http.Json;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.DataTransferObjects;
 using WeeControl.SharedKernel.DataTransferObjects.Authentication;
+using WeeControl.SharedKernel.DataTransferObjects.User;
 using WeeControl.SharedKernel.RequestsResponses;
 using WeeControl.User.UserApplication.Interfaces;
 
@@ -17,19 +18,19 @@ public class RegisterViewModel : ViewModelBase
     [Required]
     [EmailAddress]
     [DisplayName("Email")]
-    public string Email { get; set; }
+    public string Email { get; set; } = string.Empty;
 
     [Required]
     [MinLength(3)]
     [StringLength(45, ErrorMessage = "username cannot be longer than 45 characters.")]
     [DisplayName("Username")]
-    public string Username { get; set; }
+    public string Username { get; set; } = string.Empty;
 
     [Required]
     [MinLength(6)]
     [DataType(DataType.Password)]
     [DisplayName("Password")]
-    public string Password { get; set; }
+    public string Password { get; set; } = string.Empty;
 
     public RegisterViewModel(IDevice device) : base(device)
     {
@@ -38,6 +39,14 @@ public class RegisterViewModel : ViewModelBase
 
     public async Task RegisterAsync()
     {
+        if (string.IsNullOrWhiteSpace(Email) ||
+            string.IsNullOrWhiteSpace(Username) ||
+            string.IsNullOrWhiteSpace(Password))
+        {
+            await device.Alert.DisplayAlert("Invalid Data");
+            return;
+        }
+        
         IsLoading = true;
         await ProcessRegister(RegisterDtoV1.Create(Email, Username, Password));
         IsLoading = false;

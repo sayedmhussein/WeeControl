@@ -1,4 +1,3 @@
-using System;
 using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
@@ -10,7 +9,7 @@ using WeeControl.User.UserApplication.ViewModels.User;
 using WeeControl.WebApi;
 using Xunit;
 
-namespace WeeControl.User.UserApplication.Test.Integration.ViewModels.UserServices;
+namespace WeeControl.User.UserApplication.Test.Integration.ViewModels.User;
 
 public class SetNewPasswordTests : IClassFixture<CustomWebApplicationFactory<Startup>>, System.IDisposable
 {

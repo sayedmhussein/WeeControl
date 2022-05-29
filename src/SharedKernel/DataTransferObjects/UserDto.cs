@@ -19,21 +19,5 @@ public class UserDto
     
     public string TerritoryCode { get; set; }
     
-    public static class HttpGetMethod
-    {
-        public const string EndPoint = "Api/Essential/User";
-        public const string Version = "1.0";
-        public static string AbsoluteUri(string server) => server + EndPoint;
-        
-        public const string CanGetListOfUsersPolicy = "User_CanGetListOfUsers";
-    }
     
-    public static class HttpPutMethod
-    {
-        public const string EndPoint = "Api/Essential/User";
-        public const string Version = "1.0";
-        public static string AbsoluteUri(string server) => server + EndPoint;
-        
-        public const string CanEditUserPolicy = "User_CanAddNewEmployee";
-    }
 }

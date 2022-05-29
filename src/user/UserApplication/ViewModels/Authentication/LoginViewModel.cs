@@ -57,7 +57,7 @@ public class LoginViewModel : ViewModelBase
 
     public Task NavigateToRegisterPage()
     {
-        return device.Navigation.NavigateToAsync(Pages.User.Register);
+        return device.Navigation.NavigateToAsync(Pages.User.RegisterPage);
     }
     
     public Task NavigateToForgotMyPasswordPage()
