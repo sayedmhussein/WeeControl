@@ -41,6 +41,12 @@ public class DeviceServiceMock
         
         StorageMock = new Mock<IDeviceStorage>();
         StorageMock.SetupAllProperties();
+        StorageMock.Setup(x => x.SaveAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .Callback((string k, string v) =>
+            {
+                StorageMock.Setup(x => x.GetAsync(k)).ReturnsAsync(v);
+            });
+        
 
         NavigationMock = new Mock<IDevicePageNavigation>();
         NavigationMock.SetupAllProperties();
@@ -172,6 +178,6 @@ public class DeviceServiceMock
         SecurityMock.SetupGet(x => x.Token).Returns(tkn);
         SecurityMock.Setup(x => x.IsAuthenticatedAsync()).ReturnsAsync(!string.IsNullOrEmpty(tkn));
         SecurityMock.Setup(x => x.GetTokenAsync()).ReturnsAsync(tkn);
-        StorageMock.Setup(x => x.GetAsync(nameof(TokenDtoV1.Token))).ReturnsAsync(tkn);
+        //StorageMock.Setup(x => x.GetAsync(nameof(TokenDtoV1.Token))).ReturnsAsync(tkn);
     }
 }

@@ -17,7 +17,7 @@ using Xunit;
 
 namespace WeeControl.Application.Test.EssentialContext.Commands;
 
-public class ForgotPasswordCommandTests : IDisposable
+public class ResetPasswordCommandTests : IDisposable
 {
     private IEssentialDbContext context;
     private RequestDto requestDto;
@@ -25,7 +25,7 @@ public class ForgotPasswordCommandTests : IDisposable
     private readonly IJwtService jwtService;
     private readonly IPasswordSecurity passwordSecurity;
 
-    public ForgotPasswordCommandTests()
+    public ResetPasswordCommandTests()
     {
         context = new ServiceCollection().AddPersistenceAsInMemory(nameof(LogoutEmployeeCommandTests)).BuildServiceProvider().GetService<IEssentialDbContext>();
         requestDto = new RequestDto("device");
@@ -48,13 +48,13 @@ public class ForgotPasswordCommandTests : IDisposable
         var user = UserDbo.Create("email@email.com", "username", pasword);
         await context.Users.AddAsync(user);
         await context.SaveChangesAsync(default);
-        var handler = new ResetPasswordHandler(context, new Mock<IMediator>().Object, passwordSecurity);
+        var handler = new ResetPasswordCommand.ResetPasswordHandler(context, new Mock<IMediator>().Object, passwordSecurity);
 
         await handler.Handle(new ResetPasswordCommand(
             new RequestDto<ForgotMyPasswordDtoV1>("device", 
                 ForgotMyPasswordDtoV1.Create("email@email.com", "username"), null, null)), default);
 
-        var newPass = context.Users.FirstOrDefault(x => x.Username == "username")?.Password;
+        var newPass = context.Users.FirstOrDefault(x => x.Username == "username")?.TempPassword;
         Assert.NotEqual(pasword, newPass);
     }
     
@@ -65,7 +65,7 @@ public class ForgotPasswordCommandTests : IDisposable
         var user = UserDbo.Create("email@email.com", "username", pasword);
         await context.Users.AddAsync(user);
         await context.SaveChangesAsync(default);
-        var handler = new ResetPasswordHandler(context, new Mock<IMediator>().Object, passwordSecurity);
+        var handler = new ResetPasswordCommand.ResetPasswordHandler(context, new Mock<IMediator>().Object, passwordSecurity);
 
         var command = new ResetPasswordCommand(
             new RequestDto<ForgotMyPasswordDtoV1>(String.Empty,
@@ -82,7 +82,7 @@ public class ForgotPasswordCommandTests : IDisposable
     [InlineData("notAnEmail", "username")]
     public async void WhenInvalidCommandParameters(string email, string username)
     {
-        var handler = new ResetPasswordHandler(context, new Mock<IMediator>().Object, passwordSecurity);
+        var handler = new ResetPasswordCommand.ResetPasswordHandler(context, new Mock<IMediator>().Object, passwordSecurity);
         var command = new ResetPasswordCommand(
             new RequestDto<ForgotMyPasswordDtoV1>(String.Empty,
                 ForgotMyPasswordDtoV1.Create("email@email.com", "username"), null, null));

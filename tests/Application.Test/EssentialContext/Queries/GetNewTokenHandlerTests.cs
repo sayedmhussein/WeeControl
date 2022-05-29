@@ -72,6 +72,23 @@ public class GetNewTokenHandlerTests : IDisposable
     }
     
     [Fact]
+    public async void WhenValidUsernameAndTempPassword_ReturnToken()
+    {
+        var user = context.Users.FirstOrDefault(x => x.Username == Username);
+        user.SetTemporaryPassword(passwordSecurity.Hash("tempPassword"));
+        await context.SaveChangesAsync(default);
+        
+        var dto = new RequestDto<LoginDtoV1>(nameof(WhenValidUsernameAndPassword_ReturnToken), LoginDtoV1.Create(Username, "tempPassword"));
+        var query = new GetNewTokenQuery(dto);
+
+        var service = new GetNewTokenHandler(context, jwtService, mediatRMock.Object, configurationMock.Object, currentUserInfoMock.Object, passwordSecurity);
+        var response = await service.Handle(query, default);
+            
+        Assert.NotEmpty(response.Payload.Token);
+        Assert.NotEmpty(response.Payload.FullName);
+    }
+    
+    [Fact]
     public async void WhenValidUsernameAndPasswordButCapitalInputs_ReturnToken()
     {
         var dto = new RequestDto<LoginDtoV1>(nameof(WhenValidUsernameAndPassword_ReturnToken), LoginDtoV1.Create(Username.ToUpper(), Password));

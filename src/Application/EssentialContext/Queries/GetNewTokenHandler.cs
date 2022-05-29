@@ -51,12 +51,28 @@ public class GetNewTokenHandler : IRequestHandler<GetNewTokenQuery, ResponseDto<
                 (x.Username == request.Payload.UsernameOrEmail || x.Email == request.Payload.UsernameOrEmail) &&
                 x.Password == passwordSecurity.Hash(request.Payload.Password), cancellationToken);
 
-            if (employee is null) throw new NotFoundException();
+            if (employee is null)
+            {
+                employee = await context.Users.FirstOrDefaultAsync(x =>
+                    (x.Username == request.Payload.UsernameOrEmail || x.Email == request.Payload.UsernameOrEmail) &&
+                    (x.TempPassword == passwordSecurity.Hash(request.Payload.Password) && x.TempPasswordTs > DateTime.UtcNow.AddMinutes(-10))
+                    , cancellationToken);
+                if (employee is null)
+                    throw new NotFoundException();
+            }
 
             if (employee.SuspendArgs is not null)
             {
                 throw new NotAllowedException();
             }
+
+            if (employee.TempPassword != null)
+            {
+                employee.UpdatePassword(employee.TempPassword);
+            }
+            
+            employee.SetTemporaryPassword(null);
+            await context.SaveChangesAsync(cancellationToken);
 
             var session = await context.Sessions.FirstOrDefaultAsync(x => x.UserId == employee.UserId && x.DeviceId == request.Request.DeviceId && x.TerminationTs == null, cancellationToken);
             if (session is null)

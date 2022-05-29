@@ -33,9 +33,16 @@ public class UserDbo
     public string Password { get; private set; }
 
     public TerritoryDbo Territory { get; set; }
+    
+    [StringLength(5)]
     public string TerritoryId { get; set; }
 
+    [StringLength(255)]
     public string? SuspendArgs { get; private set; }
+    
+    public string? TempPassword { get; private set; }
+    
+    public DateTime? TempPasswordTs { get; private set; }
 
     public virtual IEnumerable<SessionDbo> Sessions { get; }
     public virtual ICollection<ClaimDbo> Claims { get; }
@@ -53,6 +60,12 @@ public class UserDbo
     public void Activate()
     {
         SuspendArgs = null;
+    }
+
+    public void SetTemporaryPassword(string password)
+    {
+        TempPassword = password;
+        TempPasswordTs = DateTime.UtcNow;
     }
 
     public void AddClaim(string claimType, string claimValue, Guid grantedBy)
