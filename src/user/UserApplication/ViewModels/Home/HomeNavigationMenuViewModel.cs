@@ -17,7 +17,7 @@ public class HomeNavigationMenuViewModel : INotifyPropertyChanged
     
     public Task ChangeMyPasswordAsync()
     {
-        return device.Navigation.NavigateToAsync(Pages.User.ResetPassword);
+        return device.Navigation.NavigateToAsync(Pages.User.SetNewPasswordPage);
     }
 
     public async Task SetupMenuAsync()

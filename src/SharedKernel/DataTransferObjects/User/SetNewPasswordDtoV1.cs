@@ -1,4 +1,4 @@
-﻿namespace WeeControl.SharedKernel.DataTransferObjects;
+﻿namespace WeeControl.SharedKernel.DataTransferObjects.User;
 
 public class SetNewPasswordDtoV1
 {
@@ -6,11 +6,7 @@ public class SetNewPasswordDtoV1
     {
         return new SetNewPasswordDtoV1() {OldPassword = oldPassword, NewPassword = newPassword};
     }
-    
-    public string NewPassword { get; set; }
-    public string OldPassword { get; set; }
 
-    private SetNewPasswordDtoV1()
-    {
-    }
+    public string NewPassword { get; set; } = string.Empty;
+    public string OldPassword { get; set; } = string.Empty;
 }

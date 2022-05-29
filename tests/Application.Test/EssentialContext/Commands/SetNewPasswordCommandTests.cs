@@ -14,16 +14,16 @@ using Xunit;
 
 namespace WeeControl.Application.Test.EssentialContext.Commands;
 
-public class UpdatePasswordHandlerTests : IDisposable
+public class SetNewPasswordCommandTests : IDisposable
 {
     private IEssentialDbContext context;
     private readonly IPasswordSecurity passwordSecurity;
     private RequestDto requestDto;
     private Mock<ICurrentUserInfo> currentUserInfoMock;
 
-    public UpdatePasswordHandlerTests()
+    public SetNewPasswordCommandTests()
     {
-        context = new ServiceCollection().AddPersistenceAsInMemory(nameof(UpdatePasswordHandlerTests)).BuildServiceProvider().GetService<IEssentialDbContext>();
+        context = new ServiceCollection().AddPersistenceAsInMemory(nameof(SetNewPasswordCommandTests)).BuildServiceProvider().GetService<IEssentialDbContext>();
         passwordSecurity = new PasswordSecurity();
         requestDto = new RequestDto("device");
         currentUserInfoMock = new Mock<ICurrentUserInfo>();
@@ -38,7 +38,7 @@ public class UpdatePasswordHandlerTests : IDisposable
     [Fact]
     public async void WhenRequestSentCorrect_PasswordIsChangedSuccessfully()
     {
-        var info = (Email: "email@email.com", Username: nameof(UpdatePasswordHandlerTests), Password: "password");
+        var info = (Email: "email@email.com", Username: nameof(SetNewPasswordCommandTests), Password: "password");
         var user = UserDbo.Create(info.Email, info.Username, passwordSecurity.Hash(info.Password));
         await context.Users.AddAsync(user);
         await context.SaveChangesAsync(default);
@@ -50,8 +50,8 @@ public class UpdatePasswordHandlerTests : IDisposable
 
         currentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
 
-        var handler = new UpdatePasswordHandler(context, currentUserInfoMock.Object, passwordSecurity);
-        await handler.Handle(new UpdatePasswordCommand(requestDto, info.Password, "NewPassword"), default);
+        var handler = new SetNewPasswordCommand.SetNewPasswordHandler(context, currentUserInfoMock.Object, passwordSecurity);
+        await handler.Handle(new SetNewPasswordCommand(requestDto, info.Password, "NewPassword"), default);
         
         Assert.Equal(passwordSecurity.Hash("NewPassword"), user.Password);
     }
@@ -59,7 +59,7 @@ public class UpdatePasswordHandlerTests : IDisposable
     [Fact]
     public async void WhenRequestSentInvalidOldPassword_ThrowNotFound()
     {
-        var info = (Email: "email@email.com", Username: nameof(UpdatePasswordHandlerTests), Password: "password");
+        var info = (Email: "email@email.com", Username: nameof(SetNewPasswordCommandTests), Password: "password");
         var user = UserDbo.Create(info.Email, info.Username, info.Password);
         await context.Users.AddAsync(user);
         await context.SaveChangesAsync(default);
@@ -71,8 +71,20 @@ public class UpdatePasswordHandlerTests : IDisposable
 
         currentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
 
-        var handler = new UpdatePasswordHandler(context, currentUserInfoMock.Object, passwordSecurity);
+        var handler = new SetNewPasswordCommand.SetNewPasswordHandler(context, currentUserInfoMock.Object, passwordSecurity);
         
-        await Assert.ThrowsAsync<NotFoundException>(() => handler.Handle(new UpdatePasswordCommand(requestDto, "OtherPassword", "NewPassword"), default));
+        await Assert.ThrowsAsync<NotFoundException>(() => handler.Handle(new SetNewPasswordCommand(requestDto, "OtherPassword", "NewPassword"), default));
+    }
+    
+    [Theory]
+    [InlineData("", "")]
+    [InlineData("oldPassword", "")]
+    [InlineData("", "NewPassword")]
+    public async void WhenInvalidCommandParameters(string oldPassword, string newPassword)
+    {
+        var handler = new SetNewPasswordCommand.SetNewPasswordHandler(context, currentUserInfoMock.Object, passwordSecurity);
+
+        await Assert.ThrowsAsync<BadRequestException>(() =>
+            handler.Handle(new SetNewPasswordCommand(requestDto, oldPassword, newPassword), default));
     }
 }

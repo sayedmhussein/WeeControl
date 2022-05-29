@@ -1,21 +1,20 @@
+using System;
 using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.Application.EssentialContext;
 using WeeControl.Domain.Essential.Entities;
-using WeeControl.SharedKernel.DataTransferObjects.Authentication;
-using WeeControl.SharedKernel.RequestsResponses;
 using WeeControl.SharedKernel.Services;
-using WeeControl.User.UserApplication.ViewModels.Authentication;
+using WeeControl.User.UserApplication.Test.Integration.ViewModels.Authorization;
+using WeeControl.User.UserApplication.ViewModels.User;
 using WeeControl.WebApi;
 using Xunit;
 
-namespace WeeControl.User.UserApplication.Test.Integration.ViewModels.Authorization;
+namespace WeeControl.User.UserApplication.Test.Integration.ViewModels.UserServices;
 
-public class LogoutTests : IClassFixture<CustomWebApplicationFactory<Startup>>, System.IDisposable
+public class SetNewPasswordTests : IClassFixture<CustomWebApplicationFactory<Startup>>, System.IDisposable
 {
-    #region Preparation
-    private LogoutViewModel vm;
+    private SetNewPasswordViewModel vm;
     private readonly HttpClient httpClient;
     private DeviceServiceMock deviceMock;
 
@@ -24,7 +23,8 @@ public class LogoutTests : IClassFixture<CustomWebApplicationFactory<Startup>>, 
     private readonly UserDbo lockedUserDbo = 
         UserDbo.Create("locked@test.test", "locked", new PasswordSecurity().Hash("locked"),"TST");
 
-    public LogoutTests(CustomWebApplicationFactory<Startup> factory)
+    
+    public SetNewPasswordTests(CustomWebApplicationFactory<Startup> factory)
     {
         httpClient = factory.WithWebHostBuilder(builder =>
         {
@@ -39,14 +39,14 @@ public class LogoutTests : IClassFixture<CustomWebApplicationFactory<Startup>>, 
             });
         }).CreateClient();
         
-        deviceMock = new DeviceServiceMock(nameof(LogoutTests));
+        deviceMock = new DeviceServiceMock(nameof(SetNewPasswordTests));
         
         var appServiceCollection = new ServiceCollection();
         appServiceCollection.AddViewModels();
         appServiceCollection.AddScoped(p => deviceMock.GetObject(httpClient));
         
         using var scope = appServiceCollection.BuildServiceProvider().CreateScope();
-        vm = scope.ServiceProvider.GetRequiredService<LogoutViewModel>();
+        vm = scope.ServiceProvider.GetRequiredService<SetNewPasswordViewModel>();
     }
     
     public void Dispose()
@@ -54,35 +54,48 @@ public class LogoutTests : IClassFixture<CustomWebApplicationFactory<Startup>>, 
         deviceMock = null;
         vm = null;
     }
-    #endregion
-
-    #region Success
+    
     [Fact]
-    public async void WhenSendingValidRequest_HttpResponseIsSuccessCode()
+    public async void WhenSuccess()
     {
-        var token = await LoginTests.GetNewToken(httpClient, normalUserDbo.Username, "normal", nameof(LogoutTests));
+        var token = await LoginTests.GetNewToken(httpClient, 
+            normalUserDbo.Username, 
+            "normal", nameof(SetNewPasswordTests));
         deviceMock.InjectTokenToMock(token);
 
-        await vm.LogoutAsync();
+        vm.OldPassword = "normal";
+        vm.NewPassword = "someNewPassword";
+        vm.ConfirmNewPassword = "someNewPassword";
+
+        await vm.ChangeMyPassword();
             
         deviceMock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()), Times.Once);
+            x.NavigateToAsync(Pages.Home.Index, It.IsAny<bool>()), Times.Once);
     }
     
-
-    #endregion
-
-    #region UnAuthorized
-
     [Fact]
-    public async void WhenUnAuthorized()
+    public async void WhenUnauthorized()
     {
-        await vm.LogoutAsync();
+        vm.OldPassword = "normal";
+        vm.NewPassword = "someNewPassword";
+        vm.ConfirmNewPassword = "someNewPassword";
+
+        await vm.ChangeMyPassword();
             
+        deviceMock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
         deviceMock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()), Times.Once);
+            x.NavigateToAsync(Pages.Home.Index, It.IsAny<bool>()), Times.Never);
+    }
+    
+    [Fact]
+    public async void WhenBusinessNotAllow_Locked()
+    {
+        var token = await LoginTests.GetNewToken(httpClient, 
+            lockedUserDbo.Username, 
+            "locked", nameof(SetNewPasswordTests));
+        
+        Assert.Empty(token);
     }
 
-    #endregion
     
 }

@@ -11,7 +11,7 @@ public static class Pages
     public static class User
     {
         public const string Register = "Register";
-        public const string ResetPassword = "PasswordReset";
+        public const string SetNewPasswordPage = "PasswordReset";
         public const string ForgotMyPasswordPage = "ForgotPassword";
     }
 
