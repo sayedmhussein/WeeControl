@@ -42,9 +42,20 @@ Note that this project is **currently under heavy development** so if you faced 
 2. On Blazor webpage using credentials:
    Username : developer
    Password : developer
-3. If you face any issues try to migrate the db or drop the old database then try again.
+3. If you face any issues and using database on your device then try to migrate the db or drop the old database and try to run the projects again.
 
-[comment]: <> (<del>“What is this? Where does this go?” Now is the time to demystify any assumptions around how to use your project.</del>)
+## What is this?
+This is software consists of Blazor web assembly project as front end and linked to an Api server as backend.
+
+### The user can use front end to do the following:
+#### Essential Operation for Any Website:
+1. Able to register and have an account.
+2. Able to login using provided data during registration.
+3. Able to request a temporary password if user forgot his password.
+4. Able to change his password after being logged in.
+5. Able to have a token saved so use for other operations.
+6. Able to logout later when he wishes if he already have the token.
+
 
 [comment]: <> (## A list of files included)
 
