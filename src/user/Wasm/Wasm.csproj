@@ -23,10 +23,6 @@
     <None Remove="Pages\Employee\Session\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="wwwroot\html" />
-    <Folder Include="wwwroot\js" />
-  </ItemGroup>
-  <ItemGroup>
     <_ContentIncludedByDefault Remove="Pages\Authentication\ForgotPassword.razor" />
     <_ContentIncludedByDefault Remove="Pages\Authentication\Login.razor" />
     <_ContentIncludedByDefault Remove="Pages\Authentication\NewPassword.razor" />
