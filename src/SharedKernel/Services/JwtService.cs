@@ -18,7 +18,7 @@ public class JwtService : IJwtService
         return tokenHandler.WriteToken(token);
     }
 
-    public ClaimsPrincipal ExtractClaimPrincipal(string token)
+    public ClaimsPrincipal ExtractClaimPrincipalWithoutValidationParameter(string token)
     {
         var handler = new JwtSecurityTokenHandler();
         var securityToken = handler.ReadJwtToken(token);
@@ -28,7 +28,7 @@ public class JwtService : IJwtService
         return cp;
     }
 
-    public ClaimsPrincipal ExtractClaimPrincipal(TokenValidationParameters parameters, string token)
+    public ClaimsPrincipal ExtractClaimPrincipalWithValidationParameter(string token, TokenValidationParameters parameters)
     {
         var handler = new JwtSecurityTokenHandler();
         return handler.ValidateToken(token, parameters, out var _);

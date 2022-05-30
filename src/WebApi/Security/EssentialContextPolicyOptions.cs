@@ -9,14 +9,6 @@ namespace WeeControl.WebApi.Security;
 
 internal static class EssentialContextPolicyOptions
 {
-    internal static void Configure(AuthorizationOptions options)
-    {
-        options.AddPolicy(DeveloperWithDatabaseOperationPolicy.Name, new DeveloperWithDatabaseOperationPolicy().GetPolicy());
-        
-        options.AddPolicy(CanEditTerritoriesPolicy.Name, new CanEditUserPolicy().GetPolicy());
-        options.AddPolicy(CanEditTerritoriesPolicy.Name, new CanEditTerritoriesPolicy().GetPolicy());
-    }
-    
     internal static IServiceCollection AddUserSecurityServiceForServer(this IServiceCollection services)
     {
         services.AddSingleton<IPasswordSecurity, PasswordSecurity>();
@@ -30,9 +22,17 @@ internal static class EssentialContextPolicyOptions
             options.DefaultPolicy = new AuthorizationPolicyBuilder().AddAuthenticationSchemes("Bearer").RequireAuthenticatedUser().Build();
             options.FallbackPolicy = new AuthorizationPolicyBuilder().AddAuthenticationSchemes("Bearer").RequireAuthenticatedUser().Build();
                 
-            EssentialContextPolicyOptions.Configure(options);
+            Configure(options);
         });
 
         return services;
+    }
+    
+    private static void Configure(AuthorizationOptions options)
+    {
+        options.AddPolicy(DeveloperWithDatabaseOperationPolicy.Name, new DeveloperWithDatabaseOperationPolicy().GetPolicy());
+        
+        options.AddPolicy(CanEditTerritoriesPolicy.Name, new CanEditUserPolicy().GetPolicy());
+        options.AddPolicy(CanEditTerritoriesPolicy.Name, new CanEditTerritoriesPolicy().GetPolicy());
     }
 }
