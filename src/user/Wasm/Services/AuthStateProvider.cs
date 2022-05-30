@@ -36,13 +36,12 @@ public class AuthStateProvider : AuthenticationStateProvider, IDeviceSecurity
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
         var token = await GetTokenAsync();
-        //var token = await localStorage.GetAsync(tokenKeyName);
         if (string.IsNullOrWhiteSpace(token))
         {
             return anonymous;
         }
-            
-        var cp = jwtService.ExtractClaimPrincipalWithoutValidationParameter(token);
+
+        var cp = GetClaimPrincipal(token);
         return new AuthenticationState(cp);
     }
 
@@ -50,7 +49,7 @@ public class AuthStateProvider : AuthenticationStateProvider, IDeviceSecurity
     {
         if (string.IsNullOrWhiteSpace(token) == false)
         {
-            var cp = jwtService.ExtractClaimPrincipalWithoutValidationParameter(token);
+            var cp = GetClaimPrincipal(token);
             var state = new AuthenticationState(cp);
             var authState = Task.FromResult(state);
             NotifyAuthenticationStateChanged(authState);
@@ -61,22 +60,22 @@ public class AuthStateProvider : AuthenticationStateProvider, IDeviceSecurity
         }
     }
     
-    // private ClaimsPrincipal GetClaimPrincipal(string token)
-    // {
-    //     // var key = configuration["Jwt:Key"] ?? throw new NullReferenceException("Jwt:Key in IConfiguration can't be null!");
-    //     //     
-    //     // var validationParameters = new TokenValidationParameters()
-    //     // {
-    //     //     ValidateIssuerSigningKey = true,
-    //     //     IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(key)),
-    //     //     ValidateIssuer = false,
-    //     //     ValidateAudience = false,
-    //     //     ValidateLifetime = false,
-    //     //     ClockSkew = TimeSpan.Zero
-    //     // };
-    //
-    //     return jwtService.ExtractClaimPrincipal(token);
-    // }
+    private ClaimsPrincipal GetClaimPrincipal(string token)
+    {
+        // var key = configuration["Jwt:Key"] ?? throw new NullReferenceException("Jwt:Key in IConfiguration can't be null!");
+        //     
+        // var validationParameters = new TokenValidationParameters()
+        // {
+        //     ValidateIssuerSigningKey = true,
+        //     IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(key)),
+        //     ValidateIssuer = false,
+        //     ValidateAudience = false,
+        //     ValidateLifetime = false,
+        //     ClockSkew = TimeSpan.Zero
+        // };
+
+        return jwtService.GetClaimPrincipal(token, null);
+    }
     
     public async Task<bool> IsAuthenticatedAsync()
     {
@@ -107,7 +106,7 @@ public class AuthStateProvider : AuthenticationStateProvider, IDeviceSecurity
         try
         {
             var token = await localStorage.GetAsync(tokenKeyName);
-            var cp = jwtService.ExtractClaimPrincipalWithoutValidationParameter(token);
+            var cp = GetClaimPrincipal(token);
             return cp.Claims;
         }
         catch (Exception e)

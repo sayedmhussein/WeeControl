@@ -53,7 +53,7 @@ public class JwtServiceTests : IDisposable
             ValidateIssuer = false
         };
 
-        var claimPrincible = service.ExtractClaimPrincipalWithValidationParameter(token, parameters);
+        var claimPrincible = service.GetClaimPrincipal(token, parameters);
             
         Assert.Equal("Type", claimPrincible.Claims.First().Type);
         Assert.Equal("Value", claimPrincible.Claims.First().Value);

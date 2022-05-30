@@ -6,7 +6,6 @@ namespace WeeControl.SharedKernel.Interfaces;
 public interface IJwtService
 {
     string GenerateToken(SecurityTokenDescriptor descriptor);
-
-    ClaimsPrincipal ExtractClaimPrincipalWithoutValidationParameter(string token);
-    ClaimsPrincipal ExtractClaimPrincipalWithValidationParameter(string token, TokenValidationParameters parameters);
+    
+    ClaimsPrincipal GetClaimPrincipal(string token, TokenValidationParameters? parameters);
 }
