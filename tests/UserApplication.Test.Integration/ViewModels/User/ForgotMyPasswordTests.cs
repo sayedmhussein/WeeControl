@@ -64,6 +64,18 @@ public class ForgotMyPasswordTests: IClassFixture<CustomWebApplicationFactory<St
         deviceMock.NavigationMock.Verify(x => 
             x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()), Times.Once);
     }
+    
+    [Fact]
+    public async void WhenFail()
+    {
+        vm.Email = string.Empty;
+        vm.Username = normalUserDbo.Username;
+        
+        await vm.RequestPasswordReset();
+            
+        deviceMock.NavigationMock.Verify(x => 
+            x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()), Times.Never);
+    }
 
     [Fact]
     public async void WhenBusinessNotAllow_IsLockedUser()
@@ -74,6 +86,6 @@ public class ForgotMyPasswordTests: IClassFixture<CustomWebApplicationFactory<St
         await vm.RequestPasswordReset();
             
         deviceMock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()), Times.Once);
+            x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()), Times.Never);
     }
 }

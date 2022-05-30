@@ -68,10 +68,15 @@ public class GetNewTokenHandler : IRequestHandler<GetNewTokenQuery, ResponseDto<
 
             if (employee.TempPassword != null)
             {
-                employee.UpdatePassword(employee.TempPassword);
+                if (request.Payload.Password == employee.TempPassword)
+                {
+                    employee.UpdatePassword(employee.TempPassword);
+                }
+
+                employee.SetTemporaryPassword(null);
             }
             
-            employee.SetTemporaryPassword(null);
+            
             await context.SaveChangesAsync(cancellationToken);
 
             var session = await context.Sessions.FirstOrDefaultAsync(x => x.UserId == employee.UserId && x.DeviceId == request.Request.DeviceId && x.TerminationTs == null, cancellationToken);

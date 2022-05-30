@@ -8,12 +8,12 @@ public class UserDbo
 {
     public static UserDbo Create(string email, string username, string password)
     {
-        return new UserDbo() { Email = email, Username = username, Password = password };
+        return new UserDbo() { Email = email.ToLower(), Username = username.ToLower(), Password = password };
     }
     
     public static UserDbo Create(string email, string username, string password, string territory)
     {
-        return new UserDbo() { Email = email, Username = username, Password = password, TerritoryId = territory};
+        return new UserDbo() { Email = email.ToLower(), Username = username.ToLower(), Password = password, TerritoryId = territory.ToUpper()};
     }
     
     [Key]
@@ -21,6 +21,7 @@ public class UserDbo
         
     [Required]
     [EmailAddress]
+    [StringLength(50)]
     public string Email { get; private set; }
 
     [Required]
@@ -29,17 +30,16 @@ public class UserDbo
     public string Username { get; private set; }
 
     [Required]
-    [MinLength(6)]
+    [StringLength(128)]
     public string Password { get; private set; }
-
-    public TerritoryDbo Territory { get; set; }
     
-    [StringLength(5)]
     public string TerritoryId { get; set; }
+    public TerritoryDbo Territory { get; set; }
 
     [StringLength(255)]
     public string? SuspendArgs { get; private set; }
     
+    [StringLength(128)]
     public string? TempPassword { get; private set; }
     
     public DateTime? TempPasswordTs { get; private set; }

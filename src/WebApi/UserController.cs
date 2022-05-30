@@ -50,17 +50,17 @@ public class UserController : Controller
         var command = new SetNewPasswordCommand(dto, dto.Payload.OldPassword, dto.Payload.NewPassword);
         var response = await mediator.Send(command);
 
-        return Ok(response);
+        return Ok();
     }
     
     [AllowAnonymous]
     [HttpPost(Api.Essential.User.ResetPassword)]
     [MapToApiVersion("1.0")]
-    [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.OK)]
-    [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<ActionResult> ResetPasswordV1([FromBody] RequestDto<ForgotMyPasswordDtoV1> dto)
     {
-        var command = new ResetPasswordCommand(dto);
+        var command = new ForgotMyPasswordCommand(dto);
         await mediator.Send(command);
 
         return Ok();

@@ -20,25 +20,17 @@ namespace WeeControl.Application.Test.EssentialContext.Commands;
 public class ResetPasswordCommandTests : IDisposable
 {
     private IEssentialDbContext context;
-    private RequestDto requestDto;
-    private Mock<ICurrentUserInfo> currentUserInfoMock;
-    private readonly IJwtService jwtService;
     private readonly IPasswordSecurity passwordSecurity;
 
     public ResetPasswordCommandTests()
     {
-        context = new ServiceCollection().AddPersistenceAsInMemory(nameof(LogoutEmployeeCommandTests)).BuildServiceProvider().GetService<IEssentialDbContext>();
-        requestDto = new RequestDto("device");
-        currentUserInfoMock = new Mock<ICurrentUserInfo>();
-        
-        jwtService = new JwtService();
+        context = new ServiceCollection().AddPersistenceAsInMemory(nameof(ResetPasswordCommandTests)).BuildServiceProvider().GetService<IEssentialDbContext>();
         passwordSecurity = new PasswordSecurity();
     }
     
     public void Dispose()
     {
         context = null;
-        requestDto = null;
     }
 
     [Fact]
@@ -48,13 +40,17 @@ public class ResetPasswordCommandTests : IDisposable
         var user = UserDbo.Create("email@email.com", "username", pasword);
         await context.Users.AddAsync(user);
         await context.SaveChangesAsync(default);
-        var handler = new ResetPasswordCommand.ResetPasswordHandler(context, new Mock<IMediator>().Object, passwordSecurity);
+        
+        var handler = new ForgotMyPasswordCommand.ForgotMyPasswordHandler(context, new Mock<IMediator>().Object, passwordSecurity);
 
-        await handler.Handle(new ResetPasswordCommand(
+        await handler.Handle(new ForgotMyPasswordCommand(
             new RequestDto<ForgotMyPasswordDtoV1>("device", 
-                ForgotMyPasswordDtoV1.Create("email@email.com", "username"), null, null)), default);
+                ForgotMyPasswordDtoV1.Create(user.Email, user.Username), null, null)), default);
 
-        var newPass = context.Users.FirstOrDefault(x => x.Username == "username")?.TempPassword;
+        var newPass = context.Users.FirstOrDefault(x => x.Username == user.Username)?.TempPassword;
+        
+        Assert.NotNull(newPass);
+        Assert.NotEmpty(newPass);
         Assert.NotEqual(pasword, newPass);
     }
     
@@ -65,10 +61,10 @@ public class ResetPasswordCommandTests : IDisposable
         var user = UserDbo.Create("email@email.com", "username", pasword);
         await context.Users.AddAsync(user);
         await context.SaveChangesAsync(default);
-        var handler = new ResetPasswordCommand.ResetPasswordHandler(context, new Mock<IMediator>().Object, passwordSecurity);
+        var handler = new ForgotMyPasswordCommand.ForgotMyPasswordHandler(context, new Mock<IMediator>().Object, passwordSecurity);
 
-        var command = new ResetPasswordCommand(
-            new RequestDto<ForgotMyPasswordDtoV1>(String.Empty,
+        var command = new ForgotMyPasswordCommand(
+            new RequestDto<ForgotMyPasswordDtoV1>(string.Empty,
                 ForgotMyPasswordDtoV1.Create("email@email.com", "username"), null, null));
         
         await Assert.ThrowsAsync<BadRequestException>(() =>
@@ -79,13 +75,12 @@ public class ResetPasswordCommandTests : IDisposable
     [InlineData("", "")]
     [InlineData("email@email.com", "")]
     [InlineData("", "username")]
-    [InlineData("notAnEmail", "username")]
     public async void WhenInvalidCommandParameters(string email, string username)
     {
-        var handler = new ResetPasswordCommand.ResetPasswordHandler(context, new Mock<IMediator>().Object, passwordSecurity);
-        var command = new ResetPasswordCommand(
-            new RequestDto<ForgotMyPasswordDtoV1>(String.Empty,
-                ForgotMyPasswordDtoV1.Create("email@email.com", "username"), null, null));
+        var handler = new ForgotMyPasswordCommand.ForgotMyPasswordHandler(context, new Mock<IMediator>().Object, passwordSecurity);
+        var command = new ForgotMyPasswordCommand(
+            new RequestDto<ForgotMyPasswordDtoV1>("device",
+                ForgotMyPasswordDtoV1.Create(email, username), null, null));
         
         await Assert.ThrowsAsync<BadRequestException>(() =>
             handler.Handle(command, default));
