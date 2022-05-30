@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Http;
 using WeeControl.Application.EssentialContext.Commands;
 using WeeControl.Application.EssentialContext.Queries;
 using WeeControl.Application.Interfaces;
-using WeeControl.SharedKernel.Essential.Security;
+using WeeControl.SharedKernel;
 
 namespace WeeControl.WebApi.Services;
 

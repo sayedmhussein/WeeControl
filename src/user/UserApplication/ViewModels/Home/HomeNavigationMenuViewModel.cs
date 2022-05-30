@@ -1,5 +1,5 @@
 using System.ComponentModel;
-using WeeControl.SharedKernel.Essential.Security;
+using WeeControl.SharedKernel;
 using WeeControl.User.UserApplication.Interfaces;
 
 namespace WeeControl.User.UserApplication.ViewModels.Home;

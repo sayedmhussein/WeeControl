@@ -5,7 +5,6 @@ using MediatR;
 using WeeControl.Application.EssentialContext.Queries;
 using WeeControl.Application.Exceptions;
 using WeeControl.Domain.Essential.Entities;
-using WeeControl.SharedKernel.DataTransferObjects;
 using WeeControl.SharedKernel.DataTransferObjects.Authentication;
 using WeeControl.SharedKernel.DataTransferObjects.User;
 using WeeControl.SharedKernel.Interfaces;

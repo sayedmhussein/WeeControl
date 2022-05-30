@@ -1,6 +1,6 @@
 using System.Reflection;
 
-namespace WeeControl.SharedKernel.Essential.Security;
+namespace WeeControl.SharedKernel;
 
 public static class ClaimsTagsList
 {

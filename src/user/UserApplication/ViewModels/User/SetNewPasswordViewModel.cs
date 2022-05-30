@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Net;
 using WeeControl.SharedKernel;
-using WeeControl.SharedKernel.DataTransferObjects;
 using WeeControl.SharedKernel.DataTransferObjects.User;
 using WeeControl.User.UserApplication.Interfaces;
 

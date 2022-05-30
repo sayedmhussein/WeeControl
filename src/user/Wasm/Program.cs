@@ -33,7 +33,7 @@ public class Program
         builder.Services.AddScoped<IDeviceSecurity, AuthStateProvider>();
 
         //SharedDependency.AddUserSecurityServiceForApplication(builder.Services);
-        builder.Services.AddUserSecurityServiceForApplication();
+        builder.Services.AddUserSecurityService();
         builder.Services.AddViewModels();
         //ViewModelExtensions.AddViewModels(builder.Services);
 

@@ -1,8 +1,11 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 
 [assembly: InternalsVisibleTo("WeeControl.Server.WebApi.Test")]
-namespace WeeControl.SharedKernel.Essential.Security.CustomHandlers.TokenRefreshment;
+namespace WeeControl.WebApi.Security.CustomHandlers.TokenRefreshment;
 
 public class TokenRefreshmentHandler : AuthorizationHandler<TokenRefreshmentRequirement>
 {

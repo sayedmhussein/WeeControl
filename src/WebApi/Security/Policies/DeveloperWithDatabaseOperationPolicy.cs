@@ -1,4 +1,6 @@
-namespace WeeControl.SharedKernel.Essential.Security.Policies;
+using WeeControl.SharedKernel;
+
+namespace WeeControl.WebApi.Security.Policies;
 
 public class DeveloperWithDatabaseOperationPolicy : PolicyBuilderBase
 {

@@ -6,7 +6,6 @@ using System.Text;
 using Newtonsoft.Json;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.DataTransferObjects.Authentication;
-using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.RequestsResponses;
 using WeeControl.User.UserApplication.Interfaces;
 

@@ -14,8 +14,8 @@ using WeeControl.Application;
 using WeeControl.Application.Interfaces;
 using WeeControl.Infrastructure;
 using WeeControl.Persistence;
-using WeeControl.SharedKernel;
 using WeeControl.WebApi.Middlewares;
+using WeeControl.WebApi.Security;
 using WeeControl.WebApi.Services;
 using WeeControl.WebApi.StartupOptions;
 

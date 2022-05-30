@@ -1,7 +1,6 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using WeeControl.SharedKernel;
-using WeeControl.SharedKernel.DataTransferObjects;
 using WeeControl.SharedKernel.DataTransferObjects.User;
 using WeeControl.User.UserApplication.Interfaces;
 

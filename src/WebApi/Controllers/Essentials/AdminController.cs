@@ -10,6 +10,7 @@ using WeeControl.Application.EssentialContext.Queries;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
+using WeeControl.WebApi.Security.Policies;
 
 namespace WeeControl.WebApi.Controllers.Essentials;
 
@@ -29,7 +30,7 @@ public class AdminController  : Controller
         this.mediator = mediator;
     }
 
-    [Authorize(Policy = SharedKernel.Essential.Security.Policies.DeveloperWithDatabaseOperationPolicy.Name)]
+    [Authorize(Policy = DeveloperWithDatabaseOperationPolicy.Name)]
     [HttpHead(Api.Essential.Admin.Base)]
     public async Task<ActionResult> PopulateDatabase()
     {

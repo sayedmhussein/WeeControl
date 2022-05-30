@@ -11,8 +11,8 @@ using Microsoft.IdentityModel.Tokens;
 using WeeControl.Application.Exceptions;
 using WeeControl.Application.Interfaces;
 using WeeControl.Domain.Essential.Entities;
+using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.DataTransferObjects.Authentication;
-using WeeControl.SharedKernel.Essential.Security;
 using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.RequestsResponses;
 

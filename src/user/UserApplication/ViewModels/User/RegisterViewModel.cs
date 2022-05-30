@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Net.Http.Json;
 using WeeControl.SharedKernel;
-using WeeControl.SharedKernel.DataTransferObjects;
 using WeeControl.SharedKernel.DataTransferObjects.Authentication;
 using WeeControl.SharedKernel.DataTransferObjects.User;
 using WeeControl.SharedKernel.RequestsResponses;

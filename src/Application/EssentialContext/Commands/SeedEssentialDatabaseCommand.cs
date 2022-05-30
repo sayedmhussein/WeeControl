@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using WeeControl.Domain.Essential.Entities;
-using WeeControl.SharedKernel.Essential.Security;
+using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.Interfaces;
 
 namespace WeeControl.Application.EssentialContext.Commands;

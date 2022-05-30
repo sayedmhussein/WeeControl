@@ -1,5 +1,4 @@
 using System.Net;
-using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.RequestsResponses;
 using WeeControl.User.UserApplication.ViewModels.Authentication;
 
