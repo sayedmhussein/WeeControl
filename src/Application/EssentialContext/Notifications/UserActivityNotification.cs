@@ -9,13 +9,13 @@ namespace WeeControl.Application.EssentialContext.Notifications;
 
 public class UserActivityNotification : INotification
 {
-    private IRequest Request { get; }
-    private string context { get; }
-    private string details { get; }
-    
-    public UserActivityNotification(IRequest request)
+    private readonly string logContext;
+    private readonly string logDetails;
+
+    public UserActivityNotification(string logContext, string logDetails)
     {
-        Request = request;
+        this.logContext = logContext;
+        this.logDetails = logDetails;
     }
     
     public class UserActivityNotificationHandler : INotificationHandler<UserActivityNotification>
@@ -28,21 +28,15 @@ public class UserActivityNotification : INotification
             this.context = context;
             this.currentUserInfo = currentUserInfo;
         }
-        
-        // protected override async void Handle(UserActivityNotification notification)
-        // {
-        //     var id = currentUserInfo.GetSessionId() ?? throw new NullReferenceException();
-        //     var session = await context.Sessions.FirstAsync(x => x.SessionId == id);
-        //     //var log = session.CreateLog();
-        //     throw new System.NotImplementedException();
-        // }
-        
+
         public async Task Handle(UserActivityNotification notif, CancellationToken cancellationToken)
         {
             var id = currentUserInfo.GetSessionId() ?? throw new NullReferenceException();
             var session = await context.Sessions.FirstAsync(x => x.SessionId == id, cancellationToken);
-            //var log = session.CreateLog();
-            throw new System.NotImplementedException();
+            var log = session.CreateLog(notif.logContext, notif.logDetails);
+            
+            await context.Logs.AddAsync(log, cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
         }
     }
 }

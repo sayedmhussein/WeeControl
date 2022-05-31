@@ -14,13 +14,11 @@ namespace WeeControl.Application.EssentialContext.Commands;
 
 public class RegisterCommand : IRequest<ResponseDto<TokenDtoV1>>
 {
-    public RequestDto Request { get; }
-    public RegisterDtoV1 Payload { get; }
-    
+    private IRequestDto<RegisterDtoV1> dto;
+
     public RegisterCommand(RequestDto<RegisterDtoV1> dto)
     {
-        Request = dto;
-        Payload = dto.Payload;
+        this.dto = dto;
     }
     
     public class RegisterHandler : IRequestHandler<RegisterCommand, ResponseDto<TokenDtoV1>>
@@ -38,27 +36,28 @@ public class RegisterCommand : IRequest<ResponseDto<TokenDtoV1>>
 
         public async Task<ResponseDto<TokenDtoV1>> Handle(RegisterCommand cmd, CancellationToken cancellationToken)
         {
-            await mediator.Send(new VerifyRequestQuery(cmd.Request), cancellationToken);
+            await mediator.Send(new VerifyRequestQuery(cmd.dto), cancellationToken);
 
-            if (string.IsNullOrWhiteSpace(cmd.Payload.Password) ||
-                (string.IsNullOrWhiteSpace(cmd.Payload.Username) && string.IsNullOrWhiteSpace(cmd.Payload.Email)))
+            if (string.IsNullOrWhiteSpace(cmd.dto.Payload.Password) ||
+                (string.IsNullOrWhiteSpace(cmd.dto.Payload.Username) && string.IsNullOrWhiteSpace(cmd.dto.Payload.Email)))
             {
                 throw new ValidationException();
             }
 
-            if (context.Users.Any(x => (x.Username == cmd.Payload.Username.ToLower()) ||
-                                       ( x.Email == cmd.Payload.Email.ToLower())))
+            if (context.Users.Any(x => (x.Username == cmd.dto.Payload.Username.ToLower()) ||
+                                       ( x.Email == cmd.dto.Payload.Email.ToLower())))
             {
                 throw new ConflictFailureException();
             }
 
-            var user = UserDbo.Create(cmd.Payload.Email.ToLower(), cmd.Payload.Username.ToLower(), passwordSecurity.Hash(cmd.Payload.Password));
+            var user = UserDbo.Create(cmd.dto.Payload.Email.ToLower(), cmd.dto.Payload.Username.ToLower(), passwordSecurity.Hash(cmd.dto.Payload.Password));
 
             await context.Users.AddAsync(user, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
-        
-            var b= await mediator.Send(new GetNewTokenQuery(cmd.Request,  LoginDtoV1.Create(user.Username, cmd.Payload.Password)), cancellationToken);
-            return new ResponseDto<TokenDtoV1>(b.Payload);
+
+            var a = await mediator.Send(new GetNewTokenQuery(new RequestDto<LoginDtoV1>(cmd.dto.DeviceId, LoginDtoV1.Create(user.Username, cmd.dto.Payload.Password), cmd.dto.Latitude, cmd.dto.Longitude)), cancellationToken);
+            // var b= await mediator.Send(new GetNewTokenQuery(cmd.dto.Request,  LoginDtoV1.Create(user.Username, cmd.Payload.Password)), cancellationToken);
+            return new ResponseDto<TokenDtoV1>(a.Payload);
         }
     }
 }

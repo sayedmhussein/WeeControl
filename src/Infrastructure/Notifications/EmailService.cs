@@ -15,6 +15,7 @@ public class EmailService : IEmailNotificationService
     private readonly bool useSsl;
     private readonly string username;
     private readonly string password;
+    private readonly string email;
 
     public EmailService(string configurationString)
     {
@@ -45,7 +46,7 @@ public class EmailService : IEmailNotificationService
                         password = item[1].Trim();
                         break;
                     case "email":
-                        password = item[1].Trim();
+                        email = item[1].Trim();
                         break;
                 }
             }
@@ -64,7 +65,7 @@ public class EmailService : IEmailNotificationService
     public async Task SendAsync(string from, string to, string subject, string body)
     {
         var msg = new MimeMessage();
-        msg.From.Add(MailboxAddress.Parse(from));
+        msg.From.Add(MailboxAddress.Parse(from ?? email));
         msg.To.Add(MailboxAddress.Parse(to));
         msg.Subject = subject;
         msg.Body = new TextPart(MimeKit.Text.TextFormat.Plain) { Text = body };

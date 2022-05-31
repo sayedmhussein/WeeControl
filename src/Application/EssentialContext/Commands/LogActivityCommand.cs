@@ -35,7 +35,7 @@ public class LogActivityCommand : IRequest
         {
             var id = currentUserInfo.GetSessionId() ?? throw new NullReferenceException("User from IUserInfo can't be null!");
             var session = await context.Sessions.FirstOrDefaultAsync(x => x.SessionId == id, cancellationToken);
-            if (session is null)
+            if (session == null)
             {
                 // Here to log this issue in system!
             }

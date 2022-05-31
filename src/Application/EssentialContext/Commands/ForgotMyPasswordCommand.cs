@@ -13,15 +13,11 @@ namespace WeeControl.Application.EssentialContext.Commands;
 
 public class ForgotMyPasswordCommand : IRequest
 {
-    public IRequestDto Dto { get; }
-    public string Email { get; }
-    public string Username { get; }
-    
-    public ForgotMyPasswordCommand(RequestDto<ForgotMyPasswordDtoV1> dto)
+    private readonly IRequestDto<ForgotMyPasswordDtoV1> dto;
+
+    public ForgotMyPasswordCommand(IRequestDto<ForgotMyPasswordDtoV1> dto)
     {
-        Dto = dto;
-        Email = dto.Payload.Email.ToLower();
-        Username = dto.Payload.Username.ToLower();
+        this.dto = dto;
     }
     
     public class ForgotMyPasswordHandler : IRequestHandler<ForgotMyPasswordCommand>
@@ -39,25 +35,24 @@ public class ForgotMyPasswordCommand : IRequest
     
         public async Task<Unit> Handle(ForgotMyPasswordCommand request, CancellationToken cancellationToken)
         {
-            if (string.IsNullOrWhiteSpace(request.Dto.DeviceId) ||
-                string.IsNullOrWhiteSpace(request.Email)||
-                string.IsNullOrWhiteSpace(request.Username))
+            if (string.IsNullOrWhiteSpace(request.dto.DeviceId) ||
+                string.IsNullOrWhiteSpace(request.dto.Payload.Email)||
+                string.IsNullOrWhiteSpace(request.dto.Payload.Username))
             {
                 throw new BadRequestException("Invalid device or email or username");
             }
         
-            var user = await context.Users.FirstOrDefaultAsync(x => x.Username == request.Username && x.Email == request.Email, cancellationToken);
+            var user = await context.Users.FirstOrDefaultAsync(x => x.Username == request.dto.Payload.Username.ToLower() && x.Email == request.dto.Payload.Email.ToLower(), cancellationToken);
             if (user is not null)
             {
                 if (string.IsNullOrEmpty(user.SuspendArgs) == false)
                     throw new NotAllowedException("Account is locked.");
                 
                 var password = passwordSecurity.GenerateRandomPassword();
-                Console.WriteLine("New Password is: {0}", password);
                 user.SetTemporaryPassword(passwordSecurity.Hash(password));
                 await context.SaveChangesAsync(cancellationToken);
             
-                await mediator.Publish(new PasswordReset(user.UserId, password), cancellationToken);
+                await mediator.Publish(new PasswordResetNotification(user.UserId, password), cancellationToken);
             
                 return Unit.Value;
             }
