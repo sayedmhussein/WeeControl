@@ -23,4 +23,9 @@ public static class Pages
         public const string Invalid = "Invalid";
         public const string NoInternet = "NoInternet";
     }
+    
+    public static class Admin
+    {
+        public const string Page = "Admin";
+    }
 }

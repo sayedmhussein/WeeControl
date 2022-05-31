@@ -40,7 +40,8 @@ public class AdminController  : Controller
     
     [HttpGet(Api.Essential.Admin.User)]
     [MapToApiVersion("1.0")]
-    public async Task<ActionResult<ResponseDto<IEnumerable<UserDto>>>> GetListOfUsersV1()
+    [Authorize(Policy = nameof(CanEditUserPolicy))]
+    public async Task<ActionResult<ResponseDto<IEnumerable<UserDtoV1>>>> GetListOfUsersV1()
     {
         var command = new GetListOfUsersQuery();
         var response = await mediator.Send(command);
@@ -50,7 +51,7 @@ public class AdminController  : Controller
     
     [HttpGet(Api.Essential.Admin.User + "/{username}")]
     [MapToApiVersion("1.0")]
-    public async Task<ActionResult<ResponseDto<IEnumerable<UserDto>>>> GetUserDetailsV1(string username)
+    public async Task<ActionResult<ResponseDto<IEnumerable<UserDtoV1>>>> GetUserDetailsV1(string username)
     {
         var command = new GetUserDetailsQuery(username);
         var response = await mediator.Send(command);
@@ -61,7 +62,7 @@ public class AdminController  : Controller
     [HttpGet(Api.Essential.Admin.Territory)]
     [MapToApiVersion("1.0")]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<ActionResult<ResponseDto<IEnumerable<UserDto>>>> GetListOfTerritoriesV1()
+    public async Task<ActionResult<ResponseDto<IEnumerable<UserDtoV1>>>> GetListOfTerritoriesV1()
     {
         var command = new GetListOfTerritoriesQuery();
         var response = await mediator.Send(command);

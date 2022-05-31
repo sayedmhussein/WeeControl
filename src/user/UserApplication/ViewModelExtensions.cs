@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using WeeControl.User.UserApplication.ViewModels.Admin;
 using WeeControl.User.UserApplication.ViewModels.Authentication;
 using WeeControl.User.UserApplication.ViewModels.Home;
 using WeeControl.User.UserApplication.ViewModels.User;
@@ -9,6 +10,12 @@ public static class ViewModelExtensions
 {
     public static IServiceCollection AddViewModels(this IServiceCollection services)
     {
+        #region AdminContext
+        services.AddTransient<AdminViewModel>();
+        
+
+        #endregion
+        
         #region AuthorizationContext
         services.AddTransient<LoginViewModel>();
         services.AddTransient<LogoutViewModel>();

@@ -32,7 +32,7 @@ internal static class EssentialContextPolicyOptions
     {
         options.AddPolicy(DeveloperWithDatabaseOperationPolicy.Name, new DeveloperWithDatabaseOperationPolicy().GetPolicy());
         
-        options.AddPolicy(CanEditTerritoriesPolicy.Name, new CanEditUserPolicy().GetPolicy());
+        options.AddPolicy(nameof(CanEditTerritoriesPolicy), new CanEditUserPolicy().GetPolicy());
         options.AddPolicy(CanEditTerritoriesPolicy.Name, new CanEditTerritoriesPolicy().GetPolicy());
     }
 }

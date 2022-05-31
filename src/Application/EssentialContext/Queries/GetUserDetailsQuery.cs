@@ -11,7 +11,7 @@ using WeeControl.SharedKernel.RequestsResponses;
 
 namespace WeeControl.Application.EssentialContext.Queries;
 
-public class GetUserDetailsQuery : IRequest<ResponseDto<UserDetailedDto>>
+public class GetUserDetailsQuery : IRequest<ResponseDto<UserDetailedDtoV1>>
 {
     private string Username { get; }
 
@@ -20,7 +20,7 @@ public class GetUserDetailsQuery : IRequest<ResponseDto<UserDetailedDto>>
         Username = username;
     }
     
-    public class GetUserDetailsHandler : IRequestHandler<GetUserDetailsQuery, ResponseDto<UserDetailedDto>>
+    public class GetUserDetailsHandler : IRequestHandler<GetUserDetailsQuery, ResponseDto<UserDetailedDtoV1>>
     {
         private readonly IEssentialDbContext context;
         private readonly ICurrentUserInfo userInfo;
@@ -31,7 +31,7 @@ public class GetUserDetailsQuery : IRequest<ResponseDto<UserDetailedDto>>
             this.userInfo = userInfo;
         }
         
-        public async Task<ResponseDto<UserDetailedDto>> Handle(GetUserDetailsQuery request, CancellationToken cancellationToken)
+        public async Task<ResponseDto<UserDetailedDtoV1>> Handle(GetUserDetailsQuery request, CancellationToken cancellationToken)
         {
             var userDbo = await context.Users
                 .Include(c => c.Claims)
@@ -79,14 +79,14 @@ public class GetUserDetailsQuery : IRequest<ResponseDto<UserDetailedDto>>
                 })
                 .ToList();
 
-            var user = new UserDetailedDto()
+            var user = new UserDetailedDtoV1()
             {
                 Email = userDbo.Email, Username = userDbo.Username, TerritoryCode = userDbo.TerritoryId, 
                 Claims = claims,
                 Sessions = sessions
             };
             
-            return new ResponseDto<UserDetailedDto>(user);
+            return new ResponseDto<UserDetailedDtoV1>(user);
         }
     }
 }
