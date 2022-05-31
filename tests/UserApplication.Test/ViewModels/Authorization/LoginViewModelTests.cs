@@ -5,29 +5,25 @@ using WeeControl.User.UserApplication.ViewModels.Authentication;
 
 namespace WeeControl.User.UserApplication.Test.ViewModels.Authorization;
 
-public class LoginViewModelTests : IDisposable
+public class LoginViewModelTests : ViewModelTestsBase
 {
-    #region Preparation
-    private DeviceServiceMock mock;
-    
-    public LoginViewModelTests()
+    public LoginViewModelTests() : base(nameof(LoginViewModel))
     {
-        mock = new DeviceServiceMock(nameof(LoginViewModelTests));
     }
-
-    public void Dispose()
-    {
-        //mock = null;
-    }
-    #endregion
     
     #region Success And HttpActions
     [Fact]
     public async void SuccessTest()
     {
-        var vm = new LoginViewModel(mock.GetObject(HttpStatusCode.OK, 
-            new ResponseDto<TokenDtoV1>(
-                TokenDtoV1.Create("token", "name", "url"))))
+        var content1 = GetJsonContent(new ResponseDto<TokenDtoV1>(TokenDtoV1.Create("token", "name", "url")));
+        var content2 = GetJsonContent(new ResponseDto<TokenDtoV1>(TokenDtoV1.Create("token", "name", "url")));
+        var expected = new List<Tuple<HttpStatusCode, HttpContent>>()
+        {
+            new (HttpStatusCode.OK, content1),
+            new (HttpStatusCode.OK, content2)
+        };
+        
+        var vm = new LoginViewModel(mock.GetObject(expected))
         {
             UsernameOrEmail = "username",
             Password = "password"
@@ -44,13 +40,19 @@ public class LoginViewModelTests : IDisposable
     }
     
     [Theory]
-    [InlineData(HttpStatusCode.BadRequest)]
-    [InlineData(HttpStatusCode.NotFound)]
-    public async void WhenBadRequest(HttpStatusCode code)
+    [InlineData(HttpStatusCode.BadRequest, HttpStatusCode.BadRequest)]
+    [InlineData(HttpStatusCode.NotFound, HttpStatusCode.NotFound)]
+    public async void WhenBadRequest(HttpStatusCode code1, HttpStatusCode code2)
          {
-             var vm = new LoginViewModel(mock.GetObject(code, 
-                 new ResponseDto<TokenDtoV1>(
-                     TokenDtoV1.Create("token", "name", "url"))))
+             var content1 = GetJsonContent(new ResponseDto<TokenDtoV1>(TokenDtoV1.Create("token", "name", "url")));
+             var content2 = GetJsonContent(new ResponseDto<TokenDtoV1>(TokenDtoV1.Create("token", "name", "url")));
+             var expected = new List<Tuple<HttpStatusCode, HttpContent>>()
+             {
+                 new (code1, content1),
+                 new (code2, content2)
+             };
+        
+             var vm = new LoginViewModel(mock.GetObject(expected))
              {
                  UsernameOrEmail = "username",
                  Password = "password"
@@ -120,4 +122,6 @@ public class LoginViewModelTests : IDisposable
     #region InvalidCommands
     
     #endregion
+
+    
 }

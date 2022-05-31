@@ -26,6 +26,6 @@ public static class Pages
     
     public static class Admin
     {
-        public const string Page = "Admin";
+        public const string Page = "Administrator";
     }
 }

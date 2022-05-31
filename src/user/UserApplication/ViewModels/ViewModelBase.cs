@@ -11,10 +11,9 @@ using WeeControl.User.UserApplication.Interfaces;
 
 namespace WeeControl.User.UserApplication.ViewModels;
 
-public class ViewModelBase : INotifyPropertyChanged
+public abstract class ViewModelBase : INotifyPropertyChanged
 {
     public bool IsLoading { get; protected set; }
-    
     public event PropertyChangedEventHandler? PropertyChanged;
 
     
