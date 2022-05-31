@@ -9,7 +9,7 @@ using WeeControl.Application.Interfaces;
 using WeeControl.SharedKernel.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
 
-namespace WeeControl.Application.EssentialContext.Queries;
+namespace WeeControl.Application.Essential.Queries;
 
 public class GetUserDetailsQuery : IRequest<ResponseDto<UserDetailedDtoV1>>
 {

@@ -5,7 +5,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using WeeControl.Application.Interfaces;
 
-namespace WeeControl.Application.EssentialContext.Commands;
+namespace WeeControl.Application.Essential.Commands;
 
 public class LogActivityCommand : IRequest
 {

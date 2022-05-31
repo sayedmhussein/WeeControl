@@ -2,7 +2,7 @@
 using WeeControl.Domain.Essential.Entities;
 using WeeControl.Domain.Interfaces;
 
-namespace WeeControl.Application.EssentialContext;
+namespace WeeControl.Application.Essential;
 
 public interface IEssentialDbContext : IDbContext
 {

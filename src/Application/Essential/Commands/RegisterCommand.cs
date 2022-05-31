@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using WeeControl.Application.EssentialContext.Queries;
+using WeeControl.Application.Essential.Queries;
 using WeeControl.Application.Exceptions;
 using WeeControl.Domain.Essential.Entities;
 using WeeControl.SharedKernel.DataTransferObjects.Authentication;
@@ -10,7 +10,7 @@ using WeeControl.SharedKernel.DataTransferObjects.User;
 using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.RequestsResponses;
 
-namespace WeeControl.Application.EssentialContext.Commands;
+namespace WeeControl.Application.Essential.Commands;
 
 public class RegisterCommand : IRequest<ResponseDto<TokenDtoV1>>
 {

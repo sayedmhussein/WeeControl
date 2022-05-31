@@ -16,9 +16,34 @@ using WeeControl.SharedKernel.DataTransferObjects.Authentication;
 using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.RequestsResponses;
 
-namespace WeeControl.Application.EssentialContext.Queries;
+namespace WeeControl.Application.Essential.Queries;
 
-public class GetNewTokenHandler : IRequestHandler<GetNewTokenQuery, ResponseDto<TokenDtoV1>>
+public class GetNewTokenQuery : IRequest<ResponseDto<TokenDtoV1>>
+{
+    private IRequestDto Request { get; }
+    private LoginDtoV1 Payload { get; }
+    
+    public GetNewTokenQuery(IRequestDto request)
+    {
+        Request = request;
+    }
+
+    public GetNewTokenQuery(IRequestDto<LoginDtoV1> dto)
+    {
+        Request = dto;
+        Payload = LoginDtoV1.Create(dto.Payload.UsernameOrEmail.ToLower(), dto.Payload.Password);
+    }
+        
+    [Obsolete("Use other constructor which has one argument.", error:true)]
+    public GetNewTokenQuery(IRequestDto request, LoginDtoV1 payload)
+    {
+        Request = request;
+        Payload = payload;
+
+        Payload.UsernameOrEmail = payload.UsernameOrEmail.ToLower();
+    }
+    
+    public class GetNewTokenHandler : IRequestHandler<GetNewTokenQuery, ResponseDto<TokenDtoV1>>
 {
     private readonly IEssentialDbContext context;
     private readonly IJwtService jwtService;
@@ -87,15 +112,6 @@ public class GetNewTokenHandler : IRequestHandler<GetNewTokenQuery, ResponseDto<
                 await context.SaveChangesAsync(cancellationToken);
                 await context.Logs.AddAsync(session.CreateLog("Login", "Created New Session."), cancellationToken);
             }
-            // else
-            // {
-            //     if (session.DeviceId != request.Request.DeviceId)
-            //     {
-            //         session.TerminationTs = DateTime.UtcNow;
-            //         await context.SaveChangesAsync(cancellationToken);
-            //         throw new NotAllowedException("User used session not related to device!");
-            //     }
-            // }
 
             await context.SaveChangesAsync(cancellationToken);
 
@@ -115,7 +131,8 @@ public class GetNewTokenHandler : IRequestHandler<GetNewTokenQuery, ResponseDto<
 
             return new ResponseDto<TokenDtoV1>( TokenDtoV1.Create(token, employee.Username, "url"));
         }
-        else if (currentUserInfo.GetSessionId() is not null)
+        
+        if (currentUserInfo.GetSessionId() is not null)
         {
             var session = await context.Sessions.FirstOrDefaultAsync(x => x.SessionId == currentUserInfo.GetSessionId() && x.TerminationTs == null && x.DeviceId == request.Request.DeviceId, cancellationToken);
             if (session is null) throw new NotAllowedException("Different Device!!! or session expired");
@@ -125,8 +142,6 @@ public class GetNewTokenHandler : IRequestHandler<GetNewTokenQuery, ResponseDto<
 
             var employee = await
                 context.Users.Include(x => x.Claims).FirstOrDefaultAsync(x => x.UserId == session.UserId, cancellationToken);
-
-
 
             var ci = new ClaimsIdentity("custom");
             ci.AddClaim(new Claim(ClaimsTagsList.Claims.Session, session.SessionId.ToString()));
@@ -158,4 +173,5 @@ public class GetNewTokenHandler : IRequestHandler<GetNewTokenQuery, ResponseDto<
             throw new BadRequestException("Invalid request query parameters.");
         }
     }
+}
 }

@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using WeeControl.Application.EssentialContext;
+using WeeControl.Application.Essential;
 using Xunit;
 
 namespace WeeControl.Persistence.Test;

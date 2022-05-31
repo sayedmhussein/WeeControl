@@ -7,7 +7,7 @@ using WeeControl.Application.Exceptions;
 using WeeControl.Application.Interfaces;
 using WeeControl.SharedKernel.RequestsResponses;
 
-namespace WeeControl.Application.EssentialContext.Commands;
+namespace WeeControl.Application.Essential.Commands;
 
 public class LogoutCommand : IRequest
 {

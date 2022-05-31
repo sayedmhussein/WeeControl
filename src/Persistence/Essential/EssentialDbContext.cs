@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using Microsoft.EntityFrameworkCore;
-using WeeControl.Application.EssentialContext;
+using WeeControl.Application.Essential;
 using WeeControl.Domain.Essential.Entities;
 
 namespace WeeControl.Persistence.Essential

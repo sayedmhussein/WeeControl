@@ -6,8 +6,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using WeeControl.Application.EssentialContext.Commands;
-using WeeControl.Application.EssentialContext.Queries;
+using WeeControl.Application.Essential.Commands;
+using WeeControl.Application.Essential.Queries;
 using WeeControl.Application.Interfaces;
 using WeeControl.SharedKernel;
 

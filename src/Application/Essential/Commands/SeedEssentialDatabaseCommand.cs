@@ -8,7 +8,7 @@ using WeeControl.Domain.Essential.Entities;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.Interfaces;
 
-namespace WeeControl.Application.EssentialContext.Commands;
+namespace WeeControl.Application.Essential.Commands;
 
 public class SeedEssentialDatabaseCommand : IRequest
 {

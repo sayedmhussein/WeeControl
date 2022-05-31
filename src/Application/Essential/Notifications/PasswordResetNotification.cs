@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using WeeControl.Domain.Interfaces;
 using WeeControl.Domain.Models;
 
-namespace WeeControl.Application.EssentialContext.Notifications;
+namespace WeeControl.Application.Essential.Notifications;
 
 public class PasswordResetNotification : INotification
 {

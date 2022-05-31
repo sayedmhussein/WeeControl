@@ -6,7 +6,7 @@ using WeeControl.Application.Exceptions;
 using WeeControl.Application.Interfaces;
 using WeeControl.SharedKernel.Interfaces;
 
-namespace WeeControl.Application.EssentialContext.Commands;
+namespace WeeControl.Application.Essential.Commands;
 
 public class SetNewPasswordCommand : IRequest
 {

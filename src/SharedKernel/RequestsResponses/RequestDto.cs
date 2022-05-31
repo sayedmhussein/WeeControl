@@ -6,7 +6,7 @@ namespace WeeControl.SharedKernel.RequestsResponses;
 
 public class RequestDto : IRequestDto
 {
-    [Obsolete]
+    [Obsolete("", error:true)]
     public static HttpContent BuildHttpContentAsJson(object dto)
     {
         return new StringContent(JsonConvert.SerializeObject(dto), Encoding.UTF8, "application/json");

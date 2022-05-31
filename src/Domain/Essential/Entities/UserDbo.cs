@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations; // --> 88NE5286 Rami-Khambasi <--
+using System.ComponentModel.DataAnnotations;
 
 namespace WeeControl.Domain.Essential.Entities;
 

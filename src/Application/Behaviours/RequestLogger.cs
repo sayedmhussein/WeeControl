@@ -1,29 +1,31 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using MediatR;
 using MediatR.Pipeline;
 using Microsoft.Extensions.Logging;
+using WeeControl.Application.Essential.Notifications;
+using WeeControl.Application.Interfaces;
 
 namespace WeeControl.Application.Behaviours;
 
 public class RequestLogger<TRequest> : IRequestPreProcessor<TRequest>
 {
-    private readonly ILogger _logger;
-    //private readonly ICurrentUserService _currentUserService;
+    private readonly ICurrentUserInfo currentUserService;
+    private readonly IMediator mediator;
 
-    public RequestLogger(ILogger<TRequest> logger)//, ICurrentUserService currentUserService)
+
+    public RequestLogger(ICurrentUserInfo currentUserService, IMediator mediator)
     {
-        _logger = logger;
-        //_currentUserService = currentUserService;
+        this.currentUserService = currentUserService;
+        this.mediator = mediator;
     }
 
-    public Task Process(TRequest request, CancellationToken cancellationToken)
+    public async Task Process(TRequest request, CancellationToken cancellationToken)
     {
         var name = typeof(TRequest).Name;
 
-        //_logger.LogInformation("Northwind Request: {Name} {@UserId} {@Request}", name,
-        //    //_currentUserService.UserId,
-        //    request);
+        await mediator.Publish(new UserActivityNotification(name, ""), cancellationToken);
 
-        return Task.CompletedTask;
+
     }
 }

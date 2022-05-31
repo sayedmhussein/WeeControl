@@ -1,11 +1,10 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using WeeControl.Application.Interfaces;
 
-namespace WeeControl.Application.EssentialContext.Notifications;
+namespace WeeControl.Application.Essential.Notifications;
 
 public class UserActivityNotification : INotification
 {
@@ -31,7 +30,12 @@ public class UserActivityNotification : INotification
 
         public async Task Handle(UserActivityNotification notif, CancellationToken cancellationToken)
         {
-            var id = currentUserInfo.GetSessionId() ?? throw new NullReferenceException();
+            var id = currentUserInfo.GetSessionId();
+            if (id is null)
+            {
+                return;    
+            }
+            
             var session = await context.Sessions.FirstAsync(x => x.SessionId == id, cancellationToken);
             var log = session.CreateLog(notif.logContext, notif.logDetails);
             

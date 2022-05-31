@@ -5,7 +5,7 @@ using System.Threading;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Moq;
-using WeeControl.Application.EssentialContext.Queries;
+using WeeControl.Application.Essential.Queries;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
@@ -86,8 +86,8 @@ public class UserInfoServiceTests : IDisposable
 
         var service = new UserInfoService(httpContextMock.Object, mediatrMock.Object);
 
-        var territoties = await service.GetTerritoriesListAsync(default);
+        var territories = await service.GetTerritoriesListAsync(default);
 
-        Assert.NotEmpty(territoties);
+        Assert.NotEmpty(territories);
     }
 }

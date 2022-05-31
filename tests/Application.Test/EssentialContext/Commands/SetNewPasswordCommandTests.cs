@@ -1,8 +1,8 @@
 using System;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using WeeControl.Application.EssentialContext;
-using WeeControl.Application.EssentialContext.Commands;
+using WeeControl.Application.Essential;
+using WeeControl.Application.Essential.Commands;
 using WeeControl.Application.Exceptions;
 using WeeControl.Application.Interfaces;
 using WeeControl.Domain.Essential.Entities;

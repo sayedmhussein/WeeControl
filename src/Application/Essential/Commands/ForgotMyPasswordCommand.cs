@@ -1,15 +1,13 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using WeeControl.Application.EssentialContext.Notifications;
+using WeeControl.Application.Essential.Notifications;
 using WeeControl.Application.Exceptions;
 using WeeControl.SharedKernel.DataTransferObjects.User;
 using WeeControl.SharedKernel.Interfaces;
-using WeeControl.SharedKernel.RequestsResponses;
 
-namespace WeeControl.Application.EssentialContext.Commands;
+namespace WeeControl.Application.Essential.Commands;
 
 public class ForgotMyPasswordCommand : IRequest
 {

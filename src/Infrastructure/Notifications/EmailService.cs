@@ -83,8 +83,11 @@ public class EmailService : IEmailNotificationService
         await client.DisconnectAsync(true);
     }
 
-    public Task SendAsync(IEnumerable<IMessageDto> messages)
+    public async Task SendAsync(IEnumerable<IMessageDto> messages)
     {
-        throw new NotImplementedException();
+        foreach (var message in messages)
+        {
+            await SendAsync(message);
+        }
     }
 }

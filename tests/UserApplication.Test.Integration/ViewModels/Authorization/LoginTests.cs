@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using WeeControl.Application.EssentialContext;
+using WeeControl.Application.Essential;
 using WeeControl.Domain.Essential.Entities;
 using WeeControl.SharedKernel.Services;
 using WeeControl.User.UserApplication.ViewModels.Authentication;
