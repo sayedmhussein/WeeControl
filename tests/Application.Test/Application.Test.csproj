@@ -34,7 +34,4 @@
     <ProjectReference Include="..\..\src\Application\Application.csproj" />
     <ProjectReference Include="..\..\src\Persistence\Persistence.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="EssentialContext\Notifications" />
-  </ItemGroup>
 </Project>

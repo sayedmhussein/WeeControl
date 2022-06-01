@@ -60,7 +60,7 @@ public class GetListOfUsersTests : IClassFixture<CustomWebApplicationFactory<Sta
     [Fact]
     public async void WhenSuccess()
     {
-        var token = await LoginTests.GetNewToken(httpClient, normalUserDbo.Username, "normal", nameof(LogoutTests_Temp));
+        var token = await LoginTests.GetNewToken(httpClient, normalUserDbo.Username, "normal", nameof(GetListOfUsersTests));
         deviceMock.InjectTokenToMock(token);
 
         await vm.GetListOfUsers();
@@ -71,7 +71,7 @@ public class GetListOfUsersTests : IClassFixture<CustomWebApplicationFactory<Sta
     [Fact]
     public async void WhenSuccessNotFullList()
     {
-        var token = await LoginTests.GetNewToken(httpClient, normalUserDbo.Username, "normal", nameof(LogoutTests_Temp));
+        var token = await LoginTests.GetNewToken(httpClient, normalUserDbo.Username, "normal", nameof(GetListOfUsersTests));
         deviceMock.InjectTokenToMock(token);
 
         throw new NotImplementedException();
@@ -80,7 +80,7 @@ public class GetListOfUsersTests : IClassFixture<CustomWebApplicationFactory<Sta
     [Fact]
     public async void WhenNotLoggedIn()
     {
-        var token = await LoginTests.GetNewToken(httpClient, normalUserDbo.Username, "normal", nameof(LogoutTests_Temp));
+        var token = await LoginTests.GetNewToken(httpClient, normalUserDbo.Username, "normal", nameof(GetListOfUsersTests));
         deviceMock.InjectTokenToMock(token);
 
         throw new NotImplementedException();
@@ -89,7 +89,7 @@ public class GetListOfUsersTests : IClassFixture<CustomWebApplicationFactory<Sta
     [Fact]
     public async void WhenNotAdminUser()
     {
-        var token = await LoginTests.GetNewToken(httpClient, normalUserDbo.Username, "normal", nameof(LogoutTests_Temp));
+        var token = await LoginTests.GetNewToken(httpClient, normalUserDbo.Username, "normal", nameof(GetListOfUsersTests));
         deviceMock.InjectTokenToMock(token);
 
         throw new NotImplementedException();

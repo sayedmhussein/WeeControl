@@ -12,18 +12,20 @@ using Xunit;
 
 namespace WeeControl.User.UserApplication.Test.Integration.ViewModels.Authorization;
 
-public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>
+public class LoginTests1 : IClassFixture<CustomWebApplicationFactory<Startup>>, IDisposable
 {
     #region static
-    [Obsolete("Use Authorize() in test helper")]
     public static async Task<string> GetNewToken(HttpClient client, string username, string password, string device)
     {
+        var token = string.Empty;
+    
         var mocks = new DeviceServiceMock(device);
-        var mockObject = mocks.GetObject(client);
+        mocks.SecurityMock.Setup(x => x.UpdateTokenAsync(It.IsAny<string>()))
+             .Callback((string tkn) => token = tkn);
 
         var appServiceCollection = new ServiceCollection();
         appServiceCollection.AddViewModels();
-        appServiceCollection.AddScoped(p => mockObject);
+        appServiceCollection.AddScoped(p => mocks.GetObject(client));
         
         using var scope = appServiceCollection.BuildServiceProvider().CreateScope();
         var vm = scope.ServiceProvider.GetRequiredService<LoginViewModel>();
@@ -31,51 +33,68 @@ public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>
         vm.Password = password;
         await vm.LoginAsync();
 
-        var token = await mockObject.Security.GetTokenAsync();
-        Assert.NotEmpty(token);
+        //Assert.NotEmpty(token);
             
         return token;
     }
     #endregion
 
     #region Preparation
+    private LoginViewModel vm;
+    private DeviceServiceMock deviceMock;
     private readonly CustomWebApplicationFactory<Startup> factory;
     
-    public LoginTests(CustomWebApplicationFactory<Startup> factory)
-    {
-        this.factory = factory;
-    }
-    #endregion
-
-    #region Success
-    [Theory]
-    [InlineData("username")]
-    [InlineData("email@email.com")]
-    public async void WhenSendingValidRequest_HttpResponseIsSuccessCode(string usernameOrEmail)
+    private readonly UserDbo normalUserDbo = 
+        UserDbo.Create("normal@test.test", "normal", new PasswordSecurity().Hash("normal"),"TST");
+    private readonly UserDbo lockedUserDbo = 
+        UserDbo.Create("locked@test.test", "locked", new PasswordSecurity().Hash("locked"),"TST");
+    
+    public LoginTests1(CustomWebApplicationFactory<Startup> factory)
     {
         var httpClient = factory.WithWebHostBuilder(builder =>
         {
+            lockedUserDbo.Suspend("For Test Only");
             builder.ConfigureServices(services =>
             {
                 using var scope = services.BuildServiceProvider().CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-                db.Users.Add(UserDbo.Create(
-                    "email@email.com", 
-                     "username", 
-                    TestHelper<object>.GetEncryptedPassword("password")));
+                db.Users.Add(normalUserDbo);
+                db.Users.Add(lockedUserDbo);
                 db.SaveChanges();
             });
         }).CreateClient();
         
-        using var helper = new TestHelper<LoginViewModel>(httpClient);
-        helper.ViewModel.UsernameOrEmail = usernameOrEmail;
-        helper.ViewModel.Password = "password";
-
-        await helper.ViewModel.LoginAsync();
+        deviceMock = new DeviceServiceMock(nameof(LoginTests1));
         
-        helper.DeviceMock.SecurityMock.Verify(x => x.
+        var appServiceCollection = new ServiceCollection();
+        appServiceCollection.AddViewModels();
+        appServiceCollection.AddScoped(p => deviceMock.GetObject(httpClient));
+        
+        using var scope = appServiceCollection.BuildServiceProvider().CreateScope();
+        vm = scope.ServiceProvider.GetRequiredService<LoginViewModel>();
+        
+        this.factory = factory;
+    }
+
+    public void Dispose()
+    {
+        deviceMock = null;
+        vm = null;
+    }
+    #endregion
+
+    #region Success
+    [Fact]
+    public async void WhenSendingValidRequest_HttpResponseIsSuccessCode()
+    {
+        vm.UsernameOrEmail = normalUserDbo.Username;
+        vm.Password = normalUserDbo.Username;
+        
+        await vm.LoginAsync();
+        
+        deviceMock.SecurityMock.Verify(x => x.
             UpdateTokenAsync(It.IsAny<string>()));
-        helper.DeviceMock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.Index, It.IsAny<bool>()), Times.Once);
+        deviceMock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.Index, It.IsAny<bool>()), Times.Once);
     }
     
     [Fact]
@@ -113,32 +132,15 @@ public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     [Fact]
     public async void WhenUserIsLocked()
     {
-        var httpClient = factory.WithWebHostBuilder(builder =>
-        {
-            builder.ConfigureServices(services =>
-            {
-                using var scope = services.BuildServiceProvider().CreateScope();
-                var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-                var user = UserDbo.Create(
-                    "email@email.com",
-                    "username",
-                    TestHelper<object>.GetEncryptedPassword("password"));
-                db.Users.Add(user);
-                user.Suspend("for testing");
-                db.SaveChanges();
-            });
-        }).CreateClient();
+        vm.UsernameOrEmail = lockedUserDbo.Username;
+        vm.Password = lockedUserDbo.Username;
         
-        using var helper = new TestHelper<LoginViewModel>(httpClient);
-        helper.ViewModel.UsernameOrEmail = "username";
-        helper.ViewModel.Password = "password";
-
-        await helper.ViewModel.LoginAsync();
+        await vm.LoginAsync();
         
-        helper.DeviceMock.NavigationMock.Verify(x => 
+        deviceMock.NavigationMock.Verify(x => 
             x.NavigateToAsync(Pages.Home.Index, It.IsAny<bool>()), Times.Never);
         
-        helper.DeviceMock.AlertMock.Verify(x => 
+        deviceMock.AlertMock.Verify(x => 
             x.DisplayAlert(It.IsAny<string>()), Times.Once);
     }
     #endregion

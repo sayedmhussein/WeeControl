@@ -16,9 +16,7 @@ public class DeviceServiceMock
     public Mock<IDeviceStorage> StorageMock { get; }
     public Mock<IDevicePageNavigation> NavigationMock { get; }
     public Mock<IDeviceServerCommunication> ServerMock { get; }
-    
-    public Mock<HttpMessageHandler> HttpMessageHandlerMock { get; }
-    
+
     public DeviceServiceMock(string device)
     {
         DeviceMock = new Mock<IDevice>();
@@ -36,6 +34,8 @@ public class DeviceServiceMock
         
         SecurityMock = new Mock<IDeviceSecurity>();
         SecurityMock.SetupAllProperties();
+        SecurityMock.Setup(x => x.IsAuthenticatedAsync()).ReturnsAsync(false);
+        SecurityMock.Setup(x => x.GetTokenAsync()).ReturnsAsync(string.Empty);
         SecurityMock.Setup(x => x.UpdateTokenAsync(It.IsAny<string>()))
             .Callback((string tkn) => InjectTokenToMock(tkn));
         SecurityMock.Setup(x => x.DeleteTokenAsync())
@@ -57,8 +57,6 @@ public class DeviceServiceMock
         ServerMock.SetupAllProperties();
         ServerMock.Setup(x => x.GetFullAddress(It.IsAny<string>()))
             .Returns((string a) => GetLocalIpAddress() + a);
-        
-        HttpMessageHandlerMock = new Mock<HttpMessageHandler>();
     }
 
     public IDevice GetObject(HttpClient httpClient)
@@ -122,8 +120,8 @@ public class DeviceServiceMock
     
     public void InjectTokenToMock(string tkn)
     {
-        SecurityMock.Setup(x => x.IsAuthenticatedAsync()).ReturnsAsync(!string.IsNullOrEmpty(tkn));
-        SecurityMock.Setup(x => x.GetTokenAsync()).ReturnsAsync(tkn);
+        SecurityMock.SetupSequence(x => x.IsAuthenticatedAsync()).ReturnsAsync(!string.IsNullOrEmpty(tkn));
+        SecurityMock.SetupSequence(x => x.GetTokenAsync()).ReturnsAsync(tkn);
     }
     
     private HttpClient GetHttpClientWithHttpMessageHandlerSequenceResponseMock(IEnumerable<Tuple<HttpStatusCode,HttpContent>> returns)

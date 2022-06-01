@@ -2,8 +2,15 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Moq;
+using WeeControl.Application.Essential;
+using WeeControl.Domain.Essential.Entities;
+using WeeControl.SharedKernel.Services;
 using WeeControl.User.UserApplication.Interfaces;
 using WeeControl.User.UserApplication.Test.Integration.ViewModels.Authorization;
+using WeeControl.User.UserApplication.ViewModels.Authentication;
+using WeeControl.WebApi;
+using Xunit;
 
 namespace WeeControl.User.UserApplication.Test.Integration.ViewModels;
 
@@ -33,9 +40,82 @@ public class TestHelper<T> : IDisposable
         ViewModel = default(T);
     }
 
-    public async Task Authorize(string username, string password)
+    public async Task Authorize(string username, string password, string device = null)
     {
-        var token = await LoginTests.GetNewToken(Device.Server.HttpClient, username, password, nameof(T));
-        DeviceMock.InjectTokenToMock(token);
+        using var helper = new TestHelper<LoginViewModel>(Device.Server.HttpClient);
+        if (device is not null)
+            helper.DeviceMock.DeviceMock.Setup(x => x.DeviceId).Returns(device);
+        helper.ViewModel.UsernameOrEmail = username;
+        helper.ViewModel.Password = password;
+
+        helper.DeviceMock.SecurityMock.Setup(x => x.UpdateTokenAsync(It.IsAny<string>()))
+            .Callback((string tkn) => DeviceMock.InjectTokenToMock(tkn));
+        
+        await helper.ViewModel.LoginAsync();
+    }
+
+    public static string GetEncryptedPassword(string password)
+    {
+        return new PasswordSecurity().Hash(password);
+    }
+}
+
+public class TestForTestClass : IClassFixture<CustomWebApplicationFactory<Startup>>
+{
+    private readonly CustomWebApplicationFactory<Startup> factory;
+
+    public TestForTestClass(CustomWebApplicationFactory<Startup> factory)
+    {
+        this.factory = factory;
+    }
+    
+    [Fact]
+    public async void TestLoginWhenFailure()
+    {
+        var httpClient = factory.WithWebHostBuilder(builder =>
+        {
+            builder.ConfigureServices(services =>
+            {
+                using var scope = services.BuildServiceProvider().CreateScope();
+                var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
+                db.Users.Add(UserDbo.Create(
+                    "email@email.com", 
+                    "username", 
+                    TestHelper<object>.GetEncryptedPassword("password")));
+                db.SaveChanges();
+            });
+        }).CreateClient();
+
+        using var helper = new TestHelper<LogoutViewModel>(httpClient);
+        await helper.Authorize("username", "password", "device");
+
+        var token = await helper.Device.Security.GetTokenAsync();
+        
+        Assert.NotEmpty(token);
+    }
+    
+    [Fact]
+    public async void TestLoginWhenSuccess()
+    {
+        var httpClient = factory.WithWebHostBuilder(builder =>
+        {
+            builder.ConfigureServices(services =>
+            {
+                using var scope = services.BuildServiceProvider().CreateScope();
+                var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
+                db.Users.Add(UserDbo.Create(
+                    "email@email.com", 
+                    "username", 
+                    TestHelper<object>.GetEncryptedPassword("password")));
+                db.SaveChanges();
+            });
+        }).CreateClient();
+
+        using var helper = new TestHelper<LogoutViewModel>(httpClient);
+        await helper.Authorize("username1", "password");
+
+        var token = await helper.Device.Security.GetTokenAsync();
+        
+        Assert.Empty(token);
     }
 }

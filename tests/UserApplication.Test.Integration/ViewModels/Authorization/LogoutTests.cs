@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.Application.Essential;
+using WeeControl.Domain.Essential.Entities;
 using WeeControl.User.UserApplication.ViewModels.Authentication;
 using WeeControl.WebApi;
 using Xunit;
@@ -17,7 +18,7 @@ public class LogoutTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     }
 
     [Fact]
-    public async void WhenSuccess()
+    public async void WhenSuccess_AnyResponseFromServerAndDeleteToken()
     {
         var httpClient = factory.WithWebHostBuilder(builder =>
         {
@@ -25,16 +26,20 @@ public class LogoutTests : IClassFixture<CustomWebApplicationFactory<Startup>>
             {
                 using var scope = services.BuildServiceProvider().CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
+                var user = UserDbo.Create("email@email.com", "username", TestHelper<object>.GetEncryptedPassword("password"));
+                db.Users.Add(user);
                 db.SaveChanges();
             });
         }).CreateClient();
         
         using var helper = new TestHelper<LogoutViewModel>(httpClient);
-        await helper.Authorize("", "");
+        await helper.Authorize("username", "password");
 
         await helper.ViewModel.LogoutAsync();
         
         helper.DeviceMock.NavigationMock.Verify(x => 
             x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()), Times.Once);
+        
+        helper.DeviceMock.SecurityMock.Verify(x => x.DeleteTokenAsync(), Times.AtLeastOnce);
     }
 }
