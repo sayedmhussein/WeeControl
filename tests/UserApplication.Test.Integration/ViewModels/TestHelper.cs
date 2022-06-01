@@ -1,7 +1,6 @@
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using WeeControl.User.UserApplication.Interfaces;
 using WeeControl.User.UserApplication.Test.Integration.ViewModels.Authorization;

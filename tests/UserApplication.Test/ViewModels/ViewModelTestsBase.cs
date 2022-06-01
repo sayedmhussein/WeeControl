@@ -1,10 +1,5 @@
-using System.Globalization;
-using System.Net;
-using System.Reflection;
 using System.Text;
 using Newtonsoft.Json;
-using WeeControl.User.UserApplication.ViewModels;
-using WeeControl.User.UserApplication.ViewModels.Authentication;
 
 namespace WeeControl.User.UserApplication.Test.ViewModels;
 

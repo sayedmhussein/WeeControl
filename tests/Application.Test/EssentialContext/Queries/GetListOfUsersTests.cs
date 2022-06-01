@@ -23,7 +23,7 @@ public class GetListOfUsersTests : IDisposable
     
     public GetListOfUsersTests()
     {
-        context = new ServiceCollection().AddPersistenceAsInMemory(nameof(LogoutEmployeeCommandTests)).BuildServiceProvider().GetService<IEssentialDbContext>();
+        context = new ServiceCollection().AddPersistenceAsInMemory(nameof(GetListOfUsersTests)).BuildServiceProvider().GetService<IEssentialDbContext>();
         requestDto = new RequestDto("device");
         currentUserInfoMock = new Mock<ICurrentUserInfo>();
     }

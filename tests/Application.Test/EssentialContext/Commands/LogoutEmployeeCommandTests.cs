@@ -1,107 +1,89 @@
 using System;
 using System.Linq;
-using Microsoft.Extensions.DependencyInjection;
-using Moq;
-using WeeControl.Application.Essential;
 using WeeControl.Application.Essential.Commands;
 using WeeControl.Application.Exceptions;
-using WeeControl.Application.Interfaces;
 using WeeControl.Domain.Essential.Entities;
-using WeeControl.Persistence;
 using WeeControl.SharedKernel.RequestsResponses;
 using Xunit;
 
 namespace WeeControl.Application.Test.EssentialContext.Commands;
 
-public class LogoutEmployeeCommandTests : IDisposable
+public class LogoutEmployeeCommand1Tests
 {
-    private IEssentialDbContext context;
-    private RequestDto requestDto;
-    private Mock<ICurrentUserInfo> currentUserInfoMock;
-
-    public LogoutEmployeeCommandTests()
-    {
-        context = new ServiceCollection().AddPersistenceAsInMemory(nameof(LogoutEmployeeCommandTests)).BuildServiceProvider().GetService<IEssentialDbContext>();
-        requestDto = new RequestDto("device");
-        currentUserInfoMock = new Mock<ICurrentUserInfo>();
-    }
-
-    public void Dispose()
-    {
-        context = null;
-        requestDto = null;
-    }
-
     [Fact]
     public async void WhenSessionExistAndNotTerminated_SessionBecomeTerminated()
     {
+        using var testHelper = new TestHelper();
         var session = SessionDbo.Create(Guid.NewGuid(), "device");
-        await context.Sessions.AddAsync(session);
-        await context.SaveChangesAsync(default);
+        await testHelper.EssentialDb.Sessions.AddAsync(session);
+        await testHelper.EssentialDb.SaveChangesAsync(default);
         //
-        currentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
+        testHelper.CurrentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
         //
-        var handler = new LogoutCommand.LogoutHandler(context, currentUserInfoMock.Object);
+        var handler = new LogoutCommand.LogoutHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object);
         
-        await handler.Handle(new LogoutCommand(requestDto), default);
+        await handler.Handle(new LogoutCommand(new RequestDto("device")), default);
         
-        Assert.NotNull(context.Sessions.First(x => x.SessionId == session.SessionId).TerminationTs);
+        Assert.NotNull(testHelper.EssentialDb.Sessions.First(x => x.SessionId == session.SessionId).TerminationTs);
     }
 
     [Fact]
     public async void WhenRequestDtoHasDifferentSession_ThrowNotAllowedException()
     {
+        using var testHelper = new TestHelper();
         var session = SessionDbo.Create(Guid.NewGuid(), "device");
-        await context.Sessions.AddAsync(session);
-        await context.SaveChangesAsync(default);
-        currentUserInfoMock.Setup(x => x.GetSessionId()).Returns(Guid.NewGuid());
-
-        var handler = new LogoutCommand.LogoutHandler(context, currentUserInfoMock.Object);
-
+        await testHelper.EssentialDb.Sessions.AddAsync(session);
+        await testHelper.EssentialDb.SaveChangesAsync(default);
+        testHelper.CurrentUserInfoMock.Setup(x => x.GetSessionId()).Returns(Guid.NewGuid());
+    
+        var handler = new LogoutCommand.LogoutHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object);
+    
         await Assert.ThrowsAsync<NotAllowedException>(() =>
-            handler.Handle(new LogoutCommand(requestDto), default));
+            handler.Handle(new LogoutCommand(new RequestDto("device")), default));
     }
         
     [Fact]
     public async void WhenRequestDtoHasDifferentDevice_ThrowNotAllowedException()
     {
+        using var testHelper = new TestHelper();
         var session = SessionDbo.Create(Guid.NewGuid(), "device");
-        await context.Sessions.AddAsync(session);
-        await context.SaveChangesAsync(default);
-        requestDto.DeviceId = "Another Device ID";
-        currentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
-
-        var handler = new LogoutCommand.LogoutHandler(context, currentUserInfoMock.Object);
-
+        await testHelper.EssentialDb.Sessions.AddAsync(session);
+        await testHelper.EssentialDb.SaveChangesAsync(default);
+        testHelper.CurrentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
+    
+        var handler = new LogoutCommand.LogoutHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object);
+    
         await Assert.ThrowsAsync<NotAllowedException>(() =>
-            handler.Handle(new LogoutCommand(requestDto), default));
+            handler.Handle(new LogoutCommand(new RequestDto("Another device")), default));
     }
         
     [Fact]
     public async void WhenSessionAlreadyTerminated_ThrowNotAllowedException()
     {
+        using var testHelper = new TestHelper();
         var session = SessionDbo.Create(Guid.NewGuid(), "device");
         session.TerminationTs = DateTime.UtcNow;
-        await context.Sessions.AddAsync(session);
-        await context.SaveChangesAsync(default);
-        currentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
-
-        var handler = new LogoutCommand.LogoutHandler(context, currentUserInfoMock.Object);
-
+        await testHelper.EssentialDb.Sessions.AddAsync(session);
+        await testHelper.EssentialDb.SaveChangesAsync(default);
+        testHelper.CurrentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
+    
+        var handler = new LogoutCommand.LogoutHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object);
+    
         await Assert.ThrowsAsync<NotAllowedException>(() =>
-            handler.Handle(new LogoutCommand(requestDto), default));
+            handler.Handle(new LogoutCommand(new RequestDto("device")), default));
     }
     
     [Fact]
     public async void WhenDeviceIDNotSupplied_ThrowBadRequestException()
     {
+        using var testHelper = new TestHelper();
         var session = SessionDbo.Create(Guid.NewGuid(), "device");
-        await context.Sessions.AddAsync(session);
-        await context.SaveChangesAsync(default);
+        await testHelper.EssentialDb.Sessions.AddAsync(session);
+        await testHelper.EssentialDb.SaveChangesAsync(default);
         //
-        currentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
+        testHelper.CurrentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
         //
-        var handler = new LogoutCommand.LogoutHandler(context, currentUserInfoMock.Object);
+        var handler = new LogoutCommand.LogoutHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object);
         
         await Assert.ThrowsAsync<NotAllowedException>(() =>
             handler.Handle(new LogoutCommand(new RequestDto(string.Empty)), default));
@@ -110,15 +92,16 @@ public class LogoutEmployeeCommandTests : IDisposable
     [Fact]
     public async void WhenSessionIDIsNull_ThrowArgumentNullException()
     {
+        using var testHelper = new TestHelper();
         var session = SessionDbo.Create(Guid.NewGuid(), "device");
-        await context.Sessions.AddAsync(session);
-        await context.SaveChangesAsync(default);
+        await testHelper.EssentialDb.Sessions.AddAsync(session);
+        await testHelper.EssentialDb.SaveChangesAsync(default);
         //
-        currentUserInfoMock.Setup(x => x.GetSessionId()).Returns((Guid?) null);
+        testHelper.CurrentUserInfoMock.Setup(x => x.GetSessionId()).Returns((Guid?) null);
         //
-        var handler = new LogoutCommand.LogoutHandler(context, currentUserInfoMock.Object);
+        var handler = new LogoutCommand.LogoutHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object);
         
         await Assert.ThrowsAsync<ArgumentNullException>(() =>
-            handler.Handle(new LogoutCommand(requestDto), default));
+            handler.Handle(new LogoutCommand(new RequestDto("device")), default));
     }
 }

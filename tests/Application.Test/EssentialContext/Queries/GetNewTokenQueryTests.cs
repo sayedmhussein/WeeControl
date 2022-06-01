@@ -9,7 +9,7 @@ using Xunit;
 
 namespace WeeControl.Application.Test.EssentialContext.Queries;
 
-public class GetNewTokenQueryTests : ApplicationTestsBase
+public class GetNewTokenQueryTests : TestHelper
 {
     private readonly GetNewTokenQuery.GetNewTokenHandler handler;
     

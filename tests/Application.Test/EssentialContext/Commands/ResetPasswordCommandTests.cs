@@ -6,7 +6,6 @@ using Moq;
 using WeeControl.Application.Essential;
 using WeeControl.Application.Essential.Commands;
 using WeeControl.Application.Exceptions;
-using WeeControl.Application.Interfaces;
 using WeeControl.Domain.Essential.Entities;
 using WeeControl.Persistence;
 using WeeControl.SharedKernel.DataTransferObjects.User;

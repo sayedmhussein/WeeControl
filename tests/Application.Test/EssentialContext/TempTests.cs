@@ -9,21 +9,21 @@ using WeeControl.Persistence;
 using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.Services;
 
-namespace WeeControl.Application.Test;
+namespace WeeControl.Application.Test.EssentialContext;
 
 /// <summary>
 /// Do the necessary setups for mocked objects, then create private field of handler.
 /// </summary>
-public abstract class ApplicationTestsBase : IDisposable
+public class TestHelper : IDisposable
 {
-    protected readonly IJwtService JwtService;
-    protected readonly IPasswordSecurity PasswordSecurity;
-    protected IEssentialDbContext EssentialDb;
-    protected Mock<IMediator> MediatorMock;
-    protected Mock<IConfiguration> ConfigurationMock;
-    protected Mock<ICurrentUserInfo> CurrentUserInfoMock;
+    public readonly IJwtService JwtService;
+    public readonly IPasswordSecurity PasswordSecurity;
+    public IEssentialDbContext EssentialDb;
+    public Mock<IMediator> MediatorMock;
+    public Mock<IConfiguration> ConfigurationMock;
+    public Mock<ICurrentUserInfo> CurrentUserInfoMock;
     
-    protected ApplicationTestsBase()
+    public TestHelper()
     {
         JwtService = new JwtService();
         PasswordSecurity = new PasswordSecurity();

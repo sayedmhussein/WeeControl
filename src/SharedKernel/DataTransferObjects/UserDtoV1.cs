@@ -1,6 +1,3 @@
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-
 namespace WeeControl.SharedKernel.DataTransferObjects;
 
 public class UserDtoV1

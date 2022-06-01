@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using MediatR;
 using MediatR.Pipeline;
-using Microsoft.Extensions.Logging;
 using WeeControl.Application.Essential.Notifications;
 using WeeControl.Application.Interfaces;
 
