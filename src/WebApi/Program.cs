@@ -25,7 +25,6 @@ public class Program
         {
             try
             {
-                await DeleteDatabase(scope);
                 await PrepareDatabase(scope);
 
             }
@@ -57,12 +56,5 @@ public class Program
             var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
             await mediator.Send(new SeedEssentialDatabaseCommand());
         }
-    }
-
-    private static async Task DeleteDatabase(IServiceScope scope)
-    {
-        var context = (EssentialDbContext)scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-        if (context.Database.IsRelational())
-            await context.Database.MigrateAsync();
     }
 }

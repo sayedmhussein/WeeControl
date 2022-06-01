@@ -4,6 +4,7 @@
 @inject AdminViewModel ViewModel
 
 <h3>AdminPage</h3>
+<button class="btn btn-primary" @onclick="@ViewModel.GetListOfUsers" disabled="@ViewModel.IsLoading">Load Users</button>
 <div class="dropdown">
     <table class="table table-bordered table-hover">
             <thead>

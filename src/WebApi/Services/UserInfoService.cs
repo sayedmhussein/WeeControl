@@ -32,7 +32,7 @@ public class UserInfoService : ICurrentUserInfo
     {
         if (sessionid != null) return sessionid;
 
-        var session_guid = Claims.FirstOrDefault(c => c.Type == ClaimsTagsList.Claims.Session)?.Value;
+        var session_guid = Claims?.FirstOrDefault(c => c.Type == ClaimsTagsList.Claims.Session)?.Value;
         if (Guid.TryParse(session_guid, out Guid session_string))
         {
             sessionid = session_string;
