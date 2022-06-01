@@ -1,7 +1,9 @@
 using System.Net;
 using System.Net.Http.Json;
+using System.Transactions;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.DataTransferObjects;
+using WeeControl.SharedKernel.RequestsResponses;
 using WeeControl.User.UserApplication.Interfaces;
 
 namespace WeeControl.User.UserApplication.ViewModels.Admin;
@@ -26,11 +28,12 @@ public class AdminViewModel : ViewModelBase
                 RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Admin.User)),
                 Version = new Version("1.0"),
                 Method = HttpMethod.Get
-            }, null);
+            });
 
         if (response.IsSuccessStatusCode)
         {
-            ListOfUsers = await response.Content.ReadFromJsonAsync<IEnumerable<UserDtoV1>>() ?? new List<UserDtoV1>();
+            var content = await response.Content.ReadFromJsonAsync<ResponseDto<IEnumerable<UserDtoV1>>>();
+            ListOfUsers = content?.Payload ?? new List<UserDtoV1>();
             return;
         }
 
@@ -39,6 +42,10 @@ public class AdminViewModel : ViewModelBase
             case HttpStatusCode.Unauthorized:
             case HttpStatusCode.Forbidden:
                 await device.Alert.DisplayAlert("You are not authorized");
+                break;
+            default:
+                await device.Alert.DisplayAlert("Unexpected Error Occured");
+                throw new TransactionException();
                 break;
         }
     }

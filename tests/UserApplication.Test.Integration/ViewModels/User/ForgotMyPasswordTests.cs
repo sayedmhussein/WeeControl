@@ -10,82 +10,101 @@ using Xunit;
 
 namespace WeeControl.User.UserApplication.Test.Integration.ViewModels.User;
 
-public class ForgotMyPasswordTests: IClassFixture<CustomWebApplicationFactory<Startup>>, System.IDisposable
+public class ForgotMyPasswordTests: IClassFixture<CustomWebApplicationFactory<Startup>>
 {
-    private ForgotMyPasswordViewModel vm;
-    private readonly HttpClient httpClient;
-    private DeviceServiceMock deviceMock;
-
-    private readonly UserDbo normalUserDbo = 
-        UserDbo.Create("normal@test.test", "normal", new PasswordSecurity().Hash("normal"),"TST");
-    private readonly UserDbo lockedUserDbo = 
-        UserDbo.Create("locked@test.test", "locked", new PasswordSecurity().Hash("locked"),"TST");
+    private readonly CustomWebApplicationFactory<Startup> factory;
 
     public ForgotMyPasswordTests(CustomWebApplicationFactory<Startup> factory)
     {
-        httpClient = factory.WithWebHostBuilder(builder =>
+        this.factory = factory;
+    }
+
+    [Fact]
+    public async void WhenSuccess()
+    {
+        var httpClient = factory.WithWebHostBuilder(builder =>
         {
-            lockedUserDbo.Suspend("For Test Only");
             builder.ConfigureServices(services =>
             {
                 using var scope = services.BuildServiceProvider().CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-                db.Users.Add(normalUserDbo);
-                db.Users.Add(lockedUserDbo);
+                db.Users.Add(UserDbo.Create(
+                    "email@email.com", 
+                    "username", 
+                    TestHelper<object>.GetEncryptedPassword("password")));
                 db.SaveChanges();
             });
         }).CreateClient();
         
+        using var helper = new TestHelper<ForgotMyPasswordViewModel>(httpClient);
         
-        deviceMock = new DeviceServiceMock(nameof(ForgotMyPasswordTests));
+        helper.ViewModel.Email = "email@email.com";
+        helper.ViewModel.Username = "username";
         
-        var appServiceCollection = new ServiceCollection();
-        appServiceCollection.AddViewModels();
-        appServiceCollection.AddScoped(p => deviceMock.GetObject(httpClient));
-        
-        using var scope = appServiceCollection.BuildServiceProvider().CreateScope();
-        vm = scope.ServiceProvider.GetRequiredService<ForgotMyPasswordViewModel>();
-    }
-    
-    public void Dispose()
-    {
-        deviceMock = null;
-        vm = null;
-    }
-    
-    [Fact]
-    public async void WhenSuccess()
-    {
-        vm.Email = normalUserDbo.Email;
-        vm.Username = normalUserDbo.Username;
-        
-        await vm.RequestPasswordReset();
+        await helper.ViewModel.RequestPasswordReset();
             
-        deviceMock.NavigationMock.Verify(x => 
+        helper.DeviceMock.NavigationMock.Verify(x => 
             x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()), Times.Once);
     }
     
-    [Fact]
-    public async void WhenFail()
+    [Theory]
+    [InlineData("", "")]
+    [InlineData("email@email.com", "")]
+    [InlineData("", "username")]
+    public async void WhenInvalidEmailAndUsernameMatchingOrNotExist(string email, string username)
     {
-        vm.Email = string.Empty;
-        vm.Username = normalUserDbo.Username;
+        var httpClient = factory.WithWebHostBuilder(builder =>
+        {
+            builder.ConfigureServices(services =>
+            {
+                using var scope = services.BuildServiceProvider().CreateScope();
+                var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
+                db.Users.Add(UserDbo.Create(
+                    "email@email.com", 
+                    "username", 
+                    TestHelper<object>.GetEncryptedPassword("password")));
+                db.SaveChanges();
+            });
+        }).CreateClient();
         
-        await vm.RequestPasswordReset();
+        using var helper = new TestHelper<ForgotMyPasswordViewModel>(httpClient);
+        
+        helper.ViewModel.Email = email;
+        helper.ViewModel.Username = username;
+        
+        await helper.ViewModel.RequestPasswordReset();
             
-        deviceMock.NavigationMock.Verify(x => 
+        helper.DeviceMock.NavigationMock.Verify(x => 
             x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()), Times.Never);
     }
 
     [Fact]
     public async void WhenBusinessNotAllow_IsLockedUser()
     {
-        vm.Email = lockedUserDbo.Email;
-        vm.Username = lockedUserDbo.Username;
+        var httpClient = factory.WithWebHostBuilder(builder =>
+        {
+            builder.ConfigureServices(services =>
+            {
+                using var scope = services.BuildServiceProvider().CreateScope();
+                var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
+                var user = UserDbo.Create(
+                    "email@email.com",
+                    "username",
+                    TestHelper<object>.GetEncryptedPassword("password"));
+                user.Suspend("for testing");
+                db.Users.Add(user);
+                db.SaveChanges();
+            });
+        }).CreateClient();
         
-        await vm.RequestPasswordReset();
+        using var helper = new TestHelper<ForgotMyPasswordViewModel>(httpClient);
+        
+        helper.ViewModel.Email = "email@email.com";
+        helper.ViewModel.Username = "username";
+        
+        await helper.ViewModel.RequestPasswordReset();
             
-        deviceMock.NavigationMock.Verify(x => 
+        helper.DeviceMock.NavigationMock.Verify(x => 
             x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()), Times.Never);
     }
 }

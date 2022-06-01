@@ -10,89 +10,61 @@ using Xunit;
 
 namespace WeeControl.User.UserApplication.Test.Integration.ViewModels.User;
 
-public class RegisterTests : IClassFixture<CustomWebApplicationFactory<Startup>>, System.IDisposable
+public class RegisterTests : IClassFixture<CustomWebApplicationFactory<Startup>>
 {
-    private RegisterViewModel vm;
-    private readonly HttpClient httpClient;
-    private DeviceServiceMock deviceMock;
+    private readonly CustomWebApplicationFactory<Startup> factory;
 
-    
-    private readonly UserDbo normalUserDbo = 
-        UserDbo.Create("normal@test.test", "normal", new PasswordSecurity().Hash("normal"),"TST");
-    private readonly UserDbo lockedUserDbo = 
-        UserDbo.Create("locked@test.test", "locked", new PasswordSecurity().Hash("locked"),"TST");
-
-    
     public RegisterTests(CustomWebApplicationFactory<Startup> factory)
     {
-        httpClient = factory.WithWebHostBuilder(builder =>
-        {
-            lockedUserDbo.Suspend("For Test Only");
-            builder.ConfigureServices(services =>
-            {
-                using var scope = services.BuildServiceProvider().CreateScope();
-                var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-                db.Users.Add(normalUserDbo);
-                db.Users.Add(lockedUserDbo);
-                db.SaveChanges();
-            });
-        }).CreateClient();
-        
-        
-        deviceMock = new DeviceServiceMock(nameof(ForgotMyPasswordTests));
-        
-        var appServiceCollection = new ServiceCollection();
-        appServiceCollection.AddViewModels();
-        appServiceCollection.AddScoped(p => deviceMock.GetObject(httpClient));
-        
-        using var scope = appServiceCollection.BuildServiceProvider().CreateScope();
-        vm = scope.ServiceProvider.GetRequiredService<RegisterViewModel>();
-    }
-
-    public void Dispose()
-    {
-        deviceMock = null;
-        vm = null;
+        this.factory = factory;
     }
     
     [Fact]
     public async void WhenSuccess()
     {
-        vm.Email = "email@email.com";
-        vm.Username = "someUsername";
-        vm.Password = "somePassword";
+        using var helper = new TestHelper<RegisterViewModel>(factory.CreateClient());
+        helper.ViewModel.Email = "email@email.com";
+        helper.ViewModel.Username = "someUsername";
+        helper.ViewModel.Password = "somePassword";
         
-        await vm.RegisterAsync();
+        await helper.ViewModel.RegisterAsync();
 
-        deviceMock.NavigationMock.Verify(x => 
+        helper.DeviceMock.NavigationMock.Verify(x => 
             x.NavigateToAsync(Pages.Home.Index, It.IsAny<bool>()), Times.Once);
     }
     
-    [Fact]
-    public async void WhenBusinessNotAllow_DublicateEmail()
+    [Theory]
+    [InlineData("email@email.com", "username")]
+    [InlineData("email@email.com1", "username")]
+    [InlineData("email@email.com", "username1")]
+    public async void WhenBusinessNotAllow_ExistingUser(string email, string username)
     {
-        vm.Email = normalUserDbo.Email;
-        vm.Username = "someUsername";
-        vm.Password = "somePassword";
+        var httpClient = factory.WithWebHostBuilder(builder =>
+        {
+            builder.ConfigureServices(services =>
+            {
+                using var scope = services.BuildServiceProvider().CreateScope();
+                var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
+                var user = UserDbo.Create(
+                    "email@email.com",
+                    "username",
+                    TestHelper<object>.GetEncryptedPassword("password"));
+                db.Users.Add(user);
+                user.Suspend("for testing");
+                db.SaveChanges();
+            });
+        }).CreateClient();
         
-        await vm.RegisterAsync();
-            
-        deviceMock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
-        deviceMock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Home.Index, It.IsAny<bool>()), Times.Never);;
-    }
-    
-    [Fact]
-    public async void WhenBusinessNotAllow_DublicateUsername()
-    {
-        vm.Email = "email@email.com";
-        vm.Username = normalUserDbo.Username;
-        vm.Password = "somePassword";
+        using var helper = new TestHelper<RegisterViewModel>(httpClient);
         
-        await vm.RegisterAsync();
+        helper.ViewModel.Email = email;
+        helper.ViewModel.Username = username;
+        helper.ViewModel.Password = "somePassword";
+        
+        await helper.ViewModel.RegisterAsync();
             
-        deviceMock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
-        deviceMock.NavigationMock.Verify(x => 
+        helper.DeviceMock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
+        helper.DeviceMock.NavigationMock.Verify(x => 
             x.NavigateToAsync(Pages.Home.Index, It.IsAny<bool>()), Times.Never);;
     }
 }

@@ -103,12 +103,6 @@ public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     }
     #endregion
 
-    #region Unauthorized
-
-    
-
-    #endregion
-
     #region BusinessLogic
     [Fact]
     public async void WhenUserIsLocked()

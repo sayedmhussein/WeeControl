@@ -40,7 +40,7 @@ public class AdminController  : Controller
     
     [HttpGet(Api.Essential.Admin.User)]
     [MapToApiVersion("1.0")]
-    [Authorize(Policy = nameof(CanEditUserPolicy))]
+    [Authorize(Policy = "CanEditTerritoriesPolicy")]
     public async Task<ActionResult<ResponseDto<IEnumerable<UserDtoV1>>>> GetListOfUsersV1()
     {
         var command = new GetListOfUsersQuery();

@@ -4,6 +4,7 @@ using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
 using WeeControl.Application.Essential;
 using WeeControl.Domain.Essential.Entities;
+using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.Services;
 using WeeControl.User.UserApplication.Test.Integration.ViewModels.Authorization;
 using WeeControl.User.UserApplication.ViewModels.Admin;
@@ -12,86 +13,64 @@ using Xunit;
 
 namespace WeeControl.User.UserApplication.Test.Integration.ViewModels.Admin;
 
-public class GetListOfUsersTests : IClassFixture<CustomWebApplicationFactory<Startup>>, System.IDisposable
+public class GetListOfUsersTests : IClassFixture<CustomWebApplicationFactory<Startup>>
 {
-    private AdminViewModel vm;
-    private readonly HttpClient httpClient;
-    private DeviceServiceMock deviceMock;
-
-    private readonly UserDbo normalUserDbo = 
-        UserDbo.Create("normal@test.test", "normal", new PasswordSecurity().Hash("normal"),"TST");
-    private readonly UserDbo lockedUserDbo = 
-        UserDbo.Create("locked@test.test", "locked", new PasswordSecurity().Hash("locked"),"TST");
+    private readonly CustomWebApplicationFactory<Startup> factory;
 
     public GetListOfUsersTests(CustomWebApplicationFactory<Startup> factory)
     {
-        httpClient = factory.WithWebHostBuilder(builder =>
+        this.factory = factory;
+    }
+
+    [Fact]
+    public async void WhenSuccess()
+    {
+        var httpClient = factory.WithWebHostBuilder(builder =>
         {
-            lockedUserDbo.Suspend("For Test Only");
             builder.ConfigureServices(services =>
             {
                 using var scope = services.BuildServiceProvider().CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-                db.Users.Add(normalUserDbo);
-                db.Users.Add(lockedUserDbo);
+                var territory = TerritoryDbo.Create("TRR", "TRR", "TRR", "TRR");
+                db.Territories.Add(territory);
+                db.SaveChanges();
+                var user = UserDbo.Create(
+                    "email@email.com",
+                    "username",
+                    TestHelper<object>.GetEncryptedPassword("password"), "TRR");
+                db.Users.Add(user);
                 db.SaveChanges();
 
-                db.Territories.Add(TerritoryDbo.Create("TST", "", "TST", "TST"));
+                var claim = ClaimDbo.Create(user.UserId, ClaimsTagsList.Claims.Administrator,
+                    ClaimsTagsList.Tags.SuperUser, user.UserId);
+                db.Claims.Add(claim);
                 db.SaveChanges();
             });
         }).CreateClient();
         
-        deviceMock = new DeviceServiceMock(nameof(GetListOfUsersTests));
-        
-        var appServiceCollection = new ServiceCollection();
-        appServiceCollection.AddViewModels();
-        appServiceCollection.AddScoped(p => deviceMock.GetObject(httpClient));
-        
-        using var scope = appServiceCollection.BuildServiceProvider().CreateScope();
-        vm = scope.ServiceProvider.GetRequiredService<AdminViewModel>();
-    }
-    
-    public void Dispose()
-    {
-        deviceMock = null;
-        vm = null;
-    }
-    
-    [Fact]
-    public async void WhenSuccess()
-    {
-        var token = await LoginTests.GetNewToken(httpClient, normalUserDbo.Username, "normal", nameof(GetListOfUsersTests));
-        deviceMock.InjectTokenToMock(token);
+        using var helper = new TestHelper<AdminViewModel>(httpClient);
+        await helper.Authorize("username", "password");
 
-        await vm.GetListOfUsers();
+        await helper.ViewModel.GetListOfUsers();
 
-        Assert.Equal(2, vm.ListOfUsers.Count());
+        Assert.Equal(2, helper.ViewModel.ListOfUsers.Count());
     }
     
     [Fact]
     public async void WhenSuccessNotFullList()
     {
-        var token = await LoginTests.GetNewToken(httpClient, normalUserDbo.Username, "normal", nameof(GetListOfUsersTests));
-        deviceMock.InjectTokenToMock(token);
-
         throw new NotImplementedException();
     }
     
     [Fact]
     public async void WhenNotLoggedIn()
     {
-        var token = await LoginTests.GetNewToken(httpClient, normalUserDbo.Username, "normal", nameof(GetListOfUsersTests));
-        deviceMock.InjectTokenToMock(token);
-
         throw new NotImplementedException();
     }
     
     [Fact]
     public async void WhenNotAdminUser()
     {
-        var token = await LoginTests.GetNewToken(httpClient, normalUserDbo.Username, "normal", nameof(GetListOfUsersTests));
-        deviceMock.InjectTokenToMock(token);
-
         throw new NotImplementedException();
     }
 }

@@ -48,10 +48,12 @@ public class TestHelper<T> : IDisposable
         helper.ViewModel.UsernameOrEmail = username;
         helper.ViewModel.Password = password;
 
-        helper.DeviceMock.SecurityMock.Setup(x => x.UpdateTokenAsync(It.IsAny<string>()))
-            .Callback((string tkn) => DeviceMock.InjectTokenToMock(tkn));
+        // helper.DeviceMock.SecurityMock.Setup(x => x.UpdateTokenAsync(It.IsAny<string>()))
+        //     .Callback((string tkn) => DeviceMock.InjectTokenToMock(tkn));
         
         await helper.ViewModel.LoginAsync();
+        
+        DeviceMock.InjectTokenToMock(await helper.Device.Security.GetTokenAsync());
     }
 
     public static string GetEncryptedPassword(string password)
@@ -70,7 +72,7 @@ public class TestForTestClass : IClassFixture<CustomWebApplicationFactory<Startu
     }
     
     [Fact]
-    public async void TestLoginWhenFailure()
+    public async void TestLoginWhenSuccess()
     {
         var httpClient = factory.WithWebHostBuilder(builder =>
         {
@@ -95,7 +97,7 @@ public class TestForTestClass : IClassFixture<CustomWebApplicationFactory<Startu
     }
     
     [Fact]
-    public async void TestLoginWhenSuccess()
+    public async void TestLoginWhenFailure()
     {
         var httpClient = factory.WithWebHostBuilder(builder =>
         {

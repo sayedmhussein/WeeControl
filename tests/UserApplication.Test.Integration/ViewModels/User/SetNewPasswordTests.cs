@@ -11,90 +11,136 @@ using Xunit;
 
 namespace WeeControl.User.UserApplication.Test.Integration.ViewModels.User;
 
-public class SetNewPasswordTests : IClassFixture<CustomWebApplicationFactory<Startup>>, System.IDisposable
+public class SetNewPasswordTests : IClassFixture<CustomWebApplicationFactory<Startup>>
 {
-    private SetNewPasswordViewModel vm;
-    private readonly HttpClient httpClient;
-    private DeviceServiceMock deviceMock;
+    private readonly CustomWebApplicationFactory<Startup> factory;
 
-    private readonly UserDbo normalUserDbo = 
-        UserDbo.Create("normal@test.test", "normal", new PasswordSecurity().Hash("normal"),"TST");
-    private readonly UserDbo lockedUserDbo = 
-        UserDbo.Create("locked@test.test", "locked", new PasswordSecurity().Hash("locked"),"TST");
-
-    
     public SetNewPasswordTests(CustomWebApplicationFactory<Startup> factory)
     {
-        httpClient = factory.WithWebHostBuilder(builder =>
+        this.factory = factory;
+    }
+
+    [Fact]
+    public async void WhenSuccess()
+    {
+        var httpClient = factory.WithWebHostBuilder(builder =>
         {
-            lockedUserDbo.Suspend("For Test Only");
             builder.ConfigureServices(services =>
             {
                 using var scope = services.BuildServiceProvider().CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-                db.Users.Add(normalUserDbo);
-                db.Users.Add(lockedUserDbo);
+                db.Users.Add(UserDbo.Create(
+                    "email@email.com", 
+                    "username", 
+                    TestHelper<object>.GetEncryptedPassword("password")));
                 db.SaveChanges();
             });
         }).CreateClient();
         
-        deviceMock = new DeviceServiceMock(nameof(SetNewPasswordTests));
-        
-        var appServiceCollection = new ServiceCollection();
-        appServiceCollection.AddViewModels();
-        appServiceCollection.AddScoped(p => deviceMock.GetObject(httpClient));
-        
-        using var scope = appServiceCollection.BuildServiceProvider().CreateScope();
-        vm = scope.ServiceProvider.GetRequiredService<SetNewPasswordViewModel>();
-    }
-    
-    public void Dispose()
-    {
-        deviceMock = null;
-        vm = null;
-    }
-    
-    [Fact]
-    public async void WhenSuccess()
-    {
-        var token = await LoginTests.GetNewToken(httpClient, 
-            normalUserDbo.Username, 
-            "normal", nameof(SetNewPasswordTests));
-        deviceMock.InjectTokenToMock(token);
+        using var helper = new TestHelper<SetNewPasswordViewModel>(httpClient);
+        await helper.Authorize("username", "password");
 
-        vm.OldPassword = "normal";
-        vm.NewPassword = "someNewPassword";
-        vm.ConfirmNewPassword = "someNewPassword";
+        helper.ViewModel.OldPassword = "password";
+        helper.ViewModel.NewPassword = "someNewPassword";
+        helper.ViewModel.ConfirmNewPassword = "someNewPassword";
 
-        await vm.ChangeMyPassword();
+        await helper.ViewModel.ChangeMyPassword();
             
-        deviceMock.NavigationMock.Verify(x => 
+        helper.DeviceMock.NavigationMock.Verify(x => 
             x.NavigateToAsync(Pages.Home.Index, It.IsAny<bool>()), Times.Once);
     }
     
     [Fact]
     public async void WhenUnauthorized()
     {
-        vm.OldPassword = "normal";
-        vm.NewPassword = "someNewPassword";
-        vm.ConfirmNewPassword = "someNewPassword";
+        var httpClient = factory.WithWebHostBuilder(builder =>
+        {
+            builder.ConfigureServices(services =>
+            {
+                using var scope = services.BuildServiceProvider().CreateScope();
+                var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
+                db.Users.Add(UserDbo.Create(
+                    "email@email.com", 
+                    "username", 
+                    TestHelper<object>.GetEncryptedPassword("password")));
+                db.SaveChanges();
+            });
+        }).CreateClient();
+        
+        using var helper = new TestHelper<SetNewPasswordViewModel>(httpClient);
 
-        await vm.ChangeMyPassword();
+        helper.ViewModel.OldPassword = "password";
+        helper.ViewModel.NewPassword = "someNewPassword";
+        helper.ViewModel.ConfirmNewPassword = "someNewPassword";
+
+        await helper.ViewModel.ChangeMyPassword();
             
-        deviceMock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
-        deviceMock.NavigationMock.Verify(x => 
+        helper.DeviceMock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
+        helper.DeviceMock.NavigationMock.Verify(x => 
             x.NavigateToAsync(Pages.Home.Index, It.IsAny<bool>()), Times.Never);
     }
     
     [Fact]
-    public async void WhenBusinessNotAllow_Locked()
+    public async void WhenBusinessNotAllow_InvalidPassword()
     {
-        var token = await LoginTests.GetNewToken(httpClient, 
-            lockedUserDbo.Username, 
-            "locked", nameof(SetNewPasswordTests));
+        var httpClient = factory.WithWebHostBuilder(builder =>
+        {
+            builder.ConfigureServices(services =>
+            {
+                using var scope = services.BuildServiceProvider().CreateScope();
+                var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
+                db.Users.Add(UserDbo.Create(
+                    "email@email.com", 
+                    "username", 
+                    TestHelper<object>.GetEncryptedPassword("password")));
+                db.SaveChanges();
+            });
+        }).CreateClient();
         
-        Assert.Empty(token);
+        using var helper = new TestHelper<SetNewPasswordViewModel>(httpClient);
+        await helper.Authorize("username", "password");
+
+        helper.ViewModel.OldPassword = "invalid password";
+        helper.ViewModel.NewPassword = "someNewPassword";
+        helper.ViewModel.ConfirmNewPassword = "someNewPassword";
+
+        await helper.ViewModel.ChangeMyPassword();
+            
+        helper.DeviceMock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
+        helper.DeviceMock.NavigationMock.Verify(x => 
+            x.NavigateToAsync(Pages.Home.Index, It.IsAny<bool>()), Times.Never);
     }
 
-    
+    [Fact]
+    public async void WhenUserIsLocked()
+    {
+        var httpClient = factory.WithWebHostBuilder(builder =>
+        {
+            builder.ConfigureServices(services =>
+            {
+                using var scope = services.BuildServiceProvider().CreateScope();
+                var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
+                var user = UserDbo.Create(
+                    "email@email.com",
+                    "username",
+                    TestHelper<object>.GetEncryptedPassword("password"));
+                user.Suspend("This is for testing only");
+                db.Users.Add(user);
+                db.SaveChanges();
+            });
+        }).CreateClient();
+        
+        using var helper = new TestHelper<SetNewPasswordViewModel>(httpClient);
+        await helper.Authorize("username", "password");
+
+        helper.ViewModel.OldPassword = "password";
+        helper.ViewModel.NewPassword = "someNewPassword";
+        helper.ViewModel.ConfirmNewPassword = "someNewPassword";
+
+        await helper.ViewModel.ChangeMyPassword();
+            
+        helper.DeviceMock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
+        helper.DeviceMock.NavigationMock.Verify(x => 
+            x.NavigateToAsync(Pages.Home.Index, It.IsAny<bool>()), Times.Never);
+    }
 }
