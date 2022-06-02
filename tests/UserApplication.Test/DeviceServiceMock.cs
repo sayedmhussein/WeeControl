@@ -99,25 +99,7 @@ public class DeviceServiceMock
 
         return GetObject(client);
     }
-    
-    [Obsolete("Use overloaded function with list of tuples.")]
-    public IDevice GetObject<T>(HttpStatusCode statusCode, T dataTransferObject)
-    {
-        var content1 = new StringContent(JsonConvert.SerializeObject(dataTransferObject), Encoding.UTF8, "application/json");
-        var content2 = new StringContent(JsonConvert.SerializeObject(dataTransferObject), Encoding.UTF8, "application/json");
 
-        var sequenceResponse = new List<Tuple<HttpStatusCode, HttpContent>>
-        {
-            new Tuple<HttpStatusCode, HttpContent>(statusCode, content1),
-            new Tuple<HttpStatusCode, HttpContent>(statusCode, content2)
-        };
-        
-        
-        var client = GetHttpClientWithHttpMessageHandlerSequenceResponseMock(sequenceResponse);
-
-        return GetObject(client);
-    }
-    
     public void InjectTokenToMock(string tkn)
     {
         SecurityMock.SetupSequence(x => x.IsAuthenticatedAsync()).ReturnsAsync(!string.IsNullOrEmpty(tkn));

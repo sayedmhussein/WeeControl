@@ -14,39 +14,26 @@ using WeeControl.SharedKernel.RequestsResponses;
 using WeeControl.SharedKernel.Services;
 using Xunit;
 
-namespace WeeControl.Application.Test.EssentialContext.Commands;
+namespace WeeControl.Application.Test.Essential.Commands;
 
-public class ResetPasswordCommandTests : IDisposable
+public class ResetPasswordCommandTests
 {
-    private IEssentialDbContext context;
-    private readonly IPasswordSecurity passwordSecurity;
-
-    public ResetPasswordCommandTests()
-    {
-        context = new ServiceCollection().AddPersistenceAsInMemory(nameof(ResetPasswordCommandTests)).BuildServiceProvider().GetService<IEssentialDbContext>();
-        passwordSecurity = new PasswordSecurity();
-    }
-    
-    public void Dispose()
-    {
-        context = null;
-    }
-
     [Fact]
     public async void WhenSuccessfullOrOk()
     {
-        var pasword = passwordSecurity.Hash("password");
+        using var testHelper = new TestHelper();
+        var pasword = testHelper.PasswordSecurity.Hash("password");
         var user = UserDbo.Create("email@email.com", "username", pasword);
-        await context.Users.AddAsync(user);
-        await context.SaveChangesAsync(default);
+        await testHelper.EssentialDb.Users.AddAsync(user);
+        await testHelper.EssentialDb.SaveChangesAsync(default);
         
-        var handler = new ForgotMyPasswordCommand.ForgotMyPasswordHandler(context, new Mock<IMediator>().Object, passwordSecurity);
+        var handler = new ForgotMyPasswordCommand.ForgotMyPasswordHandler(testHelper.EssentialDb, new Mock<IMediator>().Object, testHelper.PasswordSecurity);
 
         await handler.Handle(new ForgotMyPasswordCommand(
             new RequestDto<ForgotMyPasswordDtoV1>("device", 
                 ForgotMyPasswordDtoV1.Create(user.Email, user.Username), null, null)), default);
 
-        var newPass = context.Users.FirstOrDefault(x => x.Username == user.Username)?.TempPassword;
+        var newPass = testHelper.EssentialDb.Users.FirstOrDefault(x => x.Username == user.Username)?.TempPassword;
         
         Assert.NotNull(newPass);
         Assert.NotEmpty(newPass);
@@ -56,11 +43,12 @@ public class ResetPasswordCommandTests : IDisposable
     [Fact]
     public async void WhenBadRequest()
     {
-        var pasword = passwordSecurity.Hash("password");
+        using var testHelper = new TestHelper();
+        var pasword = testHelper.PasswordSecurity.Hash("password");
         var user = UserDbo.Create("email@email.com", "username", pasword);
-        await context.Users.AddAsync(user);
-        await context.SaveChangesAsync(default);
-        var handler = new ForgotMyPasswordCommand.ForgotMyPasswordHandler(context, new Mock<IMediator>().Object, passwordSecurity);
+        await testHelper.EssentialDb.Users.AddAsync(user);
+        await testHelper.EssentialDb.SaveChangesAsync(default);
+        var handler = new ForgotMyPasswordCommand.ForgotMyPasswordHandler(testHelper.EssentialDb, new Mock<IMediator>().Object, testHelper.PasswordSecurity);
 
         var command = new ForgotMyPasswordCommand(
             new RequestDto<ForgotMyPasswordDtoV1>(string.Empty,
@@ -76,7 +64,8 @@ public class ResetPasswordCommandTests : IDisposable
     [InlineData("", "username")]
     public async void WhenInvalidCommandParameters(string email, string username)
     {
-        var handler = new ForgotMyPasswordCommand.ForgotMyPasswordHandler(context, new Mock<IMediator>().Object, passwordSecurity);
+        using var testHelper = new TestHelper();
+        var handler = new ForgotMyPasswordCommand.ForgotMyPasswordHandler(testHelper.EssentialDb, new Mock<IMediator>().Object, testHelper.PasswordSecurity);
         var command = new ForgotMyPasswordCommand(
             new RequestDto<ForgotMyPasswordDtoV1>("device",
                 ForgotMyPasswordDtoV1.Create(email, username), null, null));
@@ -84,6 +73,4 @@ public class ResetPasswordCommandTests : IDisposable
         await Assert.ThrowsAsync<BadRequestException>(() =>
             handler.Handle(command, default));
     }
-    
-    
 }

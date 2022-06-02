@@ -4,22 +4,21 @@ using WeeControl.User.UserApplication.ViewModels.User;
 
 namespace WeeControl.User.UserApplication.Test.ViewModels.User;
 
-public class ForgotMyPasswordViewModelTests
+public class ForgotMyPasswordViewModelTests : ViewModelTestsBase
 {
-    private DeviceServiceMock mock;
-
-    public ForgotMyPasswordViewModelTests()
+    public ForgotMyPasswordViewModelTests() : base(nameof(ForgotMyPasswordViewModel))
     {
-        mock = new DeviceServiceMock(nameof(ForgotMyPasswordViewModelTests));
     }
 
     [Fact]
-    public async void WhenSuccessAndOK()
+    public async void WhenSuccessAndOk()
     {
-        var vm = new ForgotMyPasswordViewModel(mock.GetObject<ResponseDto>(HttpStatusCode.OK, null!));
-        vm.Email = "email@email.com";
-        vm.Username = "username";
-        
+        var vm = new ForgotMyPasswordViewModel(mock.GetObject(HttpStatusCode.OK, null!))
+        {
+            Email = "email@email.com",
+            Username = "username"
+        };
+
         await vm.RequestPasswordReset();
 
         mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()));
@@ -28,10 +27,12 @@ public class ForgotMyPasswordViewModelTests
     [Fact]
     public async void WhenBadRequest()
     {
-        var vm = new ForgotMyPasswordViewModel(mock.GetObject<ResponseDto>(HttpStatusCode.BadRequest, null!));
-        vm.Email = "email@email.com";
-        vm.Username = "username";
-        
+        var vm = new ForgotMyPasswordViewModel(mock.GetObject(HttpStatusCode.BadRequest, null!))
+        {
+            Email = "email@email.com",
+            Username = "username"
+        };
+
         await vm.RequestPasswordReset();
         
         mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()), Times.Never);
@@ -40,10 +41,12 @@ public class ForgotMyPasswordViewModelTests
     [Fact]
     public async void ServerCommunication()
     {
-        var vm = new ForgotMyPasswordViewModel(mock.GetObject<ResponseDto>(HttpStatusCode.BadGateway, null!));
-        vm.Email = "email@email.com";
-        vm.Username = "username";
-        
+        var vm = new ForgotMyPasswordViewModel(mock.GetObject(HttpStatusCode.BadGateway, null!))
+        {
+            Email = "email@email.com",
+            Username = "username"
+        };
+
         await vm.RequestPasswordReset();
         
         mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()), Times.Never);
@@ -51,12 +54,17 @@ public class ForgotMyPasswordViewModelTests
     
     [Theory]
     [InlineData("", "")]
+    [InlineData("   ", "       ")]
+    [InlineData("email@email.com", "")]
+    [InlineData("", "username")]
     public async void WhenInvalidProperties(string email, string username)
     {
-        var vm = new ForgotMyPasswordViewModel(mock.GetObject<ResponseDto>(HttpStatusCode.BadGateway, null!));
-        vm.Email = email;
-        vm.Username = username;
-        
+        var vm = new ForgotMyPasswordViewModel(mock.GetObject(HttpStatusCode.OK, null!))
+        {
+            Email = email,
+            Username = username
+        };
+
         await vm.RequestPasswordReset();
         
         mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()), Times.Never);

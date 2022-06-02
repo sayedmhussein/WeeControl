@@ -6,7 +6,7 @@ using WeeControl.Domain.Essential.Entities;
 using WeeControl.SharedKernel.RequestsResponses;
 using Xunit;
 
-namespace WeeControl.Application.Test.EssentialContext.Commands;
+namespace WeeControl.Application.Test.Essential.Commands;
 
 public class LogoutEmployeeCommand1Tests
 {

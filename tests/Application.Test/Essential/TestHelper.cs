@@ -9,7 +9,7 @@ using WeeControl.Persistence;
 using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.Services;
 
-namespace WeeControl.Application.Test.EssentialContext;
+namespace WeeControl.Application.Test.Essential;
 
 /// <summary>
 /// Do the necessary setups for mocked objects, then create private field of handler.

@@ -28,6 +28,12 @@ public class ForgotMyPasswordViewModel : ViewModelBase
 
     public async Task RequestPasswordReset()
     {
+        if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Username))
+        {
+            await device.Alert.DisplayAlert("You didn't entered proper data");
+            return;
+        }
+        
         IsLoading = true;
         await ProcessPasswordReset(ForgotMyPasswordDtoV1.Create(Email, Username));
         IsLoading = false;

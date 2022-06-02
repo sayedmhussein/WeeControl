@@ -101,8 +101,8 @@ public class LoginViewModelTests : ViewModelTestsBase
     [InlineData("   ", "    ")]
     public async void WhenEmptyProperties_DisplayAlertOnly(string username, string password)
     {
-        var vm = new LoginViewModel(mock.GetObject(HttpStatusCode.OK,
-            new ResponseDto<TokenDtoV1>(TokenDtoV1.Create("token", "name", "url"))))
+        var content = GetJsonContent(new ResponseDto<TokenDtoV1>(TokenDtoV1.Create("token", "name", "url")));
+        var vm = new LoginViewModel(mock.GetObject(HttpStatusCode.OK,content))
         {
             UsernameOrEmail = username,
             Password = password

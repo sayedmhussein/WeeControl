@@ -4,23 +4,17 @@ using WeeControl.User.UserApplication.ViewModels.Authentication;
 
 namespace WeeControl.User.UserApplication.Test.ViewModels.Authorization;
 
-public class LogoutViewModelTests
+public class LogoutViewModelTests : ViewModelTestsBase
 {
-    #region Preparation
-    private DeviceServiceMock mock;
-    
-    public LogoutViewModelTests()
+    public LogoutViewModelTests(): base(nameof(LogoutViewModel))
     {
-        mock = new DeviceServiceMock(nameof(LogoutViewModelTests));
     }
-    #endregion
 
-    #region Success
 
     [Fact]
-    public async void WhenNotFound()
+    public async void WhenNotFound_OrSuccess()
     {
-        var vm = new LogoutViewModel(mock.GetObject<ResponseDto>(HttpStatusCode.NotFound, null!));
+        var vm = new LogoutViewModel(mock.GetObject(HttpStatusCode.NotFound, null!));
 
         await vm.LogoutAsync();
         
@@ -31,7 +25,7 @@ public class LogoutViewModelTests
     [Fact]
     public async void WhenBadRequest()
     {
-        var vm = new LogoutViewModel(mock.GetObject<ResponseDto>(HttpStatusCode.BadRequest, null!));
+        var vm = new LogoutViewModel(mock.GetObject(HttpStatusCode.BadRequest, null!));
 
         await vm.LogoutAsync();
         
@@ -42,16 +36,14 @@ public class LogoutViewModelTests
     [Fact]
     public async void WhenUnauthorized()
     {
-        var vm = new LogoutViewModel(mock.GetObject<ResponseDto>(HttpStatusCode.Unauthorized, null!));
+        var vm = new LogoutViewModel(mock.GetObject(HttpStatusCode.Unauthorized, null!));
 
         await vm.LogoutAsync();
         
         mock.SecurityMock.Verify(x => x.DeleteTokenAsync());
         mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()));
     }
-    #endregion
-
-    #region CommunicationFailure
+    
     [Fact]
     public async void ServerFailure()
     {
@@ -62,14 +54,4 @@ public class LogoutViewModelTests
         mock.SecurityMock.Verify(x => x.DeleteTokenAsync());
         mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()));
     }
-    #endregion
-
-    #region InvalidProperties
-    #endregion
-
-    #region InvalidCommands
-    #endregion
-
-    #region HttpCodes
-    #endregion
 }

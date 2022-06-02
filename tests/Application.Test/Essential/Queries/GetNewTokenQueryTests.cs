@@ -7,7 +7,7 @@ using WeeControl.SharedKernel.DataTransferObjects.Authentication;
 using WeeControl.SharedKernel.RequestsResponses;
 using Xunit;
 
-namespace WeeControl.Application.Test.EssentialContext.Queries;
+namespace WeeControl.Application.Test.Essential.Queries;
 
 public class GetNewTokenQueryTests : TestHelper
 {

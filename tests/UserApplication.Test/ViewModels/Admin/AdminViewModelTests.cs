@@ -1,22 +1,21 @@
 using System.Net;
+using WeeControl.SharedKernel.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
 using WeeControl.User.UserApplication.ViewModels.Admin;
 
 namespace WeeControl.User.UserApplication.Test.ViewModels.Admin;
 
-public class AdminViewModelTests
+public class AdminViewModelTests : ViewModelTestsBase
 {
-    private DeviceServiceMock mock;
-
-    public AdminViewModelTests()
+    public AdminViewModelTests() : base(nameof(AdminViewModel))
     {
-        mock = new DeviceServiceMock(nameof(AdminViewModelTests));
     }
 
     [Fact]
     public async void WhenSuccess()
     {
-        var vm = new AdminViewModel(mock.GetObject<ResponseDto>(HttpStatusCode.OK, null!));
+        var content = GetJsonContent(new ResponseDto<IEnumerable<UserDtoV1>>(new List<UserDtoV1>()));
+        var vm = new AdminViewModel(mock.GetObject(HttpStatusCode.OK, content));
 
         await vm.GetListOfUsers();
     }
@@ -26,7 +25,7 @@ public class AdminViewModelTests
     [InlineData(HttpStatusCode.Forbidden)]
     public async void WhenUnauthorizedOrForbidden(HttpStatusCode code)
     {
-        var vm = new AdminViewModel(mock.GetObject<ResponseDto>(code, null!));
+        var vm = new AdminViewModel(mock.GetObject(code, null));
 
         await vm.GetListOfUsers();
         

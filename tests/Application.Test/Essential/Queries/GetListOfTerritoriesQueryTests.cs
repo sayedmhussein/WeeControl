@@ -10,36 +10,22 @@ using WeeControl.Domain.Essential.Entities;
 using WeeControl.Persistence;
 using Xunit;
 
-namespace WeeControl.Application.Test.EssentialContext.Queries;
+namespace WeeControl.Application.Test.Essential.Queries;
 
-public class GetListOfTerritoriesQueryTests : IDisposable
+public class GetListOfTerritoriesQueryTests
 {
-    private Mock<ICurrentUserInfo> currentUserInfoMock;
-    private IEssentialDbContext context;
-    
-    public GetListOfTerritoriesQueryTests()
-    {
-        currentUserInfoMock = new Mock<ICurrentUserInfo>();
-        context = new ServiceCollection().AddPersistenceAsInMemory().BuildServiceProvider().GetService<IEssentialDbContext>();
-    }
-
-    public void Dispose()
-    {
-        currentUserInfoMock = null;
-        context = null;
-    }
-
     [Fact]
     public async void WhenQueringWithNullArgument_ReturnAllTerritoreis()
     {
-        await context.Territories.AddRangeAsync(new List<TerritoryDbo>()
+        using var testHelper = new TestHelper();
+        await testHelper.EssentialDb.Territories.AddRangeAsync(new List<TerritoryDbo>()
         {
             TerritoryDbo.Create("coa", null, "ccc", "name"),
             TerritoryDbo.Create("cob", "coa", "ccc", "name"), 
             TerritoryDbo.Create("coc", "cob", "ccc", "name")
         });
-        await context.SaveChangesAsync(default);
-        var handler = new GetListOfTerritoriesQuery.GetListOfTerritoriesHandler(context, currentUserInfoMock.Object);
+        await testHelper.EssentialDb.SaveChangesAsync(default);
+        var handler = new GetListOfTerritoriesQuery.GetListOfTerritoriesHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object);
 
         var list = await handler.Handle(new GetListOfTerritoriesQuery(), default);
         
@@ -49,14 +35,15 @@ public class GetListOfTerritoriesQueryTests : IDisposable
     [Fact]
     public async void WhenQueringWithInvalidCode_ReturnEmpty()
     {
-        await context.Territories.AddRangeAsync(new List<TerritoryDbo>()
+        using var testHelper = new TestHelper();
+        await testHelper.EssentialDb.Territories.AddRangeAsync(new List<TerritoryDbo>()
         {
             TerritoryDbo.Create("coa", null, "ccc", "name"),
             TerritoryDbo.Create("cob", "coa", "ccc", "name"), 
             TerritoryDbo.Create("coc", "cob", "ccc", "name")
         });
-        await context.SaveChangesAsync(default);
-        var handler = new GetListOfTerritoriesQuery.GetListOfTerritoriesHandler(context, currentUserInfoMock.Object);
+        await testHelper.EssentialDb.SaveChangesAsync(default);
+        var handler = new GetListOfTerritoriesQuery.GetListOfTerritoriesHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object);
 
         var list = await handler.Handle(new GetListOfTerritoriesQuery("coz"), default);
         
@@ -66,14 +53,15 @@ public class GetListOfTerritoriesQueryTests : IDisposable
     [Fact]
     public async void WhenQueringWithChild_ReturnAllTerritoreisUntilChild()
     {
-        await context.Territories.AddRangeAsync(new List<TerritoryDbo>()
+        using var testHelper = new TestHelper();
+        await testHelper.EssentialDb.Territories.AddRangeAsync(new List<TerritoryDbo>()
         {
             TerritoryDbo.Create("coa", null, "ccc", "name"),
             TerritoryDbo.Create("cob", "coa", "ccc", "name"), 
             TerritoryDbo.Create("coc", "cob", "ccc", "name")
         });
-        await context.SaveChangesAsync(default);
-        var handler = new GetListOfTerritoriesQuery.GetListOfTerritoriesHandler(context, currentUserInfoMock.Object);
+        await testHelper.EssentialDb.SaveChangesAsync(default);
+        var handler = new GetListOfTerritoriesQuery.GetListOfTerritoriesHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object);
 
         var list = await handler.Handle(new GetListOfTerritoriesQuery("cob"), default);
         
@@ -83,7 +71,8 @@ public class GetListOfTerritoriesQueryTests : IDisposable
     [Fact]
     public async void WhenQueringWithChild_ReturnAllTerritoreisUntilChild2()
     {
-        await context.Territories.AddRangeAsync(new List<TerritoryDbo>()
+        using var testHelper = new TestHelper();
+        await testHelper.EssentialDb.Territories.AddRangeAsync(new List<TerritoryDbo>()
         {
             TerritoryDbo.Create("coa", null, "ccc", "name"),
             TerritoryDbo.Create("cob", "coa", "ccc", "name"), 
@@ -92,8 +81,8 @@ public class GetListOfTerritoriesQueryTests : IDisposable
             TerritoryDbo.Create("coe", null, "ccc", "name"), 
             TerritoryDbo.Create("cof", "cod", "ccc", "name")
         });
-        await context.SaveChangesAsync(default);
-        var handler = new GetListOfTerritoriesQuery.GetListOfTerritoriesHandler(context, currentUserInfoMock.Object);
+        await testHelper.EssentialDb.SaveChangesAsync(default);
+        var handler = new GetListOfTerritoriesQuery.GetListOfTerritoriesHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object);
 
         var list = await handler.Handle(new GetListOfTerritoriesQuery("coc"), default);
         
@@ -103,7 +92,8 @@ public class GetListOfTerritoriesQueryTests : IDisposable
     [Fact]
     public async void WhenQueringWithChild_ReturnAllTerritoreisUntilChild3()
     {
-        await context.Territories.AddRangeAsync(new List<TerritoryDbo>()
+        using var testHelper = new TestHelper();
+        await testHelper.EssentialDb.Territories.AddRangeAsync(new List<TerritoryDbo>()
         {
             TerritoryDbo.Create("coa", null, "ccc", "name"),
             TerritoryDbo.Create("cob", "coa", "ccc", "name"), 
@@ -113,8 +103,8 @@ public class GetListOfTerritoriesQueryTests : IDisposable
             TerritoryDbo.Create("cof", "cod", "ccc", "name"),
             TerritoryDbo.Create("cog", "coe", "ccc", "name")
         });
-        await context.SaveChangesAsync(default);
-        var handler = new GetListOfTerritoriesQuery.GetListOfTerritoriesHandler(context, currentUserInfoMock.Object);
+        await testHelper.EssentialDb.SaveChangesAsync(default);
+        var handler = new GetListOfTerritoriesQuery.GetListOfTerritoriesHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object);
 
         var l = new List<string>() { "coc", "cog" };
         var list = await handler.Handle(new GetListOfTerritoriesQuery(l), default);
