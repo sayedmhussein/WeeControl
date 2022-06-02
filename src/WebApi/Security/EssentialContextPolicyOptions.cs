@@ -9,13 +9,11 @@ namespace WeeControl.WebApi.Security;
 
 internal static class EssentialContextPolicyOptions
 {
-    internal static IServiceCollection AddUserSecurityServiceForServer(this IServiceCollection services)
+    internal static IServiceCollection AddUserSecurityService(this IServiceCollection services)
     {
-        services.AddSingleton<IPasswordSecurity, PasswordSecurity>();
-        
-        services.AddSingleton<IAuthorizationHandler, TokenRefreshmentHandler>();
-
         services.AddSingleton<IJwtService, JwtService>();
+        services.AddSingleton<IPasswordSecurity, PasswordSecurity>();
+        services.AddSingleton<IAuthorizationHandler, TokenRefreshmentHandler>();
 
         services.AddAuthorizationCore(options =>
         {
@@ -32,7 +30,7 @@ internal static class EssentialContextPolicyOptions
     {
         options.AddPolicy(DeveloperWithDatabaseOperationPolicy.Name, new DeveloperWithDatabaseOperationPolicy().GetPolicy());
         
-        options.AddPolicy(nameof(CanEditTerritoriesPolicy), new CanEditUserPolicy().GetPolicy());
+        options.AddPolicy(nameof(CanEditUserPolicy), new CanEditUserPolicy().GetPolicy());
         options.AddPolicy(CanEditTerritoriesPolicy.Name, new CanEditTerritoriesPolicy().GetPolicy());
     }
 }

@@ -40,8 +40,19 @@ public class PasswordResetNotification : INotification
             }
 
             var message = GetMessage(user.Email, notif.newPassword);
-            await notification.SendAsync(message);
-            Console.WriteLine("New Password is: {0}", notif.newPassword);
+            Console.WriteLine("From: {0}", message.From);
+            Console.WriteLine("To: {0}", message.To);
+            Console.WriteLine("Subject: {0}", message.Subject);
+            Console.WriteLine("Body: {0}", message.Body);
+            try
+            {
+                await notification.SendAsync(message);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Notification Service isn't available now!");
+                Console.WriteLine(e);
+            }
         }
     }
     

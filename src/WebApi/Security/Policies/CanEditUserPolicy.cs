@@ -6,6 +6,6 @@ internal class CanEditUserPolicy : PolicyBuilderBase
 {
     public CanEditUserPolicy()
     {
-        Builder.RequireClaim(ClaimsTagsList.Claims.Developer);
+        Builder.RequireClaim(ClaimsTagsList.Claims.Administrator);
     }
 }

@@ -37,7 +37,7 @@ public class Startup
 
         services.AddHttpContextAccessor();
 
-        services.AddUserSecurityServiceForServer();
+        services.AddUserSecurityService();
         services.AddApplication();
         services.AddInfrastructure(Configuration);
         
