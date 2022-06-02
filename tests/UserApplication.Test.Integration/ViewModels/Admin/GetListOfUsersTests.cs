@@ -49,7 +49,7 @@ public class GetListOfUsersTests : IClassFixture<CustomWebApplicationFactory<Sta
             });
         }).CreateClient();
         
-        using var helper = new TestHelper<AdminViewModel>(httpClient);
+        using var helper = new TestHelper<AdminListOfUsersViewModel>(httpClient);
         await helper.Authorize("username", "password");
 
         await helper.ViewModel.GetListOfUsers();
@@ -86,7 +86,7 @@ public class GetListOfUsersTests : IClassFixture<CustomWebApplicationFactory<Sta
             });
         }).CreateClient();
         
-        using var helper = new TestHelper<AdminViewModel>(httpClient);
+        using var helper = new TestHelper<AdminListOfUsersViewModel>(httpClient);
         await helper.Authorize("username", "password");
 
         await helper.ViewModel.GetListOfUsers();
@@ -121,7 +121,7 @@ public class GetListOfUsersTests : IClassFixture<CustomWebApplicationFactory<Sta
             });
         }).CreateClient();
         
-        using var helper = new TestHelper<AdminViewModel>(httpClient);
+        using var helper = new TestHelper<AdminListOfUsersViewModel>(httpClient);
 
         await helper.ViewModel.GetListOfUsers();
 
@@ -155,7 +155,7 @@ public class GetListOfUsersTests : IClassFixture<CustomWebApplicationFactory<Sta
             });
         }).CreateClient();
         
-        using var helper = new TestHelper<AdminViewModel>(httpClient);
+        using var helper = new TestHelper<AdminListOfUsersViewModel>(httpClient);
         await helper.Authorize("username", "password");
 
         await helper.ViewModel.GetListOfUsers();

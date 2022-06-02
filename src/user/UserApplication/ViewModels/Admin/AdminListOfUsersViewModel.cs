@@ -8,14 +8,14 @@ using WeeControl.User.UserApplication.Interfaces;
 
 namespace WeeControl.User.UserApplication.ViewModels.Admin;
 
-public class AdminViewModel : ViewModelBase
+public class AdminListOfUsersViewModel : ViewModelBase
 {
     private readonly IDevice device;
     
     public IEnumerable<UserDtoV1> ListOfUsers { get; private set; } = new List<UserDtoV1>();
 
 
-    public AdminViewModel(IDevice device) : base(device)
+    public AdminListOfUsersViewModel(IDevice device) : base(device)
     {
         this.device = device;
     }

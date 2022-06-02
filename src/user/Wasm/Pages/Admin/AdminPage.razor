@@ -1,32 +1,19 @@
 @using WeeControl.User.UserApplication
-@using WeeControl.User.UserApplication.ViewModels.Admin
 @attribute [Route(Pages.Admin.Page)]
-@inject AdminViewModel ViewModel
+<h1>Admin Page</h1>
 
-<h3>AdminPage</h3>
-<button class="btn btn-primary" @onclick="@ViewModel.GetListOfUsers" disabled="@ViewModel.IsLoading">Load Users</button>
-<div class="dropdown">
-    <table class="table table-bordered table-hover">
-            <thead>
-            <tr>
-                <th scope="col">Username</th>
-                <th scope="col">Email</th>
-                <th scope="col">Territory</th>>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach (var t in ViewModel.ListOfUsers)
-            {
-                <tr>
-                    <td>@t.Username</td>
-                    <td>@t.Email</td>
-                    <td>@t.TerritoryCode</td>
-                </tr>
-            }
-            </tbody>
-        </table>
+<div class="btn btn-info" onclick="@ToggleShow">
+    <div hidden="@show">
+        <b>THis is test</b>
+    </div>
 </div>
+<ListOfUsersComponent></ListOfUsersComponent>
 
 @code {
-    
+    bool show = false;
+
+    private void ToggleShow()
+    {
+        show = show != true;
+    }
 }

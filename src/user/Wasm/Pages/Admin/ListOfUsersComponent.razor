@@ -1,0 +1,29 @@
+@using WeeControl.User.UserApplication.ViewModels.Admin
+@inject AdminListOfUsersViewModel ListOfUsersViewModel
+
+<h3>List of users</h3>
+<button class="btn btn-primary" @onclick="@ListOfUsersViewModel.GetListOfUsers" disabled="@ListOfUsersViewModel.IsLoading">Load Users</button>
+
+<table class="table table-bordered table-hover">
+    <thead>
+    <tr>
+        <th scope="col">Username</th>
+        <th scope="col">Email</th>
+        <th scope="col">Territory</th>>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var t in ListOfUsersViewModel.ListOfUsers)
+    {
+        <tr>
+            <td>@t.Username</td>
+            <td>@t.Email</td>
+            <td>@t.TerritoryCode</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+@code {
+    
+}

@@ -11,7 +11,7 @@ public static class ViewModelExtensions
     public static IServiceCollection AddViewModels(this IServiceCollection services)
     {
         #region AdminContext
-        services.AddTransient<AdminViewModel>();
+        services.AddTransient<AdminListOfUsersViewModel>();
         
 
         #endregion

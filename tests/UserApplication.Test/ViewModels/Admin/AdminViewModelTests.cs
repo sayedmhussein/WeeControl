@@ -7,7 +7,7 @@ namespace WeeControl.User.UserApplication.Test.ViewModels.Admin;
 
 public class AdminViewModelTests : ViewModelTestsBase
 {
-    public AdminViewModelTests() : base(nameof(AdminViewModel))
+    public AdminViewModelTests() : base(nameof(AdminListOfUsersViewModel))
     {
     }
 
@@ -15,7 +15,7 @@ public class AdminViewModelTests : ViewModelTestsBase
     public async void WhenSuccess()
     {
         var content = GetJsonContent(new ResponseDto<IEnumerable<UserDtoV1>>(new List<UserDtoV1>()));
-        var vm = new AdminViewModel(mock.GetObject(HttpStatusCode.OK, content));
+        var vm = new AdminListOfUsersViewModel(mock.GetObject(HttpStatusCode.OK, content));
 
         await vm.GetListOfUsers();
     }
@@ -25,7 +25,7 @@ public class AdminViewModelTests : ViewModelTestsBase
     [InlineData(HttpStatusCode.Forbidden)]
     public async void WhenUnauthorizedOrForbidden(HttpStatusCode code)
     {
-        var vm = new AdminViewModel(mock.GetObject(code, null));
+        var vm = new AdminListOfUsersViewModel(mock.GetObject(code, null));
 
         await vm.GetListOfUsers();
         
