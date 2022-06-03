@@ -94,7 +94,7 @@ public class Startup
         {
             app.UseDeveloperExceptionPage();
             app.UseSwagger();
-            app.UseSwaggerUI(SwaggerOptions.ConfigureSwaggerUI);
+            app.UseSwaggerUI(SwaggerOptions.ConfigureSwaggerUi);
         }
         else
         {

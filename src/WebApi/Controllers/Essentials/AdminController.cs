@@ -9,6 +9,7 @@ using WeeControl.Application.Essential.Commands;
 using WeeControl.Application.Essential.Queries;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.DataTransferObjects;
+using WeeControl.SharedKernel.DataTransferObjects.Admin;
 using WeeControl.SharedKernel.RequestsResponses;
 using WeeControl.WebApi.Security.Policies;
 

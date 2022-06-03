@@ -15,7 +15,7 @@ public class RegisterViewModelTests : ViewModelTestsBase
     public async void WhenSuccess()
     {
         var content = GetJsonContent(new ResponseDto<TokenDtoV1>(TokenDtoV1.Create("token", "name", "url")));
-        var vm = new RegisterViewModel(mock.GetObject(HttpStatusCode.OK, content))
+        var vm = new RegisterViewModel(Mock.GetObject(HttpStatusCode.OK, content))
         {
             Email = "email@email.com",
             Username = "username",
@@ -24,13 +24,13 @@ public class RegisterViewModelTests : ViewModelTestsBase
 
         await vm.RegisterAsync();
 
-        mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()));
+        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()));
     }
     
     [Fact]
     public async void WhenBadRequest()
     {
-        var vm = new RegisterViewModel(mock.GetObject(HttpStatusCode.BadRequest, null!))
+        var vm = new RegisterViewModel(Mock.GetObject(HttpStatusCode.BadRequest, null!))
         {
             Email = "email@email.com",
             Username = "username",
@@ -39,15 +39,15 @@ public class RegisterViewModelTests : ViewModelTestsBase
 
         await vm.RegisterAsync();
         
-        mock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
-        mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()), Times.Never);
+        Mock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
+        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()), Times.Never);
         Assert.False(vm.IsLoading);
     }
     
     [Fact]
     public async void WhenConflict()
     {
-        var vm = new RegisterViewModel(mock.GetObject(HttpStatusCode.Conflict, null!))
+        var vm = new RegisterViewModel(Mock.GetObject(HttpStatusCode.Conflict, null!))
         {
             Email = "email@email.com",
             Username = "username",
@@ -56,15 +56,15 @@ public class RegisterViewModelTests : ViewModelTestsBase
 
         await vm.RegisterAsync();
         
-        mock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
-        mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()), Times.Never);
+        Mock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
+        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()), Times.Never);
         Assert.False(vm.IsLoading);
     }
     
     [Fact]
     public async void WhenServerCommunicationError()
     {
-        var vm = new RegisterViewModel(mock.GetObject(HttpStatusCode.BadGateway, null!))
+        var vm = new RegisterViewModel(Mock.GetObject(HttpStatusCode.BadGateway, null!))
         {
             Email = "email@email.com",
             Username = "username",
@@ -73,8 +73,8 @@ public class RegisterViewModelTests : ViewModelTestsBase
 
         await vm.RegisterAsync();
         
-        mock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
-        mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()), Times.Never);
+        Mock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
+        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()), Times.Never);
         Assert.False(vm.IsLoading);
     }
     
@@ -85,7 +85,7 @@ public class RegisterViewModelTests : ViewModelTestsBase
     [InlineData("", "", "password")]
     public async void WhenInvalidProperties(string email, string username, string password)
     {
-        var vm = new RegisterViewModel(mock.GetObject(HttpStatusCode.OK, null!))
+        var vm = new RegisterViewModel(Mock.GetObject(HttpStatusCode.OK, null!))
         {
             Email = email,
             Username = username,
@@ -94,8 +94,8 @@ public class RegisterViewModelTests : ViewModelTestsBase
 
         await vm.RegisterAsync();
         
-        mock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
-        mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()), Times.Never);
+        Mock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
+        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()), Times.Never);
         Assert.False(vm.IsLoading);
     }
 }

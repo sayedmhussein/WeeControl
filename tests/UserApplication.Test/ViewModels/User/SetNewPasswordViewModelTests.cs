@@ -12,7 +12,7 @@ public class SetNewPasswordViewModelTests : ViewModelTestsBase
     [Fact]
     public async void WhenSuccessAndOk()
     {
-        var vm = new SetNewPasswordViewModel(mock.GetObject(HttpStatusCode.OK, null!))
+        var vm = new SetNewPasswordViewModel(Mock.GetObject(HttpStatusCode.OK, null!))
         {
             OldPassword = "oldPassword",
             NewPassword = "NewPassword",
@@ -21,13 +21,13 @@ public class SetNewPasswordViewModelTests : ViewModelTestsBase
 
         await vm.ChangeMyPassword();
 
-        mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()));
+        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()));
     }
     
     [Fact]
     public async void WhenBadRequest()
     {
-        var vm = new SetNewPasswordViewModel(mock.GetObject(HttpStatusCode.BadRequest, null!))
+        var vm = new SetNewPasswordViewModel(Mock.GetObject(HttpStatusCode.BadRequest, null!))
  {
      OldPassword = "oldPassword",
      NewPassword = "NewPassword",
@@ -36,14 +36,14 @@ public class SetNewPasswordViewModelTests : ViewModelTestsBase
 
         await vm.ChangeMyPassword();
 
-        mock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
-        mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()), Times.Never);
+        Mock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
+        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()), Times.Never);
     }
     
     [Fact]
     public async void WhenUnauthorized()
     {
-        var vm = new SetNewPasswordViewModel(mock.GetObject(HttpStatusCode.Unauthorized, null!))
+        var vm = new SetNewPasswordViewModel(Mock.GetObject(HttpStatusCode.Unauthorized, null!))
             {
                 OldPassword = "oldPassword",
                 NewPassword = "NewPassword",
@@ -52,14 +52,14 @@ public class SetNewPasswordViewModelTests : ViewModelTestsBase
 
         await vm.ChangeMyPassword();
 
-        mock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
-        mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()), Times.Never);
+        Mock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
+        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()), Times.Never);
     }
     
     [Fact]
     public async void WhenNotFound()
     {
-        var vm = new SetNewPasswordViewModel(mock.GetObject(HttpStatusCode.NotFound, null!))
+        var vm = new SetNewPasswordViewModel(Mock.GetObject(HttpStatusCode.NotFound, null!))
  {
      OldPassword = "oldPassword",
      NewPassword = "NewPassword",
@@ -68,14 +68,14 @@ public class SetNewPasswordViewModelTests : ViewModelTestsBase
 
         await vm.ChangeMyPassword();
 
-        mock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
-        mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()), Times.Never);
+        Mock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
+        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()), Times.Never);
     }
     
     [Fact]
     public async void WhenServerCommunicationError()
     {
-        var vm = new SetNewPasswordViewModel(mock.GetObject(HttpStatusCode.BadGateway, null!))
+        var vm = new SetNewPasswordViewModel(Mock.GetObject(HttpStatusCode.BadGateway, null!))
  {
      OldPassword = "oldPassword",
      NewPassword = "NewPassword",
@@ -84,8 +84,8 @@ public class SetNewPasswordViewModelTests : ViewModelTestsBase
 
         await vm.ChangeMyPassword();
 
-        mock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
-        mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()), Times.Never);
+        Mock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
+        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()), Times.Never);
     }
     
     [Theory]
@@ -96,7 +96,7 @@ public class SetNewPasswordViewModelTests : ViewModelTestsBase
     [InlineData("bla", "bla", "notBla")]
     public async void WhenInvalidProperties(string oldPassword, string newPassword, string confirmPassword)
     {
-        var vm = new SetNewPasswordViewModel(mock.GetObject(HttpStatusCode.OK, null!))
+        var vm = new SetNewPasswordViewModel(Mock.GetObject(HttpStatusCode.OK, null!))
         {
             OldPassword = oldPassword,
             NewPassword = newPassword,
@@ -105,7 +105,7 @@ public class SetNewPasswordViewModelTests : ViewModelTestsBase
 
         await vm.ChangeMyPassword();
 
-        mock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
-        mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()), Times.Never);
+        Mock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
+        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()), Times.Never);
     }
 }

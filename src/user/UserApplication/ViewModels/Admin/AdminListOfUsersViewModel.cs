@@ -2,6 +2,7 @@ using System.Net;
 using System.Net.Http.Json;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.DataTransferObjects;
+using WeeControl.SharedKernel.DataTransferObjects.Admin;
 using WeeControl.SharedKernel.RequestsResponses;
 using WeeControl.User.UserApplication.Interfaces;
 

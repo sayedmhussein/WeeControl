@@ -13,44 +13,44 @@ public class LogoutViewModelTests : ViewModelTestsBase
     [Fact]
     public async void WhenNotFound_OrSuccess()
     {
-        var vm = new LogoutViewModel(mock.GetObject(HttpStatusCode.NotFound, null!));
+        var vm = new LogoutViewModel(Mock.GetObject(HttpStatusCode.NotFound, null!));
 
         await vm.LogoutAsync();
         
-        mock.SecurityMock.Verify(x => x.DeleteTokenAsync());
-        mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()));
+        Mock.SecurityMock.Verify(x => x.DeleteTokenAsync());
+        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()));
     }
     
     [Fact]
     public async void WhenBadRequest()
     {
-        var vm = new LogoutViewModel(mock.GetObject(HttpStatusCode.BadRequest, null!));
+        var vm = new LogoutViewModel(Mock.GetObject(HttpStatusCode.BadRequest, null!));
 
         await vm.LogoutAsync();
         
-        mock.SecurityMock.Verify(x => x.DeleteTokenAsync());
-        mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()));
+        Mock.SecurityMock.Verify(x => x.DeleteTokenAsync());
+        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()));
     }
     
     [Fact]
     public async void WhenUnauthorized()
     {
-        var vm = new LogoutViewModel(mock.GetObject(HttpStatusCode.Unauthorized, null!));
+        var vm = new LogoutViewModel(Mock.GetObject(HttpStatusCode.Unauthorized, null!));
 
         await vm.LogoutAsync();
         
-        mock.SecurityMock.Verify(x => x.DeleteTokenAsync());
-        mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()));
+        Mock.SecurityMock.Verify(x => x.DeleteTokenAsync());
+        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()));
     }
     
     [Fact]
     public async void ServerFailure()
     {
-        var vm = new LogoutViewModel(mock.GetObject(new HttpClient()));
+        var vm = new LogoutViewModel(Mock.GetObject(new HttpClient()));
 
         await vm.LogoutAsync();
         
-        mock.SecurityMock.Verify(x => x.DeleteTokenAsync());
-        mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()));
+        Mock.SecurityMock.Verify(x => x.DeleteTokenAsync());
+        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()));
     }
 }

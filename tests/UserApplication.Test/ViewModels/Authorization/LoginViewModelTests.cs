@@ -23,7 +23,7 @@ public class LoginViewModelTests : ViewModelTestsBase
             new (HttpStatusCode.OK, content2)
         };
         
-        var vm = new LoginViewModel(mock.GetObject(expected))
+        var vm = new LoginViewModel(Mock.GetObject(expected))
         {
             UsernameOrEmail = "username",
             Password = "password"
@@ -31,11 +31,11 @@ public class LoginViewModelTests : ViewModelTestsBase
         
         await vm.LoginAsync();
         
-        mock.AlertMock.Verify(x => 
+        Mock.AlertMock.Verify(x => 
             x.DisplayAlert(It.IsAny<string>()), Times.AtMost(1));
-        mock.SecurityMock.Verify(x => 
+        Mock.SecurityMock.Verify(x => 
             x.UpdateTokenAsync("token"), Times.AtLeastOnce);
-        mock.NavigationMock.Verify(x => 
+        Mock.NavigationMock.Verify(x => 
             x.NavigateToAsync(Pages.Home.IndexPage,true), Times.Once);
     }
     
@@ -52,7 +52,7 @@ public class LoginViewModelTests : ViewModelTestsBase
                  new (code2, content2)
              };
         
-             var vm = new LoginViewModel(mock.GetObject(expected))
+             var vm = new LoginViewModel(Mock.GetObject(expected))
              {
                  UsernameOrEmail = "username",
                  Password = "password"
@@ -60,9 +60,9 @@ public class LoginViewModelTests : ViewModelTestsBase
              
              await vm.LoginAsync();
              
-             mock.AlertMock.Verify(x => 
+             Mock.AlertMock.Verify(x => 
                  x.DisplayAlert(It.IsAny<string>()), Times.Once);
-             mock.NavigationMock.Verify(x => 
+             Mock.NavigationMock.Verify(x => 
                  x.NavigateToAsync(Pages.Home.IndexPage,true), Times.Never);
          }
     
@@ -74,7 +74,7 @@ public class LoginViewModelTests : ViewModelTestsBase
     public async void HttpClientIsDefault()
     {
         var client = new HttpClient();
-        var vm = new LoginViewModel(mock.GetObject(client))
+        var vm = new LoginViewModel(Mock.GetObject(client))
         {
             UsernameOrEmail = "username",
             Password = "password"
@@ -82,11 +82,11 @@ public class LoginViewModelTests : ViewModelTestsBase
         
         await vm.LoginAsync();
         
-        mock.AlertMock.Verify(x => 
+        Mock.AlertMock.Verify(x => 
             x.DisplayAlert(It.IsAny<string>()), Times.AtLeast(1));
-        mock.SecurityMock.Verify(x => 
+        Mock.SecurityMock.Verify(x => 
             x.UpdateTokenAsync("token"), Times.Never);
-        mock.NavigationMock.Verify(x => 
+        Mock.NavigationMock.Verify(x => 
             x.NavigateToAsync(Pages.Home.IndexPage,It.IsAny<bool>()), Times.Never);
     }
     #endregion
@@ -102,7 +102,7 @@ public class LoginViewModelTests : ViewModelTestsBase
     public async void WhenEmptyProperties_DisplayAlertOnly(string username, string password)
     {
         var content = GetJsonContent(new ResponseDto<TokenDtoV1>(TokenDtoV1.Create("token", "name", "url")));
-        var vm = new LoginViewModel(mock.GetObject(HttpStatusCode.OK,content))
+        var vm = new LoginViewModel(Mock.GetObject(HttpStatusCode.OK,content))
         {
             UsernameOrEmail = username,
             Password = password
@@ -110,11 +110,11 @@ public class LoginViewModelTests : ViewModelTestsBase
         
         await vm.LoginAsync();
         
-        mock.AlertMock.Verify(x => 
+        Mock.AlertMock.Verify(x => 
             x.DisplayAlert(It.IsAny<string>()), Times.Once);
-        mock.SecurityMock.Verify(x => 
+        Mock.SecurityMock.Verify(x => 
             x.UpdateTokenAsync(It.IsAny<string>()), Times.Never);
-        mock.NavigationMock.Verify(x => 
+        Mock.NavigationMock.Verify(x => 
             x.NavigateToAsync(Pages.Home.IndexPage,true), Times.Never);
     }
     #endregion

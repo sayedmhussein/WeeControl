@@ -105,13 +105,13 @@ public class LoginViewModel : ViewModelBase
         switch (response.StatusCode)
         {
             case HttpStatusCode.NotFound:
-                await device.Alert.DisplayAlert("AlertEnum.InvalidUsernameOrPassword");
+                await device.Alert.DisplayAlert("Invalid username or password, please try again.");
                 break;
             case HttpStatusCode.Forbidden:
-                await device.Alert.DisplayAlert("AlertEnum.AccountIsLocked");
+                await device.Alert.DisplayAlert("Your account has been locked, contact the administrator.");
                 break;
             default:
-                await device.Alert.DisplayAlert("AlertEnum.DeveloperInvalidUserInput");
+                await device.Alert.DisplayAlert("Unexpected error occured! " + response.StatusCode);
                 break;
         }
     }

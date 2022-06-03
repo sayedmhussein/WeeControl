@@ -65,9 +65,9 @@ public class SwaggerOptions
         swaggerOptions.RouteTemplate = "api-docs/{documentName}/swagger.json";
     }
 
-    public static void ConfigureSwaggerUI(SwaggerUIOptions swaggerUIOptions)
+    public static void ConfigureSwaggerUi(SwaggerUIOptions swaggerUiOptions)
     {
-        swaggerUIOptions.SwaggerEndpoint($"/swagger/v1/swagger.json", "MySystem.Api v1");
+        swaggerUiOptions.SwaggerEndpoint($"/swagger/v1/swagger.json", "MySystem.Api v1");
         //swaggerUIOptions.RoutePrefix = "api-docs";
     }
 

@@ -7,5 +7,5 @@
 /// <typeparam name="T"></typeparam>
 public interface IResponseDto<T> : IResponseDto where T : class
 {
-    T Payload { get; set; }
+    T Payload { get; }
 }

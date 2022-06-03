@@ -5,16 +5,16 @@ namespace WeeControl.User.UserApplication.Test.ViewModels;
 
 public abstract class ViewModelTestsBase : IDisposable
 {
-    protected DeviceServiceMock mock;
+    protected DeviceServiceMock Mock;
 
     protected ViewModelTestsBase(string deviceName)
     {
-        mock = new DeviceServiceMock(deviceName);
+        Mock = new DeviceServiceMock(deviceName);
     }
 
     public void Dispose()
     {
-        mock = null!;
+        Mock = null!;
     }
     
     protected HttpContent GetJsonContent<T>(T dto)

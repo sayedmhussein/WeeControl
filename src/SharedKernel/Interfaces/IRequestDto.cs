@@ -2,9 +2,9 @@
 
 public interface IRequestDto
 {
-    string DeviceId { get; set; }
+    string DeviceId { get; }
 
-    double? Latitude { get; set; }
+    double? Latitude { get; }
 
-    double? Longitude { get; set; }
+    double? Longitude { get; }
 }

@@ -12,7 +12,7 @@ public class ForgotMyPasswordViewModelTests : ViewModelTestsBase
     [Fact]
     public async void WhenSuccessAndOk()
     {
-        var vm = new ForgotMyPasswordViewModel(mock.GetObject(HttpStatusCode.OK, null!))
+        var vm = new ForgotMyPasswordViewModel(Mock.GetObject(HttpStatusCode.OK, null!))
         {
             Email = "email@email.com",
             Username = "username"
@@ -20,13 +20,13 @@ public class ForgotMyPasswordViewModelTests : ViewModelTestsBase
 
         await vm.RequestPasswordReset();
 
-        mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()));
+        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()));
     }
     
     [Fact]
     public async void WhenBadRequest()
     {
-        var vm = new ForgotMyPasswordViewModel(mock.GetObject(HttpStatusCode.BadRequest, null!))
+        var vm = new ForgotMyPasswordViewModel(Mock.GetObject(HttpStatusCode.BadRequest, null!))
         {
             Email = "email@email.com",
             Username = "username"
@@ -34,13 +34,13 @@ public class ForgotMyPasswordViewModelTests : ViewModelTestsBase
 
         await vm.RequestPasswordReset();
         
-        mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()), Times.Never);
+        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()), Times.Never);
     }
     
     [Fact]
     public async void ServerCommunication()
     {
-        var vm = new ForgotMyPasswordViewModel(mock.GetObject(HttpStatusCode.BadGateway, null!))
+        var vm = new ForgotMyPasswordViewModel(Mock.GetObject(HttpStatusCode.BadGateway, null!))
         {
             Email = "email@email.com",
             Username = "username"
@@ -48,7 +48,7 @@ public class ForgotMyPasswordViewModelTests : ViewModelTestsBase
 
         await vm.RequestPasswordReset();
         
-        mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()), Times.Never);
+        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()), Times.Never);
     }
     
     [Theory]
@@ -58,7 +58,7 @@ public class ForgotMyPasswordViewModelTests : ViewModelTestsBase
     [InlineData("", "username")]
     public async void WhenInvalidProperties(string email, string username)
     {
-        var vm = new ForgotMyPasswordViewModel(mock.GetObject(HttpStatusCode.OK, null!))
+        var vm = new ForgotMyPasswordViewModel(Mock.GetObject(HttpStatusCode.OK, null!))
         {
             Email = email,
             Username = username
@@ -66,7 +66,7 @@ public class ForgotMyPasswordViewModelTests : ViewModelTestsBase
 
         await vm.RequestPasswordReset();
         
-        mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()), Times.Never);
+        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()), Times.Never);
         Assert.False(vm.IsLoading);
     }
 }

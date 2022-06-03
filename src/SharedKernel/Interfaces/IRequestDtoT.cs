@@ -8,5 +8,5 @@ namespace WeeControl.SharedKernel.Interfaces;
 /// <typeparam name="T"></typeparam>
 public interface IRequestDto<T> : IRequestDto where T : class
 {
-    T Payload { get; set; }
+    T Payload { get; }
 }
