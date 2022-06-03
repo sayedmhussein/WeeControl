@@ -80,7 +80,7 @@ public class GetListOfTerritoriesQuery : IRequest<IResponseDto<IEnumerable<Terri
                 }, cancellationToken);
             }
 
-            return new ResponseDto<IEnumerable<TerritoryDto>>(list);
+            return ResponseDto.Create<IEnumerable<TerritoryDto>>(list);
         }
     }
 }

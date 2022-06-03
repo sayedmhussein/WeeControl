@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Reflection.Metadata;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace WeeControl.WebApi.Test.Security;
 
 public class MaximumPeriodHandlerTesters : TokenRefreshmentHandler
 {
-    private AuthorizationHandlerContext GetContext(IEnumerable<Claim> claims)
+    private static AuthorizationHandlerContext GetContext(IEnumerable<Claim> claims)
     {
         var user = new ClaimsPrincipal(new ClaimsIdentity(claims, "Basic"));
         var context = new AuthorizationHandlerContext(new List<IAuthorizationRequirement>(), user, new Document());
@@ -19,30 +20,28 @@ public class MaximumPeriodHandlerTesters : TokenRefreshmentHandler
     }
 
     [Fact]
-    public async void WhenIssuedAtIsNotExceedingSpecificTime_ContextShouldBeSucceded()
+    public async void WhenIssuedAtIsNotExceedingSpecificTime_ContextShouldBeSuccess()
     {
         var timeSpan = DateTime.UtcNow - DateTime.UnixEpoch;
-        var claims = new List<Claim>() { new Claim("iat", timeSpan.TotalSeconds.ToString()) };
+        var claims = new List<Claim>() { new Claim("iat", timeSpan.TotalSeconds.ToString(CultureInfo.InvariantCulture)) };
         var context = GetContext(claims);
-
         await Task.Delay(1000);
+        
         await HandleRequirementAsync(context, new TokenRefreshmentRequirement(TimeSpan.FromSeconds(2)));
-
-
+        
         Assert.True(context.HasSucceeded);
     }
 
     [Fact]
-    public async void WhenIssuedAtIsExceedingSpecificTime_ContextShouldNotBeSucceded()
+    public async void WhenIssuedAtIsExceedingSpecificTime_ContextShouldNotBeSuccess()
     {
         var timeSpan = DateTime.UtcNow - DateTime.UnixEpoch;
-        var claims = new List<Claim>() { new Claim("iat", timeSpan.TotalSeconds.ToString()) };
+        var claims = new List<Claim>() { new Claim("iat", timeSpan.TotalSeconds.ToString(CultureInfo.InvariantCulture)) };
         var context = GetContext(claims);
-
         await Task.Delay(3000);
+        
         await HandleRequirementAsync(context, new TokenRefreshmentRequirement(TimeSpan.FromSeconds(2)));
-
-
+        
         Assert.False(context.HasSucceeded);
     }
 }
