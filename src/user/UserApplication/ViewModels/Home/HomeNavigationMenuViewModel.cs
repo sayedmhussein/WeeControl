@@ -37,14 +37,14 @@ public class HomeNavigationMenuViewModel : ViewModelBase
             }
         }
 
-        MenuItems = new List<MenuItem>(list);
+        MenuItems = new List<MenuItem>(list.Distinct());
     }
     
     public class MenuItem
     {
         public static MenuItem Create(string name)
         {
-            return new MenuItem() { Name=name, PageName = name};
+            return new MenuItem() { Name = name, PageName = name};
         }
         
         public string? Name { get; private init; }

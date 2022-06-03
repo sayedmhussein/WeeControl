@@ -70,7 +70,7 @@ public abstract class ViewModelBase : INotifyPropertyChanged
             {
                 await device.Storage.SaveAsync(nameof(TokenDtoV1.Token), token);
                 await device.Storage.SaveAsync(nameof(TokenDtoV1.FullName), responseDto?.Payload?.FullName ?? string.Empty);
-                await device.Storage.SaveAsync(nameof(TokenDtoV1.PhotoUrl), responseDto?.Payload?.PhotoUrl ?? String.Empty);
+                await device.Storage.SaveAsync(nameof(TokenDtoV1.PhotoUrl), responseDto?.Payload?.PhotoUrl ?? string.Empty);
                 await device.Security.UpdateTokenAsync(token);
                 return true;
             }
@@ -104,7 +104,7 @@ public abstract class ViewModelBase : INotifyPropertyChanged
         return new StringContent(JsonConvert.SerializeObject(dto), Encoding.UTF8, "application/json");
     }
     
-    private  void UpdateHttpAuthorizationHeader(string token)
+    private void UpdateHttpAuthorizationHeader(string token)
     {
         if (string.IsNullOrWhiteSpace(token))
             return;

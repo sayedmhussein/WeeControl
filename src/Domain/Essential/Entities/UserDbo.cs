@@ -19,7 +19,11 @@ public class UserDbo
     
     [Key]
     public Guid UserId { get; }
-        
+
+    public string FirstName { get; set; }
+
+    public string LastName { get; set; }
+    
     [Required]
     [EmailAddress]
     [StringLength(50)]
@@ -33,9 +37,14 @@ public class UserDbo
     [Required]
     [StringLength(128)]
     public string Password { get; private set; }
+
+    [Phone]
+    public string MobileNo { get; set; }
     
     public string TerritoryId { get; set; }
     public TerritoryDbo Territory { get; set; }
+
+    public string Nationality { get; set; }
 
     [AllowNull]
     [StringLength(255)]
@@ -49,6 +58,8 @@ public class UserDbo
 
     public virtual IEnumerable<SessionDbo> Sessions { get; }
     public virtual ICollection<ClaimDbo> Claims { get; }
+    
+    public virtual ICollection<IdentityDbo> Identies { get; }
 
     public void UpdatePassword(string newPassword)
     {

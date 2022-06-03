@@ -7,6 +7,8 @@ namespace WeeControl.Application.Essential;
 public interface IEssentialDbContext : IDbContext
 {
     DbSet<UserDbo> Users { get; set; }
+    
+    DbSet<IdentityDbo> UserIdentities { get; set; }
 
     DbSet<SessionDbo> Sessions { get; set; }
     

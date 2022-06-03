@@ -29,23 +29,23 @@ public class Program
         builder.Services.AddScoped<IDeviceServerCommunication, EssentialDeviceServerDeviceService>();
         builder.Services.AddScoped<IDeviceStorage, DeviceStorageService>();
         
-        //builder.Services.AddScoped<IDeviceSecurity>(p => p.GetService<AuthStateProvider>());
         builder.Services.AddScoped<IDeviceSecurity, AuthStateProvider>();
-
-        //SharedDependency.AddUserSecurityServiceForApplication(builder.Services);
+        
         builder.Services.AddUserSecurityService();
         builder.Services.AddViewModels();
-        //ViewModelExtensions.AddViewModels(builder.Services);
 
         builder.Services.AddOptions();
-
         builder.Services.AddAuthorizationCore();
+        
+        // builder.Services.AddHttpClient("UnSecured", 
+        //     client => client.BaseAddress = new Uri("https://localhost:5001/"));
+        //     
+        // builder.Services.AddHttpClient("Secured", 
+        //         client => client.BaseAddress = new Uri("https://localhost:5001/"))
+        //     .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
 
-        builder.Services.AddHttpClient("UnSecured", 
-            client => client.BaseAddress = new Uri("https://localhost:5001/"));
-            
-        builder.Services.AddHttpClient("Secured", 
-                client => client.BaseAddress = new Uri("https://localhost:5001/"))
+        builder.Services.AddHttpClient("UnSecured");
+        builder.Services.AddHttpClient("Secured")
             .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
 
         builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>()
