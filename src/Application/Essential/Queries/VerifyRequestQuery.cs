@@ -8,7 +8,7 @@ namespace WeeControl.Application.Essential.Queries;
 
 public class VerifyRequestQuery : IRequest
 {
-    public IRequestDto RequestDto { get; }
+    private IRequestDto RequestDto { get; }
     
     public VerifyRequestQuery(IRequestDto requestDto)
     {

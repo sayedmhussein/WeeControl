@@ -2,7 +2,7 @@
 
 public class SetNewPasswordDtoV1
 {
-    public static SetNewPasswordDtoV1 Create(string oldPassword, string newPassword)
+    public static SetNewPasswordDtoV1? Create(string oldPassword, string newPassword)
     {
         return new SetNewPasswordDtoV1() {OldPassword = oldPassword, NewPassword = newPassword};
     }

@@ -1,16 +1,15 @@
-using System.ComponentModel;
 using WeeControl.SharedKernel;
 using WeeControl.User.UserApplication.Interfaces;
 
 namespace WeeControl.User.UserApplication.ViewModels.Home;
 
-public class HomeNavigationMenuViewModel : INotifyPropertyChanged
+public class HomeNavigationMenuViewModel : ViewModelBase
 {
     private readonly IDevice device;
 
     public IEnumerable<MenuItem> MenuItems { get; private set; } = new List<MenuItem>();
 
-    public HomeNavigationMenuViewModel(IDevice device)
+    public HomeNavigationMenuViewModel(IDevice device) : base(device)
     {
         this.device = device;
     }
@@ -45,16 +44,14 @@ public class HomeNavigationMenuViewModel : INotifyPropertyChanged
     {
         public static MenuItem Create(string name)
         {
-            return new MenuItem(){ Name=name, PageName = name};
+            return new MenuItem() { Name=name, PageName = name};
         }
         
-        public string Name { get; private init; }
-        public string PageName { get; private init; }
+        public string? Name { get; private init; }
+        public string? PageName { get; private init; }
 
         private MenuItem()
         {
         }
     }
-
-    public event PropertyChangedEventHandler? PropertyChanged;
 }

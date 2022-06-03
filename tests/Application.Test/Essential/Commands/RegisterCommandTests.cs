@@ -1,20 +1,13 @@
-﻿using System;
-using System.Threading;
-using MediatR;
+﻿using System.Threading;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using WeeControl.Application.Essential;
 using WeeControl.Application.Essential.Commands;
 using WeeControl.Application.Essential.Queries;
 using WeeControl.Application.Exceptions;
 using WeeControl.Domain.Essential.Entities;
-using WeeControl.Persistence;
 using WeeControl.SharedKernel.DataTransferObjects.Authentication;
 using WeeControl.SharedKernel.DataTransferObjects.User;
-using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.RequestsResponses;
-using WeeControl.SharedKernel.Services;
 using Xunit;
 
 namespace WeeControl.Application.Test.Essential.Commands;
@@ -26,7 +19,7 @@ public class RegisterCommandTests
     {
         using var testHelper = new TestHelper();
         testHelper.MediatorMock.Setup(x => x.Send(It.IsAny<GetNewTokenQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ResponseDto<TokenDtoV1>( TokenDtoV1.Create("token", string.Empty, string.Empty)));
-        var command = new RegisterCommand(new RequestDto<RegisterDtoV1>("device", RegisterDtoV1.Create("email@emial.com", "username", "password"), null, null));
+        var command = new RegisterCommand(RequestDto.Create<RegisterDtoV1>(RegisterDtoV1.Create("email@emial.com", "username", "password"), "device", null, null));
             
         var tokenDto = await new RegisterCommand.RegisterHandler(testHelper.EssentialDb, testHelper.MediatorMock.Object, testHelper.PasswordSecurity).Handle(command, default);
 
@@ -41,7 +34,7 @@ public class RegisterCommandTests
         string email = "Email@someprovider.com";
         string username = "ThisIsUsername";
         testHelper.MediatorMock.Setup(x => x.Send(It.IsAny<GetNewTokenQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ResponseDto<TokenDtoV1>(TokenDtoV1.Create("token", string.Empty, string.Empty)));
-        var command = new RegisterCommand(new RequestDto<RegisterDtoV1>("device", RegisterDtoV1.Create(email.ToUpper(), username.ToUpper(), "password"), null, null));
+        var command = new RegisterCommand(RequestDto.Create(RegisterDtoV1.Create(email.ToUpper(), username.ToUpper(),  "password"),"device", null, null));
             
         await new RegisterCommand.RegisterHandler(testHelper.EssentialDb, testHelper.MediatorMock.Object, testHelper.PasswordSecurity).Handle(command, default);
 

@@ -17,13 +17,11 @@ public class DeviceStorageService : IDeviceStorage
     public Task SaveAsync(string key, string value)
     {
         return SetItem(key, value);
-        //return SetItem(Enum.GetName(typeof(UserDataEnum), name), value);
     }
 
     public Task<string> GetAsync(string key)
     {
         return GetItem<string>(key);
-        //return GetItem<string>(Enum.GetName(typeof(UserDataEnum), name));
     }
     
     public Task ClearAsync()

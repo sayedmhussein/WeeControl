@@ -1,0 +1,42 @@
+@using WeeControl.User.UserApplication.ViewModels.Admin
+@inject AdminListOfUsersViewModel ListOfUsersViewModel
+
+<p>List of users</p>
+<button class="btn btn-primary" @onclick="@ListOfUsersViewModel.GetListOfUsers" disabled="@ListOfUsersViewModel.IsLoading">Refresh</button>
+
+@if (ListOfUsersViewModel.IsLoading)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th scope="col">Username</th>
+            <th scope="col">Email</th>
+            <th scope="col">Territory</th>>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var t in ListOfUsersViewModel.ListOfUsers)
+        {
+            <tr>
+                <td>@t.Username</td>
+                <td>@t.Email</td>
+                <td>@t.TerritoryCode</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await ListOfUsersViewModel.GetListOfUsers();
+        await base.OnInitializedAsync();
+    }
+}

@@ -51,7 +51,7 @@ public class SetNewPasswordViewModel : ViewModelBase
         IsLoading = false;
     }
 
-    private async Task ProcessChangingPassword(SetNewPasswordDtoV1 dto)
+    private async Task ProcessChangingPassword(SetNewPasswordDtoV1? dto)
     {
         HttpRequestMessage message = new()
         {
@@ -67,7 +67,7 @@ public class SetNewPasswordViewModel : ViewModelBase
             case HttpStatusCode.OK:
             case HttpStatusCode.Accepted:
                 await device.Alert.DisplayAlert("AlertEnum.PasswordUpdatedSuccessfully");
-                await device.Navigation.NavigateToAsync(Pages.Home.Index);
+                await device.Navigation.NavigateToAsync(Pages.Home.IndexPage);
                 break;
             case HttpStatusCode.NotFound:
                 await device.Alert.DisplayAlert("AlertEnum.InvalidPassword");

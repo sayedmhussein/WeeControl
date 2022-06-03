@@ -1,15 +1,22 @@
-﻿using System.Text;
-using Newtonsoft.Json;
-using WeeControl.SharedKernel.Interfaces;
+﻿using WeeControl.SharedKernel.Interfaces;
 
 namespace WeeControl.SharedKernel.RequestsResponses;
 
 public class RequestDto : IRequestDto
 {
-    [Obsolete("", error:true)]
-    public static HttpContent BuildHttpContentAsJson(object dto)
+    public static IRequestDto Create(string device, double? latitude, double? longitude)
     {
-        return new StringContent(JsonConvert.SerializeObject(dto), Encoding.UTF8, "application/json");
+        return new RequestDto() { DeviceId = device, Latitude = latitude, Longitude = longitude};
+    }
+
+    public static IRequestDto<T> Create<T>(T payload, string device, double? latitude, double? longitude) where T : class
+    {
+        return new RequestDto<T>(device,payload,latitude,longitude);
+    }
+    
+    public static IRequestDto<T> Create<T>(T payload, IRequestDto dto) where T : class
+    {
+        return new RequestDto<T>(dto.DeviceId,payload,dto.Latitude,dto.Longitude);
     }
 
     public string DeviceId { get; set; }
@@ -18,19 +25,36 @@ public class RequestDto : IRequestDto
 
     public double? Longitude { get; set; }
 
-    protected RequestDto()
+    private RequestDto()
     {
         DeviceId = string.Empty;
     }
 
+    [Obsolete("Use static method")]
     public RequestDto(string device) : this()
     {
         DeviceId = device;
     }
 
+    [Obsolete("Use static method")]
     public RequestDto(string device, double? latitude, double? longitude) : this(device)
     {
         Latitude = latitude;
         Longitude = longitude;
+    }
+}
+
+public class RequestDto<T> : RequestDto, IRequestDto<T> where T : class
+{
+    public T Payload { get; set; }
+
+    private RequestDto() : base("")
+    {
+    }
+    
+    [Obsolete("Use static method")]
+    public RequestDto(string device, T payload, double? latitude, double? longitude) : base(device, latitude, longitude)
+    {
+        Payload = payload;
     }
 }

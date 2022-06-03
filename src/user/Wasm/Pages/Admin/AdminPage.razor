@@ -1,19 +1,43 @@
 @using WeeControl.User.UserApplication
 @attribute [Route(Pages.Admin.Page)]
-<h1>Admin Page</h1>
-
-<div class="btn btn-info" onclick="@ToggleShow">
-    <div hidden="@show">
-        <b>THis is test</b>
+<h1>Adminstration</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <h2>We always support our colleagues..</h2>
+        </div>
+        <div class="col-sm">
+            <select class="form-control d-flex" @bind="windowToShow">
+                @foreach (var template in Enum.GetNames(typeof(SubPages)))
+                {
+                    <option value=@template>@template</option>
+                }
+            </select>
+        </div>
     </div>
 </div>
-<ListOfUsersComponent></ListOfUsersComponent>
+
+@switch (windowToShow)
+{
+    case SubPages.Users:
+        <UsersComponent></UsersComponent>
+        break;
+    case SubPages.Territories:
+        <TerritoryComponent></TerritoryComponent>
+        break;
+    case SubPages.Dashboard:
+        <p>Dash Board</p>
+        break;
+    default:
+        throw new ArgumentOutOfRangeException();
+}
+
 
 @code {
-    bool show = false;
-
-    private void ToggleShow()
+    private enum SubPages
     {
-        show = show != true;
+        Dashboard, Territories, Users
     }
+    
+    private SubPages windowToShow;
 }

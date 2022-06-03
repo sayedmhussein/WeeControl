@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace WeeControl.Domain.Essential.Entities;
 
@@ -36,11 +37,13 @@ public class UserDbo
     public string TerritoryId { get; set; }
     public TerritoryDbo Territory { get; set; }
 
+    [AllowNull]
     [StringLength(255)]
-    public string? SuspendArgs { get; private set; }
+    public string SuspendArgs { get; private set; }
     
+    [AllowNull]
     [StringLength(128)]
-    public string? TempPassword { get; private set; }
+    public string TempPassword { get; private set; }
     
     public DateTime? TempPasswordTs { get; private set; }
 

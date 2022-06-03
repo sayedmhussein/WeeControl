@@ -16,7 +16,7 @@ public class RegisterCommand : IRequest<ResponseDto<TokenDtoV1>>
 {
     private IRequestDto<RegisterDtoV1> dto;
 
-    public RegisterCommand(RequestDto<RegisterDtoV1> dto)
+    public RegisterCommand(IRequestDto<RegisterDtoV1> dto)
     {
         this.dto = dto;
     }

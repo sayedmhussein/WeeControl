@@ -17,8 +17,8 @@ public static class Pages
 
     public static class Home
     {
-        public const string Splash = "Splash";
-        public const string Index = "Index";
+        public const string SplashPage = "Splash";
+        public const string IndexPage = "Index";
         public const string Menu = "Menu";
         public const string Invalid = "Invalid";
         public const string NoInternet = "NoInternet";

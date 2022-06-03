@@ -51,7 +51,7 @@ public class RegisterViewModel : ViewModelBase
         IsLoading = false;
     }
 
-    private async Task ProcessRegister(RegisterDtoV1 dto)
+    private async Task ProcessRegister(RegisterDtoV1? dto)
     {
         HttpRequestMessage message = new()
         {
@@ -61,15 +61,18 @@ public class RegisterViewModel : ViewModelBase
         };
 
         var response = await SendMessageAsync(message, dto);
+
+        if (response.IsSuccessStatusCode)
+        {
+            var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<TokenDtoV1>>();
+            var token = responseDto?.Payload?.Token;
+            await device.Security.UpdateTokenAsync(token ?? string.Empty);
+            await device.Navigation.NavigateToAsync(Pages.Home.IndexPage, forceLoad: true);
+            return;
+        }
+        
         switch (response.StatusCode)
         {
-            case HttpStatusCode.OK:
-            case HttpStatusCode.Accepted:
-                var dto_ = await response.Content.ReadFromJsonAsync<ResponseDto<TokenDtoV1>>();
-                var token = dto_?.Payload?.Token;
-                await device.Security.UpdateTokenAsync(token);
-                await device.Navigation.NavigateToAsync(Pages.Home.Index, forceLoad: true);
-                break;
             case HttpStatusCode.Conflict:
                 await device.Alert.DisplayAlert("AlertEnum.ExistingEmailOrUsernameExist");
                 break;

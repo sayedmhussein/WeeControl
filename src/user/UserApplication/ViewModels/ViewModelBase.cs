@@ -24,7 +24,7 @@ public abstract class ViewModelBase : INotifyPropertyChanged
         this.device = device;
     }
     
-    protected async Task<HttpResponseMessage> SendMessageAsync<T>(HttpRequestMessage message, T payload = null, bool accurateLocation = false) where T : class
+    protected async Task<HttpResponseMessage> SendMessageAsync<T>(HttpRequestMessage message, T? payload = null, bool accurateLocation = false) where T : class
     {
         if (message.Content is null && message.Method != HttpMethod.Get)
         {
@@ -36,7 +36,7 @@ public abstract class ViewModelBase : INotifyPropertyChanged
             UpdateHttpAuthorizationHeader(await device.Security.GetTokenAsync());
             return await device.Server.HttpClient.SendAsync(message);
         }
-        catch (HttpRequestException e)
+        catch (HttpRequestException)
         {
             return new HttpResponseMessage(HttpStatusCode.BadGateway);
         }
@@ -69,8 +69,8 @@ public abstract class ViewModelBase : INotifyPropertyChanged
             if (responseDto is not null && token is not null)
             {
                 await device.Storage.SaveAsync(nameof(TokenDtoV1.Token), token);
-                await device.Storage.SaveAsync(nameof(TokenDtoV1.FullName), responseDto?.Payload?.FullName);
-                await device.Storage.SaveAsync(nameof(TokenDtoV1.PhotoUrl), responseDto?.Payload?.PhotoUrl);
+                await device.Storage.SaveAsync(nameof(TokenDtoV1.FullName), responseDto?.Payload?.FullName ?? string.Empty);
+                await device.Storage.SaveAsync(nameof(TokenDtoV1.PhotoUrl), responseDto?.Payload?.PhotoUrl ?? String.Empty);
                 await device.Security.UpdateTokenAsync(token);
                 return true;
             }
@@ -98,7 +98,7 @@ public abstract class ViewModelBase : INotifyPropertyChanged
     {
         var location = await GetCurrentLocationAsync(locationAccuracy);
         var dto = payload == null ? 
-            new RequestDto(device.DeviceId, location.Latitude, location.Longitude) : 
+            RequestDto.Create(device.DeviceId, location.Latitude, location.Longitude) : 
             new RequestDto<T>(device.DeviceId, payload, location.Latitude, location.Longitude);
         
         return new StringContent(JsonConvert.SerializeObject(dto), Encoding.UTF8, "application/json");

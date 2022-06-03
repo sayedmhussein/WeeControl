@@ -1,6 +1,5 @@
 using System.Net;
 using System.Net.Http.Json;
-using System.Transactions;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
@@ -39,14 +38,16 @@ public class AdminListOfUsersViewModel : ViewModelBase
 
         switch (response.StatusCode)
         {
+            case HttpStatusCode.BadGateway:
+                await device.Alert.DisplayAlert("Check your internet connection");
+                break;
             case HttpStatusCode.Unauthorized:
             case HttpStatusCode.Forbidden:
                 await device.Alert.DisplayAlert("You are not authorized");
                 break;
             default:
                 await device.Alert.DisplayAlert("Unexpected Error Occured");
-                throw new TransactionException();
-                break;
+                throw new ArgumentOutOfRangeException();
         }
     }
 }

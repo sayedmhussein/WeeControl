@@ -18,7 +18,7 @@ public class SplashViewModel : ViewModelBase
         if (await RefreshTokenAsync() && await device.Security.IsAuthenticatedAsync())
         {
             await Task.Delay(1000);
-            await device.Navigation.NavigateToAsync(Pages.Home.Index);
+            await device.Navigation.NavigateToAsync(Pages.Home.IndexPage);
             return;
         }
         

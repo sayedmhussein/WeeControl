@@ -24,7 +24,7 @@ public class RegisterViewModelTests : ViewModelTestsBase
 
         await vm.RegisterAsync();
 
-        mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.Index, It.IsAny<bool>()));
+        mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()));
     }
     
     [Fact]
@@ -40,7 +40,7 @@ public class RegisterViewModelTests : ViewModelTestsBase
         await vm.RegisterAsync();
         
         mock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
-        mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.Index, It.IsAny<bool>()), Times.Never);
+        mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()), Times.Never);
         Assert.False(vm.IsLoading);
     }
     
@@ -57,7 +57,7 @@ public class RegisterViewModelTests : ViewModelTestsBase
         await vm.RegisterAsync();
         
         mock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
-        mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.Index, It.IsAny<bool>()), Times.Never);
+        mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()), Times.Never);
         Assert.False(vm.IsLoading);
     }
     
@@ -74,7 +74,7 @@ public class RegisterViewModelTests : ViewModelTestsBase
         await vm.RegisterAsync();
         
         mock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
-        mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.Index, It.IsAny<bool>()), Times.Never);
+        mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()), Times.Never);
         Assert.False(vm.IsLoading);
     }
     
@@ -95,7 +95,7 @@ public class RegisterViewModelTests : ViewModelTestsBase
         await vm.RegisterAsync();
         
         mock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
-        mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.Index, It.IsAny<bool>()), Times.Never);
+        mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()), Times.Never);
         Assert.False(vm.IsLoading);
     }
 }

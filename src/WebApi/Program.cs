@@ -23,6 +23,8 @@ public class Program
         }
         catch (Exception e)
         {
+            Console.WriteLine(e);
+            
             try
             {
                 await PrepareDatabase(scope);

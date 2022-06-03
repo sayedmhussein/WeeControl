@@ -1,17 +1,11 @@
-using System;
 using System.Linq;
 using MediatR;
-using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using WeeControl.Application.Essential;
 using WeeControl.Application.Essential.Commands;
 using WeeControl.Application.Exceptions;
 using WeeControl.Domain.Essential.Entities;
-using WeeControl.Persistence;
 using WeeControl.SharedKernel.DataTransferObjects.User;
-using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.RequestsResponses;
-using WeeControl.SharedKernel.Services;
 using Xunit;
 
 namespace WeeControl.Application.Test.Essential.Commands;
@@ -30,8 +24,8 @@ public class ResetPasswordCommandTests
         var handler = new ForgotMyPasswordCommand.ForgotMyPasswordHandler(testHelper.EssentialDb, new Mock<IMediator>().Object, testHelper.PasswordSecurity);
 
         await handler.Handle(new ForgotMyPasswordCommand(
-            new RequestDto<ForgotMyPasswordDtoV1>("device", 
-                ForgotMyPasswordDtoV1.Create(user.Email, user.Username), null, null)), default);
+            RequestDto.Create<ForgotMyPasswordDtoV1>(
+                ForgotMyPasswordDtoV1.Create(user.Email, user.Username), "device", null, null)), default);
 
         var newPass = testHelper.EssentialDb.Users.FirstOrDefault(x => x.Username == user.Username)?.TempPassword;
         
@@ -51,8 +45,8 @@ public class ResetPasswordCommandTests
         var handler = new ForgotMyPasswordCommand.ForgotMyPasswordHandler(testHelper.EssentialDb, new Mock<IMediator>().Object, testHelper.PasswordSecurity);
 
         var command = new ForgotMyPasswordCommand(
-            new RequestDto<ForgotMyPasswordDtoV1>(string.Empty,
-                ForgotMyPasswordDtoV1.Create("email@email.com", "username"), null, null));
+            RequestDto.Create(
+                ForgotMyPasswordDtoV1.Create("email@email.com", "username"), string.Empty, null, null));
         
         await Assert.ThrowsAsync<BadRequestException>(() =>
             handler.Handle(command, default));
@@ -67,8 +61,8 @@ public class ResetPasswordCommandTests
         using var testHelper = new TestHelper();
         var handler = new ForgotMyPasswordCommand.ForgotMyPasswordHandler(testHelper.EssentialDb, new Mock<IMediator>().Object, testHelper.PasswordSecurity);
         var command = new ForgotMyPasswordCommand(
-            new RequestDto<ForgotMyPasswordDtoV1>("device",
-                ForgotMyPasswordDtoV1.Create(email, username), null, null));
+            RequestDto.Create(
+                ForgotMyPasswordDtoV1.Create(email, username),"device", null, null));
         
         await Assert.ThrowsAsync<BadRequestException>(() =>
             handler.Handle(command, default));

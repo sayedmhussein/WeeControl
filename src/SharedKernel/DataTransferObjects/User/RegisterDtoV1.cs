@@ -2,7 +2,7 @@
 
 public class RegisterDtoV1
 {
-    public static RegisterDtoV1 Create(string email, string username, string password)
+    public static RegisterDtoV1? Create(string email, string username, string password)
     {
         return new RegisterDtoV1() { Email = email, Username = username, Password = password };
     }

@@ -21,8 +21,9 @@ public class LogoutEmployeeCommand1Tests
         testHelper.CurrentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
         //
         var handler = new LogoutCommand.LogoutHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object);
-        
-        await handler.Handle(new LogoutCommand(new RequestDto("device")), default);
+
+        var dto = RequestDto.Create("device", null, null);
+        await handler.Handle(new LogoutCommand(dto), default);
         
         Assert.NotNull(testHelper.EssentialDb.Sessions.First(x => x.SessionId == session.SessionId).TerminationTs);
     }
@@ -39,7 +40,7 @@ public class LogoutEmployeeCommand1Tests
         var handler = new LogoutCommand.LogoutHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object);
     
         await Assert.ThrowsAsync<NotAllowedException>(() =>
-            handler.Handle(new LogoutCommand(new RequestDto("device")), default));
+            handler.Handle(new LogoutCommand(RequestDto.Create("device", 0,0)), default));
     }
         
     [Fact]
@@ -54,7 +55,7 @@ public class LogoutEmployeeCommand1Tests
         var handler = new LogoutCommand.LogoutHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object);
     
         await Assert.ThrowsAsync<NotAllowedException>(() =>
-            handler.Handle(new LogoutCommand(new RequestDto("Another device")), default));
+            handler.Handle(new LogoutCommand(RequestDto.Create("Another device", 0, 0)), default));
     }
         
     [Fact]
@@ -70,7 +71,7 @@ public class LogoutEmployeeCommand1Tests
         var handler = new LogoutCommand.LogoutHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object);
     
         await Assert.ThrowsAsync<NotAllowedException>(() =>
-            handler.Handle(new LogoutCommand(new RequestDto("device")), default));
+            handler.Handle(new LogoutCommand(RequestDto.Create("device", 0, 0)), default));
     }
     
     [Fact]
@@ -86,7 +87,7 @@ public class LogoutEmployeeCommand1Tests
         var handler = new LogoutCommand.LogoutHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object);
         
         await Assert.ThrowsAsync<NotAllowedException>(() =>
-            handler.Handle(new LogoutCommand(new RequestDto(string.Empty)), default));
+            handler.Handle(new LogoutCommand(RequestDto.Create(string.Empty, 0, 0)), default));
     }
     
     [Fact]
@@ -102,6 +103,6 @@ public class LogoutEmployeeCommand1Tests
         var handler = new LogoutCommand.LogoutHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object);
         
         await Assert.ThrowsAsync<ArgumentNullException>(() =>
-            handler.Handle(new LogoutCommand(new RequestDto("device")), default));
+            handler.Handle(new LogoutCommand(RequestDto.Create("device", 0, 0)), default));
     }
 }

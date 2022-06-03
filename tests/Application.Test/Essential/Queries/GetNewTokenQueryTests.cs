@@ -199,7 +199,7 @@ public class GetNewTokenQueryTests : TestHelper
         Assert.NotNull(session);
         CurrentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
 
-        var response = await handler.Handle(new GetNewTokenQuery(new RequestDto("device", 0, 0)), default);
+        var response = await handler.Handle(new GetNewTokenQuery(RequestDto.Create("device", 0, 0)), default);
 
         Assert.NotEmpty(response.Payload.Token);
         Assert.NotEmpty(response.Payload.FullName);
@@ -228,7 +228,7 @@ public class GetNewTokenQueryTests : TestHelper
         await EssentialDb.SaveChangesAsync(default);
         CurrentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
 
-        var query = new RequestDto("device", 0, 0);
+        var query = RequestDto.Create("device", 0, 0);
         await Assert.ThrowsAsync<NotAllowedException>(() => handler.Handle(new GetNewTokenQuery(query), default));
     }
     
@@ -253,7 +253,7 @@ public class GetNewTokenQueryTests : TestHelper
         Assert.NotNull(session);
         CurrentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
 
-        var query = new RequestDto("different device", 0, 0);
+        var query = RequestDto.Create("different device", 0, 0);
         await Assert.ThrowsAsync<NotAllowedException>(() => handler.Handle(new GetNewTokenQuery(query), default));
     }
     #endregion

@@ -1,9 +1,7 @@
-using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.Application.Essential;
 using WeeControl.Domain.Essential.Entities;
-using WeeControl.SharedKernel.Services;
 using WeeControl.User.UserApplication.ViewModels.User;
 using WeeControl.WebApi;
 using Xunit;
@@ -30,7 +28,7 @@ public class RegisterTests : IClassFixture<CustomWebApplicationFactory<Startup>>
         await helper.ViewModel.RegisterAsync();
 
         helper.DeviceMock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Home.Index, It.IsAny<bool>()), Times.Once);
+            x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()), Times.Once);
     }
     
     [Theory]
@@ -65,6 +63,6 @@ public class RegisterTests : IClassFixture<CustomWebApplicationFactory<Startup>>
             
         helper.DeviceMock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
         helper.DeviceMock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Home.Index, It.IsAny<bool>()), Times.Never);;
+            x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()), Times.Never);;
     }
 }

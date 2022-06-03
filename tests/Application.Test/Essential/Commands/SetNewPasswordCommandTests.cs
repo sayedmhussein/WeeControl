@@ -1,22 +1,16 @@
 using System;
-using Microsoft.Extensions.DependencyInjection;
-using Moq;
-using WeeControl.Application.Essential;
 using WeeControl.Application.Essential.Commands;
 using WeeControl.Application.Exceptions;
-using WeeControl.Application.Interfaces;
 using WeeControl.Domain.Essential.Entities;
-using WeeControl.Persistence;
 using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.RequestsResponses;
-using WeeControl.SharedKernel.Services;
 using Xunit;
 
 namespace WeeControl.Application.Test.Essential.Commands;
 
 public class SetNewPasswordCommandTests
 {
-    private RequestDto requestDto = new RequestDto("device");
+    private readonly IRequestDto requestDto = RequestDto.Create("device", 0, 0);
 
     [Fact]
     public async void WhenRequestSentCorrect_PasswordIsChangedSuccessfully()

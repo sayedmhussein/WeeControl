@@ -1,8 +1,6 @@
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using Moq.Protected;
-using Newtonsoft.Json;
 using WeeControl.User.UserApplication.Interfaces;
 
 namespace WeeControl.User.UserApplication.Test;

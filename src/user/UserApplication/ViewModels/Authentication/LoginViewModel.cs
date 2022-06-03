@@ -37,7 +37,7 @@ public class LoginViewModel : ViewModelBase
     {
         if (await RefreshTokenAsync())
         {
-            await device.Navigation.NavigateToAsync(Pages.Home.Index);
+            await device.Navigation.NavigateToAsync(Pages.Home.IndexPage);
         }
     }
     
@@ -83,11 +83,11 @@ public class LoginViewModel : ViewModelBase
             if (token is not null)
             {
                 await device.Security.UpdateTokenAsync(token);
-                await device.Storage.SaveAsync(nameof(TokenDtoV1.FullName), responseDto?.Payload?.FullName);
-                await device.Storage.SaveAsync(nameof(TokenDtoV1.PhotoUrl), responseDto?.Payload?.PhotoUrl);
+                await device.Storage.SaveAsync(nameof(TokenDtoV1.FullName), responseDto?.Payload?.FullName ?? string.Empty);
+                await device.Storage.SaveAsync(nameof(TokenDtoV1.PhotoUrl), responseDto?.Payload?.PhotoUrl ?? string.Empty);
                 if (await RefreshTokenAsync())
                 {
-                    await device.Navigation.NavigateToAsync(Pages.Home.Index, forceLoad: true);
+                    await device.Navigation.NavigateToAsync(Pages.Home.IndexPage, forceLoad: true);
                     return;
                 }
 

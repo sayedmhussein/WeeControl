@@ -1,13 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Extensions.DependencyInjection;
-using Moq;
-using WeeControl.Application.Essential;
 using WeeControl.Application.Essential.Queries;
-using WeeControl.Application.Interfaces;
 using WeeControl.Domain.Essential.Entities;
-using WeeControl.Persistence;
 using Xunit;
 
 namespace WeeControl.Application.Test.Essential.Queries;

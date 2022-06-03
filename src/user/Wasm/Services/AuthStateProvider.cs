@@ -43,7 +43,7 @@ public class AuthStateProvider : AuthenticationStateProvider, IDeviceSecurity
         return new AuthenticationState(cp);
     }
 
-    private void NotifyUserAuthentication(string? token)
+    private void NotifyUserAuthentication(string token)
     {
         if (string.IsNullOrWhiteSpace(token) == false)
         {

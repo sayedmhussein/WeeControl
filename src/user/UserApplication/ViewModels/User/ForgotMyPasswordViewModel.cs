@@ -39,7 +39,7 @@ public class ForgotMyPasswordViewModel : ViewModelBase
         IsLoading = false;
     }
 
-    private async Task ProcessPasswordReset(ForgotMyPasswordDtoV1 dtoV1)
+    private async Task ProcessPasswordReset(ForgotMyPasswordDtoV1? dtoV1)
     {
         HttpRequestMessage message = new()
         {

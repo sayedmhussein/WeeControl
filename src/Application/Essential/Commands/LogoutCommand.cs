@@ -5,15 +5,15 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using WeeControl.Application.Exceptions;
 using WeeControl.Application.Interfaces;
-using WeeControl.SharedKernel.RequestsResponses;
+using WeeControl.SharedKernel.Interfaces;
 
 namespace WeeControl.Application.Essential.Commands;
 
 public class LogoutCommand : IRequest
 {
-    private readonly RequestDto request;
+    private readonly IRequestDto request;
     
-    public LogoutCommand(RequestDto request)
+    public LogoutCommand(IRequestDto request)
     {
         this.request = request;
     }

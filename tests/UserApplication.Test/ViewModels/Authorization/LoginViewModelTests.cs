@@ -36,7 +36,7 @@ public class LoginViewModelTests : ViewModelTestsBase
         mock.SecurityMock.Verify(x => 
             x.UpdateTokenAsync("token"), Times.AtLeastOnce);
         mock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Home.Index,true), Times.Once);
+            x.NavigateToAsync(Pages.Home.IndexPage,true), Times.Once);
     }
     
     [Theory]
@@ -63,7 +63,7 @@ public class LoginViewModelTests : ViewModelTestsBase
              mock.AlertMock.Verify(x => 
                  x.DisplayAlert(It.IsAny<string>()), Times.Once);
              mock.NavigationMock.Verify(x => 
-                 x.NavigateToAsync(Pages.Home.Index,true), Times.Never);
+                 x.NavigateToAsync(Pages.Home.IndexPage,true), Times.Never);
          }
     
     
@@ -87,7 +87,7 @@ public class LoginViewModelTests : ViewModelTestsBase
         mock.SecurityMock.Verify(x => 
             x.UpdateTokenAsync("token"), Times.Never);
         mock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Home.Index,It.IsAny<bool>()), Times.Never);
+            x.NavigateToAsync(Pages.Home.IndexPage,It.IsAny<bool>()), Times.Never);
     }
     #endregion
 
@@ -115,7 +115,7 @@ public class LoginViewModelTests : ViewModelTestsBase
         mock.SecurityMock.Verify(x => 
             x.UpdateTokenAsync(It.IsAny<string>()), Times.Never);
         mock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Home.Index,true), Times.Never);
+            x.NavigateToAsync(Pages.Home.IndexPage,true), Times.Never);
     }
     #endregion
 
