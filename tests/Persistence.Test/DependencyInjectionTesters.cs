@@ -24,7 +24,7 @@ public class DependencyInjectionTesters : IDisposable
     }
         
     [Fact]
-    public void WhenAddingPresistenceInMemory_ReturnEssentialDbContextObjectAsNotNull()
+    public void WhenAddingPresestenceInMemory_ReturnEssentialDbContextObjectAsNotNull()
     {
         services.AddPersistenceAsInMemory();
             
@@ -32,6 +32,4 @@ public class DependencyInjectionTesters : IDisposable
 
         Assert.NotNull(service);
     }
-
-        
 }

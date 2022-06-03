@@ -13,7 +13,7 @@ namespace WeeControl.SharedKernel.Test.Services;
 public class JwtServiceTests : IDisposable
 {
     private IJwtService service;
-    private string securityKey = new string('a', 30);
+    private readonly string securityKey = new string('a', 30);
         
     public JwtServiceTests()
     {
@@ -25,11 +25,13 @@ public class JwtServiceTests : IDisposable
         service = null;
     }
 
-    [Fact]
-    public void WhenGeneratingATokenUsingClaims_WhenExtractingSameClaimShouldBeExist()
+    [Theory]
+    [InlineData("Type", "Value")]
+    [InlineData("Type", "")]
+    public void WhenGeneratingATokenUsingClaims_WhenExtractingSameClaimShouldBeExist(string type, string value)
     {
         var key = Encoding.ASCII.GetBytes(securityKey);
-        var claim = new Claim("Type", "Value");
+        var claim = new Claim(type, value);
         var list = new List<Claim>() { claim };
 
         var descriptor = new SecurityTokenDescriptor()
@@ -53,9 +55,9 @@ public class JwtServiceTests : IDisposable
             ValidateIssuer = false
         };
 
-        var claimPrincible = service.GetClaimPrincipal(token, parameters);
+        var cp = service.GetClaimPrincipal(token, parameters);
             
-        Assert.Equal("Type", claimPrincible.Claims.First().Type);
-        Assert.Equal("Value", claimPrincible.Claims.First().Value);
+        Assert.Equal(type, cp.Claims.First().Type);
+        Assert.Equal(value, cp.Claims.First().Value);
     }
 }
