@@ -55,7 +55,7 @@ public class RegisterCommand : IRequest<ResponseDto<TokenDtoV1>>
             await context.Users.AddAsync(user, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
 
-            var a = await mediator.Send(new GetNewTokenQuery(new RequestDto<LoginDtoV1>(cmd.dto.DeviceId, LoginDtoV1.Create(user.Username, cmd.dto.Payload.Password), cmd.dto.Latitude, cmd.dto.Longitude)), cancellationToken);
+            var a = await mediator.Send(new GetNewTokenQuery(RequestDto.Create(LoginDtoV1.Create(user.Username, cmd.dto.Payload.Password), cmd.dto)), cancellationToken);
             // var b= await mediator.Send(new GetNewTokenQuery(cmd.dto.Request,  LoginDtoV1.Create(user.Username, cmd.Payload.Password)), cancellationToken);
             return new ResponseDto<TokenDtoV1>(a.Payload);
         }

@@ -8,3 +8,17 @@ public class ResponseDto : IResponseDto
     {
     }
 }
+
+public class ResponseDto<T> : ResponseDto, IResponseDto<T> where T : class
+{
+    public T Payload { get; set; }
+    
+    private ResponseDto() : base()
+    {
+    }
+
+    public ResponseDto(T payload)
+    {
+        Payload = payload;
+    }
+}

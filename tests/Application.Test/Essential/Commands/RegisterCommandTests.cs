@@ -51,7 +51,7 @@ public class RegisterCommandTests
         using var testHelper = new TestHelper();
         string postedPassword = "ThisIsPostedPassword";
         testHelper.MediatorMock.Setup(x => x.Send(It.IsAny<GetNewTokenQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ResponseDto<TokenDtoV1>(TokenDtoV1.Create("token", string.Empty, string.Empty)));
-        var command = new RegisterCommand(new RequestDto<RegisterDtoV1>("device", RegisterDtoV1.Create("email@emial.com", "username", "password"), null, null));
+        var command = new RegisterCommand(RequestDto.Create(RegisterDtoV1.Create("email@emial.com", "username", "password"),"device",  null, null));
             
         await new RegisterCommand.RegisterHandler(testHelper.EssentialDb, testHelper.MediatorMock.Object, testHelper.PasswordSecurity).Handle(command, default);
 
@@ -65,7 +65,7 @@ public class RegisterCommandTests
     {
         using var testHelper = new TestHelper();
         testHelper.MediatorMock.Setup(x => x.Send(It.IsAny<GetNewTokenQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ResponseDto<TokenDtoV1>(TokenDtoV1.Create("token", string.Empty, string.Empty)));
-        var command = new RegisterCommand(new RequestDto<RegisterDtoV1>("device", RegisterDtoV1.Create("email@emial.com", "username", "password"), null, null));
+        var command = new RegisterCommand (RequestDto.Create(RegisterDtoV1.Create("email@emial.com", "username", "password"),"device",  null, null));
             
         var tokenDto = await new RegisterCommand.RegisterHandler(testHelper.EssentialDb, testHelper.MediatorMock.Object, testHelper.PasswordSecurity).Handle(command, default);
 
@@ -80,7 +80,7 @@ public class RegisterCommandTests
         await testHelper.EssentialDb.Users.AddAsync(UserDbo.Create("email@email.com", "username", "password"));
         await testHelper.EssentialDb.SaveChangesAsync(default);
         var user = await testHelper.EssentialDb.Users.FirstOrDefaultAsync();
-        var command = new RegisterCommand(new RequestDto<RegisterDtoV1>("device", RegisterDtoV1.Create(user.Email, user.Username, user.Password), null, null));
+        var command = new RegisterCommand( RequestDto.Create( RegisterDtoV1.Create(user.Email, user.Username, user.Password), "device",null, null));
 
         await Assert.ThrowsAsync<ConflictFailureException>(() => new RegisterCommand.RegisterHandler(testHelper.EssentialDb, testHelper.MediatorMock.Object, testHelper.PasswordSecurity).Handle(command, default));
     }
@@ -92,7 +92,7 @@ public class RegisterCommandTests
     public async void WhenInvalidInputs_ThrowException(string username, string email, string password)
     {
         using var testHelper = new TestHelper();
-        var command = new RegisterCommand(new RequestDto<RegisterDtoV1>("device", RegisterDtoV1.Create(email, username, password), null, null));
+        var command = new RegisterCommand(RequestDto.Create( RegisterDtoV1.Create(email, username, password),"device", null, null));
 
         await Assert.ThrowsAnyAsync<ValidationException>(() => new RegisterCommand.RegisterHandler(testHelper.EssentialDb, testHelper.MediatorMock.Object, testHelper.PasswordSecurity).Handle(command, default));
     }

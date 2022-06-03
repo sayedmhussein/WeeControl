@@ -6,17 +6,17 @@ public class RequestDto : IRequestDto
 {
     public static IRequestDto Create(string device, double? latitude, double? longitude)
     {
-        return new RequestDto() { DeviceId = device, Latitude = latitude, Longitude = longitude};
+        return new RequestDto(device, latitude, longitude);
     }
 
     public static IRequestDto<T> Create<T>(T payload, string device, double? latitude, double? longitude) where T : class
     {
-        return new RequestDto<T>(device,payload,latitude,longitude);
+        return new RequestDto<T>(payload, new RequestDto(device, latitude, longitude));
     }
     
     public static IRequestDto<T> Create<T>(T payload, IRequestDto dto) where T : class
     {
-        return new RequestDto<T>(dto.DeviceId,payload,dto.Latitude,dto.Longitude);
+        return new RequestDto<T>(payload,dto);
     }
 
     public string DeviceId { get; set; }
@@ -25,20 +25,18 @@ public class RequestDto : IRequestDto
 
     public double? Longitude { get; set; }
 
-    private RequestDto()
+    internal RequestDto()
     {
         DeviceId = string.Empty;
     }
-
-    [Obsolete("Use static method")]
-    public RequestDto(string device) : this()
+    
+    protected RequestDto(IRequestDto dto) : this(dto.DeviceId, dto.Latitude, dto.Longitude)
     {
-        DeviceId = device;
     }
-
-    [Obsolete("Use static method")]
-    public RequestDto(string device, double? latitude, double? longitude) : this(device)
+    
+    private RequestDto(string deviceId, double? latitude, double? longitude)
     {
+        DeviceId = deviceId;
         Latitude = latitude;
         Longitude = longitude;
     }
@@ -48,12 +46,12 @@ public class RequestDto<T> : RequestDto, IRequestDto<T> where T : class
 {
     public T Payload { get; set; }
 
-    private RequestDto() : base("")
+    internal RequestDto()
     {
+        Payload = null!;
     }
     
-    [Obsolete("Use static method")]
-    public RequestDto(string device, T payload, double? latitude, double? longitude) : base(device, latitude, longitude)
+    internal RequestDto(T payload, IRequestDto dto) : base(dto)
     {
         Payload = payload;
     }

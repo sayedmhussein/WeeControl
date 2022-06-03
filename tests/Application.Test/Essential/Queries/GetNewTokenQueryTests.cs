@@ -45,9 +45,8 @@ public class GetNewTokenQueryTests : TestHelper
         await EssentialDb.Users.AddAsync(user);
         await EssentialDb.SaveChangesAsync(default);
 
-        var query = new GetNewTokenQuery(new RequestDto<LoginDtoV1>(
-            "device", 
-            LoginDtoV1.Create(emailOrUsername, password), 0, 0));
+        var query = new GetNewTokenQuery(RequestDto.Create(
+            LoginDtoV1.Create(emailOrUsername, password), "device", 0, 0));
 
         var response = await handler.Handle(query, default);
         
@@ -63,9 +62,8 @@ public class GetNewTokenQueryTests : TestHelper
     [InlineData("", "", "password")]
     public async void WhenInvalidQueryParameters_ThrowBadRequestException(string device, string usernameOrEmail, string password)
     {
-        var query = new GetNewTokenQuery(new RequestDto<LoginDtoV1>(
-            device, 
-            LoginDtoV1.Create(usernameOrEmail, password), 0, 0));
+        var query = new GetNewTokenQuery(RequestDto.Create(
+            LoginDtoV1.Create(usernameOrEmail, password), device, 0, 0));
         
         await Assert.ThrowsAsync<BadRequestException>(() => handler.Handle(query, default));
     }
@@ -88,9 +86,8 @@ public class GetNewTokenQueryTests : TestHelper
         await EssentialDb.Users.AddAsync(user);
         await EssentialDb.SaveChangesAsync(default);
         
-        var query = new GetNewTokenQuery(new RequestDto<LoginDtoV1>(
-            "device", 
-            LoginDtoV1.Create(emailOrUsername, password), 0, 0));
+        var query = new GetNewTokenQuery(RequestDto.Create(
+            LoginDtoV1.Create(emailOrUsername, password),  "device", 0, 0));
         
         await Assert.ThrowsAsync<NotFoundException>(() => handler.Handle(query, default));
     }
@@ -106,9 +103,9 @@ public class GetNewTokenQueryTests : TestHelper
         await EssentialDb.Users.AddAsync(user);
         await EssentialDb.SaveChangesAsync(default);
 
-        var query = new GetNewTokenQuery(new RequestDto<LoginDtoV1>(
-            "device", 
-            LoginDtoV1.Create("username", "password"), 0, 0));
+        var query = new GetNewTokenQuery(RequestDto.Create(
+     
+            LoginDtoV1.Create("username", "password"),       "device",  0, 0));
 
         await handler.Handle(query, default);
         var count1 = await EssentialDb.Sessions.CountAsync();
@@ -130,9 +127,8 @@ public class GetNewTokenQueryTests : TestHelper
         await EssentialDb.Users.AddAsync(user);
         await EssentialDb.SaveChangesAsync(default);
 
-        var query = new GetNewTokenQuery(new RequestDto<LoginDtoV1>(
-            "device", 
-            LoginDtoV1.Create("username", "password"), 0, 0));
+        var query = new GetNewTokenQuery(RequestDto.Create(
+            LoginDtoV1.Create("username", "password"),"device",  0, 0));
 
         await handler.Handle(query, default);
         var count1 = await EssentialDb.Sessions.CountAsync();
@@ -159,15 +155,13 @@ public class GetNewTokenQueryTests : TestHelper
         await EssentialDb.Users.AddAsync(user);
         await EssentialDb.SaveChangesAsync(default);
 
-        var query1 = new GetNewTokenQuery(new RequestDto<LoginDtoV1>(
-            "device 1", 
-            LoginDtoV1.Create("username", "password"), 0, 0));
+        var query1 = new GetNewTokenQuery(RequestDto.Create(
+            LoginDtoV1.Create("username", "password"),"device 1",  0, 0));
         await handler.Handle(query1, default);
         var session1 = await EssentialDb.Sessions.FirstOrDefaultAsync(x => x.UserId == user.UserId && x.DeviceId == "device 1");
 
-        var query2 = new GetNewTokenQuery(new RequestDto<LoginDtoV1>(
-            "device 2", 
-            LoginDtoV1.Create("username", "password"), 0, 0));
+        var query2 = new GetNewTokenQuery(RequestDto.Create(
+            LoginDtoV1.Create("username", "password"),"device 2",  0, 0));
         await handler.Handle(query2, default);
         var session2 = await EssentialDb.Sessions.FirstOrDefaultAsync(x => x.UserId == user.UserId && x.DeviceId == "device 2");
         
@@ -190,9 +184,8 @@ public class GetNewTokenQueryTests : TestHelper
         await EssentialDb.Users.AddAsync(user);
         await EssentialDb.SaveChangesAsync(default);
 
-        await handler.Handle(new GetNewTokenQuery(new RequestDto<LoginDtoV1>(
-            "device", 
-            LoginDtoV1.Create("username", "password"), 0, 0)), 
+        await handler.Handle(new GetNewTokenQuery(RequestDto.Create(
+                LoginDtoV1.Create("username", "password"), "device", 0, 0)), 
             default);
         
         var session = await EssentialDb.Sessions.FirstOrDefaultAsync(x => x.UserId == user.UserId && x.DeviceId == "device");
@@ -217,9 +210,8 @@ public class GetNewTokenQueryTests : TestHelper
         await EssentialDb.Users.AddAsync(user);
         await EssentialDb.SaveChangesAsync(default);
 
-        await handler.Handle(new GetNewTokenQuery(new RequestDto<LoginDtoV1>(
-                "device", 
-                LoginDtoV1.Create("username", "password"), 0, 0)), 
+        await handler.Handle(new GetNewTokenQuery(RequestDto.Create(
+                LoginDtoV1.Create("username", "password"), "device", 0, 0)), 
             default);
         
         var session = await EssentialDb.Sessions.FirstOrDefaultAsync(x => x.UserId == user.UserId && x.DeviceId == "device");
@@ -244,9 +236,8 @@ public class GetNewTokenQueryTests : TestHelper
         await EssentialDb.Users.AddAsync(user);
         await EssentialDb.SaveChangesAsync(default);
 
-        await handler.Handle(new GetNewTokenQuery(new RequestDto<LoginDtoV1>(
-                "device", 
-                LoginDtoV1.Create("username", "password"), 0, 0)), 
+        await handler.Handle(new GetNewTokenQuery(RequestDto.Create(
+                LoginDtoV1.Create("username", "password"),"device",  0, 0)), 
             default);
         
         var session = await EssentialDb.Sessions.FirstOrDefaultAsync(x => x.UserId == user.UserId && x.DeviceId == "device");

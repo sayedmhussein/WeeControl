@@ -99,7 +99,7 @@ public abstract class ViewModelBase : INotifyPropertyChanged
         var location = await GetCurrentLocationAsync(locationAccuracy);
         var dto = payload == null ? 
             RequestDto.Create(device.DeviceId, location.Latitude, location.Longitude) : 
-            new RequestDto<T>(device.DeviceId, payload, location.Latitude, location.Longitude);
+            RequestDto.Create(payload, device.DeviceId, location.Latitude, location.Longitude);
         
         return new StringContent(JsonConvert.SerializeObject(dto), Encoding.UTF8, "application/json");
     }
