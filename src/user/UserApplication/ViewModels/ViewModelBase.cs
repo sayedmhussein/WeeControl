@@ -1,8 +1,10 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq.Expressions;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Reflection;
 using System.Text;
 using Newtonsoft.Json;
 using WeeControl.SharedKernel;
@@ -26,12 +28,34 @@ public abstract class ViewModelBase : INotifyPropertyChanged
     }
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    protected bool Validate<T>(T obj, out ICollection<ValidationResult> results)    
+    protected static bool Validate<T>(T obj, out ICollection<ValidationResult> results)    
     {    
         results = new List<ValidationResult>();
+        if (obj is null)
+        {
+            throw new ArgumentNullException(nameof(obj), "You should pass the validation object.");
+        }
+
         return Validator.TryValidateObject(obj, new ValidationContext(obj), results, true);    
-    } 
+    }
+
+    public string GetDisplayName(Type viewModel, string name)
+    {
+        MemberInfo? property = viewModel.GetProperty(name);
+        var attribute = property?.GetCustomAttributes(typeof(DisplayNameAttribute), true)
+            .Cast<DisplayNameAttribute>().Single();
+        return attribute?.DisplayName ?? throw new ArgumentNullException(name, "Didn't specify display attribute");
+    }
     
+    public string GetDisplayName<T>(Expression<Func<T>> expression)
+    {
+        var property = ((MemberExpression) expression.Body).Member;
+
+        var attribute = property.GetCustomAttributes(typeof(DisplayNameAttribute), true)
+            .Cast<DisplayNameAttribute>().Single();
+        return attribute?.DisplayName ?? throw new ArgumentNullException(property.Name, "Didn't specify display attribute");
+    }
+
     private readonly IDevice device;
     
     protected ViewModelBase(IDevice device)

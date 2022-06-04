@@ -17,6 +17,7 @@ public class RegisterViewModel : ViewModelBase
 
     [Required]
     [StringLength(50)]
+    [DisplayName("First Name")]
     public string FirstName
     {
         get => dto.FirstName;
@@ -29,6 +30,7 @@ public class RegisterViewModel : ViewModelBase
 
     [Required]
     [StringLength(50)]
+    [DisplayName("Last Name")]
     public string LastName
     {
         get => dto.LastName;
@@ -41,7 +43,7 @@ public class RegisterViewModel : ViewModelBase
 
     [Required]
     [EmailAddress]
-    [DisplayName("Email Address")]
+    [DisplayName("Email")]
     public string Email
     {
         get => dto.Email;
@@ -81,6 +83,7 @@ public class RegisterViewModel : ViewModelBase
     }
 
     [Phone]
+    [DisplayName("Mobile Number")]
     public string MobileNo
     {
         get => dto.MobileNo;
@@ -92,6 +95,7 @@ public class RegisterViewModel : ViewModelBase
     }
 
     [Required]
+    [DisplayName("Territory")]
     public string Territory
     {
         get => dto.TerritoryId;
