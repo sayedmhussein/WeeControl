@@ -40,8 +40,8 @@ public class Startup
         services.AddUserSecurityService();
         services.AddApplication();
         services.AddInfrastructure(Configuration);
-        
-        _ = Configuration["UseInMemoryDb"] == false.ToString() ?
+
+        _ = Configuration["UseInMemoryDb"] == false.ToString() ? 
             services.AddPersistenceAsPostgres(Configuration, Assembly.GetExecutingAssembly().GetName().Name) :
             services.AddPersistenceAsInMemory();
         

@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Delivery" />
+    <Folder Include="Contexts" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>

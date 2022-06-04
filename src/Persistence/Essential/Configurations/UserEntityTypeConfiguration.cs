@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using WeeControl.Domain.Essential.Entities;
+using WeeControl.Domain.Contexts.Essential;
 
 namespace WeeControl.Persistence.Essential.Configurations
 {
@@ -8,10 +8,8 @@ namespace WeeControl.Persistence.Essential.Configurations
     {
         public void Configure(EntityTypeBuilder<UserDbo> builder)
         {
-            builder.ToTable(nameof(UserDbo), nameof(Essential));
             builder.HasKey(p => p.UserId);
             builder.Property(p => p.UserId).ValueGeneratedOnAdd();
-
             builder.HasMany(x => x.Claims).WithOne().HasForeignKey(x => x.UserId);
         }
     }

@@ -55,7 +55,7 @@ public class CustomExceptionHandlerMiddleware
                 break;
             default:
                 code = HttpStatusCode.InternalServerError;
-                result = string.Empty;
+                result = exception.StackTrace;
                 break;
         }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -30,17 +31,24 @@ public class UserActivityNotification : INotification
 
         public async Task Handle(UserActivityNotification notif, CancellationToken cancellationToken)
         {
-            var id = currentUserInfo.GetSessionId();
-            if (id is null)
+            try
             {
-                return;    
+                var id = currentUserInfo.GetSessionId();
+                if (id is null)
+                {
+                    return;    
+                }
+            
+                var session = await context.Sessions.FirstAsync(x => x.SessionId == id, cancellationToken);
+                var log = session.CreateLog(notif.logContext, notif.logDetails);
+            
+                await context.Logs.AddAsync(log, cancellationToken);
+                await context.SaveChangesAsync(cancellationToken);
             }
-            
-            var session = await context.Sessions.FirstAsync(x => x.SessionId == id, cancellationToken);
-            var log = session.CreateLog(notif.logContext, notif.logDetails);
-            
-            await context.Logs.AddAsync(log, cancellationToken);
-            await context.SaveChangesAsync(cancellationToken);
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
     }
 }

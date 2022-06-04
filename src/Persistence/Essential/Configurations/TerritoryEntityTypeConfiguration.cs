@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using WeeControl.Domain.Essential.Entities;
+using WeeControl.Domain.Contexts.Essential;
 
 namespace WeeControl.Persistence.Essential.Configurations
 {

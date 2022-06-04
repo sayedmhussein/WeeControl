@@ -9,4 +9,5 @@ public interface IRegisterDtoV1
     string Password { get; set; }
     string MobileNo { get; set; }
     string TerritoryId { get; set; }
+    string Nationality { get; set; }
 }

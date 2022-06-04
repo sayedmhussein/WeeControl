@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace WeeControl.Domain.Essential.Entities;
+namespace WeeControl.Domain.Contexts.Essential;
 
 public class TerritoryDbo
 {

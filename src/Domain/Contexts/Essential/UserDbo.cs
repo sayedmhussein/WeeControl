@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 
-namespace WeeControl.Domain.Essential.Entities;
+namespace WeeControl.Domain.Contexts.Essential;
 
+[Table(nameof(UserDbo), Schema = nameof(Essential))]
 public class UserDbo
 {
     [Obsolete("Use the other")]
@@ -20,7 +22,7 @@ public class UserDbo
     }
 
     public static UserDbo Create(string firstname, string lastname, string email, string username, string password,
-        string mobileNo, string territory)
+        string mobileNo, string territory, string nationality)
     {
         return new UserDbo()
         {

@@ -14,9 +14,13 @@ namespace WeeControl.Persistence
     {
         public static IServiceCollection AddPersistenceAsPostgres(this IServiceCollection services, IConfiguration configuration, string migrationAssemblyName)
         {
+            var options = GetPostgresOptions<EssentialDbContext>(
+                configuration.GetConnectionString("EssentialDbProvider"),
+                migrationAssemblyName);
+            services.AddScoped(p => options);
+            
             services.AddScoped<IEssentialDbContext>(p =>
-                new EssentialDbContext(GetPostgresOptions<EssentialDbContext>(configuration.GetConnectionString("EssentialDbProvider"),
-                    migrationAssemblyName)));
+                new EssentialDbContext(options));
 
             return services;
         }
@@ -41,7 +45,7 @@ namespace WeeControl.Persistence
 #if DEBUG
             options.EnableSensitiveDataLogging();
 #endif
-            options.UseNpgsql(dbName, o => { o.MigrationsAssembly(migrationAssemblyName); });
+            options.UseNpgsql(dbName, b => b.MigrationsAssembly(migrationAssemblyName));
 
             return options.Options;
         }

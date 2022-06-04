@@ -3,7 +3,7 @@ using MediatR;
 using Moq;
 using WeeControl.Application.Essential.Commands;
 using WeeControl.Application.Exceptions;
-using WeeControl.Domain.Essential.Entities;
+using WeeControl.Domain.Contexts.Essential;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
 using Xunit;
@@ -82,6 +82,6 @@ public class ResetPasswordCommandTests
             nameof(UserDbo.Username),
             password, 
             "012345667", 
-            "TRR");
+            "TRR", "EGP");
     }
 }

@@ -20,6 +20,11 @@ public class JwtService : IJwtService
 
     public ClaimsPrincipal GetClaimPrincipal(string token, TokenValidationParameters? parameters)
     {
+        if (string.IsNullOrEmpty(token))
+        {
+            return new ClaimsPrincipal();
+        }
+
         if (parameters != null)
         {
             var handler1 = new JwtSecurityTokenHandler();

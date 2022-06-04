@@ -11,4 +11,5 @@ public class RegisterDtoV1 : IRegisterDtoV1
     public string Password { get; set; } = string.Empty;
     public string MobileNo { get; set; } = string.Empty;
     public string TerritoryId { get; set; } = string.Empty;
+    public string Nationality { get; set; } = string.Empty;
 }

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading;
 using Moq;
 using WeeControl.Application.Essential.Queries;
-using WeeControl.Domain.Essential.Entities;
+using WeeControl.Domain.Contexts.Essential;
 using Xunit;
 
 namespace WeeControl.Application.Test.Essential.Queries;

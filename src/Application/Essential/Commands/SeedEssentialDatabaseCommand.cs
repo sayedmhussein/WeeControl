@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using WeeControl.Domain.Essential.Entities;
+using WeeControl.Domain.Contexts.Essential;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.Interfaces;
 
@@ -78,7 +78,7 @@ public class SeedEssentialDatabaseCommand : IRequest
                 name, 
                 passwordSecurity.Hash(name),
                 "+10"+ new Random().NextInt64(minValue:10000, maxValue:19999),
-                territoryId
+                territoryId, "EGP"
                 ), cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
 

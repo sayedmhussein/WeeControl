@@ -1,8 +1,10 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WeeControl.Domain.Essential.Entities;
+namespace WeeControl.Domain.Contexts.Essential;
 
+[Table(nameof(IdentityDbo), Schema = nameof(Essential))]
 public class IdentityDbo
 {
     [Key]   

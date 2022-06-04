@@ -1,7 +1,7 @@
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using WeeControl.Application.Essential;
-using WeeControl.Domain.Essential.Entities;
+using WeeControl.Domain.Contexts.Essential;
 using WeeControl.SharedKernel;
 using WeeControl.User.UserApplication.ViewModels.Admin;
 using WeeControl.WebApi;
