@@ -11,7 +11,7 @@ using WeeControl.SharedKernel.RequestsResponses;
 
 namespace WeeControl.Application.Essential.Commands;
 
-public class RegisterCommand : IRequest<ResponseDto<TokenDtoV1>>
+public class RegisterCommand : IRequest<IResponseDto<TokenDtoV1>>
 {
     private readonly IRequestDto<RegisterDtoV1> dto;
 
@@ -20,7 +20,7 @@ public class RegisterCommand : IRequest<ResponseDto<TokenDtoV1>>
         this.dto = dto;
     }
     
-    public class RegisterHandler : IRequestHandler<RegisterCommand, ResponseDto<TokenDtoV1>>
+    public class RegisterHandler : IRequestHandler<RegisterCommand, IResponseDto<TokenDtoV1>>
     {
         private readonly IEssentialDbContext context;
         private readonly IMediator mediator;
@@ -33,7 +33,7 @@ public class RegisterCommand : IRequest<ResponseDto<TokenDtoV1>>
             this.passwordSecurity = passwordSecurity;
         }
 
-        public async Task<ResponseDto<TokenDtoV1>> Handle(RegisterCommand cmd, CancellationToken cancellationToken)
+        public async Task<IResponseDto<TokenDtoV1>> Handle(RegisterCommand cmd, CancellationToken cancellationToken)
         {
             await mediator.Send(new VerifyRequestQuery(cmd.dto), cancellationToken);
 

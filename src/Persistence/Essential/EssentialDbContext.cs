@@ -28,11 +28,6 @@ namespace WeeControl.Persistence.Essential
             base.OnModelCreating(modelBuilder);
             
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-            // modelBuilder.ApplyConfiguration(new UserEntityTypeConfiguration());
-            // modelBuilder.ApplyConfiguration(new SessionEntityTypeConfiguration());
-            // modelBuilder.ApplyConfiguration(new SessionLogEntityTypeConfiguration());
-            // modelBuilder.ApplyConfiguration(new ClaimEntityTypeConfiguration());
-            // modelBuilder.ApplyConfiguration(new TerritoryEntityTypeConfiguration());
         }
     }
 }

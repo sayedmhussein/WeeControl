@@ -106,10 +106,10 @@ public class RegisterViewModel : ViewModelBase
         }
     }
 
-    public RegisterViewModel(IDevice device) : base(device)
+    public RegisterViewModel(IDevice device, IRegisterDtoV1? dto = null) : base(device)
     {
         this.device = device;
-        dto = new RegisterDtoV1();
+        this.dto = dto ?? new RegisterDtoV1();
     }
 
     public async Task RegisterAsync()
@@ -144,17 +144,15 @@ public class RegisterViewModel : ViewModelBase
             await device.Navigation.NavigateToAsync(Pages.Home.IndexPage, forceLoad: true);
             return;
         }
-        
-        switch (response.StatusCode)
+
+        var displayString = response.StatusCode switch
         {
-            case HttpStatusCode.Conflict:
-                await device.Alert.DisplayAlert("Either username or email or mobile number already exist!");
-                break;
-            case HttpStatusCode.BadRequest:
-                await device.Alert.DisplayAlert("Invalid details, please try again.");
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(response.StatusCode.ToString());
-        }
+            HttpStatusCode.Conflict => "Either username or email or mobile number already exist!",
+            HttpStatusCode.BadRequest => "Invalid details, please try again.",
+            HttpStatusCode.BadGateway => "Please check your internet connection then try again.",
+            _ => throw new ArgumentOutOfRangeException(response.StatusCode.ToString())
+        };
+        
+        await device.Alert.DisplayAlert(displayString);
     }
 }

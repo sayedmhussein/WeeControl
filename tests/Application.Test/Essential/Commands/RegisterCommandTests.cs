@@ -1,11 +1,12 @@
-﻿using System.Threading;
-using Microsoft.EntityFrameworkCore;
+﻿using System.Linq;
+using System.Threading;
 using Moq;
 using WeeControl.Application.Essential.Commands;
 using WeeControl.Application.Essential.Queries;
 using WeeControl.Application.Exceptions;
-using WeeControl.Domain.Essential.Entities;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
+using WeeControl.SharedKernel.Essential.Interfaces;
+using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.RequestsResponses;
 using Xunit;
 
@@ -17,71 +18,75 @@ public class RegisterCommandTests
     public async void WhenRegisterNewUser_ReturnSuccessAndToken()
     {
         using var testHelper = new TestHelper();
-        testHelper.MediatorMock.Setup(x => x.Send(It.IsAny<GetNewTokenQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ResponseDto<TokenDtoV1>( TokenDtoV1.Create("token", string.Empty, string.Empty)));
-        var command = new RegisterCommand(RequestDto.Create<RegisterDtoV1>(RegisterDtoV1.Create("email@emial.com", "username", "password"), "device", null, null));
-            
-        var tokenDto = await new RegisterCommand.RegisterHandler(testHelper.EssentialDb, testHelper.MediatorMock.Object, testHelper.PasswordSecurity).Handle(command, default);
-
-        testHelper.MediatorMock.Verify(mock => mock.Send(It.IsAny<VerifyRequestQuery>(), It.IsAny<CancellationToken>()), Times.Once);
+        testHelper.MediatorMock
+            .Setup(x => x.Send(
+                It.IsAny<GetNewTokenQuery>(), 
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync((ResponseDto<TokenDtoV1>) GetResponseDto());
+        var cmdDto = GetRequestCommandDto();
+        
+        var tokenDto = await GetHandler(testHelper).Handle(new RegisterCommand(cmdDto), default);
+        
         Assert.NotEmpty(tokenDto.Payload.Token);
+        testHelper.MediatorMock.Verify(
+            mock => mock.Send(It.IsAny<VerifyRequestQuery>(), 
+                It.IsAny<CancellationToken>()), 
+            Times.Once);
     }
     
     [Fact]
     public async void WhenRegisterNewUserWithCapital_DataInDbAreSmallLetters()
     {
         using var testHelper = new TestHelper();
-        string email = "Email@someprovider.com";
-        string username = "ThisIsUsername";
-        testHelper.MediatorMock.Setup(x => x.Send(It.IsAny<GetNewTokenQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ResponseDto<TokenDtoV1>(TokenDtoV1.Create("token", string.Empty, string.Empty)));
-        var command = new RegisterCommand(RequestDto.Create(RegisterDtoV1.Create(email.ToUpper(), username.ToUpper(),  "password"),"device", null, null));
-            
-        await new RegisterCommand.RegisterHandler(testHelper.EssentialDb, testHelper.MediatorMock.Object, testHelper.PasswordSecurity).Handle(command, default);
+        testHelper.MediatorMock
+            .Setup(x => x.Send(
+                It.IsAny<GetNewTokenQuery>(), 
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync((ResponseDto<TokenDtoV1>) GetResponseDto());
+        var cmdDto = GetRequestCommandDto();
+        cmdDto.Payload.Email = cmdDto.Payload.Email.ToUpper();
+        cmdDto.Payload.Username = cmdDto.Payload.Username.ToUpper();
 
-        var byEmail = await testHelper.EssentialDb.Users.FirstOrDefaultAsync(x => x.Email == email.ToLower());
-        Assert.NotNull(byEmail);
+        await GetHandler(testHelper).Handle(new RegisterCommand(cmdDto), default);
         
-        var byUsername = await testHelper.EssentialDb.Users.FirstOrDefaultAsync(x => x.Username == username.ToLower());
-        Assert.NotNull(byUsername);
+        var email = testHelper.EssentialDb.Users.First().Email.Where(char.IsLetter);
+        Assert.True(email.All(char.IsLower));
+        
+        var username = testHelper.EssentialDb.Users.First().Username.Where(char.IsLetter);
+        Assert.True(username.All(char.IsLower));
     }
     
     [Fact]
     public async void WhenRegisterNewUser_PasswordIsEncrypted()
     {
         using var testHelper = new TestHelper();
-        string postedPassword = "ThisIsPostedPassword";
-        testHelper.MediatorMock.Setup(x => x.Send(It.IsAny<GetNewTokenQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ResponseDto<TokenDtoV1>(TokenDtoV1.Create("token", string.Empty, string.Empty)));
-        var command = new RegisterCommand(RequestDto.Create(RegisterDtoV1.Create("email@emial.com", "username", "password"),"device",  null, null));
-            
-        await new RegisterCommand.RegisterHandler(testHelper.EssentialDb, testHelper.MediatorMock.Object, testHelper.PasswordSecurity).Handle(command, default);
+        testHelper.MediatorMock
+            .Setup(x => x.Send(
+                It.IsAny<GetNewTokenQuery>(), 
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync((ResponseDto<TokenDtoV1>) GetResponseDto());
+        var cmdDto = GetRequestCommandDto();
 
-        var savedPassword = await testHelper.EssentialDb.Users.FirstOrDefaultAsync(x => x.Username == "username");
+        await GetHandler(testHelper).Handle(new RegisterCommand(cmdDto), default);
+        var savedPassword = testHelper.EssentialDb.Users.First().Password;
 
-        Assert.NotEqual(postedPassword, savedPassword.Password);
-    }
-    
-    [Fact]
-    public async void WhenRegisterNewUser_VerifyingCorrectDeviceIsExecuted()
-    {
-        using var testHelper = new TestHelper();
-        testHelper.MediatorMock.Setup(x => x.Send(It.IsAny<GetNewTokenQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(new ResponseDto<TokenDtoV1>(TokenDtoV1.Create("token", string.Empty, string.Empty)));
-        var command = new RegisterCommand (RequestDto.Create(RegisterDtoV1.Create("email@emial.com", "username", "password"),"device",  null, null));
-            
-        var tokenDto = await new RegisterCommand.RegisterHandler(testHelper.EssentialDb, testHelper.MediatorMock.Object, testHelper.PasswordSecurity).Handle(command, default);
-
-        testHelper.MediatorMock.Verify(mock => mock.Send(It.IsAny<VerifyRequestQuery>(), It.IsAny<CancellationToken>()), Times.Once);
-        Assert.NotEmpty(tokenDto.Payload.Token);
+        Assert.NotEqual(cmdDto.Payload.Password, savedPassword);
     }
 
     [Fact]
     public async void WhenRegisterExistingUser_ThrowException()
     {
         using var testHelper = new TestHelper();
-        await testHelper.EssentialDb.Users.AddAsync(UserDbo.Create("email@email.com", "username", "password"));
-        await testHelper.EssentialDb.SaveChangesAsync(default);
-        var user = await testHelper.EssentialDb.Users.FirstOrDefaultAsync();
-        var command = new RegisterCommand( RequestDto.Create( RegisterDtoV1.Create(user.Email, user.Username, user.Password), "device",null, null));
+        testHelper.MediatorMock
+            .Setup(x => x.Send(
+                It.IsAny<GetNewTokenQuery>(), 
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync((ResponseDto<TokenDtoV1>) GetResponseDto());
+        var cmdDto = GetRequestCommandDto();
 
-        await Assert.ThrowsAsync<ConflictFailureException>(() => new RegisterCommand.RegisterHandler(testHelper.EssentialDb, testHelper.MediatorMock.Object, testHelper.PasswordSecurity).Handle(command, default));
+        await GetHandler(testHelper).Handle(new RegisterCommand(cmdDto), default);
+
+        await Assert.ThrowsAsync<ConflictFailureException>(() => GetHandler(testHelper).Handle(new RegisterCommand(cmdDto), default));
     }
 
     [Theory]
@@ -91,8 +96,43 @@ public class RegisterCommandTests
     public async void WhenInvalidInputs_ThrowException(string username, string email, string password)
     {
         using var testHelper = new TestHelper();
-        var command = new RegisterCommand(RequestDto.Create( RegisterDtoV1.Create(email, username, password),"device", null, null));
+        var cmdDto = GetRequestCommandDto();
+        cmdDto.Payload.Email = email;
+        cmdDto.Payload.Username = username;
+        cmdDto.Payload.Password = password;
 
-        await Assert.ThrowsAnyAsync<ValidationException>(() => new RegisterCommand.RegisterHandler(testHelper.EssentialDb, testHelper.MediatorMock.Object, testHelper.PasswordSecurity).Handle(command, default));
+        await Assert.ThrowsAnyAsync<ValidationException>(() => GetHandler(testHelper).Handle(new RegisterCommand(cmdDto), default));
+    }
+
+    private RegisterCommand.RegisterHandler GetHandler(TestHelper testHelper)
+    {
+        return new RegisterCommand.RegisterHandler
+        (
+            testHelper.EssentialDb,
+            testHelper.MediatorMock.Object,
+            testHelper.PasswordSecurity
+        );
+    }
+    
+    private IResponseDto<TokenDtoV1> GetResponseDto()
+    {
+        return 
+            ResponseDto.Create(TokenDtoV1.Create("token", "name", "url"));
+    }
+    
+    private IRequestDto<RegisterDtoV1> GetRequestCommandDto()
+    {
+        var dto = new RegisterDtoV1()
+        {
+            TerritoryId = nameof(IRegisterDtoV1.TerritoryId),
+            FirstName = nameof(IRegisterDtoV1.FirstName),
+            LastName = nameof(IRegisterDtoV1.LastName),
+            Email = nameof(IRegisterDtoV1.Email) + "@email.com",
+            Username = nameof(IRegisterDtoV1.Username),
+            Password = nameof(IRegisterDtoV1.Password),
+            MobileNo = "0123456789"
+        };
+
+        return RequestDto.Create(dto, "device", 0, 0);
     }
 }

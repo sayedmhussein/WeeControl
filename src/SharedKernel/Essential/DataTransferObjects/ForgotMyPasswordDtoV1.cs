@@ -2,7 +2,7 @@
 
 public class ForgotMyPasswordDtoV1
 {
-    public static ForgotMyPasswordDtoV1? Create(string email, string username)
+    public static ForgotMyPasswordDtoV1 Create(string email, string username)
     {
         return new ForgotMyPasswordDtoV1() { Email = email, Username = username };
     }

@@ -7,11 +7,13 @@ namespace WeeControl.Domain.Essential.Entities;
 
 public class UserDbo
 {
+    [Obsolete("Use the other")]
     public static UserDbo Create(string email, string username, string password)
     {
         return new UserDbo() { Email = email.ToLower(), Username = username.ToLower(), Password = password };
     }
     
+    [Obsolete("Use the other")]
     public static UserDbo Create(string email, string username, string password, string territory)
     {
         return new UserDbo() { Email = email.ToLower(), Username = username.ToLower(), Password = password, TerritoryId = territory.ToUpper()};

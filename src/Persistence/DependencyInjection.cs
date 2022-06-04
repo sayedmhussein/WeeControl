@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -26,7 +27,7 @@ namespace WeeControl.Persistence
             services.RemoveDbFromServices<EssentialDbContext>();
 
             if (dbName is null)
-                dbName = new Random().NextDouble().ToString();
+                dbName = new Random().NextDouble().ToString(CultureInfo.InvariantCulture);
             services.AddScoped<IEssentialDbContext>(p =>
                 new EssentialDbContext(GetInMemoryOptions<EssentialDbContext>(dbName)));
 

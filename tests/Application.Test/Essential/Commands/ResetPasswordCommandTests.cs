@@ -13,40 +13,32 @@ namespace WeeControl.Application.Test.Essential.Commands;
 public class ResetPasswordCommandTests
 {
     [Fact]
-    public async void WhenSuccessfullOrOk()
+    public async void WhenSuccessfulOrOk()
     {
         using var testHelper = new TestHelper();
-        var pasword = testHelper.PasswordSecurity.Hash("password");
-        var user = UserDbo.Create("email@email.com", "username", pasword);
+        var user = GetUserDbo(testHelper.PasswordSecurity.Hash("password"));
         await testHelper.EssentialDb.Users.AddAsync(user);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         
-        var handler = new ForgotMyPasswordCommand.ForgotMyPasswordHandler(testHelper.EssentialDb, new Mock<IMediator>().Object, testHelper.PasswordSecurity);
-
-        await handler.Handle(new ForgotMyPasswordCommand(
-            RequestDto.Create<ForgotMyPasswordDtoV1>(
-                ForgotMyPasswordDtoV1.Create(user.Email, user.Username), "device", null, null)), default);
-
-        var newPass = testHelper.EssentialDb.Users.FirstOrDefault(x => x.Username == user.Username)?.TempPassword;
+        await GetHandler(testHelper).Handle(GetCommand(user.Email, user.Username, "device"), 
+            default);
         
+        var newPass = testHelper.EssentialDb.Users.First().TempPassword;
         Assert.NotNull(newPass);
         Assert.NotEmpty(newPass);
-        Assert.NotEqual(pasword, newPass);
+        Assert.NotEqual("password", newPass);
     }
     
     [Fact]
     public async void WhenBadRequest()
     {
         using var testHelper = new TestHelper();
-        var pasword = testHelper.PasswordSecurity.Hash("password");
-        var user = UserDbo.Create("email@email.com", "username", pasword);
+        var user = GetUserDbo(testHelper.PasswordSecurity.Hash("password"));
         await testHelper.EssentialDb.Users.AddAsync(user);
         await testHelper.EssentialDb.SaveChangesAsync(default);
-        var handler = new ForgotMyPasswordCommand.ForgotMyPasswordHandler(testHelper.EssentialDb, new Mock<IMediator>().Object, testHelper.PasswordSecurity);
+        var handler = GetHandler(testHelper);
 
-        var command = new ForgotMyPasswordCommand(
-            RequestDto.Create(
-                ForgotMyPasswordDtoV1.Create("email@email.com", "username"), string.Empty, null, null));
+        var command = GetCommand(user.Email, user.Username, string.Empty);
         
         await Assert.ThrowsAsync<BadRequestException>(() =>
             handler.Handle(command, default));
@@ -59,12 +51,37 @@ public class ResetPasswordCommandTests
     public async void WhenInvalidCommandParameters(string email, string username)
     {
         using var testHelper = new TestHelper();
-        var handler = new ForgotMyPasswordCommand.ForgotMyPasswordHandler(testHelper.EssentialDb, new Mock<IMediator>().Object, testHelper.PasswordSecurity);
-        var command = new ForgotMyPasswordCommand(
-            RequestDto.Create(
-                ForgotMyPasswordDtoV1.Create(email, username),"device", null, null));
+        var handler = GetHandler(testHelper);
+        var command = GetCommand(email, username, "device");
         
         await Assert.ThrowsAsync<BadRequestException>(() =>
             handler.Handle(command, default));
+    }
+
+    private ForgotMyPasswordCommand.ForgotMyPasswordHandler GetHandler(TestHelper testHelper)
+    {
+        return new ForgotMyPasswordCommand.ForgotMyPasswordHandler(
+            testHelper.EssentialDb, 
+            testHelper.MediatorMock.Object, 
+            testHelper.PasswordSecurity);
+    }
+
+    private ForgotMyPasswordCommand GetCommand(string email, string username, string device)
+    {
+        return new ForgotMyPasswordCommand(
+            RequestDto.Create(
+                ForgotMyPasswordDtoV1.Create(email, username), device, null, null));
+    }
+
+    private UserDbo GetUserDbo(string password)
+    {
+        return UserDbo.Create(
+            nameof(UserDbo.FirstName), 
+            nameof(UserDbo.LastName), 
+            nameof(UserDbo.Email) + "@email.com", 
+            nameof(UserDbo.Username),
+            password, 
+            "012345667", 
+            "TRR");
     }
 }
