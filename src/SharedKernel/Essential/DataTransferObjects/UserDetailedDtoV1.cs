@@ -1,6 +1,4 @@
-using WeeControl.SharedKernel.DataTransferObjects.Admin;
-
-namespace WeeControl.SharedKernel.DataTransferObjects;
+namespace WeeControl.SharedKernel.Essential.DataTransferObjects;
 
 public class UserDetailedDtoV1 : UserDtoV1
 {

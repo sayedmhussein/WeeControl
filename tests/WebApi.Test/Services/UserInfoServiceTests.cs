@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Moq;
 using WeeControl.Application.Essential.Queries;
 using WeeControl.SharedKernel;
-using WeeControl.SharedKernel.DataTransferObjects;
+using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
 using WeeControl.WebApi.Services;
 using Xunit;

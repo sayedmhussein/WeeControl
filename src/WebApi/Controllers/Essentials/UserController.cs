@@ -6,8 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WeeControl.Application.Essential.Commands;
 using WeeControl.SharedKernel;
-using WeeControl.SharedKernel.DataTransferObjects.Authentication;
-using WeeControl.SharedKernel.DataTransferObjects.User;
+using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
 
 namespace WeeControl.WebApi.Controllers.Essentials;

@@ -1,11 +1,12 @@
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
 using Newtonsoft.Json;
 using WeeControl.SharedKernel;
-using WeeControl.SharedKernel.DataTransferObjects.Authentication;
+using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
 using WeeControl.User.UserApplication.Interfaces;
 
@@ -13,15 +14,34 @@ namespace WeeControl.User.UserApplication.ViewModels;
 
 public abstract class ViewModelBase : INotifyPropertyChanged
 {
-    public bool IsLoading { get; protected set; }
+    private bool isLoading;
+    public bool IsLoading
+    {
+        get => isLoading;
+        protected set
+        {
+            isLoading = value;
+            OnPropertyChanged(nameof(IsLoading));
+        }
+    }
     public event PropertyChangedEventHandler? PropertyChanged;
 
+    protected bool Validate<T>(T obj, out ICollection<ValidationResult> results)    
+    {    
+        results = new List<ValidationResult>();
+        return Validator.TryValidateObject(obj, new ValidationContext(obj), results, true);    
+    } 
     
     private readonly IDevice device;
     
     protected ViewModelBase(IDevice device)
     {
         this.device = device;
+    }
+    
+    protected void OnPropertyChanged(string propertyName)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
     
     protected async Task<HttpResponseMessage> SendMessageAsync<T>(HttpRequestMessage message, T? payload = null, bool accurateLocation = false) where T : class

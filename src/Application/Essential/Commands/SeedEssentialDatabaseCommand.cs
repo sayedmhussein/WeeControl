@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -70,10 +71,15 @@ public class SeedEssentialDatabaseCommand : IRequest
 
         private async Task AddUser(string name, string territoryId, IEnumerable<(string Type, string Value)> claims, CancellationToken cancellationToken)
         {
-            await context.Users.AddAsync(UserDbo.Create($"{name}@WeeControl.com", 
+            await context.Users.AddAsync(UserDbo.Create(
+                name,
+                name,
+                $"{name}@WeeControl.com", 
                 name, 
                 passwordSecurity.Hash(name),
-                territoryId), cancellationToken);
+                "+10"+ new Random().NextInt64(minValue:10000, maxValue:19999),
+                territoryId
+                ), cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
 
             if (claims is not null && claims.Any())

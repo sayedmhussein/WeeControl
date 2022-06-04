@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Net.Http.Json;
 using WeeControl.SharedKernel;
-using WeeControl.SharedKernel.DataTransferObjects.Authentication;
-using WeeControl.SharedKernel.DataTransferObjects.User;
+using WeeControl.SharedKernel.Essential.DataTransferObjects;
+using WeeControl.SharedKernel.Essential.Interfaces;
 using WeeControl.SharedKernel.RequestsResponses;
 using WeeControl.User.UserApplication.Interfaces;
 
@@ -13,45 +13,115 @@ namespace WeeControl.User.UserApplication.ViewModels.User;
 public class RegisterViewModel : ViewModelBase
 {
     private readonly IDevice device;
+    private readonly IRegisterDtoV1 dto;
+
+    [Required]
+    [StringLength(50)]
+    public string FirstName
+    {
+        get => dto.FirstName;
+        set
+        {
+            dto.FirstName = value;
+            OnPropertyChanged(nameof(FirstName));
+        }
+    }
+
+    [Required]
+    [StringLength(50)]
+    public string LastName
+    {
+        get => dto.LastName;
+        set
+        {
+            dto.LastName = value;
+            OnPropertyChanged(nameof(LastName));
+        }
+    }
 
     [Required]
     [EmailAddress]
-    [DisplayName("Email")]
-    public string Email { get; set; } = string.Empty;
+    [DisplayName("Email Address")]
+    public string Email
+    {
+        get => dto.Email;
+        set
+        {
+            dto.Email = value;
+            OnPropertyChanged(nameof(Email));
+        }
+    }
 
     [Required]
     [MinLength(3)]
     [StringLength(45, ErrorMessage = "username cannot be longer than 45 characters.")]
     [DisplayName("Username")]
-    public string Username { get; set; } = string.Empty;
+    public string Username
+    {
+        get => dto.Username;
+        set
+        {
+            dto.Username = value;
+            OnPropertyChanged(nameof(Username));
+        }
+    }
 
     [Required]
     [MinLength(6)]
     [DataType(DataType.Password)]
     [DisplayName("Password")]
-    public string Password { get; set; } = string.Empty;
+    public string Password
+    {
+        get => dto.Password;
+        set
+        {
+            dto.Password = value;
+            OnPropertyChanged(nameof(Password));
+        }
+    }
+
+    [Phone]
+    public string MobileNo
+    {
+        get => dto.MobileNo;
+        set
+        {
+            dto.MobileNo = value;
+            OnPropertyChanged(nameof(MobileNo));
+        }
+    }
+
+    [Required]
+    public string Territory
+    {
+        get => dto.TerritoryId;
+        set
+        {
+            dto.TerritoryId = value;
+            OnPropertyChanged(nameof(Territory));
+        }
+    }
 
     public RegisterViewModel(IDevice device) : base(device)
     {
         this.device = device;
+        dto = new RegisterDtoV1();
     }
 
     public async Task RegisterAsync()
     {
-        if (string.IsNullOrWhiteSpace(Email) ||
-            string.IsNullOrWhiteSpace(Username) ||
-            string.IsNullOrWhiteSpace(Password))
+        if (Validate(this, out var results)) 
         {
-            await device.Alert.DisplayAlert("Invalid Data");
+            IsLoading = true;
+            await ProcessRegister();
+            IsLoading = false;
             return;
         }
         
-        IsLoading = true;
-        await ProcessRegister(RegisterDtoV1.Create(Email, Username, Password));
-        IsLoading = false;
+        await device.Alert.DisplayAlert(results.FirstOrDefault()?.ErrorMessage ?? "Invalid data entered!");
     }
 
-    private async Task ProcessRegister(RegisterDtoV1? dto)
+    private async Task ProcessRegister()
     {
         HttpRequestMessage message = new()
         {
@@ -74,14 +144,13 @@ public class RegisterViewModel : ViewModelBase
         switch (response.StatusCode)
         {
             case HttpStatusCode.Conflict:
-                await device.Alert.DisplayAlert("AlertEnum.ExistingEmailOrUsernameExist");
+                await device.Alert.DisplayAlert("Either username or email or mobile number already exist!");
                 break;
             case HttpStatusCode.BadRequest:
-                await device.Alert.DisplayAlert("AlertEnum.DeveloperInvalidUserInput");
+                await device.Alert.DisplayAlert("Invalid details, please try again.");
                 break;
             default:
-                await device.Alert.DisplayAlert("AlertEnum.DeveloperMinorBug");
-                break;
+                throw new ArgumentOutOfRangeException(response.StatusCode.ToString());
         }
     }
 }

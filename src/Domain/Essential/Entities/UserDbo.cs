@@ -16,12 +16,28 @@ public class UserDbo
     {
         return new UserDbo() { Email = email.ToLower(), Username = username.ToLower(), Password = password, TerritoryId = territory.ToUpper()};
     }
+
+    public static UserDbo Create(string firstname, string lastname, string email, string username, string password,
+        string mobileNo, string territory)
+    {
+        return new UserDbo()
+        {
+            FirstName = firstname, LastName = lastname,
+            Email = email, Username = username, Password = password,
+            MobileNo = mobileNo,
+            TerritoryId = territory
+        };
+    }
     
     [Key]
     public Guid UserId { get; }
 
+    [Required]
+    [StringLength(50)]
     public string FirstName { get; set; }
 
+    [Required]
+    [StringLength(50)]
     public string LastName { get; set; }
     
     [Required]
@@ -59,7 +75,7 @@ public class UserDbo
     public virtual IEnumerable<SessionDbo> Sessions { get; }
     public virtual ICollection<ClaimDbo> Claims { get; }
     
-    public virtual ICollection<IdentityDbo> Identies { get; }
+    public virtual ICollection<IdentityDbo> Identities { get; }
 
     public void UpdatePassword(string newPassword)
     {

@@ -1,5 +1,5 @@
 using System.Net;
-using WeeControl.SharedKernel.DataTransferObjects.Authentication;
+using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
 using WeeControl.User.UserApplication.ViewModels.Authentication;
 

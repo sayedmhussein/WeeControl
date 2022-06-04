@@ -4,7 +4,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using WeeControl.Application.Essential.Notifications;
 using WeeControl.Application.Exceptions;
-using WeeControl.SharedKernel.DataTransferObjects.User;
+using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.Interfaces;
 
 namespace WeeControl.Application.Essential.Commands;

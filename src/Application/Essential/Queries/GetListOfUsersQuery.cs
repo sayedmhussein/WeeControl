@@ -5,8 +5,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using WeeControl.Application.Interfaces;
-using WeeControl.SharedKernel.DataTransferObjects;
-using WeeControl.SharedKernel.DataTransferObjects.Admin;
+using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
 
 namespace WeeControl.Application.Essential.Queries;

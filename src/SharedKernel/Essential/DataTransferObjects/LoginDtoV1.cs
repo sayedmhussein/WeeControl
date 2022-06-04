@@ -1,5 +1,5 @@
 ﻿
-namespace WeeControl.SharedKernel.DataTransferObjects.Authentication;
+namespace WeeControl.SharedKernel.Essential.DataTransferObjects;
 
 public class LoginDtoV1
 {

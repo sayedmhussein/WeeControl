@@ -1,6 +1,5 @@
 using System.Net;
-using WeeControl.SharedKernel.DataTransferObjects;
-using WeeControl.SharedKernel.DataTransferObjects.Admin;
+using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
 using WeeControl.User.UserApplication.ViewModels.Admin;
 

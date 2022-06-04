@@ -1,4 +1,4 @@
-namespace WeeControl.SharedKernel.DataTransferObjects;
+namespace WeeControl.SharedKernel.Essential.DataTransferObjects;
 
 public class ClaimDto
 {

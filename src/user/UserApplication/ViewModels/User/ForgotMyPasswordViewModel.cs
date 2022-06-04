@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using WeeControl.SharedKernel;
-using WeeControl.SharedKernel.DataTransferObjects.User;
+using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.User.UserApplication.Interfaces;
 
 namespace WeeControl.User.UserApplication.ViewModels.User;

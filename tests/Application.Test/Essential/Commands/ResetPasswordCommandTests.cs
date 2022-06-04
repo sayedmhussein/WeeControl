@@ -4,7 +4,7 @@ using Moq;
 using WeeControl.Application.Essential.Commands;
 using WeeControl.Application.Exceptions;
 using WeeControl.Domain.Essential.Entities;
-using WeeControl.SharedKernel.DataTransferObjects.User;
+using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
 using Xunit;
 

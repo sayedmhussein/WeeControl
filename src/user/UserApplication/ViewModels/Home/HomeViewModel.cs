@@ -1,4 +1,4 @@
-using WeeControl.SharedKernel.DataTransferObjects.Authentication;
+using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.User.UserApplication.Interfaces;
 
 namespace WeeControl.User.UserApplication.ViewModels.Home;

@@ -1,4 +1,4 @@
-﻿namespace WeeControl.SharedKernel.DataTransferObjects.User;
+﻿namespace WeeControl.SharedKernel.Essential.DataTransferObjects;
 
 public class ForgotMyPasswordDtoV1
 {
