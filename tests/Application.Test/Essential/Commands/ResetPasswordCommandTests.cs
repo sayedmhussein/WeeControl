@@ -16,7 +16,7 @@ public class ResetPasswordCommandTests
     public async void WhenSuccessfulOrOk()
     {
         using var testHelper = new TestHelper();
-        var user = GetUserDbo(testHelper.PasswordSecurity.Hash("password"));
+        var user = testHelper.GetUserDbo("username", testHelper.PasswordSecurity.Hash("password"));
         await testHelper.EssentialDb.Users.AddAsync(user);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         
@@ -33,7 +33,7 @@ public class ResetPasswordCommandTests
     public async void WhenBadRequest()
     {
         using var testHelper = new TestHelper();
-        var user = GetUserDbo(testHelper.PasswordSecurity.Hash("password"));
+        var user = testHelper.GetUserDbo("username", testHelper.PasswordSecurity.Hash("password"));
         await testHelper.EssentialDb.Users.AddAsync(user);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         var handler = GetHandler(testHelper);
@@ -71,17 +71,5 @@ public class ResetPasswordCommandTests
         return new ForgotMyPasswordCommand(
             RequestDto.Create(
                 ForgotMyPasswordDtoV1.Create(email, username), device, null, null));
-    }
-
-    private UserDbo GetUserDbo(string password)
-    {
-        return UserDbo.Create(
-            nameof(UserDbo.FirstName), 
-            nameof(UserDbo.LastName), 
-            nameof(UserDbo.Email) + "@email.com", 
-            nameof(UserDbo.Username),
-            password, 
-            "012345667", 
-            "TRR", "EGP");
     }
 }

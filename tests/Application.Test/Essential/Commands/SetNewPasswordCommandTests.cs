@@ -16,8 +16,7 @@ public class SetNewPasswordCommandTests
     public async void WhenRequestSentCorrect_PasswordIsChangedSuccessfully()
     {
         using var testHelper = new TestHelper();
-        var info = (Email: "email@email.com", Username: nameof(SetNewPasswordCommandTests), Password: "password");
-        var user = UserDbo.Create(info.Email, info.Username, testHelper.PasswordSecurity.Hash(info.Password));
+        var user = testHelper.GetUserDbo("username", testHelper.PasswordSecurity.Hash("password"));
         await testHelper.EssentialDb.Users.AddAsync(user);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         
@@ -29,7 +28,7 @@ public class SetNewPasswordCommandTests
         testHelper.CurrentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
 
         var handler = new SetNewPasswordCommand.SetNewPasswordHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object, testHelper.PasswordSecurity);
-        await handler.Handle(new SetNewPasswordCommand(requestDto, info.Password, "NewPassword"), default);
+        await handler.Handle(new SetNewPasswordCommand(requestDto, "password", "NewPassword"), default);
         
         Assert.Equal(testHelper.PasswordSecurity.Hash("NewPassword"), user.Password);
     }
@@ -38,8 +37,7 @@ public class SetNewPasswordCommandTests
     public async void WhenRequestSentInvalidOldPassword_ThrowNotFound()
     {
         using var testHelper = new TestHelper();
-        var info = (Email: "email@email.com", Username: nameof(SetNewPasswordCommandTests), Password: "password");
-        var user = UserDbo.Create(info.Email, info.Username, info.Password);
+        var user = testHelper.GetUserDbo("username", "password");
         await testHelper.EssentialDb.Users.AddAsync(user);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         

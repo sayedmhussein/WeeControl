@@ -14,10 +14,10 @@ public class GetListOfUsersTests
     public async void Success()
     {
         using var testHelper = new TestHelper();
-        var user = UserDbo.Create("email@email.com", "username", "password", "TRR");
+        var user = testHelper.GetUserDbo("username", "password");
         await testHelper.EssentialDb.Users.AddAsync(user, default);
-        await testHelper.EssentialDb.Users.AddAsync(UserDbo.Create("email@email.com1", "username1", "password", "TRR"), default);
-        await testHelper.EssentialDb.Users.AddAsync(UserDbo.Create("email@email.com2", "username2", "password", "TRR"), default);
+        await testHelper.EssentialDb.Users.AddAsync(testHelper.GetUserDbo("username2", "password"), default);
+        await testHelper.EssentialDb.Users.AddAsync(testHelper.GetUserDbo("username3", "password"), default);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         var session = SessionDbo.Create(user.UserId, nameof(GetListOfUsersTests));
         await testHelper.EssentialDb.Sessions.AddAsync(session);
@@ -35,20 +35,20 @@ public class GetListOfUsersTests
     public async void WhenNotFullList()
     {
         using var testHelper = new TestHelper();
-        var user = UserDbo.Create("email@email.com", "username", "password", "TRR1");
+        var user = testHelper.GetUserDbo("username", "password", "TR1");
         await testHelper.EssentialDb.Users.AddAsync(user, default);
-        await testHelper.EssentialDb.Users.AddAsync(UserDbo.Create("email@email.com1", "username1", "password", "TRR2"), default);
-        await testHelper.EssentialDb.Users.AddAsync(UserDbo.Create("email@email.com2", "username2", "password", "TRR3"), default);
+        await testHelper.EssentialDb.Users.AddAsync(testHelper.GetUserDbo("username", "password", "TR2"), default);
+        await testHelper.EssentialDb.Users.AddAsync(testHelper.GetUserDbo("username", "password", "TR3"), default);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         var session = SessionDbo.Create(user.UserId, nameof(GetListOfUsersTests));
         await testHelper.EssentialDb.Sessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         testHelper.CurrentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
         testHelper.CurrentUserInfoMock.Setup(x => x.GetTerritoriesListAsync(It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new List<string>() {user.TerritoryId, "TRR2"});
+            .ReturnsAsync(new List<string>() {user.TerritoryId, "TR1"});
 
         var handler = await new GetListOfUsersQuery.GetListOfUsersHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object).Handle(new GetListOfUsersQuery(),default);
         
-        Assert.Equal(2, handler.Payload.Count());
+        Assert.Single(handler.Payload);
     }
 }

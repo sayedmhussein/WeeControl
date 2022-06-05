@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.Application.Essential;
 using WeeControl.Application.Interfaces;
+using WeeControl.Domain.Contexts.Essential;
 using WeeControl.Persistence;
 using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.Services;
@@ -42,5 +43,17 @@ public class TestHelper : IDisposable
         MediatorMock = null;
         ConfigurationMock = null;
         CurrentUserInfoMock = null;
+    }
+    
+    public UserDbo GetUserDbo(string username, string password, string territory = "TST")
+    {
+        return UserDbo.Create(
+            nameof(UserDbo.FirstName), 
+            nameof(UserDbo.LastName), 
+            (username + "@email.com").ToLower(), 
+            username.ToLower(),
+            password, 
+            "012345667", 
+            territory, "EGP");
     }
 }
