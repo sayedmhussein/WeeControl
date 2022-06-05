@@ -21,7 +21,7 @@ namespace WeeControl.WebApi.Controllers.Essentials;
 [ProducesResponseType((int)HttpStatusCode.Forbidden)]
 [Consumes(MediaTypeNames.Application.Json)]
 [Produces(MediaTypeNames.Application.Json)]
-public class AdminController  : Controller
+public class AdminController : Controller
 {
     private readonly IMediator mediator;
 
@@ -31,7 +31,7 @@ public class AdminController  : Controller
     }
 
     [Authorize(Policy = DeveloperWithDatabaseOperationPolicy.Name)]
-    [HttpHead(Api.Essential.Admin.Base)]
+    [HttpHead(Api.Essential.Admin.EndPoint)]
     public async Task<ActionResult> PopulateDatabase()
     {
         await mediator.Send(new SeedEssentialDatabaseCommand());
@@ -54,17 +54,6 @@ public class AdminController  : Controller
     public async Task<ActionResult<ResponseDto<IEnumerable<UserDtoV1>>>> GetUserDetailsV1(string username)
     {
         var command = new GetUserDetailsQuery(username);
-        var response = await mediator.Send(command);
-
-        return Ok(response);
-    }
-    
-    [HttpGet(Api.Essential.Admin.Territory)]
-    [MapToApiVersion("1.0")]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<ActionResult<ResponseDto<IEnumerable<UserDtoV1>>>> GetListOfTerritoriesV1()
-    {
-        var command = new GetListOfTerritoriesQuery();
         var response = await mediator.Send(command);
 
         return Ok(response);

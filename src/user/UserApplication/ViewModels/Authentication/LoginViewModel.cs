@@ -70,7 +70,7 @@ public class LoginViewModel : ViewModelBase
         var response = await SendMessageAsync(
             new HttpRequestMessage
             {
-                RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Authorization.Root)),
+                RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Authorization.EndPoint)),
                 Version = new Version("1.0"),
                 Method = HttpMethod.Post,
             }, 

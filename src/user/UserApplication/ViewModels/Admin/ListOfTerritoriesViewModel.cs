@@ -7,32 +7,31 @@ using WeeControl.User.UserApplication.Interfaces;
 
 namespace WeeControl.User.UserApplication.ViewModels.Admin;
 
-public class AdminListOfUsersViewModel : ViewModelBase
+public class ListOfTerritoriesViewModel : ViewModelBase
 {
     private readonly IDevice device;
+    public IEnumerable<TerritoryDto> ListOfTerritories { get; private set; } 
     
-    public IEnumerable<UserDtoV1> ListOfUsers { get; private set; } = new List<UserDtoV1>();
-
-
-    public AdminListOfUsersViewModel(IDevice device) : base(device)
+    public ListOfTerritoriesViewModel(IDevice device) : base(device)
     {
         this.device = device;
+        ListOfTerritories = new List<TerritoryDto>();
     }
 
-    public async Task GetListOfUsers()
+    public async Task GetListOfTerritories()
     {
         var response = await SendMessageAsync<object>(
             new HttpRequestMessage
             {
-                RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Admin.User)),
+                RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Territory.EndPoint)),
                 Version = new Version("1.0"),
                 Method = HttpMethod.Get
             });
-
+        
         if (response.IsSuccessStatusCode)
         {
-            var content = await response.Content.ReadFromJsonAsync<ResponseDto<IEnumerable<UserDtoV1>>>();
-            ListOfUsers = content?.Payload ?? new List<UserDtoV1>();
+            var content = await response.Content.ReadFromJsonAsync<ResponseDto<IEnumerable<TerritoryDto>>>();
+            ListOfTerritories = content?.Payload ?? new List<TerritoryDto>();
             return;
         }
 
@@ -47,7 +46,7 @@ public class AdminListOfUsersViewModel : ViewModelBase
                 break;
             default:
                 await device.Alert.DisplayAlert("Unexpected Error Occured");
-                throw new ArgumentOutOfRangeException();
+                throw new ArgumentOutOfRangeException(response.RequestMessage.ToString());
         }
     }
 }

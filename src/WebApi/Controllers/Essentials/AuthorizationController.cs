@@ -13,7 +13,7 @@ using WeeControl.SharedKernel.RequestsResponses;
 namespace WeeControl.WebApi.Controllers.Essentials;
 
 [ApiController]
-[Route(Api.Essential.Authorization.Root)]
+[Route(Api.Essential.Authorization.EndPoint)]
 [ProducesResponseType((int)HttpStatusCode.BadRequest)]
 [Consumes(MediaTypeNames.Application.Json)]
 [Produces(MediaTypeNames.Application.Json)]

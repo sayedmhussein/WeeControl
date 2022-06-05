@@ -100,7 +100,7 @@ public abstract class ViewModelBase : INotifyPropertyChanged
 
         HttpRequestMessage message = new()
         {
-            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Authorization.Root)),
+            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Authorization.EndPoint)),
             Version = new Version("1.0"),
             Method = HttpMethod.Put
         };

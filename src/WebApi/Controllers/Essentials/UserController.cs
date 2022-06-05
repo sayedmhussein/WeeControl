@@ -24,7 +24,7 @@ public class UserController : Controller
     }
 
     [AllowAnonymous]
-    [HttpPost(Api.Essential.User.Base)]
+    [HttpPost(Api.Essential.User.EndPoint)]
     [MapToApiVersion("1.0")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
