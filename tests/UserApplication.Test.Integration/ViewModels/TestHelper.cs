@@ -46,9 +46,6 @@ public class TestHelper<T> : IDisposable
         helper.ViewModel.UsernameOrEmail = username;
         helper.ViewModel.Password = password;
 
-        // helper.DeviceMock.SecurityMock.Setup(x => x.UpdateTokenAsync(It.IsAny<string>()))
-        //     .Callback((string tkn) => DeviceMock.InjectTokenToMock(tkn));
-        
         await helper.ViewModel.LoginAsync();
         
         DeviceMock.InjectTokenToMock(await helper.Device.Security.GetTokenAsync());
@@ -58,64 +55,16 @@ public class TestHelper<T> : IDisposable
     {
         return new PasswordSecurity().Hash(password);
     }
-}
-
-public class TestForTestClass : IClassFixture<CustomWebApplicationFactory<Startup>>
-{
-    private readonly CustomWebApplicationFactory<Startup> factory;
-
-    public TestForTestClass(CustomWebApplicationFactory<Startup> factory)
-    {
-        this.factory = factory;
-    }
     
-    [Fact]
-    public async void TestLoginWhenSuccess()
+    public static UserDbo GetUserDboWithEncryptedPassword(string username, string password, string territory = "TST")
     {
-        var httpClient = factory.WithWebHostBuilder(builder =>
-        {
-            builder.ConfigureServices(services =>
-            {
-                using var scope = services.BuildServiceProvider().CreateScope();
-                var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-                db.Users.Add(UserDbo.Create(
-                    "email@email.com", 
-                    "username", 
-                    TestHelper<object>.GetEncryptedPassword("password")));
-                db.SaveChanges();
-            });
-        }).CreateClient();
-
-        using var helper = new TestHelper<LogoutViewModel>(httpClient);
-        await helper.Authorize("username", "password", "device");
-
-        var token = await helper.Device.Security.GetTokenAsync();
-        
-        Assert.NotEmpty(token);
-    }
-    
-    [Fact]
-    public async void TestLoginWhenFailure()
-    {
-        var httpClient = factory.WithWebHostBuilder(builder =>
-        {
-            builder.ConfigureServices(services =>
-            {
-                using var scope = services.BuildServiceProvider().CreateScope();
-                var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-                db.Users.Add(UserDbo.Create(
-                    "email@email.com", 
-                    "username", 
-                    TestHelper<object>.GetEncryptedPassword("password")));
-                db.SaveChanges();
-            });
-        }).CreateClient();
-
-        using var helper = new TestHelper<LogoutViewModel>(httpClient);
-        await helper.Authorize("username1", "password");
-
-        var token = await helper.Device.Security.GetTokenAsync();
-        
-        Assert.Empty(token);
+        return UserDbo.Create(
+            nameof(UserDbo.FirstName), 
+            nameof(UserDbo.LastName), 
+            (username + "@email.com").ToLower(), 
+            username.ToLower(),
+            GetEncryptedPassword(password), 
+            "012345667", 
+            territory, "EGP");
     }
 }

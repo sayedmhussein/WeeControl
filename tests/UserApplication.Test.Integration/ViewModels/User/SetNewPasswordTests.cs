@@ -26,10 +26,8 @@ public class SetNewPasswordTests : IClassFixture<CustomWebApplicationFactory<Sta
             {
                 using var scope = services.BuildServiceProvider().CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-                db.Users.Add(UserDbo.Create(
-                    "email@email.com", 
-                    "username", 
-                    TestHelper<object>.GetEncryptedPassword("password")));
+                var user = TestHelper<object>.GetUserDboWithEncryptedPassword("username", "password");
+                db.Users.Add(user);
                 db.SaveChanges();
             });
         }).CreateClient();
@@ -56,10 +54,8 @@ public class SetNewPasswordTests : IClassFixture<CustomWebApplicationFactory<Sta
             {
                 using var scope = services.BuildServiceProvider().CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-                db.Users.Add(UserDbo.Create(
-                    "email@email.com", 
-                    "username", 
-                    TestHelper<object>.GetEncryptedPassword("password")));
+                var user = TestHelper<object>.GetUserDboWithEncryptedPassword("username", "password");
+                db.Users.Add(user);
                 db.SaveChanges();
             });
         }).CreateClient();
@@ -86,10 +82,8 @@ public class SetNewPasswordTests : IClassFixture<CustomWebApplicationFactory<Sta
             {
                 using var scope = services.BuildServiceProvider().CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-                db.Users.Add(UserDbo.Create(
-                    "email@email.com", 
-                    "username", 
-                    TestHelper<object>.GetEncryptedPassword("password")));
+                var user = TestHelper<object>.GetUserDboWithEncryptedPassword("username", "password");
+                db.Users.Add(user);
                 db.SaveChanges();
             });
         }).CreateClient();
@@ -117,10 +111,7 @@ public class SetNewPasswordTests : IClassFixture<CustomWebApplicationFactory<Sta
             {
                 using var scope = services.BuildServiceProvider().CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-                var user = UserDbo.Create(
-                    "email@email.com",
-                    "username",
-                    TestHelper<object>.GetEncryptedPassword("password"));
+                var user = TestHelper<object>.GetUserDboWithEncryptedPassword("username", "password");
                 user.Suspend("This is for testing only");
                 db.Users.Add(user);
                 db.SaveChanges();

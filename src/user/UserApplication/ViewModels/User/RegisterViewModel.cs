@@ -105,6 +105,18 @@ public class RegisterViewModel : ViewModelBase
             OnPropertyChanged(nameof(Territory));
         }
     }
+    
+    [Required]
+    [DisplayName("Nationality")]
+    public string Nationality
+    {
+        get => dto.Nationality;
+        set
+        {
+            dto.Nationality = value;
+            OnPropertyChanged(nameof(Nationality));
+        }
+    }
 
     public RegisterViewModel(IDevice device, IRegisterDtoV1? dto = null) : base(device)
     {

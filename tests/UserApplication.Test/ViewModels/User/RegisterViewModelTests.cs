@@ -68,7 +68,8 @@ public class RegisterViewModelTests : ViewModelTestsBase
             Email = nameof(IRegisterDtoV1.Email) + "@email.com",
             Username = nameof(IRegisterDtoV1.Username),
             Password = nameof(IRegisterDtoV1.Password),
-            MobileNo = "0123456789"
+            MobileNo = "0123456789",
+            Nationality = "TST"
         };
     }
 

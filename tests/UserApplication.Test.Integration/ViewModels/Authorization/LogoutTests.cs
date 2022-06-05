@@ -26,7 +26,7 @@ public class LogoutTests : IClassFixture<CustomWebApplicationFactory<Startup>>
             {
                 using var scope = services.BuildServiceProvider().CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-                var user = UserDbo.Create("email@email.com", "username", TestHelper<object>.GetEncryptedPassword("password"));
+                var user = TestHelper<object>.GetUserDboWithEncryptedPassword("username", "password");
                 db.Users.Add(user);
                 db.SaveChanges();
             });

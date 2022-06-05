@@ -26,10 +26,8 @@ public class ForgotMyPasswordTests: IClassFixture<CustomWebApplicationFactory<St
             {
                 using var scope = services.BuildServiceProvider().CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-                db.Users.Add(UserDbo.Create(
-                    "email@email.com", 
-                    "username", 
-                    TestHelper<object>.GetEncryptedPassword("password")));
+                var user = TestHelper<object>.GetUserDboWithEncryptedPassword("username", "password");
+                db.Users.Add(user);
                 db.SaveChanges();
             });
         }).CreateClient();
@@ -57,10 +55,8 @@ public class ForgotMyPasswordTests: IClassFixture<CustomWebApplicationFactory<St
             {
                 using var scope = services.BuildServiceProvider().CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-                db.Users.Add(UserDbo.Create(
-                    "email@email.com", 
-                    "username", 
-                    TestHelper<object>.GetEncryptedPassword("password")));
+                var user = TestHelper<object>.GetUserDboWithEncryptedPassword("username", "password");
+                db.Users.Add(user);
                 db.SaveChanges();
             });
         }).CreateClient();
@@ -85,10 +81,7 @@ public class ForgotMyPasswordTests: IClassFixture<CustomWebApplicationFactory<St
             {
                 using var scope = services.BuildServiceProvider().CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-                var user = UserDbo.Create(
-                    "email@email.com",
-                    "username",
-                    TestHelper<object>.GetEncryptedPassword("password"));
+                var user = TestHelper<object>.GetUserDboWithEncryptedPassword("username", "password");
                 user.Suspend("for testing");
                 db.Users.Add(user);
                 db.SaveChanges();
@@ -97,7 +90,7 @@ public class ForgotMyPasswordTests: IClassFixture<CustomWebApplicationFactory<St
         
         using var helper = new TestHelper<ForgotMyPasswordViewModel>(httpClient);
         
-        helper.ViewModel.Email = "email@email.com";
+        helper.ViewModel.Email = "username@email.com";
         helper.ViewModel.Username = "username";
         
         await helper.ViewModel.RequestPasswordReset();

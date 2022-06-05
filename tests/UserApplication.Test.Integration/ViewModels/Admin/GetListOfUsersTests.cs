@@ -30,12 +30,9 @@ public class GetListOfUsersTests : IClassFixture<CustomWebApplicationFactory<Sta
                 var territory = TerritoryDbo.Create("TRR", null, "TRR", "TRR");
                 db.Territories.Add(territory);
                 db.SaveChanges();
-                var user = UserDbo.Create(
-                    "email@email.com",
-                    "username",
-                    TestHelper<object>.GetEncryptedPassword("password"), "TRR");
+                var user = TestHelper<object>.GetUserDboWithEncryptedPassword("username", "password", "TRR");
                 db.Users.Add(user);
-                db.Users.Add(UserDbo.Create("another@email.com", "another", "another", "TRR"));
+                db.Users.Add(TestHelper<object>.GetUserDboWithEncryptedPassword("another", "another", "TRR"));
                 db.SaveChanges();
 
                 var claim = ClaimDbo.Create(user.UserId, ClaimsTagsList.Claims.Administrator,
@@ -67,12 +64,9 @@ public class GetListOfUsersTests : IClassFixture<CustomWebApplicationFactory<Sta
                 db.Territories.Add(territory1);
                 db.Territories.Add(territory2);
                 db.SaveChanges();
-                var user = UserDbo.Create(
-                    "email@email.com",
-                    "username",
-                    TestHelper<object>.GetEncryptedPassword("password"), "TRR2");
+                var user = TestHelper<object>.GetUserDboWithEncryptedPassword("username", "password", "TRR");
                 db.Users.Add(user);
-                db.Users.Add(UserDbo.Create("another@email.com", "another", "another", "TRR1"));
+                db.Users.Add(TestHelper<object>.GetUserDboWithEncryptedPassword("another", "password", "TRR1"));
                 db.SaveChanges();
 
                 var claim = ClaimDbo.Create(user.UserId, ClaimsTagsList.Claims.Administrator,
@@ -102,12 +96,8 @@ public class GetListOfUsersTests : IClassFixture<CustomWebApplicationFactory<Sta
                 var territory = TerritoryDbo.Create("TRR", "TRR", "TRR", "TRR");
                 db.Territories.Add(territory);
                 db.SaveChanges();
-                var user = UserDbo.Create(
-                    "email@email.com",
-                    "username",
-                    TestHelper<object>.GetEncryptedPassword("password"), "TRR");
+                var user = TestHelper<object>.GetUserDboWithEncryptedPassword("username", "password", "TRR");
                 db.Users.Add(user);
-                db.Users.Add(UserDbo.Create("another@email.com", "another", "another", "TRR"));
                 db.SaveChanges();
 
                 var claim = ClaimDbo.Create(user.UserId, ClaimsTagsList.Claims.Administrator,
@@ -136,12 +126,8 @@ public class GetListOfUsersTests : IClassFixture<CustomWebApplicationFactory<Sta
                 var territory = TerritoryDbo.Create("TRR", "TRR", "TRR", "TRR");
                 db.Territories.Add(territory);
                 db.SaveChanges();
-                var user = UserDbo.Create(
-                    "email@email.com",
-                    "username",
-                    TestHelper<object>.GetEncryptedPassword("password"), "TRR");
+                var user = TestHelper<object>.GetUserDboWithEncryptedPassword("username", "password", "TRR");
                 db.Users.Add(user);
-                db.Users.Add(UserDbo.Create("another@email.com", "another", "another", "TRR"));
                 db.SaveChanges();
 
                 var claim = ClaimDbo.Create(user.UserId, ClaimsTagsList.Claims.Field,
