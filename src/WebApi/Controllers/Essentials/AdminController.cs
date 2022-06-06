@@ -31,31 +31,12 @@ public class AdminController : Controller
     }
 
     [Authorize(Policy = DeveloperWithDatabaseOperationPolicy.Name)]
-    [HttpHead(Api.Essential.Admin.EndPoint)]
+    [HttpHead(Api.Essential.Admin.Route)]
     public async Task<ActionResult> PopulateDatabase()
     {
         await mediator.Send(new SeedEssentialDatabaseCommand());
         return Ok();
     }
     
-    [Authorize(Policy = nameof(CanEditUserPolicy))]
-    [HttpGet(Api.Essential.Admin.User)]
-    [MapToApiVersion("1.0")]
-    public async Task<ActionResult<ResponseDto<IEnumerable<UserDtoV1>>>> GetListOfUsersV1()
-    {
-        var command = new GetListOfUsersQuery();
-        var response = await mediator.Send(command);
-
-        return Ok(response);
-    }
     
-    [HttpGet(Api.Essential.Admin.User + "/{username}")]
-    [MapToApiVersion("1.0")]
-    public async Task<ActionResult<ResponseDto<IEnumerable<UserDtoV1>>>> GetUserDetailsV1(string username)
-    {
-        var command = new GetUserDetailsQuery(username);
-        var response = await mediator.Send(command);
-
-        return Ok(response);
-    }
 }

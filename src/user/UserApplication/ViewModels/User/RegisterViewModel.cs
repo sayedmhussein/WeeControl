@@ -141,7 +141,7 @@ public class RegisterViewModel : ViewModelBase
     {
         HttpRequestMessage message = new()
         {
-            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.User.EndPoint)),
+            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.User.Route)),
             Version = new Version("1.0"),
             Method = HttpMethod.Post,
         };

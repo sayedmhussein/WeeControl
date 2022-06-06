@@ -10,7 +10,7 @@
 <div class="card">
     <h4 class="card-header">@ViewModel.CardHeaderLabel</h4>
     <div class="card-body">
-        <EditForm Model="@ViewModel" OnValidSubmit="ProcessLoginAsync">
+        <EditForm Model="@ViewModel" OnValidSubmit="ViewModel.LoginAsync">
             <DataAnnotationsValidator/>
             <div class="form-group">
                 <label>@ViewModel.UsernameOrEmailLabel</label>

@@ -4,38 +4,55 @@ public static class Api
 {
     public static class Essential
     {
-        private const string Route = nameof(Api) + "/" + nameof(Essential) + "/";
+        private const string RouteBase = nameof(Api) + "/" + nameof(Essential) + "/";
         
         public static class Authorization
         {
             /// <summary>
-            /// Post: Submit 
+            /// Post: Get token using username and password.
+            /// Put: Get token using token.
+            /// Delete: Terminate existing session. 
             /// </summary>
-            public const string EndPoint = Route + nameof(Authorization);
+            public const string Route = RouteBase + nameof(Authorization);
         }
         
         public static class User
         {
-            public const string EndPoint = Route + nameof(User);
-            
-            public static class Session
-            {
-                public const string EndPoint = Route + nameof(User) + "/" + nameof(Session);
-            }
-            
-            public const string ResetPassword = Route + nameof(User) + "/Reset";
+            /// <summary>
+            /// Get: Get list of users.
+            /// Get(username): Get user details.
+            /// Post: Add new user.
+            /// Put: Update existing user.
+            /// Delete: Remove existing user.
+            /// </summary>
+            public const string Route = RouteBase + nameof(User);
+
+            /// <summary>
+            /// Get: Get existing session(s) of current user.
+            /// Get(username): Get existing session(s) of specific user.
+            /// Delete(id): Terminate existing session. 
+            /// </summary>
+            public const string Session = nameof(Session);
+
+            /// <summary>
+            /// Post: Send email and username to get temporary password.
+            /// Patch: Update password in database.
+            /// </summary>
+            public const string ResetPassword = "/Reset";
         }
         
         public static class Admin
         {
-            public const string EndPoint = Route + nameof(Admin);
-            public const string User = Route + nameof(Admin) + "/User";
-            //public const string Territory = Route + nameof(Admin) + "/Territory";
+            public const string Route = RouteBase + nameof(Admin);
         }
 
         public static class Territory
         {
-            public const string EndPoint = Route + nameof(Territory);
+            /// <summary>
+            /// Get: Get list of territories.
+            /// Put: Add or update existing territory.
+            /// </summary>
+            public const string EndPoint = RouteBase + nameof(Territory);
         }
 
         

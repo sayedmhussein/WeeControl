@@ -1,7 +1,7 @@
 using System.Net;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
-using WeeControl.User.UserApplication.ViewModels.Admin;
+using WeeControl.User.UserApplication.ViewModels.Essential;
 
 namespace WeeControl.User.UserApplication.Test.ViewModels.Admin;
 

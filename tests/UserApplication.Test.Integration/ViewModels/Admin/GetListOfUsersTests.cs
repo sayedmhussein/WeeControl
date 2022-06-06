@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using WeeControl.Application.Essential;
 using WeeControl.Domain.Contexts.Essential;
 using WeeControl.SharedKernel;
-using WeeControl.User.UserApplication.ViewModels.Admin;
+using WeeControl.User.UserApplication.ViewModels.Essential;
 using WeeControl.WebApi;
 using Xunit;
 

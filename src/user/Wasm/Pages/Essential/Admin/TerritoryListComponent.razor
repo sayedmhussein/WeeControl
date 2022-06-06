@@ -1,10 +1,10 @@
-@using WeeControl.User.UserApplication.ViewModels.Admin
-@inject ListOfTerritoriesViewModel ViewModel
+@using WeeControl.User.UserApplication.ViewModels.Essential
+@inject TerritoryViewModel ViewModel
 
 <h3>TerritoryComponent</h3>
 <button class="btn btn-primary" @onclick="@ViewModel.GetListOfTerritories" disabled="@ViewModel.IsLoading">Refresh</button>
 
-@if (ViewModel.IsLoading)
+@if (ViewModel.IsLoading || ViewModel.ListOfTerritories is null)
 {
     <p><em>Loading...</em></p>
 }

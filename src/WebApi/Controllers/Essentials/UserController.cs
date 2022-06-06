@@ -1,17 +1,22 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WeeControl.Application.Essential.Commands;
+using WeeControl.Application.Essential.Queries;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
+using WeeControl.WebApi.Security.Policies;
 
 namespace WeeControl.WebApi.Controllers.Essentials;
 
 [ApiController]
+[Authorize]
+[Route(Api.Essential.User.Route)]
 [Consumes(MediaTypeNames.Application.Json)]
 [Produces(MediaTypeNames.Application.Json)]
 public class UserController : Controller
@@ -24,7 +29,7 @@ public class UserController : Controller
     }
 
     [AllowAnonymous]
-    [HttpPost(Api.Essential.User.EndPoint)]
+    [HttpPost]
     [MapToApiVersion("1.0")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -32,6 +37,28 @@ public class UserController : Controller
     public async Task<ActionResult<ResponseDto<TokenDtoV1>>> RegisterV1([FromBody] RequestDto<RegisterDtoV1> dto)
     {
         var command = new RegisterCommand(dto);
+        var response = await mediator.Send(command);
+
+        return Ok(response);
+    }
+    
+    [Authorize(Policy = nameof(CanEditUserPolicy))]
+    [HttpGet]
+    [MapToApiVersion("1.0")]
+    public async Task<ActionResult<ResponseDto<IEnumerable<UserDtoV1>>>> GetListOfUsersV1()
+    {
+        var command = new GetListOfUsersQuery();
+        var response = await mediator.Send(command);
+
+        return Ok(response);
+    }
+    
+    [Authorize]
+    [HttpGet("{username}")]
+    [MapToApiVersion("1.0")]
+    public async Task<ActionResult<ResponseDto<IEnumerable<UserDtoV1>>>> GetUserDetailsV1(string username)
+    {
+        var command = new GetUserDetailsQuery(username);
         var response = await mediator.Send(command);
 
         return Ok(response);

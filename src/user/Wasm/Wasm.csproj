@@ -37,6 +37,9 @@
     <_ContentIncludedByDefault Remove="Pages\User\RegisterPage.razor" />
     <_ContentIncludedByDefault Remove="Pages\User\SetNewPasswordPage.razor" />
     <_ContentIncludedByDefault Remove="Pages\User\_Imports.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Essential\Authentication\LoginPage.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Essential\Authentication\LogoutPage.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Essential\Authentication\_Imports.razor" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="wwwroot\images\logo.png">
@@ -47,11 +50,9 @@
     <ProjectReference Include="..\UserApplication\UserApplication.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <AdditionalFiles Include="Pages\Authentication\LogoutPage.razor" />
     <AdditionalFiles Include="Pages\Essential\Admin\AdminPage.razor" />
-    <AdditionalFiles Include="Pages\Essential\Admin\TerritoryComponent.razor" />
     <AdditionalFiles Include="Pages\Essential\Admin\UsersComponent.razor" />
-    <AdditionalFiles Include="Pages\Essential\Authentication\LoginPage.razor" />
-    <AdditionalFiles Include="Pages\Essential\Authentication\_Imports.razor" />
     <AdditionalFiles Include="Pages\Essential\Business\Admin\ListOfTerritories.razor" />
     <AdditionalFiles Include="Pages\Essential\Business\Admin\UserData.razor" />
     <AdditionalFiles Include="Pages\Essential\Business\Developer\DeveloperPage.razor" />

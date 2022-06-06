@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.User.UserApplication.ViewModels.Admin;
 using WeeControl.User.UserApplication.ViewModels.Authentication;
+using WeeControl.User.UserApplication.ViewModels.Essential;
 using WeeControl.User.UserApplication.ViewModels.Home;
 using WeeControl.User.UserApplication.ViewModels.User;
 
@@ -12,7 +12,7 @@ public static class ViewModelExtensions
     {
         #region AdminContext
         services.AddTransient<ListOfUsersViewModel>();
-        services.AddTransient<ListOfTerritoriesViewModel>();
+        services.AddTransient<TerritoryViewModel>();
 
         #endregion
         
