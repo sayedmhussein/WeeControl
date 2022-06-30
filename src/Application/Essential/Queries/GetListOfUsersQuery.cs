@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -6,6 +7,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using WeeControl.Application.Interfaces;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
+using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.RequestsResponses;
 
 namespace WeeControl.Application.Essential.Queries;
@@ -36,7 +38,8 @@ public class GetListOfUsersQuery : IRequest<ResponseDto<IEnumerable<UserDtoV1>>>
                 });
             }
 
-            var response = new ResponseDto<IEnumerable<UserDtoV1>>(users);
+            var response = ResponseDto.Create<IEnumerable<UserDtoV1>>(users);//<IEnumerable<UserDtoV1>>(users);
+            //var response = new ResponseDto<IEnumerable<UserDtoV1>>(users);
             return response;
         }
     }

@@ -38,7 +38,9 @@ public static class Api
             /// Post: Send email and username to get temporary password.
             /// Patch: Update password in database.
             /// </summary>
-            public const string ResetPassword = "/Reset";
+            public const string ResetPassword = "Reset";
+
+            public const string ResetPasswordEndPoint = Route + "/" + ResetPassword;
         }
         
         public static class Admin

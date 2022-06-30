@@ -15,7 +15,6 @@ using WeeControl.WebApi.Security.Policies;
 namespace WeeControl.WebApi.Controllers.Essentials;
 
 [ApiController]
-[Authorize]
 [Route(Api.Essential.User.Route)]
 [Consumes(MediaTypeNames.Application.Json)]
 [Produces(MediaTypeNames.Application.Json)]

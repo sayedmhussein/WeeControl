@@ -129,7 +129,8 @@ public class GetNewTokenQuery : IRequest<ResponseDto<TokenDtoV1>>
             };
             var token = jwtService.GenerateToken(descriptor);
 
-            return new ResponseDto<TokenDtoV1>( TokenDtoV1.Create(token, employee.Username, "url"));
+            return ResponseDto.Create( TokenDtoV1.Create(token, employee.Username, "url"));
+            //return new ResponseDto<TokenDtoV1>( TokenDtoV1.Create(token, employee.Username, "url"));
         }
         
         if (currentUserInfo.GetSessionId() is not null)
@@ -166,7 +167,8 @@ public class GetNewTokenQuery : IRequest<ResponseDto<TokenDtoV1>>
             };
             var token = jwtService.GenerateToken(descriptor);
 
-            return new ResponseDto<TokenDtoV1>(TokenDtoV1.Create(token, employee.Username, "url"));
+            return ResponseDto.Create(TokenDtoV1.Create(token, employee.Username, "url"));
+            //return new ResponseDto<TokenDtoV1>(TokenDtoV1.Create(token, employee.Username, "url"));
         }
         else
         {

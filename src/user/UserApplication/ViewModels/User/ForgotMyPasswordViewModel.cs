@@ -43,7 +43,7 @@ public class ForgotMyPasswordViewModel : ViewModelBase
     {
         HttpRequestMessage message = new()
         {
-            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.User.ResetPassword)),
+            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.User.ResetPasswordEndPoint)),
             Version = new Version("1.0"),
             Method = HttpMethod.Post,
         };
@@ -52,11 +52,11 @@ public class ForgotMyPasswordViewModel : ViewModelBase
         if (responseMessage.IsSuccessStatusCode)
         {
             await device.Navigation.NavigateToAsync(Pages.Authentication.LoginPage);
-            await device.Alert.DisplayAlert("AlertEnum.NewPasswordSent");
+            await device.Alert.DisplayAlert("New Password was created, please check your email.");
             return;
         }
         
-        Console.WriteLine("Invalid message");
+        Console.WriteLine("Invalid message: " + responseMessage.ReasonPhrase);
         await device.Alert.DisplayAlert("Something went wrong!");
     }
 }

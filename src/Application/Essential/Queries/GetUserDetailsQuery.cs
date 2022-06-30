@@ -86,7 +86,8 @@ public class GetUserDetailsQuery : IRequest<ResponseDto<UserDetailedDtoV1>>
                 Sessions = sessions
             };
             
-            return new ResponseDto<UserDetailedDtoV1>(user);
+            return ResponseDto.Create(user);
+            //return new ResponseDto<UserDetailedDtoV1>(user);
         }
     }
 }

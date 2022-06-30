@@ -73,6 +73,7 @@ public class LoginViewModel : ViewModelBase
                 RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Authorization.Route)),
                 Version = new Version("1.0"),
                 Method = HttpMethod.Post,
+                
             }, 
             LoginDtoV1.Create(UsernameOrEmail, Password));
 

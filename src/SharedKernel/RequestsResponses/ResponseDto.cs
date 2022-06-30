@@ -4,12 +4,12 @@ namespace WeeControl.SharedKernel.RequestsResponses;
 
 public class ResponseDto : IResponseDto
 {
-    public static IResponseDto Create(string debug = null!)
+    public static ResponseDto Create(string debug = null!)
     {
         return new ResponseDto() { Debug = debug};
     }
 
-    public static IResponseDto<T> Create<T>(T dto, string debug = null!) where T : class
+    public static ResponseDto<T> Create<T>(T dto, string debug = null!) where T : class
     {
         return new ResponseDto<T>(dto, debug);
     }
