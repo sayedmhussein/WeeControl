@@ -37,21 +37,6 @@ public class HomeNavigationMenuViewModel : ViewModelBase
             }
         }
 
-        MenuItems = new List<MenuItem>(list.Distinct());
-    }
-    
-    public class MenuItem
-    {
-        public static MenuItem Create(string name)
-        {
-            return new MenuItem() { Name = name, PageName = name};
-        }
-        
-        public string? Name { get; private init; }
-        public string? PageName { get; private init; }
-
-        private MenuItem()
-        {
-        }
+        MenuItems = new List<MenuItem>(list.DistinctBy(x => x.PageName));
     }
 }

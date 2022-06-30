@@ -36,13 +36,13 @@ public static class ClaimsTagsList
     public static class Tags
     {
         public const string SuperUser = "e_su";
-        public const string Manager = "e_mgr";
-        public const string Depute = "e_dat";
-        public const string Officer = "e_dat";
-        public const string Senior = "e_dat";
-        public const string Supervisor = "e_dat";
-        public const string Auditor = "e_dat";
-        public const string Executive = "e_dat";
-        public const string Trainee = "e_dat";
+        public const string Manager = "e_man";
+        public const string Depute = "e_dep";
+        public const string Officer = "e_off";
+        public const string Senior = "e_sen";
+        public const string Supervisor = "e_sup";
+        public const string Auditor = "e_aud";
+        public const string Executive = "e_exe";
+        public const string Trainee = "e_tra";
     }
 }
