@@ -1,23 +1,72 @@
-﻿using MediatR;
+﻿using System;
+using System.Threading.Tasks;
+using MediatR;
 using Microsoft.Extensions.Logging;
 using Moq;
+using WeeControl.Application.Behaviours;
 using WeeControl.Application.Interfaces;
 using Xunit;
 
 namespace WeeControl.Application.Test.Behaviours;
 
-public class RequestPerformanceBehaviourTests
+public class RequestPerformanceBehaviourTests : IDisposable
 {
-    [Fact(Skip = "Issue in this unit test!")]
-    public void HandleShouldReturnTimeBetweenRequestAndResponse()
+    private Mock<ILogger<RequestPerformanceBehaviour<TestExampleQuery, string>>> loggerMock;
+    private Mock<ICurrentUserInfo> userMock;
+    private RequestHandlerDelegate<string> handlerDelegate;
+    
+    public RequestPerformanceBehaviourTests()
     {
-        var loggerMock = new Mock<IRequest<ILogger<string>>>();
-        var userMock = new Mock<ICurrentUserInfo>();
+        loggerMock = new Mock<ILogger<RequestPerformanceBehaviour<TestExampleQuery, string>>>();
 
-        //var behaviour = new RequestPerformanceBehaviour<IRequest<ILogger<string>>, ICurrentUserInfo>(loggerMock.Object, userMock.Object);
-        //var behaviour = new RequestPerformanceBehaviour<string, string>(loggerMock.Object, userMock.Object);
-        //var requestHandler = new RequestHandlerDelegate()
+        userMock = new Mock<ICurrentUserInfo>();
+        userMock.Setup(x => x.GetSessionId()).Returns(Guid.NewGuid());
+    }
 
-        //var response = await behaviour.Handle("request", default, "");
+    public void Dispose()
+    {
+        loggerMock = null;
+        userMock = null;
+        handlerDelegate = null;
+    }
+    
+    [Fact(Skip = "Issue in this unit test!")]
+    //[Fact]
+    public async void HandlerShouldNotLogWarningIfTimeIsLess()
+    {
+        var behaviour = new RequestPerformanceBehaviour<TestExampleQuery, string>(loggerMock.Object, userMock.Object);
+        handlerDelegate = async () =>
+        {
+            await Task.Delay(100);
+            return "Completed";
+        };
+
+        var response = await behaviour.Handle(new TestExampleQuery(100), default, handlerDelegate);
+        
+        Assert.NotEmpty(response);
+        loggerMock.Verify(x => 
+            x.LogWarning(It.IsAny<string?>()), Times.Never);
+    }
+    
+    [Fact(Skip = "Issue in this unit test!")]
+    public async void HandlerShouldLogWarningIfTimeIsHigh()
+    {
+        var behaviour = new RequestPerformanceBehaviour<TestExampleQuery, string>(loggerMock.Object, userMock.Object);
+        handlerDelegate = async () =>
+        {
+            await Task.Delay(1000);
+            return "Completed";
+        };
+        
+        var response = await behaviour.Handle(new TestExampleQuery(1000), default, handlerDelegate);
+        
+        Assert.NotEmpty(response);
+        loggerMock.Verify(x => 
+            x.LogWarning(
+                It.IsAny<string?>(), 
+                It.IsAny<string>(), 
+                It.IsAny<long>(), 
+                It.IsAny<Guid?>(), 
+                It.IsAny<object>()), Times.AtLeastOnce);
     }
 }

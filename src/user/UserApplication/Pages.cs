@@ -51,7 +51,6 @@ public static class Pages
     [Obsolete("Use Pages.Shared.xxx")]
     public static class Home
     {
-        public const string SplashPage = Shared.SplashPage;
         public const string IndexPage = Shared.IndexPage;
     }
 }

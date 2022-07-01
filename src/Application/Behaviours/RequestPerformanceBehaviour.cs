@@ -7,13 +7,16 @@ using WeeControl.Application.Interfaces;
 
 namespace WeeControl.Application.Behaviours;
 
-public class RequestPerformanceBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
+public class RequestPerformanceBehaviour<TRequest, TResponse> : 
+    IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
     private readonly Stopwatch timer;
-    private readonly ILogger<TRequest> logger;
+    private readonly ILogger<RequestPerformanceBehaviour<TRequest, TResponse>> logger;
     private readonly ICurrentUserInfo currentUserService;
 
-    public RequestPerformanceBehaviour(ILogger<TRequest> logger, ICurrentUserInfo currentUserService)
+    public RequestPerformanceBehaviour(
+        ILogger<RequestPerformanceBehaviour<TRequest, TResponse>> logger, 
+        ICurrentUserInfo currentUserService)
     {
         timer = new Stopwatch();
 
@@ -21,7 +24,10 @@ public class RequestPerformanceBehaviour<TRequest, TResponse> : IPipelineBehavio
         this.currentUserService = currentUserService;
     }
 
-    public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+    public async Task<TResponse> Handle(
+        TRequest request, 
+        CancellationToken cancellationToken, 
+        RequestHandlerDelegate<TResponse> next)
     {
         timer.Start();
 
@@ -29,14 +35,15 @@ public class RequestPerformanceBehaviour<TRequest, TResponse> : IPipelineBehavio
 
         timer.Stop();
 
-        if (timer.ElapsedMilliseconds > 500)
-        {
-            var name = typeof(TRequest).Name;
-
-            logger.LogWarning("WeeControl Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@UserId} {@Request}",
-                name, timer.ElapsedMilliseconds, currentUserService.GetSessionId(), request);
-        }
-
+        if (timer.ElapsedMilliseconds <= 500) return response;
+        
+        var name = typeof(TRequest).Name;
+        logger.LogWarning(
+            "WeeControl Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@UserId} {@Request}",
+            name, 
+            timer.ElapsedMilliseconds, 
+            currentUserService.GetSessionId(), 
+            request);
         return response;
     }
 }

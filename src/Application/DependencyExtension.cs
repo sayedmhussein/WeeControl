@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using WeeControl.Application.Behaviours;
 
 namespace WeeControl.Application;
 
@@ -10,7 +11,7 @@ public static class DependencyExtension
     {
         services.AddMediatR(Assembly.GetExecutingAssembly());
         
-        //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestDtoBehaviour<,>));
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));
         //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
         return services;
     }
