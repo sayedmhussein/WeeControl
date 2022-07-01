@@ -1,11 +1,6 @@
-﻿@using WeeControl.User.UserApplication.ViewModels.Authentication
-@using WeeControl.User.UserApplication
-@attribute [Route(Pages.Authentication.LoginPage)]
-
-@layout RestrictedLayout
-@attribute [AllowAnonymous]
-
+﻿@attribute [Route(Pages.Authentication.LoginPage)]
 @inject LoginViewModel ViewModel
+@attribute [AllowAnonymous]
 
 <div class="card">
     <h4 class="card-header">@ViewModel.CardHeaderLabel</h4>
@@ -43,10 +38,5 @@
         await base.OnInitializedAsync();
 
         await ViewModel.Init();
-    }
-
-    private async Task ProcessLoginAsync()
-    {
-        await ViewModel.LoginAsync();
     }
 }
