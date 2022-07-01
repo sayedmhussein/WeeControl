@@ -153,7 +153,7 @@ public class RegisterViewModel : ViewModelBase
             var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<TokenDtoV1>>();
             var token = responseDto?.Payload?.Token;
             await device.Security.UpdateTokenAsync(token ?? string.Empty);
-            await device.Navigation.NavigateToAsync(Pages.Home.IndexPage, forceLoad: true);
+            await device.Navigation.NavigateToAsync(Pages.Shared.IndexPage, forceLoad: true);
             return;
         }
 

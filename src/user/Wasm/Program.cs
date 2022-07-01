@@ -52,7 +52,7 @@ public class Program
             
         builder.Services.AddApiAuthorization(options =>
         {
-            options.AuthenticationPaths.LogInPath = UserApplication.Pages.Authentication.LoginPage;
+            options.AuthenticationPaths.LogInPath = UserApplication.Pages.Essential.Authentication.LoginPage;
         });
             
         await builder.Build().RunAsync();

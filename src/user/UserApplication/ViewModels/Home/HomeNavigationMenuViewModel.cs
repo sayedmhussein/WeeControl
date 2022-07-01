@@ -16,7 +16,7 @@ public class HomeNavigationMenuViewModel : ViewModelBase
     
     public Task ChangeMyPasswordAsync()
     {
-        return device.Navigation.NavigateToAsync(Pages.User.SetNewPasswordPage);
+        return device.Navigation.NavigateToAsync(Pages.Essential.User.SetNewPasswordPage);
     }
 
     public async Task SetupMenuAsync()

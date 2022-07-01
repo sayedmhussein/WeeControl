@@ -67,7 +67,7 @@ public class SetNewPasswordViewModel : ViewModelBase
             case HttpStatusCode.OK:
             case HttpStatusCode.Accepted:
                 await device.Alert.DisplayAlert("AlertEnum.PasswordUpdatedSuccessfully");
-                await device.Navigation.NavigateToAsync(Pages.Home.IndexPage);
+                await device.Navigation.NavigateToAsync(Pages.Shared.IndexPage);
                 break;
             case HttpStatusCode.NotFound:
                 await device.Alert.DisplayAlert("AlertEnum.InvalidPassword");

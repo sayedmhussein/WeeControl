@@ -37,7 +37,7 @@ public class LoginViewModel : ViewModelBase
     {
         if (await RefreshTokenAsync())
         {
-            await device.Navigation.NavigateToAsync(Pages.Home.IndexPage);
+            await device.Navigation.NavigateToAsync(Pages.Shared.IndexPage);
         }
     }
     
@@ -57,12 +57,12 @@ public class LoginViewModel : ViewModelBase
 
     public Task NavigateToRegisterPage()
     {
-        return device.Navigation.NavigateToAsync(Pages.User.RegisterPage);
+        return device.Navigation.NavigateToAsync(Pages.Essential.User.RegisterPage);
     }
     
     public Task NavigateToForgotMyPasswordPage()
     {
-        return device.Navigation.NavigateToAsync(Pages.User.ForgotMyPasswordPage);
+        return device.Navigation.NavigateToAsync(Pages.Essential.User.ForgotMyPasswordPage);
     }
 
     private async Task ProcessLoginCommand()
@@ -88,11 +88,11 @@ public class LoginViewModel : ViewModelBase
                 await device.Storage.SaveAsync(nameof(TokenDtoV1.PhotoUrl), responseDto?.Payload?.PhotoUrl ?? string.Empty);
                 if (await RefreshTokenAsync())
                 {
-                    await device.Navigation.NavigateToAsync(Pages.Home.IndexPage, forceLoad: true);
+                    await device.Navigation.NavigateToAsync(Pages.Shared.IndexPage, forceLoad: true);
                     return;
                 }
 
-                await device.Navigation.NavigateToAsync(Pages.Authentication.LoginPage, forceLoad: true);
+                await device.Navigation.NavigateToAsync(Pages.Essential.Authentication.LoginPage, forceLoad: true);
                 return;
             }
             else

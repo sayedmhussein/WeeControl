@@ -16,7 +16,7 @@ public class DevicePageNavigationService : IDevicePageNavigation
         this.navigationManager = navigationManager;
         
         history = new List<string>();
-        history.Add(UserApplication.Pages.Home.SplashPage);
+        history.Add(UserApplication.Pages.Shared.SplashPage);
     }
 
     public Task NavigateToAsync(string pageName, bool forceLoad = false)

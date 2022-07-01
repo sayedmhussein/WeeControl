@@ -51,7 +51,7 @@ public class ForgotMyPasswordViewModel : ViewModelBase
         var responseMessage = await SendMessageAsync(message, dtoV1);
         if (responseMessage.IsSuccessStatusCode)
         {
-            await device.Navigation.NavigateToAsync(Pages.Authentication.LoginPage);
+            await device.Navigation.NavigateToAsync(Pages.Essential.Authentication.LoginPage);
             await device.Alert.DisplayAlert("New Password was created, please check your email.");
             return;
         }
