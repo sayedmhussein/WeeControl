@@ -24,7 +24,5 @@ public class RequestLogger<TRequest> : IRequestPreProcessor<TRequest>
         var name = typeof(TRequest).Name;
 
         await mediator.Publish(new UserActivityNotification(name, ""), cancellationToken);
-
-
     }
 }

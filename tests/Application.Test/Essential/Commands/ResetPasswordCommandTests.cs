@@ -16,7 +16,7 @@ public class ResetPasswordCommandTests
     public async void WhenSuccessfulOrOk()
     {
         using var testHelper = new TestHelper();
-        var user = testHelper.GetUserDbo("username", testHelper.PasswordSecurity.Hash("password"));
+        var user = testHelper.GetUserDboWithEncryptedPassword("username", "password");
         await testHelper.EssentialDb.Users.AddAsync(user);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         
@@ -33,7 +33,7 @@ public class ResetPasswordCommandTests
     public async void WhenBadRequest()
     {
         using var testHelper = new TestHelper();
-        var user = testHelper.GetUserDbo("username", testHelper.PasswordSecurity.Hash("password"));
+        var user = testHelper.GetUserDboWithEncryptedPassword("username", "password");
         await testHelper.EssentialDb.Users.AddAsync(user);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         var handler = GetHandler(testHelper);

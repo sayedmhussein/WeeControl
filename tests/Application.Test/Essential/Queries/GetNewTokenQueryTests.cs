@@ -22,7 +22,7 @@ public class GetNewTokenQueryTests
     public async void WhenExistingUser_ReturnToken(string emailOrUsername, string password)
     {
         using var testHelper = new TestHelper();
-        var user = testHelper.GetUserDbo("username", testHelper.PasswordSecurity.Hash("password"));
+        var user = testHelper.GetUserDboWithEncryptedPassword("username", "password");
         user.SetTemporaryPassword(testHelper.PasswordSecurity.Hash("temporary"));
         await testHelper.EssentialDb.Users.AddAsync(user);
         await testHelper.EssentialDb.SaveChangesAsync(default);
@@ -59,7 +59,7 @@ public class GetNewTokenQueryTests
     public async void WhenUserNotExist_ThrowNotFoundException(string emailOrUsername, string password)
     {
         using var testHelper = new TestHelper();
-        var user = testHelper.GetUserDbo("username", testHelper.PasswordSecurity.Hash("password"));
+        var user = testHelper.GetUserDboWithEncryptedPassword("username", "password");
         user.SetTemporaryPassword(testHelper.PasswordSecurity.Hash("temporary"));
         await testHelper.EssentialDb.Users.AddAsync(user);
         await testHelper.EssentialDb.SaveChangesAsync(default);
@@ -74,7 +74,7 @@ public class GetNewTokenQueryTests
     {
         using var testHelper = new TestHelper();
         testHelper.ConfigurationMock.Setup(x => x["Jwt:Key"]).Returns(new string('a', 30));
-        var user = testHelper.GetUserDbo("username", testHelper.PasswordSecurity.Hash("password"));
+        var user = testHelper.GetUserDboWithEncryptedPassword("username", "password");
         await testHelper.EssentialDb.Users.AddAsync(user);
         await testHelper.EssentialDb.SaveChangesAsync(default);
 
@@ -92,7 +92,7 @@ public class GetNewTokenQueryTests
     public async void WhenSameUserLoginTwiceFromSameDeviceButAfterLoggedOutFirstTime_SessionShouldNotBeSame()
     {
         using var testHelper = new TestHelper();
-        var user = testHelper.GetUserDbo("username", testHelper.PasswordSecurity.Hash("password"));
+        var user = testHelper.GetUserDboWithEncryptedPassword("username", "password");
         await testHelper.EssentialDb.Users.AddAsync(user);
         await testHelper.EssentialDb.SaveChangesAsync(default);
 
@@ -116,7 +116,7 @@ public class GetNewTokenQueryTests
     public async void WhenSameUserLoginTwiceFromDifferentDevices_SessionShouldNotBeSame()
     {
         using var testHelper = new TestHelper();
-        var user = testHelper.GetUserDbo("username", testHelper.PasswordSecurity.Hash("password"));
+        var user = testHelper.GetUserDboWithEncryptedPassword("username", "password");
         await testHelper.EssentialDb.Users.AddAsync(user);
         await testHelper.EssentialDb.SaveChangesAsync(default);
 
@@ -139,7 +139,7 @@ public class GetNewTokenQueryTests
     public async void WhenSessionIsActive_ReturnToken()
     {
         using var testHelper = new TestHelper();
-        var user = testHelper.GetUserDbo("username", testHelper.PasswordSecurity.Hash("password"));
+        var user = testHelper.GetUserDboWithEncryptedPassword("username", "password");
         await testHelper.EssentialDb.Users.AddAsync(user);
         await testHelper.EssentialDb.SaveChangesAsync(default);
 
@@ -160,7 +160,7 @@ public class GetNewTokenQueryTests
     public async void WhenSessionIsTerminated_ThrowNotAllowedException()
     {
         using var testHelper = new TestHelper();
-        var user = testHelper.GetUserDbo("username", testHelper.PasswordSecurity.Hash("password"));
+        var user = testHelper.GetUserDboWithEncryptedPassword("username", "password");
         user.SetTemporaryPassword(testHelper.PasswordSecurity.Hash("temporary"));
         await testHelper.EssentialDb.Users.AddAsync(user);
         await testHelper.EssentialDb.SaveChangesAsync(default);
@@ -182,7 +182,7 @@ public class GetNewTokenQueryTests
     public async void WhenSessionIsActiveButFromDifferentDevice_ThrowNotAllowedException()
     {
         using var testHelper = new TestHelper();
-        var user = testHelper.GetUserDbo("username", testHelper.PasswordSecurity.Hash("password"));
+        var user = testHelper.GetUserDboWithEncryptedPassword("username", "password");
         user.SetTemporaryPassword(testHelper.PasswordSecurity.Hash("temporary"));
         await testHelper.EssentialDb.Users.AddAsync(user);
         await testHelper.EssentialDb.SaveChangesAsync(default);

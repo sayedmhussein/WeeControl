@@ -18,8 +18,6 @@ namespace WeeControl.Application.Test.Essential;
 public class TestHelper : IDisposable
 {
     public readonly IJwtService JwtService;
-    
-    [Obsolete("Use function with encrypted password instead.")]
     public readonly IPasswordSecurity PasswordSecurity;
     public IEssentialDbContext EssentialDb;
     public Mock<IMediator> MediatorMock;
@@ -46,20 +44,7 @@ public class TestHelper : IDisposable
         ConfigurationMock = null;
         CurrentUserInfoMock = null;
     }
-    
-    [Obsolete("Use function with encrypted password")]
-    public UserDbo GetUserDbo(string username, string password, string territory = "TST")
-    {
-        return UserDbo.Create(
-            nameof(UserDbo.FirstName), 
-            nameof(UserDbo.LastName), 
-            (username + "@email.com").ToLower(), 
-            username.ToLower(),
-            password, 
-            "012345667", 
-            territory, "EGP");
-    }
-    
+
     public UserDbo GetUserDboWithEncryptedPassword(string username, string password, string territory = "TST")
     {
         return UserDbo.Create(

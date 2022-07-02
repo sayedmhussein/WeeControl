@@ -16,7 +16,7 @@ public class SetNewPasswordCommandTests
     public async void WhenRequestSentCorrect_PasswordIsChangedSuccessfully()
     {
         using var testHelper = new TestHelper();
-        var user = testHelper.GetUserDbo("username", testHelper.PasswordSecurity.Hash("password"));
+        var user = testHelper.GetUserDboWithEncryptedPassword("username", "password");
         await testHelper.EssentialDb.Users.AddAsync(user);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         
@@ -37,7 +37,7 @@ public class SetNewPasswordCommandTests
     public async void WhenRequestSentInvalidOldPassword_ThrowNotFound()
     {
         using var testHelper = new TestHelper();
-        var user = testHelper.GetUserDbo("username", "password");
+        var user = testHelper.GetUserDboWithEncryptedPassword("username", "password");
         await testHelper.EssentialDb.Users.AddAsync(user);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         

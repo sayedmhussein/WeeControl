@@ -14,10 +14,10 @@ public class GetListOfUsersTests
     public async void Success()
     {
         using var testHelper = new TestHelper();
-        var user = testHelper.GetUserDbo("username", "password");
+        var user = testHelper.GetUserDboWithEncryptedPassword("username", "password");
         await testHelper.EssentialDb.Users.AddAsync(user, default);
-        await testHelper.EssentialDb.Users.AddAsync(testHelper.GetUserDbo("username2", "password"), default);
-        await testHelper.EssentialDb.Users.AddAsync(testHelper.GetUserDbo("username3", "password"), default);
+        await testHelper.EssentialDb.Users.AddAsync(testHelper.GetUserDboWithEncryptedPassword("username2", "password"), default);
+        await testHelper.EssentialDb.Users.AddAsync(testHelper.GetUserDboWithEncryptedPassword("username3", "password"), default);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         var session = SessionDbo.Create(user.UserId, nameof(GetListOfUsersTests));
         await testHelper.EssentialDb.Sessions.AddAsync(session);
@@ -35,10 +35,10 @@ public class GetListOfUsersTests
     public async void WhenNotFullList()
     {
         using var testHelper = new TestHelper();
-        var user = testHelper.GetUserDbo("username", "password", "TR1");
+        var user = testHelper.GetUserDboWithEncryptedPassword("username", "password", "TR1");
         await testHelper.EssentialDb.Users.AddAsync(user, default);
-        await testHelper.EssentialDb.Users.AddAsync(testHelper.GetUserDbo("username", "password", "TR2"), default);
-        await testHelper.EssentialDb.Users.AddAsync(testHelper.GetUserDbo("username", "password", "TR3"), default);
+        await testHelper.EssentialDb.Users.AddAsync(testHelper.GetUserDboWithEncryptedPassword("username", "password", "TR2"), default);
+        await testHelper.EssentialDb.Users.AddAsync(testHelper.GetUserDboWithEncryptedPassword("username", "password", "TR3"), default);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         var session = SessionDbo.Create(user.UserId, nameof(GetListOfUsersTests));
         await testHelper.EssentialDb.Sessions.AddAsync(session);

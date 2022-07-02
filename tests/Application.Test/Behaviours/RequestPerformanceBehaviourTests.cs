@@ -45,7 +45,7 @@ public class RequestPerformanceBehaviourTests : IDisposable
         
         Assert.NotEmpty(response);
         loggerMock.Verify(x => 
-            x.LogWarning(It.IsAny<string?>()), Times.Never);
+            x.LogWarning(It.IsAny<string>()), Times.Never);
     }
     
     [Fact(Skip = "Issue in this unit test!")]
@@ -63,7 +63,7 @@ public class RequestPerformanceBehaviourTests : IDisposable
         Assert.NotEmpty(response);
         loggerMock.Verify(x => 
             x.LogWarning(
-                It.IsAny<string?>(), 
+                It.IsAny<string>(), 
                 It.IsAny<string>(), 
                 It.IsAny<long>(), 
                 It.IsAny<Guid?>(), 
