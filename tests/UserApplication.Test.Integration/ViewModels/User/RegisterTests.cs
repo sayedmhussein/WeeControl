@@ -35,7 +35,7 @@ public class RegisterTests : IClassFixture<CustomWebApplicationFactory<Startup>>
         await helper.ViewModel.RegisterAsync();
 
         helper.DeviceMock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()), Times.Once);
+            x.NavigateToAsync(Pages.Shared.IndexPage, It.IsAny<bool>()), Times.Once);
     }
     
     [Theory]
@@ -72,6 +72,6 @@ public class RegisterTests : IClassFixture<CustomWebApplicationFactory<Startup>>
             
         helper.DeviceMock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
         helper.DeviceMock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()), Times.Never);;
+            x.NavigateToAsync(Pages.Shared.IndexPage, It.IsAny<bool>()), Times.Never);;
     }
 }

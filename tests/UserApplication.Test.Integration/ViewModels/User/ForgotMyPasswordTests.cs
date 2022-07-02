@@ -40,7 +40,7 @@ public class ForgotMyPasswordTests: IClassFixture<CustomWebApplicationFactory<St
         await helper.ViewModel.RequestPasswordReset();
             
         helper.DeviceMock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()), Times.Once);
+            x.NavigateToAsync(Pages.Essential.Authentication.LoginPage, It.IsAny<bool>()), Times.Once);
     }
     
     [Theory]
@@ -69,7 +69,7 @@ public class ForgotMyPasswordTests: IClassFixture<CustomWebApplicationFactory<St
         await helper.ViewModel.RequestPasswordReset();
             
         helper.DeviceMock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()), Times.Never);
+            x.NavigateToAsync(Pages.Essential.Authentication.LoginPage, It.IsAny<bool>()), Times.Never);
     }
 
     [Fact]
@@ -96,6 +96,6 @@ public class ForgotMyPasswordTests: IClassFixture<CustomWebApplicationFactory<St
         await helper.ViewModel.RequestPasswordReset();
             
         helper.DeviceMock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()), Times.Never);
+            x.NavigateToAsync(Pages.Essential.Authentication.LoginPage, It.IsAny<bool>()), Times.Never);
     }
 }

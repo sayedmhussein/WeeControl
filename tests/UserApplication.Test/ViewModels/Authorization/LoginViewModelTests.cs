@@ -15,8 +15,8 @@ public class LoginViewModelTests : ViewModelTestsBase
     [Fact]
     public async void SuccessTest()
     {
-        var content1 = GetJsonContent(new ResponseDto<TokenDtoV1>(TokenDtoV1.Create("token", "name", "url")));
-        var content2 = GetJsonContent(new ResponseDto<TokenDtoV1>(TokenDtoV1.Create("token", "name", "url")));
+        var content1 = GetJsonContent(ResponseDto.Create(TokenDtoV1.Create("token", "name", "url")));
+        var content2 = GetJsonContent(ResponseDto.Create(TokenDtoV1.Create("token", "name", "url")));
         var expected = new List<Tuple<HttpStatusCode, HttpContent>>()
         {
             new (HttpStatusCode.OK, content1),
@@ -36,7 +36,7 @@ public class LoginViewModelTests : ViewModelTestsBase
         Mock.SecurityMock.Verify(x => 
             x.UpdateTokenAsync("token"), Times.AtLeastOnce);
         Mock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Home.IndexPage,true), Times.Once);
+            x.NavigateToAsync(Pages.Shared.IndexPage,true), Times.Once);
     }
     
     [Theory]
@@ -44,8 +44,8 @@ public class LoginViewModelTests : ViewModelTestsBase
     [InlineData(HttpStatusCode.NotFound, HttpStatusCode.NotFound)]
     public async void WhenBadRequest(HttpStatusCode code1, HttpStatusCode code2)
          {
-             var content1 = GetJsonContent(new ResponseDto<TokenDtoV1>(TokenDtoV1.Create("token", "name", "url")));
-             var content2 = GetJsonContent(new ResponseDto<TokenDtoV1>(TokenDtoV1.Create("token", "name", "url")));
+             var content1 = GetJsonContent(ResponseDto.Create(TokenDtoV1.Create("token", "name", "url")));
+             var content2 = GetJsonContent(ResponseDto.Create(TokenDtoV1.Create("token", "name", "url")));
              var expected = new List<Tuple<HttpStatusCode, HttpContent>>()
              {
                  new (code1, content1),
@@ -63,7 +63,7 @@ public class LoginViewModelTests : ViewModelTestsBase
              Mock.AlertMock.Verify(x => 
                  x.DisplayAlert(It.IsAny<string>()), Times.Once);
              Mock.NavigationMock.Verify(x => 
-                 x.NavigateToAsync(Pages.Home.IndexPage,true), Times.Never);
+                 x.NavigateToAsync(Pages.Shared.IndexPage,true), Times.Never);
          }
     
     
@@ -87,7 +87,7 @@ public class LoginViewModelTests : ViewModelTestsBase
         Mock.SecurityMock.Verify(x => 
             x.UpdateTokenAsync("token"), Times.Never);
         Mock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Home.IndexPage,It.IsAny<bool>()), Times.Never);
+            x.NavigateToAsync(Pages.Shared.IndexPage,It.IsAny<bool>()), Times.Never);
     }
     #endregion
 
@@ -101,7 +101,7 @@ public class LoginViewModelTests : ViewModelTestsBase
     [InlineData("   ", "    ")]
     public async void WhenEmptyProperties_DisplayAlertOnly(string username, string password)
     {
-        var content = GetJsonContent(new ResponseDto<TokenDtoV1>(TokenDtoV1.Create("token", "name", "url")));
+        var content = GetJsonContent(ResponseDto.Create(TokenDtoV1.Create("token", "name", "url")));
         var vm = new LoginViewModel(Mock.GetObject(HttpStatusCode.OK,content))
         {
             UsernameOrEmail = username,
@@ -115,7 +115,7 @@ public class LoginViewModelTests : ViewModelTestsBase
         Mock.SecurityMock.Verify(x => 
             x.UpdateTokenAsync(It.IsAny<string>()), Times.Never);
         Mock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Home.IndexPage,true), Times.Never);
+            x.NavigateToAsync(Pages.Shared.IndexPage,true), Times.Never);
     }
     #endregion
 

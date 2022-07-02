@@ -21,7 +21,7 @@ public class SetNewPasswordViewModelTests : ViewModelTestsBase
 
         await vm.ChangeMyPassword();
 
-        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()));
+        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Shared.IndexPage, It.IsAny<bool>()));
     }
     
     [Fact]
@@ -37,7 +37,7 @@ public class SetNewPasswordViewModelTests : ViewModelTestsBase
         await vm.ChangeMyPassword();
 
         Mock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
-        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()), Times.Never);
+        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Shared.IndexPage, It.IsAny<bool>()), Times.Never);
     }
     
     [Fact]
@@ -53,7 +53,7 @@ public class SetNewPasswordViewModelTests : ViewModelTestsBase
         await vm.ChangeMyPassword();
 
         Mock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
-        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()), Times.Never);
+        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Shared.IndexPage, It.IsAny<bool>()), Times.Never);
     }
     
     [Fact]
@@ -69,7 +69,7 @@ public class SetNewPasswordViewModelTests : ViewModelTestsBase
         await vm.ChangeMyPassword();
 
         Mock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
-        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()), Times.Never);
+        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Shared.IndexPage, It.IsAny<bool>()), Times.Never);
     }
     
     [Fact]
@@ -85,7 +85,7 @@ public class SetNewPasswordViewModelTests : ViewModelTestsBase
         await vm.ChangeMyPassword();
 
         Mock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
-        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()), Times.Never);
+        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Shared.IndexPage, It.IsAny<bool>()), Times.Never);
     }
     
     [Theory]
@@ -106,6 +106,6 @@ public class SetNewPasswordViewModelTests : ViewModelTestsBase
         await vm.ChangeMyPassword();
 
         Mock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
-        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()), Times.Never);
+        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Shared.IndexPage, It.IsAny<bool>()), Times.Never);
     }
 }

@@ -71,13 +71,14 @@ public class DeviceServiceMock
         return DeviceMock.Object;
     }
     
-    public IDevice GetObject(HttpStatusCode statusCode, HttpContent content)
+    public IDevice GetObject(HttpStatusCode statusCode, HttpContent? content)
     {
-        var response = new HttpResponseMessage
+        var response = new HttpResponseMessage();
+        response.StatusCode = statusCode;
+        if (content is not null)
         {
-            StatusCode = statusCode, 
-            Content = content
-        };
+            response.Content = content;
+        }
 
         var handlerMock = new Mock<HttpMessageHandler>();
         

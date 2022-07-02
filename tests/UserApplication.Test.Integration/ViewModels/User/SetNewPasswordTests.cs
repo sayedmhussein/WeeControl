@@ -42,7 +42,7 @@ public class SetNewPasswordTests : IClassFixture<CustomWebApplicationFactory<Sta
         await helper.ViewModel.ChangeMyPassword();
             
         helper.DeviceMock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()), Times.Once);
+            x.NavigateToAsync(Pages.Shared.IndexPage, It.IsAny<bool>()), Times.Once);
     }
     
     [Fact]
@@ -70,7 +70,7 @@ public class SetNewPasswordTests : IClassFixture<CustomWebApplicationFactory<Sta
             
         helper.DeviceMock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
         helper.DeviceMock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()), Times.Never);
+            x.NavigateToAsync(Pages.Shared.IndexPage, It.IsAny<bool>()), Times.Never);
     }
     
     [Fact]
@@ -99,7 +99,7 @@ public class SetNewPasswordTests : IClassFixture<CustomWebApplicationFactory<Sta
             
         helper.DeviceMock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
         helper.DeviceMock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()), Times.Never);
+            x.NavigateToAsync(Pages.Shared.IndexPage, It.IsAny<bool>()), Times.Never);
     }
 
     [Fact]
@@ -129,6 +129,6 @@ public class SetNewPasswordTests : IClassFixture<CustomWebApplicationFactory<Sta
             
         helper.DeviceMock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
         helper.DeviceMock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()), Times.Never);
+            x.NavigateToAsync(Pages.Shared.IndexPage, It.IsAny<bool>()), Times.Never);
     }
 }

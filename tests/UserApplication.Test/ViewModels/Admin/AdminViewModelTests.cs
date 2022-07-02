@@ -14,7 +14,7 @@ public class AdminViewModelTests : ViewModelTestsBase
     [Fact]
     public async void WhenSuccess()
     {
-        var content = GetJsonContent(new ResponseDto<IEnumerable<UserDtoV1>>(new List<UserDtoV1>()));
+        var content = GetJsonContent(ResponseDto.Create(new List<UserDtoV1>()));
         var vm = new ListOfUsersViewModel(Mock.GetObject(HttpStatusCode.OK, content));
 
         await vm.GetListOfUsers();

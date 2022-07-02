@@ -49,7 +49,8 @@ public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>
         
         helper.DeviceMock.SecurityMock.Verify(x => x.
             UpdateTokenAsync(It.IsAny<string>()));
-        helper.DeviceMock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()), Times.Once);
+        helper.DeviceMock.NavigationMock.Verify(x => 
+            x.NavigateToAsync(Pages.Shared.IndexPage, It.IsAny<bool>()), Times.Once);
     }
     #endregion
 
@@ -77,7 +78,7 @@ public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>
         await helper.ViewModel.LoginAsync();
         
         helper.DeviceMock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()), Times.Never);
+            x.NavigateToAsync(Pages.Shared.IndexPage, It.IsAny<bool>()), Times.Never);
         
         helper.DeviceMock.AlertMock.Verify(x => 
             x.DisplayAlert(It.IsAny<string>()), Times.Once);

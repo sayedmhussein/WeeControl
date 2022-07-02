@@ -38,7 +38,7 @@ public class LogoutTests : IClassFixture<CustomWebApplicationFactory<Startup>>
         await helper.ViewModel.LogoutAsync();
         
         helper.DeviceMock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Authentication.LoginPage, It.IsAny<bool>()), Times.Once);
+            x.NavigateToAsync(Pages.Essential.Authentication.LoginPage, It.IsAny<bool>()), Times.Once);
         
         helper.DeviceMock.SecurityMock.Verify(x => x.DeleteTokenAsync(), Times.AtLeastOnce);
     }

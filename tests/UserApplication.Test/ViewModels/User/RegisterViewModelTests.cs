@@ -19,7 +19,7 @@ public class RegisterViewModelTests : ViewModelTestsBase
 
         await vm.RegisterAsync();
 
-        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()));
+        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Shared.IndexPage, It.IsAny<bool>()));
     }
     
     [Theory]
@@ -33,7 +33,7 @@ public class RegisterViewModelTests : ViewModelTestsBase
         await vm.RegisterAsync();
         
         Mock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
-        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()), Times.Never);
+        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Shared.IndexPage, It.IsAny<bool>()), Times.Never);
         Assert.False(vm.IsLoading);
     }
 
@@ -54,7 +54,7 @@ public class RegisterViewModelTests : ViewModelTestsBase
         await vm.RegisterAsync();
         
         Mock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
-        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Home.IndexPage, It.IsAny<bool>()), Times.Never);
+        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Shared.IndexPage, It.IsAny<bool>()), Times.Never);
         Assert.False(vm.IsLoading);
     }
 
