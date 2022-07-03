@@ -2,13 +2,15 @@
 using WeeControl.Domain.Contexts.Essential;
 using WeeControl.Domain.Interfaces;
 
-namespace WeeControl.Application.Essential;
+namespace WeeControl.Application.Interfaces;
 
 public interface IEssentialDbContext : IDbContext
 {
     DbSet<UserDbo> Users { get; set; }
     
     DbSet<IdentityDbo> UserIdentities { get; set; }
+    
+    DbSet<NotificationDbo> UserNotifications { get; set; }
 
     DbSet<SessionDbo> Sessions { get; set; }
     

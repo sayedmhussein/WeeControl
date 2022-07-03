@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using WeeControl.Application.Interfaces;
 using WeeControl.Domain.Interfaces;
 using WeeControl.Domain.Models;
 
@@ -11,7 +12,6 @@ namespace WeeControl.Application.Essential.Notifications;
 public class PasswordResetNotification : INotification
 {
     private readonly Guid userId;
-
     private readonly string newPassword;
 
     public PasswordResetNotification(Guid userid, string newPassword)

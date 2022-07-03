@@ -6,6 +6,11 @@ public static class Api
     {
         private const string RouteBase = nameof(Api) + "/" + nameof(Essential) + "/";
         
+        public static class Notification
+        {
+            public const string Route = RouteBase + nameof(Notification);
+        }
+        
         public static class Authorization
         {
             /// <summary>

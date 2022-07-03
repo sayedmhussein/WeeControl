@@ -1,6 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using WeeControl.Application.Interfaces;
 
 namespace WeeControl.Application.Essential.Commands;
 

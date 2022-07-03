@@ -6,14 +6,13 @@ using WeeControl.User.UserApplication.ViewModels.User;
 
 namespace WeeControl.User.UserApplication;
 
-public static class ViewModelExtensions
+public static class UserApplicationExtensions
 {
     public static IServiceCollection AddViewModels(this IServiceCollection services)
     {
         #region AdminContext
         services.AddTransient<ListOfUsersViewModel>();
         services.AddTransient<TerritoryViewModel>();
-
         #endregion
         
         #region AuthorizationContext

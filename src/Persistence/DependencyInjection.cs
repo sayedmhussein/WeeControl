@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.Application.Essential;
+using WeeControl.Application.Interfaces;
 using WeeControl.Persistence.Essential;
 
 namespace WeeControl.Persistence

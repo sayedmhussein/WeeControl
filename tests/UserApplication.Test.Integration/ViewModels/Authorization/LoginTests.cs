@@ -1,11 +1,6 @@
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using WeeControl.Application.Essential;
-using WeeControl.Domain.Contexts.Essential;
-using WeeControl.SharedKernel.Services;
+using WeeControl.Application.Interfaces;
 using WeeControl.User.UserApplication.ViewModels.Authentication;
 using WeeControl.WebApi;
 using Xunit;

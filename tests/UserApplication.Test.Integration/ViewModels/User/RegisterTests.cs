@@ -1,8 +1,6 @@
-using System;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using WeeControl.Application.Essential;
-using WeeControl.Domain.Contexts.Essential;
+using WeeControl.Application.Interfaces;
 using WeeControl.User.UserApplication.ViewModels.User;
 using WeeControl.WebApi;
 using Xunit;

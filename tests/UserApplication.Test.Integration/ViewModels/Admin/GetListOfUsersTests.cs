@@ -1,6 +1,6 @@
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.Application.Essential;
+using WeeControl.Application.Interfaces;
 using WeeControl.Domain.Contexts.Essential;
 using WeeControl.SharedKernel;
 using WeeControl.User.UserApplication.ViewModels.Essential;

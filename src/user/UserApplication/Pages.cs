@@ -33,24 +33,4 @@ public static class Pages
             public const string Page = "Administrator";
         }
     }
-
-    
-    
-    
-    
-    
-    
-    
-    [Obsolete("Use Essential.Authentication.xxx")]
-    public static class Authentication
-    {
-        public const string LoginPage = Essential.Authentication.LoginPage;
-        public const string LogoutPage = Essential.Authentication.LogoutPage;
-    }
-
-    [Obsolete("Use Pages.Shared.xxx")]
-    public static class Home
-    {
-        public const string IndexPage = Shared.IndexPage;
-    }
 }

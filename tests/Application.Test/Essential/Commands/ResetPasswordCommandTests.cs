@@ -1,9 +1,6 @@
 using System.Linq;
-using MediatR;
-using Moq;
 using WeeControl.Application.Essential.Commands;
 using WeeControl.Application.Exceptions;
-using WeeControl.Domain.Contexts.Essential;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
 using Xunit;

@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using Microsoft.EntityFrameworkCore;
-using WeeControl.Application.Essential;
+using WeeControl.Application.Interfaces;
 using WeeControl.Domain.Contexts.Essential;
 
 namespace WeeControl.Persistence.Essential
@@ -10,6 +10,8 @@ namespace WeeControl.Persistence.Essential
         public DbSet<UserDbo> Users { get; set; }
         
         public DbSet<IdentityDbo> UserIdentities { get; set; }
+        
+        public DbSet<NotificationDbo> UserNotifications { get; set; }
 
         public DbSet<SessionDbo> Sessions { get; set; }
         

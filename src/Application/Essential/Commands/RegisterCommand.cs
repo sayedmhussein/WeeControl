@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using MediatR;
 using WeeControl.Application.Essential.Queries;
 using WeeControl.Application.Exceptions;
+using WeeControl.Application.Interfaces;
 using WeeControl.Domain.Contexts.Essential;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.Interfaces;
