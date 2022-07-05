@@ -6,7 +6,6 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace WeeControl.Domain.Contexts.Essential;
 
-[Table(nameof(UserDbo), Schema = nameof(Essential))]
 public class UserDbo
 {
     public static UserDbo Create(string firstname, string lastname, string email, string username, string password,
@@ -17,33 +16,20 @@ public class UserDbo
             FirstName = firstname, LastName = lastname,
             Email = email, Username = username, Password = password,
             MobileNo = mobileNo,
-            TerritoryId = territory
+            TerritoryId = territory, Nationality = "EGP"
         };
     }
     
-    [Key]
     public Guid UserId { get; }
-
-    [Required]
-    [StringLength(50)]
+    
     public string FirstName { get; set; }
-
-    [Required]
-    [StringLength(50)]
     public string LastName { get; set; }
     
-    [Required]
     [EmailAddress]
-    [StringLength(50)]
     public string Email { get; private set; }
-
-    [Required]
+    
     [MinLength(3)]
-    [StringLength(45, ErrorMessage = "username cannot be longer than 45 characters.")]
     public string Username { get; private set; }
-
-    [Required]
-    [StringLength(128)]
     public string Password { get; private set; }
 
     [Phone]
@@ -55,11 +41,9 @@ public class UserDbo
     public string Nationality { get; set; }
 
     [AllowNull]
-    [StringLength(255)]
     public string SuspendArgs { get; private set; }
     
     [AllowNull]
-    [StringLength(128)]
     public string TempPassword { get; private set; }
     
     public DateTime? TempPasswordTs { get; private set; }
