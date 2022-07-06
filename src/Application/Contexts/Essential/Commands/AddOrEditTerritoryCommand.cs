@@ -5,7 +5,7 @@ using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.RequestsResponses;
 
-namespace WeeControl.Application.Essential.Commands;
+namespace WeeControl.Application.Contexts.Essential.Commands;
 
 public class AddOrEditTerritoryCommand : IRequest<IResponseDto<TerritoryDto>>
 {

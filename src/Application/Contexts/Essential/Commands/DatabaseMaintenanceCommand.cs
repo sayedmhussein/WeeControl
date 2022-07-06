@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using MediatR;
 using WeeControl.Application.Interfaces;
 
-namespace WeeControl.Application.Essential.Commands;
+namespace WeeControl.Application.Contexts.Essential.Commands;
 
 public class DatabaseMaintenanceCommand : IRequest
 {

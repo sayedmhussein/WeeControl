@@ -5,7 +5,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using WeeControl.Application.Interfaces;
 
-namespace WeeControl.Application.Essential.Notifications;
+namespace WeeControl.Application.Contexts.Essential.Notifications;
 
 public class UserActivityNotification : INotification
 {

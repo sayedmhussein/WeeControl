@@ -6,7 +6,7 @@ using WeeControl.Application.Exceptions;
 using WeeControl.Application.Interfaces;
 using WeeControl.Domain.Contexts.Essential;
 
-namespace WeeControl.Application.Essential.Notifications;
+namespace WeeControl.Application.Contexts.Essential.Notifications;
 
 public class UserNotificationNotification : INotification
 {

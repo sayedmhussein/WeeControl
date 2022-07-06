@@ -16,7 +16,7 @@ using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.RequestsResponses;
 
-namespace WeeControl.Application.Essential.Queries;
+namespace WeeControl.Application.Contexts.Essential.Queries;
 
 public class GetNewTokenQuery : IRequest<ResponseDto<TokenDtoV1>>
 {

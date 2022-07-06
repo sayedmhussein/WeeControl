@@ -1,5 +1,5 @@
 using System.Linq;
-using WeeControl.Application.Essential.Commands;
+using WeeControl.Application.Contexts.Essential.Commands;
 using WeeControl.Application.Exceptions;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;

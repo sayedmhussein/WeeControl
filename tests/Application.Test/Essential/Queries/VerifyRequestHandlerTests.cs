@@ -1,5 +1,5 @@
 using System.Threading;
-using WeeControl.Application.Essential.Queries;
+using WeeControl.Application.Contexts.Essential.Queries;
 using WeeControl.Application.Exceptions;
 using WeeControl.SharedKernel.RequestsResponses;
 using Xunit;

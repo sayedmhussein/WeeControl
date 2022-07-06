@@ -1,6 +1,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
-using WeeControl.Application.Essential.Queries;
+using WeeControl.Application.Contexts.Essential.Queries;
 using WeeControl.Application.Exceptions;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;

@@ -1,6 +1,6 @@
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using WeeControl.Application.Essential.Notifications;
+using WeeControl.Application.Contexts.Essential.Notifications;
 using Xunit;
 
 namespace WeeControl.Application.Test.Essential.Notifications;

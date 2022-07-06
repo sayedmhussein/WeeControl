@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using WeeControl.Application.Essential.Commands;
+using WeeControl.Application.Contexts.Essential.Commands;
 using WeeControl.Application.Exceptions;
 using WeeControl.Domain.Contexts.Essential;
 using WeeControl.SharedKernel.RequestsResponses;

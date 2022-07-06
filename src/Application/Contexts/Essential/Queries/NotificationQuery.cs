@@ -9,7 +9,7 @@ using WeeControl.Application.Interfaces;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
 
-namespace WeeControl.Application.Essential.Queries;
+namespace WeeControl.Application.Contexts.Essential.Queries;
 
 public class NotificationQuery : IRequest<ResponseDto<IEnumerable<NotificationDto>>>
 {

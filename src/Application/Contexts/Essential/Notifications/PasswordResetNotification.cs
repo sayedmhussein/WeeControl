@@ -7,7 +7,7 @@ using WeeControl.Application.Interfaces;
 using WeeControl.Domain.Interfaces;
 using WeeControl.Domain.Models;
 
-namespace WeeControl.Application.Essential.Notifications;
+namespace WeeControl.Application.Contexts.Essential.Notifications;
 
 public class PasswordResetNotification : INotification
 {

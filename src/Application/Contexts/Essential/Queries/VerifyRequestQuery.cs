@@ -4,7 +4,7 @@ using MediatR;
 using WeeControl.Application.Exceptions;
 using WeeControl.SharedKernel.Interfaces;
 
-namespace WeeControl.Application.Essential.Queries;
+namespace WeeControl.Application.Contexts.Essential.Queries;
 
 public class VerifyRequestQuery : IRequest
 {
