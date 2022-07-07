@@ -10,6 +10,7 @@ namespace WeeControl.Application.Behaviours;
 public class RequestPerformanceBehaviour<TRequest, TResponse> : 
     IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
+    private const int ThresholdTime = 500;
     private readonly Stopwatch timer;
     private readonly ILogger<RequestPerformanceBehaviour<TRequest, TResponse>> logger;
     private readonly ICurrentUserInfo currentUserService;
@@ -30,12 +31,10 @@ public class RequestPerformanceBehaviour<TRequest, TResponse> :
         RequestHandlerDelegate<TResponse> next)
     {
         timer.Start();
-
         var response = await next();
-
         timer.Stop();
 
-        if (timer.ElapsedMilliseconds <= 500) return response;
+        if (timer.ElapsedMilliseconds <= ThresholdTime) return response;
         
         var name = typeof(TRequest).Name;
         logger.LogWarning(

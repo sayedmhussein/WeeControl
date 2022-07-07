@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -20,7 +21,7 @@ public class AddOrEditTerritoryCommand : IRequest<IResponseDto<TerritoryDto>>
     {
         public Task<IResponseDto<TerritoryDto>> Handle(AddOrEditTerritoryCommand request, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

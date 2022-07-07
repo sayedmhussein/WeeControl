@@ -10,7 +10,7 @@ using WeeControl.Domain.Contexts.Essential;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.Interfaces;
 
-namespace WeeControl.Application.Contexts.Essential.Commands;
+namespace WeeControl.Application.Contexts.System.Commands;
 
 public class SeedEssentialDatabaseCommand : IRequest
 {
