@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using MudBlazor.Services;
 using WeeControl.SharedKernel;
 using WeeControl.User.UserApplication;
 using WeeControl.User.UserApplication.Interfaces;
@@ -35,6 +36,8 @@ public class Program
 
         builder.Services.AddOptions();
         builder.Services.AddAuthorizationCore();
+        
+        builder.Services.AddMudServices();
         
         // builder.Services.AddHttpClient("UnSecured", 
         //     client => client.BaseAddress = new Uri("https://localhost:5001/"));
