@@ -25,14 +25,14 @@ public class HomeNavigationMenuViewModel : ViewModelBase
         
         foreach (var claim in await device.Security.GetClaimsAsync())
         {
-            if (claim.Type is ClaimsTagsList.Claims.Session or ClaimsTagsList.Claims.Territory)
+            if (claim.Type is ClaimsValues.ClaimTypes.Session or ClaimsValues.ClaimTypes.Territory)
             {
                 continue;
             }
 
-            if (ClaimsTagsList.GetClaimsDictionary().ContainsValue(claim.Type))
+            if (ClaimsValues.GetClaimTypes().ContainsValue(claim.Type))
             {
-                var name = ClaimsTagsList.GetClaimsDictionary().First(x => x.Value == claim.Type);
+                var name = ClaimsValues.GetClaimTypes().First(x => x.Value == claim.Type);
                 list.Add(MenuItem.Create(name.Key));
             }
         }

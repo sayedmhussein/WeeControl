@@ -55,8 +55,8 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        claimTypes = ClaimsTagsList.GetClaimsDictionary();
-        claimTags = ClaimsTagsList.GetTagsDictionary();
+        claimTypes = ClaimsValues.GetClaimTypes();
+        claimTags = ClaimsValues.GetClaimValues();
     }
 
     private void IncrementCount()

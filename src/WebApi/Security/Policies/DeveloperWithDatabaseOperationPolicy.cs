@@ -8,7 +8,7 @@ public class DeveloperWithDatabaseOperationPolicy : PolicyBuilderBase
 
     public DeveloperWithDatabaseOperationPolicy()
     {
-        Builder.RequireClaim(ClaimsTagsList.Claims.Developer);
+        Builder.RequireClaim(ClaimsValues.ClaimTypes.Developer);
         //Builder.Requirements.Add();
     }
 }

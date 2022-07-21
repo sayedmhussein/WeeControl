@@ -1,24 +1,25 @@
 using System.Reflection;
+using System.Security.Claims;
 
 namespace WeeControl.SharedKernel;
 
-public static class ClaimsTagsList
+public static class ClaimsValues
 {
-    public static Dictionary<string, string> GetClaimsDictionary()
+    public static Dictionary<string, string> GetClaimTypes()
     {
         var fieldInfos =
-            typeof(Claims).GetFields(BindingFlags.Static | BindingFlags.Public);
+            typeof(ClaimTypes).GetFields(BindingFlags.Static | BindingFlags.Public);
         return fieldInfos.ToDictionary(info => info.Name, info => info?.GetValue(null)?.ToString())!;
     }
     
-    public static Dictionary<string, string> GetTagsDictionary()
+    public static Dictionary<string, string> GetClaimValues()
     {
         var fieldInfos =
-            typeof(Tags).GetFields(BindingFlags.Static | BindingFlags.Public);
+            typeof(ClaimValues).GetFields(BindingFlags.Static | BindingFlags.Public);
         return fieldInfos.ToDictionary(info => info.Name, info => info?.GetValue(null)?.ToString())!;
     }
 
-    public static class Claims
+    public static class ClaimTypes
     {
         public const string Session = "e_s";
         public const string Territory = "e_r";
@@ -33,7 +34,7 @@ public static class ClaimsTagsList
         public const string Field = "e_fd";
     }
     
-    public static class Tags
+    public static class ClaimValues
     {
         public const string SuperUser = "e_su";
         public const string Manager = "e_man";

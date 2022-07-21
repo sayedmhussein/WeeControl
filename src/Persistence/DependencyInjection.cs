@@ -30,8 +30,7 @@ namespace WeeControl.Persistence
         {
             services.RemoveDbFromServices<EssentialDbContext>();
 
-            if (dbName is null)
-                dbName = new Random().NextDouble().ToString(CultureInfo.InvariantCulture);
+            dbName ??= new Random().NextDouble().ToString(CultureInfo.InvariantCulture);
             services.AddScoped<IEssentialDbContext>(p =>
                 new EssentialDbContext(GetInMemoryOptions<EssentialDbContext>(dbName)));
 

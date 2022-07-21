@@ -35,8 +35,8 @@ public class GetListOfUsersTests : IClassFixture<CustomWebApplicationFactory<Sta
                 db.Users.Add(TestHelper<object>.GetUserDboWithEncryptedPassword("another", "another", "TRR"));
                 db.SaveChanges();
 
-                var claim = ClaimDbo.Create(user.UserId, ClaimsTagsList.Claims.Administrator,
-                    ClaimsTagsList.Tags.SuperUser, user.UserId);
+                var claim = ClaimDbo.Create(user.UserId, ClaimsValues.ClaimTypes.Administrator,
+                    ClaimsValues.ClaimValues.SuperUser, user.UserId);
                 db.Claims.Add(claim);
                 db.SaveChanges();
             });
@@ -69,8 +69,8 @@ public class GetListOfUsersTests : IClassFixture<CustomWebApplicationFactory<Sta
                 db.Users.Add(TestHelper<object>.GetUserDboWithEncryptedPassword("another", "password", "TRR1"));
                 db.SaveChanges();
 
-                var claim = ClaimDbo.Create(user.UserId, ClaimsTagsList.Claims.Administrator,
-                    ClaimsTagsList.Tags.SuperUser, user.UserId);
+                var claim = ClaimDbo.Create(user.UserId, ClaimsValues.ClaimTypes.Administrator,
+                    ClaimsValues.ClaimValues.SuperUser, user.UserId);
                 db.Claims.Add(claim);
                 db.SaveChanges();
             });
@@ -100,8 +100,8 @@ public class GetListOfUsersTests : IClassFixture<CustomWebApplicationFactory<Sta
                 db.Users.Add(user);
                 db.SaveChanges();
 
-                var claim = ClaimDbo.Create(user.UserId, ClaimsTagsList.Claims.Administrator,
-                    ClaimsTagsList.Tags.SuperUser, user.UserId);
+                var claim = ClaimDbo.Create(user.UserId, ClaimsValues.ClaimTypes.Administrator,
+                    ClaimsValues.ClaimValues.SuperUser, user.UserId);
                 db.Claims.Add(claim);
                 db.SaveChanges();
             });
@@ -130,8 +130,8 @@ public class GetListOfUsersTests : IClassFixture<CustomWebApplicationFactory<Sta
                 db.Users.Add(user);
                 db.SaveChanges();
 
-                var claim = ClaimDbo.Create(user.UserId, ClaimsTagsList.Claims.Field,
-                    ClaimsTagsList.Tags.SuperUser, user.UserId);
+                var claim = ClaimDbo.Create(user.UserId, ClaimsValues.ClaimTypes.Field,
+                    ClaimsValues.ClaimValues.SuperUser, user.UserId);
                 db.Claims.Add(claim);
                 db.SaveChanges();
             });

@@ -116,7 +116,7 @@ public class GetNewTokenQuery : IRequest<ResponseDto<TokenDtoV1>>
             await context.SaveChangesAsync(cancellationToken);
 
             var ci = new ClaimsIdentity("custom");
-            ci.AddClaim(new Claim(ClaimsTagsList.Claims.Session, session.SessionId.ToString()));
+            ci.AddClaim(new Claim(ClaimsValues.ClaimTypes.Session, session.SessionId.ToString()));
 
             var key = Encoding.ASCII.GetBytes(configuration["Jwt:Key"]);
 
@@ -145,10 +145,10 @@ public class GetNewTokenQuery : IRequest<ResponseDto<TokenDtoV1>>
                 context.Users.Include(x => x.Claims).FirstOrDefaultAsync(x => x.UserId == session.UserId, cancellationToken);
 
             var ci = new ClaimsIdentity("custom");
-            ci.AddClaim(new Claim(ClaimsTagsList.Claims.Session, session.SessionId.ToString()));
+            ci.AddClaim(new Claim(ClaimsValues.ClaimTypes.Session, session.SessionId.ToString()));
             if (employee?.TerritoryId is not null)
             {
-                ci.AddClaim(new Claim(ClaimsTagsList.Claims.Territory, employee.TerritoryId));
+                ci.AddClaim(new Claim(ClaimsValues.ClaimTypes.Territory, employee.TerritoryId));
             }
             //foreach (var c in employee.Claims.Where(x => x.RevokedTs == null).ToList())
             foreach (var c in employee.Claims?.Where(x => x.RevokedTs == null)?.ToList())

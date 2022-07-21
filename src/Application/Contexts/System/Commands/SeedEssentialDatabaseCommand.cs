@@ -34,24 +34,24 @@ public class SeedEssentialDatabaseCommand : IRequest
 
             await AddUser("developer", "USA-HO", new List<(string Type, string Value)>()
             {
-                (ClaimsTagsList.Claims.Developer, ClaimsTagsList.Tags.SuperUser),
-                (ClaimsTagsList.Claims.Administrator, ClaimsTagsList.Tags.Supervisor),
-                (ClaimsTagsList.Claims.HumanResource, ClaimsTagsList.Tags.SuperUser),
-                (ClaimsTagsList.Claims.Sales, ClaimsTagsList.Tags.SuperUser),
-                (ClaimsTagsList.Claims.Director, ClaimsTagsList.Tags.SuperUser),
-                (ClaimsTagsList.Claims.Field, ClaimsTagsList.Tags.SuperUser),
-                (ClaimsTagsList.Claims.Finance, ClaimsTagsList.Tags.SuperUser)
+                (ClaimsValues.ClaimTypes.Developer, ClaimsValues.ClaimValues.SuperUser),
+                (ClaimsValues.ClaimTypes.Administrator, ClaimsValues.ClaimValues.Supervisor),
+                (ClaimsValues.ClaimTypes.HumanResource, ClaimsValues.ClaimValues.SuperUser),
+                (ClaimsValues.ClaimTypes.Sales, ClaimsValues.ClaimValues.SuperUser),
+                (ClaimsValues.ClaimTypes.Director, ClaimsValues.ClaimValues.SuperUser),
+                (ClaimsValues.ClaimTypes.Field, ClaimsValues.ClaimValues.SuperUser),
+                (ClaimsValues.ClaimTypes.Finance, ClaimsValues.ClaimValues.SuperUser)
             }, cancellationToken);
             
             await AddUser("admin", "SAU-WEST", new List<(string Type, string Value)>()
             {
-                (ClaimsTagsList.Claims.Administrator, ClaimsTagsList.Tags.SuperUser),
-                (ClaimsTagsList.Claims.Administrator, ClaimsTagsList.Tags.Manager)
+                (ClaimsValues.ClaimTypes.Administrator, ClaimsValues.ClaimValues.SuperUser),
+                (ClaimsValues.ClaimTypes.Administrator, ClaimsValues.ClaimValues.Manager)
             }, cancellationToken);
             
             await AddUser("HrUser", "SAU-WEST", new List<(string Type, string Value)>()
             {
-                (ClaimsTagsList.Claims.HumanResource, ClaimsTagsList.Tags.SuperUser)
+                (ClaimsValues.ClaimTypes.HumanResource, ClaimsValues.ClaimValues.SuperUser)
             }, cancellationToken);
 
             return Unit.Value;

@@ -8,3 +8,8 @@ public interface IRequestDto
 
     double? Longitude { get; }
 }
+
+public interface IRequestDto<T> : IRequestDto where T : class
+{
+    T Payload { get; }
+}

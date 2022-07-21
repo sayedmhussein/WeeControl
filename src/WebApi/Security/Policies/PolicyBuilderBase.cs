@@ -11,7 +11,7 @@ public abstract class PolicyBuilderBase
     {
         Builder = new AuthorizationPolicyBuilder();
         Builder.AddAuthenticationSchemes("Bearer");
-        Builder.RequireClaim(ClaimsTagsList.Claims.Session);
+        Builder.RequireClaim(ClaimsValues.ClaimTypes.Session);
     }
 
     internal AuthorizationPolicy GetPolicy()
