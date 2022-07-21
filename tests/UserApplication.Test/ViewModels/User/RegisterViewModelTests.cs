@@ -1,6 +1,7 @@
 using System.Net;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.Essential.Interfaces;
+using WeeControl.SharedKernel.Essential.Models;
 using WeeControl.SharedKernel.RequestsResponses;
 using WeeControl.User.UserApplication.ViewModels.User;
 
@@ -58,9 +59,9 @@ public class RegisterViewModelTests : ViewModelTestsBase
         Assert.False(vm.IsLoading);
     }
 
-    private IRegisterDtoV1 GetRegisterDto()
+    private UserModel GetRegisterDto()
     {
-        return new RegisterDtoV1()
+        return new UserModel()
         {
             TerritoryId = nameof(IRegisterDtoV1.TerritoryId),
             FirstName = nameof(IRegisterDtoV1.FirstName),

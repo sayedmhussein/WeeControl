@@ -5,6 +5,7 @@ using System.Net.Http.Json;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.Essential.Interfaces;
+using WeeControl.SharedKernel.Essential.Models;
 using WeeControl.SharedKernel.RequestsResponses;
 using WeeControl.User.UserApplication.Interfaces;
 
@@ -13,7 +14,8 @@ namespace WeeControl.User.UserApplication.ViewModels.User;
 public class RegisterViewModel : ViewModelBase
 {
     private readonly IDevice device;
-    private readonly IRegisterDtoV1 dto;
+    public readonly UserModel dto;
+    
 
     [Required]
     [StringLength(50)]
@@ -118,10 +120,10 @@ public class RegisterViewModel : ViewModelBase
         }
     }
 
-    public RegisterViewModel(IDevice device, IRegisterDtoV1? dto = null) : base(device)
+    public RegisterViewModel(IDevice device, UserModel? dto = null) : base(device)
     {
         this.device = device;
-        this.dto = dto ?? new RegisterDtoV1();
+        this.dto = dto ?? new UserModel();
     }
 
     public async Task RegisterAsync()

@@ -1,0 +1,76 @@
+@using System.ComponentModel.DataAnnotations
+@using WeeControl.SharedKernel.Essential.Models
+
+<EditForm Model="@Model" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator/>
+    <MudCard>
+        <MudCardHeader>@Subject</MudCardHeader>
+        <MudCardContent>
+            <MudGrid>
+                <MudItem xs="3">
+                    <MudTextField Label="First Name" HelperText="Max. 8 characters"
+                                  @bind-Value="Model.FirstName" For="@(() => Model.FirstName)"/>
+                </MudItem>
+                <MudItem xs="3">
+                    <MudTextField Label="Second Name" HelperText="Max. 8 characters"
+                                  @bind-Value="Model.SecondName" For="@(() => Model.SecondName)"/>
+                </MudItem>
+                <MudItem xs="3">
+                    <MudTextField Label="Third name" HelperText="Max. 8 characters"
+                                  @bind-Value="Model.ThirdName" For="@(() => Model.ThirdName)"/>
+                </MudItem>
+                <MudItem xs="3">
+                    <MudTextField Label="Last name" HelperText="Max. 8 characters"
+                                  @bind-Value="Model.LastName" For="@(() => Model.LastName)"/>
+                </MudItem>
+            </MudGrid>
+            <MudSelect T="string" Label="Office/Territory" AnchorOrigin="Origin.BottomCenter" @bind-Value="Model.TerritoryId">
+                <MudSelectItem Value="@("USA-HO")" />
+                <MudSelectItem Value="@("EGP-HO")" />
+                <MudSelectItem Value="@("SAU-HO")" />
+            </MudSelect>
+            <MudTextField Label="Email" Class="mt-3"
+                          @bind-Value="Model.Email" For="@(() => Model.Email)"/>
+            <MudTextField Label="Username" HelperText="Max. 8 characters"
+                                      @bind-Value="Model.Username" For="@(() => Model.Username)"/>
+            <MudTextField Label="Password" HelperText="Choose a strong password" Class="mt-3"
+                          @bind-Value="Model.Password" For="@(() => Model.Password)" InputType="InputType.Password"/>
+            <MudTextField Label="Password" HelperText="Repeat the password" Class="mt-3"
+                          @bind-Value="Model.Password2" For="@(() => Model.Password2)" InputType="InputType.Password"/>
+            <MudTextField Label="Mobile Number" HelperText="Max. 8 characters"
+                          @bind-Value="Model.MobileNo" For="@(() => Model.MobileNo)"/>
+            <MudSelect T="string" Label="Nationality" AnchorOrigin="Origin.BottomCenter" @bind-Value="Model.Nationality">
+                <MudSelectItem Value="@("USA")" />
+                <MudSelectItem Value="@("EGP")" />
+                <MudSelectItem Value="@("SAU")" />
+            </MudSelect>
+        </MudCardContent>
+        <MudCardActions>
+            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
+        </MudCardActions>
+    </MudCard>
+</EditForm>
+
+@code {
+
+    [Parameter]
+    public string Subject { get; set; } = "User Details";
+    
+    [Parameter]
+    public UserModel Model { get; set; }
+    
+    bool success;
+
+    protected override Task OnInitializedAsync()
+    {
+        Model ??= new UserModel();
+
+        return base.OnInitializedAsync();
+    }
+
+    private void OnValidSubmit(EditContext context)
+    {
+        success = true;
+        StateHasChanged();
+    }
+}

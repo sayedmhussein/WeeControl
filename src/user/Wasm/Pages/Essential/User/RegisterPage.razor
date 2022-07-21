@@ -1,5 +1,6 @@
 @using WeeControl.User.UserApplication.ViewModels.User
 @using WeeControl.User.UserApplication
+@using WeeControl.SharedKernel.Essential.Models
 @attribute [Route(Pages.Essential.User.RegisterPage)]
 
 @layout RestrictedLayout
@@ -7,7 +8,7 @@
 
 @inject RegisterViewModel ViewModel
 
-<UserDetailsComponent></UserDetailsComponent>
+<UserComponent Subject="From Register Page" Model="ViewModel.dto"></UserComponent>
 
 <div class="card">
     <h4 class="card-header">Please fill the below fields</h4>
