@@ -1,4 +1,4 @@
-namespace WeeControl.User.UserApplication.ViewModels.Home;
+namespace WeeControl.User.UserApplication.ViewModels.Essential.Home;
 
 public class MenuItem
 {

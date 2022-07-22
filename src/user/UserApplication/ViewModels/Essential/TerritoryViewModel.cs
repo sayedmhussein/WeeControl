@@ -11,17 +11,16 @@ public class TerritoryViewModel : ViewModelBase
 {
     private readonly IDevice device;
     private readonly string uriString;
-    private readonly TerritoryDto dto;
+    private readonly TerritoryModelDto modelDto;
     
-    public IEnumerable<TerritoryDto>? ListOfTerritories { get; private set; }
-
+    public IEnumerable<TerritoryModelDto>? ListOfTerritories { get; private set; }
     
     public string TerritoryId
     {
-        get => dto.TerritoryCode;
+        get => modelDto.TerritoryCode;
         set
         {
-            dto.TerritoryCode = value;
+            modelDto.TerritoryCode = value;
             OnPropertyChanged(nameof(TerritoryId));
         }
     }
@@ -30,7 +29,7 @@ public class TerritoryViewModel : ViewModelBase
     {
         this.device = device;
         uriString = device.Server.GetFullAddress(Api.Essential.Territory.EndPoint);
-        dto = new TerritoryDto();
+        modelDto = new TerritoryModelDto();
     }
 
     public async Task GetListOfTerritories()
@@ -45,8 +44,8 @@ public class TerritoryViewModel : ViewModelBase
         
         if (response.IsSuccessStatusCode)
         {
-            var content = await response.Content.ReadFromJsonAsync<ResponseDto<IEnumerable<TerritoryDto>>>();
-            ListOfTerritories = content?.Payload ?? new List<TerritoryDto>();
+            var content = await response.Content.ReadFromJsonAsync<ResponseDto<IEnumerable<TerritoryModelDto>>>();
+            ListOfTerritories = content?.Payload ?? new List<TerritoryModelDto>();
             return;
         }
 
@@ -65,7 +64,7 @@ public class TerritoryViewModel : ViewModelBase
         }
     }
 
-    public async Task AddOrUpdateTerritory(TerritoryDto dto)
+    public async Task AddOrUpdateTerritory(TerritoryModelDto modelDto)
     {
         var response = await SendMessageAsync<object>(
             new HttpRequestMessage

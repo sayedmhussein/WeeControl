@@ -1,9 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 using WeeControl.SharedKernel.Essential.Interfaces;
 
-namespace WeeControl.SharedKernel.Essential.Models;
+namespace WeeControl.User.UserApplication.Models;
 
-public class UserModel : IRegisterDtoV1
+public class UserModel : IUserModel
 {
     [Required]
     public string FirstName { get; set; } = string.Empty;

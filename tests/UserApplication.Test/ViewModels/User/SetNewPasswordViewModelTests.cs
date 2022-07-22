@@ -1,5 +1,5 @@
 using System.Net;
-using WeeControl.User.UserApplication.ViewModels.User;
+using WeeControl.User.UserApplication.ViewModels.Essential.User;
 
 namespace WeeControl.User.UserApplication.Test.ViewModels.User;
 

@@ -1,7 +1,7 @@
 using WeeControl.User.UserApplication.Interfaces;
 using WeeControl.User.UserApplication.Models;
 
-namespace WeeControl.User.UserApplication;
+namespace WeeControl.User.UserApplication.Services;
 
 public class PersistedList : IPersistedLists
 {

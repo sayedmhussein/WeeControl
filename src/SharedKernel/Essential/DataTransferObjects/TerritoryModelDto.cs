@@ -2,7 +2,7 @@ using WeeControl.SharedKernel.Essential.Interfaces;
 
 namespace WeeControl.SharedKernel.Essential.DataTransferObjects;
 
-public class TerritoryDto : ITerritory
+public class TerritoryModelDto : ITerritoryModel
 {
     public string TerritoryCode { get; set; } = string.Empty;
     

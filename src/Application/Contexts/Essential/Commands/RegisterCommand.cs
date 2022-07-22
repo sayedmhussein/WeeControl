@@ -15,9 +15,9 @@ namespace WeeControl.Application.Contexts.Essential.Commands;
 
 public class RegisterCommand : IRequest<IResponseDto<TokenDtoV1>>
 {
-    private readonly IRequestDto<RegisterDtoV1> dto;
+    private readonly IRequestDto<UserModel> dto;
 
-    public RegisterCommand(IRequestDto<RegisterDtoV1> dto)
+    public RegisterCommand(IRequestDto<UserModel> dto)
     {
         this.dto = dto;
     }

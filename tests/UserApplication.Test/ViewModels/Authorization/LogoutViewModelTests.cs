@@ -1,5 +1,5 @@
 using System.Net;
-using WeeControl.User.UserApplication.ViewModels.Authentication;
+using WeeControl.User.UserApplication.ViewModels.Essential;
 
 namespace WeeControl.User.UserApplication.Test.ViewModels.Authorization;
 

@@ -6,7 +6,7 @@ using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
 using WeeControl.User.UserApplication.Interfaces;
 
-namespace WeeControl.User.UserApplication.ViewModels.Authentication;
+namespace WeeControl.User.UserApplication.ViewModels.Essential;
 
 public class LoginViewModel : ViewModelBase
 {

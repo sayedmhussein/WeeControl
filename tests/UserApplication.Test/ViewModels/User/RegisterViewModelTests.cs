@@ -1,9 +1,10 @@
 using System.Net;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.Essential.Interfaces;
-using WeeControl.SharedKernel.Essential.Models;
 using WeeControl.SharedKernel.RequestsResponses;
-using WeeControl.User.UserApplication.ViewModels.User;
+using WeeControl.User.UserApplication.Models;
+using WeeControl.User.UserApplication.ViewModels.Essential.User;
+using UserModel = WeeControl.User.UserApplication.Models.UserModel;
 
 namespace WeeControl.User.UserApplication.Test.ViewModels.User;
 
@@ -63,12 +64,12 @@ public class RegisterViewModelTests : ViewModelTestsBase
     {
         return new UserModel()
         {
-            TerritoryId = nameof(IRegisterDtoV1.TerritoryId),
-            FirstName = nameof(IRegisterDtoV1.FirstName),
-            LastName = nameof(IRegisterDtoV1.LastName),
-            Email = nameof(IRegisterDtoV1.Email) + "@email.com",
-            Username = nameof(IRegisterDtoV1.Username),
-            Password = nameof(IRegisterDtoV1.Password),
+            TerritoryId = nameof(IUserModel.TerritoryId),
+            FirstName = nameof(IUserModel.FirstName),
+            LastName = nameof(IUserModel.LastName),
+            Email = nameof(IUserModel.Email) + "@email.com",
+            Username = nameof(IUserModel.Username),
+            Password = nameof(IUserModel.Password),
             MobileNo = "0123456789",
             Nationality = "TST"
         };

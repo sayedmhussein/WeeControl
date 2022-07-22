@@ -5,12 +5,12 @@
 <div class="card">
     <h4 class="card-header">Territory</h4>
     <div class="card-body">
-        <EditForm Model="@dto" OnValidSubmit="@AddOrEditAsync">
+        <EditForm Model="@modelDto" OnValidSubmit="@AddOrEditAsync">
             <DataAnnotationsValidator></DataAnnotationsValidator>
             <div class="form-group">
                 <label>Territory ID</label>
-                <InputText @bind-Value="dto.TerritoryCode" readonly="@ViewModel.IsLoading" class="form-control"/>
-                <ValidationMessage For="@(() => dto.CountryCode)"/>
+                <InputText @bind-Value="modelDto.TerritoryCode" readonly="@ViewModel.IsLoading" class="form-control"/>
+                <ValidationMessage For="@(() => modelDto.CountryCode)"/>
             </div>
             
         </EditForm>
@@ -18,10 +18,10 @@
 </div>
 
 @code {
-    private readonly TerritoryDto dto = new TerritoryDto();
+    private readonly TerritoryModelDto modelDto = new TerritoryModelDto();
 
     private Task AddOrEditAsync()
     {
-        return ViewModel.AddOrUpdateTerritory(dto);
+        return ViewModel.AddOrUpdateTerritory(modelDto);
     }
 }

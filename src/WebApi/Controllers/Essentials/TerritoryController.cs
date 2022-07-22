@@ -29,7 +29,7 @@ public class TerritoryController : Controller
     
     [HttpGet]
     [MapToApiVersion("1.0")]
-    public async Task<ActionResult<ResponseDto<IEnumerable<TerritoryDto>>>> GetListOfTerritoriesV1()
+    public async Task<ActionResult<ResponseDto<IEnumerable<TerritoryModelDto>>>> GetListOfTerritoriesV1()
     {
         var response = await mediator.Send(new GetListOfTerritoriesQuery());
         return Ok(response);
@@ -38,7 +38,7 @@ public class TerritoryController : Controller
     [HttpPut]
     [MapToApiVersion("1.0")]
     [ProducesResponseType((int)HttpStatusCode.Conflict)]
-    public async Task<ActionResult> AddOrEditTerritoryV1([FromBody] RequestDto<TerritoryDto> dto)
+    public async Task<ActionResult> AddOrEditTerritoryV1([FromBody] RequestDto<TerritoryModelDto> dto)
     {
         await mediator.Send(new AddOrEditTerritoryCommand(dto));
         return Ok();

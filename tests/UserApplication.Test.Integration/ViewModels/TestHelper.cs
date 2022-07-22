@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using WeeControl.Domain.Contexts.Essential;
 using WeeControl.SharedKernel.Services;
 using WeeControl.User.UserApplication.Interfaces;
-using WeeControl.User.UserApplication.ViewModels.Authentication;
+using WeeControl.User.UserApplication.ViewModels.Essential;
 
 namespace WeeControl.User.UserApplication.Test.Integration.ViewModels;
 

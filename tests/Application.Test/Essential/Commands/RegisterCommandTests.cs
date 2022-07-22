@@ -121,16 +121,16 @@ public class RegisterCommandTests
             ResponseDto.Create(TokenDtoV1.Create("token", "name", "url"));
     }
     
-    private IRequestDto<RegisterDtoV1> GetRequestCommandDto()
+    private IRequestDto<UserModel> GetRequestCommandDto()
     {
-        var dto = new RegisterDtoV1()
+        var dto = new UserModel()
         {
-            TerritoryId = nameof(IRegisterDtoV1.TerritoryId),
-            FirstName = nameof(IRegisterDtoV1.FirstName),
-            LastName = nameof(IRegisterDtoV1.LastName),
-            Email = nameof(IRegisterDtoV1.Email) + "@email.com",
-            Username = nameof(IRegisterDtoV1.Username),
-            Password = nameof(IRegisterDtoV1.Password),
+            TerritoryId = nameof(IUserModel.TerritoryId),
+            FirstName = nameof(IUserModel.FirstName),
+            LastName = nameof(IUserModel.LastName),
+            Email = nameof(IUserModel.Email) + "@email.com",
+            Username = nameof(IUserModel.Username),
+            Password = nameof(IUserModel.Password),
             MobileNo = "0123456789"
         };
 

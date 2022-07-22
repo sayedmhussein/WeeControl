@@ -4,7 +4,7 @@ using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.User.UserApplication.Interfaces;
 
-namespace WeeControl.User.UserApplication.ViewModels.User;
+namespace WeeControl.User.UserApplication.ViewModels.Essential.User;
 
 public class ForgotMyPasswordViewModel : ViewModelBase
 {

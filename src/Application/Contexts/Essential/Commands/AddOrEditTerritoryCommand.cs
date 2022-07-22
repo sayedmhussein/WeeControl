@@ -8,18 +8,18 @@ using WeeControl.SharedKernel.RequestsResponses;
 
 namespace WeeControl.Application.Contexts.Essential.Commands;
 
-public class AddOrEditTerritoryCommand : IRequest<IResponseDto<TerritoryDto>>
+public class AddOrEditTerritoryCommand : IRequest<IResponseDto<TerritoryModelDto>>
 {
-    private readonly RequestDto<TerritoryDto> dto;
+    private readonly RequestDto<TerritoryModelDto> dto;
 
-    public AddOrEditTerritoryCommand(RequestDto<TerritoryDto> dto)
+    public AddOrEditTerritoryCommand(RequestDto<TerritoryModelDto> dto)
     {
         this.dto = dto;
     }
     
-    public class AddOrEditTerritoryHandler : IRequestHandler<AddOrEditTerritoryCommand, IResponseDto<TerritoryDto>>
+    public class AddOrEditTerritoryHandler : IRequestHandler<AddOrEditTerritoryCommand, IResponseDto<TerritoryModelDto>>
     {
-        public Task<IResponseDto<TerritoryDto>> Handle(AddOrEditTerritoryCommand request, CancellationToken cancellationToken)
+        public Task<IResponseDto<TerritoryModelDto>> Handle(AddOrEditTerritoryCommand request, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

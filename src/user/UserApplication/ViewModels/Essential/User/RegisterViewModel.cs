@@ -4,12 +4,12 @@ using System.Net;
 using System.Net.Http.Json;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
-using WeeControl.SharedKernel.Essential.Interfaces;
-using WeeControl.SharedKernel.Essential.Models;
 using WeeControl.SharedKernel.RequestsResponses;
 using WeeControl.User.UserApplication.Interfaces;
+using WeeControl.User.UserApplication.Models;
+using UserModel = WeeControl.User.UserApplication.Models.UserModel;
 
-namespace WeeControl.User.UserApplication.ViewModels.User;
+namespace WeeControl.User.UserApplication.ViewModels.Essential.User;
 
 public class RegisterViewModel : ViewModelBase
 {

@@ -4,6 +4,7 @@ using WeeControl.Application.Interfaces;
 using WeeControl.Domain.Contexts.Essential;
 using WeeControl.SharedKernel;
 using WeeControl.User.UserApplication.ViewModels.Essential;
+using WeeControl.User.UserApplication.ViewModels.Essential.User;
 using WeeControl.WebApi;
 using Xunit;
 

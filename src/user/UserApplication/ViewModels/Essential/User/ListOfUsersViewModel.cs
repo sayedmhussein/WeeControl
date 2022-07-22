@@ -5,7 +5,7 @@ using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
 using WeeControl.User.UserApplication.Interfaces;
 
-namespace WeeControl.User.UserApplication.ViewModels.Essential;
+namespace WeeControl.User.UserApplication.ViewModels.Essential.User;
 
 public class ListOfUsersViewModel : ViewModelBase
 {

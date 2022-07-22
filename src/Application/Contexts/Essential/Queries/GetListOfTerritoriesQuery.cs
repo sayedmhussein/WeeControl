@@ -11,7 +11,7 @@ using WeeControl.SharedKernel.RequestsResponses;
 
 namespace WeeControl.Application.Contexts.Essential.Queries;
 
-public class GetListOfTerritoriesQuery : IRequest<IResponseDto<IEnumerable<TerritoryDto>>>
+public class GetListOfTerritoriesQuery : IRequest<IResponseDto<IEnumerable<TerritoryModelDto>>>
 {
     private IEnumerable<string> TerritoryCode { get; }
 
@@ -30,7 +30,7 @@ public class GetListOfTerritoriesQuery : IRequest<IResponseDto<IEnumerable<Terri
         TerritoryCode = territoryCodes;
     }
     
-    public class GetListOfTerritoriesHandler : IRequestHandler<GetListOfTerritoriesQuery, IResponseDto<IEnumerable<TerritoryDto>>>
+    public class GetListOfTerritoriesHandler : IRequestHandler<GetListOfTerritoriesQuery, IResponseDto<IEnumerable<TerritoryModelDto>>>
     {
         private readonly IEssentialDbContext context;
         private readonly ICurrentUserInfo userInfo;
@@ -41,17 +41,17 @@ public class GetListOfTerritoriesQuery : IRequest<IResponseDto<IEnumerable<Terri
             this.userInfo = userInfo;
         }
         
-        public async Task<IResponseDto<IEnumerable<TerritoryDto>>> Handle(GetListOfTerritoriesQuery request, CancellationToken cancellationToken)
+        public async Task<IResponseDto<IEnumerable<TerritoryModelDto>>> Handle(GetListOfTerritoriesQuery request, CancellationToken cancellationToken)
         {
             await userInfo.LogUserActivityAsync("Essential", "Getting List of Territories", cancellationToken);
 
-            var list = new List<TerritoryDto>();
+            var list = new List<TerritoryModelDto>();
 
             if (request.TerritoryCode is null)
             {
                 await context.Territories.ForEachAsync(x =>
                 {
-                    list.Add(new TerritoryDto()
+                    list.Add(new TerritoryModelDto()
                     {
                         TerritoryCode = x.TerritoryId, ReportToId = x.ReportToId,
                         TerritoryName = x.TerritoryName, CountryCode = x.CountryCode
@@ -72,7 +72,7 @@ public class GetListOfTerritoriesQuery : IRequest<IResponseDto<IEnumerable<Terri
                 
                 await q.ForEachAsync(x =>
                 {
-                    list.Add(new TerritoryDto()
+                    list.Add(new TerritoryModelDto()
                     {
                         TerritoryCode = x.TerritoryId, ReportToId = x.ReportToId,
                         TerritoryName = x.TerritoryName, CountryCode = x.CountryCode
@@ -80,7 +80,7 @@ public class GetListOfTerritoriesQuery : IRequest<IResponseDto<IEnumerable<Terri
                 }, cancellationToken);
             }
 
-            return ResponseDto.Create<IEnumerable<TerritoryDto>>(list);
+            return ResponseDto.Create<IEnumerable<TerritoryModelDto>>(list);
         }
     }
 }

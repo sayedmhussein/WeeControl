@@ -1,9 +1,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using WeeControl.User.UserApplication.Interfaces;
-using WeeControl.User.UserApplication.ViewModels.Authentication;
+using WeeControl.User.UserApplication.Services;
 using WeeControl.User.UserApplication.ViewModels.Essential;
-using WeeControl.User.UserApplication.ViewModels.Home;
-using WeeControl.User.UserApplication.ViewModels.User;
+using WeeControl.User.UserApplication.ViewModels.Essential.Home;
+using WeeControl.User.UserApplication.ViewModels.Essential.User;
 
 namespace WeeControl.User.UserApplication;
 

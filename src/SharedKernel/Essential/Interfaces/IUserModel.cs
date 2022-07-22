@@ -1,6 +1,6 @@
 namespace WeeControl.SharedKernel.Essential.Interfaces;
 
-public interface IRegisterDtoV1
+public interface IUserModel
 {
     string FirstName { get; set; }
     string LastName { get; set; }

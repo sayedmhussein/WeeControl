@@ -2,7 +2,7 @@ using System.Net;
 using WeeControl.SharedKernel;
 using WeeControl.User.UserApplication.Interfaces;
 
-namespace WeeControl.User.UserApplication.ViewModels.Authentication;
+namespace WeeControl.User.UserApplication.ViewModels.Essential;
 
 public class LogoutViewModel : ViewModelBase
 {

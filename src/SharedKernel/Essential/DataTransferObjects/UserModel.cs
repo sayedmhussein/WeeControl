@@ -2,7 +2,7 @@
 
 namespace WeeControl.SharedKernel.Essential.DataTransferObjects;
 
-public class RegisterDtoV1 : IRegisterDtoV1
+public class UserModel : IUserModel
 {
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;

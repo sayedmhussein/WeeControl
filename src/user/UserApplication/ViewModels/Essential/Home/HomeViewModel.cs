@@ -1,7 +1,7 @@
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.User.UserApplication.Interfaces;
 
-namespace WeeControl.User.UserApplication.ViewModels.Home;
+namespace WeeControl.User.UserApplication.ViewModels.Essential.Home;
 
 public class HomeViewModel : ViewModelBase
 {
