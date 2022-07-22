@@ -1,7 +1,9 @@
-﻿@using WeeControl.User.UserApplication.ViewModels.Essential
+﻿@using WeeControl.Frontend.ApplicationService.Essential.Authorization
+@using WeeControl.Frontend.ApplicationService
+@attribute [AllowAnonymous]
 @attribute [Route(Pages.Essential.Authentication.LoginPage)]
 @inject LoginViewModel ViewModel
-@attribute [AllowAnonymous]
+
 
 <div class="card">
     <h4 class="card-header">@ViewModel.CardHeaderLabel</h4>

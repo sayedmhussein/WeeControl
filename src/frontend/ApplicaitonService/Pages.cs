@@ -1,4 +1,4 @@
-namespace WeeControl.User.UserApplication;
+namespace WeeControl.Frontend.ApplicationService;
 
 public static class Pages
 {

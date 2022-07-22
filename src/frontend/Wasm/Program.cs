@@ -5,13 +5,12 @@ using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using MudBlazor.Services;
+using WeeControl.Frontend.ApplicationService;
+using WeeControl.Frontend.ApplicationService.Interfaces;
+using WeeControl.Frontend.Wasm.Services;
 using WeeControl.SharedKernel;
-using WeeControl.User.UserApplication;
-using WeeControl.User.UserApplication.Interfaces;
-using WeeControl.User.Wasm.Services;
-using SharedDependency = WeeControl.SharedKernel.DependencyInjection;
 
-namespace WeeControl.User.Wasm;
+namespace WeeControl.Frontend.Wasm;
 
 public class Program
 {
@@ -55,7 +54,7 @@ public class Program
             
         builder.Services.AddApiAuthorization(options =>
         {
-            options.AuthenticationPaths.LogInPath = UserApplication.Pages.Essential.Authentication.LoginPage;
+            options.AuthenticationPaths.LogInPath = ApplicationService.Pages.Essential.Authentication.LoginPage;
         });
             
         await builder.Build().RunAsync();

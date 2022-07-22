@@ -1,6 +1,6 @@
-using WeeControl.User.UserApplication.Models;
+using WeeControl.Frontend.ApplicationService.Essential.Territory;
 
-namespace WeeControl.User.UserApplication.Interfaces;
+namespace WeeControl.Frontend.ApplicationService.Interfaces;
 
 public interface IPersistedLists
 {

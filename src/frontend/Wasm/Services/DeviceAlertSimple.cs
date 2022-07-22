@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
 using Microsoft.JSInterop;
-using WeeControl.User.UserApplication.Interfaces;
+using WeeControl.Frontend.ApplicationService.Interfaces;
 
-namespace WeeControl.User.Wasm.Services;
+namespace WeeControl.Frontend.Wasm.Services;
 
 public class DeviceAlertSimple : IDeviceAlert
 {

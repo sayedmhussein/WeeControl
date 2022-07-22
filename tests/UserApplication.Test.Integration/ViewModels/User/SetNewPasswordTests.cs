@@ -1,7 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.Application.Interfaces;
-using WeeControl.User.UserApplication.ViewModels.Essential.User;
+using WeeControl.Frontend.ApplicationService;
+using WeeControl.Frontend.ApplicationService.Essential.User;
 using WeeControl.WebApi;
 using Xunit;
 
@@ -31,7 +32,7 @@ public class SetNewPasswordTests : IClassFixture<CustomWebApplicationFactory<Sta
             });
         }).CreateClient();
         
-        using var helper = new TestHelper<SetNewPasswordViewModel>(httpClient);
+        using var helper = new TestHelper<PasswordChangeViewModel>(httpClient);
         await helper.Authorize("username", "password");
 
         helper.ViewModel.OldPassword = "password";
@@ -59,7 +60,7 @@ public class SetNewPasswordTests : IClassFixture<CustomWebApplicationFactory<Sta
             });
         }).CreateClient();
         
-        using var helper = new TestHelper<SetNewPasswordViewModel>(httpClient);
+        using var helper = new TestHelper<PasswordChangeViewModel>(httpClient);
 
         helper.ViewModel.OldPassword = "password";
         helper.ViewModel.NewPassword = "someNewPassword";
@@ -87,7 +88,7 @@ public class SetNewPasswordTests : IClassFixture<CustomWebApplicationFactory<Sta
             });
         }).CreateClient();
         
-        using var helper = new TestHelper<SetNewPasswordViewModel>(httpClient);
+        using var helper = new TestHelper<PasswordChangeViewModel>(httpClient);
         await helper.Authorize("username", "password");
 
         helper.ViewModel.OldPassword = "invalid password";
@@ -117,7 +118,7 @@ public class SetNewPasswordTests : IClassFixture<CustomWebApplicationFactory<Sta
             });
         }).CreateClient();
         
-        using var helper = new TestHelper<SetNewPasswordViewModel>(httpClient);
+        using var helper = new TestHelper<PasswordChangeViewModel>(httpClient);
         await helper.Authorize("username", "password");
 
         helper.ViewModel.OldPassword = "password";

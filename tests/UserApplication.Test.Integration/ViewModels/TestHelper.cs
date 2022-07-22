@@ -3,9 +3,11 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using WeeControl.Domain.Contexts.Essential;
+using WeeControl.Frontend.ApplicationService;
+using WeeControl.Frontend.ApplicationService.Essential.Authorization;
+using WeeControl.Frontend.ApplicationService.Interfaces;
+using WeeControl.Frontend.ApplicationService.UnitTest;
 using WeeControl.SharedKernel.Services;
-using WeeControl.User.UserApplication.Interfaces;
-using WeeControl.User.UserApplication.ViewModels.Essential;
 
 namespace WeeControl.User.UserApplication.Test.Integration.ViewModels;
 

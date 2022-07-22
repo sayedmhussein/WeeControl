@@ -1,7 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.Application.Interfaces;
-using WeeControl.User.UserApplication.ViewModels.Essential.User;
+using WeeControl.Frontend.ApplicationService;
+using WeeControl.Frontend.ApplicationService.Essential.User;
 using WeeControl.WebApi;
 using Xunit;
 
@@ -20,7 +21,7 @@ public class RegisterTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     [InlineData("someEmail@email.com", "someUsername", "0123456789")]
     public async void WhenSuccess(string email, string username, string mobileNo)
     {
-        using var helper = new TestHelper<RegisterViewModel>(factory.CreateClient());
+        using var helper = new TestHelper<UserViewModel>(factory.CreateClient());
         helper.ViewModel.FirstName = username;
         helper.ViewModel.LastName = username;
         helper.ViewModel.Email = email;
@@ -55,7 +56,7 @@ public class RegisterTests : IClassFixture<CustomWebApplicationFactory<Startup>>
             });
         }).CreateClient();
         
-        using var helper = new TestHelper<RegisterViewModel>(httpClient);
+        using var helper = new TestHelper<UserViewModel>(httpClient);
 
         helper.ViewModel.FirstName = username;
         helper.ViewModel.LastName = username;

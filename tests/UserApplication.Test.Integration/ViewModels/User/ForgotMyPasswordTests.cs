@@ -1,7 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.Application.Interfaces;
-using WeeControl.User.UserApplication.ViewModels.Essential.User;
+using WeeControl.Frontend.ApplicationService;
+using WeeControl.Frontend.ApplicationService.Essential.User;
 using WeeControl.WebApi;
 using Xunit;
 
@@ -31,7 +32,7 @@ public class ForgotMyPasswordTests: IClassFixture<CustomWebApplicationFactory<St
             });
         }).CreateClient();
         
-        using var helper = new TestHelper<ForgotMyPasswordViewModel>(httpClient);
+        using var helper = new TestHelper<PasswordResetViewModel>(httpClient);
         
         helper.ViewModel.Email = "email@email.com";
         helper.ViewModel.Username = "username";
@@ -60,7 +61,7 @@ public class ForgotMyPasswordTests: IClassFixture<CustomWebApplicationFactory<St
             });
         }).CreateClient();
         
-        using var helper = new TestHelper<ForgotMyPasswordViewModel>(httpClient);
+        using var helper = new TestHelper<PasswordResetViewModel>(httpClient);
         
         helper.ViewModel.Email = email;
         helper.ViewModel.Username = username;
@@ -87,7 +88,7 @@ public class ForgotMyPasswordTests: IClassFixture<CustomWebApplicationFactory<St
             });
         }).CreateClient();
         
-        using var helper = new TestHelper<ForgotMyPasswordViewModel>(httpClient);
+        using var helper = new TestHelper<PasswordResetViewModel>(httpClient);
         
         helper.ViewModel.Email = "username@email.com";
         helper.ViewModel.Username = "username";

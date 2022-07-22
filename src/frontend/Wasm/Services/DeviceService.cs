@@ -1,7 +1,7 @@
 using System;
-using WeeControl.User.UserApplication.Interfaces;
+using WeeControl.Frontend.ApplicationService.Interfaces;
 
-namespace WeeControl.User.Wasm.Services;
+namespace WeeControl.Frontend.Wasm.Services;
 
 public class DeviceService : IDevice
 {
