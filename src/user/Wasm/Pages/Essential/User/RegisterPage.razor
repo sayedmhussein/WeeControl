@@ -8,70 +8,76 @@
 
 @inject RegisterViewModel ViewModel
 
-<UserComponent Subject="From Register Page" Model="ViewModel.dto"></UserComponent>
+<UserComponent
+    Subject="From Register Page"
+    Model="ViewModel.dto"
+    SuccessfulModelData="@ViewModel.RegisterAsync"
+    IsRegister="true"
+    >
+</UserComponent>
 
-<div class="card">
-    <h4 class="card-header">Please fill the below fields</h4>
-    <div class="card-body">
-        <EditForm Model="@ViewModel" OnValidSubmit="ViewModel.RegisterAsync">
-            <DataAnnotationsValidator/>
-            <div class="form-group">
-                <label>@ViewModel.GetDisplayName(() => ViewModel.Territory)</label>
-                <select @bind="@ViewModel.Territory" class="form-control">
-                    <option>USA-HO</option>
-                    <option>EGP-HO</option>
-                </select>
-                <ValidationMessage For="@(() => ViewModel.Territory)"/>
-            </div>
-            <div class="form-group">
-                <label>@ViewModel.GetDisplayName(() => ViewModel.FirstName)</label>
-                <InputText @bind-Value="ViewModel.FirstName" class="form-control"/>
-                <ValidationMessage For="@(() => ViewModel.FirstName)"/>
-            </div>
-            <div class="form-group">
-                <label>@ViewModel.GetDisplayName(() => ViewModel.LastName)</label>
-                <InputText @bind-Value="ViewModel.LastName" class="form-control"/>
-                <ValidationMessage For="@(() => ViewModel.LastName)"/>
-            </div>
-            <div class="form-group">
-                <label>@ViewModel.GetDisplayName(() => ViewModel.Email)</label>
-                <InputText @bind-Value="ViewModel.Email" class="form-control"/>
-                <ValidationMessage For="@(() => ViewModel.Email)"/>
-            </div>
-            <div class="form-group">
-                <label>@ViewModel.GetDisplayName(() => ViewModel.Username)</label>
-                <InputText @bind-Value="ViewModel.Username" class="form-control"/>
-                <ValidationMessage For="@(() => ViewModel.Username)"/>
-            </div>
-            <div class="form-group">
-                <label>@ViewModel.GetDisplayName(() => ViewModel.Password)</label>
-                <InputText @bind-Value="ViewModel.Password" type="password" class="form-control"/>
-                <ValidationMessage For="@(() => ViewModel.Password)"/>
-            </div>
-            <div class="form-group">
-                <label>@ViewModel.GetDisplayName(() => ViewModel.MobileNo)</label>
-                <InputText @bind-Value="ViewModel.MobileNo" class="form-control"/>
-                <ValidationMessage For="@(() => ViewModel.MobileNo)"/>
-            </div>
-            <div class="form-group">
-                <label>@ViewModel.GetDisplayName(() => ViewModel.Nationality)</label>
-                <select @bind="@ViewModel.Nationality" class="form-control">
-                    <option>USA</option>
-                    <option>EGP</option>
-                </select>
-                <ValidationMessage For="@(() => ViewModel.Nationality)"/>
-            </div>
-            
-            <button class="btn btn-primary" disabled="@ViewModel.IsLoading">
-                @if (ViewModel.IsLoading)
-                {
-                    <span class="spinner-border spinner-border-sm mr-1"></span>
-                }
-                Register
-            </button>
-        </EditForm>
-    </div>
-</div>
+@* <div class="card"> *@
+@*     <h4 class="card-header">Please fill the below fields</h4> *@
+@*     <div class="card-body"> *@
+@*         <EditForm Model="@ViewModel" OnValidSubmit="ViewModel.RegisterAsync"> *@
+@*             <DataAnnotationsValidator/> *@
+@*             <div class="form-group"> *@
+@*                 <label>@ViewModel.GetDisplayName(() => ViewModel.Territory)</label> *@
+@*                 <select @bind="@ViewModel.Territory" class="form-control"> *@
+@*                     <option>USA-HO</option> *@
+@*                     <option>EGP-HO</option> *@
+@*                 </select> *@
+@*                 <ValidationMessage For="@(() => ViewModel.Territory)"/> *@
+@*             </div> *@
+@*             <div class="form-group"> *@
+@*                 <label>@ViewModel.GetDisplayName(() => ViewModel.FirstName)</label> *@
+@*                 <InputText @bind-Value="ViewModel.FirstName" class="form-control"/> *@
+@*                 <ValidationMessage For="@(() => ViewModel.FirstName)"/> *@
+@*             </div> *@
+@*             <div class="form-group"> *@
+@*                 <label>@ViewModel.GetDisplayName(() => ViewModel.LastName)</label> *@
+@*                 <InputText @bind-Value="ViewModel.LastName" class="form-control"/> *@
+@*                 <ValidationMessage For="@(() => ViewModel.LastName)"/> *@
+@*             </div> *@
+@*             <div class="form-group"> *@
+@*                 <label>@ViewModel.GetDisplayName(() => ViewModel.Email)</label> *@
+@*                 <InputText @bind-Value="ViewModel.Email" class="form-control"/> *@
+@*                 <ValidationMessage For="@(() => ViewModel.Email)"/> *@
+@*             </div> *@
+@*             <div class="form-group"> *@
+@*                 <label>@ViewModel.GetDisplayName(() => ViewModel.Username)</label> *@
+@*                 <InputText @bind-Value="ViewModel.Username" class="form-control"/> *@
+@*                 <ValidationMessage For="@(() => ViewModel.Username)"/> *@
+@*             </div> *@
+@*             <div class="form-group"> *@
+@*                 <label>@ViewModel.GetDisplayName(() => ViewModel.Password)</label> *@
+@*                 <InputText @bind-Value="ViewModel.Password" type="password" class="form-control"/> *@
+@*                 <ValidationMessage For="@(() => ViewModel.Password)"/> *@
+@*             </div> *@
+@*             <div class="form-group"> *@
+@*                 <label>@ViewModel.GetDisplayName(() => ViewModel.MobileNo)</label> *@
+@*                 <InputText @bind-Value="ViewModel.MobileNo" class="form-control"/> *@
+@*                 <ValidationMessage For="@(() => ViewModel.MobileNo)"/> *@
+@*             </div> *@
+@*             <div class="form-group"> *@
+@*                 <label>@ViewModel.GetDisplayName(() => ViewModel.Nationality)</label> *@
+@*                 <select @bind="@ViewModel.Nationality" class="form-control"> *@
+@*                     <option>USA</option> *@
+@*                     <option>EGP</option> *@
+@*                 </select> *@
+@*                 <ValidationMessage For="@(() => ViewModel.Nationality)"/> *@
+@*             </div> *@
+@*              *@
+@*             <button class="btn btn-primary" disabled="@ViewModel.IsLoading"> *@
+@*                 @if (ViewModel.IsLoading) *@
+@*                 { *@
+@*                     <span class="spinner-border spinner-border-sm mr-1"></span> *@
+@*                 } *@
+@*                 Register *@
+@*             </button> *@
+@*         </EditForm> *@
+@*     </div> *@
+@* </div> *@
 
 @code {
 }

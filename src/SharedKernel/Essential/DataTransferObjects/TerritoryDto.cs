@@ -1,6 +1,8 @@
+using WeeControl.SharedKernel.Essential.Interfaces;
+
 namespace WeeControl.SharedKernel.Essential.DataTransferObjects;
 
-public class TerritoryDto
+public class TerritoryDto : ITerritory
 {
     public string TerritoryCode { get; set; } = string.Empty;
     
@@ -9,4 +11,6 @@ public class TerritoryDto
     public string CountryCode { get; set; } = string.Empty;
 
     public string TerritoryName { get; set; } = string.Empty;
+
+    public string LocalName { get; set; } = string.Empty;
 }

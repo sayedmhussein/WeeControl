@@ -1,5 +1,9 @@
 @using System.ComponentModel.DataAnnotations
 @using WeeControl.SharedKernel.Essential.Models
+@using WeeControl.User.UserApplication.Interfaces
+
+@inject IPersistedLists Lists
+
 
 <EditForm Model="@Model" OnValidSubmit="OnValidSubmit">
     <DataAnnotationsValidator/>
@@ -32,7 +36,7 @@
             <MudTextField Label="Email" Class="mt-3"
                           @bind-Value="Model.Email" For="@(() => Model.Email)"/>
             <MudTextField Label="Username" HelperText="Max. 8 characters"
-                                      @bind-Value="Model.Username" For="@(() => Model.Username)"/>
+                          @bind-Value="Model.Username" For="@(() => Model.Username)"/>
             <MudTextField Label="Password" HelperText="Choose a strong password" Class="mt-3"
                           @bind-Value="Model.Password" For="@(() => Model.Password)" InputType="InputType.Password"/>
             <MudTextField Label="Password" HelperText="Repeat the password" Class="mt-3"
@@ -40,9 +44,10 @@
             <MudTextField Label="Mobile Number" HelperText="Max. 8 characters"
                           @bind-Value="Model.MobileNo" For="@(() => Model.MobileNo)"/>
             <MudSelect T="string" Label="Nationality" AnchorOrigin="Origin.BottomCenter" @bind-Value="Model.Nationality">
-                <MudSelectItem Value="@("USA")" />
-                <MudSelectItem Value="@("EGP")" />
-                <MudSelectItem Value="@("SAU")" />
+                @foreach (var l in Lists.Countries)
+                {
+                    <MudSelectItem Value="@(l.CountryCode)">@l.CountryName</MudSelectItem>
+                }
             </MudSelect>
         </MudCardContent>
         <MudCardActions>
@@ -59,6 +64,12 @@
     [Parameter]
     public UserModel Model { get; set; }
     
+    [Parameter]
+    public EventCallback SuccessfulModelData { get; set; }
+
+    [Parameter]
+    public bool IsRegister { get; set; } = false;
+    
     bool success;
 
     protected override Task OnInitializedAsync()
@@ -70,6 +81,7 @@
 
     private void OnValidSubmit(EditContext context)
     {
+        SuccessfulModelData.InvokeAsync();
         success = true;
         StateHasChanged();
     }
