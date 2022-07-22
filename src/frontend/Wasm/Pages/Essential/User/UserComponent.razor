@@ -69,8 +69,6 @@
 
     [Parameter]
     public bool IsRegister { get; set; } = false;
-    
-    bool success;
 
     protected override Task OnInitializedAsync()
     {
@@ -82,7 +80,6 @@
     private void OnValidSubmit(EditContext context)
     {
         SuccessfulModelData.InvokeAsync();
-        success = true;
         StateHasChanged();
     }
 }

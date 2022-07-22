@@ -31,8 +31,8 @@
     <None Remove="BoundedContexts\Credentials\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Application\Application.csproj" />
-    <ProjectReference Include="..\..\src\Persistence\Persistence.csproj" />
+    <ProjectReference Include="..\..\src\backend\Application\Application.csproj" />
+    <ProjectReference Include="..\..\src\backend\Persistence\Persistence.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="System\Commands" />

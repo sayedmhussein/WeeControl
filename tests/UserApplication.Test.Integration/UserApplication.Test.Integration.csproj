@@ -42,9 +42,9 @@
     <None Remove="Microsoft.AspNet.WebApi.Client" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Persistence\Persistence.csproj" />
-    <ProjectReference Include="..\..\src\WebApi\WebApi.csproj" />
-    <ProjectReference Include="..\..\src\user\UserApplication\UserApplication.csproj" />
+    <ProjectReference Include="..\..\src\backend\Persistence\Persistence.csproj" />
+    <ProjectReference Include="..\..\src\backend\WebApi\WebApi.csproj" />
+    <ProjectReference Include="..\..\src\frontend\ApplicaitonService\ApplicationService.csproj" />
     <ProjectReference Include="..\UserApplication.Test\UserApplication.Test.csproj" />
   </ItemGroup>
   <ItemGroup>

@@ -26,6 +26,6 @@
     <None Remove="Territory\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Persistence\Persistence.csproj" />
+    <ProjectReference Include="..\..\src\backend\Persistence\Persistence.csproj" />
   </ItemGroup>
 </Project>

@@ -23,6 +23,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
-    <ProjectReference Include="..\SharedKernel\SharedKernel.csproj" />
+    <ProjectReference Include="..\..\shared\SharedKernel\SharedKernel.csproj" />
   </ItemGroup>
 </Project>

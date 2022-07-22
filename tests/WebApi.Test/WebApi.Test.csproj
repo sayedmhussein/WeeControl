@@ -43,7 +43,7 @@
     <None Remove="Moq" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Persistence\Persistence.csproj" />
-    <ProjectReference Include="..\..\src\WebApi\WebApi.csproj" />
+    <ProjectReference Include="..\..\src\backend\Persistence\Persistence.csproj" />
+    <ProjectReference Include="..\..\src\backend\WebApi\WebApi.csproj" />
   </ItemGroup>
 </Project>

@@ -5,11 +5,11 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <RootNamespace>WeeControl.User.UserApplication</RootNamespace>
-        <PackageId>UserApplication</PackageId>
+        <PackageId>ApplicationService</PackageId>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\SharedKernel\SharedKernel.csproj" />
+      <ProjectReference Include="..\..\shared\SharedKernel\SharedKernel.csproj" />
     </ItemGroup>
 
 </Project>

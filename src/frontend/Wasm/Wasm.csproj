@@ -51,7 +51,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\UserApplication\UserApplication.csproj" />
+    <ProjectReference Include="..\ApplicaitonService\ApplicationService.csproj" />
   </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="Pages\Essential\Admin\AdminPage.razor" />
