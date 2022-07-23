@@ -3,23 +3,20 @@ using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Net.Http.Json;
 using WeeControl.Frontend.ApplicationService.Essential.Legacy;
+using WeeControl.Frontend.ApplicationService.Essential.Models;
 using WeeControl.Frontend.ApplicationService.Interfaces;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
-using UserModel = WeeControl.Frontend.ApplicationService.Essential.Models.UserModel;
 
 namespace WeeControl.Frontend.ApplicationService.Essential.ViewModels;
 
+[Obsolete]
 public class UserLegacyViewModel : LegacyViewModelBase
 {
     private readonly IDevice device;
-    public readonly UserModel dto;
+    public readonly UserRegisterModel dto;
     
-
-    [Required]
-    [StringLength(50)]
-    [DisplayName("First Name")]
     public string FirstName
     {
         get => dto.FirstName;
@@ -30,9 +27,7 @@ public class UserLegacyViewModel : LegacyViewModelBase
         }
     }
 
-    [Required]
-    [StringLength(50)]
-    [DisplayName("Last Name")]
+    
     public string LastName
     {
         get => dto.LastName;
@@ -43,9 +38,7 @@ public class UserLegacyViewModel : LegacyViewModelBase
         }
     }
 
-    [Required]
-    [EmailAddress]
-    [DisplayName("Email")]
+    
     public string Email
     {
         get => dto.Email;
@@ -56,10 +49,7 @@ public class UserLegacyViewModel : LegacyViewModelBase
         }
     }
 
-    [Required]
-    [MinLength(3)]
-    [StringLength(45, ErrorMessage = "username cannot be longer than 45 characters.")]
-    [DisplayName("Username")]
+    
     public string Username
     {
         get => dto.Username;
@@ -70,10 +60,7 @@ public class UserLegacyViewModel : LegacyViewModelBase
         }
     }
 
-    [Required]
-    [MinLength(6)]
-    [DataType(DataType.Password)]
-    [DisplayName("Password")]
+    
     public string Password
     {
         get => dto.Password;
@@ -84,8 +71,7 @@ public class UserLegacyViewModel : LegacyViewModelBase
         }
     }
 
-    [Phone]
-    [DisplayName("Mobile Number")]
+    
     public string MobileNo
     {
         get => dto.MobileNo;
@@ -96,8 +82,7 @@ public class UserLegacyViewModel : LegacyViewModelBase
         }
     }
 
-    [Required]
-    [DisplayName("Territory")]
+    
     public string Territory
     {
         get => dto.TerritoryId;
@@ -108,8 +93,7 @@ public class UserLegacyViewModel : LegacyViewModelBase
         }
     }
     
-    [Required]
-    [DisplayName("Nationality")]
+    
     public string Nationality
     {
         get => dto.Nationality;
@@ -120,10 +104,10 @@ public class UserLegacyViewModel : LegacyViewModelBase
         }
     }
 
-    public UserLegacyViewModel(IDevice device, UserModel? dto = null) : base(device)
+    public UserLegacyViewModel(IDevice device, UserRegisterModel? dto = null) : base(device)
     {
         this.device = device;
-        this.dto = dto ?? new UserModel();
+        this.dto = dto ?? new UserRegisterModel();
     }
 
     public async Task RegisterAsync()

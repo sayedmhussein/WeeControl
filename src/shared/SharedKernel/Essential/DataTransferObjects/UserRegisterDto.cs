@@ -2,8 +2,24 @@
 
 namespace WeeControl.SharedKernel.Essential.DataTransferObjects;
 
-public class UserModel : IUserModel
+public class UserRegisterDto : IUserModel
 {
+    public static UserRegisterDto Create(IUserModel model)
+    {
+        return new UserRegisterDto()
+        {
+            FirstName = model.FirstName,
+            
+            LastName = model.LastName,
+            Email = model.Email,
+            Username = model.Username,
+            Password = model.Password,
+            MobileNo = model.MobileNo,
+            TerritoryId = model.TerritoryId,
+            Nationality = model.Nationality
+        };
+    }
+    
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;

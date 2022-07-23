@@ -5,45 +5,45 @@
 @inject IPersistedLists Lists
 
 
-<EditForm Model="@Model" OnValidSubmit="OnValidSubmit">
+<EditForm Model="@RegisterModel" OnValidSubmit="OnValidSubmit">
     <DataAnnotationsValidator/>
     <MudCard>
-        <MudCardHeader>@Subject</MudCardHeader>
+        <MudCardHeader><h1>@Subject</h1></MudCardHeader>
         <MudCardContent>
             <MudGrid>
                 <MudItem xs="3">
                     <MudTextField Label="First Name" HelperText="Max. 8 characters"
-                                  @bind-Value="Model.FirstName" For="@(() => Model.FirstName)"/>
+                                  @bind-Value="RegisterModel.FirstName" For="@(() => RegisterModel.FirstName)"/>
                 </MudItem>
                 <MudItem xs="3">
                     <MudTextField Label="Second Name" HelperText="Max. 8 characters"
-                                  @bind-Value="Model.SecondName" For="@(() => Model.SecondName)"/>
+                                  @bind-Value="RegisterModel.SecondName" For="@(() => RegisterModel.SecondName)"/>
                 </MudItem>
                 <MudItem xs="3">
                     <MudTextField Label="Third name" HelperText="Max. 8 characters"
-                                  @bind-Value="Model.ThirdName" For="@(() => Model.ThirdName)"/>
+                                  @bind-Value="RegisterModel.ThirdName" For="@(() => RegisterModel.ThirdName)"/>
                 </MudItem>
                 <MudItem xs="3">
                     <MudTextField Label="Last name" HelperText="Max. 8 characters"
-                                  @bind-Value="Model.LastName" For="@(() => Model.LastName)"/>
+                                  @bind-Value="RegisterModel.LastName" For="@(() => RegisterModel.LastName)"/>
                 </MudItem>
             </MudGrid>
-            <MudSelect T="string" Label="Office/Territory" AnchorOrigin="Origin.BottomCenter" @bind-Value="Model.TerritoryId">
+            <MudSelect T="string" Label="Office/Territory" AnchorOrigin="Origin.BottomCenter" @bind-Value="RegisterModel.TerritoryId">
                 <MudSelectItem Value="@("USA-HO")" />
                 <MudSelectItem Value="@("EGP-HO")" />
                 <MudSelectItem Value="@("SAU-HO")" />
             </MudSelect>
             <MudTextField Label="Email" Class="mt-3"
-                          @bind-Value="Model.Email" For="@(() => Model.Email)"/>
+                          @bind-Value="RegisterModel.Email" For="@(() => RegisterModel.Email)"/>
             <MudTextField Label="Username" HelperText="Max. 8 characters"
-                          @bind-Value="Model.Username" For="@(() => Model.Username)"/>
+                          @bind-Value="RegisterModel.Username" For="@(() => RegisterModel.Username)"/>
             <MudTextField Label="Password" HelperText="Choose a strong password" Class="mt-3"
-                          @bind-Value="Model.Password" For="@(() => Model.Password)" InputType="InputType.Password"/>
+                          @bind-Value="RegisterModel.Password" For="@(() => RegisterModel.Password)" InputType="InputType.Password"/>
             <MudTextField Label="Password" HelperText="Repeat the password" Class="mt-3"
-                          @bind-Value="Model.Password2" For="@(() => Model.Password2)" InputType="InputType.Password"/>
+                          @bind-Value="RegisterModel.Password2" For="@(() => RegisterModel.Password2)" InputType="InputType.Password"/>
             <MudTextField Label="Mobile Number" HelperText="Max. 8 characters"
-                          @bind-Value="Model.MobileNo" For="@(() => Model.MobileNo)"/>
-            <MudSelect T="string" Label="Nationality" AnchorOrigin="Origin.BottomCenter" @bind-Value="Model.Nationality">
+                          @bind-Value="RegisterModel.MobileNo" For="@(() => RegisterModel.MobileNo)"/>
+            <MudSelect T="string" Label="Nationality" AnchorOrigin="Origin.BottomCenter" @bind-Value="RegisterModel.Nationality">
                 @foreach (var l in Lists.Countries)
                 {
                     <MudSelectItem Value="@(l.CountryCode)">@l.CountryName</MudSelectItem>
@@ -60,29 +60,15 @@
 
     [Parameter]
     public string Subject { get; set; } = "User Details";
+
+    [Parameter]
+    public EventCallback<UserRegisterModel> SuccessfulModelData { get; set; }
+
+    private UserRegisterModel RegisterModel { get; } = new UserRegisterModel();
     
-    [Parameter]
-    public UserModel Model { get; set; }
-    
-    [Parameter]
-    public EventCallback SuccessfulModelData { get; set; }
-
-    [Parameter]
-    public bool IsRegister { get; set; } = false;
-    
-    [Parameter]
-    public bool IsUserView { get; set; }
-
-    protected override Task OnInitializedAsync()
-    {
-        Model ??= new UserModel();
-
-        return base.OnInitializedAsync();
-    }
-
     private void OnValidSubmit(EditContext context)
     {
-        SuccessfulModelData.InvokeAsync();
+        SuccessfulModelData.InvokeAsync(RegisterModel);
         StateHasChanged();
     }
 }

@@ -121,9 +121,9 @@ public class RegisterCommandTests
             ResponseDto.Create(TokenDtoV1.Create("token", "name", "url"));
     }
     
-    private IRequestDto<UserModel> GetRequestCommandDto()
+    private IRequestDto<UserRegisterDto> GetRequestCommandDto()
     {
-        var dto = new UserModel()
+        var dto = new UserRegisterDto()
         {
             TerritoryId = nameof(IUserModel.TerritoryId),
             FirstName = nameof(IUserModel.FirstName),

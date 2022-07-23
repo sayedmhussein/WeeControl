@@ -16,6 +16,7 @@ public static class ApplicationServiceExtensions
 
         services.AddTransient<HomeViewModel>();
         services.AddTransient<AuthorizationViewModel>();
+        services.AddTransient<UserViewModel>();
         
         #region AdminContext
         services.AddTransient<TerritoryLegacyViewModel>();

@@ -1,10 +1,10 @@
 using System.Net;
 using System.Net.Http;
+using WeeControl.Frontend.ApplicationService.Essential.Models;
 using WeeControl.Frontend.ApplicationService.Essential.ViewModels;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.Essential.Interfaces;
 using WeeControl.SharedKernel.RequestsResponses;
-using UserModel = WeeControl.Frontend.ApplicationService.Essential.Models.UserModel;
 
 namespace WeeControl.Frontend.ApplicationService.UnitTest.ViewModels.User;
 
@@ -60,9 +60,9 @@ public class RegisterViewModelTests : ViewModelTestsBase
         Assert.False(vm.IsLoading);
     }
 
-    private UserModel GetRegisterDto()
+    private UserRegisterModel GetRegisterDto()
     {
-        return new UserModel()
+        return new UserRegisterModel()
         {
             TerritoryId = nameof(IUserModel.TerritoryId),
             FirstName = nameof(IUserModel.FirstName),
