@@ -2,7 +2,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.Application.Interfaces;
 using WeeControl.Frontend.ApplicationService;
-using WeeControl.Frontend.ApplicationService.Essential.Authorization;
+using WeeControl.Frontend.ApplicationService.Essential;
+using WeeControl.Frontend.ApplicationService.Essential.ViewModels;
 using WeeControl.WebApi;
 using Xunit;
 
@@ -37,7 +38,7 @@ public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>
             });
         }).CreateClient();
         
-        using var helper = new TestHelper<LoginViewModel>(httpClient);
+        using var helper = new TestHelper<AuthorizationViewModel>(httpClient);
         helper.ViewModel.UsernameOrEmail = usernameOrEmail;
         helper.ViewModel.Password = "password";
 
@@ -67,7 +68,7 @@ public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>
             });
         }).CreateClient();
         
-        using var helper = new TestHelper<LoginViewModel>(httpClient);
+        using var helper = new TestHelper<AuthorizationViewModel>(httpClient);
         helper.ViewModel.UsernameOrEmail = "username";
         helper.ViewModel.Password = "password";
 

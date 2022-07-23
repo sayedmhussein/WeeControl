@@ -2,14 +2,15 @@
 @page "/Home"
 
 @using System.Security.Claims
-@using WeeControl.Frontend.ApplicationService.Essential.Home
+@using WeeControl.Frontend.ApplicationService.Essential
+@using WeeControl.Frontend.ApplicationService.Essential.ViewModels
 
-@inject HomeViewModel ViewModel
+@inject HomeViewModel LegacyViewModel
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
-<p class="flex-wrap">Hello @ViewModel.NameOfUSer</p>
+<p class="flex-wrap">@LegacyViewModel.GreetingMessage @LegacyViewModel.NameOfUser</p>
 
 <div class="dropdown">
     <table class="table table-bordered table-hover">
@@ -40,7 +41,7 @@ Welcome to your new app.
     
     protected override async void OnInitialized()
     {
-        await ViewModel.RefreshToken();
+        await LegacyViewModel.Init();
 
         await GetClaims();
         

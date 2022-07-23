@@ -6,19 +6,14 @@ using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
 
-namespace WeeControl.Frontend.ApplicationService.Essential.Authorization;
+namespace WeeControl.Frontend.ApplicationService.Essential.ViewModels;
 
-public class LoginViewModel : ViewModelBase
+public class AuthorizationViewModel : ViewModelBase
 {
     private readonly IDevice device;
+    private readonly IServerOperation server;
 
     #region Properties
-    public string CardHeaderLabel { get; private set; } = "Please enter your username and password";
-    public string UsernameOrEmailLabel { get; private set; } = "Username or Email";
-    public string PasswordLabel { get; private set; } = "Password";
-    public string ForgotPasswordButtonLabel { get; private set; } = "Forgot Password";
-    public string RegisterButtonLabel { get; private set; } = "Register";
-    
     [Required]
     [StringLength(45, MinimumLength = 3)]
     public string UsernameOrEmail { get; set; } = string.Empty;
@@ -28,14 +23,15 @@ public class LoginViewModel : ViewModelBase
     public string Password { get; set; } = string.Empty;
     #endregion
     
-    public LoginViewModel(IDevice device) : base(device)
+    public AuthorizationViewModel(IDevice device, IServerOperation server)
     {
         this.device = device;
+        this.server = server;
     }
 
     public async Task Init()
     {
-        if (await RefreshTokenAsync())
+        if (await server.IsTokenValid())
         {
             await device.Navigation.NavigateToAsync(Pages.Shared.IndexPage);
         }
@@ -54,6 +50,33 @@ public class LoginViewModel : ViewModelBase
         Password = string.Empty;
         IsLoading = false;
     }
+    
+    public async Task LogoutAsync()
+    {
+        HttpRequestMessage message = new()
+        {
+            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Authorization.Route)),
+            Version = new Version("1.0"),
+            Method = HttpMethod.Delete,
+        };
+
+        var response = await server.Send(message, new object());
+
+        switch (response.StatusCode)
+        {
+            case HttpStatusCode.NotFound:
+            case HttpStatusCode.BadGateway:
+            case HttpStatusCode.BadRequest:
+            case HttpStatusCode.Unauthorized:
+                await device.Navigation.NavigateToAsync(Pages.Essential.Authentication.LoginPage, forceLoad: true);
+                break;
+            default:
+                await device.Alert.DisplayAlert("AlertEnum.DeveloperMinorBug");
+                break;
+        }
+
+        await device.Security.DeleteTokenAsync();
+    }
 
     public Task NavigateToRegisterPage()
     {
@@ -67,7 +90,7 @@ public class LoginViewModel : ViewModelBase
 
     private async Task ProcessLoginCommand()
     {
-        var response = await SendMessageAsync(
+        var response = await server.Send(
             new HttpRequestMessage
             {
                 RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Authorization.Route)),
@@ -86,7 +109,7 @@ public class LoginViewModel : ViewModelBase
                 await device.Security.UpdateTokenAsync(token);
                 await device.Storage.SaveAsync(nameof(TokenDtoV1.FullName), responseDto?.Payload?.FullName ?? string.Empty);
                 await device.Storage.SaveAsync(nameof(TokenDtoV1.PhotoUrl), responseDto?.Payload?.PhotoUrl ?? string.Empty);
-                if (await RefreshTokenAsync())
+                if (await server.IsTokenValid())
                 {
                     await device.Navigation.NavigateToAsync(Pages.Shared.IndexPage, forceLoad: true);
                     return;

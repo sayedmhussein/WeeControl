@@ -1,15 +1,17 @@
+using WeeControl.Frontend.ApplicationService.Essential.Models;
 using WeeControl.Frontend.ApplicationService.Interfaces;
 using WeeControl.SharedKernel;
 
-namespace WeeControl.Frontend.ApplicationService.Essential.Home;
+namespace WeeControl.Frontend.ApplicationService.Essential.Legacy;
 
-public class HomeNavigationMenuViewModel : ViewModelBase
+[Obsolete("Use HomeViewModel.")]
+public class HomeNavigationMenuLegacyViewModel : LegacyViewModelBase
 {
     private readonly IDevice device;
 
-    public IEnumerable<MenuItem> MenuItems { get; private set; } = new List<MenuItem>();
+    public IEnumerable<MenuItemModel> MenuItems { get; private set; } = new List<MenuItemModel>();
 
-    public HomeNavigationMenuViewModel(IDevice device) : base(device)
+    public HomeNavigationMenuLegacyViewModel(IDevice device) : base(device)
     {
         this.device = device;
     }
@@ -21,7 +23,7 @@ public class HomeNavigationMenuViewModel : ViewModelBase
 
     public async Task SetupMenuAsync()
     {
-        var list = new List<MenuItem>();
+        var list = new List<MenuItemModel>();
         
         foreach (var claim in await device.Security.GetClaimsAsync())
         {
@@ -33,10 +35,10 @@ public class HomeNavigationMenuViewModel : ViewModelBase
             if (ClaimsValues.GetClaimTypes().ContainsValue(claim.Type))
             {
                 var name = ClaimsValues.GetClaimTypes().First(x => x.Value == claim.Type);
-                list.Add(MenuItem.Create(name.Key));
+                list.Add(MenuItemModel.Create(name.Key));
             }
         }
 
-        MenuItems = new List<MenuItem>(list.DistinctBy(x => x.PageName));
+        MenuItems = new List<MenuItemModel>(list.DistinctBy(x => x.PageName));
     }
 }

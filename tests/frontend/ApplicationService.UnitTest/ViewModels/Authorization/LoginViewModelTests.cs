@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using WeeControl.Frontend.ApplicationService.Essential.Authorization;
+using WeeControl.Frontend.ApplicationService.Essential;
+using WeeControl.Frontend.ApplicationService.Essential.ViewModels;
+using WeeControl.Frontend.ApplicationService.Services;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
 
@@ -10,7 +12,7 @@ namespace WeeControl.Frontend.ApplicationService.UnitTest.ViewModels.Authorizati
 
 public class LoginViewModelTests : ViewModelTestsBase
 {
-    public LoginViewModelTests() : base(nameof(LoginViewModel))
+    public LoginViewModelTests() : base(nameof(AuthorizationViewModel))
     {
     }
     
@@ -26,7 +28,7 @@ public class LoginViewModelTests : ViewModelTestsBase
             new (HttpStatusCode.OK, content2)
         };
         
-        var vm = new LoginViewModel(Mock.GetObject(expected))
+        var vm = new AuthorizationViewModel(Mock.GetObject(expected), null)
         {
             UsernameOrEmail = "username",
             Password = "password"
@@ -55,7 +57,7 @@ public class LoginViewModelTests : ViewModelTestsBase
                  new (code2, content2)
              };
         
-             var vm = new LoginViewModel(Mock.GetObject(expected))
+             var vm = new AuthorizationViewModel(Mock.GetObject(expected), null)
              {
                  UsernameOrEmail = "username",
                  Password = "password"
@@ -77,7 +79,7 @@ public class LoginViewModelTests : ViewModelTestsBase
     public async void HttpClientIsDefault()
     {
         var client = new HttpClient();
-        var vm = new LoginViewModel(Mock.GetObject(client))
+        var vm = new AuthorizationViewModel(Mock.GetObject(client), null)
         {
             UsernameOrEmail = "username",
             Password = "password"
@@ -105,7 +107,7 @@ public class LoginViewModelTests : ViewModelTestsBase
     public async void WhenEmptyProperties_DisplayAlertOnly(string username, string password)
     {
         var content = GetJsonContent(ResponseDto.Create(TokenDtoV1.Create("token", "name", "url")));
-        var vm = new LoginViewModel(Mock.GetObject(HttpStatusCode.OK,content))
+        var vm = new AuthorizationViewModel(Mock.GetObject(HttpStatusCode.OK,content), null)
         {
             UsernameOrEmail = username,
             Password = password

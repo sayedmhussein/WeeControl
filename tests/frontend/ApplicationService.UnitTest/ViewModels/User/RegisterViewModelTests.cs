@@ -1,23 +1,23 @@
 using System.Net;
 using System.Net.Http;
-using WeeControl.Frontend.ApplicationService.Essential.User;
+using WeeControl.Frontend.ApplicationService.Essential.ViewModels;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.Essential.Interfaces;
 using WeeControl.SharedKernel.RequestsResponses;
-using UserModel = WeeControl.Frontend.ApplicationService.Essential.User.UserModel;
+using UserModel = WeeControl.Frontend.ApplicationService.Essential.Models.UserModel;
 
 namespace WeeControl.Frontend.ApplicationService.UnitTest.ViewModels.User;
 
 public class RegisterViewModelTests : ViewModelTestsBase
 {
-    public RegisterViewModelTests() : base(nameof(UserViewModel))
+    public RegisterViewModelTests() : base(nameof(UserLegacyViewModel))
     {
     }
     
     [Fact]
     public async void WhenSuccessResponseCode()
     {
-        var vm = new UserViewModel(Mock.GetObject(HttpStatusCode.OK, GetResponseContent()), GetRegisterDto());
+        var vm = new UserLegacyViewModel(Mock.GetObject(HttpStatusCode.OK, GetResponseContent()), GetRegisterDto());
 
         await vm.RegisterAsync();
 
@@ -30,7 +30,7 @@ public class RegisterViewModelTests : ViewModelTestsBase
     [InlineData(HttpStatusCode.Conflict)]
     public async void WhenOtherResponseCode(HttpStatusCode code)
     {
-        var vm = new UserViewModel(Mock.GetObject(code, GetResponseContent()), GetRegisterDto());
+        var vm = new UserLegacyViewModel(Mock.GetObject(code, GetResponseContent()), GetRegisterDto());
 
         await vm.RegisterAsync();
         
@@ -46,7 +46,7 @@ public class RegisterViewModelTests : ViewModelTestsBase
     [InlineData("", "", "password")]
     public async void WhenInvalidProperties(string email, string username, string password)
     {
-        var vm = new UserViewModel(Mock.GetObject(HttpStatusCode.OK, GetResponseContent()))
+        var vm = new UserLegacyViewModel(Mock.GetObject(HttpStatusCode.OK, GetResponseContent()))
         {
             Email = email,
             Username = username,

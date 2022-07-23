@@ -1,8 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.Frontend.ApplicationService.Essential.Authorization;
-using WeeControl.Frontend.ApplicationService.Essential.Home;
-using WeeControl.Frontend.ApplicationService.Essential.Territory;
-using WeeControl.Frontend.ApplicationService.Essential.User;
+using WeeControl.Frontend.ApplicationService.Essential;
+using WeeControl.Frontend.ApplicationService.Essential.Legacy;
+using WeeControl.Frontend.ApplicationService.Essential.ViewModels;
 using WeeControl.Frontend.ApplicationService.Interfaces;
 using WeeControl.Frontend.ApplicationService.Services;
 
@@ -14,24 +13,27 @@ public static class ApplicationServiceExtensions
     {
         services.AddSingleton<IPersistedLists, PersistedListService>();
         services.AddTransient<IServerOperation, ServerOperationService>();
+
+        services.AddTransient<HomeViewModel>();
+        services.AddTransient<AuthorizationViewModel>();
         
         #region AdminContext
-        services.AddTransient<TerritoryViewModel>();
+        services.AddTransient<TerritoryLegacyViewModel>();
         #endregion
         
         #region AuthorizationContext
-        services.AddTransient<LoginViewModel>();
-        services.AddTransient<LogoutViewModel>();
-        services.AddTransient<UserViewModel>();
-        services.AddTransient<PasswordResetViewModel>();
-        services.AddTransient<PasswordChangeViewModel>();
+        
+        services.AddTransient<LogoutLegacyViewModel>();
+        services.AddTransient<UserLegacyViewModel>();
+        services.AddTransient<PasswordResetLegacyViewModel>();
+        services.AddTransient<PasswordChangeLegacyViewModel>();
         
         #endregion
 
         #region SharedContext
-        services.AddTransient<SplashViewModel>();
-        services.AddTransient<HomeViewModel>();
-        services.AddTransient<HomeNavigationMenuViewModel>();
+        services.AddTransient<SplashLegacyViewModel>();
+        services.AddTransient<HomeLegacyViewModel>();
+        services.AddTransient<HomeNavigationMenuLegacyViewModel>();
         #endregion
         
         return services;

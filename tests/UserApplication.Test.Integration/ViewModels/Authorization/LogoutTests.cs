@@ -2,7 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.Application.Interfaces;
 using WeeControl.Frontend.ApplicationService;
-using WeeControl.Frontend.ApplicationService.Essential.Authorization;
+using WeeControl.Frontend.ApplicationService.Essential.Legacy;
 using WeeControl.WebApi;
 using Xunit;
 
@@ -32,7 +32,7 @@ public class LogoutTests : IClassFixture<CustomWebApplicationFactory<Startup>>
             });
         }).CreateClient();
         
-        using var helper = new TestHelper<LogoutViewModel>(httpClient);
+        using var helper = new TestHelper<LogoutLegacyViewModel>(httpClient);
         await helper.Authorize("username", "password");
 
         await helper.ViewModel.LogoutAsync();

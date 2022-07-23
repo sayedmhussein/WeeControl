@@ -1,4 +1,4 @@
-using WeeControl.Frontend.ApplicationService.Essential.Territory;
+using WeeControl.Frontend.ApplicationService.Essential.Models;
 
 namespace WeeControl.Frontend.ApplicationService.Interfaces;
 

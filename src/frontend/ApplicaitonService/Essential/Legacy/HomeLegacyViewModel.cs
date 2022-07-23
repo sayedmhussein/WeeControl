@@ -1,13 +1,14 @@
 using WeeControl.Frontend.ApplicationService.Interfaces;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 
-namespace WeeControl.Frontend.ApplicationService.Essential.Home;
+namespace WeeControl.Frontend.ApplicationService.Essential.Legacy;
 
-public class HomeViewModel : ViewModelBase
+[Obsolete("Use HomeViewModel Init() function.")]
+public class HomeLegacyViewModel : LegacyViewModelBase
 {
     private readonly IDevice device;
 
-    public HomeViewModel(IDevice device) : base(device)
+    public HomeLegacyViewModel(IDevice device) : base(device)
     {
         this.device = device;
     }

@@ -1,6 +1,6 @@
 using WeeControl.SharedKernel.Essential.Interfaces;
 
-namespace WeeControl.Frontend.ApplicationService.Essential.Territory;
+namespace WeeControl.Frontend.ApplicationService.Essential.Models;
 
 public class TerritoryModel : ITerritoryModel
 {

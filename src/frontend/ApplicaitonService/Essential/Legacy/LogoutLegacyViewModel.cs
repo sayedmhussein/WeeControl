@@ -2,15 +2,16 @@ using System.Net;
 using WeeControl.Frontend.ApplicationService.Interfaces;
 using WeeControl.SharedKernel;
 
-namespace WeeControl.Frontend.ApplicationService.Essential.Authorization;
+namespace WeeControl.Frontend.ApplicationService.Essential.Legacy;
 
-public class LogoutViewModel : ViewModelBase
+[Obsolete("Use AuthorizationViewModel Function to logout.")]
+public class LogoutLegacyViewModel : LegacyViewModelBase
 {
     private readonly IDevice device;
 
     public string GoodbyMessage => "Good By :)";
     
-    public LogoutViewModel(IDevice device) : base(device)
+    public LogoutLegacyViewModel(IDevice device) : base(device)
     {
         this.device = device;
     }

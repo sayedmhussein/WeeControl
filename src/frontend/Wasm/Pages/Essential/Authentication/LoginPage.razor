@@ -1,38 +1,57 @@
-﻿@using WeeControl.Frontend.ApplicationService.Essential.Authorization
-@using WeeControl.Frontend.ApplicationService
-@attribute [AllowAnonymous]
+﻿@attribute [AllowAnonymous]
 @attribute [Route(Pages.Essential.Authentication.LoginPage)]
-@inject LoginViewModel ViewModel
+@inject AuthorizationViewModel ViewModel
 
-
-<div class="card">
-    <h4 class="card-header">@ViewModel.CardHeaderLabel</h4>
-    <div class="card-body">
+<MudCard>
+    <MudCardHeader>
+        <h4>Please enter your username and password</h4>
+    </MudCardHeader>
+    <MudCardContent>
         <EditForm Model="@ViewModel" OnValidSubmit="ViewModel.LoginAsync">
             <DataAnnotationsValidator/>
             <div class="form-group">
-                <label>@ViewModel.UsernameOrEmailLabel</label>
+                <label>Username or Email</label>
                 <InputText @bind-Value="ViewModel.UsernameOrEmail" readonly="@ViewModel.IsLoading" class="form-control"/>
                 <ValidationMessage For="@(() => ViewModel.UsernameOrEmail)"/>
             </div>
             <div class="form-group">
-                <label>@ViewModel.PasswordLabel</label>
+                <label>Password</label>
                 <InputText @bind-Value="ViewModel.Password" readonly="@ViewModel.IsLoading" type="password" class="form-control"/>
                 <ValidationMessage For="@(() => ViewModel.Password)"/>
             </div>
-            <button class="btn btn-primary" disabled="@ViewModel.IsLoading">
+        </EditForm>
+    </MudCardContent>
+    <MudCardActions>
+        <div class="d-flex">
+            <MudButton
+                Variant="Variant.Filled"
+                ButtonType="ButtonType.Submit"
+                Color="Color.Primary"
+                Disabled="@ViewModel.IsLoading" Size="Size.Large"
+                Class="ml-auto" @onclick="@ViewModel.LoginAsync">
                 @if (ViewModel.IsLoading)
                 {
                     <span class="spinner-border spinner-border-sm mr-1"></span>
                 }
                 Login
-            </button>
-            
-            <button class="btn btn-secondary" @onclick="@ViewModel.NavigateToForgotMyPasswordPage">@ViewModel.ForgotPasswordButtonLabel</button>
-            <button class="btn btn-outline-secondary" @onclick="@ViewModel.NavigateToRegisterPage">@ViewModel.RegisterButtonLabel</button>
-        </EditForm>
-    </div>
-</div>
+            </MudButton>
+        </div>
+        <div class="d-flex">
+            <MudButton
+                Variant="Variant.Filled"
+                Color="Color.Secondary"
+                Disabled="@ViewModel.IsLoading"
+                DisableElevation="true" Size="Size.Small"
+                Class="ml-auto align-content-sm-end" @onclick="@ViewModel.NavigateToForgotMyPasswordPage">Reset Password</MudButton>
+            <MudButton
+                Variant="Variant.Filled"
+                Color="Color.Info"
+                Disabled="@ViewModel.IsLoading"
+                DisableElevation="true" Size="Size.Small"
+                Class="ml-auto align-content-sm-end" @onclick="@ViewModel.NavigateToRegisterPage">Register</MudButton>
+        </div>
+    </MudCardActions>
+</MudCard>
 
 @code
 {

@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>WeeControl.Frontend.Wasm</RootNamespace>
     <Company>sayed.hussein@gmx.com</Company>
-    <Product>WeeControl App</Product>
+    <Product>WeeControl WebAssembly Application</Product>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'Wasm' ">
@@ -18,41 +18,7 @@
     <PackageReference Include="MudBlazor" Version="6.0.12" />
     <PackageReference Include="System.Net.Http.Json" Version="6.0.0" />
   </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Pages\Employee\" />
-    <None Remove="Pages\Employee\Session\" />
-  </ItemGroup>
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Pages\Authentication\ForgotPassword.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Authentication\Login.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Authentication\NewPassword.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Authentication\LoginPage.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Authentication\LogoutPage.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Authentication\_Imports.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Business\Admin\ListOfTerritories.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Business\Admin\UserData.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Business\Developer\DeveloperPage.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Business\FetchData.razor" />
-    <_ContentIncludedByDefault Remove="Pages\User\ForgotMyPasswordPage.razor" />
-    <_ContentIncludedByDefault Remove="Pages\User\RegisterPage.razor" />
-    <_ContentIncludedByDefault Remove="Pages\User\SetNewPasswordPage.razor" />
-    <_ContentIncludedByDefault Remove="Pages\User\_Imports.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Essential\Authentication\LoginPage.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Essential\Authentication\LogoutPage.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Essential\Authentication\_Imports.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Essential\Shared\Index.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Essential\Shared\NoInternet.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Essential\Shared\Splash.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Shared\Index.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Shared\NoInternet.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Shared\Splash.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Shared\_Imports.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Essential\Business\Admin\ListOfTerritories.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Essential\Business\Admin\UserData.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Essential\Business\Developer\DeveloperPage.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Essential\Business\FetchData.razor" />
-  </ItemGroup>
+  
   <ItemGroup>
     <EmbeddedResource Include="wwwroot\images\logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -67,16 +33,10 @@
     <AdditionalFiles Include="Pages\Essential\Shared\Index.razor" />
     <AdditionalFiles Include="Pages\Essential\Shared\NoInternet.razor" />
     <AdditionalFiles Include="Pages\Essential\Shared\Splash.razor" />
-    <AdditionalFiles Include="Pages\Essential\Shared\_Imports.razor" />
+    <AdditionalFiles Include="Pages\Essential\_Imports.razor" />
     <AdditionalFiles Include="Pages\Essential\User\ForgotMyPasswordPage.razor" />
     <AdditionalFiles Include="Pages\Essential\User\RegisterPage.razor" />
     <AdditionalFiles Include="Pages\Essential\User\SetNewPasswordPage.razor" />
     <AdditionalFiles Include="Pages\Essential\User\_Imports.razor" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Pages\Essential" />
-  </ItemGroup>
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Pages\Authentication\LoginPage.razor" />
   </ItemGroup>
 </Project>

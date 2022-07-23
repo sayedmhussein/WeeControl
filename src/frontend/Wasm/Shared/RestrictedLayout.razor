@@ -5,18 +5,36 @@
 <MudDialogProvider/>
 <MudSnackbarProvider/>
 
-<div class="container" style="padding: 20px">
-    <div class="row">
-        <div class="col-sm-6 border-right">
-            <div class="container text-center">
-                <img src="images/logo.png" alt="Company Logo." width="100" height="100"/>
+<MudContainer class="d-flex align-content-center" Style="padding: 20px">
+    <MudGrid Spacing="20" Justify="Justify.Center">
+        <MudItem>
+            <MudContainer Class="text-center">
+                <MudImage Src="images/logo.png" Alt="WeeControl" Width="100" Height="100"></MudImage>
                 <h1>WeeControl</h1>
                 <p>A Better Control for life</p>
-            </div>
-        </div>
-        <div class="col-sm-6">
+            </MudContainer>
+        </MudItem>
+        <MudItem>
+            <MudDivider Vertical="true" FlexItem="true" />
+        </MudItem>
+        <MudItem>
             @Body
-        </div>
-    </div>
-</div>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+@* <div class="container" style="padding: 20px"> *@
+@*     <div class="row"> *@
+@*         <div class="col-sm-6 border-right"> *@
+@*             <div class="container text-center"> *@
+@*                 <img src="images/logo.png" alt="Company Logo." width="100" height="100"/> *@
+@*                 <h1>WeeControl</h1> *@
+@*                 <p>A Better Control for life</p> *@
+@*             </div> *@
+@*         </div> *@
+@*         <div class="col-sm-6"> *@
+@*             @Body *@
+@*         </div> *@
+@*     </div> *@
+@* </div> *@
 

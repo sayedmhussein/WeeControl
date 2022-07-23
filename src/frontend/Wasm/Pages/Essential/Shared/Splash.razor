@@ -1,14 +1,14 @@
 @page "/"
-@using WeeControl.Frontend.ApplicationService.Essential.Home
 @using WeeControl.Frontend.ApplicationService
+@using WeeControl.Frontend.ApplicationService.Essential.Legacy
 @using WeeControl.Frontend.Wasm.Shared
 @attribute [Route(Pages.Shared.SplashPage)]
 @layout RestrictedLayout
 @attribute [AllowAnonymous]
 
-@inject SplashViewModel ViewModel
+@inject SplashLegacyViewModel LegacyViewModel
 
-<h3>@ViewModel.SplashText</h3>
+<h3>@LegacyViewModel.SplashText</h3>
 
 @code {
     [CascadingParameter]
@@ -30,6 +30,6 @@
         //     NavManager.NavigateTo("Index");
         // }
 
-        await ViewModel.LoadAsync();
+        await LegacyViewModel.LoadAsync();
     }
 }

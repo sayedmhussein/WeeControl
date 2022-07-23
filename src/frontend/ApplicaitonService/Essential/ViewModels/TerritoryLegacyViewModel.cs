@@ -1,13 +1,14 @@
 using System.Net;
 using System.Net.Http.Json;
+using WeeControl.Frontend.ApplicationService.Essential.Legacy;
 using WeeControl.Frontend.ApplicationService.Interfaces;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
 
-namespace WeeControl.Frontend.ApplicationService.Essential.Territory;
+namespace WeeControl.Frontend.ApplicationService.Essential.ViewModels;
 
-public class TerritoryViewModel : ViewModelBase
+public class TerritoryLegacyViewModel : LegacyViewModelBase
 {
     private readonly IDevice device;
     private readonly string uriString;
@@ -25,7 +26,7 @@ public class TerritoryViewModel : ViewModelBase
         }
     }
     
-    public TerritoryViewModel(IDevice device) : base(device)
+    public TerritoryLegacyViewModel(IDevice device) : base(device)
     {
         this.device = device;
         uriString = device.Server.GetFullAddress(Api.Essential.Territory.EndPoint);

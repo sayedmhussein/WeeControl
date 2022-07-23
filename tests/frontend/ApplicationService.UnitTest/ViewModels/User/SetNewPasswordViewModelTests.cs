@@ -1,18 +1,18 @@
 using System.Net;
-using WeeControl.Frontend.ApplicationService.Essential.User;
+using WeeControl.Frontend.ApplicationService.Essential.ViewModels;
 
 namespace WeeControl.Frontend.ApplicationService.UnitTest.ViewModels.User;
 
 public class SetNewPasswordViewModelTests : ViewModelTestsBase
 {
-    public SetNewPasswordViewModelTests() : base(nameof(PasswordChangeViewModel))
+    public SetNewPasswordViewModelTests() : base(nameof(PasswordChangeLegacyViewModel))
     {
     }
 
     [Fact]
     public async void WhenSuccessAndOk()
     {
-        var vm = new PasswordChangeViewModel(Mock.GetObject(HttpStatusCode.OK, null!))
+        var vm = new PasswordChangeLegacyViewModel(Mock.GetObject(HttpStatusCode.OK, null!))
         {
             OldPassword = "oldPassword",
             NewPassword = "NewPassword",
@@ -27,7 +27,7 @@ public class SetNewPasswordViewModelTests : ViewModelTestsBase
     [Fact]
     public async void WhenBadRequest()
     {
-        var vm = new PasswordChangeViewModel(Mock.GetObject(HttpStatusCode.BadRequest, null!))
+        var vm = new PasswordChangeLegacyViewModel(Mock.GetObject(HttpStatusCode.BadRequest, null!))
  {
      OldPassword = "oldPassword",
      NewPassword = "NewPassword",
@@ -43,7 +43,7 @@ public class SetNewPasswordViewModelTests : ViewModelTestsBase
     [Fact]
     public async void WhenUnauthorized()
     {
-        var vm = new PasswordChangeViewModel(Mock.GetObject(HttpStatusCode.Unauthorized, null!))
+        var vm = new PasswordChangeLegacyViewModel(Mock.GetObject(HttpStatusCode.Unauthorized, null!))
             {
                 OldPassword = "oldPassword",
                 NewPassword = "NewPassword",
@@ -59,7 +59,7 @@ public class SetNewPasswordViewModelTests : ViewModelTestsBase
     [Fact]
     public async void WhenNotFound()
     {
-        var vm = new PasswordChangeViewModel(Mock.GetObject(HttpStatusCode.NotFound, null!))
+        var vm = new PasswordChangeLegacyViewModel(Mock.GetObject(HttpStatusCode.NotFound, null!))
  {
      OldPassword = "oldPassword",
      NewPassword = "NewPassword",
@@ -75,7 +75,7 @@ public class SetNewPasswordViewModelTests : ViewModelTestsBase
     [Fact]
     public async void WhenServerCommunicationError()
     {
-        var vm = new PasswordChangeViewModel(Mock.GetObject(HttpStatusCode.BadGateway, null!))
+        var vm = new PasswordChangeLegacyViewModel(Mock.GetObject(HttpStatusCode.BadGateway, null!))
  {
      OldPassword = "oldPassword",
      NewPassword = "NewPassword",
@@ -96,7 +96,7 @@ public class SetNewPasswordViewModelTests : ViewModelTestsBase
     [InlineData("bla", "bla", "notBla")]
     public async void WhenInvalidProperties(string oldPassword, string newPassword, string confirmPassword)
     {
-        var vm = new PasswordChangeViewModel(Mock.GetObject(HttpStatusCode.OK, null!))
+        var vm = new PasswordChangeLegacyViewModel(Mock.GetObject(HttpStatusCode.OK, null!))
         {
             OldPassword = oldPassword,
             NewPassword = newPassword,

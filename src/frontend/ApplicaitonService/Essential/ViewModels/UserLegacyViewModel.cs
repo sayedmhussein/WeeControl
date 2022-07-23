@@ -2,14 +2,16 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Net.Http.Json;
+using WeeControl.Frontend.ApplicationService.Essential.Legacy;
 using WeeControl.Frontend.ApplicationService.Interfaces;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
+using UserModel = WeeControl.Frontend.ApplicationService.Essential.Models.UserModel;
 
-namespace WeeControl.Frontend.ApplicationService.Essential.User;
+namespace WeeControl.Frontend.ApplicationService.Essential.ViewModels;
 
-public class UserViewModel : ViewModelBase
+public class UserLegacyViewModel : LegacyViewModelBase
 {
     private readonly IDevice device;
     public readonly UserModel dto;
@@ -118,7 +120,7 @@ public class UserViewModel : ViewModelBase
         }
     }
 
-    public UserViewModel(IDevice device, UserModel? dto = null) : base(device)
+    public UserLegacyViewModel(IDevice device, UserModel? dto = null) : base(device)
     {
         this.device = device;
         this.dto = dto ?? new UserModel();

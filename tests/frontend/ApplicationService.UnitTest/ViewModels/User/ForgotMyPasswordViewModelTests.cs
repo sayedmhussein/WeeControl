@@ -1,18 +1,18 @@
 using System.Net;
-using WeeControl.Frontend.ApplicationService.Essential.User;
+using WeeControl.Frontend.ApplicationService.Essential.ViewModels;
 
 namespace WeeControl.Frontend.ApplicationService.UnitTest.ViewModels.User;
 
 public class ForgotMyPasswordViewModelTests : ViewModelTestsBase
 {
-    public ForgotMyPasswordViewModelTests() : base(nameof(PasswordResetViewModel))
+    public ForgotMyPasswordViewModelTests() : base(nameof(PasswordResetLegacyViewModel))
     {
     }
 
     [Fact]
     public async void WhenSuccessAndOk()
     {
-        var vm = new PasswordResetViewModel(Mock.GetObject(HttpStatusCode.OK, null!))
+        var vm = new PasswordResetLegacyViewModel(Mock.GetObject(HttpStatusCode.OK, null!))
         {
             Email = "email@email.com",
             Username = "username"
@@ -26,7 +26,7 @@ public class ForgotMyPasswordViewModelTests : ViewModelTestsBase
     [Fact]
     public async void WhenBadRequest()
     {
-        var vm = new PasswordResetViewModel(Mock.GetObject(HttpStatusCode.BadRequest, null!))
+        var vm = new PasswordResetLegacyViewModel(Mock.GetObject(HttpStatusCode.BadRequest, null!))
         {
             Email = "email@email.com",
             Username = "username"
@@ -40,7 +40,7 @@ public class ForgotMyPasswordViewModelTests : ViewModelTestsBase
     [Fact]
     public async void ServerCommunication()
     {
-        var vm = new PasswordResetViewModel(Mock.GetObject(HttpStatusCode.BadGateway, null!))
+        var vm = new PasswordResetLegacyViewModel(Mock.GetObject(HttpStatusCode.BadGateway, null!))
         {
             Email = "email@email.com",
             Username = "username"
@@ -58,7 +58,7 @@ public class ForgotMyPasswordViewModelTests : ViewModelTestsBase
     [InlineData("", "username")]
     public async void WhenInvalidProperties(string email, string username)
     {
-        var vm = new PasswordResetViewModel(Mock.GetObject(HttpStatusCode.OK, null!))
+        var vm = new PasswordResetLegacyViewModel(Mock.GetObject(HttpStatusCode.OK, null!))
         {
             Email = email,
             Username = username

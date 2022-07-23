@@ -1,9 +1,9 @@
 ﻿@using System.Runtime.CompilerServices
 @using System.Security.Claims
-@using WeeControl.Frontend.ApplicationService.Essential.Home
+@using WeeControl.Frontend.ApplicationService.Essential
+@using WeeControl.Frontend.ApplicationService.Essential.ViewModels
 @using WeeControl.Frontend.ApplicationService.Interfaces
-@inject HomeNavigationMenuViewModel ViewModel
-@inject IDeviceStorage DeviceStorage
+@inject HomeViewModel ViewModel
 
 <div class="top-row pl-4 navbar navbar-dark">
     <a class="navbar-brand" href="">
@@ -22,20 +22,6 @@
                 Home
             </NavLink>
         </li>
-        @* <li class="nav-item px-3" @onclick="ToggleNavMenu"> *@
-        @*     <NavLink class="nav-link" @onclick="()=>expandSubNav = !expandSubNav"> *@
-        @*         <span class="oi oi-list-rich" aria-hidden="true"></span> SubMenu *@
-        @*     </NavLink> *@
-        @*     @if (expandSubNav) *@
-        @*     { *@
-        @*         <NavLink class="nav-item px-3" href="ListOfTerritories"> *@
-        @*             <span>List of Territories</span> *@
-        @*         </NavLink> *@
-        @*         <NavLink class="nav-item px-3" href=""> *@
-        @*             <span>Sub2</span> *@
-        @*         </NavLink> *@
-        @*     } *@
-        @* </li> *@
         @foreach(var v in ViewModel.MenuItems)
         {
             <li class="nav-item px-3">
@@ -64,10 +50,6 @@
                 Logout
             </NavLink>
         </li>
-        
-        @* <li class="nav-item px-3"> *@
-        @*     <NavLink class="nav-link" href="login">Login Page</NavLink> *@
-        @* </li> *@
     </ul>
 </div>
 
@@ -82,12 +64,11 @@
         collapseNavMenu = !collapseNavMenu;
     }
     
-    //private bool expandSubNav;
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        await ViewModel.SetupMenuAsync();
+        await ViewModel.Init();
         StateHasChanged();
     }
 }

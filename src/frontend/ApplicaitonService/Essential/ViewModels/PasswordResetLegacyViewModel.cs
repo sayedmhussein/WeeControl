@@ -1,12 +1,13 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using WeeControl.Frontend.ApplicationService.Essential.Legacy;
 using WeeControl.Frontend.ApplicationService.Interfaces;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 
-namespace WeeControl.Frontend.ApplicationService.Essential.User;
+namespace WeeControl.Frontend.ApplicationService.Essential.ViewModels;
 
-public class PasswordResetViewModel : ViewModelBase
+public class PasswordResetLegacyViewModel : LegacyViewModelBase
 {
     private readonly IDevice device;
 
@@ -21,7 +22,7 @@ public class PasswordResetViewModel : ViewModelBase
     [DisplayName("Username")]
     public string Username { get; set; } = string.Empty;
 
-    public PasswordResetViewModel(IDevice device) : base(device)
+    public PasswordResetLegacyViewModel(IDevice device) : base(device)
     {
         this.device = device;
     }

@@ -4,7 +4,8 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using WeeControl.Domain.Contexts.Essential;
 using WeeControl.Frontend.ApplicationService;
-using WeeControl.Frontend.ApplicationService.Essential.Authorization;
+using WeeControl.Frontend.ApplicationService.Essential;
+using WeeControl.Frontend.ApplicationService.Essential.ViewModels;
 using WeeControl.Frontend.ApplicationService.Interfaces;
 using WeeControl.Frontend.ApplicationService.UnitTest;
 using WeeControl.SharedKernel.Services;
@@ -39,7 +40,7 @@ public class TestHelper<T> : IDisposable
 
     public async Task Authorize(string username, string password, string device = null)
     {
-        using var helper = new TestHelper<LoginViewModel>(Device.Server.HttpClient);
+        using var helper = new TestHelper<AuthorizationViewModel>(Device.Server.HttpClient);
         if (device is not null)
             helper.DeviceMock.DeviceMock.Setup(x => x.DeviceId).Returns(device);
         helper.ViewModel.UsernameOrEmail = username;

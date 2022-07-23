@@ -1,17 +1,17 @@
-@using WeeControl.Frontend.ApplicationService.Essential.User
 @using WeeControl.Frontend.ApplicationService
+@using WeeControl.Frontend.ApplicationService.Essential.ViewModels
 @using WeeControl.Frontend.Wasm.Shared
 @attribute [Route(Pages.Essential.User.RegisterPage)]
 
 @layout RestrictedLayout
 @attribute [AllowAnonymous]
 
-@inject UserViewModel ViewModel
+@inject UserLegacyViewModel LegacyViewModel
 
 <UserComponent
     Subject="From Register Page"
-    Model="ViewModel.dto"
-    SuccessfulModelData="@ViewModel.RegisterAsync"
+    Model="LegacyViewModel.dto"
+    SuccessfulModelData="@LegacyViewModel.RegisterAsync"
     IsRegister="true"
     >
 </UserComponent>

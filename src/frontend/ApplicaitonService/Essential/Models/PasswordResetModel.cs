@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace WeeControl.Frontend.ApplicationService.Essential.User;
+namespace WeeControl.Frontend.ApplicationService.Essential.Models;
 
 public class PasswordResetModel
 {

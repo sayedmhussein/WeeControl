@@ -1,14 +1,14 @@
-@using WeeControl.Frontend.ApplicationService.Essential.Authorization
 @using WeeControl.Frontend.ApplicationService
+@using WeeControl.Frontend.ApplicationService.Essential.Legacy
 @attribute [Route(Pages.Essential.Authentication.LogoutPage)]
-@inject LogoutViewModel ViewModel
+@inject LogoutLegacyViewModel LegacyViewModel
 
-<h1>@ViewModel.GoodbyMessage</h1>
+<h1>@LegacyViewModel.GoodbyMessage</h1>
 
 @code {
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        await ViewModel.LogoutAsync();
+        await LegacyViewModel.LogoutAsync();
     }
 }

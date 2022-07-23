@@ -1,14 +1,15 @@
 using WeeControl.Frontend.ApplicationService.Interfaces;
 
-namespace WeeControl.Frontend.ApplicationService.Essential.Home;
+namespace WeeControl.Frontend.ApplicationService.Essential.Legacy;
 
-public class SplashViewModel : ViewModelBase
+[Obsolete("Use HomeViewModel Init() function.")]
+public class SplashLegacyViewModel : LegacyViewModelBase
 {
     private readonly IDevice device;
 
     public string SplashText => "Loading Please Wait..";
     
-    public SplashViewModel(IDevice device) : base(device)
+    public SplashLegacyViewModel(IDevice device) : base(device)
     {
         this.device = device;
     }
@@ -17,7 +18,7 @@ public class SplashViewModel : ViewModelBase
     {
         if (await RefreshTokenAsync() && await device.Security.IsAuthenticatedAsync())
         {
-            await Task.Delay(1000);
+            await Task.Delay(3000);
             await device.Navigation.NavigateToAsync(Pages.Shared.IndexPage);
             return;
         }

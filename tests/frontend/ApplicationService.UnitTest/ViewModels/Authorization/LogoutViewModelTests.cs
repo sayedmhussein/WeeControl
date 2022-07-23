@@ -1,12 +1,12 @@
 using System.Net;
 using System.Net.Http;
-using WeeControl.Frontend.ApplicationService.Essential.Authorization;
+using WeeControl.Frontend.ApplicationService.Essential.Legacy;
 
 namespace WeeControl.Frontend.ApplicationService.UnitTest.ViewModels.Authorization;
 
 public class LogoutViewModelTests : ViewModelTestsBase
 {
-    public LogoutViewModelTests(): base(nameof(LogoutViewModel))
+    public LogoutViewModelTests(): base(nameof(LogoutLegacyViewModel))
     {
     }
 
@@ -14,7 +14,7 @@ public class LogoutViewModelTests : ViewModelTestsBase
     [Fact]
     public async void WhenNotFound_OrSuccess()
     {
-        var vm = new LogoutViewModel(Mock.GetObject(HttpStatusCode.NotFound, null!));
+        var vm = new LogoutLegacyViewModel(Mock.GetObject(HttpStatusCode.NotFound, null!));
 
         await vm.LogoutAsync();
         
@@ -25,7 +25,7 @@ public class LogoutViewModelTests : ViewModelTestsBase
     [Fact]
     public async void WhenBadRequest()
     {
-        var vm = new LogoutViewModel(Mock.GetObject(HttpStatusCode.BadRequest, null!));
+        var vm = new LogoutLegacyViewModel(Mock.GetObject(HttpStatusCode.BadRequest, null!));
 
         await vm.LogoutAsync();
         
@@ -36,7 +36,7 @@ public class LogoutViewModelTests : ViewModelTestsBase
     [Fact]
     public async void WhenUnauthorized()
     {
-        var vm = new LogoutViewModel(Mock.GetObject(HttpStatusCode.Unauthorized, null!));
+        var vm = new LogoutLegacyViewModel(Mock.GetObject(HttpStatusCode.Unauthorized, null!));
 
         await vm.LogoutAsync();
         
@@ -47,7 +47,7 @@ public class LogoutViewModelTests : ViewModelTestsBase
     [Fact]
     public async void ServerFailure()
     {
-        var vm = new LogoutViewModel(Mock.GetObject(new HttpClient()));
+        var vm = new LogoutLegacyViewModel(Mock.GetObject(new HttpClient()));
 
         await vm.LogoutAsync();
         
