@@ -30,9 +30,9 @@
   <ItemGroup>
     <AdditionalFiles Include="Pages\Essential\Authentication\LoginPage.razor" />
     <AdditionalFiles Include="Pages\Essential\Authentication\_Imports.razor" />
-    <AdditionalFiles Include="Pages\Essential\Shared\Index.razor" />
-    <AdditionalFiles Include="Pages\Essential\Shared\NoInternet.razor" />
-    <AdditionalFiles Include="Pages\Essential\Shared\Splash.razor" />
+    <AdditionalFiles Include="Pages\Essential\Common\Index.razor" />
+    <AdditionalFiles Include="Pages\Essential\Common\NoInternet.razor" />
+    <AdditionalFiles Include="Pages\Essential\Common\Splash.razor" />
     <AdditionalFiles Include="Pages\Essential\_Imports.razor" />
     <AdditionalFiles Include="Pages\Essential\User\ForgotMyPasswordPage.razor" />
     <AdditionalFiles Include="Pages\Essential\User\RegisterPage.razor" />

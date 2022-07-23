@@ -23,7 +23,7 @@ public static class ApplicationServiceExtensions
         
         #region AuthorizationContext
         
-        services.AddTransient<LogoutLegacyViewModel>();
+        // services.AddTransient<LogoutLegacyViewModel>();
         services.AddTransient<UserLegacyViewModel>();
         services.AddTransient<PasswordResetLegacyViewModel>();
         services.AddTransient<PasswordChangeLegacyViewModel>();
@@ -31,9 +31,9 @@ public static class ApplicationServiceExtensions
         #endregion
 
         #region SharedContext
-        services.AddTransient<SplashLegacyViewModel>();
-        services.AddTransient<HomeLegacyViewModel>();
-        services.AddTransient<HomeNavigationMenuLegacyViewModel>();
+        // services.AddTransient<SplashLegacyViewModel>();
+        // services.AddTransient<HomeLegacyViewModel>();
+        // services.AddTransient<HomeNavigationMenuLegacyViewModel>();
         #endregion
         
         return services;

@@ -13,12 +13,16 @@ public class HomeViewModel : ViewModelBase
     public string GreetingMessage { get; private set; } = "Hello";
     public string NameOfUser { get; private set; } = string.Empty;
     public List<MenuItemModel> MenuItems { get; }
+    public List<HomeFeedModel> FeedsList { get; }
+    public List<HomeNotificationModel> NotificationsList { get; }
 
     public HomeViewModel(IDevice device, IServerOperation server)
     {
         this.device = device;
         this.server = server;
         MenuItems = new List<MenuItemModel>();
+        FeedsList = new List<HomeFeedModel>();
+        NotificationsList = new List<HomeNotificationModel>();
     }
 
     public async Task Init()

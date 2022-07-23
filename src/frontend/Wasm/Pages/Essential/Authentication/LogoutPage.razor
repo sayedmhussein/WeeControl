@@ -1,9 +1,7 @@
-@using WeeControl.Frontend.ApplicationService
-@using WeeControl.Frontend.ApplicationService.Essential.Legacy
 @attribute [Route(Pages.Essential.Authentication.LogoutPage)]
-@inject LogoutLegacyViewModel LegacyViewModel
+@inject AuthorizationViewModel LegacyViewModel
 
-<h1>@LegacyViewModel.GoodbyMessage</h1>
+<h1>Have a nice day!</h1>
 
 @code {
     protected override async Task OnInitializedAsync()

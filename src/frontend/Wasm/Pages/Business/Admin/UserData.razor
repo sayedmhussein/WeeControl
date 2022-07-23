@@ -1,5 +1,6 @@
 ﻿@page "/UserData"
 @using WeeControl.SharedKernel
+@using System.Security.Claims
 @attribute [Authorize]
 
 <h1>Counter</h1>
@@ -7,6 +8,23 @@
 <p>Current count: @currentCount</p>
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+<h1>List of Claims embidded in token</h1>
+<MudTable Items="@claims" Hover="true" Breakpoint="Breakpoint.Sm" LoadingProgressColor="Color.Info">
+    <HeaderContent>
+        <MudTh>Type</MudTh>
+        <MudTh>Type Meaning</MudTh>
+        <MudTh>Value</MudTh>
+        <MudTh>Value Meaning</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Type">@context.Type</MudTd>
+        <MudTd DataLabel="Type Meaning">@ClaimsValues.GetClaimTypes().FirstOrDefault(x => x.Value == context.Type).Key</MudTd>
+        <MudTd DataLabel="Value">@context.Value</MudTd>
+        <MudTd DataLabel="Value Meaning">@ClaimsValues.GetClaimValues().FirstOrDefault(x => x.Value == context.Value).Key</MudTd>
+    </RowTemplate>
+</MudTable>
+
 
 <h1>List of Claim Types</h1>
 <table class="table table-bordered table-hover">
@@ -51,6 +69,11 @@
     
     private IDictionary<string,string> claimTypes = new Dictionary<string, string>();
     private IDictionary<string,string> claimTags = new Dictionary<string, string>();
+    
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthState { get; set; }
+    
+    private readonly ICollection<Claim> claims = new List<Claim>();
 
     protected override void OnInitialized()
     {
@@ -59,8 +82,21 @@
         claimTags = ClaimsValues.GetClaimValues();
     }
 
+    protected override Task OnInitializedAsync()
+    {
+        return GetClaims();
+    }
+
     private void IncrementCount()
     {
         currentCount++;
+    }
+    
+    private async Task GetClaims()
+    {
+        foreach (var claim in (await AuthState).User.Claims)
+        {
+            claims.Add(claim);  
+        }
     }
 }

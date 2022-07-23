@@ -71,14 +71,14 @@ public class PasswordChangeLegacyViewModel : LegacyViewModelBase
         {
             case HttpStatusCode.OK:
             case HttpStatusCode.Accepted:
-                await device.Alert.DisplayAlert("AlertEnum.PasswordUpdatedSuccessfully");
+                await device.Alert.DisplayAlert("PasswordUpdatedSuccessfully");
                 await device.Navigation.NavigateToAsync(Pages.Shared.IndexPage);
                 break;
             case HttpStatusCode.NotFound:
-                await device.Alert.DisplayAlert("AlertEnum.InvalidPassword");
+                await device.Alert.DisplayAlert("InvalidPassword");
                 break;
             default:
-                await device.Alert.DisplayAlert("AlertEnum.DeveloperMinorBug");
+                await device.Alert.DisplayAlert("DeveloperMinorBug");
                 break;
         }
     }

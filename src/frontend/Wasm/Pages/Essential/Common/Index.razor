@@ -1,0 +1,32 @@
+﻿@page "/index"
+@page "/Home"
+
+@using System.Security.Claims
+
+@inject HomeViewModel ViewModel
+
+<p class="flex-wrap">@ViewModel.GreetingMessage @ViewModel.NameOfUser</p>
+
+<h1>Feeds</h1>
+<FeedsComponent Feeds="@ViewModel.FeedsList"></FeedsComponent>
+
+
+<h1>Notificaitons</h1>
+<NotificationComponent Notifications="@ViewModel.NotificationsList"></NotificationComponent>
+
+
+@code
+{
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthState { get; set; }
+    
+    
+    protected override async void OnInitialized()
+    {
+        await ViewModel.Init();
+
+        StateHasChanged();
+        
+        await base.OnInitializedAsync();
+    }
+}
