@@ -10,49 +10,33 @@ using WeeControl.SharedKernel.Essential.DataTransferObjects;
 
 namespace WeeControl.Frontend.ApplicationService.Essential.ViewModels;
 
-public class PasswordChangeLegacyViewModel : LegacyViewModelBase
+public class PasswordChangeViewModel : ViewModelBase
 {
     private readonly IDevice device;
-    
+    private readonly IServerOperation server;
+
     public PasswordChangeModel Model { get; }
-
-    [Required(ErrorMessage = "Old Password is required")]
-    [StringLength(50, MinimumLength = 3, ErrorMessage = "Password length is between 3 and 50 letters.")]
-    [DataType(DataType.Password)]
-    [DisplayName("Old Password")]
-    public string OldPassword { get; set; } = string.Empty;
-
-    [Required(ErrorMessage = "Password is required")]
-    [StringLength(50, MinimumLength = 6, ErrorMessage = "Password length is between 6 and 50 letters.")]
-    [DataType(DataType.Password)]
-    [DisplayName("New Password")]
-    public string NewPassword { get; set; } = string.Empty;
-
-    [Required(ErrorMessage = "Confirm Password is required")]
-    [DataType(DataType.Password)]
-    [Compare(nameof(NewPassword))]
-    [NotMapped]
-    public string ConfirmNewPassword { get; set; } = string.Empty;
-
-    public PasswordChangeLegacyViewModel(IDevice device) : base(device)
+    
+    public PasswordChangeViewModel(IDevice device, IServerOperation server)
     {
         this.device = device;
+        this.server = server;
         Model = new PasswordChangeModel();
     }
 
     public async Task ChangeMyPassword()
     {
-        if (string.IsNullOrWhiteSpace(OldPassword) ||
-            string.IsNullOrWhiteSpace(NewPassword) ||
-            string.IsNullOrWhiteSpace(ConfirmNewPassword) ||
-            NewPassword != ConfirmNewPassword)
+        if (string.IsNullOrWhiteSpace(Model.OldPassword) ||
+            string.IsNullOrWhiteSpace(Model.NewPassword) ||
+            string.IsNullOrWhiteSpace(Model.ConfirmPassword) ||
+            Model.NewPassword != Model.ConfirmPassword)
         {
             await device.Alert.DisplayAlert("Invalid Properties");
             return;
         }
 
         IsLoading = true;
-        await ProcessChangingPassword(SetNewPasswordDtoV1.Create(OldPassword, NewPassword));
+        await ProcessChangingPassword(SetNewPasswordDtoV1.Create(Model.OldPassword, Model.NewPassword));
         IsLoading = false;
     }
 
@@ -65,7 +49,7 @@ public class PasswordChangeLegacyViewModel : LegacyViewModelBase
             Method = HttpMethod.Patch,
         };
         
-        var response = await SendMessageAsync(message, dto);
+        var response = await server.Send(message, dto);
 
         switch (response.StatusCode)
         {

@@ -32,12 +32,12 @@ public class SetNewPasswordTests : IClassFixture<CustomWebApplicationFactory<Sta
             });
         }).CreateClient();
         
-        using var helper = new TestHelper<PasswordChangeLegacyViewModel>(httpClient);
+        using var helper = new TestHelper<PasswordChangeViewModel>(httpClient);
         await helper.Authorize("username", "password");
 
-        helper.ViewModel.OldPassword = "password";
-        helper.ViewModel.NewPassword = "someNewPassword";
-        helper.ViewModel.ConfirmNewPassword = "someNewPassword";
+        helper.ViewModel.Model.OldPassword = "password";
+        helper.ViewModel.Model.NewPassword = "someNewPassword";
+        helper.ViewModel.Model.ConfirmPassword = "someNewPassword";
 
         await helper.ViewModel.ChangeMyPassword();
             
@@ -60,11 +60,11 @@ public class SetNewPasswordTests : IClassFixture<CustomWebApplicationFactory<Sta
             });
         }).CreateClient();
         
-        using var helper = new TestHelper<PasswordChangeLegacyViewModel>(httpClient);
+        using var helper = new TestHelper<PasswordChangeViewModel>(httpClient);
 
-        helper.ViewModel.OldPassword = "password";
-        helper.ViewModel.NewPassword = "someNewPassword";
-        helper.ViewModel.ConfirmNewPassword = "someNewPassword";
+        helper.ViewModel.Model.OldPassword = "password";
+        helper.ViewModel.Model.NewPassword = "someNewPassword";
+        helper.ViewModel.Model.ConfirmPassword = "someNewPassword";
 
         await helper.ViewModel.ChangeMyPassword();
             
@@ -88,12 +88,12 @@ public class SetNewPasswordTests : IClassFixture<CustomWebApplicationFactory<Sta
             });
         }).CreateClient();
         
-        using var helper = new TestHelper<PasswordChangeLegacyViewModel>(httpClient);
+        using var helper = new TestHelper<PasswordChangeViewModel>(httpClient);
         await helper.Authorize("username", "password");
 
-        helper.ViewModel.OldPassword = "invalid password";
-        helper.ViewModel.NewPassword = "someNewPassword";
-        helper.ViewModel.ConfirmNewPassword = "someNewPassword";
+        helper.ViewModel.Model.OldPassword = "invalid password";
+        helper.ViewModel.Model.NewPassword = "someNewPassword";
+        helper.ViewModel.Model.ConfirmPassword = "someNewPassword";
 
         await helper.ViewModel.ChangeMyPassword();
             
@@ -118,12 +118,12 @@ public class SetNewPasswordTests : IClassFixture<CustomWebApplicationFactory<Sta
             });
         }).CreateClient();
         
-        using var helper = new TestHelper<PasswordChangeLegacyViewModel>(httpClient);
+        using var helper = new TestHelper<PasswordChangeViewModel>(httpClient);
         await helper.Authorize("username", "password");
 
-        helper.ViewModel.OldPassword = "password";
-        helper.ViewModel.NewPassword = "someNewPassword";
-        helper.ViewModel.ConfirmNewPassword = "someNewPassword";
+        helper.ViewModel.Model.OldPassword = "password";
+        helper.ViewModel.Model.NewPassword = "someNewPassword";
+        helper.ViewModel.Model.ConfirmPassword = "someNewPassword";
 
         await helper.ViewModel.ChangeMyPassword();
             

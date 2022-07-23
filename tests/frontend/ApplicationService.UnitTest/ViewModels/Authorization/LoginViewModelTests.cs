@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using WeeControl.Frontend.ApplicationService.Essential;
 using WeeControl.Frontend.ApplicationService.Essential.ViewModels;
+using WeeControl.Frontend.ApplicationService.Interfaces;
 using WeeControl.Frontend.ApplicationService.Services;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
@@ -27,13 +28,9 @@ public class LoginViewModelTests : ViewModelTestsBase
             new (HttpStatusCode.OK, content1),
             new (HttpStatusCode.OK, content2)
         };
-        
-        var vm = new AuthorizationViewModel(Mock.GetObject(expected), null)
-        {
-            UsernameOrEmail = "username",
-            Password = "password"
-        };
-        
+
+        var vm = GetViewModel(Mock.GetObject(expected), "username", "password");
+
         await vm.LoginAsync();
         
         Mock.AlertMock.Verify(x => 
@@ -57,11 +54,7 @@ public class LoginViewModelTests : ViewModelTestsBase
                  new (code2, content2)
              };
         
-             var vm = new AuthorizationViewModel(Mock.GetObject(expected), null)
-             {
-                 UsernameOrEmail = "username",
-                 Password = "password"
-             };
+             var vm = GetViewModel(Mock.GetObject(expected), "username", "password");
              
              await vm.LoginAsync();
              
@@ -79,12 +72,8 @@ public class LoginViewModelTests : ViewModelTestsBase
     public async void HttpClientIsDefault()
     {
         var client = new HttpClient();
-        var vm = new AuthorizationViewModel(Mock.GetObject(client), null)
-        {
-            UsernameOrEmail = "username",
-            Password = "password"
-        };
-        
+        var vm = GetViewModel(Mock.GetObject(client), "username", "password");
+
         await vm.LoginAsync();
         
         Mock.AlertMock.Verify(x => 
@@ -107,12 +96,8 @@ public class LoginViewModelTests : ViewModelTestsBase
     public async void WhenEmptyProperties_DisplayAlertOnly(string username, string password)
     {
         var content = GetJsonContent(ResponseDto.Create(TokenDtoV1.Create("token", "name", "url")));
-        var vm = new AuthorizationViewModel(Mock.GetObject(HttpStatusCode.OK,content), null)
-        {
-            UsernameOrEmail = username,
-            Password = password
-        };
-        
+        var vm = GetViewModel(Mock.GetObject(HttpStatusCode.OK, content), username, password);
+
         await vm.LoginAsync();
         
         Mock.AlertMock.Verify(x => 
@@ -124,9 +109,12 @@ public class LoginViewModelTests : ViewModelTestsBase
     }
     #endregion
 
-    #region InvalidCommands
-    
-    #endregion
-
-    
+    private AuthorizationViewModel GetViewModel(IDevice device, string usernameOrEmail, string password)
+    {
+        return new AuthorizationViewModel(device, new ServerOperationService(device))
+        {
+            UsernameOrEmail = usernameOrEmail,
+            Password = password
+        };
+    }
 }

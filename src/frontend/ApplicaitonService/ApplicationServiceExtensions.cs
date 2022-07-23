@@ -26,7 +26,7 @@ public static class ApplicationServiceExtensions
         // services.AddTransient<LogoutLegacyViewModel>();
         services.AddTransient<UserLegacyViewModel>();
         services.AddTransient<PasswordResetLegacyViewModel>();
-        services.AddTransient<PasswordChangeLegacyViewModel>();
+        services.AddTransient<PasswordChangeViewModel>();
         
         #endregion
 
