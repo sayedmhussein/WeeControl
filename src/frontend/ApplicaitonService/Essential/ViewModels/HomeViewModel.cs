@@ -9,7 +9,7 @@ public class HomeViewModel : ViewModelBase
 {
     private readonly IDevice device;
     private readonly IServerOperation server;
-    
+
     public string GreetingMessage { get; private set; } = "Hello";
     public string NameOfUser { get; private set; } = string.Empty;
     public List<MenuItemModel> MenuItems { get; }
@@ -34,10 +34,10 @@ public class HomeViewModel : ViewModelBase
             await SetupMenuAsync();
             return;
         }
-        
+
         await device.Navigation.NavigateToAsync(Pages.Essential.Authentication.LoginPage);
     }
-    
+
     public Task ChangeMyPasswordAsync()
     {
         return device.Navigation.NavigateToAsync(Pages.Essential.User.SetNewPasswordPage);
@@ -46,7 +46,7 @@ public class HomeViewModel : ViewModelBase
     private async Task SetupMenuAsync()
     {
         var list = new List<MenuItemModel>();
-        
+
         foreach (var claim in await device.Security.GetClaimsAsync())
         {
             if (claim.Type is ClaimsValues.ClaimTypes.Session or ClaimsValues.ClaimTypes.Territory)
@@ -63,5 +63,10 @@ public class HomeViewModel : ViewModelBase
 
         MenuItems.Clear();
         MenuItems.AddRange(list.DistinctBy(x => x.PageName));
+    }
+
+    private Task FetchNotifications()
+    {
+        return Task.CompletedTask;
     }
 }

@@ -27,6 +27,7 @@ public class TerritoryController : Controller
         this.mediator = mediator;
     }
     
+    [AllowAnonymous]
     [HttpGet]
     [MapToApiVersion("1.0")]
     public async Task<ActionResult<ResponseDto<IEnumerable<TerritoryModelDto>>>> GetListOfTerritoriesV1()

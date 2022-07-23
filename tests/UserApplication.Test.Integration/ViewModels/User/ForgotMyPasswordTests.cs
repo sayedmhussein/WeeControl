@@ -32,7 +32,7 @@ public class ForgotMyPasswordTests: IClassFixture<CustomWebApplicationFactory<St
             });
         }).CreateClient();
         
-        using var helper = new TestHelper<PasswordResetLegacyViewModel>(httpClient);
+        using var helper = new TestHelper<PasswordResetViewModel>(httpClient);
         
         helper.ViewModel.Email = "email@email.com";
         helper.ViewModel.Username = "username";
@@ -61,7 +61,7 @@ public class ForgotMyPasswordTests: IClassFixture<CustomWebApplicationFactory<St
             });
         }).CreateClient();
         
-        using var helper = new TestHelper<PasswordResetLegacyViewModel>(httpClient);
+        using var helper = new TestHelper<PasswordResetViewModel>(httpClient);
         
         helper.ViewModel.Email = email;
         helper.ViewModel.Username = username;
@@ -88,7 +88,7 @@ public class ForgotMyPasswordTests: IClassFixture<CustomWebApplicationFactory<St
             });
         }).CreateClient();
         
-        using var helper = new TestHelper<PasswordResetLegacyViewModel>(httpClient);
+        using var helper = new TestHelper<PasswordResetViewModel>(httpClient);
         
         helper.ViewModel.Email = "username@email.com";
         helper.ViewModel.Username = "username";

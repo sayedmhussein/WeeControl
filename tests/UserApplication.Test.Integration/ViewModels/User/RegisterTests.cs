@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.Application.Interfaces;
 using WeeControl.Frontend.ApplicationService;
+using WeeControl.Frontend.ApplicationService.Essential.Models;
 using WeeControl.Frontend.ApplicationService.Essential.ViewModels;
 using WeeControl.WebApi;
 using Xunit;
@@ -21,17 +22,19 @@ public class RegisterTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     [InlineData("someEmail@email.com", "someUsername", "0123456789")]
     public async void WhenSuccess(string email, string username, string mobileNo)
     {
-        using var helper = new TestHelper<UserLegacyViewModel>(factory.CreateClient());
-        helper.ViewModel.FirstName = username;
-        helper.ViewModel.LastName = username;
-        helper.ViewModel.Email = email;
-        helper.ViewModel.Username = username;
-        helper.ViewModel.Password = "somePassword";
-        helper.ViewModel.MobileNo = mobileNo;
-        helper.ViewModel.Territory = "TST";
-        helper.ViewModel.Nationality = "EGP";
+        var model = new UserRegisterModel();
+        model.FirstName = username;
+        model.LastName = username;
+        model.Email = email;
+        model.Username = username;
+        model.Password = "somePassword";
+        model.MobileNo = mobileNo;
+        model.TerritoryId = "TST";
+        model.Nationality = "EGP";
         
-        await helper.ViewModel.RegisterAsync();
+        using var helper = new TestHelper<UserViewModel>(factory.CreateClient());
+        
+        await helper.ViewModel.RegisterAsync(model);
 
         helper.DeviceMock.NavigationMock.Verify(x => 
             x.NavigateToAsync(Pages.Shared.IndexPage, It.IsAny<bool>()), Times.Once);
@@ -56,18 +59,19 @@ public class RegisterTests : IClassFixture<CustomWebApplicationFactory<Startup>>
             });
         }).CreateClient();
         
-        using var helper = new TestHelper<UserLegacyViewModel>(httpClient);
+        using var helper = new TestHelper<UserViewModel>(httpClient);
 
-        helper.ViewModel.FirstName = username;
-        helper.ViewModel.LastName = username;
-        helper.ViewModel.Email = email;
-        helper.ViewModel.Username = username;
-        helper.ViewModel.Password = "somePassword";
-        helper.ViewModel.MobileNo = mobileNo;
-        helper.ViewModel.Territory = "TST";
-        helper.ViewModel.Nationality = "EGP";
+        var model = new UserRegisterModel();
+        model.FirstName = username;
+        model.LastName = username;
+        model.Email = email;
+        model.Username = username;
+        model.Password = "somePassword";
+        model.MobileNo = mobileNo;
+        model.TerritoryId = "TST";
+        model.Nationality = "EGP";
         
-        await helper.ViewModel.RegisterAsync();
+        await helper.ViewModel.RegisterAsync(model);
             
         helper.DeviceMock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
         helper.DeviceMock.NavigationMock.Verify(x => 

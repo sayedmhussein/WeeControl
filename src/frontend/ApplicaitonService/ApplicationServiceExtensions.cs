@@ -17,26 +17,13 @@ public static class ApplicationServiceExtensions
         services.AddTransient<HomeViewModel>();
         services.AddTransient<AuthorizationViewModel>();
         services.AddTransient<UserViewModel>();
-        
-        #region AdminContext
-        services.AddTransient<TerritoryLegacyViewModel>();
-        #endregion
-        
+        services.AddTransient<TerritoryViewModel>();
+
         #region AuthorizationContext
-        
-        // services.AddTransient<LogoutLegacyViewModel>();
-        services.AddTransient<UserLegacyViewModel>();
-        services.AddTransient<PasswordResetLegacyViewModel>();
+        services.AddTransient<PasswordResetViewModel>();
         services.AddTransient<PasswordChangeViewModel>();
-        
         #endregion
 
-        #region SharedContext
-        // services.AddTransient<SplashLegacyViewModel>();
-        // services.AddTransient<HomeLegacyViewModel>();
-        // services.AddTransient<HomeNavigationMenuLegacyViewModel>();
-        #endregion
-        
         return services;
     }
 }

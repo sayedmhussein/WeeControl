@@ -1,6 +1,6 @@
 @using WeeControl.SharedKernel.Essential.DataTransferObjects
 @using WeeControl.Frontend.ApplicationService.Essential.ViewModels
-@inject TerritoryLegacyViewModel LegacyViewModel
+@inject TerritoryViewModel ViewModel
 
 <div class="card">
     <h4 class="card-header">Territory</h4>
@@ -9,7 +9,7 @@
             <DataAnnotationsValidator></DataAnnotationsValidator>
             <div class="form-group">
                 <label>Territory ID</label>
-                <InputText @bind-Value="modelDto.TerritoryCode" readonly="@LegacyViewModel.IsLoading" class="form-control"/>
+                <InputText @bind-Value="modelDto.TerritoryCode" readonly="@ViewModel.IsLoading" class="form-control"/>
                 <ValidationMessage For="@(() => modelDto.CountryCode)"/>
             </div>
             
@@ -22,6 +22,6 @@
 
     private Task AddOrEditAsync()
     {
-        return LegacyViewModel.AddOrUpdateTerritory(modelDto);
+        return ViewModel.AddOrUpdateTerritory(modelDto);
     }
 }

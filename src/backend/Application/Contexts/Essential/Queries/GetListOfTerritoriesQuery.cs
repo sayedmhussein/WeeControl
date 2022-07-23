@@ -43,7 +43,7 @@ public class GetListOfTerritoriesQuery : IRequest<IResponseDto<IEnumerable<Terri
         
         public async Task<IResponseDto<IEnumerable<TerritoryModelDto>>> Handle(GetListOfTerritoriesQuery request, CancellationToken cancellationToken)
         {
-            await userInfo.LogUserActivityAsync("Essential", "Getting List of Territories", cancellationToken);
+            //await userInfo.LogUserActivityAsync("Essential", "Getting List of Territories", cancellationToken);
 
             var list = new List<TerritoryModelDto>();
 

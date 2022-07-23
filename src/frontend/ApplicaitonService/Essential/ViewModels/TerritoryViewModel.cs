@@ -1,41 +1,33 @@
 using System.Net;
 using System.Net.Http.Json;
-using WeeControl.Frontend.ApplicationService.Essential.Legacy;
+using Microsoft.IdentityModel.Tokens;
 using WeeControl.Frontend.ApplicationService.Interfaces;
+using WeeControl.Frontend.ApplicationService.Services;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
 
 namespace WeeControl.Frontend.ApplicationService.Essential.ViewModels;
 
-public class TerritoryLegacyViewModel : LegacyViewModelBase
+public class TerritoryViewModel : ViewModelBase
 {
     private readonly IDevice device;
+    private readonly IServerOperation server;
     private readonly string uriString;
-    private readonly TerritoryModelDto modelDto;
+
+    public List<TerritoryModelDto> ListOfTerritories { get; }
     
-    public IEnumerable<TerritoryModelDto>? ListOfTerritories { get; private set; }
-    
-    public string TerritoryId
-    {
-        get => modelDto.TerritoryCode;
-        set
-        {
-            modelDto.TerritoryCode = value;
-            OnPropertyChanged(nameof(TerritoryId));
-        }
-    }
-    
-    public TerritoryLegacyViewModel(IDevice device) : base(device)
+    public TerritoryViewModel(IDevice device, IServerOperation server)
     {
         this.device = device;
+        this.server = server;
         uriString = device.Server.GetFullAddress(Api.Essential.Territory.EndPoint);
-        modelDto = new TerritoryModelDto();
+        ListOfTerritories = new List<TerritoryModelDto>();
     }
 
     public async Task GetListOfTerritories()
     {
-        var response = await SendMessageAsync<object>(
+        var response = await server.Send<object>(
             new HttpRequestMessage
             {
                 RequestUri = new Uri(uriString),
@@ -46,7 +38,13 @@ public class TerritoryLegacyViewModel : LegacyViewModelBase
         if (response.IsSuccessStatusCode)
         {
             var content = await response.Content.ReadFromJsonAsync<ResponseDto<IEnumerable<TerritoryModelDto>>>();
-            ListOfTerritories = content?.Payload ?? new List<TerritoryModelDto>();
+            ListOfTerritories.Clear();
+            var list = content?.Payload;
+            if (list != null && list.Any())
+            {
+                ListOfTerritories.AddRange(list);
+            }
+            
             return;
         }
 
@@ -67,7 +65,7 @@ public class TerritoryLegacyViewModel : LegacyViewModelBase
 
     public async Task AddOrUpdateTerritory(TerritoryModelDto modelDto)
     {
-        var response = await SendMessageAsync<object>(
+        var response = await server.Send<object>(
             new HttpRequestMessage
             {
                 RequestUri = new Uri(uriString),

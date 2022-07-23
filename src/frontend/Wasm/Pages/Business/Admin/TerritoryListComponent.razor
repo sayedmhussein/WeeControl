@@ -1,10 +1,10 @@
 @using WeeControl.Frontend.ApplicationService.Essential.ViewModels
-@inject TerritoryLegacyViewModel LegacyViewModel
+@inject TerritoryViewModel ViewModel
 
 <h3>TerritoryComponent</h3>
-<button class="btn btn-primary" @onclick="@LegacyViewModel.GetListOfTerritories" disabled="@LegacyViewModel.IsLoading">Refresh</button>
+<button class="btn btn-primary" @onclick="@ViewModel.GetListOfTerritories" disabled="@ViewModel.IsLoading">Refresh</button>
 
-@if (LegacyViewModel.IsLoading || LegacyViewModel.ListOfTerritories is null)
+@if (ViewModel.IsLoading || ViewModel.ListOfTerritories is null)
 {
     <p><em>Loading...</em></p>
 }
@@ -20,7 +20,7 @@ else
         </tr>
         </thead>
         <tbody>
-        @foreach (var t in LegacyViewModel.ListOfTerritories)
+        @foreach (var t in ViewModel.ListOfTerritories)
         {
             <tr>
                 <td>@t.TerritoryCode</td>
@@ -38,7 +38,7 @@ else
 @code {
     protected override async Task OnInitializedAsync()
     {
-        await LegacyViewModel.GetListOfTerritories();
+        await ViewModel.GetListOfTerritories();
         await base.OnInitializedAsync();
     }
 }

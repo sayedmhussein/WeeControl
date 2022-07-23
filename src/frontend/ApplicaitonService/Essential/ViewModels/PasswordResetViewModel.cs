@@ -2,14 +2,16 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using WeeControl.Frontend.ApplicationService.Essential.Legacy;
 using WeeControl.Frontend.ApplicationService.Interfaces;
+using WeeControl.Frontend.ApplicationService.Services;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 
 namespace WeeControl.Frontend.ApplicationService.Essential.ViewModels;
 
-public class PasswordResetLegacyViewModel : LegacyViewModelBase
+public class PasswordResetViewModel : ViewModelBase
 {
     private readonly IDevice device;
+    private readonly IServerOperation server;
 
     [Required]
     [MaxLength(45)]
@@ -22,9 +24,10 @@ public class PasswordResetLegacyViewModel : LegacyViewModelBase
     [DisplayName("Username")]
     public string Username { get; set; } = string.Empty;
 
-    public PasswordResetLegacyViewModel(IDevice device) : base(device)
+    public PasswordResetViewModel(IDevice device, IServerOperation server)
     {
         this.device = device;
+        this.server = server;
     }
 
     public async Task RequestPasswordReset()
@@ -49,7 +52,7 @@ public class PasswordResetLegacyViewModel : LegacyViewModelBase
             Method = HttpMethod.Post,
         };
         
-        var responseMessage = await SendMessageAsync(message, dtoV1);
+        var responseMessage = await server.Send(message, dtoV1);
         if (responseMessage.IsSuccessStatusCode)
         {
             await device.Navigation.NavigateToAsync(Pages.Essential.Authentication.LoginPage);
