@@ -1,8 +1,6 @@
 using System.Net;
 using System.Net.Http.Json;
-using Microsoft.IdentityModel.Tokens;
 using WeeControl.Frontend.ApplicationService.Interfaces;
-using WeeControl.Frontend.ApplicationService.Services;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;

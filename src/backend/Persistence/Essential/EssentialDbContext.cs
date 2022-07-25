@@ -8,17 +8,12 @@ namespace WeeControl.Persistence.Essential
     public class EssentialDbContext : DbContext, IEssentialDbContext
     {
         public DbSet<UserDbo> Users { get; set; }
-        
         public DbSet<IdentityDbo> UserIdentities { get; set; }
-        
         public DbSet<NotificationDbo> UserNotifications { get; set; }
 
         public DbSet<SessionDbo> Sessions { get; set; }
-        
         public DbSet<SessionLogDbo> Logs { get; set; }
-
         public DbSet<TerritoryDbo> Territories { get; set; }
-
         public DbSet<ClaimDbo> Claims { get; set; }
 
         public EssentialDbContext(DbContextOptions<EssentialDbContext> options) : base(options)
@@ -29,7 +24,7 @@ namespace WeeControl.Persistence.Essential
         {
             base.OnModelCreating(modelBuilder);
             
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserDbo).Assembly);
         }
     }
 }

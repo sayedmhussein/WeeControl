@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WeeControl.Application.Contexts.Essential.Commands;
 using WeeControl.Application.Contexts.System.Commands;
 using WeeControl.SharedKernel;
 using WeeControl.WebApi.Security.Policies;

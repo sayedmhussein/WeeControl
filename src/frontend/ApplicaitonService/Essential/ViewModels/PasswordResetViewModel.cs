@@ -1,8 +1,6 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using WeeControl.Frontend.ApplicationService.Essential.Legacy;
 using WeeControl.Frontend.ApplicationService.Interfaces;
-using WeeControl.Frontend.ApplicationService.Services;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 

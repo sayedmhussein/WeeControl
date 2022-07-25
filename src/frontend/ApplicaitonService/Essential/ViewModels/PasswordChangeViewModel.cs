@@ -1,8 +1,4 @@
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Net;
-using WeeControl.Frontend.ApplicationService.Essential.Legacy;
 using WeeControl.Frontend.ApplicationService.Essential.Models;
 using WeeControl.Frontend.ApplicationService.Interfaces;
 using WeeControl.SharedKernel;

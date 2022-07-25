@@ -1,5 +1,4 @@
 using WeeControl.Frontend.ApplicationService.Services;
-using Xunit;
 
 namespace WeeControl.Frontend.ApplicationService.UnitTest.Services;
 

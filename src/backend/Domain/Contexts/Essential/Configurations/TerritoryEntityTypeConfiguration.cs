@@ -1,8 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using WeeControl.Domain.Contexts.Essential;
 
-namespace WeeControl.Persistence.Essential.Configurations
+namespace WeeControl.Domain.Contexts.Essential.Configurations
 {
     public class TerritoryEntityTypeConfiguration : IEntityTypeConfiguration<TerritoryDbo>
     {

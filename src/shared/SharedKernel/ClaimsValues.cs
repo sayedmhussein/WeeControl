@@ -1,5 +1,4 @@
 using System.Reflection;
-using System.Security.Claims;
 
 namespace WeeControl.SharedKernel;
 

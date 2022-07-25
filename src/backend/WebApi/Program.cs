@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using WeeControl.Application.Contexts.Essential.Commands;
 using WeeControl.Application.Contexts.System.Commands;
 using WeeControl.Application.Interfaces;
 using WeeControl.Persistence.Essential;
