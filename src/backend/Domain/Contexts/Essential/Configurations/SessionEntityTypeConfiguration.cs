@@ -20,6 +20,9 @@ namespace WeeControl.Domain.Contexts.Essential.Configurations
             builder.Property(x => x.DeviceId).HasMaxLength(255).IsRequired();
             
             builder.Property(p => p.CreatedTs).HasDefaultValue(DateTime.UtcNow);
+            
+            builder.HasMany(x => x.Logs)
+                .WithOne().HasForeignKey(x => x.SessionId);
         }
     }
 }

@@ -24,6 +24,7 @@ public class Program
         catch (Exception e)
         {
             Console.WriteLine(e);
+            Console.WriteLine("xxxxxxxxxxxxx End of Program Exception xxxxxxxxxxxxx");
             
             try
             {
@@ -62,7 +63,8 @@ public class Program
         var context = (EssentialDbContext)scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
         if (context.Database.IsRelational())
         {
-            await context.Database.MigrateAsync();
+            //await context.Database.MigrateAsync();
+            await context.Database.EnsureCreatedAsync();
         }
         else
         {

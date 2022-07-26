@@ -60,24 +60,28 @@ public class RegisterCommand : IRequest<IResponseDto<TokenDtoV1>>
                 throw new ConflictFailureException();
             }
 
-            var user = UserDbo.Create(
-                cmd.dto.Payload.FirstName,
-                cmd.dto.Payload.LastName,
-                cmd.dto.Payload.Email.ToLower(), 
-                cmd.dto.Payload.Username.ToLower(), 
-                passwordSecurity.Hash(cmd.dto.Payload.Password),
-                cmd.dto.Payload.MobileNo,
-                cmd.dto.Payload.TerritoryId,
-                cmd.dto.Payload.Nationality
-                );
+            // var user = UserDbo.Create(
+            //     cmd.dto.Payload.FirstName,
+            //     cmd.dto.Payload.LastName,
+            //     cmd.dto.Payload.Email.ToLower(), 
+            //     cmd.dto.Payload.Username.ToLower(), 
+            //     passwordSecurity.Hash(cmd.dto.Payload.Password),
+            //     cmd.dto.Payload.MobileNo,
+            //     cmd.dto.Payload.TerritoryId,
+            //     cmd.dto.Payload.Nationality
+            //     );
+            
+            var user = UserDbo.Create(cmd.dto.Payload);
+            user.Password = passwordSecurity.Hash(cmd.dto.Payload.Password);
 
             await context.Users.AddAsync(user, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
 
-            var a = await mediator.Send(new GetNewTokenQuery(RequestDto.Create(LoginDtoV1.Create(user.Username, cmd.dto.Payload.Password), cmd.dto)), cancellationToken);
-            // var b= await mediator.Send(new GetNewTokenQuery(cmd.dto.Request,  LoginDtoV1.Create(user.Username, cmd.Payload.Password)), cancellationToken);
-            return a;
-            //return new ResponseDto<TokenDtoV1>(a.Payload);
+            var request =
+                new GetNewTokenQuery(RequestDto.Create(LoginDtoV1.Create(user.Username, cmd.dto.Payload.Password),
+                    cmd.dto));
+            var response = await mediator.Send(request, cancellationToken);
+            return response;
         }
     }
 }

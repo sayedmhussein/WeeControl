@@ -13,8 +13,8 @@ public class UserDbo : IUserModel
     {
         return new UserDbo()
         {
-            FirstName = firstname, LastName = lastname,
-            Email = email, Username = username, Password = password,
+            FirstName = firstname.Trim(), LastName = lastname.Trim(),
+            Email = email.Trim(), Username = username.Trim(), Password = password,
             MobileNo = mobileNo,
             TerritoryId = territory, Nationality = nationality
         };
@@ -24,10 +24,10 @@ public class UserDbo : IUserModel
     {
         return new UserDbo()
         {
-            FirstName = model.FirstName, SecondName = model.SecondName,
-            ThirdName = model.ThirdName, LastName = model.LastName,
-            Email = model.Email, Username = model.Username, Password = model.Password,
-            MobileNo = model.MobileNo,
+            FirstName = model.FirstName.Trim(), SecondName = model.SecondName.Trim(),
+            ThirdName = model.ThirdName.Trim(), LastName = model.LastName.Trim(),
+            Email = model.Email.Trim(), Username = model.Username.Trim(), Password = model.Password,
+            MobileNo = model.MobileNo.Trim(),
             TerritoryId = model.TerritoryId, Nationality = model.Nationality
         };
     }
@@ -53,6 +53,8 @@ public class UserDbo : IUserModel
     
     public string TempPassword { get; private set; }
     public DateTime? TempPasswordTs { get; private set; }
+
+    public string PhotoUrl { get; set; }
 
     public virtual IEnumerable<SessionDbo> Sessions { get; }
     public virtual ICollection<ClaimDbo> Claims { get; }

@@ -11,6 +11,11 @@ namespace WeeControl.Domain.Contexts.Essential.Configurations
             builder.ToTable(nameof(SessionLogDbo), nameof(Essential));
             builder.Property(p => p.LogId).ValueGeneratedOnAdd();
             builder.Property(p => p.LogTs).HasDefaultValue(DateTime.UtcNow);
+            
+            builder.HasOne(x => x.Session)
+                .WithMany()
+                .HasForeignKey(x => x.SessionId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

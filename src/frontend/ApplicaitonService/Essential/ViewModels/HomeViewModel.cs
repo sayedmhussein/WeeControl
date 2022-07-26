@@ -1,7 +1,9 @@
+using System.Net.Http.Json;
 using WeeControl.Frontend.ApplicationService.Essential.Models;
 using WeeControl.Frontend.ApplicationService.Interfaces;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
+using WeeControl.SharedKernel.RequestsResponses;
 
 namespace WeeControl.Frontend.ApplicationService.Essential.ViewModels;
 
@@ -65,8 +67,31 @@ public class HomeViewModel : ViewModelBase
         MenuItems.AddRange(list.DistinctBy(x => x.PageName));
     }
 
-    private Task FetchNotifications()
+    public async Task FetchNotifications()
     {
-        return Task.CompletedTask;
+        NotificationsList.Clear();
+        
+        var response = await server.Send<object>(
+            new HttpRequestMessage
+            {
+                RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Notification.Route)),
+                Version = new Version("1.0"),
+                Method = HttpMethod.Get
+            });
+        
+        if (response.IsSuccessStatusCode)
+        {
+            var content = await response.Content.ReadFromJsonAsync<ResponseDto<IEnumerable<NotificationDto>>>();
+            foreach (var n in content?.Payload)
+            {
+                NotificationsList.Add(new HomeNotificationModel()
+                {
+                    NotificationId = n.NotificationId,
+                    Subject = n.Subject,
+                    Body = n.Details,
+                    NotificationUrl = n.Link
+                });
+            }
+        }
     }
 }

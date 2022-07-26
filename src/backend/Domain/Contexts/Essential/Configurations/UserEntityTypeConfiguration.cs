@@ -30,13 +30,21 @@ namespace WeeControl.Domain.Contexts.Essential.Configurations
             builder.Property(p => p.SuspendArgs).HasMaxLength(255);
             builder.Property(p => p.Nationality).HasMaxLength(3);
 
-            builder.HasMany(x => x.Claims)
-                .WithOne().HasForeignKey(x => x.UserId);
+            builder.Property(p => p.PhotoUrl).HasMaxLength(255);
 
             builder.HasOne(x => x.Territory)
                 .WithMany()
                 .HasForeignKey(x => x.TerritoryId)
                 .OnDelete(DeleteBehavior.Restrict);
+            
+            builder.HasMany(x => x.Claims)
+                .WithOne().HasForeignKey(x => x.UserId);
+            
+            builder.HasMany(x => x.Notifications)
+                .WithOne().HasForeignKey(x => x.UserId);
+            
+            builder.HasMany(x => x.Identities)
+                .WithOne().HasForeignKey(x => x.UserId);
         }
     }
 }

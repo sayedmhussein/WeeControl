@@ -22,9 +22,11 @@
     protected override async void OnInitialized()
     {
         await ViewModel.Init();
+        await ViewModel.FetchNotifications();
 
         StateHasChanged();
         
         await base.OnInitializedAsync();
     }
+    
 }

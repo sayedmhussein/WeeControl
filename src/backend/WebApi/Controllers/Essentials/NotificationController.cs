@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WeeControl.Application.Contexts.Essential.Commands;
 using WeeControl.Application.Contexts.Essential.Queries;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
@@ -32,14 +33,15 @@ public class NotificationController : Controller
     {
         var query = new NotificationQuery();
         var response = await mediator.Send(query);
-
         return Ok(response);
     }
 
     [HttpDelete("{id:guid}")]
     [MapToApiVersion("1.0")]
-    public Task<ActionResult> MuteNotificationV1(Guid id)
+    public async Task<ActionResult> MuteNotificationV1(Guid id)
     {
-        throw new NotImplementedException();
+        var command = new NotificationViewedCommand(id);
+        await mediator.Send(command);
+        return Ok();
     }
 }

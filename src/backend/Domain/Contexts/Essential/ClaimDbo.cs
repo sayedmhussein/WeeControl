@@ -20,12 +20,11 @@ public class ClaimDbo
             UserId = userId, ClaimType = type, ClaimValue = tag, GrantedBy = grantedBy
         };
     }
-
-    [Key]
+    
     public Guid ClaimId { get; }
 
     public Guid? UserId { get; private set;}
-    //public UserDbo User { get; set; }
+    public UserDbo User { get; set; }
 
     [Required]
     [StringLength(5)]

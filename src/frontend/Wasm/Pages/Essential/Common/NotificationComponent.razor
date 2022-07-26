@@ -1,25 +1,23 @@
 @using Microsoft.IdentityModel.Tokens
 @using System.ComponentModel.Design
 <MudPaper Outlined="true" MaxWidth="200" MaxHeight="300">
-    <MudCard>
-        <MudContainer>
-            @if (Notifications.IsNullOrEmpty())
-            {
-                <p>No Notifications Right Now.</p>
-            }
-            else
-            {
-                @foreach (var n in Notifications)
+    @if (Notifications.IsNullOrEmpty())
                 {
-                    <MudItem>
-                        <p>@n.Subject</p>
-                        <p>@n.Body</p>
-                        <p>@n.NotificationTs</p>
-                    </MudItem>
+                    <p>No Notifications Right Now.</p>
                 }
-            }
-        </MudContainer>
-    </MudCard>
+                else
+                {
+                    @foreach (var n in Notifications)
+                    {
+                        <MudItem>
+                            <MudCard>
+                                <p>@n.Subject</p>
+                                <p>@n.Body</p>
+                                <p>@n.NotificationTs</p>
+                            </MudCard>
+                        </MudItem>
+                    }
+                }
 </MudPaper>
 
 

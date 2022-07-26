@@ -2,11 +2,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WeeControl.SharedKernel.Essential.ValidationAttributes;
 
-[AttributeUsage(AttributeTargets.Property | 
-                AttributeTargets.Field, AllowMultiple = false)]
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
 public sealed class TerritoryCodeAttribute : ValidationAttribute
 {
-    protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
+    protected override ValidationResult IsValid(object? value, ValidationContext validationContext)
     {
         if (value is null)
             return new ValidationResult("Territory code can't be null");
@@ -15,6 +14,7 @@ public sealed class TerritoryCodeAttribute : ValidationAttribute
 
         if (code.Length <= 10){}
 
-        return null;
+        return new ValidationResult("");
+        
     }
 }
