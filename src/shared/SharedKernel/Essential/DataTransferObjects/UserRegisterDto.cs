@@ -9,7 +9,8 @@ public class UserRegisterDto : IUserModel
         return new UserRegisterDto()
         {
             FirstName = model.FirstName,
-            
+            SecondName = model.SecondName,
+            ThirdName = model.ThirdName,
             LastName = model.LastName,
             Email = model.Email,
             Username = model.Username,
@@ -21,6 +22,8 @@ public class UserRegisterDto : IUserModel
     }
     
     public string FirstName { get; set; } = string.Empty;
+    public string SecondName { get; set; } = string.Empty;
+    public string ThirdName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string Username { get; set; } = string.Empty;

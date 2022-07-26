@@ -3,6 +3,8 @@ namespace WeeControl.SharedKernel.Essential.Interfaces;
 public interface IUserModel
 {
     string FirstName { get; set; }
+    public string SecondName { get; set; }
+    public string ThirdName { get; set; }
     string LastName { get; set; }
     string Email { get; set; }
     string Username { get; set; }

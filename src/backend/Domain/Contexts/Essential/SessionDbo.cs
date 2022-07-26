@@ -11,17 +11,11 @@ public class SessionDbo
         return new SessionDbo() { UserId = userid, DeviceId = deviceid, CreatedTs = DateTime.UtcNow };
     }
     
-    [Key]
-    public Guid SessionId { get; set; }
-
+    public Guid SessionId { get; }
     public Guid UserId { get; set; }
     public UserDbo User { get; set; }
-
-    [Required]
     public string DeviceId { get; set; }
-
     public DateTime CreatedTs { get; set; }
-
     public DateTime? TerminationTs { get; set; }
 
     public virtual IEnumerable<SessionLogDbo> Logs { get; set; }

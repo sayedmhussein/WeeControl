@@ -16,22 +16,14 @@ public class TerritoryDbo
         };
     }
     
-    [Key]
-    [StringLength(10, MinimumLength = 3)]
-    public string TerritoryId { get; set; }
-
+    [MinLength(3)] public string TerritoryId { get; set; }
+    public string TerritoryName { get; set; }
+    [MinLength(3)] public string CountryCode { get; set; }
+    
     public TerritoryDbo ReportTo { get; set; }
     public string ReportToId { get; set; }
-
     public ICollection<TerritoryDbo> Reporting { get; set; }
-
-    [StringLength(3, MinimumLength = 3)]
-    public string CountryCode { get; set; }
-
-    [StringLength(20)]
-    public string TerritoryName { get; set; }
-
-    public virtual IEnumerable<UserDbo> Users { get; set; }
+    
 
     private TerritoryDbo()
     {

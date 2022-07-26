@@ -8,14 +8,20 @@ namespace WeeControl.Domain.Contexts.Essential.Configurations
         public void Configure(EntityTypeBuilder<TerritoryDbo> builder)
         {
             builder.ToTable(nameof(TerritoryDbo), nameof(Essential));
-            builder.HasComment("Territory of corporate.");
-            
-            builder.Property(p => p.TerritoryId).ValueGeneratedOnAdd();
-            
-            builder.HasIndex(x => new { x.CountryCode, x.TerritoryName }).IsUnique(true);
-            
+            builder.HasKey(x => x.TerritoryId);
+            builder.Property(x => x.TerritoryId).HasMaxLength(10);
             builder.HasOne(e => e.ReportTo).WithMany();
-            builder.HasMany(x => x.Reporting).WithOne(x => x.ReportTo).HasForeignKey(x => x.ReportToId).OnDelete(DeleteBehavior.Restrict);
+            builder.HasMany(x => x.Reporting)
+                .WithOne(x => x.ReportTo)
+                .HasForeignKey(x => x.ReportToId)
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.HasComment("Territory of corporate.");
+
+            builder.Property(x => x.CountryCode).HasMaxLength(3).IsRequired();
+            builder.Property(x => x.TerritoryName).HasMaxLength(50).IsRequired();
+            builder.HasIndex(x => new { x.CountryCode, x.TerritoryName }).IsUnique();
+            
+            
 
             //builder.OwnsOne(x => x.Address);
 

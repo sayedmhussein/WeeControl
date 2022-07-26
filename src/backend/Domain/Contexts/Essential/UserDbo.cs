@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
+using WeeControl.SharedKernel.Essential.Interfaces;
 
 namespace WeeControl.Domain.Contexts.Essential;
 
-public class UserDbo
+public class UserDbo : IUserModel
 {
     public static UserDbo Create(string firstname, string lastname, string email, string username, string password,
         string mobileNo, string territory, string nationality)
@@ -15,24 +16,32 @@ public class UserDbo
             FirstName = firstname, LastName = lastname,
             Email = email, Username = username, Password = password,
             MobileNo = mobileNo,
-            TerritoryId = territory, Nationality = "EGP"
+            TerritoryId = territory, Nationality = nationality
+        };
+    }
+
+    public static UserDbo Create(IUserModel model)
+    {
+        return new UserDbo()
+        {
+            FirstName = model.FirstName, SecondName = model.SecondName,
+            ThirdName = model.ThirdName, LastName = model.LastName,
+            Email = model.Email, Username = model.Username, Password = model.Password,
+            MobileNo = model.MobileNo,
+            TerritoryId = model.TerritoryId, Nationality = model.Nationality
         };
     }
     
     public Guid UserId { get; }
-    
     public string FirstName { get; set; }
+    public string SecondName { get; set; }
+    public string ThirdName { get; set; }
     public string LastName { get; set; }
     
-    [EmailAddress]
-    public string Email { get; private set; }
-    
-    [MinLength(3)]
-    public string Username { get; private set; }
-    public string Password { get; private set; }
-
-    [Phone]
-    public string MobileNo { get; set; }
+    [EmailAddress] public string Email { get; set; }
+    [MinLength(3)] public string Username { get; set; }
+    public string Password { get; set; }
+    [Phone] public string MobileNo { get; set; }
     
     public string TerritoryId { get; set; }
     public TerritoryDbo Territory { get; set; }
@@ -42,9 +51,7 @@ public class UserDbo
     [AllowNull]
     public string SuspendArgs { get; private set; }
     
-    [AllowNull]
     public string TempPassword { get; private set; }
-    
     public DateTime? TempPasswordTs { get; private set; }
 
     public virtual IEnumerable<SessionDbo> Sessions { get; }
