@@ -28,6 +28,9 @@
     <ProjectReference Include="..\ApplicaitonService\ApplicationService.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <AdditionalFiles Include="Pages\Essential\Admin\AdminPage.razor" />
+    <AdditionalFiles Include="Pages\Essential\Admin\ListOfTerritories.razor" />
+    <AdditionalFiles Include="Pages\Essential\Admin\UserData.razor" />
     <AdditionalFiles Include="Pages\Essential\Authentication\LoginPage.razor" />
     <AdditionalFiles Include="Pages\Essential\Authentication\_Imports.razor" />
     <AdditionalFiles Include="Pages\Essential\Common\Index.razor" />
@@ -38,5 +41,12 @@
     <AdditionalFiles Include="Pages\Essential\User\RegisterPage.razor" />
     <AdditionalFiles Include="Pages\Essential\User\SetNewPasswordPage.razor" />
     <AdditionalFiles Include="Pages\Essential\User\_Imports.razor" />
+  </ItemGroup>
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\Business\Admin\AdminPage.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Business\Admin\ListOfTerritories.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Business\Admin\TerritoryEditComponent.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Business\Admin\TerritoryListComponent.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Business\Admin\UserData.razor" />
   </ItemGroup>
 </Project>

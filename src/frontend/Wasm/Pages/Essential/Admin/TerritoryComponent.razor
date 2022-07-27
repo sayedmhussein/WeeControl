@@ -1,0 +1,97 @@
+@page "/TerritoryPage"
+
+@inject TerritoryViewModel ViewModel
+
+<MudPaper>
+    <MudToolBar>
+        <MudIconButton Icon="@Icons.Material.Outlined.Add" OnClick="@ToggleViewingDetails" />
+        <MudIconButton Icon="@Icons.Material.Outlined.Edit" />
+        <MudSpacer />
+        <MudIconButton Icon="@Icons.Material.Outlined.Refresh" OnClick="@ViewModel.GetListOfTerritories"/>
+    </MudToolBar>
+    
+    <MudPopover Open="@viewAddTerritory" Fixed="false" Paper="true">
+        <MudCard>
+            <EditForm Model="@selectedItem">
+                <DataAnnotationsValidator/>
+                <div class="form-group">
+                    <label>Code</label>
+                    <InputText @bind-Value="@selectedItem.TerritoryCode"></InputText>
+                    <ValidationMessage For="@(() => selectedItem.TerritoryCode)"/>
+                </div>
+                <div class="form-group">
+                    <label>Territory Name</label>
+                    <InputText @bind-Value="@selectedItem.TerritoryName"></InputText>
+                    <ValidationMessage For="@(() => selectedItem.TerritoryName)"/>
+                </div>
+            </EditForm>
+            <MudButton @onclick="@SaveToServer" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Info"  Size="Size.Small">Save</MudButton>
+            <MudButton @onclick="@ToggleViewingDetails" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Close" Color="Color.Secondary"  Size="Size.Small">Close</MudButton>
+        </MudCard>
+    </MudPopover>
+
+    <MudTable T="@TerritoryModel" Hover="true" Items=@ViewModel.ListOfTerritories Filter="new Func<TerritoryModel,bool>(FilterFunc1)" @bind-SelectedItem="selectedItem1">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Periodic Elements</MudText>
+            <MudSpacer />
+            <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh>Code</MudTh>
+            <MudTh>Report To</MudTh>
+            <MudTh>Country</MudTh>
+            <MudTh>Name</MudTh>
+            <MudTh>Name</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+                <MudTd DataLabel="Nr">@context.CountryCode</MudTd>
+                <MudTd DataLabel="Sign">@context.ReportToId</MudTd>
+                <MudTd DataLabel="Name">@context.CountryCode</MudTd>
+                <MudTd DataLabel="Position">@context.TerritoryName</MudTd>
+                <MudTd DataLabel="Molar mass">@context.LocalName</MudTd>
+            </RowTemplate>
+            <PagerContent>
+                <MudTablePager />
+            </PagerContent>
+    </MudTable>
+</MudPaper>
+
+@code {
+    private bool viewAddTerritory;
+    private string searchString1 = string.Empty;
+    private TerritoryModel selectedItem1 = null;
+    private TerritoryModel selectedItem = new TerritoryModel();
+
+    private void ToggleViewingDetails()
+    {
+        viewAddTerritory = !viewAddTerritory;
+        //StateHasChanged();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await ViewModel.GetListOfTerritories();
+    }
+
+    private async Task SaveToServer()
+    {
+        await ViewModel.AddOrUpdateTerritory(selectedItem);
+        ToggleViewingDetails();
+    }
+
+    private bool FilterFunc1(TerritoryModel element) => FilterFunc(element, searchString1);
+
+    private bool FilterFunc(TerritoryModel element, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (element.TerritoryCode.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.TerritoryName.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if ($"{element.TerritoryCode} {element.TerritoryCode} {element.LocalName}".Contains(searchString))
+            return true;
+        return false;
+    }
+}

@@ -1,5 +1,6 @@
 using System.Net;
 using System.Net.Http.Json;
+using WeeControl.Frontend.ApplicationService.Essential.Models;
 using WeeControl.Frontend.ApplicationService.Interfaces;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
@@ -13,14 +14,14 @@ public class TerritoryViewModel : ViewModelBase
     private readonly IServerOperation server;
     private readonly string uriString;
 
-    public List<TerritoryModelDto> ListOfTerritories { get; }
+    public List<TerritoryModel> ListOfTerritories { get; }
     
     public TerritoryViewModel(IDevice device, IServerOperation server)
     {
         this.device = device;
         this.server = server;
         uriString = device.Server.GetFullAddress(Api.Essential.Territory.EndPoint);
-        ListOfTerritories = new List<TerritoryModelDto>();
+        ListOfTerritories = new List<TerritoryModel>();
     }
 
     public async Task GetListOfTerritories()
@@ -40,7 +41,10 @@ public class TerritoryViewModel : ViewModelBase
             var list = content?.Payload;
             if (list != null && list.Any())
             {
-                ListOfTerritories.AddRange(list);
+                foreach (var t in list)
+                {
+                    ListOfTerritories.Add(new TerritoryModel(t));
+                }
             }
             
             return;
@@ -61,7 +65,7 @@ public class TerritoryViewModel : ViewModelBase
         }
     }
 
-    public async Task AddOrUpdateTerritory(TerritoryModelDto modelDto)
+    public async Task AddOrUpdateTerritory(TerritoryModel modelDto)
     {
         var response = await server.Send<object>(
             new HttpRequestMessage
@@ -69,7 +73,7 @@ public class TerritoryViewModel : ViewModelBase
                 RequestUri = new Uri(uriString),
                 Version = new Version("1.0"),
                 Method = HttpMethod.Put
-            });
+            }, TerritoryModelDto.Create(modelDto));
 
         switch (response.StatusCode)
         {

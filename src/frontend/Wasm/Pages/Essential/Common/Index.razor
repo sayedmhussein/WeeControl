@@ -3,6 +3,28 @@
 
 @inject HomeViewModel ViewModel
 
+<MudToolBar>
+    <MudIconButton Icon="@Icons.Material.Outlined.Menu" Color="Color.Inherit" Class="mr-5" />
+    <MudIconButton Icon="@Icons.Material.Outlined.Add" />
+    <MudIconButton Icon="@Icons.Material.Outlined.Edit" />
+    <MudIconButton Icon="@Icons.Material.Outlined.Remove" Color="Color.Inherit" />
+    <MudIconButton Icon="@Icons.Material.Outlined.Settings" Color="Color.Inherit" />
+    <MudSpacer />
+    <MudIconButton Icon="@Icons.Material.Outlined.Notifications" />
+    <MudIconButton Icon="@Icons.Material.Outlined.PushPin" />
+    <MudIconButton Icon="@Icons.Material.Outlined.PeopleAlt" />
+    <MudIconButton Icon="@Icons.Material.Outlined.MoreVert" Color="Color.Inherit" />
+    <MudIconButton Icon="@Icons.Material.Outlined.Logout" OnClick="@ToggleOpen" />
+</MudToolBar>
+
+<MudPopover Open="@changePassword" Fixed="true" Class="px-4 pt-4">
+    <div class="d-flex flex-column">
+        <MudText>Content of the popover can be anything.</MudText>
+        <MudButton OnClick="@ToggleOpen" Class="ml-auto mr-n3 mb-1" Color="Color.Error">Close</MudButton>
+    </div>
+</MudPopover>
+
+
 <p class="flex-wrap">@ViewModel.GreetingMessage @ViewModel.NameOfUser</p>
 
 <h1>Feeds</h1>
@@ -15,6 +37,8 @@
 
 @code
 {
+    private bool changePassword;
+    
     [CascadingParameter]
     public Task<AuthenticationState> AuthState { get; set; }
     
@@ -27,6 +51,14 @@
         StateHasChanged();
         
         await base.OnInitializedAsync();
+    }
+
+    private void ToggleOpen()
+    {
+        if (changePassword)
+            changePassword = false;
+        else
+            changePassword = true;
     }
     
 }
