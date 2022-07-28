@@ -14,4 +14,9 @@
       <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.21.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Elevator\DataTransferObjects" />
+      <Folder Include="Elevator\Interfaces" />
+    </ItemGroup>
+
 </Project>

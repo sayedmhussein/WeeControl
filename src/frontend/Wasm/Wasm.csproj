@@ -29,8 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="Pages\Essential\Admin\AdminPage.razor" />
-    <AdditionalFiles Include="Pages\Essential\Admin\ListOfTerritories.razor" />
-    <AdditionalFiles Include="Pages\Essential\Admin\UserData.razor" />
+    <AdditionalFiles Include="Pages\Essential\User\UserData.razor" />
     <AdditionalFiles Include="Pages\Essential\Authentication\LoginPage.razor" />
     <AdditionalFiles Include="Pages\Essential\Authentication\_Imports.razor" />
     <AdditionalFiles Include="Pages\Essential\Common\Index.razor" />

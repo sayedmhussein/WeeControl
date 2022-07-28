@@ -46,7 +46,7 @@ public class SetNewPasswordCommand : IRequest
 
             if (user is null)
             {
-                throw new NotFoundException();
+                throw new NotFoundException("User not found!");
             }
 
             user.UpdatePassword(passwordSecurity.Hash(request.NewPassword));

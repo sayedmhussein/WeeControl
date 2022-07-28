@@ -29,7 +29,11 @@ public class ValidationException : Exception
                 .Select(e => e.ErrorMessage)
                 .ToArray();
 
-            Failures.Add(propertyName.FirstOrDefault(), propertyFailures);
+            Failures.Add(propertyName.FirstOrDefault() ?? string.Empty, propertyFailures);
         }
+    }
+
+    public ValidationException(object property) : this()
+    {
     }
 }

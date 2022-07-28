@@ -3,12 +3,6 @@
 @using System.Security.Claims
 @attribute [Authorize]
 
-<h1>Counter</h1>
-
-<p>Current count: @currentCount</p>
-
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
-
 <h1>List of Claims embidded in token</h1>
 <MudTable Items="@claims" Hover="true" Breakpoint="Breakpoint.Sm" LoadingProgressColor="Color.Info">
     <HeaderContent>
@@ -65,8 +59,6 @@
 </table>
 
 @code {
-    private int currentCount;
-    
     private IDictionary<string,string> claimTypes = new Dictionary<string, string>();
     private IDictionary<string,string> claimTags = new Dictionary<string, string>();
     
@@ -87,11 +79,6 @@
         return GetClaims();
     }
 
-    private void IncrementCount()
-    {
-        currentCount++;
-    }
-    
     private async Task GetClaims()
     {
         foreach (var claim in (await AuthState).User.Claims)

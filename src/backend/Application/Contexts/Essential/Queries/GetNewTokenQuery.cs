@@ -83,12 +83,12 @@ public class GetNewTokenQuery : IRequest<ResponseDto<TokenDtoV1>>
                     (x.TempPassword == passwordSecurity.Hash(request.Payload.Password) && x.TempPasswordTs > DateTime.UtcNow.AddMinutes(-10))
                     , cancellationToken);
                 if (employee is null)
-                    throw new NotFoundException();
+                    throw new NotFoundException("User not found!");
             }
 
             if (employee.SuspendArgs is not null)
             {
-                throw new NotAllowedException();
+                throw new NotAllowedException("Account is locked!");
             }
 
             if (employee.TempPassword != null)

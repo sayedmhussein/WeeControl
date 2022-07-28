@@ -1,6 +1,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using WeeControl.SharedKernel.Elevator.Constants;
 
 namespace WeeControl.Domain.Contexts.Elevator.Configurations;
 
@@ -11,6 +12,8 @@ public class UnitEntityTypeConfig : IEntityTypeConfiguration<UnitDbo>
         builder.ToTable(nameof(UnitDbo), schema: nameof(Elevator));
         builder.HasKey(x => x.UnitNumber);
         builder.Property(x => x.UnitNumber).HasMaxLength(10);
+
+        builder.Property(x => x.UnitType).HasMaxLength(1).HasDefaultValue(UnitTypes.Void);
 
         builder.Property(x => x.UnitIdentification).HasMaxLength(10);
 

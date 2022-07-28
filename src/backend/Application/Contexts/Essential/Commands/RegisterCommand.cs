@@ -48,7 +48,7 @@ public class RegisterCommand : IRequest<IResponseDto<TokenDtoV1>>
                 string.IsNullOrWhiteSpace(cmd.dto.Payload.TerritoryId)
                )
             {
-                throw new ValidationException();
+                throw new ValidationException(cmd.dto.Payload);
             }
 
             if (context.Users.Any(x => 
@@ -60,17 +60,10 @@ public class RegisterCommand : IRequest<IResponseDto<TokenDtoV1>>
                 throw new ConflictFailureException();
             }
 
-            // var user = UserDbo.Create(
-            //     cmd.dto.Payload.FirstName,
-            //     cmd.dto.Payload.LastName,
-            //     cmd.dto.Payload.Email.ToLower(), 
-            //     cmd.dto.Payload.Username.ToLower(), 
-            //     passwordSecurity.Hash(cmd.dto.Payload.Password),
-            //     cmd.dto.Payload.MobileNo,
-            //     cmd.dto.Payload.TerritoryId,
-            //     cmd.dto.Payload.Nationality
-            //     );
-            
+            cmd.dto.Payload.Email = cmd.dto.Payload.Email.ToLower();
+            cmd.dto.Payload.Username = cmd.dto.Payload.Username.ToLower();
+            cmd.dto.Payload.MobileNo = cmd.dto.Payload.MobileNo.ToLower();
+
             var user = UserDbo.Create(cmd.dto.Payload);
             user.Password = passwordSecurity.Hash(cmd.dto.Payload.Password);
 

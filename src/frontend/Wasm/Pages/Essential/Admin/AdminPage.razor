@@ -1,43 +1,16 @@
-@using WeeControl.Frontend.ApplicationService
 @attribute [Route(Pages.Essential.Admin.Page)]
-<h1>Adminstration</h1>
-<div class="container">
-    <div class="row">
-        <div class="col-sm">
-            <h2>We always support our colleagues..</h2>
-        </div>
-        <div class="col-sm">
-            <select class="form-control d-flex" @bind="windowToShow">
-                @foreach (var template in Enum.GetNames(typeof(SubPages)))
-                {
-                    <option value=@template>@template</option>
-                }
-            </select>
-        </div>
-    </div>
-</div>
 
-@switch (windowToShow)
-{
-    case SubPages.Users:
-        <UserData></UserData>
-        break;
-    case SubPages.Territories:
+<h1>Adminstration</h1>
+<MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
+    <MudTabPanel Text="Territories" Icon="@Icons.Material.Filled.Terrain">
         <TerritoryComponent></TerritoryComponent>
-        break;
-    case SubPages.Dashboard:
-        <p>Dash Board</p>
-        break;
-    default:
-        throw new ArgumentOutOfRangeException();
-}
+    </MudTabPanel>
+    <MudTabPanel Text="Users" Icon="@Icons.Material.Filled.People">
+        <UsersComponent></UsersComponent>
+    </MudTabPanel>
+</MudTabs>
 
 
 @code {
-    private enum SubPages
-    {
-        Dashboard, Territories, Users
-    }
-    
-    private SubPages windowToShow;
+
 }

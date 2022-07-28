@@ -56,7 +56,7 @@ public class CustomExceptionHandlerMiddlewareTests
                 StatusCode = 200
             }
         };
-        var requestDelegate = new RequestDelegate((innerContext) => throw new NotFoundException());
+        var requestDelegate = new RequestDelegate((innerContext) => throw new NotFoundException("Unit testing"));
         var middleware = new CustomExceptionHandlerMiddleware(requestDelegate);
 
         await middleware.Invoke(httpContext);

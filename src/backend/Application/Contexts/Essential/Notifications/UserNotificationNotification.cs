@@ -37,7 +37,7 @@ public class UserNotificationNotification : INotification
             var user = await essentialDbContext.Users.FirstOrDefaultAsync(x => x.Username == notification.username, cancellationToken);
             if (user is null)
             {
-                throw new NotFoundException();
+                throw new NotFoundException("User not found!");
             }
             
             await essentialDbContext.UserNotifications.AddAsync(new NotificationDbo()

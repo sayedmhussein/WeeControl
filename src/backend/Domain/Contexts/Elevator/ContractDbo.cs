@@ -12,6 +12,8 @@ public class ContractDbo
     public Guid OfferId { get; set; }
     public OfferDbo Offer { get; set; }
 
+    [StringLength(3)][Required] public string ContractType { get; set; }
+
     public IEnumerable<ContractTimesheet> Timesheet { get; set; }
     public IEnumerable<ContractMaterialDbo> Materials { get; set; }
     public IEnumerable<ContractCollectionDbo> Collections { get; set; }

@@ -21,7 +21,7 @@ namespace WeeControl.Domain.Contexts.Essential.Configurations
             builder.Property(x => x.TerritoryName).HasMaxLength(50).IsRequired();
             builder.HasIndex(x => new { x.CountryCode, x.TerritoryName }).IsUnique();
             
-            
+            builder.Property(x => x.AlternativeName).HasMaxLength(50);
 
             //builder.OwnsOne(x => x.Address);
 

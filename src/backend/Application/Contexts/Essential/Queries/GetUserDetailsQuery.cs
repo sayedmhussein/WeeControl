@@ -44,7 +44,7 @@ public class GetUserDetailsQuery : IRequest<ResponseDto<UserDetailedDtoV1>>
 
             if (userDbo is null)
             {
-                throw new NotFoundException();
+                throw new NotFoundException("User not found!");
             }
 
             var claims = new List<ClaimDto>();

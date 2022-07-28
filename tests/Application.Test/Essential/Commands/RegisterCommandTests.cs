@@ -125,13 +125,14 @@ public class RegisterCommandTests
     {
         var dto = new UserRegisterDto()
         {
-            TerritoryId = nameof(IUserModel.TerritoryId),
+            TerritoryId = "TRR",
             FirstName = nameof(IUserModel.FirstName),
             LastName = nameof(IUserModel.LastName),
             Email = nameof(IUserModel.Email) + "@email.com",
             Username = nameof(IUserModel.Username),
             Password = nameof(IUserModel.Password),
-            MobileNo = "0123456789"
+            MobileNo = "0123456789",
+            Nationality = "EGP"
         };
 
         return RequestDto.Create(dto, "device", 0, 0);
