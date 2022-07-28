@@ -27,7 +27,7 @@ public class NotificationQuery : IRequest<ResponseDto<IEnumerable<NotificationDt
         public async Task<ResponseDto<IEnumerable<NotificationDto>>> Handle(NotificationQuery request, CancellationToken cancellationToken)
         {
             var user = await 
-                essentialDbContext.Sessions.FirstOrDefaultAsync(x => x.SessionId == userInfo.GetSessionId(),
+                essentialDbContext.UserSessions.FirstOrDefaultAsync(x => x.SessionId == userInfo.GetSessionId(),
                     cancellationToken);
             if (user is null)
             {

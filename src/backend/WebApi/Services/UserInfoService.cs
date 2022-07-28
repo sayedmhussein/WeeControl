@@ -6,7 +6,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using WeeControl.Application.Contexts.Essential.Commands;
 using WeeControl.Application.Contexts.Essential.Queries;
 using WeeControl.Application.Interfaces;
 using WeeControl.SharedKernel;
@@ -15,35 +14,38 @@ namespace WeeControl.WebApi.Services;
 
 public class UserInfoService : ICurrentUserInfo
 {
-    private readonly IMediator mediator;
-    private Guid? sessionid = null;
-    private readonly ICollection<string> territories = new List<string>();
-        
+    public IEnumerable<Claim> Claims { get; }
+
+    public Guid? SessionId { get; }
+    
     public UserInfoService(IHttpContextAccessor httpContextAccessor, IMediator mediator)
     {
         Claims = httpContextAccessor?.HttpContext?.User.Claims;
+        
+        var idStr = Claims?.FirstOrDefault(c => c.Type == ClaimsValues.ClaimTypes.Session)?.Value;
+        if (Guid.TryParse(idStr, out var idGuid))
+        {
+            SessionId = idGuid;
+        }
+        
 
         this.mediator = mediator;
     }
 
-    public IEnumerable<Claim> Claims { get; private set; }
-
+   
+    
+    
+    
+    
+    
+    
+    
+    private readonly IMediator mediator;
+    private readonly ICollection<string> territories = new List<string>();
+    
     public Guid? GetSessionId()
     {
-        if (sessionid != null) return sessionid;
-
-        var sessionGuid = Claims?.FirstOrDefault(c => c.Type == ClaimsValues.ClaimTypes.Session)?.Value;
-        if (Guid.TryParse(sessionGuid, out Guid sessionString))
-        {
-            sessionid = sessionString;
-        }
-
-        return sessionid;
-    }
-
-    public IEnumerable<Claim> GetClaimList()
-    {
-        return Claims;
+        return SessionId;
     }
 
     public async Task<IEnumerable<string>> GetTerritoriesListAsync(CancellationToken cancellationToken)
@@ -52,7 +54,7 @@ public class UserInfoService : ICurrentUserInfo
             
         var territoryCode = Claims.FirstOrDefault(c => c.Type == ClaimsValues.ClaimTypes.Territory)?.Value;
         territories.Add(territoryCode);
-        var cla = await mediator.Send(new GetListOfTerritoriesQuery(territoryCode), cancellationToken);
+        var cla = await mediator.Send(new TerritoryQuery(territoryCode), cancellationToken);
 
          foreach (var bra in cla.Payload)
          {
@@ -60,10 +62,5 @@ public class UserInfoService : ICurrentUserInfo
          }
 
         return territories;
-    }
-
-    public Task LogUserActivityAsync(string context, string details, CancellationToken cancellationToken)
-    {
-        return mediator.Send(new LogActivityCommand(context, details, GetSessionId()), cancellationToken);
     }
 }

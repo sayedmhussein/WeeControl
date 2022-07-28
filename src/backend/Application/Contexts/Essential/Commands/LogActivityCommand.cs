@@ -34,13 +34,13 @@ public class LogActivityCommand : IRequest
         public async Task<Unit> Handle(LogActivityCommand request, CancellationToken cancellationToken)
         {
             var id = currentUserInfo.GetSessionId() ?? throw new NullReferenceException("User from IUserInfo can't be null!");
-            var session = await context.Sessions.FirstOrDefaultAsync(x => x.SessionId == id, cancellationToken);
+            var session = await context.UserSessions.FirstOrDefaultAsync(x => x.SessionId == id, cancellationToken);
             if (session == null)
             {
                 // Here to log this issue in system!
             }
 
-            await context.Logs.AddAsync(session.CreateLog(request.LogContext, request.LogDetails), cancellationToken);
+            await context.SessionLogs.AddAsync(session.CreateLog(request.LogContext, request.LogDetails), cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
         
             return Unit.Value;

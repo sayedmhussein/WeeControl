@@ -87,7 +87,6 @@ public class GetUserDetailsQuery : IRequest<ResponseDto<UserDetailedDtoV1>>
             };
             
             return ResponseDto.Create(user);
-            //return new ResponseDto<UserDetailedDtoV1>(user);
         }
     }
 }

@@ -26,13 +26,18 @@ public class TestHelper : IDisposable
     public TestHelper()
     {
         JwtService = new JwtService();
+        
         PasswordSecurity = new PasswordSecurity();
+        
         EssentialDb = new ServiceCollection()
             .AddPersistenceAsInMemory()
             .BuildServiceProvider()
             .GetService<IEssentialDbContext>();
+        
         MediatorMock = new Mock<IMediator>();
+        
         ConfigurationMock = new Mock<IConfiguration>();
+        
         CurrentUserInfoMock = new Mock<ICurrentUserInfo>();
     }
     

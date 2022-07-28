@@ -79,8 +79,8 @@ public class UserInfoServiceTests : IDisposable
     {
         var mediatrMock = new Mock<IMediator>();
         mediatrMock.Setup(x => x
-                .Send(It.IsAny<GetListOfTerritoriesQuery>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(ResponseDto.Create<IEnumerable<TerritoryModelDto>>(new List<TerritoryModelDto>()
+                .Send(It.IsAny<TerritoryQuery>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(ResponseDto.Create<IEnumerable<TerritoryDto>>(new List<TerritoryDto>()
             {
                 new() { TerritoryCode = "cod1"}, new() {TerritoryCode = "cod2"},
                 new() { TerritoryCode = "cod3"}, new() {TerritoryCode = "cod4"}

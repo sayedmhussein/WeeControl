@@ -10,9 +10,9 @@ namespace WeeControl.Application.Contexts.Essential.Commands;
 
 public class SetNewPasswordCommand : IRequest
 {
-    public IRequestDto Request { get; }
-    public string OldPassword { get; }
-    public string NewPassword { get; }
+    private IRequestDto Request { get; }
+    private string OldPassword { get; }
+    private string NewPassword { get; }
     
     public SetNewPasswordCommand(IRequestDto dto, string oldPassword, string newPassword)
     {
@@ -41,7 +41,7 @@ public class SetNewPasswordCommand : IRequest
                 throw new BadRequestException("Invalid old and new password supplied");
             }
             
-            var session = await context.Sessions.FirstOrDefaultAsync(x => x.SessionId == currentUserInfo.GetSessionId(), cancellationToken);
+            var session = await context.UserSessions.FirstOrDefaultAsync(x => x.SessionId == currentUserInfo.GetSessionId(), cancellationToken);
             var user = await context.Users.FirstOrDefaultAsync(x => x.UserId == session.UserId && x.Password == passwordSecurity.Hash(request.OldPassword), cancellationToken);
 
             if (user is null)

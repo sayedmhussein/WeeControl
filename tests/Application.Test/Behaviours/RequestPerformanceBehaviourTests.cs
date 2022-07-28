@@ -20,7 +20,7 @@ public class RequestPerformanceBehaviourTests : IDisposable
         loggerMock = new Mock<ILogger<RequestPerformanceBehaviour<TestExampleQuery, bool>>>();
 
         userMock = new Mock<ICurrentUserInfo>();
-        userMock.Setup(x => x.GetSessionId()).Returns(Guid.NewGuid());
+        userMock.Setup(x => x.SessionId).Returns(Guid.NewGuid());
     }
 
     public void Dispose()

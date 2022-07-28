@@ -25,7 +25,7 @@ public class GetListOfUsersQuery : IRequest<ResponseDto<IEnumerable<UserDtoV1>>>
     
         public async Task<ResponseDto<IEnumerable<UserDtoV1>>> Handle(GetListOfUsersQuery request, CancellationToken cancellationToken)
         {
-            await userInfo.LogUserActivityAsync("Essential", "Getting List of Users", cancellationToken);
+            //await userInfo.LogUserActivityAsync("Essential", "Getting List of Users", cancellationToken);
             var users = new List<UserDtoV1>();
             var allowed = await userInfo.GetTerritoriesListAsync(default);
             foreach (var userDbo in await context.Users.Where(x => allowed.Contains(x.TerritoryId)).ToListAsync(cancellationToken))

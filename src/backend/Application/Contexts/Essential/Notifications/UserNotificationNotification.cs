@@ -40,13 +40,15 @@ public class UserNotificationNotification : INotification
                 throw new NotFoundException("User not found!");
             }
             
-            await essentialDbContext.UserNotifications.AddAsync(new NotificationDbo()
+            await essentialDbContext.UserNotifications.AddAsync(
+                new NotificationDbo()
             {
                 UserId = user.UserId,
                 Subject = notification.subject,
                 Details =notification.details,
                 Link = notification.uri
             }, cancellationToken);
+            
             await essentialDbContext.SaveChangesAsync(cancellationToken);
         }
     }

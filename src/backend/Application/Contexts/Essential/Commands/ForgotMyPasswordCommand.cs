@@ -55,8 +55,7 @@ public class ForgotMyPasswordCommand : IRequest
             
                 return Unit.Value;
             }
-        
-        
+            
             return Unit.Value;
         }
     }

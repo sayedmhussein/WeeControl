@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using WeeControl.Application.Contexts.Essential.Queries;
-using WeeControl.Application.Contexts.System.Queries;
 using WeeControl.Application.Exceptions;
 using WeeControl.Application.Interfaces;
 using WeeControl.Domain.Contexts.Essential;
@@ -37,7 +36,7 @@ public class RegisterCommand : IRequest<IResponseDto<TokenDtoV1>>
 
         public async Task<IResponseDto<TokenDtoV1>> Handle(RegisterCommand cmd, CancellationToken cancellationToken)
         {
-            await mediator.Send(new VerifyRequestQuery(cmd.dto), cancellationToken);
+            //await mediator.Send(new VerifyRequestQuery(cmd.dto), cancellationToken);
 
             if (string.IsNullOrWhiteSpace(cmd.dto.Payload.FirstName) ||
                 string.IsNullOrWhiteSpace(cmd.dto.Payload.LastName) ||

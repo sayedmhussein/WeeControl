@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,21 +7,20 @@ using WeeControl.Application.Exceptions;
 using WeeControl.Application.Interfaces;
 using WeeControl.Domain.Contexts.Essential;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
-using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.RequestsResponses;
 
 namespace WeeControl.Application.Contexts.Essential.Commands;
 
-public class AddOrEditTerritoryCommand : IRequest
+public class TerritoryPutCommand : IRequest
 {
-    private readonly RequestDto<TerritoryModelDto> dto;
+    private readonly RequestDto<TerritoryDto> dto;
 
-    public AddOrEditTerritoryCommand(RequestDto<TerritoryModelDto> dto)
+    public TerritoryPutCommand(RequestDto<TerritoryDto> dto)
     {
         this.dto = dto;
     }
     
-    public class AddOrEditTerritoryHandler : IRequestHandler<AddOrEditTerritoryCommand>
+    public class AddOrEditTerritoryHandler : IRequestHandler<TerritoryPutCommand>
     {
         private readonly IEssentialDbContext essentialDbContext;
         private readonly ICurrentUserInfo currentUserInfo;
@@ -35,7 +33,7 @@ public class AddOrEditTerritoryCommand : IRequest
             this.mediator = mediator;
         }
         
-        public async Task<Unit> Handle(AddOrEditTerritoryCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(TerritoryPutCommand request, CancellationToken cancellationToken)
         {
             var model = request.dto.Payload;
             
@@ -46,7 +44,7 @@ public class AddOrEditTerritoryCommand : IRequest
                 throw new BadRequestException("Territory code, name and country can't be empty!");
             }
 
-            if (await mediator.Send(new VerifyUserTerritoryQuery(model.TerritoryCode), cancellationToken) == false)
+            if (await mediator.Send(new TerritoryVerifyQuery(model.TerritoryCode), cancellationToken) == false)
             {
                 throw new NotAllowedException("Can't assign parent territory using your account!");
             }

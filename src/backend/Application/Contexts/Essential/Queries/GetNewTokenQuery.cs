@@ -33,16 +33,7 @@ public class GetNewTokenQuery : IRequest<ResponseDto<TokenDtoV1>>
         Request = dto;
         Payload = LoginDtoV1.Create(dto.Payload.UsernameOrEmail.ToLower(), dto.Payload.Password);
     }
-        
-    [Obsolete("Use other constructor which has one argument.", error:true)]
-    public GetNewTokenQuery(IRequestDto request, LoginDtoV1 payload)
-    {
-        Request = request;
-        Payload = payload;
 
-        Payload.UsernameOrEmail = payload.UsernameOrEmail.ToLower();
-    }
-    
     public class GetNewTokenHandler : IRequestHandler<GetNewTokenQuery, ResponseDto<TokenDtoV1>>
 {
     private readonly IEssentialDbContext context;
@@ -104,13 +95,13 @@ public class GetNewTokenQuery : IRequest<ResponseDto<TokenDtoV1>>
             
             await context.SaveChangesAsync(cancellationToken);
 
-            var session = await context.Sessions.FirstOrDefaultAsync(x => x.UserId == employee.UserId && x.DeviceId == request.Request.DeviceId && x.TerminationTs == null, cancellationToken);
+            var session = await context.UserSessions.FirstOrDefaultAsync(x => x.UserId == employee.UserId && x.DeviceId == request.Request.DeviceId && x.TerminationTs == null, cancellationToken);
             if (session is null)
             {
                 session = SessionDbo.Create(employee.UserId, request.Request.DeviceId);
-                await context.Sessions.AddAsync(session, cancellationToken);
+                await context.UserSessions.AddAsync(session, cancellationToken);
                 await context.SaveChangesAsync(cancellationToken);
-                await context.Logs.AddAsync(session.CreateLog("Login", "Created New Session."), cancellationToken);
+                await context.SessionLogs.AddAsync(session.CreateLog("Login", "Created New Session."), cancellationToken);
             }
 
             await context.SaveChangesAsync(cancellationToken);
@@ -132,9 +123,9 @@ public class GetNewTokenQuery : IRequest<ResponseDto<TokenDtoV1>>
             return ResponseDto.Create(TokenDtoV1.Create(token, employee.FirstName + " " + employee.LastName, " url"));
         }
         
-        if (currentUserInfo.GetSessionId() is not null)
+        if (currentUserInfo.SessionId is not null)
         {
-            var session = await context.Sessions.FirstOrDefaultAsync(x => x.SessionId == currentUserInfo.GetSessionId() && x.TerminationTs == null && x.DeviceId == request.Request.DeviceId, cancellationToken);
+            var session = await context.UserSessions.FirstOrDefaultAsync(x => x.SessionId == currentUserInfo.SessionId && x.TerminationTs == null && x.DeviceId == request.Request.DeviceId, cancellationToken);
             if (session is null) throw new NotAllowedException("Different Device!!! or session expired");
 
             //session.Logs.Add(new SessionLog("Verified."));

@@ -39,10 +39,10 @@ public class UserActivityNotification : INotification
                     return;    
                 }
             
-                var session = await context.Sessions.FirstAsync(x => x.SessionId == id, cancellationToken);
+                var session = await context.UserSessions.FirstAsync(x => x.SessionId == id, cancellationToken);
                 var log = session.CreateLog(notif.logContext, notif.logDetails);
             
-                await context.Logs.AddAsync(log, cancellationToken);
+                await context.SessionLogs.AddAsync(log, cancellationToken);
                 await context.SaveChangesAsync(cancellationToken);
             }
             catch (Exception e)

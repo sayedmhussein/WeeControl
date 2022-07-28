@@ -15,7 +15,7 @@ public class LogoutEmployeeCommand1Tests
     {
         using var testHelper = new TestHelper();
         var session = SessionDbo.Create(Guid.NewGuid(), "device");
-        await testHelper.EssentialDb.Sessions.AddAsync(session);
+        await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         //
         testHelper.CurrentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
@@ -25,7 +25,7 @@ public class LogoutEmployeeCommand1Tests
         var dto = RequestDto.Create("device", null, null);
         await handler.Handle(new LogoutCommand(dto), default);
         
-        Assert.NotNull(testHelper.EssentialDb.Sessions.First(x => x.SessionId == session.SessionId).TerminationTs);
+        Assert.NotNull(testHelper.EssentialDb.UserSessions.First(x => x.SessionId == session.SessionId).TerminationTs);
     }
 
     [Fact]
@@ -33,7 +33,7 @@ public class LogoutEmployeeCommand1Tests
     {
         using var testHelper = new TestHelper();
         var session = SessionDbo.Create(Guid.NewGuid(), "device");
-        await testHelper.EssentialDb.Sessions.AddAsync(session);
+        await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         testHelper.CurrentUserInfoMock.Setup(x => x.GetSessionId()).Returns(Guid.NewGuid());
     
@@ -48,7 +48,7 @@ public class LogoutEmployeeCommand1Tests
     {
         using var testHelper = new TestHelper();
         var session = SessionDbo.Create(Guid.NewGuid(), "device");
-        await testHelper.EssentialDb.Sessions.AddAsync(session);
+        await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         testHelper.CurrentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
     
@@ -64,7 +64,7 @@ public class LogoutEmployeeCommand1Tests
         using var testHelper = new TestHelper();
         var session = SessionDbo.Create(Guid.NewGuid(), "device");
         session.TerminationTs = DateTime.UtcNow;
-        await testHelper.EssentialDb.Sessions.AddAsync(session);
+        await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         testHelper.CurrentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
     
@@ -79,7 +79,7 @@ public class LogoutEmployeeCommand1Tests
     {
         using var testHelper = new TestHelper();
         var session = SessionDbo.Create(Guid.NewGuid(), "device");
-        await testHelper.EssentialDb.Sessions.AddAsync(session);
+        await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         //
         testHelper.CurrentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
@@ -95,7 +95,7 @@ public class LogoutEmployeeCommand1Tests
     {
         using var testHelper = new TestHelper();
         var session = SessionDbo.Create(Guid.NewGuid(), "device");
-        await testHelper.EssentialDb.Sessions.AddAsync(session);
+        await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         //
         testHelper.CurrentUserInfoMock.Setup(x => x.GetSessionId()).Returns((Guid?) null);

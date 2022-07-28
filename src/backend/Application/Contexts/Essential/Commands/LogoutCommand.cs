@@ -37,7 +37,7 @@ public class LogoutCommand : IRequest
             }
 
             var session =
-                await context.Sessions.FirstOrDefaultAsync(
+                await context.UserSessions.FirstOrDefaultAsync(
                     x => x.SessionId == currentUserInfo.GetSessionId() && 
                          x.DeviceId == request.request.DeviceId && 
                          x.TerminationTs == null, cancellationToken);
@@ -45,7 +45,7 @@ public class LogoutCommand : IRequest
             if (session is not null)
             {
                 session.TerminationTs = DateTime.UtcNow;
-                await context.Logs.AddAsync(session.CreateLog("Logout","Terminating session id:" + session.SessionId), cancellationToken);
+                await context.SessionLogs.AddAsync(session.CreateLog("Logout","Terminating session id:" + session.SessionId), cancellationToken);
             }
             else
             {

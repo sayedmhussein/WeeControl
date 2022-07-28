@@ -11,11 +11,16 @@ namespace WeeControl.Application.Interfaces;
 /// </summary>
 public interface ICurrentUserInfo
 {
-    Guid? GetSessionId();
+    IEnumerable<Claim> Claims { get; }
+    Guid? SessionId { get; }
     
-    IEnumerable<Claim> GetClaimList();
-        
-    Task<IEnumerable<string>> GetTerritoriesListAsync(CancellationToken cancellationToken);
+    
+    
+    
+    
+    [Obsolete("Use property instead of function.")]
+    Guid? GetSessionId();
 
-    Task LogUserActivityAsync(string context, string details, CancellationToken cancellationToken);
+    [Obsolete("Server will check for eligibility using mediator.")]
+    Task<IEnumerable<string>> GetTerritoriesListAsync(CancellationToken cancellationToken);
 }

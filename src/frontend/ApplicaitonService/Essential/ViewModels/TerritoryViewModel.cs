@@ -36,7 +36,7 @@ public class TerritoryViewModel : ViewModelBase
         
         if (response.IsSuccessStatusCode)
         {
-            var content = await response.Content.ReadFromJsonAsync<ResponseDto<IEnumerable<TerritoryModelDto>>>();
+            var content = await response.Content.ReadFromJsonAsync<ResponseDto<IEnumerable<TerritoryDto>>>();
             ListOfTerritories.Clear();
             var list = content?.Payload;
             if (list != null && list.Any())
@@ -73,7 +73,7 @@ public class TerritoryViewModel : ViewModelBase
                 RequestUri = new Uri(uriString),
                 Version = new Version("1.0"),
                 Method = HttpMethod.Put
-            }, TerritoryModelDto.Create(modelDto));
+            }, TerritoryDto.Create(modelDto));
 
         switch (response.StatusCode)
         {

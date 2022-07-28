@@ -34,8 +34,4 @@
     <ProjectReference Include="..\..\src\backend\Application\Application.csproj" />
     <ProjectReference Include="..\..\src\backend\Persistence\Persistence.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="System\Commands" />
-    <Folder Include="System\Notifications" />
-  </ItemGroup>
 </Project>

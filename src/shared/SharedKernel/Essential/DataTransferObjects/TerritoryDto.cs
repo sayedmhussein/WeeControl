@@ -2,11 +2,11 @@ using WeeControl.SharedKernel.Essential.Interfaces;
 
 namespace WeeControl.SharedKernel.Essential.DataTransferObjects;
 
-public class TerritoryModelDto : ITerritoryModel
+public class TerritoryDto : ITerritoryModel
 {
-    public static TerritoryModelDto Create(ITerritoryModel model)
+    public static TerritoryDto Create(ITerritoryModel model)
     {
-        return new TerritoryModelDto()
+        return new TerritoryDto()
         {
             TerritoryCode = model.TerritoryCode,
             TerritoryName = model.TerritoryName,

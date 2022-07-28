@@ -20,7 +20,7 @@ public class GetListOfUsersTests
         await testHelper.EssentialDb.Users.AddAsync(testHelper.GetUserDboWithEncryptedPassword("username3", "password"), default);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         var session = SessionDbo.Create(user.UserId, nameof(GetListOfUsersTests));
-        await testHelper.EssentialDb.Sessions.AddAsync(session);
+        await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         testHelper.CurrentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
         testHelper.CurrentUserInfoMock.Setup(x => x.GetTerritoriesListAsync(It.IsAny<CancellationToken>()))
@@ -41,7 +41,7 @@ public class GetListOfUsersTests
         await testHelper.EssentialDb.Users.AddAsync(testHelper.GetUserDboWithEncryptedPassword("username", "password", "TR3"), default);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         var session = SessionDbo.Create(user.UserId, nameof(GetListOfUsersTests));
-        await testHelper.EssentialDb.Sessions.AddAsync(session);
+        await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         testHelper.CurrentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
         testHelper.CurrentUserInfoMock.Setup(x => x.GetTerritoriesListAsync(It.IsAny<CancellationToken>()))

@@ -11,26 +11,26 @@ using WeeControl.SharedKernel.RequestsResponses;
 
 namespace WeeControl.Application.Contexts.Essential.Queries;
 
-public class GetListOfTerritoriesQuery : IRequest<IResponseDto<IEnumerable<TerritoryModelDto>>>
+public class TerritoryQuery : IRequest<IResponseDto<IEnumerable<TerritoryDto>>>
 {
-    private IEnumerable<string> TerritoryCode { get; }
+    private readonly ICollection<string> territoryCodes;
 
-    public GetListOfTerritoriesQuery()
+    public TerritoryQuery()
     {
-        TerritoryCode = null;
+        territoryCodes = null;
     }
     
-    public GetListOfTerritoriesQuery(string territoryCode)
+    public TerritoryQuery(string territoryCode)
     {
-        TerritoryCode = new List<string>() { territoryCode };
+        this.territoryCodes = new List<string>() { territoryCode };
     }
     
-    public GetListOfTerritoriesQuery(IEnumerable<string> territoryCodes)
+    public TerritoryQuery(ICollection<string> territoryCodes)
     {
-        TerritoryCode = territoryCodes;
+        this.territoryCodes = territoryCodes;
     }
     
-    public class GetListOfTerritoriesHandler : IRequestHandler<GetListOfTerritoriesQuery, IResponseDto<IEnumerable<TerritoryModelDto>>>
+    public class GetListOfTerritoriesHandler : IRequestHandler<TerritoryQuery, IResponseDto<IEnumerable<TerritoryDto>>>
     {
         private readonly IEssentialDbContext context;
         private readonly ICurrentUserInfo userInfo;
@@ -41,17 +41,17 @@ public class GetListOfTerritoriesQuery : IRequest<IResponseDto<IEnumerable<Terri
             this.userInfo = userInfo;
         }
         
-        public async Task<IResponseDto<IEnumerable<TerritoryModelDto>>> Handle(GetListOfTerritoriesQuery request, CancellationToken cancellationToken)
+        public async Task<IResponseDto<IEnumerable<TerritoryDto>>> Handle(TerritoryQuery request, CancellationToken cancellationToken)
         {
             //await userInfo.LogUserActivityAsync("Essential", "Getting List of Territories", cancellationToken);
 
-            var list = new List<TerritoryModelDto>();
+            var list = new List<TerritoryDto>();
 
-            if (request.TerritoryCode is null)
+            if (request.territoryCodes is null)
             {
                 await context.Territories.ForEachAsync(x =>
                 {
-                    list.Add(new TerritoryModelDto()
+                    list.Add(new TerritoryDto()
                     {
                         TerritoryCode = x.TerritoryId, ReportToId = x.ReportToId,
                         TerritoryName = x.TerritoryName, CountryCode = x.CountryCode
@@ -61,7 +61,7 @@ public class GetListOfTerritoriesQuery : IRequest<IResponseDto<IEnumerable<Terri
             else
             {
                 var ids = new List<string>();
-                ids.AddRange(request.TerritoryCode);
+                ids.AddRange(request.territoryCodes);
 
                 await context.Territories.Where(x => ids.Contains(x.ReportToId)).ForEachAsync(x =>
                 {
@@ -72,7 +72,7 @@ public class GetListOfTerritoriesQuery : IRequest<IResponseDto<IEnumerable<Terri
                 
                 await q.ForEachAsync(x =>
                 {
-                    list.Add(new TerritoryModelDto()
+                    list.Add(new TerritoryDto()
                     {
                         TerritoryCode = x.TerritoryId, ReportToId = x.ReportToId,
                         TerritoryName = x.TerritoryName, CountryCode = x.CountryCode
@@ -80,7 +80,7 @@ public class GetListOfTerritoriesQuery : IRequest<IResponseDto<IEnumerable<Terri
                 }, cancellationToken);
             }
 
-            return ResponseDto.Create<IEnumerable<TerritoryModelDto>>(list);
+            return ResponseDto.Create<IEnumerable<TerritoryDto>>(list);
         }
     }
 }

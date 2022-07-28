@@ -3,7 +3,6 @@ using System.Threading;
 using Moq;
 using WeeControl.Application.Contexts.Essential.Commands;
 using WeeControl.Application.Contexts.Essential.Queries;
-using WeeControl.Application.Contexts.System.Queries;
 using WeeControl.Application.Exceptions;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.Essential.Interfaces;
@@ -29,10 +28,6 @@ public class RegisterCommandTests
         var tokenDto = await GetHandler(testHelper).Handle(new RegisterCommand(cmdDto), default);
         
         Assert.NotEmpty(tokenDto.Payload.Token);
-        testHelper.MediatorMock.Verify(
-            mock => mock.Send(It.IsAny<VerifyRequestQuery>(), 
-                It.IsAny<CancellationToken>()), 
-            Times.Once);
     }
     
     [Fact]

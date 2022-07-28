@@ -79,10 +79,10 @@ public class GetNewTokenQueryTests
 
         var query = GetQuery("username", "password");
         await GetHandler(testHelper).Handle(query, default);
-        var count1 = await testHelper.EssentialDb.Sessions.CountAsync();
+        var count1 = await testHelper.EssentialDb.UserSessions.CountAsync();
         
         await GetHandler(testHelper).Handle(query, default);
-        var count2 = await testHelper.EssentialDb.Sessions.CountAsync();
+        var count2 = await testHelper.EssentialDb.UserSessions.CountAsync();
         
         Assert.Equal(count1, count2);
     }
@@ -98,15 +98,15 @@ public class GetNewTokenQueryTests
         var query = GetQuery("username", "password");
 
         await GetHandler(testHelper).Handle(query, default);
-        var count1 = await testHelper.EssentialDb.Sessions.CountAsync();
-        var session = await testHelper.EssentialDb.Sessions.FirstOrDefaultAsync(x => x.UserId == user.UserId);
+        var count1 = await testHelper.EssentialDb.UserSessions.CountAsync();
+        var session = await testHelper.EssentialDb.UserSessions.FirstOrDefaultAsync(x => x.UserId == user.UserId);
         
         Assert.NotNull(session);
         session.TerminationTs = DateTime.Now;
         await testHelper.EssentialDb.SaveChangesAsync(default);
         
         await GetHandler(testHelper).Handle(query, default);
-        var count2 = await testHelper.EssentialDb.Sessions.CountAsync();
+        var count2 = await testHelper.EssentialDb.UserSessions.CountAsync();
         
         Assert.Equal(count1 + 1, count2);
     }
@@ -121,11 +121,11 @@ public class GetNewTokenQueryTests
 
         var query1 = GetQuery("username", "password", "device 1");
         await GetHandler(testHelper).Handle(query1, default);
-        var session1 = await testHelper.EssentialDb.Sessions.FirstOrDefaultAsync(x => x.UserId == user.UserId && x.DeviceId == "device 1");
+        var session1 = await testHelper.EssentialDb.UserSessions.FirstOrDefaultAsync(x => x.UserId == user.UserId && x.DeviceId == "device 1");
 
         var query2 = GetQuery("username", "password", "device 2");
         await GetHandler(testHelper).Handle(query2, default);
-        var session2 = await testHelper.EssentialDb.Sessions.FirstOrDefaultAsync(x => x.UserId == user.UserId && x.DeviceId == "device 2");
+        var session2 = await testHelper.EssentialDb.UserSessions.FirstOrDefaultAsync(x => x.UserId == user.UserId && x.DeviceId == "device 2");
         
         Assert.NotNull(session1);
         Assert.NotNull(session2);
@@ -145,9 +145,9 @@ public class GetNewTokenQueryTests
         await GetHandler(testHelper).Handle(GetQuery("username", "password", "device"), 
             default);
         
-        var session = await testHelper.EssentialDb.Sessions.FirstOrDefaultAsync(x => x.UserId == user.UserId && x.DeviceId == "device");
+        var session = await testHelper.EssentialDb.UserSessions.FirstOrDefaultAsync(x => x.UserId == user.UserId && x.DeviceId == "device");
         Assert.NotNull(session);
-        testHelper.CurrentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
+        testHelper.CurrentUserInfoMock.Setup(x => x.SessionId).Returns(session.SessionId);
 
         var response = await GetHandler(testHelper).Handle(GetQuery("device"), default);
 
@@ -167,11 +167,11 @@ public class GetNewTokenQueryTests
         await GetHandler(testHelper).Handle(GetQuery("username", "password"), 
             default);
         
-        var session = await testHelper.EssentialDb.Sessions.FirstOrDefaultAsync(x => x.UserId == user.UserId && x.DeviceId == "device");
+        var session = await testHelper.EssentialDb.UserSessions.FirstOrDefaultAsync(x => x.UserId == user.UserId && x.DeviceId == "device");
         Assert.NotNull(session);
         session.TerminationTs = DateTime.Now;
         await testHelper.EssentialDb.SaveChangesAsync(default);
-        testHelper.CurrentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
+        testHelper.CurrentUserInfoMock.Setup(x => x.SessionId).Returns(session.SessionId);
 
         var query = GetQuery("device");
         await Assert.ThrowsAsync<NotAllowedException>(() => GetHandler(testHelper).Handle(query, default));
@@ -189,9 +189,9 @@ public class GetNewTokenQueryTests
         await GetHandler(testHelper).Handle(GetQuery("username", "password"), 
             default);
         
-        var session = await testHelper.EssentialDb.Sessions.FirstOrDefaultAsync(x => x.UserId == user.UserId && x.DeviceId == "device");
+        var session = await testHelper.EssentialDb.UserSessions.FirstOrDefaultAsync(x => x.UserId == user.UserId && x.DeviceId == "device");
         Assert.NotNull(session);
-        testHelper.CurrentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
+        testHelper.CurrentUserInfoMock.Setup(x => x.SessionId).Returns(session.SessionId);
 
         var query = GetQuery("device2");
         await Assert.ThrowsAsync<NotAllowedException>(() => GetHandler(testHelper).Handle(query, default));
