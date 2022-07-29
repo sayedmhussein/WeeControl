@@ -13,5 +13,7 @@ public class BuildingDbo
     [MinLength(-180), MaxLength(180)] public double? Longitude { get; set; }
 
     [StringLength(3, MinimumLength = 3)] public string BuildingType { get; set; }
+
+    public string OfficeId { get; set; }
     public virtual IEnumerable<UnitDbo> Units { get; set; }
 }

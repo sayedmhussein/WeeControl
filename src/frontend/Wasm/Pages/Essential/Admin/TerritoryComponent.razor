@@ -69,7 +69,13 @@
         <MudSpacer></MudSpacer>
     </MudPaper>
 
-    <MudTable T="@TerritoryModel" Loading="@ViewModel.IsLoading" Hover="true" Items="@ViewModel.ListOfTerritories" Filter="new Func<TerritoryModel,bool>(FilterFunc1)" @bind-SelectedItem="selectedItemFromTable">
+    <MudTable 
+        T="@TerritoryModel" 
+        Loading="@ViewModel.IsLoading" 
+        over="true" 
+        Items="@ViewModel.ListOfTerritories" 
+        Filter="new Func<TerritoryModel,bool>(FilterFunc1)" 
+        @bind-SelectedItem="selectedItemFromTable">
         <ToolBarContent>
             <MudText Typo="Typo.h6">Territories</MudText>
             <MudSpacer />
