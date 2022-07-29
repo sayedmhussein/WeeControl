@@ -41,7 +41,7 @@ public class RequestPerformanceBehaviour<TRequest, TResponse> :
             "WeeControl Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@UserId} {@Request}",
             name, 
             timer.ElapsedMilliseconds, 
-            currentUserService.GetSessionId(), 
+            currentUserService.SessionId, 
             request);
         return response;
     }

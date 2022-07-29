@@ -67,7 +67,7 @@ public class TerritoryViewModel : ViewModelBase
 
     public async Task AddOrUpdateTerritory(TerritoryModel modelDto)
     {
-        var response = await server.Send<object>(
+        var response = await server.Send(
             new HttpRequestMessage
             {
                 RequestUri = new Uri(uriString),

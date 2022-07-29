@@ -12,16 +12,16 @@ using WeeControl.SharedKernel.RequestsResponses;
 
 namespace WeeControl.Application.Contexts.Essential.Commands;
 
-public class RegisterCommand : IRequest<IResponseDto<TokenDtoV1>>
+public class UserRegisterCommand : IRequest<IResponseDto<TokenDtoV1>>
 {
     private readonly IRequestDto<UserRegisterDto> dto;
 
-    public RegisterCommand(IRequestDto<UserRegisterDto> dto)
+    public UserRegisterCommand(IRequestDto<UserRegisterDto> dto)
     {
         this.dto = dto;
     }
     
-    public class RegisterHandler : IRequestHandler<RegisterCommand, IResponseDto<TokenDtoV1>>
+    public class RegisterHandler : IRequestHandler<UserRegisterCommand, IResponseDto<TokenDtoV1>>
     {
         private readonly IEssentialDbContext context;
         private readonly IMediator mediator;
@@ -34,7 +34,7 @@ public class RegisterCommand : IRequest<IResponseDto<TokenDtoV1>>
             this.passwordSecurity = passwordSecurity;
         }
 
-        public async Task<IResponseDto<TokenDtoV1>> Handle(RegisterCommand cmd, CancellationToken cancellationToken)
+        public async Task<IResponseDto<TokenDtoV1>> Handle(UserRegisterCommand cmd, CancellationToken cancellationToken)
         {
             //await mediator.Send(new VerifyRequestQuery(cmd.dto), cancellationToken);
 
@@ -70,7 +70,7 @@ public class RegisterCommand : IRequest<IResponseDto<TokenDtoV1>>
             await context.SaveChangesAsync(cancellationToken);
 
             var request =
-                new GetNewTokenQuery(RequestDto.Create(LoginDtoV1.Create(user.Username, cmd.dto.Payload.Password),
+                new UserTokenQuery(RequestDto.Create(LoginDtoV1.Create(user.Username, cmd.dto.Payload.Password),
                     cmd.dto));
             var response = await mediator.Send(request, cancellationToken);
             return response;

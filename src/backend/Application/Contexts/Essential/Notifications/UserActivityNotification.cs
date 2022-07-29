@@ -33,7 +33,7 @@ public class UserActivityNotification : INotification
         {
             try
             {
-                var id = currentUserInfo.GetSessionId();
+                var id = currentUserInfo.SessionId;
                 if (id is null)
                 {
                     return;    

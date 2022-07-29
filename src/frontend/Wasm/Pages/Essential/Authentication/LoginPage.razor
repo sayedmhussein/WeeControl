@@ -22,34 +22,34 @@
         </EditForm>
     </MudCardContent>
     <MudCardActions>
-        <div class="d-flex">
-            <MudButton
-                Variant="Variant.Filled"
-                ButtonType="ButtonType.Submit"
-                Color="Color.Primary"
-                Disabled="@ViewModel.IsLoading" Size="Size.Large"
-                Class="ml-auto" @onclick="@ViewModel.LoginAsync">
-                @if (ViewModel.IsLoading)
-                {
-                    <span class="spinner-border spinner-border-sm mr-1"></span>
-                }
-                Login
-            </MudButton>
-        </div>
-        <div class="d-flex">
-            <MudButton
-                Variant="Variant.Filled"
-                Color="Color.Secondary"
-                Disabled="@ViewModel.IsLoading"
-                DisableElevation="true" Size="Size.Small"
-                Class="ml-auto align-content-sm-end" @onclick="@ViewModel.NavigateToForgotMyPasswordPage">Reset Password</MudButton>
-            <MudButton
-                Variant="Variant.Filled"
-                Color="Color.Info"
-                Disabled="@ViewModel.IsLoading"
-                DisableElevation="true" Size="Size.Small"
-                Class="ml-auto align-content-sm-end" @onclick="@ViewModel.NavigateToRegisterPage">Register</MudButton>
-        </div>
+        <MudButton
+            Variant="Variant.Filled"
+            ButtonType="ButtonType.Submit"
+            Color="Color.Primary"
+            Disabled="@ViewModel.IsLoading" 
+            Size="Size.Large"
+            Class="ml-auto" @onclick="@ViewModel.LoginAsync">
+            @if (ViewModel.IsLoading)
+            {
+                <span class="spinner-border spinner-border-sm mr-1"></span>
+            }
+            Login
+        </MudButton>
+        <MudSpacer></MudSpacer>
+        <MudButton
+            Variant="Variant.Outlined"
+            Color="Color.Default"
+            Disabled="@ViewModel.IsLoading"
+            DisableElevation="true" 
+            Size="Size.Small"
+            Class="ml-auto align-content-sm-end" @onclick="@ViewModel.NavigateToForgotMyPasswordPage">Reset Password</MudButton>
+        <MudButton
+            Variant="Variant.Outlined"
+            Color="Color.Default"
+            Disabled="@ViewModel.IsLoading"
+            DisableElevation="true" 
+            Size="Size.Small"
+            Class="ml-auto align-content-sm-end" @onclick="@ViewModel.NavigateToRegisterPage">Register</MudButton>
     </MudCardActions>
 </MudCard>
 

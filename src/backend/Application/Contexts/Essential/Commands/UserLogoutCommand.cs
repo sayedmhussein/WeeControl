@@ -9,16 +9,16 @@ using WeeControl.SharedKernel.Interfaces;
 
 namespace WeeControl.Application.Contexts.Essential.Commands;
 
-public class LogoutCommand : IRequest
+public class UserLogoutCommand : IRequest
 {
     private readonly IRequestDto request;
     
-    public LogoutCommand(IRequestDto request)
+    public UserLogoutCommand(IRequestDto request)
     {
         this.request = request;
     }
 
-    public class LogoutHandler : IRequestHandler<LogoutCommand>
+    public class LogoutHandler : IRequestHandler<UserLogoutCommand>
     {
         private readonly IEssentialDbContext context;
         private readonly ICurrentUserInfo currentUserInfo;
@@ -29,16 +29,16 @@ public class LogoutCommand : IRequest
             this.currentUserInfo = currentUserInfo;
         }
 
-        public async Task<Unit> Handle(LogoutCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UserLogoutCommand request, CancellationToken cancellationToken)
         {
-            if (currentUserInfo.GetSessionId() is null)
+            if (currentUserInfo.SessionId is null)
             {
                 throw new ArgumentNullException(nameof(currentUserInfo));
             }
 
             var session =
                 await context.UserSessions.FirstOrDefaultAsync(
-                    x => x.SessionId == currentUserInfo.GetSessionId() && 
+                    x => x.SessionId == currentUserInfo.SessionId && 
                          x.DeviceId == request.request.DeviceId && 
                          x.TerminationTs == null, cancellationToken);
 

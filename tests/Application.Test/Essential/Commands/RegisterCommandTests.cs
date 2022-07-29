@@ -20,12 +20,12 @@ public class RegisterCommandTests
         using var testHelper = new TestHelper();
         testHelper.MediatorMock
             .Setup(x => x.Send(
-                It.IsAny<GetNewTokenQuery>(), 
+                It.IsAny<UserTokenQuery>(), 
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync((ResponseDto<TokenDtoV1>) GetResponseDto());
         var cmdDto = GetRequestCommandDto();
         
-        var tokenDto = await GetHandler(testHelper).Handle(new RegisterCommand(cmdDto), default);
+        var tokenDto = await GetHandler(testHelper).Handle(new UserRegisterCommand(cmdDto), default);
         
         Assert.NotEmpty(tokenDto.Payload.Token);
     }
@@ -36,14 +36,14 @@ public class RegisterCommandTests
         using var testHelper = new TestHelper();
         testHelper.MediatorMock
             .Setup(x => x.Send(
-                It.IsAny<GetNewTokenQuery>(), 
+                It.IsAny<UserTokenQuery>(), 
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync((ResponseDto<TokenDtoV1>) GetResponseDto());
         var cmdDto = GetRequestCommandDto();
         cmdDto.Payload.Email = cmdDto.Payload.Email.ToUpper();
         cmdDto.Payload.Username = cmdDto.Payload.Username.ToUpper();
 
-        await GetHandler(testHelper).Handle(new RegisterCommand(cmdDto), default);
+        await GetHandler(testHelper).Handle(new UserRegisterCommand(cmdDto), default);
         
         var email = testHelper.EssentialDb.Users.First().Email.Where(char.IsLetter);
         Assert.True(email.All(char.IsLower));
@@ -58,12 +58,12 @@ public class RegisterCommandTests
         using var testHelper = new TestHelper();
         testHelper.MediatorMock
             .Setup(x => x.Send(
-                It.IsAny<GetNewTokenQuery>(), 
+                It.IsAny<UserTokenQuery>(), 
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync((ResponseDto<TokenDtoV1>) GetResponseDto());
         var cmdDto = GetRequestCommandDto();
 
-        await GetHandler(testHelper).Handle(new RegisterCommand(cmdDto), default);
+        await GetHandler(testHelper).Handle(new UserRegisterCommand(cmdDto), default);
         var savedPassword = testHelper.EssentialDb.Users.First().Password;
 
         Assert.NotEqual(cmdDto.Payload.Password, savedPassword);
@@ -75,14 +75,14 @@ public class RegisterCommandTests
         using var testHelper = new TestHelper();
         testHelper.MediatorMock
             .Setup(x => x.Send(
-                It.IsAny<GetNewTokenQuery>(), 
+                It.IsAny<UserTokenQuery>(), 
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync((ResponseDto<TokenDtoV1>) GetResponseDto());
         var cmdDto = GetRequestCommandDto();
 
-        await GetHandler(testHelper).Handle(new RegisterCommand(cmdDto), default);
+        await GetHandler(testHelper).Handle(new UserRegisterCommand(cmdDto), default);
 
-        await Assert.ThrowsAsync<ConflictFailureException>(() => GetHandler(testHelper).Handle(new RegisterCommand(cmdDto), default));
+        await Assert.ThrowsAsync<ConflictFailureException>(() => GetHandler(testHelper).Handle(new UserRegisterCommand(cmdDto), default));
     }
 
     [Theory]
@@ -97,12 +97,12 @@ public class RegisterCommandTests
         cmdDto.Payload.Username = username;
         cmdDto.Payload.Password = password;
 
-        await Assert.ThrowsAnyAsync<ValidationException>(() => GetHandler(testHelper).Handle(new RegisterCommand(cmdDto), default));
+        await Assert.ThrowsAnyAsync<ValidationException>(() => GetHandler(testHelper).Handle(new UserRegisterCommand(cmdDto), default));
     }
 
-    private RegisterCommand.RegisterHandler GetHandler(TestHelper testHelper)
+    private UserRegisterCommand.RegisterHandler GetHandler(TestHelper testHelper)
     {
-        return new RegisterCommand.RegisterHandler
+        return new UserRegisterCommand.RegisterHandler
         (
             testHelper.EssentialDb,
             testHelper.MediatorMock.Object,

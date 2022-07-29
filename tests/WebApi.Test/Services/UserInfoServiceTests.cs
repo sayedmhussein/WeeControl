@@ -57,7 +57,7 @@ public class UserInfoServiceTests : IDisposable
     {
         var service = new UserInfoService(httpContextMock.Object, null);
 
-        var session = service.GetSessionId();
+        var session = service.SessionId;
 
         Assert.NotNull(session);
         Assert.Equal(sessionClaim.Value, ((Guid)session).ToString());
@@ -69,7 +69,7 @@ public class UserInfoServiceTests : IDisposable
         httpContextMock.Setup(x => x.HttpContext.User.Claims).Returns(new List<Claim>());
         var service = new UserInfoService(httpContextMock.Object, null);
 
-        var session = service.GetSessionId();
+        var session = service.SessionId;
 
         Assert.Null(session);
     }

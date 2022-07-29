@@ -1,3 +1,6 @@
+using System.Security.Claims;
+using WeeControl.SharedKernel;
+
 namespace WeeControl.Frontend.ApplicationService;
 
 public static class Pages
@@ -31,6 +34,14 @@ public static class Pages
         public static class Admin
         {
             public const string Page = "Administrator";
+        }
+    }
+    
+    public static class Elevator
+    {
+        public static class Field
+        {
+            public const string FieldPage = nameof(ClaimsValues.ClaimTypes.Field);
         }
     }
 }

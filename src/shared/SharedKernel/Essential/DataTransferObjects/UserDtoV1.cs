@@ -10,4 +10,7 @@ public class UserDtoV1
     public string Email { get; set; } = string.Empty;
     public string Username { get; set; } = string.Empty;
     public string TerritoryCode { get; set; } = string.Empty;
+    
+    public ICollection<ClaimDto> Claims { get; set; } = new List<ClaimDto>();
+    public ICollection<SessionDto> Sessions { get; set; } = new List<SessionDto>();
 }

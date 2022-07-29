@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -11,6 +12,7 @@ using WeeControl.SharedKernel.RequestsResponses;
 
 namespace WeeControl.Application.Contexts.Essential.Queries;
 
+[Obsolete]
 public class GetUserDetailsQuery : IRequest<ResponseDto<UserDetailedDtoV1>>
 {
     private string Username { get; }

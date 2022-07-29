@@ -55,17 +55,17 @@ public class ResetPasswordCommandTests
             handler.Handle(command, default));
     }
 
-    private ForgotMyPasswordCommand.ForgotMyPasswordHandler GetHandler(TestHelper testHelper)
+    private UserForgotMyPasswordCommand.ForgotMyPasswordHandler GetHandler(TestHelper testHelper)
     {
-        return new ForgotMyPasswordCommand.ForgotMyPasswordHandler(
+        return new UserForgotMyPasswordCommand.ForgotMyPasswordHandler(
             testHelper.EssentialDb, 
             testHelper.MediatorMock.Object, 
             testHelper.PasswordSecurity);
     }
 
-    private ForgotMyPasswordCommand GetCommand(string email, string username, string device)
+    private UserForgotMyPasswordCommand GetCommand(string email, string username, string device)
     {
-        return new ForgotMyPasswordCommand(
+        return new UserForgotMyPasswordCommand(
             RequestDto.Create(
                 ForgotMyPasswordDtoV1.Create(email, username), device, null, null));
     }

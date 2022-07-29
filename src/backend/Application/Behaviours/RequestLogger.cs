@@ -9,13 +9,11 @@ namespace WeeControl.Application.Behaviours;
 
 public class RequestLogger<TRequest> : IRequestPreProcessor<TRequest>
 {
-    private readonly ICurrentUserInfo currentUserService;
     private readonly IMediator mediator;
 
 
-    public RequestLogger(ICurrentUserInfo currentUserService, IMediator mediator)
+    public RequestLogger(IMediator mediator)
     {
-        this.currentUserService = currentUserService;
         this.mediator = mediator;
     }
 

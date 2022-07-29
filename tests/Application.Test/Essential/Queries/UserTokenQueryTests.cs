@@ -8,7 +8,7 @@ using Xunit;
 
 namespace WeeControl.Application.Test.Essential.Queries;
 
-public class GetNewTokenQueryTests
+public class UserTokenQueryTests
 {
     #region Username and Password
     [Theory]
@@ -198,10 +198,10 @@ public class GetNewTokenQueryTests
     }
     #endregion
 
-    private GetNewTokenQuery.GetNewTokenHandler GetHandler(TestHelper testHelper)
+    private UserTokenQuery.UserTokenHandler GetHandler(TestHelper testHelper)
     {
         testHelper.ConfigurationMock.Setup(x => x["Jwt:Key"]).Returns(new string('a', 30));
-        return new GetNewTokenQuery.GetNewTokenHandler(
+        return new UserTokenQuery.UserTokenHandler(
             testHelper.EssentialDb, 
             testHelper.JwtService, 
             testHelper.MediatorMock.Object, 
@@ -210,14 +210,14 @@ public class GetNewTokenQueryTests
             testHelper.PasswordSecurity);
     }
     
-    private GetNewTokenQuery GetQuery(string emailOrUsername, string password, string device = "device")
+    private UserTokenQuery GetQuery(string emailOrUsername, string password, string device = "device")
     {
-        return new GetNewTokenQuery(RequestDto.Create(
+        return new UserTokenQuery(RequestDto.Create(
             LoginDtoV1.Create(emailOrUsername, password),  device, 0, 0));
     }
     
-    private GetNewTokenQuery GetQuery(string device)
+    private UserTokenQuery GetQuery(string device)
     {
-        return new GetNewTokenQuery(RequestDto.Create(device, 0, 0));
+        return new UserTokenQuery(RequestDto.Create(device, 0, 0));
     }
 }

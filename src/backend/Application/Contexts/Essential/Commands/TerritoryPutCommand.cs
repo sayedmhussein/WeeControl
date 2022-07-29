@@ -46,16 +46,15 @@ public class TerritoryPutCommand : IRequest
 
             if (await mediator.Send(new TerritoryVerifyQuery(model.TerritoryCode), cancellationToken) == false)
             {
-                throw new NotAllowedException("Can't assign parent territory using your account!");
+                throw new NotAllowedException("You can't take this action using your account!");
             }
 
             if (essentialDbContext.Territories.FirstOrDefault(x => x.TerritoryId == model.TerritoryCode) != null)
             {
                 throw new ConflictFailureException("Same territory exist!");
             }
-
-            var dbo = TerritoryDbo.Create(model);
-            await essentialDbContext.Territories.AddAsync(dbo, cancellationToken);
+            
+            await essentialDbContext.Territories.AddAsync(TerritoryDbo.Create(model), cancellationToken);
             await essentialDbContext.SaveChangesAsync(cancellationToken);
             
             return Unit.Value;

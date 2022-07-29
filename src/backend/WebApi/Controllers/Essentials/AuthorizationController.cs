@@ -33,7 +33,7 @@ public class AuthorizationController : Controller
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     public async Task<ActionResult<ResponseDto<TokenDtoV1>>> LoginV1([FromBody] RequestDto<LoginDtoV1> dto)
     {
-        var query = new GetNewTokenQuery(dto);
+        var query = new UserTokenQuery(dto);
         var response = await mediator.Send(query);
 
         return Ok(response);
@@ -51,7 +51,7 @@ public class AuthorizationController : Controller
     [ProducesResponseType((int)HttpStatusCode.Forbidden)]
     public async Task<ActionResult<ResponseDto<TokenDtoV1>>> RefreshTokenV1([FromBody] RequestDto dto)
     {
-        var query = new GetNewTokenQuery(dto);
+        var query = new UserTokenQuery(dto);
         var response = await mediator.Send(query);
 
         return Ok(response);
@@ -64,7 +64,7 @@ public class AuthorizationController : Controller
     [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
     public async Task<ActionResult<ResponseDto>> LogoutV1([FromBody] RequestDto dto)
     {
-        var command = new LogoutCommand(dto);
+        var command = new UserLogoutCommand(dto);
         var response = await mediator.Send(command);
 
         return NotFound(response);

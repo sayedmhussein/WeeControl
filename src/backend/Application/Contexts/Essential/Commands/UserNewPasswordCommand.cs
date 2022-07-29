@@ -8,20 +8,20 @@ using WeeControl.SharedKernel.Interfaces;
 
 namespace WeeControl.Application.Contexts.Essential.Commands;
 
-public class SetNewPasswordCommand : IRequest
+public class UserNewPasswordCommand : IRequest
 {
     private IRequestDto Request { get; }
     private string OldPassword { get; }
     private string NewPassword { get; }
     
-    public SetNewPasswordCommand(IRequestDto dto, string oldPassword, string newPassword)
+    public UserNewPasswordCommand(IRequestDto dto, string oldPassword, string newPassword)
     {
         Request = dto;
         OldPassword = oldPassword;
         NewPassword = newPassword;
     }
     
-    public class SetNewPasswordHandler : IRequestHandler<SetNewPasswordCommand>
+    public class SetNewPasswordHandler : IRequestHandler<UserNewPasswordCommand>
     {
         private readonly IEssentialDbContext context;
         private readonly ICurrentUserInfo currentUserInfo;
@@ -34,14 +34,14 @@ public class SetNewPasswordCommand : IRequest
             this.passwordSecurity = passwordSecurity;
         }
     
-        public async Task<Unit> Handle(SetNewPasswordCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UserNewPasswordCommand request, CancellationToken cancellationToken)
         {
             if (string.IsNullOrWhiteSpace(request.OldPassword) || string.IsNullOrWhiteSpace(request.NewPassword))
             {
                 throw new BadRequestException("Invalid old and new password supplied");
             }
             
-            var session = await context.UserSessions.FirstOrDefaultAsync(x => x.SessionId == currentUserInfo.GetSessionId(), cancellationToken);
+            var session = await context.UserSessions.FirstOrDefaultAsync(x => x.SessionId == currentUserInfo.SessionId, cancellationToken);
             var user = await context.Users.FirstOrDefaultAsync(x => x.UserId == session.UserId && x.Password == passwordSecurity.Hash(request.OldPassword), cancellationToken);
 
             if (user is null)

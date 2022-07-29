@@ -35,7 +35,7 @@ public class UserController : Controller
     [ProducesResponseType((int)HttpStatusCode.Conflict)]
     public async Task<ActionResult<ResponseDto<TokenDtoV1>>> RegisterV1([FromBody] RequestDto<UserRegisterDto> dto)
     {
-        var command = new RegisterCommand(dto);
+        var command = new UserRegisterCommand(dto);
         var response = await mediator.Send(command);
 
         return Ok(response);
@@ -46,7 +46,7 @@ public class UserController : Controller
     [MapToApiVersion("1.0")]
     public async Task<ActionResult<ResponseDto<IEnumerable<UserDtoV1>>>> GetListOfUsersV1()
     {
-        var command = new GetListOfUsersQuery();
+        var command = new UserQuery();
         var response = await mediator.Send(command);
 
         return Ok(response);
@@ -72,7 +72,7 @@ public class UserController : Controller
     [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
     public async Task<ActionResult> SetNewPasswordV1([FromBody] RequestDto<SetNewPasswordDtoV1> dto)
     {
-        var command = new SetNewPasswordCommand(dto, dto.Payload.OldPassword, dto.Payload.NewPassword);
+        var command = new UserNewPasswordCommand(dto, dto.Payload.OldPassword, dto.Payload.NewPassword);
         var response = await mediator.Send(command);
 
         return Ok();
@@ -85,7 +85,7 @@ public class UserController : Controller
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<ActionResult> ResetPasswordV1([FromBody] RequestDto<ForgotMyPasswordDtoV1> dto)
     {
-        var command = new ForgotMyPasswordCommand(dto);
+        var command = new UserForgotMyPasswordCommand(dto);
         await mediator.Send(command);
 
         return Ok();

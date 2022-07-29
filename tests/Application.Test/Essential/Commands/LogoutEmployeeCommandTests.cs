@@ -18,12 +18,12 @@ public class LogoutEmployeeCommand1Tests
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         //
-        testHelper.CurrentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
+        testHelper.CurrentUserInfoMock.Setup(x => x.SessionId).Returns(session.SessionId);
         //
-        var handler = new LogoutCommand.LogoutHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object);
+        var handler = new UserLogoutCommand.LogoutHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object);
 
         var dto = RequestDto.Create("device", null, null);
-        await handler.Handle(new LogoutCommand(dto), default);
+        await handler.Handle(new UserLogoutCommand(dto), default);
         
         Assert.NotNull(testHelper.EssentialDb.UserSessions.First(x => x.SessionId == session.SessionId).TerminationTs);
     }
@@ -35,12 +35,12 @@ public class LogoutEmployeeCommand1Tests
         var session = SessionDbo.Create(Guid.NewGuid(), "device");
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
-        testHelper.CurrentUserInfoMock.Setup(x => x.GetSessionId()).Returns(Guid.NewGuid());
+        testHelper.CurrentUserInfoMock.Setup(x => x.SessionId).Returns(Guid.NewGuid());
     
-        var handler = new LogoutCommand.LogoutHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object);
+        var handler = new UserLogoutCommand.LogoutHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object);
     
         await Assert.ThrowsAsync<NotAllowedException>(() =>
-            handler.Handle(new LogoutCommand(RequestDto.Create("device", 0,0)), default));
+            handler.Handle(new UserLogoutCommand(RequestDto.Create("device", 0,0)), default));
     }
         
     [Fact]
@@ -50,12 +50,12 @@ public class LogoutEmployeeCommand1Tests
         var session = SessionDbo.Create(Guid.NewGuid(), "device");
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
-        testHelper.CurrentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
+        testHelper.CurrentUserInfoMock.Setup(x => x.SessionId).Returns(session.SessionId);
     
-        var handler = new LogoutCommand.LogoutHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object);
+        var handler = new UserLogoutCommand.LogoutHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object);
     
         await Assert.ThrowsAsync<NotAllowedException>(() =>
-            handler.Handle(new LogoutCommand(RequestDto.Create("Another device", 0, 0)), default));
+            handler.Handle(new UserLogoutCommand(RequestDto.Create("Another device", 0, 0)), default));
     }
         
     [Fact]
@@ -66,12 +66,12 @@ public class LogoutEmployeeCommand1Tests
         session.TerminationTs = DateTime.UtcNow;
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
-        testHelper.CurrentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
+        testHelper.CurrentUserInfoMock.Setup(x => x.SessionId).Returns(session.SessionId);
     
-        var handler = new LogoutCommand.LogoutHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object);
+        var handler = new UserLogoutCommand.LogoutHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object);
     
         await Assert.ThrowsAsync<NotAllowedException>(() =>
-            handler.Handle(new LogoutCommand(RequestDto.Create("device", 0, 0)), default));
+            handler.Handle(new UserLogoutCommand(RequestDto.Create("device", 0, 0)), default));
     }
     
     [Fact]
@@ -82,12 +82,12 @@ public class LogoutEmployeeCommand1Tests
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         //
-        testHelper.CurrentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
+        testHelper.CurrentUserInfoMock.Setup(x => x.SessionId).Returns(session.SessionId);
         //
-        var handler = new LogoutCommand.LogoutHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object);
+        var handler = new UserLogoutCommand.LogoutHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object);
         
         await Assert.ThrowsAsync<NotAllowedException>(() =>
-            handler.Handle(new LogoutCommand(RequestDto.Create(string.Empty, 0, 0)), default));
+            handler.Handle(new UserLogoutCommand(RequestDto.Create(string.Empty, 0, 0)), default));
     }
     
     [Fact]
@@ -98,11 +98,11 @@ public class LogoutEmployeeCommand1Tests
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         //
-        testHelper.CurrentUserInfoMock.Setup(x => x.GetSessionId()).Returns((Guid?) null);
+        testHelper.CurrentUserInfoMock.Setup(x => x.SessionId).Returns((Guid?) null);
         //
-        var handler = new LogoutCommand.LogoutHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object);
+        var handler = new UserLogoutCommand.LogoutHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object);
         
         await Assert.ThrowsAsync<ArgumentNullException>(() =>
-            handler.Handle(new LogoutCommand(RequestDto.Create("device", 0, 0)), default));
+            handler.Handle(new UserLogoutCommand(RequestDto.Create("device", 0, 0)), default));
     }
 }

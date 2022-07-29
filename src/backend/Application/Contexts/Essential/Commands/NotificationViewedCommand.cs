@@ -37,7 +37,7 @@ public class NotificationViewedCommand : IRequest
                 throw new NullReferenceException();
             }
             
-            item.ViewedTs = DateTime.UtcNow;
+            item.ReadTs = DateTime.UtcNow;
             await essentialDbContext.SaveChangesAsync(default);
 
             return Unit.Value;

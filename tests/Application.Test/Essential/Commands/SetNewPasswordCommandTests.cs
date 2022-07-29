@@ -25,10 +25,10 @@ public class SetNewPasswordCommandTests
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
 
-        testHelper.CurrentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
+        testHelper.CurrentUserInfoMock.Setup(x => x.SessionId).Returns(session.SessionId);
 
-        var handler = new SetNewPasswordCommand.SetNewPasswordHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object, testHelper.PasswordSecurity);
-        await handler.Handle(new SetNewPasswordCommand(requestDto, "password", "NewPassword"), default);
+        var handler = new UserNewPasswordCommand.SetNewPasswordHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object, testHelper.PasswordSecurity);
+        await handler.Handle(new UserNewPasswordCommand(requestDto, "password", "NewPassword"), default);
         
         Assert.Equal(testHelper.PasswordSecurity.Hash("NewPassword"), user.Password);
     }
@@ -46,11 +46,11 @@ public class SetNewPasswordCommandTests
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
 
-        testHelper.CurrentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
+        testHelper.CurrentUserInfoMock.Setup(x => x.SessionId).Returns(session.SessionId);
 
-        var handler = new SetNewPasswordCommand.SetNewPasswordHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object, testHelper.PasswordSecurity);
+        var handler = new UserNewPasswordCommand.SetNewPasswordHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object, testHelper.PasswordSecurity);
         
-        await Assert.ThrowsAsync<NotFoundException>(() => handler.Handle(new SetNewPasswordCommand(requestDto, "OtherPassword", "NewPassword"), default));
+        await Assert.ThrowsAsync<NotFoundException>(() => handler.Handle(new UserNewPasswordCommand(requestDto, "OtherPassword", "NewPassword"), default));
     }
     
     [Theory]
@@ -60,9 +60,9 @@ public class SetNewPasswordCommandTests
     public async void WhenInvalidCommandParameters(string oldPassword, string newPassword)
     {
         using var testHelper = new TestHelper();
-        var handler = new SetNewPasswordCommand.SetNewPasswordHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object, testHelper.PasswordSecurity);
+        var handler = new UserNewPasswordCommand.SetNewPasswordHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object, testHelper.PasswordSecurity);
 
         await Assert.ThrowsAsync<BadRequestException>(() =>
-            handler.Handle(new SetNewPasswordCommand(requestDto, oldPassword, newPassword), default));
+            handler.Handle(new UserNewPasswordCommand(requestDto, oldPassword, newPassword), default));
     }
 }

@@ -10,16 +10,16 @@ using WeeControl.SharedKernel.Interfaces;
 
 namespace WeeControl.Application.Contexts.Essential.Commands;
 
-public class ForgotMyPasswordCommand : IRequest
+public class UserForgotMyPasswordCommand : IRequest
 {
     private readonly IRequestDto<ForgotMyPasswordDtoV1> dto;
 
-    public ForgotMyPasswordCommand(IRequestDto<ForgotMyPasswordDtoV1> dto)
+    public UserForgotMyPasswordCommand(IRequestDto<ForgotMyPasswordDtoV1> dto)
     {
         this.dto = dto;
     }
     
-    public class ForgotMyPasswordHandler : IRequestHandler<ForgotMyPasswordCommand>
+    public class ForgotMyPasswordHandler : IRequestHandler<UserForgotMyPasswordCommand>
     {
         private readonly IEssentialDbContext context;
         private readonly IMediator mediator;
@@ -32,7 +32,7 @@ public class ForgotMyPasswordCommand : IRequest
             this.passwordSecurity = passwordSecurity;
         }
     
-        public async Task<Unit> Handle(ForgotMyPasswordCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UserForgotMyPasswordCommand request, CancellationToken cancellationToken)
         {
             if (string.IsNullOrWhiteSpace(request.dto.DeviceId) ||
                 string.IsNullOrWhiteSpace(request.dto.Payload.Email)||

@@ -27,30 +27,29 @@ public class NotificationQuery : IRequest<ResponseDto<IEnumerable<NotificationDt
         public async Task<ResponseDto<IEnumerable<NotificationDto>>> Handle(NotificationQuery request, CancellationToken cancellationToken)
         {
             var user = await 
-                essentialDbContext.UserSessions.FirstOrDefaultAsync(x => x.SessionId == userInfo.GetSessionId(),
+                essentialDbContext.UserSessions.FirstOrDefaultAsync(
+                    x => x.SessionId == userInfo.SessionId,
                     cancellationToken);
+            
             if (user is null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(user));
             }
 
-            var _list = new List<NotificationDto>();
-
-            var list = essentialDbContext.UserNotifications
-                .Where(x => x.UserId == user.UserId && x.ViewedTs == null)
-                .ToList();
-            foreach (var dbo in list)
+            var listDbo = essentialDbContext.UserNotifications
+                .Where(x => x.UserId == user.UserId && x.ReadTs == null)
+                ;//.ToList();
+            
+            var listDto = listDbo.Select(dbo => new NotificationDto()
             {
-                _list.Add(new NotificationDto()
-                {
-                    NotificationId = dbo.NotificationId,
-                    Subject = dbo.Subject,
-                    Details = dbo.Details,
-                    Link = dbo.Link
-                });
-            }
+                NotificationId = dbo.NotificationId, 
+                Subject = dbo.Subject, 
+                Details = dbo.Details, 
+                Link = dbo.Link,
+                ReadTs = dbo.ReadTs
+            }).ToList();
 
-            return ResponseDto.Create<IEnumerable<NotificationDto>>(_list);
+            return ResponseDto.Create<IEnumerable<NotificationDto>>(listDto);
         }
     }
 }

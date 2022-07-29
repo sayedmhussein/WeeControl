@@ -34,7 +34,7 @@ public class TerritoryVerifyQueryTests
             .Returns(testHelper.EssentialDb.UserSessions.First().SessionId);
 
         testHelper.MediatorMock
-            .Setup(x => x.Send(new TerritoryQuery("code"), default))
+            .Setup(x => x.Send(It.IsAny<TerritoryQuery>(), default))
             .ReturnsAsync(ResponseDto
                 .Create<IEnumerable<TerritoryDto>>(
                     new List<TerritoryDto>()

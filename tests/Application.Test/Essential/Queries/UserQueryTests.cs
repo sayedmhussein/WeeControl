@@ -8,7 +8,7 @@ using Xunit;
 
 namespace WeeControl.Application.Test.Essential.Queries;
 
-public class GetListOfUsersTests 
+public class UserQueryTests 
 {
     [Fact]
     public async void Success()
@@ -19,14 +19,14 @@ public class GetListOfUsersTests
         await testHelper.EssentialDb.Users.AddAsync(testHelper.GetUserDboWithEncryptedPassword("username2", "password"), default);
         await testHelper.EssentialDb.Users.AddAsync(testHelper.GetUserDboWithEncryptedPassword("username3", "password"), default);
         await testHelper.EssentialDb.SaveChangesAsync(default);
-        var session = SessionDbo.Create(user.UserId, nameof(GetListOfUsersTests));
+        var session = SessionDbo.Create(user.UserId, nameof(UserQueryTests));
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
-        testHelper.CurrentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
+        testHelper.CurrentUserInfoMock.Setup(x => x.SessionId).Returns(session.SessionId);
         testHelper.CurrentUserInfoMock.Setup(x => x.GetTerritoriesListAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(new List<string>() {user.TerritoryId});
 
-        var handler = await new GetListOfUsersQuery.GetListOfUsersHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object).Handle(new GetListOfUsersQuery(),default);
+        var handler = await new UserQuery.UserHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object, testHelper.MediatorMock.Object).Handle(new UserQuery(),default);
         
         Assert.Equal(3, handler.Payload.Count());
     }
@@ -40,14 +40,14 @@ public class GetListOfUsersTests
         await testHelper.EssentialDb.Users.AddAsync(testHelper.GetUserDboWithEncryptedPassword("username", "password", "TR2"), default);
         await testHelper.EssentialDb.Users.AddAsync(testHelper.GetUserDboWithEncryptedPassword("username", "password", "TR3"), default);
         await testHelper.EssentialDb.SaveChangesAsync(default);
-        var session = SessionDbo.Create(user.UserId, nameof(GetListOfUsersTests));
+        var session = SessionDbo.Create(user.UserId, nameof(UserQueryTests));
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
-        testHelper.CurrentUserInfoMock.Setup(x => x.GetSessionId()).Returns(session.SessionId);
+        testHelper.CurrentUserInfoMock.Setup(x => x.SessionId).Returns(session.SessionId);
         testHelper.CurrentUserInfoMock.Setup(x => x.GetTerritoriesListAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(new List<string>() {user.TerritoryId, "TR1"});
 
-        var handler = await new GetListOfUsersQuery.GetListOfUsersHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object).Handle(new GetListOfUsersQuery(),default);
+        var handler = await new UserQuery.UserHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object, testHelper.MediatorMock.Object).Handle(new UserQuery(),default);
         
         Assert.Single(handler.Payload);
     }
