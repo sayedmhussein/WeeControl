@@ -2,12 +2,11 @@ namespace WeeControl.SharedKernel.Elevator.Enums;
 
 public enum ContractTypeEnum
 {
-    Undefied = 0,
-    NE = 1,
-    Bex = 2,
-    S = 3,
-    T = 4,
-    OM = 5,
-    F = 6,
-    OL = 7
+    Undefined = 0,
+    NewInstallation = 1,
+    Modernization = 3,
+    Repair = 4,
+    FreeService = 5,
+    ServiceContractM = 6,
+    ServiceContractL = 7
 }

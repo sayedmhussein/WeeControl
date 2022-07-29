@@ -5,7 +5,7 @@ public enum UnitStateTypeEnum
     Offer,
     Released,
     Shipped,
-    Warehouse,
+    Stored,
     OnSite,
     UnderInstallation,
     Installed,

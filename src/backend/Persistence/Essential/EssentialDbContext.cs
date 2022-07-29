@@ -10,7 +10,6 @@ namespace WeeControl.Persistence.Essential
         public DbSet<IdentityDbo> UserIdentities { get; set; }
         public DbSet<ClaimDbo> UserClaims { get; set; }
         public DbSet<NotificationDbo> UserNotifications { get; set; }
-
         public DbSet<SessionDbo> UserSessions { get; set; }
         public DbSet<SessionLogDbo> SessionLogs { get; set; }
         public DbSet<TerritoryDbo> Territories { get; set; }

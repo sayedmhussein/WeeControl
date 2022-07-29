@@ -16,7 +16,6 @@
 
     <ItemGroup>
       <Folder Include="Elevator\DataTransferObjects" />
-      <Folder Include="Elevator\Interfaces" />
     </ItemGroup>
 
 </Project>
