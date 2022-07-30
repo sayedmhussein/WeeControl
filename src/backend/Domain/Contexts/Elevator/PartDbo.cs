@@ -1,15 +1,39 @@
+using System;
 using System.ComponentModel.DataAnnotations;
+using WeeControl.SharedKernel.Elevator.Enums;
+using WeeControl.SharedKernel.Elevator.Interfaces;
 
 namespace WeeControl.Domain.Contexts.Elevator;
 
-public class PartDbo
+public class PartDbo : IPartModel
 {
     [Key]
-    public string PartNumber { get; set; }
+    public Guid PartId { get; set; } = Guid.NewGuid();
+    
+    public Guid? ReplacedById { get; set; }
+    
+    public Guid VendorId { get; set; }
+    public VendorDbo Vendor { get; set; }
 
+    [StringLength(50)]
+    [Required]
+    public string PartNo { get; set; }
+    
+    [StringLength(50)]
+    [Required]
     public string PartName { get; set; }
 
-    public string PartReplacedBy { get; set; }
+    public bool IsObsolute { get; set; } = false;
+    
+    [Required]
+    public PartTypeEnum PartType { get; set; }
 
-    public decimal BaseCost { get; set; }
+    [StringLength(255)]
+    public string Description { get; set; }
+    
+    [StringLength(255)]
+    public string Keywords { get; set; }
+    
+    [Required]
+    public decimal BasePrice { get; set; }
 }

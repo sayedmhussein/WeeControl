@@ -33,12 +33,10 @@ public class TerritoryQuery : IRequest<IResponseDto<IEnumerable<TerritoryDto>>>
     public class GetListOfTerritoriesHandler : IRequestHandler<TerritoryQuery, IResponseDto<IEnumerable<TerritoryDto>>>
     {
         private readonly IEssentialDbContext context;
-        private readonly ICurrentUserInfo userInfo;
 
-        public GetListOfTerritoriesHandler(IEssentialDbContext context, ICurrentUserInfo userInfo)
+        public GetListOfTerritoriesHandler(IEssentialDbContext context)
         {
             this.context = context;
-            this.userInfo = userInfo;
         }
         
         public async Task<IResponseDto<IEnumerable<TerritoryDto>>> Handle(TerritoryQuery request, CancellationToken cancellationToken)
@@ -51,6 +49,7 @@ public class TerritoryQuery : IRequest<IResponseDto<IEnumerable<TerritoryDto>>>
                 {
                     list.Add(new TerritoryDto()
                     {
+                        LocalName = x.AlternativeName,
                         TerritoryCode = x.TerritoryId, ReportToId = x.ReportToId,
                         TerritoryName = x.TerritoryName, CountryCode = x.CountryCode
                     });
@@ -72,6 +71,7 @@ public class TerritoryQuery : IRequest<IResponseDto<IEnumerable<TerritoryDto>>>
                 {
                     list.Add(new TerritoryDto()
                     {
+                        LocalName = x.AlternativeName,
                         TerritoryCode = x.TerritoryId, ReportToId = x.ReportToId,
                         TerritoryName = x.TerritoryName, CountryCode = x.CountryCode
                     });

@@ -67,7 +67,7 @@ public class TerritoriesQueryTests
         await testHelper.EssentialDb.Territories.AddRangeAsync(GetData());
         await testHelper.EssentialDb.SaveChangesAsync(default);
         return  new TerritoryQuery.GetListOfTerritoriesHandler(
-            testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object);
+            testHelper.EssentialDb);
     }
 
     private IEnumerable<TerritoryDbo> GetData()
