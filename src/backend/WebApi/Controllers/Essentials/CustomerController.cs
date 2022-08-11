@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Mime;
 using System.Threading.Tasks;
@@ -6,7 +7,6 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WeeControl.Application.Contexts.Essential.Commands;
-using WeeControl.Application.Contexts.Essential.Queries;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
@@ -18,11 +18,11 @@ namespace WeeControl.WebApi.Controllers.Essentials;
 [Route(Api.Essential.User.Route)]
 [Consumes(MediaTypeNames.Application.Json)]
 [Produces(MediaTypeNames.Application.Json)]
-public class UserController : Controller
+public class CustomerController : Controller
 {
     private readonly IMediator mediator;
 
-    public UserController(IMediator mediator)
+    public CustomerController(IMediator mediator)
     {
         this.mediator = mediator;
     }
@@ -33,7 +33,7 @@ public class UserController : Controller
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.Conflict)]
-    public async Task<ActionResult<ResponseDto<TokenDtoV1>>> RegisterV1([FromBody] RequestDto<UserRegisterDto> dto)
+    public async Task<ActionResult<ResponseDto<AuthenticationResponseDto>>> RegisterV1([FromBody] RequestDto<RegisterCustomerDto> dto)
     {
         var command = new UserRegisterCommand(dto);
         var response = await mediator.Send(command);
@@ -46,10 +46,7 @@ public class UserController : Controller
     [MapToApiVersion("1.0")]
     public async Task<ActionResult<ResponseDto<IEnumerable<UserDtoV1>>>> GetListOfUsersV1()
     {
-        var command = new UserQuery();
-        var response = await mediator.Send(command);
-
-        return Ok(response);
+        throw new NotImplementedException();
     }
     
     [Authorize]
@@ -57,10 +54,9 @@ public class UserController : Controller
     [MapToApiVersion("1.0")]
     public async Task<ActionResult<ResponseDto<IEnumerable<UserDtoV1>>>> GetUserDetailsV1(string username)
     {
-        var command = new GetUserDetailsQuery(username);
-        var response = await mediator.Send(command);
+        throw new NotImplementedException();
 
-        return Ok(response);
+        //return Ok(response);
     }
 
     [Authorize]

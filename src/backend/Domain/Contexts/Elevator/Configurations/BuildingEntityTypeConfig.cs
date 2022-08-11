@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using WeeControl.SharedKernel.Elevator.Constants;
 
 namespace WeeControl.Domain.Contexts.Elevator.Configurations;
 

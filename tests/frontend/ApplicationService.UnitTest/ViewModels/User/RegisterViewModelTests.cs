@@ -5,7 +5,6 @@ using WeeControl.Frontend.ApplicationService.Essential.ViewModels;
 using WeeControl.Frontend.ApplicationService.Interfaces;
 using WeeControl.Frontend.ApplicationService.Services;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
-using WeeControl.SharedKernel.Essential.Interfaces;
 using WeeControl.SharedKernel.RequestsResponses;
 
 namespace WeeControl.Frontend.ApplicationService.UnitTest.ViewModels.User;

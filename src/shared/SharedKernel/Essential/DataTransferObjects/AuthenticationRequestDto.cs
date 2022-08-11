@@ -1,7 +1,7 @@
-using WeeControl.SharedKernel.Essential.Entities;
-
 namespace WeeControl.SharedKernel.Essential.DataTransferObjects;
 
-public class AuthenticationRequestDto : UserEntity
+public class AuthenticationRequestDto
 {
+    public string UsernameOrEmail { get; set; } = string.Empty;
+    public string Password { get; set; } = string.Empty;
 }

@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using WeeControl.SharedKernel.Essential.Interfaces;
 
 namespace WeeControl.Frontend.ApplicationService.Essential.Models;
 

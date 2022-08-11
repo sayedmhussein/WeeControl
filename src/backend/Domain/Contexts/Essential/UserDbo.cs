@@ -6,47 +6,17 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WeeControl.SharedKernel.Essential.Entities;
-using WeeControl.SharedKernel.Essential.Interfaces;
 
 namespace WeeControl.Domain.Contexts.Essential;
 
 [Table(nameof(UserDbo), Schema = nameof(Essential))]
 public class UserDbo : UserEntity
 {
-    public static UserDbo Create(string firstname, string lastname, string email, string username, string password,
-        string mobileNo, string territory, string nationality)
-    {
-        return new UserDbo()
-        {
-            FirstName = firstname.Trim(), LastName = lastname.Trim(),
-            Email = email.Trim(), Username = username.Trim(), Password = password,
-            MobileNo = mobileNo,
-            TerritoryId = territory, Nationality = nationality
-        };
-    }
-
-    public static UserDbo Create(IUserModel model)
-    {
-        return new UserDbo()
-        {
-            FirstName = model.FirstName.Trim(), SecondName = model.SecondName.Trim(),
-            ThirdName = model.ThirdName.Trim(), LastName = model.LastName.Trim(),
-            Email = model.Email.Trim(), Username = model.Username.Trim(), Password = model.Password,
-            MobileNo = model.MobileNo.Trim(),
-            TerritoryId = model.TerritoryId, Nationality = model.Nationality
-        };
-    }
-    
     [Key]
     public Guid UserId { get; }
 
     public PersonDbo Person { get; set; }
-    public string FirstName { get; set; }
-    public string SecondName { get; set; }
-    public string ThirdName { get; set; }
-    public string LastName { get; set; }
 
-    public string TerritoryId { get; set; }
     public TerritoryDbo Territory { get; set; }
 
     public string Nationality { get; set; }
@@ -66,6 +36,18 @@ public class UserDbo : UserEntity
     
     public virtual IEnumerable<UserNotificationDbo> Notifications { get; }
 
+    private UserDbo()
+    {
+    }
+
+    public UserDbo(UserEntity user)
+    {
+        Email = user.Email.Trim();
+        Username = user.Username.Trim();
+        Password = user.Password.Trim();
+        MobileNo = user.MobileNo.Trim();
+    }
+    
     public void UpdatePassword(string newPassword)
     {
         Password = newPassword;
@@ -91,10 +73,6 @@ public class UserDbo : UserEntity
     {
         var claim = UserClaimDbo.Create(UserId, claimType, claimValue, grantedBy);
         Claims.Add(claim);
-    }
-    
-    private UserDbo()
-    {
     }
 }
 
@@ -129,11 +107,6 @@ public class UserEntityTypeConfig : IEntityTypeConfiguration<UserDbo>
             .WithOne(x => x.User)
             .HasForeignKey<CustomerDbo>(x => x.UserId);
 
-        builder.HasOne(x => x.Territory)
-            .WithMany()
-            .HasForeignKey(x => x.TerritoryId)
-            .OnDelete(DeleteBehavior.Restrict);
-            
         builder.HasMany(x => x.Claims)
             .WithOne().HasForeignKey(x => x.UserId);
             

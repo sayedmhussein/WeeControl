@@ -5,38 +5,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WeeControl.SharedKernel.Essential.Entities;
-using WeeControl.SharedKernel.Essential.Interfaces;
 
 namespace WeeControl.Domain.Contexts.Essential;
 
 [Table(nameof(TerritoryDbo), Schema = nameof(Essential))]
 public class TerritoryDbo : TerritoryEntity
 {
-    [Obsolete]
-    public static TerritoryDbo Create(string code, string parent, string country, string name)
-    {
-        return new TerritoryDbo
-        {
-            TerritoryIdObsolute = code,
-            ReportToIdObsolute = parent,
-            CountryCode = country,
-            UniqueName = name
-        };
-    }
-
-    [Obsolete]
-    public static TerritoryDbo Create(ITerritoryModel model)
-    {
-        return new TerritoryDbo()
-        {
-            TerritoryIdObsolute = model.TerritoryCode,
-            ReportToIdObsolute = model.ReportToId,
-            CountryCode = model.CountryCode,
-            UniqueName = model.TerritoryName,
-            AlternativeName = model.LocalName
-        };
-    }
-
     [Key]
     public Guid TerritoryId { get; set; }
 
@@ -45,19 +19,17 @@ public class TerritoryDbo : TerritoryEntity
     public TerritoryDbo ReportTo { get; set; }
     
     public ICollection<TerritoryDbo> ReportingTo { get; set; }
-    
-    [Obsolete]
-    [MinLength(3)] 
-    public string TerritoryIdObsolute { get; set; } 
-    
-    [Obsolete]
-    public string ReportToIdObsolute { get; set; }
-    [Obsolete]
-    public ICollection<TerritoryDbo> Reporting { get; set; }
-    
 
     private TerritoryDbo()
     {
+    }
+
+    public TerritoryDbo(string uniqueName, string alternativeName, string country, Guid? reportToId = null)
+    {
+        UniqueName = uniqueName.Trim().ToUpper();
+        AlternativeName = alternativeName?.Trim();
+        CountryCode = country.Trim().ToUpper();
+        ReportToId = reportToId;
     }
 }
 
@@ -67,6 +39,7 @@ public class TerritoryEntityTypeConfig : IEntityTypeConfiguration<TerritoryDbo>
     {
         builder.HasComment("Territory of corporate.");
         builder.HasIndex(x => new { x.CountryCode, TerritoryName = x.UniqueName }).IsUnique();
+        
         builder.HasOne(e => e.ReportTo).WithMany();
         builder.HasMany(x => x.ReportingTo)
             .WithOne(x => x.ReportTo)

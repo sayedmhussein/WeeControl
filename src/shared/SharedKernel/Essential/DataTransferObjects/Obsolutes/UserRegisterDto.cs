@@ -1,26 +1,9 @@
-﻿using WeeControl.SharedKernel.Essential.Interfaces;
+﻿
 
 namespace WeeControl.SharedKernel.Essential.DataTransferObjects;
 
-public class UserRegisterDto : IUserModel
+public class UserRegisterDto
 {
-    public static UserRegisterDto Create(IUserModel model)
-    {
-        return new UserRegisterDto()
-        {
-            FirstName = model.FirstName,
-            SecondName = model.SecondName,
-            ThirdName = model.ThirdName,
-            LastName = model.LastName,
-            Email = model.Email,
-            Username = model.Username,
-            Password = model.Password,
-            MobileNo = model.MobileNo,
-            TerritoryId = model.TerritoryId,
-            Nationality = model.Nationality
-        };
-    }
-    
     public string FirstName { get; set; } = string.Empty;
     public string SecondName { get; set; } = string.Empty;
     public string ThirdName { get; set; } = string.Empty;

@@ -1,8 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using MediatR.Pipeline;
-using WeeControl.SharedKernel.Interfaces;
-using WeeControl.SharedKernel.RequestsResponses;
 
 namespace WeeControl.Application.Behaviours;
 

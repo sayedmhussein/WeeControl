@@ -9,7 +9,7 @@ public class TerritoryEntity
     public string UniqueName { get; set; } = string.Empty;
     
     [StringLength(255)]
-    public string AlternativeName { get; set; } = string.Empty;
+    public string? AlternativeName { get; set; } = string.Empty;
     
     [StringLength(3, MinimumLength = 3)] 
     public string CountryCode { get; set; } = string.Empty;

@@ -1,8 +1,6 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using Moq;
-using WeeControl.Application.Contexts.Essential.Queries;
 using WeeControl.Domain.Contexts.Essential;
 using Xunit;
 

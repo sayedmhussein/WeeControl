@@ -7,21 +7,37 @@ using WeeControl.Application.Exceptions;
 using WeeControl.Application.Interfaces;
 using WeeControl.Domain.Contexts.Essential;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
+using WeeControl.SharedKernel.Essential.Entities;
 using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.RequestsResponses;
 
 namespace WeeControl.Application.Contexts.Essential.Commands;
 
-public class UserRegisterCommand : IRequest<IResponseDto<TokenDtoV1>>
+public class UserRegisterCommand : IRequest<IResponseDto<AuthenticationResponseDto>>
 {
-    private readonly IRequestDto<UserRegisterDto> dto;
+    private readonly IRequestDto request;
+    private readonly PersonalEntity person;
+    private readonly UserEntity user;
+    private readonly EmployeeEntity employee;
+    private readonly CustomerEntity customer;
 
-    public UserRegisterCommand(IRequestDto<UserRegisterDto> dto)
+    public UserRegisterCommand(IRequestDto<RegisterCustomerDto> dto)
     {
-        this.dto = dto;
+        request = dto;
+        person = dto.Payload.Personal;
+        user = dto.Payload.User;
+        customer = dto.Payload.Customer;
+    }
+
+    public UserRegisterCommand(IRequestDto<RegisterEmployeeDto> dto)
+    {
+        request = dto;
+        person = dto.Payload.Personal;
+        user = dto.Payload.User;
+        employee = dto.Payload.Employee;
     }
     
-    public class RegisterHandler : IRequestHandler<UserRegisterCommand, IResponseDto<TokenDtoV1>>
+    public class RegisterHandler : IRequestHandler<UserRegisterCommand, IResponseDto<AuthenticationResponseDto>>
     {
         private readonly IEssentialDbContext context;
         private readonly IMediator mediator;
@@ -34,44 +50,45 @@ public class UserRegisterCommand : IRequest<IResponseDto<TokenDtoV1>>
             this.passwordSecurity = passwordSecurity;
         }
 
-        public async Task<IResponseDto<TokenDtoV1>> Handle(UserRegisterCommand cmd, CancellationToken cancellationToken)
+        public async Task<IResponseDto<AuthenticationResponseDto>> Handle(UserRegisterCommand cmd, CancellationToken cancellationToken)
         {
             //await mediator.Send(new VerifyRequestQuery(cmd.dto), cancellationToken);
 
-            if (string.IsNullOrWhiteSpace(cmd.dto.Payload.FirstName) ||
-                string.IsNullOrWhiteSpace(cmd.dto.Payload.LastName) ||
-                string.IsNullOrWhiteSpace(cmd.dto.Payload.Email) ||
-                string.IsNullOrWhiteSpace(cmd.dto.Payload.Username) ||
-                string.IsNullOrWhiteSpace(cmd.dto.Payload.Password) ||
-                string.IsNullOrWhiteSpace(cmd.dto.Payload.MobileNo) ||
-                string.IsNullOrWhiteSpace(cmd.dto.Payload.TerritoryId)
+            if (string.IsNullOrWhiteSpace(cmd.person.FirstName) ||
+                string.IsNullOrWhiteSpace(cmd.person.LastName) ||
+                string.IsNullOrWhiteSpace(cmd.user.Email) ||
+                string.IsNullOrWhiteSpace(cmd.user.Username) ||
+                string.IsNullOrWhiteSpace(cmd.user.Password) ||
+                string.IsNullOrWhiteSpace(cmd.user.MobileNo)
                )
             {
-                throw new ValidationException(cmd.dto.Payload);
+                throw new ValidationException();
             }
 
             if (context.Users.Any(x => 
-                    x.Username == cmd.dto.Payload.Username.ToLower() ||
-                    x.Email == cmd.dto.Payload.Email.ToLower() ||
-                    x.MobileNo == cmd.dto.Payload.MobileNo.ToLower()
+                    x.Username == cmd.user.Username.ToLower() ||
+                    x.Email == cmd.user.Email.ToLower() ||
+                    x.MobileNo == cmd.user.MobileNo.ToLower()
                     ))
             {
                 throw new ConflictFailureException();
             }
 
-            cmd.dto.Payload.Email = cmd.dto.Payload.Email.ToLower();
-            cmd.dto.Payload.Username = cmd.dto.Payload.Username.ToLower();
-            cmd.dto.Payload.MobileNo = cmd.dto.Payload.MobileNo.ToLower();
+            cmd.user.Email = cmd.user.Email.ToLower();
+            cmd.user.Username = cmd.user.Username.ToLower();
+            cmd.user.MobileNo = cmd.user.MobileNo.ToLower();
 
-            var user = UserDbo.Create(cmd.dto.Payload);
-            user.Password = passwordSecurity.Hash(cmd.dto.Payload.Password);
+            var user = new UserDbo(cmd.user)
+            {
+                Password = passwordSecurity.Hash(cmd.user.Password)
+            };
 
             await context.Users.AddAsync(user, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
 
             var request =
-                new UserTokenQuery(RequestDto.Create(LoginDtoV1.Create(user.Username, cmd.dto.Payload.Password),
-                    cmd.dto));
+                new UserTokenQuery(RequestDto.Create(LoginDtoV1.Create(user.Username, cmd.user.Password),
+                    cmd.request));
             var response = await mediator.Send(request, cancellationToken);
             return response;
         }

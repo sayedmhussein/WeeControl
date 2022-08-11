@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using WeeControl.Application.Interfaces;
 using WeeControl.Domain.Contexts.Essential;
 using WeeControl.SharedKernel;
+using WeeControl.SharedKernel.Essential.Entities;
 using WeeControl.SharedKernel.Interfaces;
 
 namespace WeeControl.Application.Contexts.Essential.Commands;
@@ -61,26 +62,24 @@ public class SeedEssentialDatabaseCommand : IRequest
         {
             return new List<TerritoryDbo>()
             {
-                TerritoryDbo.Create("USA-HO", null, "USA", "Main Head Office"), 
-                TerritoryDbo.Create("EGP-HO", "USA-HO", "EGP", "Main Head Office"),
-                TerritoryDbo.Create("EGP-CAI", "EGP-HO", "EGP", "Cairo"),
-                TerritoryDbo.Create("SAU-HO", "USA-HO", "SAU", "Saudi Arabia HO"),
-                TerritoryDbo.Create("SAU-WEST", "SAU-HO", "SAU", "Western Region"),
-                TerritoryDbo.Create("SAU-JED", "SAU-WEST", "SAU", "Jeddah")
+                new TerritoryDbo("USA-HO", null, "USA"), 
+                // TerritoryDbo.Create("EGP-HO", "USA-HO", "EGP", "Main Head Office"),
+                // TerritoryDbo.Create("EGP-CAI", "EGP-HO", "EGP", "Cairo"),
+                // TerritoryDbo.Create("SAU-HO", "USA-HO", "SAU", "Saudi Arabia HO"),
+                // TerritoryDbo.Create("SAU-WEST", "SAU-HO", "SAU", "Western Region"),
+                // TerritoryDbo.Create("SAU-JED", "SAU-WEST", "SAU", "Jeddah")
             };
         }
 
         private async Task AddUser(string name, string territoryId, IEnumerable<(string Type, string Value)> claims, CancellationToken cancellationToken)
         {
-            await context.Users.AddAsync(UserDbo.Create(
-                name,
-                name,
-                $"{name}@WeeControl.com", 
-                name, 
-                passwordSecurity.Hash(name),
-                "+10"+ new Random().NextInt64(minValue:10000, maxValue:19999),
-                territoryId, "EGP"
-                ), cancellationToken);
+            await context.Users.AddAsync(new UserDbo(new UserEntity()
+            {
+                Username = name,
+                Email = $"{name}@WeeControl.com",
+                MobileNo =  "+10"+ new Random().NextInt64(minValue:10000, maxValue:19999),
+                Password = passwordSecurity.Hash(name)
+            }), cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
 
             if (claims is not null && claims.Any())

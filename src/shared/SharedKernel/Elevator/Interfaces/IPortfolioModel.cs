@@ -1,5 +1,3 @@
-using WeeControl.SharedKernel.Elevator.Enums;
-
 namespace WeeControl.SharedKernel.Elevator.Interfaces;
 
 public interface IPortfolioModel : IFieldDataModel

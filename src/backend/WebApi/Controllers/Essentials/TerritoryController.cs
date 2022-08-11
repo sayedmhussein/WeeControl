@@ -1,10 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WeeControl.Application.Contexts.Essential.Commands;
 using WeeControl.Application.Contexts.Essential.Queries;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
@@ -41,7 +41,6 @@ public class TerritoryController : Controller
     [ProducesResponseType((int)HttpStatusCode.Conflict)]
     public async Task<ActionResult> AddOrEditTerritoryV1([FromBody] RequestDto<TerritoryDto> dto)
     {
-        await mediator.Send(new TerritoryPutCommand(dto));
-        return Ok();
+        throw new NotImplementedException();
     }
 }

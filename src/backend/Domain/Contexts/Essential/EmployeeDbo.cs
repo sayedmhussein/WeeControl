@@ -11,15 +11,26 @@ namespace WeeControl.Domain.Contexts.Essential;
 public class EmployeeDbo : EmployeeEntity
 {
     [Key]
-    public Guid EmployeeId { get; set; }
+    public Guid EmployeeId { get; }
     
     public Guid UserId { get; set; }
     public UserDbo User { get; set; }
+
+    private EmployeeDbo()
+    {
+    }
+
+    public EmployeeDbo(Guid userId, EmployeeEntity employee)
+    {
+        UserId = userId;
+        TerritoryName = employee.TerritoryName;
+    }
 }
 
 public class EmployeeEntityTypeConfig : IEntityTypeConfiguration<EmployeeDbo>
 {
     public void Configure(EntityTypeBuilder<EmployeeDbo> builder)
     {
+        builder.Property(x => x.EmployeeId).ValueGeneratedOnAdd().HasDefaultValue(Guid.NewGuid());
     }
 }

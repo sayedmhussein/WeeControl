@@ -18,23 +18,23 @@ using WeeControl.SharedKernel.RequestsResponses;
 
 namespace WeeControl.Application.Contexts.Essential.Queries;
 
-public class UserTokenQuery : IRequest<ResponseDto<TokenDtoV1>>
+public class UserTokenQuery : IRequest<ResponseDto<AuthenticationResponseDto>>
 {
     private readonly IRequestDto requestDto;
-    private readonly LoginDtoV1 loginDto;
+    private readonly AuthenticationRequestDto loginDto;
     
     public UserTokenQuery(IRequestDto requestDto)
     {
         this.requestDto = requestDto;
     }
 
-    public UserTokenQuery(IRequestDto<LoginDtoV1> dto)
+    public UserTokenQuery(IRequestDto<AuthenticationRequestDto> dto)
     {
         requestDto = dto;
-        loginDto = LoginDtoV1.Create(dto.Payload.UsernameOrEmail.ToLower(), dto.Payload.Password);
+        loginDto = dto.Payload;
     }
 
-    public class UserTokenHandler : IRequestHandler<UserTokenQuery, ResponseDto<TokenDtoV1>>
+    public class UserTokenHandler : IRequestHandler<UserTokenQuery, ResponseDto<AuthenticationResponseDto>>
 {
     private readonly IEssentialDbContext context;
     private readonly IJwtService jwtService;
@@ -59,46 +59,50 @@ public class UserTokenQuery : IRequest<ResponseDto<TokenDtoV1>>
         this.passwordSecurity = passwordSecurity;
     }
 
-    public async Task<ResponseDto<TokenDtoV1>> Handle(UserTokenQuery request, CancellationToken cancellationToken)
+    public async Task<ResponseDto<AuthenticationResponseDto>> Handle(UserTokenQuery request, CancellationToken cancellationToken)
     {
         if (!string.IsNullOrWhiteSpace(request.loginDto?.UsernameOrEmail) && !string.IsNullOrWhiteSpace(request.loginDto?.Password))
         {
-            var employee = await context.Users.FirstOrDefaultAsync(x =>
+            var user = await context.Users
+                .Include(x => x.Person)
+                .FirstOrDefaultAsync(x =>
                 (x.Username == request.loginDto.UsernameOrEmail || x.Email == request.loginDto.UsernameOrEmail) &&
                 x.Password == passwordSecurity.Hash(request.loginDto.Password), cancellationToken);
 
-            if (employee is null)
+            if (user is null)
             {
-                employee = await context.Users.FirstOrDefaultAsync(x =>
+                user = await context.Users
+                    .Include(x => x.Person)
+                    .FirstOrDefaultAsync(x =>
                     (x.Username == request.loginDto.UsernameOrEmail || x.Email == request.loginDto.UsernameOrEmail) &&
                     (x.TempPassword == passwordSecurity.Hash(request.loginDto.Password) && x.TempPasswordTs > DateTime.UtcNow.AddMinutes(-10))
                     , cancellationToken);
-                if (employee is null)
+                if (user is null)
                     throw new NotFoundException("User not found!");
             }
 
-            if (employee.SuspendArgs is not null)
+            if (user.SuspendArgs is not null)
             {
                 throw new NotAllowedException("Account is locked!");
             }
 
-            if (employee.TempPassword != null)
+            if (user.TempPassword != null)
             {
-                if (request.loginDto.Password == employee.TempPassword)
+                if (request.loginDto.Password == user.TempPassword)
                 {
-                    employee.UpdatePassword(employee.TempPassword);
+                    user.UpdatePassword(user.TempPassword);
                 }
 
-                employee.SetTemporaryPassword(null);
+                user.SetTemporaryPassword(null);
             }
             
             
             await context.SaveChangesAsync(cancellationToken);
 
-            var session = await context.UserSessions.FirstOrDefaultAsync(x => x.UserId == employee.UserId && x.DeviceId == request.requestDto.DeviceId && x.TerminationTs == null, cancellationToken);
+            var session = await context.UserSessions.FirstOrDefaultAsync(x => x.UserId == user.UserId && x.DeviceId == request.requestDto.DeviceId && x.TerminationTs == null, cancellationToken);
             if (session is null)
             {
-                session = UserSessionDbo.Create(employee.UserId, request.requestDto.DeviceId);
+                session = UserSessionDbo.Create(user.UserId, request.requestDto.DeviceId);
                 await context.UserSessions.AddAsync(session, cancellationToken);
                 await context.SaveChangesAsync(cancellationToken);
                 await context.SessionLogs.AddAsync(session.CreateLog("Login", "Created New Session."), cancellationToken);
@@ -120,7 +124,7 @@ public class UserTokenQuery : IRequest<ResponseDto<TokenDtoV1>>
             };
             var token = jwtService.GenerateToken(descriptor);
 
-            return ResponseDto.Create(TokenDtoV1.Create(token, employee.FirstName + " " + employee.LastName, " url"));
+            return ResponseDto.Create(AuthenticationResponseDto.Create(token, user.Person.FirstName + " " + user.Person.LastName));
         }
         
         if (currentUserInfo.SessionId is not null)
@@ -138,11 +142,12 @@ public class UserTokenQuery : IRequest<ResponseDto<TokenDtoV1>>
             
             var ci = new ClaimsIdentity("custom");
             ci.AddClaim(new Claim(ClaimsValues.ClaimTypes.Session, session.SessionId.ToString()));
-            if (employee?.TerritoryId is not null)
-            {
-                ci.AddClaim(new Claim(ClaimsValues.ClaimTypes.Territory, employee.TerritoryId));
-            }
-            //foreach (var c in employee.Claims.Where(x => x.RevokedTs == null).ToList())
+            // if (employee?.TerritoryId is not null)
+            // {
+            //     ci.AddClaim(new Claim(ClaimsValues.ClaimTypes.Territory, employee.TerritoryId));
+            // }
+           
+            
             foreach (var c in employee.Claims?.Where(x => x.RevokedTs == null)?.ToList())
             {
                 ci.AddClaim(new Claim(c.ClaimType, c.ClaimValue));
@@ -159,7 +164,7 @@ public class UserTokenQuery : IRequest<ResponseDto<TokenDtoV1>>
             };
             var token = jwtService.GenerateToken(descriptor);
 
-            return ResponseDto.Create(TokenDtoV1.Create(token, employee.FirstName + " " + employee.LastName, "url"));
+            return ResponseDto.Create(AuthenticationResponseDto.Create(token, employee.Person.FirstName + " " + employee.Person.LastName));
         }
         
         throw new BadRequestException("Invalid request query parameters.");
@@ -173,7 +178,6 @@ public class UserTokenQuery : IRequest<ResponseDto<TokenDtoV1>>
             .Where(x => x.User.Sessions.Select(y => y.SessionId).FirstOrDefault() == sessionId)
             .Select(c => new
             {
-                c.User.TerritoryId,
                 c.ClaimType,
                 c.ClaimValue,
                 c.RevokedTs
@@ -183,7 +187,7 @@ public class UserTokenQuery : IRequest<ResponseDto<TokenDtoV1>>
         
         var ci = new ClaimsIdentity("custom");
         ci.AddClaim(new Claim(ClaimsValues.ClaimTypes.Session, sessionId.ToString()));
-        ci.AddClaim(new Claim(ClaimsValues.ClaimTypes.Territory, query?.FirstOrDefault()?.TerritoryId ?? string.Empty));
+        //ci.AddClaim(new Claim(ClaimsValues.ClaimTypes.Territory, query?.FirstOrDefault()?.TerritoryId ?? string.Empty));
 
         foreach (var c in query)
         {

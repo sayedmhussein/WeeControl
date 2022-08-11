@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using WeeControl.SharedKernel;
 
 namespace WeeControl.Frontend.ApplicationService;

@@ -11,15 +11,24 @@ namespace WeeControl.Domain.Contexts.Essential;
 public class CustomerDbo : CustomerEntity
 {
     [Key]
-    public Guid CustomerId { get; set; }
-
+    public Guid CustomerId { get; }
     public Guid UserId { get; set; }
     public UserDbo User { get; set; }
+
+    private CustomerDbo()
+    {
+    }
+
+    public CustomerDbo(CustomerEntity customer)
+    {
+        CountryCode = customer.CountryCode.Trim();
+    }
 }
 
 public class CustomerEntityTypeConfig : IEntityTypeConfiguration<CustomerDbo>
 {
     public void Configure(EntityTypeBuilder<CustomerDbo> builder)
     {
+        builder.Property(x => x.CustomerId).HasDefaultValue(Guid.NewGuid());
     }
 }

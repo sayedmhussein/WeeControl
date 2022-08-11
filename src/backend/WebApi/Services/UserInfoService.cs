@@ -58,7 +58,7 @@ public class UserInfoService : ICurrentUserInfo
 
          foreach (var bra in cla.Payload)
          {
-             territories.Add(bra.TerritoryCode);
+             territories.Add(bra.UniqueName);
          }
 
         return territories;

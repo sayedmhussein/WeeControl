@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WeeControl.SharedKernel.Essential.Entities;
-using WeeControl.SharedKernel.Essential.Interfaces;
 
 namespace WeeControl.Domain.Contexts.Essential;
 

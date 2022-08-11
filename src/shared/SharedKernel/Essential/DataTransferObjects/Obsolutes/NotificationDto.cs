@@ -1,8 +1,8 @@
-using WeeControl.SharedKernel.Essential.Interfaces;
+
 
 namespace WeeControl.SharedKernel.Essential.DataTransferObjects;
 
-public class NotificationDto : IUserNotificationModel
+public class NotificationDto
 {
     public Guid NotificationId { get; set; }
 

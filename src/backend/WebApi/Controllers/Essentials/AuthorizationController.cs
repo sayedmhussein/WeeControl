@@ -31,7 +31,7 @@ public class AuthorizationController : Controller
     [MapToApiVersion("1.0")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<ActionResult<ResponseDto<TokenDtoV1>>> LoginV1([FromBody] RequestDto<LoginDtoV1> dto)
+    public async Task<ActionResult<ResponseDto<AuthenticationResponseDto>>> LoginV1([FromBody] RequestDto<AuthenticationRequestDto> dto)
     {
         var query = new UserTokenQuery(dto);
         var response = await mediator.Send(query);
@@ -42,9 +42,9 @@ public class AuthorizationController : Controller
     [Authorize]
     [HttpPut]
     [MapToApiVersion("1.0")]
-    [ProducesResponseType(typeof(ResponseDto<TokenDtoV1>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(ResponseDto<AuthenticationResponseDto>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.Forbidden)]
-    public async Task<ActionResult<ResponseDto<TokenDtoV1>>> RefreshTokenV1([FromBody] RequestDto dto)
+    public async Task<ActionResult<ResponseDto<AuthenticationResponseDto>>> RefreshTokenV1([FromBody] RequestDto dto)
     {
         var query = new UserTokenQuery(dto);
         var response = await mediator.Send(query);

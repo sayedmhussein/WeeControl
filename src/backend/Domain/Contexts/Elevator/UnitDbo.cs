@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel.DataAnnotations;
 using WeeControl.SharedKernel.Elevator.Constants;
 using WeeControl.SharedKernel.Elevator.Enums;
 using WeeControl.SharedKernel.Elevator.Interfaces;
