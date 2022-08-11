@@ -28,7 +28,7 @@ public class AuthStateProvider : AuthenticationStateProvider, IDeviceSecurity
         var cp = new ClaimsPrincipal(identity);
         anonymous = new AuthenticationState(cp);
 
-        tokenKeyName = nameof(TokenDtoV1.Token);
+        tokenKeyName = nameof(AuthenticationResponseDto.Token);
     }
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()

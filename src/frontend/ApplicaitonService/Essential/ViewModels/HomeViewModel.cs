@@ -31,7 +31,7 @@ public class HomeViewModel : ViewModelBase
     {
         if (await server.IsTokenValid() && await device.Security.IsAuthenticatedAsync())
         {
-            NameOfUser = await device.Storage.GetAsync(nameof(TokenDtoV1.FullName));
+            NameOfUser = await device.Storage.GetAsync(nameof(AuthenticationResponseDto.FullName));
             await device.Navigation.NavigateToAsync(Pages.Shared.IndexPage);
             await SetupMenuAsync();
             return;
@@ -81,17 +81,17 @@ public class HomeViewModel : ViewModelBase
         
         if (response.IsSuccessStatusCode)
         {
-            var content = await response.Content.ReadFromJsonAsync<ResponseDto<IEnumerable<NotificationDto>>>();
-            foreach (var n in content?.Payload)
-            {
-                NotificationsList.Add(new HomeNotificationModel()
-                {
-                    NotificationId = n.NotificationId,
-                    Subject = n.Subject,
-                    Body = n.Details,
-                    NotificationUrl = n.Link
-                });
-            }
+            // var content = await response.Content.ReadFromJsonAsync<ResponseDto<IEnumerable<NotificationDto>>>();
+            // foreach (var n in content?.Payload)
+            // {
+            //     NotificationsList.Add(new HomeNotificationModel()
+            //     {
+            //         NotificationId = n.NotificationId,
+            //         Subject = n.Subject,
+            //         Body = n.Details,
+            //         NotificationUrl = n.Link
+            //     });
+            // }
         }
     }
 }

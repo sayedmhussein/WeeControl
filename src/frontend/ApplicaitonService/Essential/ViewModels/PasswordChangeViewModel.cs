@@ -32,11 +32,11 @@ public class PasswordChangeViewModel : ViewModelBase
         }
 
         IsLoading = true;
-        await ProcessChangingPassword(SetNewPasswordDtoV1.Create(Model.OldPassword, Model.NewPassword));
+        //await ProcessChangingPassword(UserPasswordChangeRequestDto.Create(Model.OldPassword, Model.NewPassword));
         IsLoading = false;
     }
 
-    private async Task ProcessChangingPassword(SetNewPasswordDtoV1? dto)
+    private async Task ProcessChangingPassword(UserPasswordChangeRequestDto? dto)
     {
         HttpRequestMessage message = new()
         {

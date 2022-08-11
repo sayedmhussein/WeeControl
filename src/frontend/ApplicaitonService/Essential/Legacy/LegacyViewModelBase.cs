@@ -109,13 +109,12 @@ public abstract class LegacyViewModelBase : INotifyPropertyChanged
         var response = await SendMessageAsync<object>(message);
         if (response.IsSuccessStatusCode)
         {
-            var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<TokenDtoV1>>();
+            var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<AuthenticationResponseDto>>();
             var token = responseDto?.Payload?.Token;
             if (responseDto is not null && token is not null)
             {
-                await device.Storage.SaveAsync(nameof(TokenDtoV1.Token), token);
-                await device.Storage.SaveAsync(nameof(TokenDtoV1.FullName), responseDto?.Payload?.FullName ?? string.Empty);
-                await device.Storage.SaveAsync(nameof(TokenDtoV1.PhotoUrl), responseDto?.Payload?.PhotoUrl ?? string.Empty);
+                await device.Storage.SaveAsync(nameof(AuthenticationResponseDto.Token), token);
+                await device.Storage.SaveAsync(nameof(AuthenticationResponseDto.FullName), responseDto?.Payload?.FullName ?? string.Empty);
                 await device.Security.UpdateTokenAsync(token);
                 return true;
             }

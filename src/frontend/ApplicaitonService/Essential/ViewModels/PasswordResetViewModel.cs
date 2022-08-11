@@ -37,11 +37,11 @@ public class PasswordResetViewModel : ViewModelBase
         }
         
         IsLoading = true;
-        await ProcessPasswordReset(ForgotMyPasswordDtoV1.Create(Email, Username));
+        //await ProcessPasswordReset(ForgotMyPasswordDtoV1.Create(Email, Username));
         IsLoading = false;
     }
 
-    private async Task ProcessPasswordReset(ForgotMyPasswordDtoV1? dtoV1)
+    private async Task ProcessPasswordReset(UserPasswordResetRequestDto? dtoV1)
     {
         HttpRequestMessage message = new()
         {

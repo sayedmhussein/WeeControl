@@ -35,7 +35,7 @@ public class CustomerViewModel : ViewModelBase
 
         if (response.IsSuccessStatusCode)
         {
-            var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<TokenDtoV1>>();
+            var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<AuthenticationResponseDto>>();
             var token = responseDto?.Payload?.Token;
             await device.Security.UpdateTokenAsync(token ?? string.Empty);
             await device.Navigation.NavigateToAsync(Pages.Shared.IndexPage, forceLoad: true);

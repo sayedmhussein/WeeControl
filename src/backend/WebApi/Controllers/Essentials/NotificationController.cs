@@ -26,15 +26,15 @@ public class NotificationController : Controller
         this.mediator = mediator;
     }
     
-    [HttpGet]
-    [MapToApiVersion("1.0")]
-    [Produces(MediaTypeNames.Application.Json)]
-    public async Task<ActionResult<ResponseDto<IEnumerable<NotificationDto>>>> GetNotification()
-    {
-        var query = new NotificationQuery();
-        var response = await mediator.Send(query);
-        return Ok(response);
-    }
+    // [HttpGet]
+    // [MapToApiVersion("1.0")]
+    // [Produces(MediaTypeNames.Application.Json)]
+    // public async Task<ActionResult<ResponseDto<IEnumerable<NotificationDto>>>> GetNotification()
+    // {
+    //     var query = new NotificationQuery();
+    //     var response = await mediator.Send(query);
+    //     return Ok(response);
+    // }
 
     [HttpDelete("{id:guid}")]
     [MapToApiVersion("1.0")]

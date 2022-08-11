@@ -12,9 +12,9 @@ namespace WeeControl.Application.Contexts.Essential.Commands;
 
 public class UserForgotMyPasswordCommand : IRequest
 {
-    private readonly IRequestDto<ForgotMyPasswordDtoV1> dto;
+    private readonly IRequestDto<UserPasswordResetRequestDto> dto;
 
-    public UserForgotMyPasswordCommand(IRequestDto<ForgotMyPasswordDtoV1> dto)
+    public UserForgotMyPasswordCommand(IRequestDto<UserPasswordResetRequestDto> dto)
     {
         this.dto = dto;
     }

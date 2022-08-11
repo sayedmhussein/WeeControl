@@ -107,7 +107,7 @@ public class AuthorizationViewModel : ViewModelBase
             if (token is not null)
             {
                 await device.Security.UpdateTokenAsync(token);
-                await device.Storage.SaveAsync(nameof(TokenDtoV1.FullName), responseDto?.Payload?.FullName ?? string.Empty);
+                await device.Storage.SaveAsync(nameof(AuthenticationResponseDto.FullName), responseDto?.Payload?.FullName ?? string.Empty);
                 if (await server.IsTokenValid())
                 {
                     await device.Navigation.NavigateToAsync(Pages.Shared.IndexPage, forceLoad: true);
