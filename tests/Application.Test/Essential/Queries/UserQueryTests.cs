@@ -19,7 +19,7 @@ public class UserQueryTests
         await testHelper.EssentialDb.Users.AddAsync(testHelper.GetUserDboWithEncryptedPassword("username2", "password"), default);
         await testHelper.EssentialDb.Users.AddAsync(testHelper.GetUserDboWithEncryptedPassword("username3", "password"), default);
         await testHelper.EssentialDb.SaveChangesAsync(default);
-        var session = SessionDbo.Create(user.UserId, nameof(UserQueryTests));
+        var session = UserSessionDbo.Create(user.UserId, nameof(UserQueryTests));
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         testHelper.CurrentUserInfoMock.Setup(x => x.SessionId).Returns(session.SessionId);
@@ -40,7 +40,7 @@ public class UserQueryTests
         await testHelper.EssentialDb.Users.AddAsync(testHelper.GetUserDboWithEncryptedPassword("username", "password", "TR2"), default);
         await testHelper.EssentialDb.Users.AddAsync(testHelper.GetUserDboWithEncryptedPassword("username", "password", "TR3"), default);
         await testHelper.EssentialDb.SaveChangesAsync(default);
-        var session = SessionDbo.Create(user.UserId, nameof(UserQueryTests));
+        var session = UserSessionDbo.Create(user.UserId, nameof(UserQueryTests));
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         testHelper.CurrentUserInfoMock.Setup(x => x.SessionId).Returns(session.SessionId);

@@ -1,5 +1,6 @@
 namespace WeeControl.SharedKernel.Essential.Interfaces;
 
+[Obsolete]
 public interface ITerritoryModel
 { 
     string TerritoryCode { get; }

@@ -41,7 +41,7 @@ public class UserNotificationNotification : INotification
             }
             
             await essentialDbContext.UserNotifications.AddAsync(
-                new NotificationDbo()
+                new UserNotificationDbo()
             {
                 UserId = user.UserId,
                 Subject = notification.subject,

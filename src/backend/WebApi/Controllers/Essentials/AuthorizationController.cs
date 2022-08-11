@@ -39,11 +39,6 @@ public class AuthorizationController : Controller
         return Ok(response);
     }
     
-    /// <summary>
-    ///     Used to get token which will be used to authorize user, device must match the same which had the temporary token.
-    /// </summary>
-    /// <param name="dto"></param>
-    /// <returns></returns>
     [Authorize]
     [HttpPut]
     [MapToApiVersion("1.0")]

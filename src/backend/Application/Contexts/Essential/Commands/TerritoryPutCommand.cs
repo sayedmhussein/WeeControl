@@ -49,7 +49,7 @@ public class TerritoryPutCommand : IRequest
                 throw new NotAllowedException("You can't take this action using your account!");
             }
 
-            if (essentialDbContext.Territories.FirstOrDefault(x => x.TerritoryId == model.TerritoryCode) != null)
+            if (essentialDbContext.Territories.FirstOrDefault(x => x.TerritoryIdObsolute == model.TerritoryCode) != null)
             {
                 throw new ConflictFailureException("Same territory exist!");
             }

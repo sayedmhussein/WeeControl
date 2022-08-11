@@ -16,11 +16,11 @@ public class NotificationQueryTests
         testHelper.EssentialDb.Users.Add(user);
         testHelper.EssentialDb.SaveChanges();
 
-        testHelper.EssentialDb.UserSessions.Add(SessionDbo.Create(user.UserId, "device"));
-        testHelper.EssentialDb.UserNotifications.Add(NotificationDbo.Create(user.UserId, "1", "1", ""));
-        testHelper.EssentialDb.UserNotifications.Add(NotificationDbo.Create(user.UserId, "2", "2", ""));
-        testHelper.EssentialDb.UserNotifications.Add(NotificationDbo.Create(user.UserId, "3", "3", ""));
-        testHelper.EssentialDb.UserNotifications.Add(NotificationDbo.Create(Guid.NewGuid(), "1", "1", ""));
+        testHelper.EssentialDb.UserSessions.Add(UserSessionDbo.Create(user.UserId, "device"));
+        testHelper.EssentialDb.UserNotifications.Add(UserNotificationDbo.Create(user.UserId, "1", "1", ""));
+        testHelper.EssentialDb.UserNotifications.Add(UserNotificationDbo.Create(user.UserId, "2", "2", ""));
+        testHelper.EssentialDb.UserNotifications.Add(UserNotificationDbo.Create(user.UserId, "3", "3", ""));
+        testHelper.EssentialDb.UserNotifications.Add(UserNotificationDbo.Create(Guid.NewGuid(), "1", "1", ""));
 
         testHelper.EssentialDb.SaveChanges();
 

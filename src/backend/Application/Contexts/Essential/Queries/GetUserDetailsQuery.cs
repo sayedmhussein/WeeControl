@@ -58,8 +58,8 @@ public class GetUserDetailsQuery : IRequest<ResponseDto<UserDetailedDtoV1>>
                     ClaimValue = c.ClaimValue,
                     GrantedTs = c.GrantedTs,
                     RevokedTs = c.RevokedTs,
-                    GrantedByUsername = c.GrantedBy?.Username,
-                    RevokedByUsername = c.RevokedBy?.Username
+                    // GrantedByUsername = c.GrantedBy?.Username,
+                    // RevokedByUsername = c.RevokedBy?.Username
                 });
             });
 

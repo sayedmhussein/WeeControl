@@ -14,7 +14,7 @@ public class LogoutEmployeeCommand1Tests
     public async void WhenSessionExistAndNotTerminated_SessionBecomeTerminated()
     {
         using var testHelper = new TestHelper();
-        var session = SessionDbo.Create(Guid.NewGuid(), "device");
+        var session = UserSessionDbo.Create(Guid.NewGuid(), "device");
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         //
@@ -32,7 +32,7 @@ public class LogoutEmployeeCommand1Tests
     public async void WhenRequestDtoHasDifferentSession_ThrowNotAllowedException()
     {
         using var testHelper = new TestHelper();
-        var session = SessionDbo.Create(Guid.NewGuid(), "device");
+        var session = UserSessionDbo.Create(Guid.NewGuid(), "device");
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         testHelper.CurrentUserInfoMock.Setup(x => x.SessionId).Returns(Guid.NewGuid());
@@ -47,7 +47,7 @@ public class LogoutEmployeeCommand1Tests
     public async void WhenRequestDtoHasDifferentDevice_ThrowNotAllowedException()
     {
         using var testHelper = new TestHelper();
-        var session = SessionDbo.Create(Guid.NewGuid(), "device");
+        var session = UserSessionDbo.Create(Guid.NewGuid(), "device");
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         testHelper.CurrentUserInfoMock.Setup(x => x.SessionId).Returns(session.SessionId);
@@ -62,7 +62,7 @@ public class LogoutEmployeeCommand1Tests
     public async void WhenSessionAlreadyTerminated_ThrowNotAllowedException()
     {
         using var testHelper = new TestHelper();
-        var session = SessionDbo.Create(Guid.NewGuid(), "device");
+        var session = UserSessionDbo.Create(Guid.NewGuid(), "device");
         session.TerminationTs = DateTime.UtcNow;
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
@@ -78,7 +78,7 @@ public class LogoutEmployeeCommand1Tests
     public async void WhenDeviceIDNotSupplied_ThrowBadRequestException()
     {
         using var testHelper = new TestHelper();
-        var session = SessionDbo.Create(Guid.NewGuid(), "device");
+        var session = UserSessionDbo.Create(Guid.NewGuid(), "device");
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         //
@@ -94,7 +94,7 @@ public class LogoutEmployeeCommand1Tests
     public async void WhenSessionIDIsNull_ThrowArgumentNullException()
     {
         using var testHelper = new TestHelper();
-        var session = SessionDbo.Create(Guid.NewGuid(), "device");
+        var session = UserSessionDbo.Create(Guid.NewGuid(), "device");
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         //

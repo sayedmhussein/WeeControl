@@ -98,7 +98,7 @@ public class UserTokenQuery : IRequest<ResponseDto<TokenDtoV1>>
             var session = await context.UserSessions.FirstOrDefaultAsync(x => x.UserId == employee.UserId && x.DeviceId == request.requestDto.DeviceId && x.TerminationTs == null, cancellationToken);
             if (session is null)
             {
-                session = SessionDbo.Create(employee.UserId, request.requestDto.DeviceId);
+                session = UserSessionDbo.Create(employee.UserId, request.requestDto.DeviceId);
                 await context.UserSessions.AddAsync(session, cancellationToken);
                 await context.SaveChangesAsync(cancellationToken);
                 await context.SessionLogs.AddAsync(session.CreateLog("Login", "Created New Session."), cancellationToken);

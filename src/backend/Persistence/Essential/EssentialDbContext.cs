@@ -7,11 +7,11 @@ namespace WeeControl.Persistence.Essential
     public class EssentialDbContext : DbContext, IEssentialDbContext
     {
         public DbSet<UserDbo> Users { get; set; }
-        public DbSet<IdentityDbo> UserIdentities { get; set; }
-        public DbSet<ClaimDbo> UserClaims { get; set; }
-        public DbSet<NotificationDbo> UserNotifications { get; set; }
-        public DbSet<SessionDbo> UserSessions { get; set; }
-        public DbSet<SessionLogDbo> SessionLogs { get; set; }
+        public DbSet<UserIdentityDbo> UserIdentities { get; set; }
+        public DbSet<UserClaimDbo> UserClaims { get; set; }
+        public DbSet<UserNotificationDbo> UserNotifications { get; set; }
+        public DbSet<UserSessionDbo> UserSessions { get; set; }
+        public DbSet<UserSessionLogDbo> SessionLogs { get; set; }
         public DbSet<TerritoryDbo> Territories { get; set; }
         
 

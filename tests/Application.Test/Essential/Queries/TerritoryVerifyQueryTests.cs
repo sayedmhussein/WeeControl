@@ -27,7 +27,7 @@ public class TerritoryVerifyQueryTests
                 .GetUserDboWithEncryptedPassword("username", "password", "code"));
         testHelper.EssentialDb.SaveChanges();
         
-        testHelper.EssentialDb.UserSessions.Add(SessionDbo.Create(testHelper.EssentialDb.Users.First().UserId, "device"));
+        testHelper.EssentialDb.UserSessions.Add(UserSessionDbo.Create(testHelper.EssentialDb.Users.First().UserId, "device"));
         testHelper.EssentialDb.SaveChanges();
 
         testHelper.CurrentUserInfoMock.Setup(x => x.SessionId)

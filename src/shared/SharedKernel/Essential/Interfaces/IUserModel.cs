@@ -1,5 +1,6 @@
 namespace WeeControl.SharedKernel.Essential.Interfaces;
 
+[Obsolete]
 public interface IUserModel
 {
     string FirstName { get; set; }

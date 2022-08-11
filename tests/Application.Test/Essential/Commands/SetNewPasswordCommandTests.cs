@@ -20,7 +20,7 @@ public class SetNewPasswordCommandTests
         await testHelper.EssentialDb.Users.AddAsync(user);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         
-        var session = SessionDbo.Create(Guid.NewGuid(), "device");
+        var session = UserSessionDbo.Create(Guid.NewGuid(), "device");
         session.UserId = user.UserId;
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
@@ -41,7 +41,7 @@ public class SetNewPasswordCommandTests
         await testHelper.EssentialDb.Users.AddAsync(user);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         
-        var session = SessionDbo.Create(Guid.NewGuid(), "device");
+        var session = UserSessionDbo.Create(Guid.NewGuid(), "device");
         session.UserId = user.UserId;
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);

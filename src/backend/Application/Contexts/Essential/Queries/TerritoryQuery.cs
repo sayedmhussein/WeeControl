@@ -50,8 +50,8 @@ public class TerritoryQuery : IRequest<IResponseDto<IEnumerable<TerritoryDto>>>
                     list.Add(new TerritoryDto()
                     {
                         LocalName = x.AlternativeName,
-                        TerritoryCode = x.TerritoryId, ReportToId = x.ReportToId,
-                        TerritoryName = x.TerritoryName, CountryCode = x.CountryCode
+                        TerritoryCode = x.TerritoryIdObsolute, ReportToId = x.ReportToIdObsolute,
+                        TerritoryName = x.UniqueName, CountryCode = x.CountryCode
                     });
                 }, cancellationToken);
             }
@@ -60,20 +60,20 @@ public class TerritoryQuery : IRequest<IResponseDto<IEnumerable<TerritoryDto>>>
                 var ids = new List<string>();
                 ids.AddRange(request.territoryCodes);
 
-                await context.Territories.Where(x => ids.Contains(x.ReportToId)).ForEachAsync(x =>
+                await context.Territories.Where(x => ids.Contains(x.ReportToIdObsolute)).ForEachAsync(x =>
                 {
-                    ids.Add(x.TerritoryId);
+                    ids.Add(x.TerritoryIdObsolute);
                 }, cancellationToken);
                 
-                var q = context.Territories.Include(a => a.Reporting).Where(x => ids.Contains(x.TerritoryId));
+                var q = context.Territories.Include(a => a.Reporting).Where(x => ids.Contains(x.TerritoryIdObsolute));
                 
                 await q.ForEachAsync(x =>
                 {
                     list.Add(new TerritoryDto()
                     {
                         LocalName = x.AlternativeName,
-                        TerritoryCode = x.TerritoryId, ReportToId = x.ReportToId,
-                        TerritoryName = x.TerritoryName, CountryCode = x.CountryCode
+                        TerritoryCode = x.TerritoryIdObsolute, ReportToId = x.ReportToIdObsolute,
+                        TerritoryName = x.UniqueName, CountryCode = x.CountryCode
                     });
                 }, cancellationToken);
             }

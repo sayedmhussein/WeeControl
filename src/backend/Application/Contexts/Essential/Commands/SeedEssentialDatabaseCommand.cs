@@ -90,7 +90,7 @@ public class SeedEssentialDatabaseCommand : IRequest
                 
                 foreach (var c in claims)
                 {
-                    await context.UserClaims.AddAsync(ClaimDbo.Create(user.UserId, c.Type, c.Value, user.UserId), cancellationToken);
+                    await context.UserClaims.AddAsync(UserClaimDbo.Create(user.UserId, c.Type, c.Value, user.UserId), cancellationToken);
                 }
                 
                 await context.SaveChangesAsync(cancellationToken);

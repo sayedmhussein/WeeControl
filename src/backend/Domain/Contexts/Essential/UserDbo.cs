@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using WeeControl.SharedKernel.Essential.Entities;
 using WeeControl.SharedKernel.Essential.Interfaces;
 
 namespace WeeControl.Domain.Contexts.Essential;
 
-public class UserDbo : IUserModel
+[Table(nameof(UserDbo), Schema = nameof(Essential))]
+public class UserDbo : UserEntity
 {
     public static UserDbo Create(string firstname, string lastname, string email, string username, string password,
         string mobileNo, string territory, string nationality)
@@ -32,17 +37,15 @@ public class UserDbo : IUserModel
         };
     }
     
+    [Key]
     public Guid UserId { get; }
+
+    public PersonDbo Person { get; set; }
     public string FirstName { get; set; }
     public string SecondName { get; set; }
     public string ThirdName { get; set; }
     public string LastName { get; set; }
-    
-    [EmailAddress] public string Email { get; set; }
-    [MinLength(3)] public string Username { get; set; }
-    public string Password { get; set; }
-    [Phone] public string MobileNo { get; set; }
-    
+
     public string TerritoryId { get; set; }
     public TerritoryDbo Territory { get; set; }
 
@@ -56,12 +59,12 @@ public class UserDbo : IUserModel
 
     public string PhotoUrl { get; set; }
 
-    public virtual IEnumerable<SessionDbo> Sessions { get; }
-    public virtual ICollection<ClaimDbo> Claims { get; }
+    public virtual IEnumerable<UserSessionDbo> Sessions { get; }
+    public virtual ICollection<UserClaimDbo> Claims { get; }
     
-    public virtual ICollection<IdentityDbo> Identities { get; }
+    public virtual ICollection<UserIdentityDbo> Identities { get; }
     
-    public virtual IEnumerable<NotificationDbo> Notifications { get; }
+    public virtual IEnumerable<UserNotificationDbo> Notifications { get; }
 
     public void UpdatePassword(string newPassword)
     {
@@ -86,11 +89,58 @@ public class UserDbo : IUserModel
 
     public void AddClaim(string claimType, string claimValue, Guid grantedBy)
     {
-        var claim = ClaimDbo.Create(UserId, claimType, claimValue, grantedBy);
+        var claim = UserClaimDbo.Create(UserId, claimType, claimValue, grantedBy);
         Claims.Add(claim);
     }
     
     private UserDbo()
     {
+    }
+}
+
+public class UserEntityTypeConfig : IEntityTypeConfiguration<UserDbo>
+{
+    public void Configure(EntityTypeBuilder<UserDbo> builder)
+    {
+        builder.Property(p => p.UserId).ValueGeneratedOnAdd();
+        builder.HasComment("Table which holds list of users with their credentials.");
+        
+        builder.HasIndex(x => x.Email).IsUnique();
+        
+        builder.HasIndex(x => x.Username).IsUnique();
+        
+        builder.HasIndex(x => new {x.Username, x.Password}).IsUnique(false);
+        builder.Property(p => p.TempPassword).HasMaxLength(128);
+
+        builder.Property(p => p.SuspendArgs).HasMaxLength(255);
+        builder.Property(p => p.Nationality).HasMaxLength(3);
+
+        builder.Property(p => p.PhotoUrl).HasMaxLength(255);
+
+        builder.HasOne(x=> x.Person)
+            .WithOne(x => x.User)
+            .HasForeignKey<PersonDbo>(x => x.UserId);
+        
+        builder.HasOne<EmployeeDbo>()
+            .WithOne(x => x.User)
+            .HasForeignKey<EmployeeDbo>(x => x.UserId);
+        
+        builder.HasOne<CustomerDbo>()
+            .WithOne(x => x.User)
+            .HasForeignKey<CustomerDbo>(x => x.UserId);
+
+        builder.HasOne(x => x.Territory)
+            .WithMany()
+            .HasForeignKey(x => x.TerritoryId)
+            .OnDelete(DeleteBehavior.Restrict);
+            
+        builder.HasMany(x => x.Claims)
+            .WithOne().HasForeignKey(x => x.UserId);
+            
+        builder.HasMany(x => x.Notifications)
+            .WithOne().HasForeignKey(x => x.UserId);
+            
+        builder.HasMany(x => x.Identities)
+            .WithOne().HasForeignKey(x => x.UserId);
     }
 }
