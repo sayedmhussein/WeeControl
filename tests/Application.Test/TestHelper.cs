@@ -6,6 +6,7 @@ using Moq;
 using WeeControl.Application.Interfaces;
 using WeeControl.Domain.Contexts.Essential;
 using WeeControl.Persistence;
+using WeeControl.SharedKernel.Essential.Entities;
 using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.Services;
 
@@ -51,13 +52,14 @@ public class TestHelper : IDisposable
 
     public UserDbo GetUserDboWithEncryptedPassword(string username, string password, string territory = "TST")
     {
-        return UserDbo.Create(
-            nameof(UserDbo.FirstName), 
-            nameof(UserDbo.LastName), 
-            (username + "@email.com").ToLower(), 
-            username.ToLower(),
-            PasswordSecurity.Hash(password), 
-            "012345667", 
-            territory, "EGP");
+        var entity = new UserEntity()
+        {
+            Username = username,
+            Email = username + "@email.com",
+            Password = PasswordSecurity.Hash(password),
+            MobileNo = "0123456789"
+        };
+        
+        return new UserDbo(entity);
     }
 }

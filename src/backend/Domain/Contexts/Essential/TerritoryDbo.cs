@@ -12,13 +12,13 @@ namespace WeeControl.Domain.Contexts.Essential;
 public class TerritoryDbo : TerritoryEntity
 {
     [Key]
-    public Guid TerritoryId { get; set; }
+    public Guid TerritoryId { get; } = Guid.NewGuid();
 
     public Guid? ReportToId { get; set; }
     
-    public TerritoryDbo ReportTo { get; set; }
+    public TerritoryDbo ReportTo { get; }
     
-    public ICollection<TerritoryDbo> ReportingTo { get; set; }
+    public ICollection<TerritoryDbo> ReportingTo { get; }
 
     private TerritoryDbo()
     {
@@ -37,6 +37,7 @@ public class TerritoryEntityTypeConfig : IEntityTypeConfiguration<TerritoryDbo>
 {
     public void Configure(EntityTypeBuilder<TerritoryDbo> builder)
     {
+        builder.Property(x => x.TerritoryId).ValueGeneratedOnAdd().HasDefaultValue(Guid.NewGuid());
         builder.HasComment("Territory of corporate.");
         builder.HasIndex(x => new { x.CountryCode, TerritoryName = x.UniqueName }).IsUnique();
         

@@ -16,20 +16,12 @@ public class UserClaimDbo
             UserId = userId, ClaimType = type, ClaimValue = tag, GrantedById = grantedById
         };
     }
-    
-    public static UserClaimDbo Create(Guid userId, string type, string tag, EmployeeDbo grantedBy)
-    {
-        return new UserClaimDbo()
-        {
-            UserId = userId, ClaimType = type, ClaimValue = tag, GrantedBy = grantedBy
-        };
-    }
-    
+
     [Key]
     public Guid ClaimId { get; }
 
     public Guid? UserId { get; private set;}
-    public UserDbo User { get; set; }
+    public UserDbo User { get; }
 
     [Required]
     [StringLength(5)]
@@ -52,13 +44,7 @@ public class UserClaimDbo
         RevokedById = revokedById;
         RevokedTs = DateTime.UtcNow;
     }
-    
-    public void Revoke(EmployeeDbo revokedBy)
-    {
-        RevokedBy = revokedBy;
-        RevokedTs = DateTime.UtcNow;
-    }
-    
+
     private UserClaimDbo()
     {
     }
@@ -68,7 +54,7 @@ public class UserClaimEntityTypeConfig : IEntityTypeConfiguration<UserClaimDbo>
 {
     public void Configure(EntityTypeBuilder<UserClaimDbo> builder)
     {
-        builder.Property(p => p.ClaimId).ValueGeneratedOnAdd();
+        builder.Property(p => p.ClaimId).ValueGeneratedOnAdd().HasDefaultValue(Guid.NewGuid());
         
         builder.Property(p => p.GrantedTs).HasDefaultValue(DateTime.UtcNow);
         builder.HasIndex(i => new { i.ClaimType, i.ClaimValue }).IsUnique();

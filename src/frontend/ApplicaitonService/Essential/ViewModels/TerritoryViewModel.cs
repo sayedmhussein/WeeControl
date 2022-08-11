@@ -73,7 +73,7 @@ public class TerritoryViewModel : ViewModelBase
                 RequestUri = new Uri(uriString),
                 Version = new Version("1.0"),
                 Method = HttpMethod.Put
-            }, TerritoryDto.Create(modelDto));
+            }, new TerritoryDto(null, modelDto));
 
         switch (response.StatusCode)
         {

@@ -22,6 +22,7 @@ public static class ClaimsValues
     {
         public const string Session = "e_s";
         public const string Territory = "e_r";
+        public const string Country = "e_c";
         
         public const string Developer = "e_dv";
         public const string Administrator = "e_ad";

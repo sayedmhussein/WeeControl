@@ -11,7 +11,7 @@ namespace WeeControl.Frontend.ApplicationService.UnitTest.ViewModels.User;
 
 public class RegisterViewModelTests : ViewModelTestsBase
 {
-    public RegisterViewModelTests() : base(nameof(UserViewModel))
+    public RegisterViewModelTests() : base(nameof(CustomerViewModel))
     {
     }
     
@@ -83,8 +83,8 @@ public class RegisterViewModelTests : ViewModelTestsBase
         return GetJsonContent(dto);
     }
 
-    private UserViewModel GetViewModel(IDevice device)
+    private CustomerViewModel GetViewModel(IDevice device)
     {
-        return new UserViewModel(device, new ServerOperationService(device));
+        return new CustomerViewModel(device, new ServerOperationService(device));
     }
 }

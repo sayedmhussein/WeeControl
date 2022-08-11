@@ -17,10 +17,6 @@ public class UserDbo : UserEntity
 
     public PersonDbo Person { get; set; }
 
-    public TerritoryDbo Territory { get; set; }
-
-    public string Nationality { get; set; }
-
     [AllowNull]
     public string SuspendArgs { get; private set; }
     
@@ -91,7 +87,6 @@ public class UserEntityTypeConfig : IEntityTypeConfiguration<UserDbo>
         builder.Property(p => p.TempPassword).HasMaxLength(128);
 
         builder.Property(p => p.SuspendArgs).HasMaxLength(255);
-        builder.Property(p => p.Nationality).HasMaxLength(3);
 
         builder.Property(p => p.PhotoUrl).HasMaxLength(255);
 

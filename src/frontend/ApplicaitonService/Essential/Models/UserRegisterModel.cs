@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WeeControl.Frontend.ApplicationService.Essential.Models;
 
-public class UserRegisterModel : IUserModel
+public class UserRegisterModel 
 {
     [Required]
     [StringLength(50)]

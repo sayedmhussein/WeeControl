@@ -14,7 +14,7 @@ public static class ApplicationServiceExtensions
 
         services.AddTransient<HomeViewModel>();
         services.AddTransient<AuthorizationViewModel>();
-        services.AddTransient<UserViewModel>();
+        services.AddTransient<CustomerViewModel>();
         services.AddTransient<TerritoryViewModel>();
 
         #region AuthorizationContext

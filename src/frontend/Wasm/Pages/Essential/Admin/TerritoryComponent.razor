@@ -25,15 +25,15 @@
                     <MudItem>
                         <MudTextField Label="Code" 
                                       HelperText="Territory Code"
-                                      @bind-value="@selectedItem.TerritoryCode" @bind-Text="@selectedItem.TerritoryCode"
-                                      For="@(() => selectedItem.TerritoryCode)">
+                                      @bind-value="@selectedItem.CountryCode" @bind-Text="@selectedItem.CountryCode"
+                                      For="@(() => selectedItem.CountryCode)">
                         </MudTextField>
                     </MudItem>
                     <MudItem>
-                        <MudSelect T="string" Label="Report To" AnchorOrigin="Origin.BottomCenter" @bind-Value="@selectedItem.ReportToId">
+                        <MudSelect T="string" Label="Report To" AnchorOrigin="Origin.BottomCenter" @bind-Value="@selectedItem.CountryCode">
                             @foreach (var l in @ViewModel.ListOfTerritories)
                             {
-                                <MudSelectItem Value="@(l.TerritoryCode)">@l.TerritoryCode</MudSelectItem>
+                                <MudSelectItem Value="@(l.CountryCode)">@l.CountryCode</MudSelectItem>
                             }
                         </MudSelect>
                     </MudItem>
@@ -48,15 +48,15 @@
                     <MudItem>
                         <MudTextField Label="Name"
                                       HelperText="Territory Name"
-                                      @bind-value="@selectedItem.TerritoryName" @bind-Text="@selectedItem.TerritoryName"
-                                      For="@(() => selectedItem.TerritoryName)">
+                                      @bind-value="@selectedItem.UniqueName" @bind-Text="@selectedItem.UniqueName"
+                                      For="@(() => selectedItem.UniqueName)">
                         </MudTextField>
                     </MudItem>
                     <MudItem>
                         <MudTextField Label="Local Name"
                                       HelperText="Territory Alternative Name"
-                                      @bind-value="@selectedItem.LocalName" @bind-Text="@selectedItem.LocalName"
-                                      For="@(() => selectedItem.LocalName)">
+                                      @bind-value="@selectedItem.AlternativeName" @bind-Text="@selectedItem.AlternativeName"
+                                      For="@(() => selectedItem.AlternativeName)">
                         </MudTextField>
                     </MudItem>
                 </MudGrid>
@@ -89,12 +89,12 @@
             <MudTh>Name</MudTh>
         </HeaderContent>
         <RowTemplate>
-                <MudTd DataLabel="Nr">@context.TerritoryCode</MudTd>
-                <MudTd DataLabel="Sign">@context.ReportToId</MudTd>
+                <MudTd DataLabel="Nr">@context.CountryCode</MudTd>
+                <MudTd DataLabel="Sign">@context.CountryCode</MudTd>
                 <MudTd DataLabel="Name">@context.CountryCode</MudTd>
-                <MudTd DataLabel="Position">@context.TerritoryName</MudTd>
-                <MudTd DataLabel="Molar mass">@context.LocalName</MudTd>
-            @if (selectedItemFromTable?.TerritoryCode == @context.TerritoryCode)
+                <MudTd DataLabel="Position">@context.CountryCode</MudTd>
+                <MudTd DataLabel="Molar mass">@context.CountryCode</MudTd>
+            @if (selectedItemFromTable?.CountryCode == @context.CountryCode)
             {
                 <MudIconButton Icon="@Icons.Material.Outlined.Edit" OnClick="@EditCurrentTerritory" />
             }
@@ -129,10 +129,10 @@
     private void EditCurrentTerritory()
     {
         selectedItem.CountryCode = selectedItemFromTable.CountryCode;
-        selectedItem.LocalName = selectedItemFromTable.LocalName;
-        selectedItem.TerritoryCode = selectedItemFromTable.TerritoryCode;
-        selectedItem.ReportToId = selectedItemFromTable.ReportToId;
-        selectedItem.TerritoryName = selectedItemFromTable.TerritoryName;
+        selectedItem.CountryCode = selectedItemFromTable.CountryCode;
+        selectedItem.CountryCode = selectedItemFromTable.CountryCode;
+        selectedItem.CountryCode = selectedItemFromTable.CountryCode;
+        selectedItem.CountryCode = selectedItemFromTable.CountryCode;
         StateHasChanged();
         hideAddTerritory = false;
     }
@@ -147,10 +147,10 @@
     private void CancelEditFields()
     {
         hideAddTerritory = true;
-        selectedItem.TerritoryCode = string.Empty;
-        selectedItem.ReportToId = string.Empty;
-        selectedItem.TerritoryName = string.Empty;
-        selectedItem.LocalName = string.Empty;
+        selectedItem.CountryCode = string.Empty;
+        selectedItem.CountryCode = string.Empty;
+        selectedItem.CountryCode = string.Empty;
+        selectedItem.CountryCode = string.Empty;
         selectedItem.CountryCode = string.Empty;
     }
 
@@ -160,11 +160,11 @@
     {
         if (string.IsNullOrWhiteSpace(searchString))
             return true;
-        if (element.TerritoryCode.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        if (element.CountryCode.Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
-        if (element.TerritoryName.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        if (element.CountryCode.Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
-        if ($"{element.TerritoryCode} {element.TerritoryCode} {element.LocalName}".Contains(searchString))
+        if ($"{element.CountryCode} {element.CountryCode} {element.CountryCode}".Contains(searchString))
             return true;
         return false;
     }

@@ -32,7 +32,7 @@ public class RegisterTests : IClassFixture<CustomWebApplicationFactory<Startup>>
         model.TerritoryId = "TST";
         model.Nationality = "EGP";
         
-        using var helper = new TestHelper<UserViewModel>(factory.CreateClient());
+        using var helper = new TestHelper<CustomerViewModel>(factory.CreateClient());
         
         await helper.ViewModel.RegisterAsync(model);
 
@@ -59,7 +59,7 @@ public class RegisterTests : IClassFixture<CustomWebApplicationFactory<Startup>>
             });
         }).CreateClient();
         
-        using var helper = new TestHelper<UserViewModel>(httpClient);
+        using var helper = new TestHelper<CustomerViewModel>(httpClient);
 
         var model = new UserRegisterModel();
         model.FirstName = username;

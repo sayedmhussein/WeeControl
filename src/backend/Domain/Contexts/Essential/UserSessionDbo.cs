@@ -39,7 +39,7 @@ public class UserSessionEntityTypeConfig : IEntityTypeConfiguration<UserSessionD
 {
     public void Configure(EntityTypeBuilder<UserSessionDbo> builder)
     {
-        builder.Property(p => p.SessionId).ValueGeneratedOnAdd();
+        builder.Property(p => p.SessionId).ValueGeneratedOnAdd().HasDefaultValue(Guid.NewGuid());
 
         builder.HasOne(x => x.User)
             .WithMany()

@@ -14,13 +14,5 @@ public interface ICurrentUserInfo
     IEnumerable<Claim> Claims { get; }
     Guid? SessionId { get; }
     
-    
-    
-    
-    
-    [Obsolete("Use property instead of function.")]
-    Guid? GetSessionId();
-
-    [Obsolete("Server will check for eligibility using mediator.")]
-    Task<IEnumerable<string>> GetTerritoriesListAsync(CancellationToken cancellationToken);
+    string CountryId { get; }
 }

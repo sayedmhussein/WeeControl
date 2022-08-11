@@ -98,17 +98,16 @@ public class AuthorizationViewModel : ViewModelBase
                 Method = HttpMethod.Post,
                 
             }, 
-            LoginDtoV1.Create(UsernameOrEmail, Password));
+            AuthenticationRequestDto.Create(UsernameOrEmail, Password));
 
         if (response.IsSuccessStatusCode)
         {
-            var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<TokenDtoV1>>();
+            var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<AuthenticationResponseDto>>();
             var token = responseDto?.Payload?.Token;
             if (token is not null)
             {
                 await device.Security.UpdateTokenAsync(token);
                 await device.Storage.SaveAsync(nameof(TokenDtoV1.FullName), responseDto?.Payload?.FullName ?? string.Empty);
-                await device.Storage.SaveAsync(nameof(TokenDtoV1.PhotoUrl), responseDto?.Payload?.PhotoUrl ?? string.Empty);
                 if (await server.IsTokenValid())
                 {
                     await device.Navigation.NavigateToAsync(Pages.Shared.IndexPage, forceLoad: true);

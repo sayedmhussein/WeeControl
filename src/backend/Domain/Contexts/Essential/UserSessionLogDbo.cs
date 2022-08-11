@@ -10,7 +10,7 @@ namespace WeeControl.Domain.Contexts.Essential;
 public class UserSessionLogDbo
 {
     [Key]
-    public Guid LogId { get; set; }
+    public Guid LogId { get; }
     
     public Guid SessionId { get; set; }
     public UserSessionDbo UserSession { get; set; }
@@ -30,7 +30,7 @@ public class UserSessionLogEntityTypeConfig : IEntityTypeConfiguration<UserSessi
 {
     public void Configure(EntityTypeBuilder<UserSessionLogDbo> builder)
     {
-        builder.Property(p => p.LogId).ValueGeneratedOnAdd();
+        builder.Property(p => p.LogId).ValueGeneratedOnAdd().HasDefaultValue(Guid.NewGuid());
         builder.Property(p => p.LogTs).HasDefaultValue(DateTime.UtcNow);
             
         builder.HasOne(x => x.UserSession)

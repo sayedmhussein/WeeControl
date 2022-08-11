@@ -16,14 +16,16 @@ public class EmployeeDbo : EmployeeEntity
     public Guid UserId { get; set; }
     public UserDbo User { get; set; }
 
+    public Guid TerritoryId { get; set; }
+
     private EmployeeDbo()
     {
     }
 
-    public EmployeeDbo(Guid userId, EmployeeEntity employee)
+    public EmployeeDbo(Guid userId, Guid territoryId, EmployeeEntity employee)
     {
         UserId = userId;
-        TerritoryName = employee.TerritoryName;
+        TerritoryId = territoryId;
     }
 }
 

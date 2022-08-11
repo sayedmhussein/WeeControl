@@ -8,12 +8,12 @@ using WeeControl.SharedKernel.RequestsResponses;
 
 namespace WeeControl.Frontend.ApplicationService.Essential.ViewModels;
 
-public class UserViewModel : ViewModelBase
+public class CustomerViewModel : ViewModelBase
 {
     private readonly IDevice device;
     private readonly IServerOperation server;
 
-    public UserViewModel(IDevice device, IServerOperation server)
+    public CustomerViewModel(IDevice device, IServerOperation server)
     {
         this.device = device;
         this.server = server;
@@ -30,7 +30,7 @@ public class UserViewModel : ViewModelBase
             Method = HttpMethod.Post,
         };
         
-        var dto = UserRegisterDto.Create(model);
+        var dto = new RegisterCustomerDto();
         var response = await server.Send(message, dto);
 
         if (response.IsSuccessStatusCode)

@@ -33,7 +33,7 @@ public class SeedEssentialDatabaseCommand : IRequest
 
             await context.Territories.AddRangeAsync(GetTerritories(), cancellationToken);
 
-            await AddUser("developer", "USA-HO", new List<(string Type, string Value)>()
+            await AddEmployee("developer", GetTerritories().First(x => x.UniqueName == "USA-HO").TerritoryId, new List<(string Type, string Value)>()
             {
                 (ClaimsValues.ClaimTypes.Developer, ClaimsValues.ClaimValues.SuperUser),
                 (ClaimsValues.ClaimTypes.Administrator, ClaimsValues.ClaimValues.Supervisor),
@@ -44,15 +44,10 @@ public class SeedEssentialDatabaseCommand : IRequest
                 (ClaimsValues.ClaimTypes.Finance, ClaimsValues.ClaimValues.SuperUser)
             }, cancellationToken);
             
-            await AddUser("admin", "SAU-WEST", new List<(string Type, string Value)>()
+            await AddEmployee("admin", GetTerritories().First(x => x.UniqueName == "SAU-WEST").TerritoryId, new List<(string Type, string Value)>()
             {
                 (ClaimsValues.ClaimTypes.Administrator, ClaimsValues.ClaimValues.SuperUser),
                 (ClaimsValues.ClaimTypes.Administrator, ClaimsValues.ClaimValues.Manager)
-            }, cancellationToken);
-            
-            await AddUser("HrUser", "SAU-WEST", new List<(string Type, string Value)>()
-            {
-                (ClaimsValues.ClaimTypes.HumanResource, ClaimsValues.ClaimValues.SuperUser)
             }, cancellationToken);
 
             return Unit.Value;
@@ -60,18 +55,17 @@ public class SeedEssentialDatabaseCommand : IRequest
 
         private IEnumerable<TerritoryDbo> GetTerritories()
         {
-            return new List<TerritoryDbo>()
-            {
-                new TerritoryDbo("USA-HO", null, "USA"), 
-                // TerritoryDbo.Create("EGP-HO", "USA-HO", "EGP", "Main Head Office"),
-                // TerritoryDbo.Create("EGP-CAI", "EGP-HO", "EGP", "Cairo"),
-                // TerritoryDbo.Create("SAU-HO", "USA-HO", "SAU", "Saudi Arabia HO"),
-                // TerritoryDbo.Create("SAU-WEST", "SAU-HO", "SAU", "Western Region"),
-                // TerritoryDbo.Create("SAU-JED", "SAU-WEST", "SAU", "Jeddah")
-            };
+            var usa = new TerritoryDbo("USA-HO", null, "USA");
+            var egp = new TerritoryDbo("EGP-HO", null, "EGP", usa.TerritoryId);
+            var cai = new TerritoryDbo("EGP-CAI", null, "EGP", egp.TerritoryId);
+            var sau = new TerritoryDbo("SAU-HO", null, "SAU", usa.TerritoryId);
+            var wst = new TerritoryDbo("SAU-WEST", null, "SAU", sau.TerritoryId);
+            var jed = new TerritoryDbo("SAU-JED", null, "SAU", wst.TerritoryId);
+            
+            return new List<TerritoryDbo>() { usa, egp, cai, sau, wst, jed };
         }
 
-        private async Task AddUser(string name, string territoryId, IEnumerable<(string Type, string Value)> claims, CancellationToken cancellationToken)
+        private async Task AddEmployee(string name, Guid territoryId, IEnumerable<(string Type, string Value)> claims, CancellationToken cancellationToken)
         {
             await context.Users.AddAsync(new UserDbo(new UserEntity()
             {
@@ -93,8 +87,11 @@ public class SeedEssentialDatabaseCommand : IRequest
                 }
                 
                 await context.SaveChangesAsync(cancellationToken);
+
+                var employee = new EmployeeDbo(user.UserId, territoryId, new EmployeeEntity());
+                await context.Employees.AddAsync(employee, cancellationToken);
+                await context.SaveChangesAsync(cancellationToken);
             }
-            
         }
     }
 }
