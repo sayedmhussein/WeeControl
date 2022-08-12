@@ -14,7 +14,6 @@ public interface IEssentialDbContext : IDbContext
     DbSet<UserSessionLogDbo> SessionLogs { get; set; }
     DbSet<TerritoryDbo> Territories { get; set; }
     DbSet<UserClaimDbo> UserClaims { get; set; }
-    
     DbSet<EmployeeDbo> Employees { get; set; }
     DbSet<CustomerDbo> Customers { get; set; }
 }

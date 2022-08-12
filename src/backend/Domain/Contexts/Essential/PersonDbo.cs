@@ -13,8 +13,8 @@ public class PersonDbo : PersonalEntity
     [Key]
     public Guid PersonId { get; }
 
-    public Guid UserId { get; set; }
-    public UserDbo User { get; set; }
+    public Guid UserId { get; }
+    public UserDbo User { get; }
 
     private PersonDbo()
     {
@@ -35,6 +35,6 @@ public class PersonEntityTypeConfig : IEntityTypeConfiguration<PersonDbo>
 {
     public void Configure(EntityTypeBuilder<PersonDbo> builder)
     {
-        builder.Property(x => x.PersonId).HasDefaultValue(Guid.NewGuid());
+        builder.Property(x => x.PersonId).ValueGeneratedOnAdd().HasDefaultValue(Guid.NewGuid());
     }
 }

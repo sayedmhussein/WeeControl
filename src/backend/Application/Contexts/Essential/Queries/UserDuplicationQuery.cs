@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,15 +11,18 @@ namespace WeeControl.Application.Contexts.Essential.Queries;
 
 public class UserDuplicationQuery : IRequest
 {
-    private readonly string username;
-    private readonly string email;
-    private readonly string mobile;
-
-    public UserDuplicationQuery(string username = null, string email = null, string mobile = null)
+    public enum Parameter
     {
-        this.username = username;
-        this.email = email;
-        this.mobile = mobile;
+        Username, Email, Mobile
+    };
+
+    private readonly Parameter parameter;
+    private readonly string value;
+
+    public UserDuplicationQuery(Parameter parameter, string value)
+    {
+        this.parameter = parameter;
+        this.value = value;
     }
     
     public class UserDuplicationHandler : IRequestHandler<UserDuplicationQuery>
@@ -32,27 +36,36 @@ public class UserDuplicationQuery : IRequest
         
         public async Task<Unit> Handle(UserDuplicationQuery request, CancellationToken cancellationToken)
         {
-            if (request.username is not null &&
-                await essentialDbContext.Users.Select(x => x.Username)
-                    .ContainsAsync(request.username.Trim().ToLower(), cancellationToken))
+            switch (request.parameter)
             {
-                throw new ConflictFailureException("username already exist");
-            }
-
-            if (request.email is not null &&
-                await essentialDbContext.Users.Select(x => x.Email)
-                    .ContainsAsync(request.email.Trim().ToLower(), cancellationToken))
-            {
-                throw new ConflictFailureException("username already exist");
+                case Parameter.Username:
+                    if (request.value is not null &&
+                        await essentialDbContext.Users.Select(x => x.Username)
+                            .ContainsAsync(request.value.Trim().ToLower(), cancellationToken))
+                    {
+                        throw new ConflictFailureException("username already exist");
+                    }
+                    break;
+                case Parameter.Email:
+                    if (request.value is not null &&
+                        await essentialDbContext.Users.Select(x => x.Email)
+                            .ContainsAsync(request.value.Trim().ToLower(), cancellationToken))
+                    {
+                        throw new ConflictFailureException("username already exist");
+                    }
+                    break;
+                case Parameter.Mobile:
+                    if (request.value is not null &&
+                        await essentialDbContext.Users.Select(x => x.MobileNo)
+                            .ContainsAsync(request.value.Trim().ToLower(), cancellationToken))
+                    {
+                        throw new ConflictFailureException("username already exist");
+                    }
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
             
-            if (request.mobile is not null &&
-                await essentialDbContext.Users.Select(x => x.MobileNo)
-                    .ContainsAsync(request.mobile.Trim().ToLower(), cancellationToken))
-            {
-                throw new ConflictFailureException("username already exist");
-            }
-
             return Unit.Value;
         }
     }

@@ -13,6 +13,5 @@ public interface ICurrentUserInfo
 {
     IEnumerable<Claim> Claims { get; }
     Guid? SessionId { get; }
-    
     string CountryId { get; }
 }

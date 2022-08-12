@@ -20,7 +20,7 @@ public class TerritoryViewModel : ViewModelBase
     {
         this.device = device;
         this.server = server;
-        uriString = device.Server.GetFullAddress(Api.Essential.Territory.EndPoint);
+        uriString = device.Server.GetFullAddress(Api.Essential.Routes.Territory);
         ListOfTerritories = new List<TerritoryModel>();
     }
 

@@ -67,6 +67,6 @@ public class ResetPasswordCommandTests
     {
         return new UserForgotMyPasswordCommand(
             RequestDto.Create(
-                ForgotMyPasswordDtoV1.Create(email, username), device, null, null));
+                UserPasswordResetRequestDto.Create(email, username), device, null, null));
     }
 }

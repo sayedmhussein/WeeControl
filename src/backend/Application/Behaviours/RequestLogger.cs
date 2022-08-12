@@ -9,8 +9,7 @@ namespace WeeControl.Application.Behaviours;
 public class RequestLogger<TRequest> : IRequestPreProcessor<TRequest>
 {
     private readonly IMediator mediator;
-
-
+    
     public RequestLogger(IMediator mediator)
     {
         this.mediator = mediator;

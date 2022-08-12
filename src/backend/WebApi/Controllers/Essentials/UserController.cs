@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Net;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -22,7 +24,7 @@ public abstract class UserController : Controller
     }
     
     [Authorize]
-    [HttpPatch(Api.Essential.User.ResetPassword)]
+    [HttpPatch(Api.Essential.EndPoints.Password)]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -37,7 +39,7 @@ public abstract class UserController : Controller
     }
     
     [AllowAnonymous]
-    [HttpPost(Api.Essential.User.ResetPassword)]
+    [HttpPost(Api.Essential.EndPoints.Password)]
     [MapToApiVersion("1.0")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -48,5 +50,25 @@ public abstract class UserController : Controller
         //
         // return Ok();
         throw new NotImplementedException();
+    }
+    
+    [HttpGet(Api.Essential.EndPoints.Notification)]
+    [MapToApiVersion("1.0")]
+    [Produces(MediaTypeNames.Application.Json)]
+    public async Task<ActionResult<ResponseDto<IEnumerable<UserNotificationDto>>>> GetNotification()
+    {
+        throw new NotImplementedException();
+        // var query = new NotificationQuery();
+        // var response = await mediator.Send(query);
+        // return Ok(response);
+    }
+
+    [HttpDelete(Api.Essential.EndPoints.Notification + "/{id:guid}")]
+    [MapToApiVersion("1.0")]
+    public async Task<ActionResult> MuteNotificationV1(Guid id)
+    {
+        var command = new NotificationViewedCommand(id);
+        await mediator.Send(command);
+        return Ok();
     }
 }

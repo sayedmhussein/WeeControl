@@ -20,8 +20,8 @@ public class LoginViewModelTests : ViewModelTestsBase
     [Fact]
     public async void SuccessTest()
     {
-        var content1 = GetJsonContent(ResponseDto.Create(TokenDtoV1.Create("token", "name", "url")));
-        var content2 = GetJsonContent(ResponseDto.Create(TokenDtoV1.Create("token", "name", "url")));
+        var content1 = GetJsonContent(ResponseDto.Create(AuthenticationResponseDto.Create("token", "name")));
+        var content2 = GetJsonContent(ResponseDto.Create(AuthenticationResponseDto.Create("token", "name")));
         var expected = new List<Tuple<HttpStatusCode, HttpContent>>()
         {
             new (HttpStatusCode.OK, content1),
@@ -45,8 +45,8 @@ public class LoginViewModelTests : ViewModelTestsBase
     [InlineData(HttpStatusCode.NotFound, HttpStatusCode.NotFound)]
     public async void WhenBadRequest(HttpStatusCode code1, HttpStatusCode code2)
          {
-             var content1 = GetJsonContent(ResponseDto.Create(TokenDtoV1.Create("token", "name", "url")));
-             var content2 = GetJsonContent(ResponseDto.Create(TokenDtoV1.Create("token", "name", "url")));
+             var content1 = GetJsonContent(ResponseDto.Create(AuthenticationResponseDto.Create("token", "name")));
+             var content2 = GetJsonContent(ResponseDto.Create(AuthenticationResponseDto.Create("token", "name")));
              var expected = new List<Tuple<HttpStatusCode, HttpContent>>()
              {
                  new (code1, content1),
@@ -94,7 +94,7 @@ public class LoginViewModelTests : ViewModelTestsBase
     [InlineData("   ", "    ")]
     public async void WhenEmptyProperties_DisplayAlertOnly(string username, string password)
     {
-        var content = GetJsonContent(ResponseDto.Create(TokenDtoV1.Create("token", "name", "url")));
+        var content = GetJsonContent(ResponseDto.Create(AuthenticationResponseDto.Create("token", "name")));
         var vm = GetViewModel(Mock.GetObject(HttpStatusCode.OK, content), username, password);
 
         await vm.LoginAsync();

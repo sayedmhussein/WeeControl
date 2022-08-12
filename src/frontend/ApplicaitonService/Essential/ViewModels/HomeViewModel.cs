@@ -74,7 +74,7 @@ public class HomeViewModel : ViewModelBase
         var response = await server.Send<object>(
             new HttpRequestMessage
             {
-                RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Notification.Route)),
+                RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Routes.Customer)),
                 Version = new Version("1.0"),
                 Method = HttpMethod.Get
             });

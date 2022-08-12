@@ -91,6 +91,13 @@ public class SeedEssentialDatabaseCommand : IRequest
                 var employee = new EmployeeDbo(user.UserId, territoryId, new EmployeeEntity());
                 await context.Employees.AddAsync(employee, cancellationToken);
                 await context.SaveChangesAsync(cancellationToken);
+
+                var person = new PersonalEntity()
+                {
+                    FirstName = name, LastName = name, Nationality = "EGP"
+                };
+                await context.Person.AddAsync(new PersonDbo(user.UserId, person), cancellationToken);
+                await context.SaveChangesAsync(cancellationToken);
             }
         }
     }

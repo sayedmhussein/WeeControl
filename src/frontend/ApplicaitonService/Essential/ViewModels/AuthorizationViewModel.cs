@@ -55,7 +55,7 @@ public class AuthorizationViewModel : ViewModelBase
     {
         HttpRequestMessage message = new()
         {
-            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Authorization.Route)),
+            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Routes.Authorization)),
             Version = new Version("1.0"),
             Method = HttpMethod.Delete,
         };
@@ -93,7 +93,7 @@ public class AuthorizationViewModel : ViewModelBase
         var response = await server.Send(
             new HttpRequestMessage
             {
-                RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Authorization.Route)),
+                RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Routes.Authorization)),
                 Version = new Version("1.0"),
                 Method = HttpMethod.Post,
                 

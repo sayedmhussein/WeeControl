@@ -40,7 +40,7 @@ public class PasswordChangeViewModel : ViewModelBase
     {
         HttpRequestMessage message = new()
         {
-            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.User.ResetPasswordEndPoint)),
+            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Routes.Customer)),
             Version = new Version("1.0"),
             Method = HttpMethod.Patch,
         };

@@ -25,7 +25,7 @@ public class CustomerViewModel : ViewModelBase
         
         HttpRequestMessage message = new()
         {
-            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.User.Route)),
+            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Routes.Customer)),
             Version = new Version("1.0"),
             Method = HttpMethod.Post,
         };

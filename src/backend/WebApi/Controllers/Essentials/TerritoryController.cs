@@ -14,7 +14,7 @@ namespace WeeControl.WebApi.Controllers.Essentials;
 
 [ApiController]
 [Authorize]
-[Route(Api.Essential.Territory.EndPoint)]
+[Route(Api.Essential.Routes.Territory)]
 [ProducesResponseType((int)HttpStatusCode.OK)]
 [ProducesResponseType((int)HttpStatusCode.Forbidden)]
 [ProducesResponseType((int)HttpStatusCode.Unauthorized)]

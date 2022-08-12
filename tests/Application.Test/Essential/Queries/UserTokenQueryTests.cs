@@ -213,7 +213,7 @@ public class UserTokenQueryTests
     private UserTokenQuery GetQuery(string emailOrUsername, string password, string device = "device")
     {
         return new UserTokenQuery(RequestDto.Create(
-            LoginDtoV1.Create(emailOrUsername, password),  device, 0, 0));
+            AuthenticationRequestDto.Create(emailOrUsername, password),  device, 0, 0));
     }
     
     private UserTokenQuery GetQuery(string device)

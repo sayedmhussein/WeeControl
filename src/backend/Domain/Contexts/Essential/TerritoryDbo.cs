@@ -31,6 +31,14 @@ public class TerritoryDbo : TerritoryEntity
         CountryCode = country.Trim().ToUpper();
         ReportToId = reportToId;
     }
+    
+    public TerritoryDbo(string uniqueName, Guid? reportToId, string alternativeName, string country)
+    {
+        UniqueName = uniqueName.Trim().ToUpper();
+        AlternativeName = alternativeName?.Trim();
+        CountryCode = country.Trim().ToUpper();
+        ReportToId = reportToId;
+    }
 }
 
 public class TerritoryEntityTypeConfig : IEntityTypeConfiguration<TerritoryDbo>

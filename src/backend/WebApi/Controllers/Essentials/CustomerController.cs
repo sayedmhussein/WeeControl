@@ -15,7 +15,7 @@ using WeeControl.WebApi.Security.Policies;
 namespace WeeControl.WebApi.Controllers.Essentials;
 
 [ApiController]
-[Route(Api.Essential.User.Route)]
+[Route(Api.Essential.Routes.Customer)]
 [Consumes(MediaTypeNames.Application.Json)]
 [Produces(MediaTypeNames.Application.Json)]
 public class CustomerController : UserController
@@ -24,19 +24,20 @@ public class CustomerController : UserController
     {
     }
 
-    // [AllowAnonymous]
-    // [HttpPost]
-    // [MapToApiVersion("1.0")]
-    // [ProducesResponseType((int)HttpStatusCode.OK)]
-    // [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    // [ProducesResponseType((int)HttpStatusCode.Conflict)]
-    // public async Task<ActionResult<ResponseDto<AuthenticationResponseDto>>> RegisterV1([FromBody] RequestDto<RegisterCustomerDto> dto)
-    // {
-    //     var command = new UserRegisterCommand(dto);
-    //     var response = await mediator.Send(command);
-    //
-    //     return Ok(response);
-    // }
+    [AllowAnonymous]
+    [HttpPost]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.Conflict)]
+    public async Task<ActionResult<ResponseDto<AuthenticationResponseDto>>> RegisterV1([FromBody] RequestDto<RegisterCustomerDto> dto)
+    {
+        throw new NotImplementedException();
+        // var command = new UserRegisterCommand(dto);
+        // var response = await mediator.Send(command);
+        //
+        // return Ok(response);
+    }
     
     // [Authorize(Policy = nameof(CanEditUserPolicy))]
     // [HttpGet]

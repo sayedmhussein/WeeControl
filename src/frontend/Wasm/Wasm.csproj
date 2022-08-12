@@ -48,4 +48,7 @@
     <_ContentIncludedByDefault Remove="Pages\Business\Admin\TerritoryListComponent.razor" />
     <_ContentIncludedByDefault Remove="Pages\Business\Admin\UserData.razor" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Pages\Home" />
+  </ItemGroup>
 </Project>

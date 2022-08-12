@@ -21,7 +21,7 @@ public class RegisterCommandTests
             .Setup(x => x.Send(
                 It.IsAny<UserTokenQuery>(), 
                 It.IsAny<CancellationToken>()))
-            .ReturnsAsync((ResponseDto<TokenDtoV1>) GetResponseDto());
+            .ReturnsAsync((ResponseDto<AuthenticationResponseDto>) GetResponseDto());
         var cmdDto = GetRequestCommandDto();
         
         var tokenDto = await GetHandler(testHelper).Handle(new UserRegisterCommand(cmdDto), default);
@@ -37,7 +37,7 @@ public class RegisterCommandTests
             .Setup(x => x.Send(
                 It.IsAny<UserTokenQuery>(), 
                 It.IsAny<CancellationToken>()))
-            .ReturnsAsync((ResponseDto<TokenDtoV1>) GetResponseDto());
+            .ReturnsAsync((ResponseDto<AuthenticationResponseDto>) GetResponseDto());
         var cmdDto = GetRequestCommandDto();
         cmdDto.Payload.Email = cmdDto.Payload.Email.ToUpper();
         cmdDto.Payload.Username = cmdDto.Payload.Username.ToUpper();
@@ -59,7 +59,7 @@ public class RegisterCommandTests
             .Setup(x => x.Send(
                 It.IsAny<UserTokenQuery>(), 
                 It.IsAny<CancellationToken>()))
-            .ReturnsAsync((ResponseDto<TokenDtoV1>) GetResponseDto());
+            .ReturnsAsync((ResponseDto<AuthenticationResponseDto>) GetResponseDto());
         var cmdDto = GetRequestCommandDto();
 
         await GetHandler(testHelper).Handle(new UserRegisterCommand(cmdDto), default);
@@ -76,7 +76,7 @@ public class RegisterCommandTests
             .Setup(x => x.Send(
                 It.IsAny<UserTokenQuery>(), 
                 It.IsAny<CancellationToken>()))
-            .ReturnsAsync((ResponseDto<TokenDtoV1>) GetResponseDto());
+            .ReturnsAsync((ResponseDto<AuthenticationResponseDto>) GetResponseDto());
         var cmdDto = GetRequestCommandDto();
 
         await GetHandler(testHelper).Handle(new UserRegisterCommand(cmdDto), default);
@@ -109,10 +109,10 @@ public class RegisterCommandTests
         );
     }
     
-    private IResponseDto<TokenDtoV1> GetResponseDto()
+    private IResponseDto<AuthenticationResponseDto> GetResponseDto()
     {
         return 
-            ResponseDto.Create(TokenDtoV1.Create("token", "name", "url"));
+            ResponseDto.Create(AuthenticationResponseDto.Create("token", "name", "url"));
     }
     
     private IRequestDto<UserRegisterDto> GetRequestCommandDto()

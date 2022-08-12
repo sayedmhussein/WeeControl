@@ -74,10 +74,10 @@ public class TerritoriesQueryTests
     {
         return new List<TerritoryDbo>()
         {
-            TerritoryDbo.Create("e0", null, "ccc", "name"),
+            new TerritoryDbo("e0", null, "ccc", "name"),
             
-            TerritoryDbo.Create("m0", null, "ccc", "name"),
-            TerritoryDbo.Create("m1", "m0", "ccc", "name"),
+            new TerritoryDbo("m0", null, "ccc", "name"),
+            new TerritoryDbo("m1", "m0", "ccc", "name"),
             TerritoryDbo.Create("m2", "m0", "ccc", "name"),
             TerritoryDbo.Create("m21", "m2", "ccc", "name"),
             TerritoryDbo.Create("m22", "m2", "ccc", "name"),
