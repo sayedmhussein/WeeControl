@@ -28,18 +28,18 @@
     <ProjectReference Include="..\ApplicaitonService\ApplicationService.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <AdditionalFiles Include="Pages\Essential\Admin\AdminPage.razor" />
-    <AdditionalFiles Include="Pages\Essential\User\UserData.razor" />
-    <AdditionalFiles Include="Pages\Essential\Authentication\LoginPage.razor" />
-    <AdditionalFiles Include="Pages\Essential\Authentication\_Imports.razor" />
-    <AdditionalFiles Include="Pages\Essential\Common\Index.razor" />
-    <AdditionalFiles Include="Pages\Essential\Common\NoInternet.razor" />
-    <AdditionalFiles Include="Pages\Essential\Common\Splash.razor" />
-    <AdditionalFiles Include="Pages\Essential\_Imports.razor" />
-    <AdditionalFiles Include="Pages\Essential\User\ForgotMyPasswordPage.razor" />
-    <AdditionalFiles Include="Pages\Essential\User\RegisterPage.razor" />
-    <AdditionalFiles Include="Pages\Essential\User\SetNewPasswordPage.razor" />
-    <AdditionalFiles Include="Pages\Essential\User\_Imports.razor" />
+    <AdditionalFiles Include="Pages\Customer\Admin\AdminPage.razor" />
+    <AdditionalFiles Include="Pages\Customer\User\UserData.razor" />
+    <AdditionalFiles Include="Pages\Anonymous\LoginPage.razor" />
+    <AdditionalFiles Include="Pages\Customer\Authentication\_Imports.razor" />
+    <AdditionalFiles Include="Pages\Customer\Common\Index.razor" />
+    <AdditionalFiles Include="Pages\Customer\Common\NoInternet.razor" />
+    <AdditionalFiles Include="Pages\Anonymous\SplashPage.razor" />
+    <AdditionalFiles Include="Pages\Customer\_Imports.razor" />
+    <AdditionalFiles Include="Pages\Anonymous\ResetPasswordPage.razor" />
+    <AdditionalFiles Include="Pages\Anonymous\CustomerRegisterPage.razor" />
+    <AdditionalFiles Include="Pages\Customer\User\SetNewPasswordPage.razor" />
+    <AdditionalFiles Include="Pages\Customer\User\_Imports.razor" />
   </ItemGroup>
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Pages\Business\Admin\AdminPage.razor" />
@@ -47,8 +47,5 @@
     <_ContentIncludedByDefault Remove="Pages\Business\Admin\TerritoryEditComponent.razor" />
     <_ContentIncludedByDefault Remove="Pages\Business\Admin\TerritoryListComponent.razor" />
     <_ContentIncludedByDefault Remove="Pages\Business\Admin\UserData.razor" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Pages\Home" />
   </ItemGroup>
 </Project>

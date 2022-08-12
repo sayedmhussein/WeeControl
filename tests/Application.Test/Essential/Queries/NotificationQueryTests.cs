@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using WeeControl.Application.Contexts.Essential.Queries;
 using WeeControl.Domain.Contexts.Essential;
 using Xunit;
 

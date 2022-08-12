@@ -2,11 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
 using Microsoft.AspNetCore.Http;
-using WeeControl.Application.Contexts.Essential.Queries;
 using WeeControl.Application.Interfaces;
 using WeeControl.SharedKernel;
 

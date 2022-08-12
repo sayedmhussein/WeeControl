@@ -17,6 +17,12 @@ public static class Pages
     
     public static class Essential
     {
+        public static class Home
+        {
+            public const string SplashPage = "/";
+            public const string HomePage = "Home";
+        }
+        
         public static class Authentication
         {
             public const string LoginPage = "Login";

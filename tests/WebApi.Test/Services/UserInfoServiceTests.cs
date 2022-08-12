@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading;
-using MediatR;
 using Microsoft.AspNetCore.Http;
 using Moq;
-using WeeControl.Application.Contexts.Essential.Queries;
 using WeeControl.SharedKernel;
-using WeeControl.SharedKernel.Essential.DataTransferObjects;
-using WeeControl.SharedKernel.RequestsResponses;
 using WeeControl.WebApi.Services;
 using Xunit;
 

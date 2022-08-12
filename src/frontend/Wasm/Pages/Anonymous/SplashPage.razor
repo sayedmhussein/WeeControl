@@ -1,0 +1,20 @@
+@* @page "/" *@
+@attribute [Route(Pages.Essential.Home.SplashPage)]
+
+@inject HomeViewModel HomeViewModel
+
+<h3>"Hello from Splash Screen"</h3>
+
+@code {
+    // [CascadingParameter]
+    // public Task<AuthenticationState> AuthState { get; set; }
+    
+    // [Inject]
+    // public NavigationManager NavManager { get; set; }
+    
+    protected override async void OnInitialized()
+    {
+        await base.OnInitializedAsync();
+        //await HomeViewModel.Init();
+    }
+}

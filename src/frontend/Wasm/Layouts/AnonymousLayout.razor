@@ -1,0 +1,57 @@
+﻿@using WeeControl.Frontend.ApplicationService.Interfaces
+@using WeeControl.Frontend.ApplicationService.Essential.ViewModels
+@inherits LayoutComponentBase
+@attribute [AllowAnonymous]
+
+@inject IDeviceSecurity DeviceSecurity
+@inject NavigationManager NavManager
+
+<MudThemeProvider/>
+<MudDialogProvider/>
+<MudSnackbarProvider/>
+
+<MudPaper>
+    <MudToolBar>
+        <MudImage Src="images/logo.png" Alt="WeeControl" Width="20" Height="20" Style="margin-right: 5px"></MudImage>
+        <MudText>WeeControl</MudText>
+        <MudSpacer></MudSpacer>
+        @if (showLoginButton)
+        {
+            <MudIconButton Icon="@Icons.Material.Outlined.Login" Color="Color.Inherit" Title="Login" href="Login" />
+        }
+        @if(showLogoutButton)
+        {
+            <MudIconButton Icon="@Icons.Material.Outlined.Logout" Color="Color.Inherit" Title="Logout" href="Logout" />
+        }
+    </MudToolBar>
+    <MudItem>
+        @Body
+    </MudItem>
+</MudPaper>
+
+@code
+{
+    private bool showLoginButton;
+    private bool showLogoutButton;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (await DeviceSecurity.IsAuthenticatedAsync())
+        {
+            showLoginButton = false;
+            showLogoutButton = true;
+        }
+        else
+        {
+            showLoginButton = true;
+            showLogoutButton = false;
+        }
+
+        if (NavManager.Uri.Split("/").Last() == Pages.Essential.Authentication.LoginPage)
+        {
+            showLoginButton = false;
+        }
+        
+        await Task.FromResult(base.OnAfterRenderAsync(firstRender));
+    }
+}

@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using WeeControl.SharedKernel.Essential.Entities;
 
 namespace WeeControl.Frontend.ApplicationService.Essential.Models;
