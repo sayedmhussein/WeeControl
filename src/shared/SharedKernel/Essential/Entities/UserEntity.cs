@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WeeControl.SharedKernel.Essential.Entities;
 
@@ -21,4 +22,8 @@ public class UserEntity
     [Required]
     [StringLength(128, MinimumLength = 6)]
     public string Password { get; set; } = string.Empty;
+    
+    [NotMapped]
+    [Compare(nameof(Password))]
+    public string PasswordConfirmation { get; set; } = string.Empty;
 }

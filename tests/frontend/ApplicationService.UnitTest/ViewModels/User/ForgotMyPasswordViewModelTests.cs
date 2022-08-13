@@ -1,5 +1,4 @@
 using System.Net;
-using WeeControl.Frontend.ApplicationService.Essential.ViewModels;
 using WeeControl.Frontend.ApplicationService.Interfaces;
 using WeeControl.Frontend.ApplicationService.Services;
 
@@ -19,7 +18,7 @@ public class ForgotMyPasswordViewModelTests : ViewModelTestsBase
 
         await vm.RequestPasswordReset();
 
-        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Essential.Authentication.LoginPage, It.IsAny<bool>()));
+        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Customer.Authentication.LoginPage, It.IsAny<bool>()));
     }
     
     [Fact]
@@ -29,7 +28,7 @@ public class ForgotMyPasswordViewModelTests : ViewModelTestsBase
 
         await vm.RequestPasswordReset();
         
-        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Essential.Authentication.LoginPage, It.IsAny<bool>()), Times.Never);
+        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Customer.Authentication.LoginPage, It.IsAny<bool>()), Times.Never);
     }
     
     [Fact]
@@ -40,7 +39,7 @@ public class ForgotMyPasswordViewModelTests : ViewModelTestsBase
 
         await vm.RequestPasswordReset();
         
-        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Essential.Authentication.LoginPage, It.IsAny<bool>()), Times.Never);
+        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Customer.Authentication.LoginPage, It.IsAny<bool>()), Times.Never);
     }
     
     [Theory]
@@ -54,7 +53,7 @@ public class ForgotMyPasswordViewModelTests : ViewModelTestsBase
 
         await vm.RequestPasswordReset();
         
-        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Essential.Authentication.LoginPage, It.IsAny<bool>()), Times.Never);
+        Mock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Customer.Authentication.LoginPage, It.IsAny<bool>()), Times.Never);
         Assert.False(vm.IsLoading);
     }
 

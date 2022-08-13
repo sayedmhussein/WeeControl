@@ -1,4 +1,4 @@
-namespace WeeControl.SharedKernel.Elevator.Constants;
+namespace WeeControl.SharedKernel.Elevator.Enums;
 
 public enum UnitBrandEnum
 {

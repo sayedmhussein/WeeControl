@@ -1,9 +1,47 @@
+﻿@using WeeControl.Frontend.ApplicationService.Interfaces
+@using WeeControl.Frontend.Wasm.Layouts.Components
 @inherits LayoutComponentBase
+@attribute [AllowAnonymous]
 
-<h3>CustomerLayout</h3>
+@inject IDeviceSecurity DeviceSecurity
+@inject NavigationManager NavManager
 
-@Body
+<MudThemeProvider/>
+<MudDialogProvider/>
+<MudSnackbarProvider/>
 
-@code {
-    
+<MudPaper Class="d-flex flex-column flex-grow-1 gap-4" Elevation="0">
+    <CustomerToolbarComponent ShowLogin="@showLoginButton" ShowLogout="@showLogoutButton">
+    </CustomerToolbarComponent>
+    <MudItem Class="d-flex flex-grow-0 align-self-center justify-center justify-content-center">
+        @Body
+    </MudItem>
+</MudPaper>
+
+@code
+{
+    private bool showLoginButton;
+    private bool showLogoutButton;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (await DeviceSecurity.IsAuthenticatedAsync())
+        {
+            showLoginButton = false;
+            showLogoutButton = true;
+        }
+        else
+        {
+            showLoginButton = true;
+            showLogoutButton = false;
+        }
+
+        var currentPageName = NavManager.Uri.Split("/").Last();
+        if (currentPageName == Pages.Anonymous.LoginPage || currentPageName == Pages.Anonymous.SplashPage)
+        {
+            showLoginButton = false;
+        }
+        
+        await base.OnInitializedAsync();
+    }
 }

@@ -55,7 +55,8 @@ public class Program
             
         builder.Services.AddApiAuthorization(options =>
         {
-            options.AuthenticationPaths.LogInPath = ApplicationService.Pages.Essential.Authentication.LoginPage;
+            
+            //options.AuthenticationPaths.LogInPath = ApplicationService.Pages.Essential.Authentication.LoginPage;
         });
             
         await builder.Build().RunAsync();

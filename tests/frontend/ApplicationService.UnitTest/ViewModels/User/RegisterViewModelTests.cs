@@ -1,7 +1,6 @@
 using System.Net;
 using System.Net.Http;
-using WeeControl.Frontend.ApplicationService.Essential.Models;
-using WeeControl.Frontend.ApplicationService.Essential.ViewModels;
+using WeeControl.Frontend.ApplicationService.Customer.Models;
 using WeeControl.Frontend.ApplicationService.Interfaces;
 using WeeControl.Frontend.ApplicationService.Services;
 using WeeControl.SharedKernel.RequestsResponses;

@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using WeeControl.Domain.Contexts.Essential;
 using WeeControl.Frontend.ApplicationService;
-using WeeControl.Frontend.ApplicationService.Essential.ViewModels;
 using WeeControl.Frontend.ApplicationService.Interfaces;
 using WeeControl.Frontend.ApplicationService.UnitTest;
 using WeeControl.SharedKernel.Services;
@@ -45,7 +44,7 @@ public class TestHelper<T> : IDisposable
         helper.ViewModel.UsernameOrEmail = username;
         helper.ViewModel.Password = password;
 
-        await helper.ViewModel.LoginAsync();
+        await helper.ViewModel.Login();
         
         DeviceMock.InjectTokenToMock(await helper.Device.Security.GetTokenAsync());
     }

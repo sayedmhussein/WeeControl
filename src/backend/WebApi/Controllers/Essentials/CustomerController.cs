@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WeeControl.Application.Contexts.Essential.Commands;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
@@ -29,11 +30,10 @@ public class CustomerController : UserController
     [ProducesResponseType((int)HttpStatusCode.Conflict)]
     public async Task<ActionResult<ResponseDto<AuthenticationResponseDto>>> RegisterV1([FromBody] RequestDto<RegisterCustomerDto> dto)
     {
-        throw new NotImplementedException();
-        // var command = new UserRegisterCommand(dto);
-        // var response = await mediator.Send(command);
-        //
-        // return Ok(response);
+        var command = new UserRegisterCommand(dto);
+        var response = await mediator.Send(command);
+        
+        return Ok(response);
     }
     
     // [Authorize(Policy = nameof(CanEditUserPolicy))]

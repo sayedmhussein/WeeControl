@@ -1,14 +1,15 @@
 using System.ComponentModel;
+using WeeControl.Frontend.ApplicationService.Interfaces;
 
 namespace WeeControl.Frontend.ApplicationService;
 
-public abstract class ViewModelBase : INotifyPropertyChanged
+public abstract class ViewModelBase : IViewModelBase
 {
     private bool isLoading;
     public bool IsLoading
     {
         get => isLoading;
-        protected set
+        set
         {
             isLoading = value;
             OnPropertyChanged(nameof(IsLoading));

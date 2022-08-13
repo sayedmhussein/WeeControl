@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace WeeControl.SharedKernel.Essential.Entities;
 
@@ -8,11 +9,13 @@ public class PersonalEntity
     [StringLength(45, MinimumLength = 1)]
     public string FirstName { get; set; } = string.Empty;
     
-    [StringLength(45, MinimumLength = 1)]
-    public string? SecondName { get; set; } = string.Empty;
+    [AllowNull]
+    [StringLength(45)]
+    public string SecondName { get; set; } = string.Empty;
     
-    [StringLength(45, MinimumLength = 1)]
-    public string? ThirdName { get; set; } = string.Empty;
+    [AllowNull]
+    [StringLength(45)]
+    public string ThirdName { get; set; } = string.Empty;
     
     [Required]
     [StringLength(45, MinimumLength = 1)]

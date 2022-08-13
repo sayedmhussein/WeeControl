@@ -1,20 +1,28 @@
+@using WeeControl.Frontend.ApplicationService.Common
 @* @page "/" *@
-@attribute [Route(Pages.Essential.Home.SplashPage)]
+@attribute [Route(Pages.Anonymous.RootPage)]
+@attribute [Route(Pages.Anonymous.SplashPage)]
 
-@inject HomeViewModel HomeViewModel
+@inject IUserHomeViewModel HomeViewModel
 
-<h3>"Hello from Splash Screen"</h3>
+<MudContainer>
+   <h3>"Hello from Splash Screen"</h3>
+   <MudProgressCircular class="align-self-center" Color="Color.Info" Indeterminate="true" /> 
+</MudContainer>
+
 
 @code {
     // [CascadingParameter]
     // public Task<AuthenticationState> AuthState { get; set; }
     
-    // [Inject]
-    // public NavigationManager NavManager { get; set; }
+    [Inject]
+    public NavigationManager NavManager { get; set; }
     
     protected override async void OnInitialized()
     {
         await base.OnInitializedAsync();
-        //await HomeViewModel.Init();
+        await Task.Delay(3000);
+        NavManager.NavigateTo(Pages.Anonymous.IndexPage);
+    //await HomeViewModel.Init();
     }
 }

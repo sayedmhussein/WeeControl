@@ -2,8 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.Application.Interfaces;
 using WeeControl.Frontend.ApplicationService;
-using WeeControl.Frontend.ApplicationService.Essential.Models;
-using WeeControl.Frontend.ApplicationService.Essential.ViewModels;
+using WeeControl.Frontend.ApplicationService.Customer.Models;
 using WeeControl.WebApi;
 using Xunit;
 

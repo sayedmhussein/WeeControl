@@ -1,12 +1,65 @@
-@using WeeControl.Frontend.Wasm.Pages.Anonymous.Components
-@attribute [Route(Pages.Essential.User.RegisterPage)]
+@using WeeControl.Frontend.ApplicationService.Anonymous.Interfaces
+@attribute [Route(Pages.Anonymous.CustomerRegisterPage)]
 
-@inject CustomerViewModel ViewModel
+@inject IPublicViewModel PublicViewModel
 
-<RegisterComponent
-    Subject="Register Page"
-    SuccessfulModelData="@ViewModel.RegisterAsync">
-</RegisterComponent>
+<EditForm Model="@PublicViewModel.CustomerRegisterModel" OnValidSubmit="PublicViewModel.Register">
+    <DataAnnotationsValidator/>
+    <MudCard>
+        <MudCardHeader>Personal Details</MudCardHeader>
+        <MudCardContent>
+            <MudGrid>
+                <MudItem xs="3">
+                    <MudTextField Label="First Name" HelperText="Max. 8 characters"
+                                  @bind-Value="PublicViewModel.CustomerRegisterModel.Personal.FirstName" For="@(() => PublicViewModel.CustomerRegisterModel.Personal.FirstName)"/>
+                </MudItem>
+                <MudItem xs="3">
+                    <MudTextField Label="Second Name" HelperText="Max. 8 characters"
+                                  @bind-Value="PublicViewModel.CustomerRegisterModel.Personal.SecondName" For="@(() => PublicViewModel.CustomerRegisterModel.Personal.SecondName)"/>
+                </MudItem>
+                <MudItem xs="3">
+                    <MudTextField Label="Third name" HelperText="Max. 8 characters"
+                                  @bind-Value="PublicViewModel.CustomerRegisterModel.Personal.ThirdName" For="@(() => PublicViewModel.CustomerRegisterModel.Personal.ThirdName)"/>
+                </MudItem>
+                <MudItem xs="3">
+                    <MudTextField Label="Last name" HelperText="Max. 8 characters"
+                                  @bind-Value="PublicViewModel.CustomerRegisterModel.Personal.LastName" For="@(() => PublicViewModel.CustomerRegisterModel.Personal.LastName)"/>
+                </MudItem>
+            </MudGrid>
+            <MudSelect T="string" Label="Nationality" AnchorOrigin="Origin.BottomCenter" @bind-Value="PublicViewModel.CustomerRegisterModel.Personal.Nationality">
+                @foreach (var t in PublicViewModel.Countries)
+                {
+                    <MudSelectItem Value="@(t.CountryCode)">@t.CountryCode: @t.CountryName</MudSelectItem>
+                }
+            </MudSelect>
+            <MudSelect T="string" Label="Current Residency" AnchorOrigin="Origin.BottomCenter" @bind-Value="PublicViewModel.CustomerRegisterModel.Customer.CountryCode">
+                @foreach (var t in PublicViewModel.Countries)
+                {
+                    <MudSelectItem Value="@(t.CountryCode)">@t.CountryCode: @t.CountryName</MudSelectItem>
+                }
+            </MudSelect>
+        </MudCardContent>
+    </MudCard>
+    <MudCard>
+        <MudCardHeader>User Details</MudCardHeader>
+        <MudCardContent>
+            <MudTextField Label="Email" Class="mt-3"
+                          @bind-Value="PublicViewModel.CustomerRegisterModel.User.Email" For="@(() => PublicViewModel.CustomerRegisterModel.User.Email)"/>
+            <MudTextField Label="Username" HelperText="Max. 8 characters"
+                          @bind-Value="PublicViewModel.CustomerRegisterModel.User.Username" For="@(() => PublicViewModel.CustomerRegisterModel.User.Username)"/>
+            <MudTextField Label="Password" HelperText="Choose a strong password" Class="mt-3"
+                          @bind-Value="PublicViewModel.CustomerRegisterModel.User.Password" For="@(() => PublicViewModel.CustomerRegisterModel.User.Password)" InputType="InputType.Password"/>
+            <MudTextField Label="Confirm Password" HelperText="Repeat the password" Class="mt-3"
+                          @bind-Value="PublicViewModel.CustomerRegisterModel.User.PasswordConfirmation" For="@(() => PublicViewModel.CustomerRegisterModel.User.PasswordConfirmation)" InputType="InputType.Password"/>
+            <MudTextField Label="Mobile Number" HelperText="Max. 8 characters"
+                          @bind-Value="PublicViewModel.CustomerRegisterModel.User.MobileNo" For="@(() => PublicViewModel.CustomerRegisterModel.User.MobileNo)"/>
+        </MudCardContent>
+        <MudCardActions>
+            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
+        </MudCardActions>
+    </MudCard>
+</EditForm>
 
 @code {
+    
 }

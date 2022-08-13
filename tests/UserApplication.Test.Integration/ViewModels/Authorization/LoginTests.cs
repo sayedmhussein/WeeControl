@@ -2,7 +2,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.Application.Interfaces;
 using WeeControl.Frontend.ApplicationService;
-using WeeControl.Frontend.ApplicationService.Essential.ViewModels;
 using WeeControl.WebApi;
 using Xunit;
 
@@ -41,7 +40,7 @@ public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>
         helper.ViewModel.UsernameOrEmail = usernameOrEmail;
         helper.ViewModel.Password = "password";
 
-        await helper.ViewModel.LoginAsync();
+        await helper.ViewModel.Login();
         
         helper.DeviceMock.SecurityMock.Verify(x => x.
             UpdateTokenAsync(It.IsAny<string>()));
@@ -71,7 +70,7 @@ public class LoginTests : IClassFixture<CustomWebApplicationFactory<Startup>>
         helper.ViewModel.UsernameOrEmail = "username";
         helper.ViewModel.Password = "password";
 
-        await helper.ViewModel.LoginAsync();
+        await helper.ViewModel.Login();
         
         helper.DeviceMock.NavigationMock.Verify(x => 
             x.NavigateToAsync(Pages.Shared.IndexPage, It.IsAny<bool>()), Times.Never);

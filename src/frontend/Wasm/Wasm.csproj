@@ -31,12 +31,8 @@
     <AdditionalFiles Include="Pages\Customer\Admin\AdminPage.razor" />
     <AdditionalFiles Include="Pages\Customer\User\UserData.razor" />
     <AdditionalFiles Include="Pages\Anonymous\LoginPage.razor" />
-    <AdditionalFiles Include="Pages\Customer\Authentication\_Imports.razor" />
-    <AdditionalFiles Include="Pages\Customer\Common\Index.razor" />
-    <AdditionalFiles Include="Pages\Customer\Common\NoInternet.razor" />
     <AdditionalFiles Include="Pages\Anonymous\SplashPage.razor" />
     <AdditionalFiles Include="Pages\Customer\_Imports.razor" />
-    <AdditionalFiles Include="Pages\Anonymous\ResetPasswordPage.razor" />
     <AdditionalFiles Include="Pages\Anonymous\CustomerRegisterPage.razor" />
     <AdditionalFiles Include="Pages\Customer\User\SetNewPasswordPage.razor" />
     <AdditionalFiles Include="Pages\Customer\User\_Imports.razor" />
@@ -47,5 +43,10 @@
     <_ContentIncludedByDefault Remove="Pages\Business\Admin\TerritoryEditComponent.razor" />
     <_ContentIncludedByDefault Remove="Pages\Business\Admin\TerritoryListComponent.razor" />
     <_ContentIncludedByDefault Remove="Pages\Business\Admin\UserData.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Customer\Authentication\LogoutPage.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Customer\Authentication\_Imports.razor" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Pages\Common" />
   </ItemGroup>
 </Project>

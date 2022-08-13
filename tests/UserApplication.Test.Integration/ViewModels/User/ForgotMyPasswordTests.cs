@@ -2,7 +2,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.Application.Interfaces;
 using WeeControl.Frontend.ApplicationService;
-using WeeControl.Frontend.ApplicationService.Essential.ViewModels;
 using WeeControl.WebApi;
 using Xunit;
 
@@ -40,7 +39,7 @@ public class ForgotMyPasswordTests: IClassFixture<CustomWebApplicationFactory<St
         await helper.ViewModel.RequestPasswordReset();
             
         helper.DeviceMock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Essential.Authentication.LoginPage, It.IsAny<bool>()), Times.Once);
+            x.NavigateToAsync(Pages.Customer.Authentication.LoginPage, It.IsAny<bool>()), Times.Once);
     }
     
     [Theory]
@@ -69,7 +68,7 @@ public class ForgotMyPasswordTests: IClassFixture<CustomWebApplicationFactory<St
         await helper.ViewModel.RequestPasswordReset();
             
         helper.DeviceMock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Essential.Authentication.LoginPage, It.IsAny<bool>()), Times.Never);
+            x.NavigateToAsync(Pages.Customer.Authentication.LoginPage, It.IsAny<bool>()), Times.Never);
     }
 
     [Fact]
@@ -96,6 +95,6 @@ public class ForgotMyPasswordTests: IClassFixture<CustomWebApplicationFactory<St
         await helper.ViewModel.RequestPasswordReset();
             
         helper.DeviceMock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Essential.Authentication.LoginPage, It.IsAny<bool>()), Times.Never);
+            x.NavigateToAsync(Pages.Customer.Authentication.LoginPage, It.IsAny<bool>()), Times.Never);
     }
 }

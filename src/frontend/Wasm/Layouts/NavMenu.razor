@@ -1,9 +1,8 @@
 ﻿@using System.Runtime.CompilerServices
 @using System.Security.Claims
-@using WeeControl.Frontend.ApplicationService.Essential
-@using WeeControl.Frontend.ApplicationService.Essential.ViewModels
+@using WeeControl.Frontend.ApplicationService.Common
 @using WeeControl.Frontend.ApplicationService.Interfaces
-@inject HomeViewModel ViewModel
+@inject IUserHomeViewModel ViewModel
 
 <div class="top-row pl-4 navbar navbar-dark">
     <a class="navbar-brand" href="">
@@ -68,7 +67,7 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        await ViewModel.Init();
+        //await ViewModel.Init();
         StateHasChanged();
     }
 }

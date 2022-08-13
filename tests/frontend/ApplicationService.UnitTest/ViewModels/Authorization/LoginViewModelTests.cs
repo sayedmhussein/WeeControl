@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using WeeControl.Frontend.ApplicationService.Essential.ViewModels;
 using WeeControl.Frontend.ApplicationService.Interfaces;
 using WeeControl.Frontend.ApplicationService.Services;
 using WeeControl.SharedKernel.Essential.DataTransferObjects;
@@ -30,7 +29,7 @@ public class LoginViewModelTests : ViewModelTestsBase
 
         var vm = GetViewModel(Mock.GetObject(expected), "username", "password");
 
-        await vm.LoginAsync();
+        await vm.Login();
         
         Mock.AlertMock.Verify(x => 
             x.DisplayAlert(It.IsAny<string>()), Times.AtMost(1));
@@ -55,7 +54,7 @@ public class LoginViewModelTests : ViewModelTestsBase
         
              var vm = GetViewModel(Mock.GetObject(expected), "username", "password");
              
-             await vm.LoginAsync();
+             await vm.Login();
              
              Mock.AlertMock.Verify(x => 
                  x.DisplayAlert(It.IsAny<string>()), Times.Once);
@@ -73,7 +72,7 @@ public class LoginViewModelTests : ViewModelTestsBase
         var client = new HttpClient();
         var vm = GetViewModel(Mock.GetObject(client), "username", "password");
 
-        await vm.LoginAsync();
+        await vm.Login();
         
         Mock.AlertMock.Verify(x => 
             x.DisplayAlert(It.IsAny<string>()), Times.AtLeast(1));
@@ -97,7 +96,7 @@ public class LoginViewModelTests : ViewModelTestsBase
         var content = GetJsonContent(ResponseDto.Create(AuthenticationResponseDto.Create("token", "name")));
         var vm = GetViewModel(Mock.GetObject(HttpStatusCode.OK, content), username, password);
 
-        await vm.LoginAsync();
+        await vm.Login();
         
         Mock.AlertMock.Verify(x => 
             x.DisplayAlert(It.IsAny<string>()), Times.Once);
