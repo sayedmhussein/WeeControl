@@ -10,7 +10,7 @@
 <MudDialogProvider/>
 <MudSnackbarProvider/>
 
-<MudPaper>
+<MudPaper Class="d-flex flex-column flex-grow-1 gap-4" Elevation="0">
     <MudToolBar>
         <MudImage Src="images/logo.png" Alt="WeeControl" Width="20" Height="20" Style="margin-right: 5px"></MudImage>
         <MudText>WeeControl</MudText>
@@ -24,7 +24,7 @@
             <MudIconButton Icon="@Icons.Material.Outlined.Logout" Color="Color.Inherit" Title="Logout" href="Logout" />
         }
     </MudToolBar>
-    <MudItem>
+    <MudItem Class="d-flex flex-grow-0 align-self-center justify-center justify-content-center">
         @Body
     </MudItem>
 </MudPaper>
