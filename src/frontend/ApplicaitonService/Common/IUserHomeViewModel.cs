@@ -5,6 +5,7 @@ namespace WeeControl.Frontend.ApplicationService.Common;
 
 public interface IUserHomeViewModel : IViewModelBase
 {
+    string GreetingMessage { get; }
     Task Init();
     
     List<MenuItemModel> MenuItems { get; }

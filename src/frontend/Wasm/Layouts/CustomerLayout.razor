@@ -37,11 +37,11 @@
         }
 
         var currentPageName = NavManager.Uri.Split("/").Last();
-        if (currentPageName == Pages.Anonymous.LoginPage || currentPageName == Pages.Anonymous.SplashPage)
+        if (currentPageName is Pages.Anonymous.LoginPage or Pages.Anonymous.SplashPage)
         {
             showLoginButton = false;
         }
-        
+
         await base.OnInitializedAsync();
     }
 }

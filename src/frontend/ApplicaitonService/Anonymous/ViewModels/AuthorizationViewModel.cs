@@ -42,7 +42,7 @@ internal class AuthorizationViewModel : ViewModelBase, IAuthorizationViewModel
 
         IsLoading = true;
         await ProcessLoginCommand();
-            LoginModel.Password = string.Empty;
+        LoginModel.Password = string.Empty;
         IsLoading = false;
     }
     
@@ -71,6 +71,7 @@ internal class AuthorizationViewModel : ViewModelBase, IAuthorizationViewModel
         }
 
         await device.Security.DeleteTokenAsync();
+        await device.Navigation.NavigateToAsync(Pages.Anonymous.SplashPage);
     }
 
     private async Task ProcessLoginCommand()
@@ -95,7 +96,7 @@ internal class AuthorizationViewModel : ViewModelBase, IAuthorizationViewModel
                 await device.Storage.SaveAsync(nameof(AuthenticationResponseDto.FullName), responseDto?.Payload?.FullName ?? string.Empty);
                 if (await server.IsTokenValid())
                 {
-                    await device.Navigation.NavigateToAsync(Pages.Anonymous.IndexPage, forceLoad: true);
+                    await device.Navigation.NavigateToAsync(Pages.Anonymous.SplashPage, forceLoad: true);
                     return;
                 }
 

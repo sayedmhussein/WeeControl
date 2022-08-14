@@ -64,6 +64,7 @@ public class UserTokenQuery : IRequest<ResponseDto<AuthenticationResponseDto>>
             if (!string.IsNullOrWhiteSpace(request.loginDto?.UsernameOrEmail) && !string.IsNullOrWhiteSpace(request.loginDto?.Password))
             {
                 var user = await context.Users
+                        
                     .Include(x => x.Person)
                     .FirstOrDefaultAsync(x =>
                         (x.Username == request.loginDto.UsernameOrEmail || x.Email == request.loginDto.UsernameOrEmail) &&
@@ -129,11 +130,15 @@ public class UserTokenQuery : IRequest<ResponseDto<AuthenticationResponseDto>>
         
             if (currentUserInfo.SessionId is not null)
             {
-                var session = await context.UserSessions.FirstOrDefaultAsync(x => x.SessionId == currentUserInfo.SessionId && x.TerminationTs == null && x.DeviceId == request.requestDto.DeviceId, cancellationToken);
+                var session = await context.UserSessions
+                    .Include(x => x.User)
+                    .ThenInclude(x => x.Claims)
+                    .FirstOrDefaultAsync(x => x.SessionId == currentUserInfo.SessionId && x.TerminationTs == null && x.DeviceId == request.requestDto.DeviceId, cancellationToken);
                 if (session is null) throw new NotAllowedException("Different Device!!! or session expired");
             
-                await context.SaveChangesAsync(cancellationToken);
+                //await context.SaveChangesAsync(cancellationToken);
 
+                //var user = session.User;
                 var user = await
                     context.Users.Include(x => x.Claims)
                         .FirstOrDefaultAsync(x => x.UserId == session.UserId, cancellationToken);
@@ -141,21 +146,21 @@ public class UserTokenQuery : IRequest<ResponseDto<AuthenticationResponseDto>>
                 var ci = new ClaimsIdentity("custom");
                 ci.AddClaim(new Claim(ClaimsValues.ClaimTypes.Session, session.SessionId.ToString()));
 
-                var employee = await context.Employees.FirstOrDefaultAsync(x => x.UserId == user.UserId, cancellationToken);
+                var employee = await context.Employees.FirstOrDefaultAsync(x => x.UserId == session.UserId, cancellationToken);
                 if (employee is not null)
                 {
                     ci.AddClaim(new Claim(ClaimsValues.ClaimTypes.Territory, employee.TerritoryId.ToString()));
                 }
 
                 var customer =
-                    await context.Customers.FirstOrDefaultAsync(x => x.UserId == user.UserId, cancellationToken);
+                    await context.Customers.FirstOrDefaultAsync(x => x.UserId == session.UserId, cancellationToken);
                 if (customer is not null)
                 {
                     ci.AddClaim(new Claim(ClaimsValues.ClaimTypes.Country, customer.CountryCode));
                 }
            
             
-                foreach (var c in user?.Claims?.Where(x => x.RevokedTs == null)?.ToList())
+                foreach (var c in session?.User.Claims?.Where(x => x.RevokedTs == null)?.ToList())
                 {
                     ci.AddClaim(new Claim(c.ClaimType, c.ClaimValue));
                 }
@@ -171,7 +176,7 @@ public class UserTokenQuery : IRequest<ResponseDto<AuthenticationResponseDto>>
                 };
                 var token = jwtService.GenerateToken(descriptor);
 
-                return ResponseDto.Create(AuthenticationResponseDto.Create(token, user.Person?.FirstName + " " + user.Person?.LastName));
+                return ResponseDto.Create(AuthenticationResponseDto.Create(token, session.User.Person?.FirstName + " " + session.User.Person?.LastName));
             }
         
             throw new BadRequestException("Invalid request query parameters.");

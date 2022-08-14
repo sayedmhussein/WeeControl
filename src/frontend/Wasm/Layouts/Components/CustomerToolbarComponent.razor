@@ -16,7 +16,7 @@
             <MudMenuItem>Home Page</MudMenuItem>
             <MudMenuItem>My Units</MudMenuItem>
             <MudMenuItem>Request Service</MudMenuItem>
-            <MudSparkLine></MudSparkLine>
+            <MudSpacer></MudSpacer>
             <MudMenuItem>Complain</MudMenuItem>
         </MudMenu>
     }
@@ -36,7 +36,9 @@
     }
     @if (ShowLogout)
     {
+        <MudText>@HomeViewModel.GreetingMessage</MudText>
         <MudIconButton Icon="@Icons.Material.Outlined.Notifications" />
+        <MudIconButton Icon="@Icons.Material.Outlined.Menu" />
         <MudIconButton
             Icon="@Icons.Material.Outlined.Logout"
             Color="Color.Inherit"
@@ -56,6 +58,7 @@
     private async Task Logout()
     {
         await AuthorizationViewModel.Logout();
+        ShowLogin = true;
         StateHasChanged();
     }
 }

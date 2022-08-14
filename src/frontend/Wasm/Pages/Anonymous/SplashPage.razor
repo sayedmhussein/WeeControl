@@ -20,9 +20,7 @@
     
     protected override async void OnInitialized()
     {
+        await HomeViewModel.Init();
         await base.OnInitializedAsync();
-        await Task.Delay(3000);
-        NavManager.NavigateTo(Pages.Anonymous.IndexPage);
-    //await HomeViewModel.Init();
     }
 }

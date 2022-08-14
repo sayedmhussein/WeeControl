@@ -1,8 +1,10 @@
 ﻿@using System.Runtime.CompilerServices
 @using System.Security.Claims
+@using WeeControl.Frontend.ApplicationService.Anonymous.Interfaces
 @using WeeControl.Frontend.ApplicationService.Common
 @using WeeControl.Frontend.ApplicationService.Interfaces
 @inject IUserHomeViewModel ViewModel
+@inject IAuthorizationViewModel AuthorizationViewModel
 
 <div class="top-row pl-4 navbar navbar-dark">
     <a class="navbar-brand" href="">
@@ -44,7 +46,7 @@
             </NavLink>
         </li>
         <li class="nav-item px-3">
-            <NavLink class="nav-link" href="Logout">
+            <NavLink class="nav-link" @onclick="@Logout">
                 <span class="oi oi-account-logout" aria-hidden="true"></span>
                 Logout
             </NavLink>
@@ -69,5 +71,11 @@
         await base.OnInitializedAsync();
         //await ViewModel.Init();
         StateHasChanged();
+    }
+
+    private async Task Logout()
+    {
+        await AuthorizationViewModel.Logout();
+        
     }
 }
