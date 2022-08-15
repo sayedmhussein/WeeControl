@@ -1,0 +1,173 @@
+@page "/TerritoryPage"
+@using System.Linq.Expressions
+@using WeeControl.Frontend.ApplicationService.Contexts.Customer.Models
+@using WeeControl.Frontend.ApplicationService.Contexts.Customer.ViewModels
+@using WeeControl.Frontend.ApplicationService.Interfaces
+
+@inject TerritoryViewModel ViewModel
+@inject IPersistedLists Lists
+
+<MudPaper>
+    <MudToolBar>
+        <MudIconButton Icon="@Icons.Material.Outlined.Add" OnClick="@AddNewTerritory" />
+        <MudSpacer />
+        <MudIconButton Icon="@Icons.Material.Outlined.Refresh" OnClick="@ViewModel.GetListOfTerritories"/>
+    </MudToolBar>
+    
+    <MudPaper hidden="@hideAddTerritory" Elevation="5">
+        <EditForm Model="@selectedItem" OnInvalidSubmit="@SaveToServer">
+            <DataAnnotationsValidator/>
+        </EditForm>
+        <MudCard>
+            <MudCardHeader>
+                <h4>Territory Details</h4>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudGrid Spacing="3">
+                    <MudItem>
+                        <MudTextField Label="Code" 
+                                      HelperText="Territory Code"
+                                      @bind-value="@selectedItem.CountryCode" @bind-Text="@selectedItem.CountryCode"
+                                      For="@(() => selectedItem.CountryCode)">
+                        </MudTextField>
+                    </MudItem>
+                    <MudItem>
+                        <MudSelect T="string" Label="Report To" AnchorOrigin="Origin.BottomCenter" @bind-Value="@selectedItem.CountryCode">
+                            @foreach (var l in @ViewModel.ListOfTerritories)
+                            {
+                                <MudSelectItem Value="@(l.CountryCode)">@l.CountryCode</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+                    <MudItem>
+                        <MudSelect T="string" Label="Country" AnchorOrigin="Origin.BottomCenter" @bind-Value="@selectedItem.CountryCode">
+                            @foreach (var l in Lists.Countries)
+                            {
+                                <MudSelectItem Value="@(l.CountryCode)">@l.CountryName</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+                    <MudItem>
+                        <MudTextField Label="Name"
+                                      HelperText="Territory Name"
+                                      @bind-value="@selectedItem.UniqueName" @bind-Text="@selectedItem.UniqueName"
+                                      For="@(() => selectedItem.UniqueName)">
+                        </MudTextField>
+                    </MudItem>
+                    <MudItem>
+                        <MudTextField Label="Local Name"
+                                      HelperText="Territory Alternative Name"
+                                      @bind-value="@selectedItem.AlternativeName" @bind-Text="@selectedItem.AlternativeName"
+                                      For="@(() => selectedItem.AlternativeName)">
+                        </MudTextField>
+                    </MudItem>
+                </MudGrid>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton ButtonType="ButtonType.Submit" @onclick="@SaveToServer" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Info" Size="Size.Small">Save</MudButton>
+                <MudButton @onclick="@CancelEditFields" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Close" Color="Color.Secondary" Size="Size.Small">Cancel</MudButton>
+            </MudCardActions>
+        </MudCard>
+        <MudSpacer></MudSpacer>
+    </MudPaper>
+
+    <MudTable 
+        T="@TerritoryModel" 
+        Loading="@ViewModel.IsLoading" 
+        over="true" 
+        Items="@ViewModel.ListOfTerritories" 
+        Filter="new Func<TerritoryModel,bool>(FilterFunc1)" 
+        @bind-SelectedItem="selectedItemFromTable">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Territories</MudText>
+            <MudSpacer />
+            <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh>Code</MudTh>
+            <MudTh>Report To</MudTh>
+            <MudTh>Country</MudTh>
+            <MudTh>Name</MudTh>
+            <MudTh>Name</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+                <MudTd DataLabel="Nr">@context.CountryCode</MudTd>
+                <MudTd DataLabel="Sign">@context.CountryCode</MudTd>
+                <MudTd DataLabel="Name">@context.CountryCode</MudTd>
+                <MudTd DataLabel="Position">@context.CountryCode</MudTd>
+                <MudTd DataLabel="Molar mass">@context.CountryCode</MudTd>
+            @if (selectedItemFromTable?.CountryCode == @context.CountryCode)
+            {
+                <MudIconButton Icon="@Icons.Material.Outlined.Edit" OnClick="@EditCurrentTerritory" />
+            }
+            else
+            {
+                <MudIconButton Icon="@Icons.Material.Outlined.Edit" Disabled="true" />
+            }
+        </RowTemplate>
+            <PagerContent>
+                <MudTablePager />
+            </PagerContent>
+    </MudTable>
+</MudPaper>
+
+@code {
+    private bool hideAddTerritory = true;
+    private string searchString1 = string.Empty;
+    private TerritoryModel selectedItemFromTable = null;
+    private TerritoryModel selectedItem = new TerritoryModel();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await ViewModel.GetListOfTerritories();
+    }
+
+    private void AddNewTerritory()
+    {
+        hideAddTerritory = false;
+    }
+
+    private void EditCurrentTerritory()
+    {
+        selectedItem.CountryCode = selectedItemFromTable.CountryCode;
+        selectedItem.CountryCode = selectedItemFromTable.CountryCode;
+        selectedItem.CountryCode = selectedItemFromTable.CountryCode;
+        selectedItem.CountryCode = selectedItemFromTable.CountryCode;
+        selectedItem.CountryCode = selectedItemFromTable.CountryCode;
+        StateHasChanged();
+        hideAddTerritory = false;
+    }
+
+    private async Task SaveToServer()
+    {
+        await ViewModel.AddOrUpdateTerritory(selectedItem);
+        CancelEditFields();
+        await ViewModel.GetListOfTerritories();
+    }
+
+    private void CancelEditFields()
+    {
+        hideAddTerritory = true;
+        selectedItem.CountryCode = string.Empty;
+        selectedItem.CountryCode = string.Empty;
+        selectedItem.CountryCode = string.Empty;
+        selectedItem.CountryCode = string.Empty;
+        selectedItem.CountryCode = string.Empty;
+    }
+
+    private bool FilterFunc1(TerritoryModel element) => FilterFunc(element, searchString1);
+
+    private bool FilterFunc(TerritoryModel element, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (element.CountryCode.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.CountryCode.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if ($"{element.CountryCode} {element.CountryCode} {element.CountryCode}".Contains(searchString))
+            return true;
+        return false;
+    }
+}

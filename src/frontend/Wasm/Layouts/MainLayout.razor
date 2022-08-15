@@ -1,4 +1,6 @@
-﻿@inherits LayoutComponentBase
+﻿@using WeeControl.SharedKernel
+@inherits LayoutComponentBase
+@attribute [Authorize(Roles = ClaimsValues.ClaimTypes.Field)]
 
 <MudThemeProvider/>
 <MudDialogProvider/>

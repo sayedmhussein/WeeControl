@@ -12,6 +12,11 @@ public static class Pages
         public const string CustomerRegisterPage = "Register";
         public const string LoginPage = "Login";
     }
+    
+    public static class Common
+    {
+        public const string PasswordChangePage = "Common/PasswordChange";
+    }
 
     public static class Customer
     {

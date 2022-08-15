@@ -25,4 +25,7 @@
     <ProjectReference Include="..\Domain\Domain.csproj" />
     <ProjectReference Include="..\..\shared\SharedKernel\SharedKernel.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Contexts\Elevator\Admin" />
+  </ItemGroup>
 </Project>

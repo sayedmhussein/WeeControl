@@ -1,8 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.Frontend.ApplicationService.Anonymous.Interfaces;
-using WeeControl.Frontend.ApplicationService.Anonymous.ViewModels;
-using WeeControl.Frontend.ApplicationService.Common;
-using WeeControl.Frontend.ApplicationService.Customer.ViewModels;
+using WeeControl.Frontend.ApplicationService.Contexts.Anonymous.Interfaces;
+using WeeControl.Frontend.ApplicationService.Contexts.Anonymous.ViewModels;
+using WeeControl.Frontend.ApplicationService.Contexts.Common;
+using WeeControl.Frontend.ApplicationService.Contexts.Customer.ViewModels;
 using WeeControl.Frontend.ApplicationService.Interfaces;
 using WeeControl.Frontend.ApplicationService.Services;
 

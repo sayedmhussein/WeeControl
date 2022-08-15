@@ -12,4 +12,8 @@
       <ProjectReference Include="..\..\shared\SharedKernel\SharedKernel.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Contexts" />
+    </ItemGroup>
+
 </Project>

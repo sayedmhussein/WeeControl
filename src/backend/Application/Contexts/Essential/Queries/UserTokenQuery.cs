@@ -61,22 +61,24 @@ public class UserTokenQuery : IRequest<ResponseDto<AuthenticationResponseDto>>
 
         public async Task<ResponseDto<AuthenticationResponseDto>> Handle(UserTokenQuery request, CancellationToken cancellationToken)
         {
-            if (!string.IsNullOrWhiteSpace(request.loginDto?.UsernameOrEmail) && !string.IsNullOrWhiteSpace(request.loginDto?.Password))
+            var usernameOrEmail = request.loginDto?.UsernameOrEmail.Trim().ToLower();
+            var password = request.loginDto?.Password;
+            if (!string.IsNullOrWhiteSpace(usernameOrEmail) && !string.IsNullOrWhiteSpace(password))
             {
                 var user = await context.Users
                         
                     .Include(x => x.Person)
                     .FirstOrDefaultAsync(x =>
-                        (x.Username == request.loginDto.UsernameOrEmail || x.Email == request.loginDto.UsernameOrEmail) &&
-                        x.Password == passwordSecurity.Hash(request.loginDto.Password), cancellationToken);
+                        (x.Username == usernameOrEmail || x.Email == usernameOrEmail) &&
+                        x.Password == passwordSecurity.Hash(password), cancellationToken);
 
                 if (user is null)
                 {
                     user = await context.Users
                         .Include(x => x.Person)
                         .FirstOrDefaultAsync(x =>
-                                (x.Username == request.loginDto.UsernameOrEmail || x.Email == request.loginDto.UsernameOrEmail) &&
-                                (x.TempPassword == passwordSecurity.Hash(request.loginDto.Password) && x.TempPasswordTs > DateTime.UtcNow.AddMinutes(-10))
+                                (x.Username == usernameOrEmail || x.Email == usernameOrEmail) &&
+                                (x.TempPassword == passwordSecurity.Hash(password) && x.TempPasswordTs > DateTime.UtcNow.AddMinutes(-10))
                             , cancellationToken);
                     if (user is null)
                         throw new NotFoundException("User not found!");
