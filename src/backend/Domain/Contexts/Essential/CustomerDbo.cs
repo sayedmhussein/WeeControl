@@ -19,9 +19,16 @@ public class CustomerDbo : CustomerEntity
     {
     }
 
-    public CustomerDbo(CustomerEntity customer)
+    public CustomerDbo(Guid userId, CustomerEntity customer)
     {
+        UserId = userId;
         CountryCode = customer.CountryCode.Trim();
+    }
+    
+    public CustomerDbo(Guid userId, string country)
+    {
+        UserId = userId;
+        CountryCode = country.Trim();
     }
 }
 

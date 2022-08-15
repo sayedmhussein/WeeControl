@@ -30,12 +30,17 @@ internal class UserHomeViewModel : ViewModelBase, IUserHomeViewModel
         if (await server.IsTokenValid() && await device.Security.IsAuthenticatedAsync())
         {
             NameOfUser = await device.Storage.GetAsync(nameof(AuthenticationResponseDto.FullName));
-            await device.Navigation.NavigateToAsync(Pages.Anonymous.IndexPage);
-            await SetupMenuAsync();
-            return;
+            var clams = await device.Security.GetClaimsAsync();
+            var territory = clams.FirstOrDefault(x => x.Type == ClaimsValues.ClaimTypes.Territory)?.Value;
+            if (territory is not null) //IsEmployee
+            {
+                await SetupMenuAsync();
+                await device.Navigation.NavigateToAsync(Pages.Elevator.Field.FieldPage);
+                return;
+            }
         }
 
-        await device.Navigation.NavigateToAsync(Pages.Anonymous.LoginPage);
+        await device.Navigation.NavigateToAsync(Pages.Anonymous.IndexPage, forceLoad:true);
     }
 
     public async Task ChangeMyPasswordAsync()

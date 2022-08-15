@@ -33,7 +33,7 @@ public class SeedEssentialDatabaseCommand : IRequest
 
             await context.Territories.AddRangeAsync(GetTerritories(), cancellationToken);
 
-            await AddEmployee("developer", GetTerritories().First(x => x.UniqueName == "USA-HO").TerritoryId, new List<(string Type, string Value)>()
+            var developerId = await AddUser("developer", new List<(string Type, string Value)>()
             {
                 (ClaimsValues.ClaimTypes.Developer, ClaimsValues.ClaimValues.SuperUser),
                 (ClaimsValues.ClaimTypes.Administrator, ClaimsValues.ClaimValues.Supervisor),
@@ -43,12 +43,22 @@ public class SeedEssentialDatabaseCommand : IRequest
                 (ClaimsValues.ClaimTypes.Field, ClaimsValues.ClaimValues.SuperUser),
                 (ClaimsValues.ClaimTypes.Finance, ClaimsValues.ClaimValues.SuperUser)
             }, cancellationToken);
+            await AddPerson(developerId, "developer", "EGP", cancellationToken);
+            await AddEmployee(developerId, GetTerritories().First(x => x.UniqueName == "USA-HO").TerritoryId,
+                cancellationToken);
             
-            await AddEmployee("admin", GetTerritories().First(x => x.UniqueName == "SAU-WEST").TerritoryId, new List<(string Type, string Value)>()
+            var adminId = await AddUser("admin", new List<(string Type, string Value)>()
             {
                 (ClaimsValues.ClaimTypes.Administrator, ClaimsValues.ClaimValues.SuperUser),
                 (ClaimsValues.ClaimTypes.Administrator, ClaimsValues.ClaimValues.Manager)
             }, cancellationToken);
+            await AddPerson(adminId, "admin", "EGP", cancellationToken);
+            await AddEmployee(adminId, GetTerritories().First(x => x.UniqueName == "SAU-WEST").TerritoryId,
+                cancellationToken);
+            
+            var customerId = await AddUser("customer", null, cancellationToken);
+            await AddPerson(customerId, "customer", "customer", cancellationToken);
+            await AddCustomer(customerId, "EGP", cancellationToken);
 
             return Unit.Value;
         }
@@ -65,40 +75,55 @@ public class SeedEssentialDatabaseCommand : IRequest
             return new List<TerritoryDbo>() { usa, egp, cai, sau, wst, jed };
         }
 
-        private async Task AddEmployee(string name, Guid territoryId, IEnumerable<(string Type, string Value)> claims, CancellationToken cancellationToken)
+        private async Task<Guid> AddUser(string name, IEnumerable<(string Type, string Value)> claims, CancellationToken cancellationToken)
         {
-            await context.Users.AddAsync(new UserDbo(new UserEntity()
+            var user = new UserDbo(new UserEntity()
             {
                 Username = name,
                 Email = $"{name}@WeeControl.com",
-                MobileNo =  "+10"+ new Random().NextInt64(minValue:10000, maxValue:19999),
+                MobileNo = "+10" + new Random().NextInt64(minValue: 10000, maxValue: 19999),
                 Password = passwordSecurity.Hash(name)
-            }), cancellationToken);
+            });
+            await context.Users.AddAsync(user, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
 
             if (claims is not null && claims.Any())
             {
-                var user = await context.Users.Include(x => x.Claims)
+                var user1 = await context.Users.Include(x => x.Claims)
                     .FirstAsync(x => x.Username == name, cancellationToken);
                 
                 foreach (var c in claims)
                 {
-                    await context.UserClaims.AddAsync(UserClaimDbo.Create(user.UserId, c.Type, c.Value, user.UserId), cancellationToken);
+                    await context.UserClaims.AddAsync(UserClaimDbo.Create(user1.UserId, c.Type, c.Value, user1.UserId), cancellationToken);
                 }
                 
                 await context.SaveChangesAsync(cancellationToken);
-
-                var employee = new EmployeeDbo(user.UserId, territoryId, new EmployeeEntity());
-                await context.Employees.AddAsync(employee, cancellationToken);
-                await context.SaveChangesAsync(cancellationToken);
-
-                var person = new PersonalEntity()
-                {
-                    FirstName = name, LastName = name, Nationality = "EGP"
-                };
-                await context.Person.AddAsync(new PersonDbo(user.UserId, person), cancellationToken);
-                await context.SaveChangesAsync(cancellationToken);
             }
+            return user.UserId;
+        }
+
+        private async Task AddPerson(Guid userId, string name, string nationality, CancellationToken cancellationToken)
+        {
+            var person = new PersonalEntity()
+            {
+                FirstName = name, LastName = name, Nationality = nationality
+            };
+            await context.Person.AddAsync(new PersonDbo(userId, person), cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
+        }
+
+        private async Task AddEmployee(Guid userId, Guid territoryId, CancellationToken cancellationToken)
+        {
+            var employee = new EmployeeDbo(userId, territoryId, new EmployeeEntity());
+            await context.Employees.AddAsync(employee, cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
+        }
+        
+        private async Task AddCustomer(Guid userId, string country, CancellationToken cancellationToken)
+        {
+            var customer = new CustomerDbo(userId, country);
+            await context.Customers.AddAsync(customer, cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
         }
     }
 }
