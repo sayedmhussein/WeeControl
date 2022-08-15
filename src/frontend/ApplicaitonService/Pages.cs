@@ -15,7 +15,7 @@ public static class Pages
 
     public static class Customer
     {
-        public const string HomePage = "CHome";
+        
     }
     
     public static class Elevator
