@@ -6,7 +6,7 @@ using Moq;
 using WeeControl.Application.Interfaces;
 using WeeControl.Domain.Contexts.Essential;
 using WeeControl.Persistence;
-using WeeControl.SharedKernel.Essential.Entities;
+using WeeControl.SharedKernel.Contexts.Essential.Entities;
 using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.Services;
 

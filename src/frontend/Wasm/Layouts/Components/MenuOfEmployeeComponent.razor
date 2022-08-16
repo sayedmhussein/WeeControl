@@ -1,0 +1,20 @@
+@using WeeControl.Frontend.ApplicationService.Contexts.Common
+@inject IUserHomeViewModel HomeViewModel
+
+@foreach (var b in HomeViewModel.MenuItems)
+{
+    <MudMenuItem>
+        <MudButton 
+            StartIcon="@Icons.Material.Outlined.Computer"
+            Href="@b.PageName">@b.PageName
+        </MudButton>
+    </MudMenuItem>
+}
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await HomeViewModel.Refresh();
+    }
+}

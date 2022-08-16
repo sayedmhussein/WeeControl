@@ -5,7 +5,7 @@ using System.Text;
 using Newtonsoft.Json;
 using WeeControl.Frontend.ApplicationService.Interfaces;
 using WeeControl.SharedKernel;
-using WeeControl.SharedKernel.Essential.DataTransferObjects;
+using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
 
 namespace WeeControl.Frontend.ApplicationService.Services;

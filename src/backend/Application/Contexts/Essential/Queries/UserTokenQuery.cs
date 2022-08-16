@@ -12,7 +12,7 @@ using WeeControl.Application.Exceptions;
 using WeeControl.Application.Interfaces;
 using WeeControl.Domain.Contexts.Essential;
 using WeeControl.SharedKernel;
-using WeeControl.SharedKernel.Essential.DataTransferObjects;
+using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.RequestsResponses;
 

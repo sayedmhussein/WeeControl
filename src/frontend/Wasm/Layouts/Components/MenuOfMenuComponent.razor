@@ -1,0 +1,16 @@
+@using WeeControl.Frontend.ApplicationService.Contexts.Anonymous.Interfaces
+@inject IAuthorizationViewModel AuthorizationViewModel
+
+<MudMenuItem>
+    <MudButton 
+        StartIcon="@Icons.Material.Outlined.Password"
+        Href="@Pages.Common.PasswordChangePage">Change Password
+    </MudButton>
+</MudMenuItem>
+<MudMenuItem>
+    <MudButton 
+        StartIcon="@Icons.Material.Outlined.Logout"
+        Title="Logout"
+        OnClick="@AuthorizationViewModel.Logout">Logout
+    </MudButton>
+</MudMenuItem>

@@ -1,4 +1,4 @@
-using WeeControl.SharedKernel.Essential.DataTransferObjects;
+using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects;
 
 namespace WeeControl.Frontend.ApplicationService.Contexts.Anonymous.Models;
 

@@ -10,14 +10,13 @@
 <MudDialogProvider/>
 <MudSnackbarProvider/>
 
-<MudPaper Class="d-flex flex-column flex-grow-1 gap-4" Elevation="0">
-    <CustomerToolbarComponent ShowLogin="@showLoginButton" ShowLogout="@showLogoutButton">
+<MudPaper Class="d-flex flex-column flex-grow-1 gap-4" Elevation="5">
+    <CustomerToolbarComponent 
+        ShowLogin="@showLoginButton" ShowLogout="@showLogoutButton">
     </CustomerToolbarComponent>
-    <MudItem Class="d-flex flex-grow-0 align-self-center justify-center justify-content-center">
-        <MudPaper Class="d-flex flex-column flex-grow-1 gap-4" Elevation="0">
-            @Body
-        </MudPaper>
-    </MudItem>
+    <MudPaper Class="d-flex flex-column flex-fill flex-grow-1 gap-4" Elevation="0" Style="margin: 5px">
+        @Body
+    </MudPaper>
 </MudPaper>
 
 @code

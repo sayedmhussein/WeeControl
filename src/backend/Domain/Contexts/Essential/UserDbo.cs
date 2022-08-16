@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using WeeControl.SharedKernel.Essential.Entities;
+using WeeControl.SharedKernel.Contexts.Essential.Entities;
 
 namespace WeeControl.Domain.Contexts.Essential;
 

@@ -1,5 +1,5 @@
-using WeeControl.SharedKernel.Elevator.Enums;
-using WeeControl.SharedKernel.Elevator.Interfaces;
+using WeeControl.SharedKernel.Contexts.Elevator.Enums;
+using WeeControl.SharedKernel.Contexts.Elevator.Interfaces;
 
 namespace WeeControl.Frontend.ApplicationService.Contexts.Elevator;
 

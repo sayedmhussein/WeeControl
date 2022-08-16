@@ -1,10 +1,11 @@
 using System.Net;
 using System.Net.Http.Json;
+using System.Runtime.CompilerServices;
 using WeeControl.Frontend.ApplicationService.Contexts.Anonymous.Interfaces;
 using WeeControl.Frontend.ApplicationService.Contexts.Anonymous.Models;
 using WeeControl.Frontend.ApplicationService.Interfaces;
 using WeeControl.SharedKernel;
-using WeeControl.SharedKernel.Essential.DataTransferObjects;
+using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
 
 namespace WeeControl.Frontend.ApplicationService.Contexts.Anonymous.ViewModels;

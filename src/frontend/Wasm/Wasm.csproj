@@ -35,8 +35,8 @@
     <AdditionalFiles Include="Pages\Anonymous\CustomerRegisterPage.razor" />
     <AdditionalFiles Include="Pages\Common\PasswordChangePage.razor" />
     <AdditionalFiles Include="Pages\Elevator\_Imports.razor" />
-    <AdditionalFiles Include="Pages\Elevator\Admin\TerritoryComponent.razor" />
-    <AdditionalFiles Include="Pages\Elevator\Admin\UsersComponent.razor" />
+    <AdditionalFiles Include="Pages\Elevator\Admin\Components\TerritoryComponent.razor" />
+    <AdditionalFiles Include="Pages\Elevator\Admin\Components\UsersComponent.razor" />
   </ItemGroup>
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Pages\Business\Admin\AdminPage.razor" />

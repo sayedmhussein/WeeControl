@@ -1,6 +1,7 @@
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using WeeControl.Frontend.ApplicationService.Interfaces;
-
+[assembly: InternalsVisibleTo("ApplicationService.UnitTest")]
 namespace WeeControl.Frontend.ApplicationService;
 
 public abstract class ViewModelBase : IViewModelBase

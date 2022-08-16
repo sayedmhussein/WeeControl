@@ -2,7 +2,7 @@ using WeeControl.Frontend.ApplicationService.Contexts.Anonymous.Interfaces;
 using WeeControl.Frontend.ApplicationService.Contexts.Customer.Models;
 using WeeControl.Frontend.ApplicationService.Interfaces;
 using WeeControl.SharedKernel;
-using WeeControl.SharedKernel.Essential.DataTransferObjects;
+using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects;
 
 namespace WeeControl.Frontend.ApplicationService.Contexts.Common;
 

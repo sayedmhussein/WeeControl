@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using WeeControl.Application.Interfaces;
 using WeeControl.Domain.Contexts.Essential;
 using WeeControl.SharedKernel;
-using WeeControl.SharedKernel.Essential.Entities;
+using WeeControl.SharedKernel.Contexts.Essential.Entities;
 using WeeControl.SharedKernel.Interfaces;
 
 namespace WeeControl.Application.Contexts.Essential.Commands;

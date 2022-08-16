@@ -15,7 +15,7 @@ public static class Pages
     
     public static class Common
     {
-        public const string PasswordChangePage = "Common/PasswordChange";
+        public const string PasswordChangePage = "PasswordChange";
     }
 
     public static class Customer
@@ -25,9 +25,8 @@ public static class Pages
     
     public static class Elevator
     {
-        public static class Field
-        {
-            public const string FieldPage = nameof(ClaimsValues.ClaimTypes.Field);
-        }
+        public const string FieldPage = nameof(ClaimsValues.ClaimTypes.Field);
+        public const string AdminPage = nameof(ClaimsValues.ClaimTypes.Administrator);
+        public const string SalesPage = nameof(ClaimsValues.ClaimTypes.Sales);
     }
 }

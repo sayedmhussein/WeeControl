@@ -1,4 +1,4 @@
-using WeeControl.SharedKernel.Essential.Entities;
+using WeeControl.SharedKernel.Contexts.Essential.Entities;
 
 namespace WeeControl.Frontend.ApplicationService.Contexts.Customer.Models;
 

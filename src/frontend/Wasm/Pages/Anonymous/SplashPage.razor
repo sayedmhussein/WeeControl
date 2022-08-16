@@ -5,7 +5,7 @@
 
 @inject IUserHomeViewModel HomeViewModel
 
-<MudContainer>
+<MudContainer Class="d-flex flex-grow-0 align-self-center justify-center justify-content-center">
     <MudProgressCircular class="align-self-center" Color="Color.Info" Indeterminate="true" Size="Size.Large" /> 
 </MudContainer>
 
@@ -14,8 +14,8 @@
     // [CascadingParameter]
     // public Task<AuthenticationState> AuthState { get; set; }
     
-    [Inject]
-    public NavigationManager NavManager { get; set; }
+    // [Inject]
+    // public NavigationManager NavManager { get; set; }
     
     protected override async void OnInitialized()
     {
