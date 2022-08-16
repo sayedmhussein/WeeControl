@@ -14,7 +14,9 @@
     <CustomerToolbarComponent ShowLogin="@showLoginButton" ShowLogout="@showLogoutButton">
     </CustomerToolbarComponent>
     <MudItem Class="d-flex flex-grow-0 align-self-center justify-center justify-content-center">
-        @Body
+        <MudPaper Class="d-flex flex-column flex-grow-1 gap-4" Elevation="0">
+            @Body
+        </MudPaper>
     </MudItem>
 </MudPaper>
 

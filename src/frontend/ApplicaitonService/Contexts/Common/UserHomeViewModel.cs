@@ -13,7 +13,8 @@ internal class UserHomeViewModel : ViewModelBase, IUserHomeViewModel
     private readonly IAuthorizationViewModel authorizationViewModel;
 
     public string GreetingMessage { get; private set; } = "Hello";
-    public string NameOfUser { get; private set; } = string.Empty;
+    public bool IsEmployee { get; private set; }
+    public bool IsCustomer { get; private set; }
     public List<MenuItemModel> MenuItems { get; }
     public List<HomeFeedModel> FeedsList { get; }
     public List<HomeNotificationModel> NotificationsList { get; }
@@ -32,18 +33,8 @@ internal class UserHomeViewModel : ViewModelBase, IUserHomeViewModel
     {
         if (await authorizationViewModel.IsAuthorized())
         {
-            NameOfUser = await device.Storage.GetAsync(nameof(AuthenticationResponseDto.FullName));
-            var clams = await device.Security.GetClaimsAsync();
-            var territory = clams.FirstOrDefault(x => x.Type == ClaimsValues.ClaimTypes.Territory)?.Value;
-            if (territory is not null) //IsEmployee
-            {
-                await SetupMenuAsync();
-                await device.Navigation.NavigateToAsync(Pages.Elevator.Field.FieldPage);
-                return;
-            }
+            await Refresh();
         }
-
-        await SetupMenuAsync();
 
         await device.Navigation.NavigateToAsync(Pages.Anonymous.IndexPage, forceLoad:true);
     }
@@ -78,6 +69,18 @@ internal class UserHomeViewModel : ViewModelBase, IUserHomeViewModel
     public async Task Refresh()
     {
         await SetupMenuAsync();
+        
+        GreetingMessage = "Hello " + await device.Storage.GetAsync(nameof(AuthenticationResponseDto.FullName));
+        var claims = await device.Security.GetClaimsAsync();
+        if (claims.FirstOrDefault(x => x.Type == ClaimsValues.ClaimTypes.Territory)?.Value is not null)
+        {
+            IsEmployee = true;
+        }
+            
+        if (claims.FirstOrDefault(x => x.Type == ClaimsValues.ClaimTypes.Country)?.Value is not null)
+        {
+            IsCustomer = true;
+        }
         
         NotificationsList.Clear();
         

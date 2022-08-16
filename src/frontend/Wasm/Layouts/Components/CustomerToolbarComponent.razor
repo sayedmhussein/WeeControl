@@ -12,19 +12,28 @@
     <MudText Class="d-inline-flex">WeeControl</MudText>
     @if (ShowLogout)
     {
-        <MudMenu Class="d-inline-flex" Label="Customer Operations" ActivationEvent="@MouseEvent.MouseOver" Dense="true" EndIcon="@Icons.Filled.KeyboardArrowDown" IconColor="Color.Primary">
-            <MudMenuItem>Home Page</MudMenuItem>
-            <MudMenuItem>My Units</MudMenuItem>
-            <MudMenuItem>Request Service</MudMenuItem>
-            <MudSpacer></MudSpacer>
-            <MudMenuItem>Complain</MudMenuItem>
-        </MudMenu>
-        <MudMenu Class="d-inline-flex" Label="Employee Operations" ActivationEvent="@MouseEvent.MouseOver" Dense="true" EndIcon="@Icons.Filled.KeyboardArrowDown" IconColor="Color.Primary">
-            @foreach (var b in HomeViewModel.MenuItems)
-            {
-                <MudMenuItem>@b.PageName</MudMenuItem>
-            }
-        </MudMenu>
+        @if (HomeViewModel.IsCustomer)
+        {
+            <MudMenu Class="d-inline-flex" Label="Customer Operations" ActivationEvent="@MouseEvent.MouseOver" Dense="true" EndIcon="@Icons.Filled.KeyboardArrowDown" IconColor="Color.Primary">
+                <MudMenuItem><MudLink Href="@Pages.Anonymous.IndexPage">Home Page</MudLink></MudMenuItem>
+                <MudMenuItem>My Units</MudMenuItem>
+                <MudMenuItem>Request Service</MudMenuItem>
+                <MudSpacer></MudSpacer>
+                <MudMenuItem>Complain</MudMenuItem>
+            </MudMenu>
+        }
+        
+        @if (HomeViewModel.IsEmployee)
+        {
+            <MudMenu Class="d-inline-flex" Label="Employee Operations" ActivationEvent="@MouseEvent.MouseOver" Dense="true" EndIcon="@Icons.Filled.KeyboardArrowDown" IconColor="Color.Primary">
+                @foreach (var b in HomeViewModel.MenuItems)
+                {
+                    <MudMenuItem>
+                        <MudLink Href="@b.PageName">@b.PageName</MudLink>
+                    </MudMenuItem>
+                }
+            </MudMenu>
+        }
     }
     <MudSpacer></MudSpacer>
     @if (ShowLogin)
@@ -44,7 +53,13 @@
     {
         <MudText>@HomeViewModel.GreetingMessage</MudText>
         <MudIconButton Icon="@Icons.Material.Outlined.Notifications" />
-        <MudIconButton Icon="@Icons.Material.Outlined.Menu" />
+        <MudIconButton Icon="@Icons.Material.Outlined.Menu">
+            <MudMenu>
+                <MudMenuItem>
+                    <MudLink Href="@Pages.Common.PasswordChangePage">Change Password</MudLink>
+                </MudMenuItem>
+            </MudMenu>
+        </MudIconButton>
         <MudIconButton
             Icon="@Icons.Material.Outlined.Logout"
             Color="Color.Inherit"
@@ -61,7 +76,7 @@
     [Parameter]
     public bool ShowLogout { get; set; }
 
-    protected async override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
         await HomeViewModel.Refresh();
