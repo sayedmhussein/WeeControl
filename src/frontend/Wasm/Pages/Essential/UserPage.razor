@@ -1,0 +1,182 @@
+﻿@using Microsoft.AspNetCore.Components
+@using WeeControl.Frontend.ApplicationService.Contexts.Anonymous.Interfaces
+@using WeeControl.Frontend.ApplicationService.Interfaces
+
+@attribute [Route(Pages.Essential.UserPage)]
+@inject IAuthorizationViewModel ViewModel
+@inject IPublicViewModel ResetViewModel
+@inject IDevicePageNavigation Navigation
+@inject IPublicViewModel PublicViewModel
+
+@switch (currentView)
+{
+    case CurrentViews.Login:
+        <MudCard Class="flex-fill" Style="max-width: 600px; align-content: center; align-self: center; justify-content: center">
+            <MudCardHeader>
+                <h4>Please enter your username and password</h4>
+            </MudCardHeader>
+            <MudCardContent>
+                <EditForm Model="@ViewModel" OnValidSubmit="ViewModel.Login">
+                    <DataAnnotationsValidator/>
+                    <div class="form-group">
+                        <label>Username or Email</label>
+                        <InputText @bind-Value="ViewModel.LoginModel.UsernameOrEmail" readonly="@ViewModel.IsLoading" class="form-control"/>
+                        <ValidationMessage For="@(() => ViewModel.LoginModel.UsernameOrEmail)"/>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <InputText @bind-Value="ViewModel.LoginModel.Password" readonly="@ViewModel.IsLoading" type="password" class="form-control"/>
+                        <ValidationMessage For="@(() => ViewModel.LoginModel.Password)"/>
+                    </div>
+                </EditForm>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton
+                    Variant="Variant.Filled"
+                    ButtonType="ButtonType.Submit"
+                    Color="Color.Primary"
+                    Disabled="@ViewModel.IsLoading" 
+                    Size="Size.Large"
+                    Class="ml-auto" @onclick="@ViewModel.Login">
+                    @if (ViewModel.IsLoading)
+                    {
+                        <span class="spinner-border spinner-border-sm mr-1"></span>
+                    }
+                    Login
+                </MudButton>
+                <MudSpacer></MudSpacer>
+                <MudButton
+                    Variant="Variant.Outlined"
+                    Color="Color.Default"
+                    Disabled="@ViewModel.IsLoading"
+                    DisableElevation="true" 
+                    Size="Size.Small"
+                    Class="ml-auto align-content-sm-end" 
+                    @onclick="@(() => currentView = CurrentViews.ForgotPassword)">Forgot Password</MudButton>
+                <MudButton
+                    Variant="Variant.Outlined"
+                    Color="Color.Default"
+                    Disabled="@ViewModel.IsLoading"
+                    DisableElevation="true" 
+                    Size="Size.Small"
+                    Class="ml-auto align-content-sm-end" 
+                    @onclick="@(() => currentView = CurrentViews.Register)">Register</MudButton>
+            </MudCardActions>
+        </MudCard>
+        break;
+    case CurrentViews.Register:
+        <EditForm Model="@PublicViewModel.CustomerRegisterModel" OnValidSubmit="PublicViewModel.Register">
+            <DataAnnotationsValidator/>
+            <MudCard>
+                <MudCardHeader>Personal Details</MudCardHeader>
+                <MudCardContent>
+                    <MudGrid>
+                        <MudItem xs="3">
+                            <MudTextField Label="First Name" HelperText="Max. 8 characters"
+                                          @bind-Value="PublicViewModel.CustomerRegisterModel.Personal.FirstName" For="@(() => PublicViewModel.CustomerRegisterModel.Personal.FirstName)"/>
+                        </MudItem>
+                        <MudItem xs="3">
+                            <MudTextField Label="Second Name" HelperText="Max. 8 characters"
+                                          @bind-Value="PublicViewModel.CustomerRegisterModel.Personal.SecondName" For="@(() => PublicViewModel.CustomerRegisterModel.Personal.SecondName)"/>
+                        </MudItem>
+                        <MudItem xs="3">
+                            <MudTextField Label="Third name" HelperText="Max. 8 characters"
+                                          @bind-Value="PublicViewModel.CustomerRegisterModel.Personal.ThirdName" For="@(() => PublicViewModel.CustomerRegisterModel.Personal.ThirdName)"/>
+                        </MudItem>
+                        <MudItem xs="3">
+                            <MudTextField Label="Last name" HelperText="Max. 8 characters"
+                                          @bind-Value="PublicViewModel.CustomerRegisterModel.Personal.LastName" For="@(() => PublicViewModel.CustomerRegisterModel.Personal.LastName)"/>
+                        </MudItem>
+                    </MudGrid>
+                    <MudSelect T="string" Label="Nationality" AnchorOrigin="Origin.BottomCenter" @bind-Value="PublicViewModel.CustomerRegisterModel.Personal.Nationality">
+                        @foreach (var t in PublicViewModel.Countries)
+                        {
+                            <MudSelectItem Value="@(t.CountryCode)">@t.CountryCode: @t.CountryName</MudSelectItem>
+                        }
+                    </MudSelect>
+                    <MudSelect T="string" Label="Current Residency" AnchorOrigin="Origin.BottomCenter" @bind-Value="PublicViewModel.CustomerRegisterModel.Customer.CountryCode">
+                        @foreach (var t in PublicViewModel.Countries)
+                        {
+                            <MudSelectItem Value="@(t.CountryCode)">@t.CountryCode: @t.CountryName</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudCardContent>
+            </MudCard>
+            <MudCard>
+                <MudCardHeader>User Details</MudCardHeader>
+                <MudCardContent>
+                    <MudTextField Label="Email" Class="mt-3"
+                                  @bind-Value="PublicViewModel.CustomerRegisterModel.User.Email" For="@(() => PublicViewModel.CustomerRegisterModel.User.Email)"/>
+                    <MudTextField Label="Username" HelperText="Max. 8 characters"
+                                  @bind-Value="PublicViewModel.CustomerRegisterModel.User.Username" For="@(() => PublicViewModel.CustomerRegisterModel.User.Username)"/>
+                    <MudTextField Label="Password" HelperText="Choose a strong password" Class="mt-3"
+                                  @bind-Value="PublicViewModel.CustomerRegisterModel.User.Password" For="@(() => PublicViewModel.CustomerRegisterModel.User.Password)" InputType="InputType.Password"/>
+                    <MudTextField Label="Confirm Password" HelperText="Repeat the password" Class="mt-3"
+                                  @bind-Value="PublicViewModel.CustomerRegisterModel.User.PasswordConfirmation" For="@(() => PublicViewModel.CustomerRegisterModel.User.PasswordConfirmation)" InputType="InputType.Password"/>
+                    <MudTextField Label="Mobile Number" HelperText="Max. 8 characters"
+                                  @bind-Value="PublicViewModel.CustomerRegisterModel.User.MobileNo" For="@(() => PublicViewModel.CustomerRegisterModel.User.MobileNo)"/>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </EditForm>
+        break;
+    case CurrentViews.ForgotPassword:
+        <div class="card">
+            <h4 class="card-header">Please enter your username and and email address</h4>
+            <div class="card-body">
+                <EditForm Model="@ResetViewModel" OnValidSubmit="ResetViewModel.RequestPasswordReset">
+                    <DataAnnotationsValidator/>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <InputText @bind-Value="ResetViewModel.PasswordResetModel.Email" type="email" class="form-control"/>
+                        <ValidationMessage For="@(() => ResetViewModel.PasswordResetModel.Email)"/>
+                    </div>
+                    <div class="form-group">
+                        <label>Username</label>
+                        <InputText @bind-Value="ResetViewModel.PasswordResetModel.Username" class="form-control"/>
+                        <ValidationMessage For="@(() => ResetViewModel.PasswordResetModel.Username)"/>
+                    </div>
+                    <button class="btn btn-primary">
+                        @if (ResetViewModel.IsLoading)
+                        {
+                            <span class="spinner-border spinner-border-sm mr-1"></span>
+                        }
+                        Forgot Password
+                    </button>
+                    <button class="btn btn-secondary" @onclick="@(() => currentView = CurrentViews.Login)">Login Instead</button>
+                </EditForm>
+            </div>
+        </div>
+        break;
+    case CurrentViews.SetPassword:
+        <PasswordChangeComponent></PasswordChangeComponent>
+        break;
+    default:
+        throw new ArgumentOutOfRangeException();
+}
+
+@code
+{
+    private CurrentViews currentView;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        if (await ViewModel.IsAuthorized())
+        {
+            currentView = CurrentViews.SetPassword;
+        }
+        else
+        {
+            currentView = CurrentViews.Login;
+        }
+    }
+
+    enum CurrentViews
+    {
+        Login, Register, ForgotPassword, SetPassword
+    }
+}

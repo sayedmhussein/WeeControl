@@ -75,7 +75,7 @@ internal class PublicViewModel : ViewModelBase, IPublicViewModel
         var responseMessage = await server.Send(message, dtoV1);
         if (responseMessage.IsSuccessStatusCode)
         {
-            await device.Navigation.NavigateToAsync(Pages.Anonymous.LoginPage);
+            await device.Navigation.NavigateToAsync(Pages.Essential.UserPage);
             await device.Alert.DisplayAlert("New Password was created, please check your email.");
             return;
         }
@@ -101,7 +101,7 @@ internal class PublicViewModel : ViewModelBase, IPublicViewModel
             var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<AuthenticationResponseDto>>();
             var token = responseDto?.Payload?.Token;
             await device.Security.UpdateTokenAsync(token ?? string.Empty);
-            await device.Navigation.NavigateToAsync(Pages.Anonymous.IndexPage, forceLoad: true);
+            await device.Navigation.NavigateToAsync(Pages.Essential.HomePage, forceLoad: true);
             return;
         }
 

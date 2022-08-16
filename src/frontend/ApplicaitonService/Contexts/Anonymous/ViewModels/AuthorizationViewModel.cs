@@ -1,6 +1,5 @@
 using System.Net;
 using System.Net.Http.Json;
-using System.Runtime.CompilerServices;
 using WeeControl.Frontend.ApplicationService.Contexts.Anonymous.Interfaces;
 using WeeControl.Frontend.ApplicationService.Contexts.Anonymous.Models;
 using WeeControl.Frontend.ApplicationService.Interfaces;
@@ -23,14 +22,6 @@ internal class AuthorizationViewModel : ViewModelBase, IAuthorizationViewModel
         this.server = server;
 
         LoginModel = new LoginModel();
-    }
-
-    public async Task Init()
-    {
-        if (await IsAuthorized())
-        {
-            await device.Navigation.NavigateToAsync(Pages.Anonymous.IndexPage);
-        }
     }
 
     public async Task<bool> IsAuthorized()
@@ -69,7 +60,7 @@ internal class AuthorizationViewModel : ViewModelBase, IAuthorizationViewModel
             case HttpStatusCode.BadGateway:
             case HttpStatusCode.BadRequest:
             case HttpStatusCode.Unauthorized:
-                await device.Navigation.NavigateToAsync(Pages.Anonymous.SplashPage, forceLoad: true);
+                await device.Navigation.NavigateToAsync(Pages.Essential.SplashPage, forceLoad: true);
                 break;
             default:
                 await device.Alert.DisplayAlert("AlertEnum.DeveloperMinorBug");
@@ -77,7 +68,7 @@ internal class AuthorizationViewModel : ViewModelBase, IAuthorizationViewModel
         }
 
         await device.Security.DeleteTokenAsync();
-        await device.Navigation.NavigateToAsync(Pages.Anonymous.SplashPage);
+        await device.Navigation.NavigateToAsync(Pages.Essential.SplashPage);
     }
 
     private async Task ProcessLoginCommand()
@@ -102,11 +93,11 @@ internal class AuthorizationViewModel : ViewModelBase, IAuthorizationViewModel
                 await device.Storage.SaveAsync(nameof(AuthenticationResponseDto.FullName), responseDto?.Payload?.FullName ?? string.Empty);
                 if (await server.IsTokenValid())
                 {
-                    await device.Navigation.NavigateToAsync(Pages.Anonymous.SplashPage, forceLoad: true);
+                    await device.Navigation.NavigateToAsync(Pages.Essential.SplashPage, forceLoad: true);
                     return;
                 }
 
-                await device.Navigation.NavigateToAsync(Pages.Anonymous.LoginPage, forceLoad: true);
+                await device.Navigation.NavigateToAsync(Pages.Essential.UserPage, forceLoad: true);
                 return;
             }
             else

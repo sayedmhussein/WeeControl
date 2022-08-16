@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using WeeControl.Frontend.ApplicationService.Contexts.Anonymous.Interfaces;
 using WeeControl.Frontend.ApplicationService.Contexts.Anonymous.ViewModels;
 using WeeControl.Frontend.ApplicationService.Interfaces;
 using WeeControl.Frontend.ApplicationService.Services;
@@ -39,7 +38,7 @@ public class AuthorizationViewModelTests : ViewModelTestsBase
         Mock.SecurityMock.Verify(x => 
             x.UpdateTokenAsync("token"), Times.AtLeastOnce);
         Mock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Anonymous.IndexPage,true), Times.Once);
+            x.NavigateToAsync(Pages.Essential.HomePage,true), Times.Once);
     }
     
     [Theory]
@@ -62,7 +61,7 @@ public class AuthorizationViewModelTests : ViewModelTestsBase
         Mock.AlertMock.Verify(x => 
             x.DisplayAlert(It.IsAny<string>()), Times.Once);
         Mock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Anonymous.IndexPage,true), Times.Never);
+            x.NavigateToAsync(Pages.Essential.HomePage,true), Times.Never);
     }
     
     
@@ -82,7 +81,7 @@ public class AuthorizationViewModelTests : ViewModelTestsBase
         Mock.SecurityMock.Verify(x => 
             x.UpdateTokenAsync("token"), Times.Never);
         Mock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Anonymous.IndexPage,It.IsAny<bool>()), Times.Never);
+            x.NavigateToAsync(Pages.Essential.HomePage,It.IsAny<bool>()), Times.Never);
     }
     #endregion
 
@@ -106,7 +105,7 @@ public class AuthorizationViewModelTests : ViewModelTestsBase
         Mock.SecurityMock.Verify(x => 
             x.UpdateTokenAsync(It.IsAny<string>()), Times.Never);
         Mock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Anonymous.IndexPage,true), Times.Never);
+            x.NavigateToAsync(Pages.Essential.HomePage,true), Times.Never);
     }
     #endregion
     

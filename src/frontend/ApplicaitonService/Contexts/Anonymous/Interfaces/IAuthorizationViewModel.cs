@@ -7,7 +7,6 @@ public interface IAuthorizationViewModel : IViewModelBase
 {
     public LoginModel LoginModel { get; }
     
-    Task Init();
     Task<bool> IsAuthorized();
     Task Login();
     Task Logout();

@@ -52,7 +52,7 @@ public class PasswordChangeViewModel : ViewModelBase
             case HttpStatusCode.OK:
             case HttpStatusCode.Accepted:
                 await device.Alert.DisplayAlert("PasswordUpdatedSuccessfully");
-                await device.Navigation.NavigateToAsync(Pages.Anonymous.IndexPage);
+                await device.Navigation.NavigateToAsync(Pages.Essential.HomePage);
                 break;
             case HttpStatusCode.NotFound:
                 await device.Alert.DisplayAlert("InvalidPassword");

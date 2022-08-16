@@ -36,7 +36,7 @@ internal class UserHomeViewModel : ViewModelBase, IUserHomeViewModel
             await Refresh();
         }
 
-        await device.Navigation.NavigateToAsync(Pages.Anonymous.IndexPage, forceLoad:true);
+        await device.Navigation.NavigateToAsync(Pages.Essential.HomePage, forceLoad:true);
     }
 
     public async Task ChangeMyPasswordAsync()

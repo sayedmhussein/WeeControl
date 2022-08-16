@@ -28,12 +28,8 @@
     <ProjectReference Include="..\ApplicaitonService\ApplicationService.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <AdditionalFiles Include="Pages\Customer\Components\UserData.razor" />
-    <AdditionalFiles Include="Pages\Anonymous\LoginPage.razor" />
-    <AdditionalFiles Include="Pages\Anonymous\SplashPage.razor" />
-    <AdditionalFiles Include="Pages\Customer\_Imports.razor" />
-    <AdditionalFiles Include="Pages\Anonymous\CustomerRegisterPage.razor" />
-    <AdditionalFiles Include="Pages\Common\PasswordChangePage.razor" />
+    <AdditionalFiles Include="Pages\Essential\UserPage.razor" />
+    <AdditionalFiles Include="Pages\Essential\SplashPage.razor" />
     <AdditionalFiles Include="Pages\Elevator\_Imports.razor" />
     <AdditionalFiles Include="Pages\Elevator\Admin\Components\TerritoryComponent.razor" />
     <AdditionalFiles Include="Pages\Elevator\Admin\Components\UsersComponent.razor" />
@@ -49,5 +45,10 @@
     <_ContentIncludedByDefault Remove="Pages\Customer\Admin\AdminPage.razor" />
     <_ContentIncludedByDefault Remove="Pages\Customer\Admin\TerritoryComponent.razor" />
     <_ContentIncludedByDefault Remove="Pages\Customer\Admin\UsersComponent.razor" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Pages\Essentials\UserPage.razor" />
+    <Content Remove="Pages\Essentials\Components\PasswordForgotComponent.razor" />
+    <Content Remove="Pages\Essentials\Components\PasswordChangeComponent.razor" />
   </ItemGroup>
 </Project>
