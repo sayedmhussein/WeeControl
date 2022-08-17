@@ -7,25 +7,32 @@ using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
 
-namespace WeeControl.Frontend.ApplicationService.Contexts.Essential.ViewModels;
+namespace WeeControl.Frontend.ApplicationService.Contexts.Essential.Services;
 
-internal class UserViewModel : ViewModelBase, IUserViewModel
+internal class UserService : ViewModelBase, IUserService
 {
     private readonly IDevice device;
     private readonly IServerOperation server;
-
-    public CustomerRegisterModel CustomerRegisterModel { get; }
-    public PasswordResetModel PasswordResetModel { get; }
-    public PasswordChangeModel PasswordChangeModel { get; }
+    private readonly IAuthorizationService authorizationService;
+    
     public IEnumerable<CountryModel> Countries { get; }
+    public string GreetingMessage { get; private set; }
+    public bool IsEmployee { get; private set; }
+    public bool IsCustomer { get; private set; }
+    public List<MenuItemModel> MenuItems { get; }
+    public List<HomeFeedModel> FeedsList { get; }
+    public List<HomeNotificationModel> NotificationsList { get; }
 
-    public UserViewModel(IDevice device, IServerOperation server, IPersistedLists persistedLists)
+    public UserService(IDevice device, IServerOperation server, IPersistedLists persistedLists, IAuthorizationService authorizationService, PasswordChangeModel passwordChangeModel, string greetingMessage, List<MenuItemModel> menuItems, List<HomeFeedModel> feedsList, List<HomeNotificationModel> notificationsList)
     {
         this.device = device;
         this.server = server;
-
-        CustomerRegisterModel = new CustomerRegisterModel();
-        PasswordResetModel = new PasswordResetModel();
+        this.authorizationService = authorizationService;
+        GreetingMessage = greetingMessage;
+        MenuItems = menuItems;
+        FeedsList = feedsList;
+        NotificationsList = notificationsList;
+        
         Countries = persistedLists.Countries;
     }
     
@@ -44,39 +51,68 @@ internal class UserViewModel : ViewModelBase, IUserViewModel
         throw new NotImplementedException();
     }
 
-    public async Task Register()
+    public async Task Init()
+    {
+        if (await authorizationService.IsAuthorized())
+        {
+            await Refresh();
+        }
+
+        await device.Navigation.NavigateToAsync(Pages.Essential.HomePage, forceLoad:true);
+    }
+
+    public async Task Refresh()
+    {
+        await SetupMenuAsync();
+        
+        GreetingMessage = "Hello " + await device.Storage.GetAsync(nameof(AuthenticationResponseDto.FullName));
+        var claims = await device.Security.GetClaimsAsync();
+        if (claims.FirstOrDefault(x => x.Type == ClaimsValues.ClaimTypes.Territory)?.Value is not null)
+        {
+            IsEmployee = true;
+        }
+            
+        if (claims.FirstOrDefault(x => x.Type == ClaimsValues.ClaimTypes.Country)?.Value is not null)
+        {
+            IsCustomer = true;
+        }
+        
+        NotificationsList.Clear();
+    }
+
+    public async Task Register(CustomerRegisterModel registerModel)
     {
         IsLoading = true;
-        await RegisterAsync(CustomerRegisterModel);
+        await RegisterAsync(registerModel);
         IsLoading = false;
     }
 
-    public async Task RequestPasswordReset()
+    public async Task RequestPasswordReset(PasswordResetModel passwordResetModel)
     {
-        if (string.IsNullOrWhiteSpace(PasswordResetModel.Email) || string.IsNullOrWhiteSpace(PasswordResetModel.Username))
+        if (string.IsNullOrWhiteSpace(passwordResetModel.Email) || string.IsNullOrWhiteSpace(passwordResetModel.Username))
         {
             await device.Alert.DisplayAlert("You didn't entered proper data");
             return;
         }
         
         IsLoading = true;
-        await ProcessPasswordReset(PasswordResetModel);
+        await ProcessPasswordReset(passwordResetModel);
         IsLoading = false;
     }
 
-    public async Task ChangeMyPassword()
+    public async Task ChangeMyPassword(PasswordChangeModel passwordChangeModel)
     {
-        if (string.IsNullOrWhiteSpace(PasswordChangeModel.OldPassword) ||
-            string.IsNullOrWhiteSpace(PasswordChangeModel.NewPassword) ||
-            string.IsNullOrWhiteSpace(PasswordChangeModel.ConfirmPassword) ||
-            PasswordChangeModel.NewPassword != PasswordChangeModel.ConfirmPassword)
+        if (string.IsNullOrWhiteSpace(passwordChangeModel.OldPassword) ||
+            string.IsNullOrWhiteSpace(passwordChangeModel.NewPassword) ||
+            string.IsNullOrWhiteSpace(passwordChangeModel.ConfirmPassword) ||
+            passwordChangeModel.NewPassword != passwordChangeModel.ConfirmPassword)
         {
             await device.Alert.DisplayAlert("Invalid Properties");
             return;
         }
 
         IsLoading = true;
-        await ProcessChangingPassword(PasswordChangeModel);
+        await ProcessChangingPassword(passwordChangeModel);
         IsLoading = false;
     }
 
@@ -158,5 +194,27 @@ internal class UserViewModel : ViewModelBase, IUserViewModel
                 await device.Alert.DisplayAlert("DeveloperMinorBug");
                 break;
         }
+    }
+    
+    private async Task SetupMenuAsync()
+    {
+        var list = new List<MenuItemModel>();
+
+        foreach (var claim in await device.Security.GetClaimsAsync())
+        {
+            if (claim.Type is ClaimsValues.ClaimTypes.Session or ClaimsValues.ClaimTypes.Territory or ClaimsValues.ClaimTypes.Country)
+            {
+                continue;
+            }
+
+            if (ClaimsValues.GetClaimTypes().ContainsValue(claim.Type))
+            {
+                var name = ClaimsValues.GetClaimTypes().First(x => x.Value == claim.Type);
+                list.Add(MenuItemModel.Create(name.Key));
+            }
+        }
+
+        MenuItems.Clear();
+        MenuItems.AddRange(list.DistinctBy(x => x.PageName));
     }
 }

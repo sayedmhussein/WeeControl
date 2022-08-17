@@ -1,5 +1,6 @@
 @using WeeControl.Frontend.ApplicationService.Contexts.Essential.Interfaces
-@inject IAuthorizationViewModel AuthorizationViewModel
+@using IAuthorizationService = WeeControl.Frontend.ApplicationService.Contexts.Essential.Interfaces.IAuthorizationService
+@inject IAuthorizationService AuthorizationService
 
 <MudMenuItem>
     <MudButton 
@@ -11,6 +12,6 @@
     <MudButton 
         StartIcon="@Icons.Material.Outlined.Logout"
         Title="Logout"
-        OnClick="@AuthorizationViewModel.Logout">Logout
+        OnClick="@AuthorizationService.Logout">Logout
     </MudButton>
 </MudMenuItem>

@@ -1,7 +1,7 @@
 @using WeeControl.Frontend.ApplicationService.Contexts.Essential.Interfaces
-@inject IHomeViewModel HomeViewModel
+@inject IUserService UserService
 
-@foreach (var b in HomeViewModel.MenuItems)
+@foreach (var b in UserService.MenuItems)
 {
     <MudMenuItem>
         <MudButton 
@@ -15,6 +15,6 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        await HomeViewModel.Refresh();
+        await UserService.Refresh();
     }
 }

@@ -3,12 +3,10 @@ using WeeControl.Frontend.ApplicationService.Interfaces;
 
 namespace WeeControl.Frontend.ApplicationService.Contexts.Essential.Interfaces;
 
-public interface IAuthorizationViewModel : IViewModelBase
+public interface IAuthorizationService : IViewModelBase
 {
-    public LoginModel LoginModel { get; }
-    
     Task<bool> IsAuthorized();
-    Task Login();
+    Task Login(LoginModel loginModel);
     Task Logout();
     
 }

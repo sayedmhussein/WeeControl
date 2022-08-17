@@ -6,7 +6,7 @@ using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
 
-namespace WeeControl.Frontend.ApplicationService.Contexts.Essential.ViewModels;
+namespace WeeControl.Frontend.ApplicationService.Contexts.Elevator;
 
 public class TerritoryViewModel : ViewModelBase
 {

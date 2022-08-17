@@ -14,7 +14,6 @@ This project is created as a milestone to develop and customize a software appli
 
 ### Patterns:
 * CQRS on backend side.
-* MVVM on frontend side.
 
 ## Copyright and Licensing
 This is open source project, while you need to read and accept each nuget package imported into this project.

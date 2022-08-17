@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using WeeControl.Frontend.ApplicationService.Contexts.Essential.ViewModels;
+using WeeControl.Frontend.ApplicationService.Contexts.Essential.Services;
 using WeeControl.Frontend.ApplicationService.Interfaces;
 using WeeControl.Frontend.ApplicationService.Services;
 using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects;
@@ -12,7 +12,7 @@ namespace WeeControl.Frontend.ApplicationService.UnitTest.Contexts.Anonymous;
 
 public class AuthorizationViewModelTests : ViewModelTestsBase
 {
-    public AuthorizationViewModelTests() : base(nameof(AuthorizationViewModel))
+    public AuthorizationViewModelTests() : base(nameof(AuthorizationService))
     {
     }
 
@@ -116,7 +116,7 @@ public class AuthorizationViewModelTests : ViewModelTestsBase
     [Fact]
     public async void WhenNotFound_OrSuccess()
     {
-        var vm = new AuthorizationViewModel(Mock.GetObject(HttpStatusCode.NotFound, null!));
+        var vm = new AuthorizationService(Mock.GetObject(HttpStatusCode.NotFound, null!));
 
         await vm.Logout();
         
@@ -127,7 +127,7 @@ public class AuthorizationViewModelTests : ViewModelTestsBase
     [Fact]
     public async void WhenBadRequest()
     {
-        var vm = new AuthorizationViewModel(Mock.GetObject(HttpStatusCode.BadRequest, null!));
+        var vm = new AuthorizationService(Mock.GetObject(HttpStatusCode.BadRequest, null!));
 
         await vm.Logout();
         
@@ -138,7 +138,7 @@ public class AuthorizationViewModelTests : ViewModelTestsBase
     [Fact]
     public async void WhenUnauthorized()
     {
-        var vm = new AuthorizationViewModel(Mock.GetObject(HttpStatusCode.Unauthorized, null!));
+        var vm = new AuthorizationService(Mock.GetObject(HttpStatusCode.Unauthorized, null!));
 
         await vm.Logout();
         
@@ -149,7 +149,7 @@ public class AuthorizationViewModelTests : ViewModelTestsBase
     [Fact]
     public async void ServerFailure()
     {
-        var vm = new AuthorizationViewModel(Mock.GetObject(new HttpClient()));
+        var vm = new AuthorizationService(Mock.GetObject(new HttpClient()));
 
         await vm.Logout();
         
@@ -158,9 +158,9 @@ public class AuthorizationViewModelTests : ViewModelTestsBase
     }
     #endregion
 
-    private AuthorizationViewModel GetViewModel(IDevice device, string usernameOrEmail, string password)
+    private AuthorizationService GetViewModel(IDevice device, string usernameOrEmail, string password)
     {
-        return new AuthorizationViewModel(device, new ServerOperationService(device))
+        return new AuthorizationService(device, new ServerOperationService(device))
         {
             LoginModel =
             {

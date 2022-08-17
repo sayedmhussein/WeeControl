@@ -1,7 +1,8 @@
 @using WeeControl.Frontend.ApplicationService.Interfaces
 @using WeeControl.Frontend.ApplicationService.Contexts.Essential.Interfaces
-@inject IHomeViewModel HomeViewModel
-@inject IAuthorizationViewModel AuthorizationViewModel
+@using IAuthorizationService = WeeControl.Frontend.ApplicationService.Contexts.Essential.Interfaces.IAuthorizationService
+@inject IUserService UserService
+@inject IAuthorizationService AuthorizationService
 @inject IDevicePageNavigation Navigation
 
 <MudToolBar Elevation="25" Class="d-flex">
@@ -17,11 +18,11 @@
         </MudMenuItem>
         @if (ShowLogout)
         {
-            @if (HomeViewModel.IsCustomer)
+            @if (UserService.IsCustomer)
             {
                 <MenuOfCustomerComponent></MenuOfCustomerComponent>
             }
-            @if (HomeViewModel.IsEmployee)
+            @if (UserService.IsEmployee)
             {
                 <MenuOfEmployeeComponent></MenuOfEmployeeComponent>
             }
@@ -40,7 +41,7 @@
     }
     @if (ShowLogout)
     {
-        <MudText>@HomeViewModel.GreetingMessage</MudText>
+        <MudText>@UserService.GreetingMessage</MudText>
         <MudMenu Icon="@Icons.Material.Outlined.Notifications" AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight" MaxHeight="@componentMaxHeight">
             <MenuOfNotificationComponent></MenuOfNotificationComponent>
         </MudMenu>
@@ -59,12 +60,12 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        await HomeViewModel.Refresh();
+        await UserService.Refresh();
     }
 
     private async Task Logout()
     {
-        await AuthorizationViewModel.Logout();
+        await AuthorizationService.Logout();
         ShowLogin = true;
         StateHasChanged();
     }

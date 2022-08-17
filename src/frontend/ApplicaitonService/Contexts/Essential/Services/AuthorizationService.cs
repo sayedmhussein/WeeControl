@@ -7,21 +7,17 @@ using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
 
-namespace WeeControl.Frontend.ApplicationService.Contexts.Essential.ViewModels;
+namespace WeeControl.Frontend.ApplicationService.Contexts.Essential.Services;
 
-internal class AuthorizationViewModel : ViewModelBase, IAuthorizationViewModel
+internal class AuthorizationService : ViewModelBase, IAuthorizationService
 {
     private readonly IDevice device;
     private readonly IServerOperation server;
-    
-    public LoginModel LoginModel { get; }
 
-    public AuthorizationViewModel(IDevice device, IServerOperation server)
+    public AuthorizationService(IDevice device, IServerOperation server)
     {
         this.device = device;
         this.server = server;
-
-        LoginModel = new LoginModel();
     }
 
     public async Task<bool> IsAuthorized()
@@ -29,17 +25,17 @@ internal class AuthorizationViewModel : ViewModelBase, IAuthorizationViewModel
         return await server.IsTokenValid() && await device.Security.IsAuthenticatedAsync();
     }
 
-    public async Task Login()
+    public async Task Login(LoginModel loginModel)
     {
-        if (string.IsNullOrWhiteSpace(LoginModel.UsernameOrEmail) || string.IsNullOrWhiteSpace(LoginModel.Password))
+        if (string.IsNullOrWhiteSpace(loginModel.UsernameOrEmail) || string.IsNullOrWhiteSpace(loginModel.Password))
         {
             await device.Alert.DisplayAlert("Please enter your username and password then try again.");
             return;
         }
 
         IsLoading = true;
-        await ProcessLoginCommand();
-        LoginModel.Password = string.Empty;
+        await ProcessLoginCommand(loginModel);
+        loginModel.Password = string.Empty;
         IsLoading = false;
     }
     
@@ -71,7 +67,7 @@ internal class AuthorizationViewModel : ViewModelBase, IAuthorizationViewModel
         await device.Navigation.NavigateToAsync(Pages.Essential.SplashPage);
     }
 
-    private async Task ProcessLoginCommand()
+    private async Task ProcessLoginCommand(LoginModel loginModel)
     {
         var response = await server.Send(
             new HttpRequestMessage
@@ -81,7 +77,7 @@ internal class AuthorizationViewModel : ViewModelBase, IAuthorizationViewModel
                 Method = HttpMethod.Post,
                 
             }, 
-            AuthenticationRequestDto.Create(LoginModel.UsernameOrEmail, LoginModel.Password));
+            AuthenticationRequestDto.Create(loginModel.UsernameOrEmail, loginModel.Password));
 
         if (response.IsSuccessStatusCode)
         {
