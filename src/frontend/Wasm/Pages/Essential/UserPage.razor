@@ -7,7 +7,7 @@
 
 @if (isAuthorized)
 {
-    <PasswordChangeComponent></PasswordChangeComponent>
+    <PasswordChangeComponent Model="@passwordChangeModel"></PasswordChangeComponent>
 }
 else
 {
@@ -178,6 +178,7 @@ else
     private readonly LoginModel loginModel = new();
     private readonly CustomerRegisterModel registerModel = new();
     private readonly PasswordResetModel passwordResetModel = new();
+    private readonly PasswordChangeModel passwordChangeModel = new();
 
     protected override async Task OnInitializedAsync()
     {

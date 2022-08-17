@@ -23,17 +23,17 @@ internal class UserService : ViewModelBase, IUserService
     public List<HomeFeedModel> FeedsList { get; }
     public List<HomeNotificationModel> NotificationsList { get; }
 
-    public UserService(IDevice device, IServerOperation server, IPersistedLists persistedLists, IAuthorizationService authorizationService, PasswordChangeModel passwordChangeModel, string greetingMessage, List<MenuItemModel> menuItems, List<HomeFeedModel> feedsList, List<HomeNotificationModel> notificationsList)
+    public UserService(IDevice device, IServerOperation server, IPersistedLists persistedLists, IAuthorizationService authorizationService)
     {
         this.device = device;
         this.server = server;
         this.authorizationService = authorizationService;
-        GreetingMessage = greetingMessage;
-        MenuItems = menuItems;
-        FeedsList = feedsList;
-        NotificationsList = notificationsList;
-        
+
+        GreetingMessage = "Hello ";
         Countries = persistedLists.Countries;
+        MenuItems = new List<MenuItemModel>();
+        FeedsList = new List<HomeFeedModel>();
+        NotificationsList = new List<HomeNotificationModel>();
     }
     
     public Task<bool> UsernameAllowed()
