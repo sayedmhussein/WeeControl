@@ -1,8 +1,8 @@
 @using WeeControl.Frontend.ApplicationService.Interfaces
 @using WeeControl.Frontend.ApplicationService.Contexts.Essential.Interfaces
-@using IAuthorizationService = WeeControl.Frontend.ApplicationService.Contexts.Essential.Interfaces.IAuthorizationService
+@using IAuthorizationService = WeeControl.Frontend.ApplicationService.Contexts.Essential.Interfaces.IUserAuthorizationService
 @inject IUserService UserService
-@inject IAuthorizationService AuthorizationService
+@inject IAuthorizationService UserAuthorizationService
 @inject IDevicePageNavigation Navigation
 
 <MudToolBar Elevation="25" Class="d-flex">
@@ -65,7 +65,7 @@
 
     private async Task Logout()
     {
-        await AuthorizationService.Logout();
+        await UserAuthorizationService.Logout();
         ShowLogin = true;
         StateHasChanged();
     }

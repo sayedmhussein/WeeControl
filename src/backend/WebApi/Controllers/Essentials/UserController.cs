@@ -16,15 +16,15 @@ namespace WeeControl.WebApi.Controllers.Essentials;
 [ApiController]
 public abstract class UserController : Controller
 {
-    protected readonly IMediator mediator;
+    protected readonly IMediator Mediator;
 
     protected UserController(IMediator mediator)
     {
-        this.mediator = mediator;
+        this.Mediator = mediator;
     }
     
     [Authorize]
-    [HttpPatch(Api.Essential.EndPoints.Password)]
+    [HttpPatch(Api.Essential.User.ServerEndPoints.Password)]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -33,13 +33,13 @@ public abstract class UserController : Controller
     public async Task<ActionResult> SetNewPasswordV1([FromBody] RequestDto<UserPasswordChangeRequestDto> dto)
     {
         var command = new UserNewPasswordCommand(dto, dto.Payload.OldPassword, dto.Payload.NewPassword);
-        var response = await mediator.Send(command);
+        var response = await Mediator.Send(command);
 
         return Ok();
     }
     
     [AllowAnonymous]
-    [HttpPost(Api.Essential.EndPoints.Password)]
+    [HttpPost(Api.Essential.User.ServerEndPoints.Password)]
     [MapToApiVersion("1.0")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -52,7 +52,7 @@ public abstract class UserController : Controller
         throw new NotImplementedException();
     }
     
-    [HttpGet(Api.Essential.EndPoints.Notification)]
+    [HttpGet(Api.Essential.User.ServerEndPoints.Notification)]
     [MapToApiVersion("1.0")]
     [Produces(MediaTypeNames.Application.Json)]
     public async Task<ActionResult<ResponseDto<IEnumerable<UserNotificationDto>>>> GetNotification()
@@ -63,12 +63,12 @@ public abstract class UserController : Controller
         // return Ok(response);
     }
 
-    [HttpDelete(Api.Essential.EndPoints.Notification + "/{id:guid}")]
+    [HttpDelete(Api.Essential.User.ServerEndPoints.Notification + "/{id:guid}")]
     [MapToApiVersion("1.0")]
     public async Task<ActionResult> MuteNotificationV1(Guid id)
     {
         var command = new NotificationViewedCommand(id);
-        await mediator.Send(command);
+        await Mediator.Send(command);
         return Ok();
     }
 }

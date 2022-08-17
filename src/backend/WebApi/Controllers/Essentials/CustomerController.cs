@@ -12,7 +12,7 @@ using WeeControl.SharedKernel.RequestsResponses;
 namespace WeeControl.WebApi.Controllers.Essentials;
 
 [ApiController]
-[Route(Api.Essential.Routes.Customer)]
+[Route(Api.Essential.Customer.CustomerRoute)]
 [Consumes(MediaTypeNames.Application.Json)]
 [Produces(MediaTypeNames.Application.Json)]
 public class CustomerController : UserController
@@ -30,7 +30,7 @@ public class CustomerController : UserController
     public async Task<ActionResult<ResponseDto<AuthenticationResponseDto>>> RegisterV1([FromBody] RequestDto<RegisterCustomerDto> dto)
     {
         var command = new UserRegisterCommand(dto);
-        var response = await mediator.Send(command);
+        var response = await Mediator.Send(command);
         
         return Ok(response);
     }

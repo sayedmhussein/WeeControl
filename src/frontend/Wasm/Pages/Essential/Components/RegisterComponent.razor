@@ -1,0 +1,62 @@
+@inject IUserService UserService
+
+<EditForm Model="@registerModel" OnValidSubmit="@(() =>UserService.Register(registerModel))">
+                    <DataAnnotationsValidator/>
+                    <MudCard>
+                        <MudCardHeader>Personal Details</MudCardHeader>
+                        <MudCardContent>
+                            <MudGrid>
+                                <MudItem xs="3">
+                                    <MudTextField Label="First Name" HelperText="Max. 8 characters"
+                                                  @bind-Value="@registerModel.Personal.FirstName" For="@(() => registerModel.Personal.FirstName)"/>
+                                </MudItem>
+                                <MudItem xs="3">
+                                    <MudTextField Label="Second Name" HelperText="Max. 8 characters"
+                                                  @bind-Value="@registerModel.Personal.SecondName" For="@(() => registerModel.Personal.SecondName)"/>
+                                </MudItem>
+                                <MudItem xs="3">
+                                    <MudTextField Label="Third name" HelperText="Max. 8 characters"
+                                                  @bind-Value="@registerModel.Personal.ThirdName" For="@(() => registerModel.Personal.ThirdName)"/>
+                                </MudItem>
+                                <MudItem xs="3">
+                                    <MudTextField Label="Last name" HelperText="Max. 8 characters"
+                                                  @bind-Value="@registerModel.Personal.LastName" For="@(() => registerModel.Personal.LastName)"/>
+                                </MudItem>
+                            </MudGrid>
+                            <MudSelect T="string" Label="Nationality" AnchorOrigin="Origin.BottomCenter" @bind-Value="@registerModel.Personal.Nationality">
+                                @foreach (var t in UserService.Countries)
+                                {
+                                    <MudSelectItem Value="@(t.CountryCode)">@t.CountryCode: @t.CountryName</MudSelectItem>
+                                }
+                            </MudSelect>
+                            <MudSelect T="string" Label="Current Residency" AnchorOrigin="Origin.BottomCenter" @bind-Value="@registerModel.Customer.CountryCode">
+                                @foreach (var t in UserService.Countries)
+                                {
+                                    <MudSelectItem Value="@(t.CountryCode)">@t.CountryCode: @t.CountryName</MudSelectItem>
+                                }
+                            </MudSelect>
+                        </MudCardContent>
+                    </MudCard>
+                    <MudCard>
+                        <MudCardHeader>User Details</MudCardHeader>
+                        <MudCardContent>
+                            <MudTextField Label="Email" Class="mt-3"
+                                          @bind-Value="@registerModel.User.Email" For="@(() => registerModel.User.Email)"/>
+                            <MudTextField Label="Username" HelperText="Max. 8 characters"
+                                          @bind-Value="@registerModel.User.Username" For="@(() => registerModel.User.Username)"/>
+                            <MudTextField Label="Password" HelperText="Choose a strong password" Class="mt-3"
+                                          @bind-Value="@registerModel.User.Password" For="@(() => registerModel.User.Password)" InputType="InputType.Password"/>
+                            <MudTextField Label="Confirm Password" HelperText="Repeat the password" Class="mt-3"
+                                          @bind-Value="@registerModel.User.PasswordConfirmation" For="@(() => registerModel.User.PasswordConfirmation)" InputType="InputType.Password"/>
+                            <MudTextField Label="Mobile Number" HelperText="Max. 8 characters"
+                                          @bind-Value="@registerModel.User.MobileNo" For="@(() => registerModel.User.MobileNo)"/>
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
+                        </MudCardActions>
+                    </MudCard>
+                </EditForm>
+
+@code {
+    private readonly CustomerRegisterModel registerModel = new();
+}

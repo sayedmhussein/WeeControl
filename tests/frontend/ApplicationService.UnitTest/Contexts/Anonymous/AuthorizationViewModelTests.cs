@@ -12,7 +12,7 @@ namespace WeeControl.Frontend.ApplicationService.UnitTest.Contexts.Anonymous;
 
 public class AuthorizationViewModelTests : ViewModelTestsBase
 {
-    public AuthorizationViewModelTests() : base(nameof(AuthorizationService))
+    public AuthorizationViewModelTests() : base(nameof(UserAuthorizationService))
     {
     }
 
@@ -116,7 +116,7 @@ public class AuthorizationViewModelTests : ViewModelTestsBase
     [Fact]
     public async void WhenNotFound_OrSuccess()
     {
-        var vm = new AuthorizationService(Mock.GetObject(HttpStatusCode.NotFound, null!));
+        var vm = new UserAuthorizationService(Mock.GetObject(HttpStatusCode.NotFound, null!));
 
         await vm.Logout();
         
@@ -127,7 +127,7 @@ public class AuthorizationViewModelTests : ViewModelTestsBase
     [Fact]
     public async void WhenBadRequest()
     {
-        var vm = new AuthorizationService(Mock.GetObject(HttpStatusCode.BadRequest, null!));
+        var vm = new UserAuthorizationService(Mock.GetObject(HttpStatusCode.BadRequest, null!));
 
         await vm.Logout();
         
@@ -138,7 +138,7 @@ public class AuthorizationViewModelTests : ViewModelTestsBase
     [Fact]
     public async void WhenUnauthorized()
     {
-        var vm = new AuthorizationService(Mock.GetObject(HttpStatusCode.Unauthorized, null!));
+        var vm = new UserAuthorizationService(Mock.GetObject(HttpStatusCode.Unauthorized, null!));
 
         await vm.Logout();
         
@@ -149,7 +149,7 @@ public class AuthorizationViewModelTests : ViewModelTestsBase
     [Fact]
     public async void ServerFailure()
     {
-        var vm = new AuthorizationService(Mock.GetObject(new HttpClient()));
+        var vm = new UserAuthorizationService(Mock.GetObject(new HttpClient()));
 
         await vm.Logout();
         
@@ -158,9 +158,9 @@ public class AuthorizationViewModelTests : ViewModelTestsBase
     }
     #endregion
 
-    private AuthorizationService GetViewModel(IDevice device, string usernameOrEmail, string password)
+    private UserAuthorizationService GetViewModel(IDevice device, string usernameOrEmail, string password)
     {
-        return new AuthorizationService(device, new ServerOperationService(device))
+        return new UserAuthorizationService(device, new ServerOperationService(device))
         {
             LoginModel =
             {

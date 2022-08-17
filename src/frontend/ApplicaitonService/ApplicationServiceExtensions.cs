@@ -14,7 +14,7 @@ public static class ApplicationServiceExtensions
         services.AddSingleton<IPersistedLists, PersistedListService>();
         services.AddTransient<IServerOperation, ServerOperationService>();
         
-        services.AddTransient<IAuthorizationService, AuthorizationService>();
+        services.AddTransient<IUserAuthorizationService, UserAuthorizationService>();
         services.AddTransient<IUserService, UserService>();
         
         services.AddTransient<TerritoryViewModel>();

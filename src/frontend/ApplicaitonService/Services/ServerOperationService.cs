@@ -51,7 +51,7 @@ public class ServerOperationService : IServerOperation
 
         HttpRequestMessage message = new()
         {
-            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Routes.Authorization)),
+            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Authorization.Route)),
             Version = new Version("1.0"),
             Method = HttpMethod.Put
         };

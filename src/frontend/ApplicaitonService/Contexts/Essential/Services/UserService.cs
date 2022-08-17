@@ -13,7 +13,7 @@ internal class UserService : ViewModelBase, IUserService
 {
     private readonly IDevice device;
     private readonly IServerOperation server;
-    private readonly IAuthorizationService authorizationService;
+    private readonly IUserAuthorizationService userAuthorizationService;
     
     public IEnumerable<CountryModel> Countries { get; }
     public string GreetingMessage { get; private set; }
@@ -23,11 +23,11 @@ internal class UserService : ViewModelBase, IUserService
     public List<HomeFeedModel> FeedsList { get; }
     public List<HomeNotificationModel> NotificationsList { get; }
 
-    public UserService(IDevice device, IServerOperation server, IPersistedLists persistedLists, IAuthorizationService authorizationService)
+    public UserService(IDevice device, IServerOperation server, IPersistedLists persistedLists, IUserAuthorizationService userAuthorizationService)
     {
         this.device = device;
         this.server = server;
-        this.authorizationService = authorizationService;
+        this.userAuthorizationService = userAuthorizationService;
 
         GreetingMessage = "Hello ";
         Countries = persistedLists.Countries;
@@ -53,7 +53,7 @@ internal class UserService : ViewModelBase, IUserService
 
     public async Task Init()
     {
-        if (await authorizationService.IsAuthorized())
+        if (await userAuthorizationService.IsAuthorized())
         {
             await Refresh();
         }
@@ -120,7 +120,7 @@ internal class UserService : ViewModelBase, IUserService
     {
         HttpRequestMessage message = new()
         {
-            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Routes.Customer)),
+            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Customer.EndPoints.Service.Password)),
             Version = new Version("1.0"),
             Method = HttpMethod.Post,
         };
@@ -141,7 +141,7 @@ internal class UserService : ViewModelBase, IUserService
     {
         HttpRequestMessage message = new()
         {
-            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Routes.Customer)),
+            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Customer.EndPoints.Service.Customer)),
             Version = new Version("1.0"),
             Method = HttpMethod.Post,
         };
@@ -173,7 +173,7 @@ internal class UserService : ViewModelBase, IUserService
     {
         HttpRequestMessage message = new()
         {
-            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Routes.Customer)),
+            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Customer.EndPoints.Service.Password)),
             Version = new Version("1.0"),
             Method = HttpMethod.Patch,
         };

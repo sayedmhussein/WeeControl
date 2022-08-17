@@ -9,12 +9,12 @@ using WeeControl.SharedKernel.RequestsResponses;
 
 namespace WeeControl.Frontend.ApplicationService.Contexts.Essential.Services;
 
-internal class AuthorizationService : ViewModelBase, IAuthorizationService
+internal class UserAuthorizationService : ViewModelBase, IUserAuthorizationService
 {
     private readonly IDevice device;
     private readonly IServerOperation server;
 
-    public AuthorizationService(IDevice device, IServerOperation server)
+    public UserAuthorizationService(IDevice device, IServerOperation server)
     {
         this.device = device;
         this.server = server;
@@ -43,7 +43,7 @@ internal class AuthorizationService : ViewModelBase, IAuthorizationService
     {
         HttpRequestMessage message = new()
         {
-            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Routes.Authorization)),
+            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Authorization.Route)),
             Version = new Version("1.0"),
             Method = HttpMethod.Delete,
         };
@@ -72,7 +72,7 @@ internal class AuthorizationService : ViewModelBase, IAuthorizationService
         var response = await server.Send(
             new HttpRequestMessage
             {
-                RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Routes.Authorization)),
+                RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Authorization.Route)),
                 Version = new Version("1.0"),
                 Method = HttpMethod.Post,
                 
