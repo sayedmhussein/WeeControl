@@ -48,6 +48,7 @@
     <ProjectReference Include="..\frontend\ApplicationService.UnitTest\ApplicationService.UnitTest.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ViewModels\" />
+    <Folder Include="Services\" />
+    <Folder Include="Services\Business" />
   </ItemGroup>
 </Project>

@@ -17,7 +17,7 @@ public static class ApplicationServiceExtensions
         services.AddTransient<IUserAuthorizationService, UserAuthorizationService>();
         services.AddTransient<IUserService, UserService>();
         
-        services.AddTransient<TerritoryViewModel>();
+        services.AddTransient<TerritoryService>();
 
         return services;
     }

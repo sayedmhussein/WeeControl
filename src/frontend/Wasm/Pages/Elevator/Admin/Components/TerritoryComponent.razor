@@ -4,14 +4,14 @@
 @using WeeControl.Frontend.ApplicationService.Contexts.Essential.Models
 @using WeeControl.Frontend.ApplicationService.Interfaces
 
-@inject TerritoryViewModel ViewModel
+@inject TerritoryService Service
 @inject IPersistedLists Lists
 
 <MudPaper>
     <MudToolBar>
         <MudIconButton Icon="@Icons.Material.Outlined.Add" OnClick="@AddNewTerritory" />
         <MudSpacer />
-        <MudIconButton Icon="@Icons.Material.Outlined.Refresh" OnClick="@ViewModel.GetListOfTerritories"/>
+        <MudIconButton Icon="@Icons.Material.Outlined.Refresh" OnClick="@Service.GetListOfTerritories"/>
     </MudToolBar>
     
     <MudPaper hidden="@hideAddTerritory" Elevation="5">
@@ -33,7 +33,7 @@
                     </MudItem>
                     <MudItem>
                         <MudSelect T="string" Label="Report To" AnchorOrigin="Origin.BottomCenter" @bind-Value="@selectedItem.CountryCode">
-                            @foreach (var l in @ViewModel.ListOfTerritories)
+                            @foreach (var l in Service.ListOfTerritories)
                             {
                                 <MudSelectItem Value="@(l.CountryCode)">@l.CountryCode</MudSelectItem>
                             }
@@ -73,9 +73,9 @@
 
     <MudTable 
         T="@TerritoryModel" 
-        Loading="@ViewModel.IsLoading" 
+        Loading="@Service.IsLoading" 
         over="true" 
-        Items="@ViewModel.ListOfTerritories" 
+        Items="@Service.ListOfTerritories" 
         Filter="new Func<TerritoryModel,bool>(FilterFunc1)" 
         @bind-SelectedItem="selectedItemFromTable">
         <ToolBarContent>
@@ -120,7 +120,7 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        await ViewModel.GetListOfTerritories();
+        await Service.GetListOfTerritories();
     }
 
     private void AddNewTerritory()
@@ -141,9 +141,9 @@
 
     private async Task SaveToServer()
     {
-        await ViewModel.AddOrUpdateTerritory(selectedItem);
+        await Service.AddOrUpdateTerritory(selectedItem);
         CancelEditFields();
-        await ViewModel.GetListOfTerritories();
+        await Service.GetListOfTerritories();
     }
 
     private void CancelEditFields()

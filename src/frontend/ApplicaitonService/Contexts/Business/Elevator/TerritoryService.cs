@@ -8,7 +8,7 @@ using WeeControl.SharedKernel.RequestsResponses;
 
 namespace WeeControl.Frontend.ApplicationService.Contexts.Business.Elevator;
 
-public class TerritoryViewModel : ViewModelBase
+public class TerritoryService : ServiceBase
 {
     private readonly IDevice device;
     private readonly IServerOperation server;
@@ -16,7 +16,7 @@ public class TerritoryViewModel : ViewModelBase
 
     public List<TerritoryModel> ListOfTerritories { get; }
     
-    public TerritoryViewModel(IDevice device, IServerOperation server)
+    public TerritoryService(IDevice device, IServerOperation server)
     {
         this.device = device;
         this.server = server;

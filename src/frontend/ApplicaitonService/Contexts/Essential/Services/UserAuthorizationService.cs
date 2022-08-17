@@ -10,7 +10,7 @@ using WeeControl.SharedKernel.RequestsResponses;
 
 namespace WeeControl.Frontend.ApplicationService.Contexts.Essential.Services;
 
-internal class UserAuthorizationService : ViewModelBase, IUserAuthorizationService
+internal class UserAuthorizationService : ServiceBase, IUserAuthorizationService
 {
     private readonly IDevice device;
     private readonly IServerOperation server;

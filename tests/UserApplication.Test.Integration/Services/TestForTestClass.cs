@@ -1,9 +1,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using WeeControl.Application.Interfaces;
+using WeeControl.Frontend.ApplicationService.Contexts.Essential.Interfaces;
 using WeeControl.WebApi;
 using Xunit;
 
-namespace WeeControl.User.UserApplication.Test.Integration.ViewModels;
+namespace WeeControl.User.UserApplication.Test.Integration.Services;
 
 public class TestForTestClass : IClassFixture<CustomWebApplicationFactory<Startup>>
 {
@@ -28,7 +29,7 @@ public class TestForTestClass : IClassFixture<CustomWebApplicationFactory<Startu
             });
         }).CreateClient();
 
-        using var helper = new TestHelper<AuthorizationViewModel>(httpClient);
+        using var helper = new TestHelper<IUserAuthorizationService>(httpClient);
         await helper.Authorize("username", "password", "device");
 
         var token = await helper.Device.Security.GetTokenAsync();
@@ -50,7 +51,7 @@ public class TestForTestClass : IClassFixture<CustomWebApplicationFactory<Startu
             });
         }).CreateClient();
 
-        using var helper = new TestHelper<AuthorizationViewModel>(httpClient);
+        using var helper = new TestHelper<IUserAuthorizationService>(httpClient);
         await helper.Authorize("username1", "password");
 
         var token = await helper.Device.Security.GetTokenAsync();

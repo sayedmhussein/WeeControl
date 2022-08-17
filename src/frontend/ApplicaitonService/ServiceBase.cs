@@ -4,7 +4,7 @@ using WeeControl.Frontend.ApplicationService.Interfaces;
 [assembly: InternalsVisibleTo("ApplicationService.UnitTest")]
 namespace WeeControl.Frontend.ApplicationService;
 
-public abstract class ViewModelBase : IViewModelBase
+public abstract class ServiceBase : IViewModelBase //UserApplication.Test.Integration
 {
     private bool isLoading;
     public bool IsLoading
