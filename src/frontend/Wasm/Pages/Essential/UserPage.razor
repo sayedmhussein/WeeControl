@@ -27,30 +27,23 @@ else
         }
     
         <MudCardActions>
-            <MudButton
-                Variant="Variant.Filled"
-                ButtonType="ButtonType.Submit"
-                Color="Color.Primary"
-                hidden="@(currentView == CurrentViews.Login)"
-                Size="Size.Large"
-                Class="ml-auto" @onclick="@(()=> currentView = CurrentViews.Login)">Go to Login</MudButton>
-            <MudSpacer></MudSpacer>
-            <MudButton
-                Variant="Variant.Outlined"
-                Color="Color.Default"
-                hidden="@(currentView == CurrentViews.ForgotPassword)"
-                DisableElevation="true" 
-                Size="Size.Small"
-                Class="ml-auto align-content-sm-end" 
-                @onclick="@(() => currentView = CurrentViews.ForgotPassword)">Forgot Password</MudButton>
-            <MudButton
-                Variant="Variant.Outlined"
-                Color="Color.Default"
-                hidden="@(currentView == CurrentViews.Register)"
-                DisableElevation="true"
-                Size="Size.Small"
-                Class="ml-auto align-content-sm-end" 
-                @onclick="@(() => currentView = CurrentViews.Register)">Register</MudButton>
+            <MudList>
+                <MudListItem>
+                    <MudLink
+                        @onclick="@(() => currentView = CurrentViews.Login)"
+                        hidden="@(currentView == CurrentViews.Login)">Login</MudLink>
+                </MudListItem>
+                <MudListItem>
+                    <MudLink
+                        @onclick="@(() => currentView = CurrentViews.Register)"
+                        hidden="@(currentView == CurrentViews.Register)">Register</MudLink>
+                </MudListItem>
+                <MudListItem>
+                    <MudLink
+                        @onclick="@(() => currentView = CurrentViews.ForgotPassword)"
+                        hidden="@(currentView == CurrentViews.ForgotPassword)">Reset Password</MudLink>
+                </MudListItem>
+            </MudList>
         </MudCardActions>
     </MudCard>
 }

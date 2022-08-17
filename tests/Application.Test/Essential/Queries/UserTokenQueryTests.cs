@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using WeeControl.Application.Contexts.Essential.Queries;
 using WeeControl.Application.Exceptions;
 using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects;
+using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects.User;
 using WeeControl.SharedKernel.RequestsResponses;
 using Xunit;
 

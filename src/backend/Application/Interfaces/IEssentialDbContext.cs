@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using WeeControl.Domain.Contexts;
 using WeeControl.Domain.Contexts.Essential;
 using WeeControl.Domain.Interfaces;
 

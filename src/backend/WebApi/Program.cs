@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WeeControl.Application.Contexts.Essential.Commands;
 using WeeControl.Application.Interfaces;
-using WeeControl.Persistence.Essential;
+using WeeControl.Persistence.DbContexts;
 
 namespace WeeControl.WebApi;
 

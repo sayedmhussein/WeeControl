@@ -10,9 +10,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using WeeControl.Application.Exceptions;
 using WeeControl.Application.Interfaces;
+using WeeControl.Domain.Contexts;
 using WeeControl.Domain.Contexts.Essential;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects;
+using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects.User;
 using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.RequestsResponses;
 

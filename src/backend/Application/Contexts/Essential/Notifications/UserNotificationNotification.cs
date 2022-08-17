@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using WeeControl.Application.Exceptions;
 using WeeControl.Application.Interfaces;
+using WeeControl.Domain.Contexts;
 using WeeControl.Domain.Contexts.Essential;
 
 namespace WeeControl.Application.Contexts.Essential.Notifications;

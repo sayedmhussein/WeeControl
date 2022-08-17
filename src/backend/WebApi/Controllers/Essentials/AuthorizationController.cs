@@ -8,6 +8,7 @@ using WeeControl.Application.Contexts.Essential.Commands;
 using WeeControl.Application.Contexts.Essential.Queries;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects;
+using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects.User;
 using WeeControl.SharedKernel.RequestsResponses;
 
 namespace WeeControl.WebApi.Controllers.Essentials;

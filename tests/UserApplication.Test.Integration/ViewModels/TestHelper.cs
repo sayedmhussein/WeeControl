@@ -2,6 +2,7 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using WeeControl.Domain.Contexts;
 using WeeControl.Domain.Contexts.Essential;
 using WeeControl.Frontend.ApplicationService;
 using WeeControl.Frontend.ApplicationService.Interfaces;

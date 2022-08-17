@@ -6,6 +6,7 @@ using WeeControl.Frontend.ApplicationService.Contexts.Essential.Services;
 using WeeControl.Frontend.ApplicationService.Interfaces;
 using WeeControl.Frontend.ApplicationService.Services;
 using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects;
+using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects.User;
 using WeeControl.SharedKernel.RequestsResponses;
 
 namespace WeeControl.Frontend.ApplicationService.UnitTest.Contexts.Anonymous;

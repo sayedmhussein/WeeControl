@@ -1,3 +1,5 @@
+@using WeeControl.Frontend.ApplicationService.Contexts.Essential.Interfaces
+@using WeeControl.Frontend.ApplicationService.Contexts.Essential.Models
 @inject IUserAuthorizationService AuthorizationService
 
 <MudCardHeader>
@@ -17,16 +19,18 @@
             <InputText @bind-Value="loginModel.Password" readonly="@AuthorizationService.IsLoading" type="password" class="form-control"/>
             <ValidationMessage For="@(() => loginModel.Password)"/>
         </div>
-        <MudButton 
-            ButtonType="ButtonType.Submit" 
-            Variant="Variant.Filled" 
-            Color="Color.Primary" 
-            Disabled="@AuthorizationService.IsLoading" 
-            Class="ml-auto">@if (AuthorizationService.IsLoading)
-                            {
-                                <span class="spinner-border spinner-border-sm mr-1"></span>
-                            }
-            Login</MudButton>
+        <MudButton
+            ButtonType="ButtonType.Submit"
+            Variant="Variant.Filled"
+            Color="Color.Primary"
+            Disabled="@AuthorizationService.IsLoading"
+            Class="ml-auto">
+            @if (AuthorizationService.IsLoading)
+            {
+                <span class="spinner-border spinner-border-sm mr-1"></span>
+            }
+            Login
+        </MudButton>
     </EditForm>
 </MudCardContent>
 

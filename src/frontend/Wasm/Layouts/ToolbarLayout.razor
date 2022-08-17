@@ -38,7 +38,7 @@
         }
 
         var currentPageName = NavManager.Uri.Split("/").Last();
-        if (currentPageName is Pages.Essential.SplashPage)
+        if (currentPageName is Pages.Essential.SplashPage or Pages.Essential.UserPage)
         {
             showLoginButton = false;
         }
