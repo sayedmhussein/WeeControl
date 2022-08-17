@@ -1,4 +1,4 @@
-namespace WeeControl.Frontend.ApplicationService.Contexts.Customer.Models;
+namespace WeeControl.Frontend.ApplicationService.Contexts.Essential.Models;
 
 public class MenuItemModel
 {

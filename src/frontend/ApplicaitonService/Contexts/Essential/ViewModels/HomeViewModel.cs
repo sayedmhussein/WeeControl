@@ -1,12 +1,12 @@
-using WeeControl.Frontend.ApplicationService.Contexts.Anonymous.Interfaces;
-using WeeControl.Frontend.ApplicationService.Contexts.Customer.Models;
+using WeeControl.Frontend.ApplicationService.Contexts.Essential.Interfaces;
+using WeeControl.Frontend.ApplicationService.Contexts.Essential.Models;
 using WeeControl.Frontend.ApplicationService.Interfaces;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects;
 
-namespace WeeControl.Frontend.ApplicationService.Contexts.Common;
+namespace WeeControl.Frontend.ApplicationService.Contexts.Essential.ViewModels;
 
-internal class UserHomeViewModel : ViewModelBase, IUserHomeViewModel
+internal class HomeViewModel : ViewModelBase, IHomeViewModel
 {
     private readonly IDevice device;
     private readonly IServerOperation server;
@@ -19,7 +19,7 @@ internal class UserHomeViewModel : ViewModelBase, IUserHomeViewModel
     public List<HomeFeedModel> FeedsList { get; }
     public List<HomeNotificationModel> NotificationsList { get; }
 
-    public UserHomeViewModel(IDevice device, IServerOperation server, IAuthorizationViewModel authorizationViewModel)
+    public HomeViewModel(IDevice device, IServerOperation server, IAuthorizationViewModel authorizationViewModel)
     {
         this.device = device;
         this.server = server;

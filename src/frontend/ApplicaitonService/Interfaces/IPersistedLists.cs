@@ -1,4 +1,4 @@
-using WeeControl.Frontend.ApplicationService.Contexts.Anonymous.Models;
+using WeeControl.Frontend.ApplicationService.Contexts.Essential.Models;
 
 namespace WeeControl.Frontend.ApplicationService.Interfaces;
 

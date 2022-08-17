@@ -1,24 +1,25 @@
 using System.Net;
 using System.Net.Http.Json;
-using WeeControl.Frontend.ApplicationService.Contexts.Anonymous.Interfaces;
-using WeeControl.Frontend.ApplicationService.Contexts.Anonymous.Models;
+using WeeControl.Frontend.ApplicationService.Contexts.Essential.Interfaces;
+using WeeControl.Frontend.ApplicationService.Contexts.Essential.Models;
 using WeeControl.Frontend.ApplicationService.Interfaces;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
 
-namespace WeeControl.Frontend.ApplicationService.Contexts.Anonymous.ViewModels;
+namespace WeeControl.Frontend.ApplicationService.Contexts.Essential.ViewModels;
 
-internal class PublicViewModel : ViewModelBase, IPublicViewModel
+internal class UserViewModel : ViewModelBase, IUserViewModel
 {
     private readonly IDevice device;
     private readonly IServerOperation server;
 
     public CustomerRegisterModel CustomerRegisterModel { get; }
     public PasswordResetModel PasswordResetModel { get; }
+    public PasswordChangeModel PasswordChangeModel { get; }
     public IEnumerable<CountryModel> Countries { get; }
 
-    public PublicViewModel(IDevice device, IServerOperation server, IPersistedLists persistedLists)
+    public UserViewModel(IDevice device, IServerOperation server, IPersistedLists persistedLists)
     {
         this.device = device;
         this.server = server;
@@ -62,7 +63,23 @@ internal class PublicViewModel : ViewModelBase, IPublicViewModel
         await ProcessPasswordReset(PasswordResetModel);
         IsLoading = false;
     }
-    
+
+    public async Task ChangeMyPassword()
+    {
+        if (string.IsNullOrWhiteSpace(PasswordChangeModel.OldPassword) ||
+            string.IsNullOrWhiteSpace(PasswordChangeModel.NewPassword) ||
+            string.IsNullOrWhiteSpace(PasswordChangeModel.ConfirmPassword) ||
+            PasswordChangeModel.NewPassword != PasswordChangeModel.ConfirmPassword)
+        {
+            await device.Alert.DisplayAlert("Invalid Properties");
+            return;
+        }
+
+        IsLoading = true;
+        await ProcessChangingPassword(PasswordChangeModel);
+        IsLoading = false;
+    }
+
     private async Task ProcessPasswordReset(UserPasswordResetRequestDto? dtoV1)
     {
         HttpRequestMessage message = new()
@@ -114,5 +131,32 @@ internal class PublicViewModel : ViewModelBase, IPublicViewModel
         };
         
         await device.Alert.DisplayAlert(displayString);
+    }
+    
+    private async Task ProcessChangingPassword(UserPasswordChangeRequestDto? dto)
+    {
+        HttpRequestMessage message = new()
+        {
+            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Routes.Customer)),
+            Version = new Version("1.0"),
+            Method = HttpMethod.Patch,
+        };
+        
+        var response = await server.Send(message, dto);
+
+        switch (response.StatusCode)
+        {
+            case HttpStatusCode.OK:
+            case HttpStatusCode.Accepted:
+                await device.Alert.DisplayAlert("PasswordUpdatedSuccessfully");
+                await device.Navigation.NavigateToAsync(Pages.Essential.HomePage);
+                break;
+            case HttpStatusCode.NotFound:
+                await device.Alert.DisplayAlert("InvalidPassword");
+                break;
+            default:
+                await device.Alert.DisplayAlert("DeveloperMinorBug");
+                break;
+        }
     }
 }

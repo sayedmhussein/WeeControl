@@ -1,8 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.Frontend.ApplicationService.Contexts.Anonymous.Interfaces;
-using WeeControl.Frontend.ApplicationService.Contexts.Anonymous.ViewModels;
-using WeeControl.Frontend.ApplicationService.Contexts.Common;
-using WeeControl.Frontend.ApplicationService.Contexts.Customer.ViewModels;
+using WeeControl.Frontend.ApplicationService.Contexts.Essential.Interfaces;
+using WeeControl.Frontend.ApplicationService.Contexts.Essential.ViewModels;
 using WeeControl.Frontend.ApplicationService.Interfaces;
 using WeeControl.Frontend.ApplicationService.Services;
 
@@ -16,16 +14,11 @@ public static class ApplicationServiceExtensions
         services.AddTransient<IServerOperation, ServerOperationService>();
         
         services.AddTransient<IAuthorizationViewModel, AuthorizationViewModel>();
-        services.AddTransient<IPublicViewModel, PublicViewModel>();
+        services.AddTransient<IUserViewModel, UserViewModel>();
+        services.AddTransient<IHomeViewModel, HomeViewModel>();
         
         
-        
-        services.AddTransient<IUserHomeViewModel, UserHomeViewModel>();
         services.AddTransient<TerritoryViewModel>();
-
-        #region AuthorizationContext
-        services.AddTransient<PasswordChangeViewModel>();
-        #endregion
 
         return services;
     }

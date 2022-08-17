@@ -1,5 +1,4 @@
 using System.Net;
-using WeeControl.Frontend.ApplicationService.Contexts.Customer.ViewModels;
 using WeeControl.Frontend.ApplicationService.Interfaces;
 using WeeControl.Frontend.ApplicationService.Services;
 

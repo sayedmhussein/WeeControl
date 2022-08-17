@@ -1,9 +1,9 @@
-using WeeControl.Frontend.ApplicationService.Contexts.Customer.Models;
+using WeeControl.Frontend.ApplicationService.Contexts.Essential.Models;
 using WeeControl.Frontend.ApplicationService.Interfaces;
 
-namespace WeeControl.Frontend.ApplicationService.Contexts.Common;
+namespace WeeControl.Frontend.ApplicationService.Contexts.Essential.Interfaces;
 
-public interface IUserHomeViewModel : IViewModelBase
+public interface IHomeViewModel : IViewModelBase
 {
     string GreetingMessage { get; }
     bool IsEmployee { get; }

@@ -1,12 +1,12 @@
 using System.Net;
 using System.Net.Http.Json;
-using WeeControl.Frontend.ApplicationService.Contexts.Customer.Models;
+using WeeControl.Frontend.ApplicationService.Contexts.Essential.Models;
 using WeeControl.Frontend.ApplicationService.Interfaces;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
 
-namespace WeeControl.Frontend.ApplicationService.Contexts.Customer.ViewModels;
+namespace WeeControl.Frontend.ApplicationService.Contexts.Essential.ViewModels;
 
 public class TerritoryViewModel : ViewModelBase
 {
