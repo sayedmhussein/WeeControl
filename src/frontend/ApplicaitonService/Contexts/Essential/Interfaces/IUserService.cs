@@ -13,10 +13,8 @@ public interface IUserService : IViewModelBase
     public List<HomeFeedModel> FeedsList { get; }
     public List<HomeNotificationModel> NotificationsList { get; }
 
-    Task<bool> UsernameAllowed();
-    Task<bool> EmailAllowed();
-    Task<bool> MobileNumberAllowed();
-    
+    Task<bool> PropertyIsAllowed(string propertyName, string username);
+
     Task Init();
     Task Refresh();
     Task Register(CustomerRegisterModel registerModel);

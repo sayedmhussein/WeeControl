@@ -42,7 +42,9 @@ public class UserNewPasswordCommand : IRequest
             }
             
             var session = await context.UserSessions.FirstOrDefaultAsync(x => x.SessionId == currentUserInfo.SessionId, cancellationToken);
-            var user = await context.Users.FirstOrDefaultAsync(x => x.UserId == session.UserId && x.Password == passwordSecurity.Hash(request.OldPassword), cancellationToken);
+            var user = await context.Users.FirstOrDefaultAsync(x => 
+                x.UserId == session.UserId && 
+                (x.Password == passwordSecurity.Hash(request.OldPassword) || x.TempPassword == passwordSecurity.Hash(request.OldPassword)), cancellationToken);
 
             if (user is null)
             {

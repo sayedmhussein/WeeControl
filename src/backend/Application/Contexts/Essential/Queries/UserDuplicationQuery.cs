@@ -6,6 +6,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using WeeControl.Application.Exceptions;
 using WeeControl.Application.Interfaces;
+using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects.User;
 
 namespace WeeControl.Application.Contexts.Essential.Queries;
 
@@ -16,10 +17,10 @@ public class UserDuplicationQuery : IRequest
         Username, Email, Mobile
     };
 
-    private readonly Parameter parameter;
+    private readonly string parameter;
     private readonly string value;
 
-    public UserDuplicationQuery(Parameter parameter, string value)
+    public UserDuplicationQuery(string parameter, string value)
     {
         this.parameter = parameter;
         this.value = value;
@@ -38,23 +39,23 @@ public class UserDuplicationQuery : IRequest
         {
             switch (request.parameter)
             {
-                case Parameter.Username:
+                case nameof(RegisterCustomerDto.User.Username):
                     if (request.value is not null &&
-                        await essentialDbContext.Users.Select(x => x.Username)
+                        await essentialDbContext.Users.Select(x => x.Username.Trim().ToLower())
                             .ContainsAsync(request.value.Trim().ToLower(), cancellationToken))
                     {
                         throw new ConflictFailureException("username already exist");
                     }
                     break;
-                case Parameter.Email:
+                case nameof(RegisterCustomerDto.User.Email):
                     if (request.value is not null &&
-                        await essentialDbContext.Users.Select(x => x.Email)
+                        await essentialDbContext.Users.Select(x => x.Email.Trim().ToLower())
                             .ContainsAsync(request.value.Trim().ToLower(), cancellationToken))
                     {
                         throw new ConflictFailureException("username already exist");
                     }
                     break;
-                case Parameter.Mobile:
+                case nameof(RegisterCustomerDto.User.MobileNo):
                     if (request.value is not null &&
                         await essentialDbContext.Users.Select(x => x.MobileNo)
                             .ContainsAsync(request.value.Trim().ToLower(), cancellationToken))

@@ -9,7 +9,7 @@ namespace WeeControl.Frontend.ApplicationService;
 
 public static class ApplicationServiceExtensions
 {
-    public static IServiceCollection AddViewModels(this IServiceCollection services)
+    public static IServiceCollection AddServices(this IServiceCollection services)
     {
         services.AddSingleton<IPersistedLists, PersistedListService>();
         services.AddTransient<IServerOperation, ServerOperationService>();

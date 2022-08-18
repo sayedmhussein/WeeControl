@@ -7,6 +7,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WeeControl.Application.Contexts.Essential.Commands;
+using WeeControl.Application.Contexts.Essential.Queries;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects.User;
 using WeeControl.SharedKernel.RequestsResponses;
@@ -21,6 +22,18 @@ public abstract class UserController : Controller
     protected UserController(IMediator mediator)
     {
         this.Mediator = mediator;
+    }
+
+    [AllowAnonymous]
+    [HttpHead("{parameter}/{value}")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType((int) HttpStatusCode.OK)]
+    [ProducesResponseType((int) HttpStatusCode.Conflict)]
+    public async Task<ActionResult> VerifyNotDuplicate(string parameter, string value)
+    {
+        var query = new UserDuplicationQuery(parameter, value);
+        await Mediator.Send(query);
+        return Ok();
     }
     
     [Authorize]

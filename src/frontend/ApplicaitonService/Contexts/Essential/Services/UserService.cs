@@ -36,19 +36,23 @@ internal class UserService : ServiceBase, IUserService
         NotificationsList = new List<HomeNotificationModel>();
     }
     
-    public Task<bool> UsernameAllowed()
+    public async Task<bool> PropertyIsAllowed(string propertyName, string username)
     {
-        throw new NotImplementedException();
-    }
+        HttpRequestMessage message = new()
+        {
+            RequestUri = 
+                new Uri(
+                    device.Server.GetFullAddress(Api.Essential.Customer.EndPoints.Service.Customer +
+                                                 "/" + propertyName+
+                                                 "/" + username
+                    )),
+            Version = new Version("1.0"),
+            Method = HttpMethod.Head,
+        };
+        
+        var responseMessage = await server.Send<object>(message, null);
 
-    public Task<bool> EmailAllowed()
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<bool> MobileNumberAllowed()
-    {
-        throw new NotImplementedException();
+        return responseMessage.IsSuccessStatusCode;
     }
 
     public async Task Init()
@@ -89,13 +93,14 @@ internal class UserService : ServiceBase, IUserService
 
     public async Task RequestPasswordReset(PasswordResetModel passwordResetModel)
     {
+        IsLoading = true;
         if (string.IsNullOrWhiteSpace(passwordResetModel.Email) || string.IsNullOrWhiteSpace(passwordResetModel.Username))
         {
-            await device.Alert.DisplayAlert("You didn't entered proper data");
+            await device.Alert.DisplayAlert("Please enter your email and username first!");
+            IsLoading = false;
             return;
         }
         
-        IsLoading = true;
         await ProcessPasswordReset(passwordResetModel);
         IsLoading = false;
     }
@@ -128,8 +133,8 @@ internal class UserService : ServiceBase, IUserService
         var responseMessage = await server.Send(message, dtoV1);
         if (responseMessage.IsSuccessStatusCode)
         {
-            await device.Navigation.NavigateToAsync(Pages.Essential.UserPage);
             await device.Alert.DisplayAlert("New Password was created, please check your email.");
+            await device.Navigation.NavigateToAsync(Pages.Essential.UserPage, forceLoad:true);
             return;
         }
         

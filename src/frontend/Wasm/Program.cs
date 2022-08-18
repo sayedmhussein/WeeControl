@@ -32,7 +32,7 @@ public class Program
         builder.Services.AddScoped<IDeviceSecurity, AuthStateProvider>();
         
         builder.Services.AddUserSecurityService();
-        builder.Services.AddViewModels();
+        builder.Services.AddServices();
 
         builder.Services.AddOptions();
         builder.Services.AddAuthorizationCore();

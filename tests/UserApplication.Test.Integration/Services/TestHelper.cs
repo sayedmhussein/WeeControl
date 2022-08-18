@@ -25,7 +25,7 @@ public class TestHelper<T> : IDisposable
         Device = DeviceMock.GetObject(httpClient);
         
         var appServiceCollection = new ServiceCollection();
-        appServiceCollection.AddViewModels();
+        appServiceCollection.AddServices();
         appServiceCollection.AddScoped(p => DeviceMock.GetObject(httpClient));
         
         using var scope = appServiceCollection.BuildServiceProvider().CreateScope();

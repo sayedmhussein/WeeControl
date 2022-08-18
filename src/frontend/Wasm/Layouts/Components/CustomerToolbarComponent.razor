@@ -10,14 +10,14 @@
         <MudImage Src="images/logo.png" Alt="WeeControl" Width="20" Height="20" Style="margin-right: 5px"></MudImage>
     </MudLink>
     <MudMenu Class="d-inline-flex" AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopLeft" Label="WeeControl" ActivationEvent="@MouseEvent.MouseOver" Dense="true" EndIcon="@Icons.Filled.KeyboardArrowDown" IconColor="Color.Primary" MaxHeight="@componentMaxHeight">
-        <MudMenuItem>
-            <MudButton 
-                StartIcon="@Icons.Material.Outlined.Home"
-                Href="@Pages.Essential.HomePage">Home
-            </MudButton>
-        </MudMenuItem>
         @if (ShowLogout)
         {
+            <MudMenuItem>
+                <MudButton 
+                    StartIcon="@Icons.Material.Outlined.Home"
+                    Href="@Pages.Essential.HomePage">Home
+                </MudButton>
+            </MudMenuItem>
             @if (UserService.IsCustomer)
             {
                 <MenuOfCustomerComponent></MenuOfCustomerComponent>

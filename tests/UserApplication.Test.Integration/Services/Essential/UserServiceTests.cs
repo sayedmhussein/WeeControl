@@ -4,6 +4,7 @@ using WeeControl.Application.Interfaces;
 using WeeControl.Frontend.ApplicationService;
 using WeeControl.Frontend.ApplicationService.Contexts.Essential.Interfaces;
 using WeeControl.Frontend.ApplicationService.Contexts.Essential.Models;
+using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects.User;
 using WeeControl.WebApi;
 using Xunit;
 
@@ -17,6 +18,33 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
     {
         this.factory = factory;
     }
+
+    #region PropertyIsAllowed()
+    [Theory]
+    [InlineData(nameof(RegisterCustomerDto.User.Username), "username", false)]
+    [InlineData(nameof(RegisterCustomerDto.User.Username), "Username", false)]
+    [InlineData(nameof(RegisterCustomerDto.User.Username), "username2", true)]
+    public async void UsernameAllowedTest(string propertyName, string username, bool isAllowed)
+    {
+        var httpClient = factory.WithWebHostBuilder(builder =>
+        {
+            builder.ConfigureServices(services =>
+            {
+                using var scope = services.BuildServiceProvider().CreateScope();
+                var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
+                var user = TestHelper<object>.GetUserDboWithEncryptedPassword("username", "password");
+                db.Users.Add(user);
+                db.SaveChanges();
+            });
+        }).CreateClient();
+        
+        using var helper = new TestHelper<IUserService>(httpClient);
+
+        var allowed = await helper.Service.PropertyIsAllowed(propertyName, username);
+
+        Assert.Equal(isAllowed, allowed);
+    }
+    #endregion
 
     #region ChangeMyPassword()
     [Fact]
