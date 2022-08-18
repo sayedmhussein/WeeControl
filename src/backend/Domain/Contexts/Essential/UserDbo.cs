@@ -38,8 +38,8 @@ public class UserDbo : UserEntity
 
     public UserDbo(UserEntity user)
     {
-        Email = user.Email.Trim();
-        Username = user.Username.Trim();
+        Email = user.Email.ToLower().Trim();
+        Username = user.Username.ToLower().Trim();
         Password = user.Password.Trim();
         MobileNo = user.MobileNo.Trim();
     }

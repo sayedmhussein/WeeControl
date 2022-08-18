@@ -137,7 +137,7 @@ internal class UserService : ServiceBase, IUserService
         await device.Alert.DisplayAlert("Something went wrong!");
     }
     
-    private async Task RegisterAsync(CustomerRegisterModel model)
+    private async Task RegisterAsync(RegisterCustomerDto model)
     {
         HttpRequestMessage message = new()
         {
@@ -146,7 +146,6 @@ internal class UserService : ServiceBase, IUserService
             Method = HttpMethod.Post,
         };
         
-        var dto = new RegisterCustomerDto();
         var response = await server.Send(message, model);
 
         if (response.IsSuccessStatusCode)
@@ -154,7 +153,7 @@ internal class UserService : ServiceBase, IUserService
             var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<AuthenticationResponseDto>>();
             var token = responseDto?.Payload?.Token;
             await device.Security.UpdateTokenAsync(token ?? string.Empty);
-            await device.Navigation.NavigateToAsync(Pages.Essential.HomePage, forceLoad: true);
+            await device.Navigation.NavigateToAsync(Pages.Essential.SplashPage, forceLoad: true);
             return;
         }
 
@@ -185,8 +184,8 @@ internal class UserService : ServiceBase, IUserService
             case HttpStatusCode.OK:
             case HttpStatusCode.Accepted:
                 await device.Alert.DisplayAlert("PasswordUpdatedSuccessfully");
-                await device.Navigation.NavigateToAsync(Pages.Essential.HomePage);
-                break;
+                await device.Navigation.NavigateToAsync(Pages.Essential.SplashPage);
+                return;
             case HttpStatusCode.NotFound:
                 await device.Alert.DisplayAlert("InvalidPassword");
                 break;

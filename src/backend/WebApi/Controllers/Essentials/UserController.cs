@@ -45,10 +45,10 @@ public abstract class UserController : Controller
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<ActionResult> ResetPasswordV1([FromBody] RequestDto<UserPasswordResetRequestDto> dto)
     {
-        // var command = new UserForgotMyPasswordCommand(dto);
-        // await mediator.Send(command);
-        //
-        // return Ok();
+        var command = new UserForgotMyPasswordCommand(dto);
+        await Mediator.Send(command);
+        
+        return Ok();
         throw new NotImplementedException();
     }
     

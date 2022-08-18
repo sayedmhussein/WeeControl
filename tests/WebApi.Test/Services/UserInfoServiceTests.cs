@@ -46,7 +46,7 @@ public class UserInfoServiceTests : IDisposable
     }
 
     [Fact]
-    public void WhenSessionClaimInContext_SessionMustNotBeNull()
+    public void WhenSessionClaimInTheContext_SessionMustNotBeNull()
     {
         var service = new UserInfoService(httpContextMock.Object);
 
@@ -57,7 +57,7 @@ public class UserInfoServiceTests : IDisposable
     }
 
     [Fact]
-    public void WhenSessionClaimInContextNotExist_SessionMustBeNull()
+    public void WhenSessionClaimInTheContextNotExist_SessionMustBeNull()
     {
         httpContextMock.Setup(x => x.HttpContext.User.Claims).Returns(new List<Claim>());
         var service = new UserInfoService(httpContextMock.Object);

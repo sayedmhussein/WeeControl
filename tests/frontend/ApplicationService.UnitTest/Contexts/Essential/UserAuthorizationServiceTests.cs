@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using WeeControl.Frontend.ApplicationService.Contexts.Essential.Models;
 using WeeControl.Frontend.ApplicationService.Contexts.Essential.Services;
+using WeeControl.Frontend.ApplicationService.Interfaces;
 using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects.User;
 using WeeControl.SharedKernel.RequestsResponses;
 
@@ -20,10 +21,11 @@ public class UserAuthorizationServiceTests
     public async void IsAuthorized_Tests(bool tokenValid, bool authenticated, bool result)
     {
         using var helper = new TestHelper(nameof(IsAuthorized_Tests));
-        helper.ServerOperationMock.Setup(x => x.IsTokenValid()).ReturnsAsync(tokenValid);
+        var server = new Mock<IServerOperation>();
+        server.Setup(x => x.IsTokenValid()).ReturnsAsync(tokenValid);
         helper.DeviceMock.SecurityMock.Setup(x => x.IsAuthenticatedAsync()).ReturnsAsync(authenticated);
         
-        var service = new UserAuthorizationService(helper.DeviceMock.GetObject(new HttpClient()), helper.ServerOperationMock.Object);
+        var service = new UserAuthorizationService(helper.DeviceMock.GetObject(new HttpClient()), server.Object);
         
         Assert.Equal(result, await service.IsAuthorized());
     }
@@ -53,7 +55,7 @@ public class UserAuthorizationServiceTests
         helper.DeviceMock.SecurityMock.Verify(x => 
             x.UpdateTokenAsync("token"), Times.AtLeastOnce);
         helper.DeviceMock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Essential.HomePage,true), Times.Once);
+            x.NavigateToAsync(Pages.Essential.SplashPage,true), Times.Once);
     }
     
     [Theory]
@@ -131,33 +133,35 @@ public class UserAuthorizationServiceTests
     #endregion
     #endregion
 
-    #region Logout
+    #region Logout()
     [Fact]
-    public async void WhenNotFound_OrSuccess()
+    public async void Logout_WhenNotFound_OrSuccess()
     {
-        using var helper = new TestHelper(nameof(WhenEmptyProperties_DisplayAlertOnly));
-        var vm = new UserAuthorizationService(helper.DeviceMock.GetObject(HttpStatusCode.NotFound, null!), helper.ServerOperationMock.Object);
+        using var helper = new TestHelper(nameof(Logout_WhenNotFound_OrSuccess));
+        var device = helper.DeviceMock.GetObject(HttpStatusCode.NotFound, null!);
+        var vm = new UserAuthorizationService(device, helper.GetServer(device));
 
         await vm.Logout();
         
         helper.DeviceMock.SecurityMock.Verify(x => x.DeleteTokenAsync());
-        helper.DeviceMock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Essential.UserPage, It.IsAny<bool>()));
+        helper.DeviceMock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Essential.SplashPage, It.IsAny<bool>()));
     }
     
     [Fact]
-    public async void WhenBadRequest()
+    public async void Logout_WhenBadRequest()
     {
-        using var helper = new TestHelper(nameof(WhenEmptyProperties_DisplayAlertOnly));
-        var vm = new UserAuthorizationService(helper.DeviceMock.GetObject(HttpStatusCode.BadRequest, null!), helper.ServerOperationMock.Object);
+        using var helper = new TestHelper(nameof(Logout_WhenBadRequest));
+        var device = helper.DeviceMock.GetObject(HttpStatusCode.BadRequest, null!);
+        var vm = new UserAuthorizationService(device, helper.GetServer(device));
 
         await vm.Logout();
         
         helper.DeviceMock.SecurityMock.Verify(x => x.DeleteTokenAsync());
-        helper.DeviceMock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Essential.UserPage, It.IsAny<bool>()));
+        helper.DeviceMock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Essential.SplashPage, It.IsAny<bool>()));
     }
     
     [Fact]
-    public async void WhenUnauthorized()
+    public async void Logout_WhenUnauthorized()
     {
         using var helper = new TestHelper(nameof(WhenEmptyProperties_DisplayAlertOnly));
         var device = helper.DeviceMock.GetObject(HttpStatusCode.Unauthorized, null!);
@@ -170,7 +174,7 @@ public class UserAuthorizationServiceTests
     }
     
     [Fact]
-    public async void ServerFailure()
+    public async void Logout_ServerFailure()
     {
         using var helper = new TestHelper(nameof(WhenEmptyProperties_DisplayAlertOnly));
         var device = helper.DeviceMock.GetObject(new HttpClient());

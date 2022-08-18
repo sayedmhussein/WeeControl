@@ -20,7 +20,7 @@ public class MaximumPeriodHandlerTesters : TokenRefreshmentHandler
     }
 
     [Fact]
-    public async void WhenIssuedAtIsNotExceedingSpecificTime_ContextShouldBeSuccess()
+    public async void WhenIssueAtIsNotExceedingSpecificTime_ContextShouldBeSuccess()
     {
         var timeSpan = DateTime.UtcNow - DateTime.UnixEpoch;
         var claims = new List<Claim>() { new Claim("iat", timeSpan.TotalSeconds.ToString(CultureInfo.InvariantCulture)) };

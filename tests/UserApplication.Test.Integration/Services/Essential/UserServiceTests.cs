@@ -45,7 +45,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
         });
             
         helper.DeviceMock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Essential.HomePage, It.IsAny<bool>()), Times.Once);
+            x.NavigateToAsync(Pages.Essential.SplashPage, It.IsAny<bool>()), Times.Once);
     }
     
     [Fact]
@@ -244,6 +244,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
                 Email = email,
                 Username = username,
                 Password = "somePassword",
+                PasswordConfirmation = "somePassword",
                 MobileNo = mobileNo
             },
             Customer =

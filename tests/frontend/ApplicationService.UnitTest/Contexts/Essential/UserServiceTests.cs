@@ -2,6 +2,8 @@ using System.Net;
 using WeeControl.Frontend.ApplicationService.Contexts.Essential.Models;
 using WeeControl.Frontend.ApplicationService.Contexts.Essential.Services;
 using WeeControl.Frontend.ApplicationService.Services;
+using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects.User;
+using WeeControl.SharedKernel.RequestsResponses;
 
 namespace WeeControl.Frontend.ApplicationService.UnitTest.Contexts.Essential;
 
@@ -17,10 +19,11 @@ public class UserServiceTests
     
     #region Register()
     [Fact]
-    public async void WhenSuccessResponseCode()
+    public async void Register_WhenSuccessResponseCode()
     {
         using var helper = new TestHelper(nameof(ChangeMyPassword_WhenSuccessAndOk));
-        var device = helper.DeviceMock.GetObject(HttpStatusCode.OK, null!);
+        var content = helper.GetJsonContent(ResponseDto.Create(AuthenticationResponseDto.Create("token", "fullname")));
+        var device = helper.DeviceMock.GetObject(HttpStatusCode.OK, content);
 
         var service = new UserService(device, new ServerOperationService(device), new PersistedListService(), new UserAuthorizationService(device, new ServerOperationService(device)));
 
@@ -33,7 +36,7 @@ public class UserServiceTests
     [InlineData(HttpStatusCode.BadRequest)]
     [InlineData(HttpStatusCode.BadGateway)]
     [InlineData(HttpStatusCode.Conflict)]
-    public async void WhenOtherResponseCode(HttpStatusCode code)
+    public async void Register_WhenOtherResponseCode(HttpStatusCode code)
     {
         using var helper = new TestHelper(nameof(ChangeMyPassword_WhenSuccessAndOk));
         var device = helper.DeviceMock.GetObject(code, null!);
@@ -52,7 +55,7 @@ public class UserServiceTests
     [InlineData("email@email.com", "", "")]
     [InlineData("", "username", "")]
     [InlineData("", "", "password")]
-    public async void WhenInvalidProperties(string email, string username, string password)
+    public async void Register_WhenInvalidProperties(string email, string username, string password)
     {
         using var helper = new TestHelper(nameof(ChangeMyPassword_WhenSuccessAndOk));
         var device = helper.DeviceMock.GetObject(HttpStatusCode.OK, null!);
@@ -77,7 +80,7 @@ public class UserServiceTests
 
         var service = new UserService(device, new ServerOperationService(device), new PersistedListService(), new UserAuthorizationService(device, new ServerOperationService(device)));
 
-        await service.RequestPasswordReset(new PasswordResetModel());
+        await service.RequestPasswordReset(new PasswordResetModel() { Email = "e@e.e", Username = "u"});
 
         helper.DeviceMock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Essential.UserPage, It.IsAny<bool>()));
     }
@@ -135,7 +138,10 @@ public class UserServiceTests
 
         var service = new UserService(device, new ServerOperationService(device), new PersistedListService(), new UserAuthorizationService(device, new ServerOperationService(device)));
 
-        await service.ChangeMyPassword(new PasswordChangeModel());
+        await service.ChangeMyPassword(new PasswordChangeModel()
+        {
+            OldPassword = "bla", ConfirmPassword = "bla", NewPassword = "bla"
+        });
 
         helper.DeviceMock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Essential.SplashPage, It.IsAny<bool>()));
     }

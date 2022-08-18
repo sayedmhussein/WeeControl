@@ -10,13 +10,10 @@ namespace WeeControl.Frontend.ApplicationService.UnitTest.Contexts;
 public sealed class TestHelper : IDisposable
 {
     public DeviceServiceMock DeviceMock;
-    public Mock<IServerOperation> ServerOperationMock;
 
     public TestHelper(string deviceName)
     {
         DeviceMock = new DeviceServiceMock(deviceName);
-        ServerOperationMock = new Mock<IServerOperation>();
-        
     }
 
     public void Dispose()

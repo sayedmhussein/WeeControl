@@ -35,7 +35,7 @@ public class PasswordSecurityTests
     }
 
     [Fact]
-    public void WhenVerifyingInvalidPassword_ShouldReturnFalse()
+    public void WhenVerifyInvalidPassword_ShouldReturnFalse()
     {
         const string plainPassword = "Password";
 
@@ -45,7 +45,7 @@ public class PasswordSecurityTests
     }
 
     [Fact]
-    public void WhenGeneratingPassword_StringIsCreated()
+    public void WhenGeneratePassword_StringIsCreated()
     {
         var str = passwordSecurity.GenerateRandomPassword();
         
