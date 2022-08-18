@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WeeControl.Application.Contexts.Essential.Commands;
 using WeeControl.SharedKernel;
-using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects.User;
 using WeeControl.SharedKernel.RequestsResponses;
 

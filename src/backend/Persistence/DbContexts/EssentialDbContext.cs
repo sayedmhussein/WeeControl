@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WeeControl.Application.Interfaces;
-using WeeControl.Domain.Contexts;
 using WeeControl.Domain.Contexts.Essential;
 
 namespace WeeControl.Persistence.DbContexts

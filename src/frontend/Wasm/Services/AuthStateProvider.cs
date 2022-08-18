@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Configuration;
 using WeeControl.Frontend.ApplicationService.Interfaces;
-using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects.User;
 using WeeControl.SharedKernel.Interfaces;
 

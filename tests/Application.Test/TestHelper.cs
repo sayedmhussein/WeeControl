@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.Application.Interfaces;
-using WeeControl.Domain.Contexts;
 using WeeControl.Domain.Contexts.Essential;
 using WeeControl.Persistence;
 using WeeControl.SharedKernel.Contexts.Essential.Entities;

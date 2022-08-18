@@ -1,7 +1,6 @@
 using System;
 using System.Net.Http;
 using System.Text;
-using Moq.Protected;
 using Newtonsoft.Json;
 using WeeControl.Frontend.ApplicationService.Interfaces;
 using WeeControl.Frontend.ApplicationService.Services;

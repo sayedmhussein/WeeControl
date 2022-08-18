@@ -4,8 +4,6 @@ using System.Net;
 using System.Net.Http;
 using WeeControl.Frontend.ApplicationService.Contexts.Essential.Models;
 using WeeControl.Frontend.ApplicationService.Contexts.Essential.Services;
-using WeeControl.Frontend.ApplicationService.Interfaces;
-using WeeControl.Frontend.ApplicationService.Services;
 using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects.User;
 using WeeControl.SharedKernel.RequestsResponses;
 
@@ -121,7 +119,7 @@ public class UserAuthorizationServiceTests
         var device = helper.DeviceMock.GetObject(HttpStatusCode.OK, content);
         var vm = new UserAuthorizationService(device, helper.GetServer(device));
 
-        await vm.Login(new LoginModel() { UsernameOrEmail = "username", Password = "password"});
+        await vm.Login(new LoginModel() { UsernameOrEmail = username, Password = password});
         
         helper.DeviceMock.AlertMock.Verify(x => 
             x.DisplayAlert(It.IsAny<string>()), Times.Once);
@@ -131,8 +129,6 @@ public class UserAuthorizationServiceTests
             x.NavigateToAsync(Pages.Essential.HomePage,true), Times.Never);
     }
     #endregion
-    
-
     #endregion
 
     #region Logout

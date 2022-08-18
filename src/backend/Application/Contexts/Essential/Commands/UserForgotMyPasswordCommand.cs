@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using WeeControl.Application.Contexts.Essential.Notifications;
 using WeeControl.Application.Exceptions;
 using WeeControl.Application.Interfaces;
-using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects.User;
 using WeeControl.SharedKernel.Interfaces;
 

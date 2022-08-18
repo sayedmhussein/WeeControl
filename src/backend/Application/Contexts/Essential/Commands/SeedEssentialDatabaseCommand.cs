@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using WeeControl.Application.Interfaces;
-using WeeControl.Domain.Contexts;
 using WeeControl.Domain.Contexts.Essential;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.Contexts.Essential.Entities;

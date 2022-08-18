@@ -4,7 +4,6 @@ using WeeControl.Frontend.ApplicationService.Contexts.Essential.Interfaces;
 using WeeControl.Frontend.ApplicationService.Contexts.Essential.Models;
 using WeeControl.Frontend.ApplicationService.Interfaces;
 using WeeControl.SharedKernel;
-using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects.User;
 using WeeControl.SharedKernel.RequestsResponses;
 
@@ -195,6 +194,8 @@ internal class UserService : ServiceBase, IUserService
                 await device.Alert.DisplayAlert("DeveloperMinorBug");
                 break;
         }
+        
+        await device.Navigation.NavigateToAsync(Pages.Essential.UserPage, forceLoad: true);
     }
     
     private async Task SetupMenuAsync()

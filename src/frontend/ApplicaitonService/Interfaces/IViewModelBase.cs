@@ -1,5 +1,3 @@
-using System.ComponentModel;
-
 namespace WeeControl.Frontend.ApplicationService.Interfaces;
 
 public interface IViewModelBase //: INotifyPropertyChanged
