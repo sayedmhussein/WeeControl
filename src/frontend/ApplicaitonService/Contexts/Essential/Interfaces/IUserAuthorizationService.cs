@@ -7,6 +7,7 @@ public interface IUserAuthorizationService : IViewModelBase
 {
     Task<bool> IsAuthorized();
     Task Login(LoginModel loginModel);
+    Task UpdateToken(string? otp = null);
     Task Logout();
     
 }

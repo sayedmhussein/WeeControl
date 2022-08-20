@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
@@ -58,6 +59,11 @@ public class Program
             
             //options.AuthenticationPaths.LogInPath = ApplicationService.Pages.Essential.Authentication.LoginPage;
         });
+        
+        // builder.Services.Configure<ForwardedHeadersOptions>(options =>
+        // {
+        //     options.KnownProxies.Add(IPAddress.Parse("10.0.0.100"));
+        // });
             
         await builder.Build().RunAsync();
     }

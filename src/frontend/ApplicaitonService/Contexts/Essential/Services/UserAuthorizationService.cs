@@ -38,7 +38,12 @@ internal class UserAuthorizationService : ServiceBase, IUserAuthorizationService
         loginModel.Password = string.Empty;
         IsLoading = false;
     }
-    
+
+    public Task UpdateToken(string? otp)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task Logout()
     {
         HttpRequestMessage message = new()
