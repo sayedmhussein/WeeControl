@@ -4,12 +4,12 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WeeControl.Application.Contexts.Essential.Commands;
+using WeeControl.ApiApp.Application.Contexts.Essential.Commands;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects.User;
 using WeeControl.SharedKernel.RequestsResponses;
 
-namespace WeeControl.WebApi.Controllers.Essentials;
+namespace WeeControl.ApiApp.WebApi.Controllers.Essentials;
 
 [ApiController]
 [Route(Api.Essential.Customer.CustomerRoute)]

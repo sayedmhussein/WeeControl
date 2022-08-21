@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace WeeControl.Domain.Contexts.Essential;
+namespace WeeControl.ApiApp.Domain.Contexts.Essential;
 
 [Table(nameof(UserClaimDbo), Schema = nameof(Essential))]
 public class UserClaimDbo

@@ -30,7 +30,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationService", "src\f
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wasm", "src\frontend\Wasm\Wasm.csproj", "{C1ECA065-9D5C-4833-B71E-6675697FB9A6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "shared", "shared", "{60C29738-826F-4B5F-85AB-6A22A28F079E}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{60C29738-826F-4B5F-85AB-6A22A28F079E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel", "src\shared\SharedKernel\SharedKernel.csproj", "{CB936D6E-F96A-46C7-9DCE-C55290969266}"
 EndProject

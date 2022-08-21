@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WeeControl.SharedKernel.Contexts.Essential.Entities;
 
-namespace WeeControl.Domain.Contexts.Essential;
+namespace WeeControl.ApiApp.Domain.Contexts.Essential;
 
 [Table(nameof(UserNotificationDbo), Schema = nameof(Essential))]
 public class UserNotificationDbo : UserNotificationEntity

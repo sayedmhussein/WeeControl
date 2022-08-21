@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace WeeControl.Domain.Contexts.Business.Elevator;
+namespace WeeControl.ApiApp.Domain.Contexts.Business.Elevator;
 
 public class OfferPaymentDbo
 {

@@ -4,17 +4,17 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using WeeControl.Application.Contexts.Essential.Queries;
-using WeeControl.Application.Exceptions;
-using WeeControl.Application.Interfaces;
-using WeeControl.Domain.Contexts.Essential;
+using WeeControl.ApiApp.Application.Contexts.Essential.Queries;
+using WeeControl.ApiApp.Application.Exceptions;
+using WeeControl.ApiApp.Application.Interfaces;
+using WeeControl.ApiApp.Domain.Contexts.Essential;
 using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects.User;
 using WeeControl.SharedKernel.Contexts.Essential.Entities;
 using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.RequestsResponses;
-using ValidationException = WeeControl.Application.Exceptions.ValidationException;
+using ValidationException = WeeControl.ApiApp.Application.Exceptions.ValidationException;
 
-namespace WeeControl.Application.Contexts.Essential.Commands;
+namespace WeeControl.ApiApp.Application.Contexts.Essential.Commands;
 
 public class UserRegisterCommand : IRequest<IResponseDto<AuthenticationResponseDto>>
 {

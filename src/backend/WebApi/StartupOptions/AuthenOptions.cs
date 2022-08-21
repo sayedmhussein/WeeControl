@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
-namespace WeeControl.WebApi.StartupOptions;
+namespace WeeControl.ApiApp.WebApi.StartupOptions;
 
 public class AuthenOptions
 {

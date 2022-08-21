@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Moq;
+using WeeControl.ApiApp.WebApi.Services;
 using WeeControl.SharedKernel;
-using WeeControl.WebApi.Services;
 using Xunit;
 
-namespace WeeControl.WebApi.Test.Services;
+namespace WeeControl.ApiApp.WebApi.Test.Services;
 
 public class UserInfoServiceTests : IDisposable
 {

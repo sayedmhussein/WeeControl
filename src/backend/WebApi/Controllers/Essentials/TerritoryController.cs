@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WeeControl.Application.Contexts.Essential.Queries;
+using WeeControl.ApiApp.Application.Contexts.Essential.Queries;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.RequestsResponses;
 
-namespace WeeControl.WebApi.Controllers.Essentials;
+namespace WeeControl.ApiApp.WebApi.Controllers.Essentials;
 
 [ApiController]
 [Authorize]

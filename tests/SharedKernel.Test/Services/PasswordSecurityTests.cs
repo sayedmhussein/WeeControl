@@ -2,7 +2,7 @@ using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.Services;
 using Xunit;
 
-namespace WeeControl.SharedKernel.Test.Services;
+namespace WeeControl.ApiApp.SharedKernel.Test.Services;
 
 public class PasswordSecurityTests
 {

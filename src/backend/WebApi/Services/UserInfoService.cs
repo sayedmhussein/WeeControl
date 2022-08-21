@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
-using WeeControl.Application.Interfaces;
+using WeeControl.ApiApp.Application.Interfaces;
 using WeeControl.SharedKernel;
 
-namespace WeeControl.WebApi.Services;
+namespace WeeControl.ApiApp.WebApi.Services;
 
 public class UserInfoService : ICurrentUserInfo
 {

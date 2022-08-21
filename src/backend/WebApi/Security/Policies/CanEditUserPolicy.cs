@@ -1,6 +1,6 @@
 using WeeControl.SharedKernel;
 
-namespace WeeControl.WebApi.Security.Policies;
+namespace WeeControl.ApiApp.WebApi.Security.Policies;
 
 internal class CanEditUserPolicy : PolicyBuilderBase
 {

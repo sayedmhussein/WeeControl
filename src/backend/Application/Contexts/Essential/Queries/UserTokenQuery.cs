@@ -8,15 +8,15 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using WeeControl.Application.Exceptions;
-using WeeControl.Application.Interfaces;
-using WeeControl.Domain.Contexts.Essential;
+using WeeControl.ApiApp.Application.Exceptions;
+using WeeControl.ApiApp.Application.Interfaces;
+using WeeControl.ApiApp.Domain.Contexts.Essential;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects.User;
 using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.RequestsResponses;
 
-namespace WeeControl.Application.Contexts.Essential.Queries;
+namespace WeeControl.ApiApp.Application.Contexts.Essential.Queries;
 
 public class UserTokenQuery : IRequest<ResponseDto<AuthenticationResponseDto>>
 {

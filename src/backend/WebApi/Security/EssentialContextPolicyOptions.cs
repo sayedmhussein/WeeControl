@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
+using WeeControl.ApiApp.WebApi.Security.CustomHandlers.TokenRefreshment;
+using WeeControl.ApiApp.WebApi.Security.Policies;
 using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.Services;
-using WeeControl.WebApi.Security.CustomHandlers.TokenRefreshment;
-using WeeControl.WebApi.Security.Policies;
 
-namespace WeeControl.WebApi.Security;
+namespace WeeControl.ApiApp.WebApi.Security;
 
 internal static class EssentialContextPolicyOptions
 {

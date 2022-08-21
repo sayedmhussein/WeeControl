@@ -1,12 +1,12 @@
 using System;
-using WeeControl.Application.Contexts.Essential.Commands;
-using WeeControl.Application.Exceptions;
-using WeeControl.Domain.Contexts.Essential;
+using WeeControl.ApiApp.Application.Contexts.Essential.Commands;
+using WeeControl.ApiApp.Application.Exceptions;
+using WeeControl.ApiApp.Domain.Contexts.Essential;
 using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.RequestsResponses;
 using Xunit;
 
-namespace WeeControl.Application.Test.Essential.Commands;
+namespace WeeControl.ApiApp.Application.Test.Essential.Commands;
 
 public class SetNewPasswordCommandTests
 {

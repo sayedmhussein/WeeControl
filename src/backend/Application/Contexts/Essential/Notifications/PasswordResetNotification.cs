@@ -3,11 +3,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using WeeControl.Application.Interfaces;
-using WeeControl.Domain.Interfaces;
-using WeeControl.Domain.Models;
+using WeeControl.ApiApp.Application.Interfaces;
+using WeeControl.ApiApp.Domain.Interfaces;
+using WeeControl.ApiApp.Domain.Models;
 
-namespace WeeControl.Application.Contexts.Essential.Notifications;
+namespace WeeControl.ApiApp.Application.Contexts.Essential.Notifications;
 
 public class PasswordResetNotification : INotification
 {

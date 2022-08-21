@@ -5,13 +5,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using WeeControl.Application.Interfaces;
-using WeeControl.Domain.Contexts.Essential;
+using WeeControl.ApiApp.Application.Interfaces;
+using WeeControl.ApiApp.Domain.Contexts.Essential;
 using WeeControl.SharedKernel;
 using WeeControl.SharedKernel.Contexts.Essential.Entities;
 using WeeControl.SharedKernel.Interfaces;
 
-namespace WeeControl.Application.Contexts.Essential.Commands;
+namespace WeeControl.ApiApp.Application.Contexts.Essential.Commands;
 
 public class SeedEssentialDatabaseCommand : IRequest
 {

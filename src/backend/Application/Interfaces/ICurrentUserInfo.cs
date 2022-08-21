@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Claims;
 
-namespace WeeControl.Application.Interfaces;
+namespace WeeControl.ApiApp.Application.Interfaces;
 
 /// <summary>
 /// Use it to get the current user's (requester) session-id, claims and territories.

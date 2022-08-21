@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using WeeControl.Application.Exceptions;
+using WeeControl.ApiApp.Application.Exceptions;
 
-namespace WeeControl.WebApi.Middlewares;
+namespace WeeControl.ApiApp.WebApi.Middlewares;
 
 public class CustomExceptionHandlerMiddleware
 {

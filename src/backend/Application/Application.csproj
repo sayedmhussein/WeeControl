@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <RootNamespace>WeeControl.Application</RootNamespace>
+    <RootNamespace>WeeControl.ApiApp.Application</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="10.0.1" />

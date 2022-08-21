@@ -3,11 +3,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using WeeControl.Application.Exceptions;
-using WeeControl.Application.Interfaces;
+using WeeControl.ApiApp.Application.Exceptions;
+using WeeControl.ApiApp.Application.Interfaces;
 using WeeControl.SharedKernel.Interfaces;
 
-namespace WeeControl.Application.Contexts.Essential.Commands;
+namespace WeeControl.ApiApp.Application.Contexts.Essential.Commands;
 
 public class UserLogoutCommand : IRequest
 {

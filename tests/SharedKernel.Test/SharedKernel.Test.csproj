@@ -5,7 +5,7 @@
 
         <IsPackable>false</IsPackable>
 
-        <RootNamespace>WeeControl.SharedKernel.Test</RootNamespace>
+        <RootNamespace>WeeControl.ApiApp.SharedKernel.Test</RootNamespace>
 
         <AssemblyName>SharedKernel.Test</AssemblyName>
     </PropertyGroup>

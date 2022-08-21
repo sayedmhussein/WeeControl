@@ -1,12 +1,12 @@
 using System;
 using Microsoft.EntityFrameworkCore;
-using WeeControl.Application.Contexts.Essential.Queries;
-using WeeControl.Application.Exceptions;
+using WeeControl.ApiApp.Application.Contexts.Essential.Queries;
+using WeeControl.ApiApp.Application.Exceptions;
 using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects.User;
 using WeeControl.SharedKernel.RequestsResponses;
 using Xunit;
 
-namespace WeeControl.Application.Test.Essential.Queries;
+namespace WeeControl.ApiApp.Application.Test.Essential.Queries;
 
 public class UserTokenQueryTests
 {

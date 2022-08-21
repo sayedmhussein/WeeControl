@@ -1,9 +1,9 @@
 using System;
 using System.Linq;
-using WeeControl.Domain.Contexts.Essential;
+using WeeControl.ApiApp.Domain.Contexts.Essential;
 using Xunit;
 
-namespace WeeControl.Application.Test.Essential.Queries;
+namespace WeeControl.ApiApp.Application.Test.Essential.Queries;
 
 public class NotificationQueryTests
 {

@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using MediatR.Pipeline;
 
-namespace WeeControl.Application.Behaviours;
+namespace WeeControl.ApiApp.Application.Behaviours;
 
 public class RequestVerificationBehaviour<TRequest> : IRequestPreProcessor<TRequest>
 {

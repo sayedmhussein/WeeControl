@@ -1,12 +1,11 @@
 using System.Threading.Tasks;
 using MediatR;
-using WeeControl.Application.Contexts.Essential.Queries;
-using WeeControl.Application.Exceptions;
-using WeeControl.Domain.Contexts.Essential;
+using WeeControl.ApiApp.Application.Contexts.Essential.Queries;
+using WeeControl.ApiApp.Application.Exceptions;
 using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects.User;
 using Xunit;
 
-namespace WeeControl.Application.Test.Essential.Queries;
+namespace WeeControl.ApiApp.Application.Test.Essential.Queries;
 
 public class UserDuplicationQueryTests
 {

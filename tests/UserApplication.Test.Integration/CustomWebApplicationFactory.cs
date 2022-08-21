@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using WeeControl.Domain.Interfaces;
-using WeeControl.Infrastructure.Notifications;
-using WeeControl.Persistence;
+using WeeControl.ApiApp.Domain.Interfaces;
+using WeeControl.ApiApp.Infrastructure.Notifications;
+using WeeControl.ApiApp.Persistence;
 
 namespace WeeControl.User.UserApplication.Test.Integration;
 

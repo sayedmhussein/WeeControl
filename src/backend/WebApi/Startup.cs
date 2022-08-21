@@ -10,16 +10,16 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using WeeControl.Application;
-using WeeControl.Application.Interfaces;
-using WeeControl.Infrastructure;
-using WeeControl.Persistence;
-using WeeControl.WebApi.Middlewares;
-using WeeControl.WebApi.Security;
-using WeeControl.WebApi.Services;
-using WeeControl.WebApi.StartupOptions;
+using WeeControl.ApiApp.Application;
+using WeeControl.ApiApp.Application.Interfaces;
+using WeeControl.ApiApp.Infrastructure;
+using WeeControl.ApiApp.Persistence;
+using WeeControl.ApiApp.WebApi.Middlewares;
+using WeeControl.ApiApp.WebApi.Security;
+using WeeControl.ApiApp.WebApi.Services;
+using WeeControl.ApiApp.WebApi.StartupOptions;
 
-namespace WeeControl.WebApi;
+namespace WeeControl.ApiApp.WebApi;
 
 public class Startup
 {

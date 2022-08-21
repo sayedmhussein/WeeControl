@@ -2,7 +2,7 @@ using System;
 using WeeControl.SharedKernel.Contexts.Business.Elevator.Enums;
 using WeeControl.SharedKernel.Contexts.Business.Elevator.Interfaces;
 
-namespace WeeControl.Domain.Contexts.Business.Elevator;
+namespace WeeControl.ApiApp.Domain.Contexts.Business.Elevator;
 
 public class UnitDbo : IUnitModel
 {

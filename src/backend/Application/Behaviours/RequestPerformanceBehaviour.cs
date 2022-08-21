@@ -3,9 +3,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using WeeControl.Application.Interfaces;
+using WeeControl.ApiApp.Application.Interfaces;
 
-namespace WeeControl.Application.Behaviours;
+namespace WeeControl.ApiApp.Application.Behaviours;
 
 public class RequestPerformanceBehaviour<TRequest, TResponse> : 
     IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>

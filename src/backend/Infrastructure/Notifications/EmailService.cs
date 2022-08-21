@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using MimeKit;
 using Org.BouncyCastle.Security;
-using WeeControl.Domain.Interfaces;
+using WeeControl.ApiApp.Domain.Interfaces;
 
-namespace WeeControl.Infrastructure.Notifications;
+namespace WeeControl.ApiApp.Infrastructure.Notifications;
 
 public class EmailService : IEmailNotificationService
 {

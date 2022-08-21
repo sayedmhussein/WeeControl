@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace WeeControl.Domain.Contexts.Business.Elevator.Configurations;
+namespace WeeControl.ApiApp.Domain.Contexts.Business.Elevator.Configurations;
 
 public class BuildingEntityTypeConfig : IEntityTypeConfiguration<BuildingDbo>
 {

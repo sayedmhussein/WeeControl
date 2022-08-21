@@ -3,14 +3,14 @@ using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using WeeControl.Application.Interfaces;
-using WeeControl.Domain.Contexts.Essential;
-using WeeControl.Persistence;
+using WeeControl.ApiApp.Application.Interfaces;
+using WeeControl.ApiApp.Domain.Contexts.Essential;
+using WeeControl.ApiApp.Persistence;
 using WeeControl.SharedKernel.Contexts.Essential.Entities;
 using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.Services;
 
-namespace WeeControl.Application.Test;
+namespace WeeControl.ApiApp.Application.Test;
 
 /// <summary>
 /// Do the necessary setups for mocked objects, then create private field of handler.

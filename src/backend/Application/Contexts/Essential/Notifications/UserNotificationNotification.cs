@@ -2,11 +2,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using WeeControl.Application.Exceptions;
-using WeeControl.Application.Interfaces;
-using WeeControl.Domain.Contexts.Essential;
+using WeeControl.ApiApp.Application.Exceptions;
+using WeeControl.ApiApp.Application.Interfaces;
+using WeeControl.ApiApp.Domain.Contexts.Essential;
 
-namespace WeeControl.Application.Contexts.Essential.Notifications;
+namespace WeeControl.ApiApp.Application.Contexts.Essential.Notifications;
 
 public class UserNotificationNotification : INotification
 {

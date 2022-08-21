@@ -4,11 +4,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using WeeControl.Application.Exceptions;
-using WeeControl.Application.Interfaces;
+using WeeControl.ApiApp.Application.Exceptions;
+using WeeControl.ApiApp.Application.Interfaces;
 using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects.User;
 
-namespace WeeControl.Application.Contexts.Essential.Queries;
+namespace WeeControl.ApiApp.Application.Contexts.Essential.Queries;
 
 public class UserDuplicationQuery : IRequest
 {

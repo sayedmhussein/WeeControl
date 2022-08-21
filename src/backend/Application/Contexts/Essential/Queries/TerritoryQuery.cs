@@ -4,12 +4,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using WeeControl.Application.Interfaces;
+using WeeControl.ApiApp.Application.Interfaces;
 using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects;
 using WeeControl.SharedKernel.Interfaces;
 using WeeControl.SharedKernel.RequestsResponses;
 
-namespace WeeControl.Application.Contexts.Essential.Queries;
+namespace WeeControl.ApiApp.Application.Contexts.Essential.Queries;
 
 public class TerritoryQuery : IRequest<IResponseDto<IEnumerable<TerritoryDto>>>
 {

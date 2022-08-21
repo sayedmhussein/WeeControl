@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WeeControl.Domain.Contexts.Essential;
-using WeeControl.Domain.Interfaces;
+using WeeControl.ApiApp.Domain.Contexts.Essential;
+using WeeControl.ApiApp.Domain.Interfaces;
 
-namespace WeeControl.Application.Interfaces;
+namespace WeeControl.ApiApp.Application.Interfaces;
 
 public interface IEssentialDbContext : IDbContext
 {
