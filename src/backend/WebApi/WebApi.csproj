@@ -42,6 +42,7 @@
     <None Remove="Controllers\Credentials\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\common\SharedKernel\SharedKernel.csproj" />
     <ProjectReference Include="..\Application\Application.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>

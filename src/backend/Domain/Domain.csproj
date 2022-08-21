@@ -27,6 +27,6 @@
     <None Remove="BoundedContexts\Credentials\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\shared\SharedKernel\SharedKernel.csproj" />
+    <ProjectReference Include="..\..\common\SharedKernel\SharedKernel.csproj" />
   </ItemGroup>
 </Project>

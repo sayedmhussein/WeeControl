@@ -25,7 +25,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\common\SharedKernel\SharedKernel.csproj" />
     <ProjectReference Include="..\ApplicaitonService\ApplicationService.csproj" />
+    <ProjectReference Include="..\Service\Service.csproj" />
   </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="Pages\Essential\UserPage.razor" />

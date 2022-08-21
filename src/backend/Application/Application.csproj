@@ -22,7 +22,7 @@
     <None Remove="BoundContexts\Shared\Notifications\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\common\SharedKernel\SharedKernel.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
-    <ProjectReference Include="..\..\shared\SharedKernel\SharedKernel.csproj" />
   </ItemGroup>
 </Project>
