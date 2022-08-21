@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using WeeControl.ApiApp.Application.Interfaces;
-using WeeControl.SharedKernel;
+using WeeControl.Common.SharedKernel;
 
 namespace WeeControl.ApiApp.WebApi.Services;
 

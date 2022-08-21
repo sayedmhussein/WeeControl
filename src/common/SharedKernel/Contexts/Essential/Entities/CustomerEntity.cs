@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace WeeControl.SharedKernel.Contexts.Essential.Entities;
+namespace WeeControl.Common.SharedKernel.Contexts.Essential.Entities;
 
 public class CustomerEntity
 {

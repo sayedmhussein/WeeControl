@@ -1,7 +1,7 @@
-using WeeControl.Frontend.ApplicationService.Contexts.Essential.Models;
-using WeeControl.Frontend.ApplicationService.Interfaces;
+using WeeControl.Frontend.Service.Contexts.Essential.Models;
+using WeeControl.Frontend.Service.Interfaces;
 
-namespace WeeControl.Frontend.ApplicationService.Services;
+namespace WeeControl.Frontend.Service.Services;
 
 public class PersistedListService : IPersistedLists
 {

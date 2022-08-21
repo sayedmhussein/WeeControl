@@ -1,7 +1,7 @@
-using WeeControl.SharedKernel.Contexts.Business.Elevator.Enums;
-using WeeControl.SharedKernel.Contexts.Business.Elevator.Interfaces;
+using WeeControl.Common.SharedKernel.Contexts.Business.Elevator.Enums;
+using WeeControl.Common.SharedKernel.Contexts.Business.Elevator.Interfaces;
 
-namespace WeeControl.Frontend.ApplicationService.Contexts.Business.Elevator;
+namespace WeeControl.Frontend.Service.Contexts.Business.Elevator;
 
 public class PortfolioModel : IPortfolioModel
 {

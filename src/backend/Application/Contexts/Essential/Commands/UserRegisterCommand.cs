@@ -8,10 +8,10 @@ using WeeControl.ApiApp.Application.Contexts.Essential.Queries;
 using WeeControl.ApiApp.Application.Exceptions;
 using WeeControl.ApiApp.Application.Interfaces;
 using WeeControl.ApiApp.Domain.Contexts.Essential;
-using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects.User;
-using WeeControl.SharedKernel.Contexts.Essential.Entities;
-using WeeControl.SharedKernel.Interfaces;
-using WeeControl.SharedKernel.RequestsResponses;
+using WeeControl.Common.SharedKernel.Contexts.Essential.DataTransferObjects.User;
+using WeeControl.Common.SharedKernel.Contexts.Essential.Entities;
+using WeeControl.Common.SharedKernel.Interfaces;
+using WeeControl.Common.SharedKernel.RequestsResponses;
 using ValidationException = WeeControl.ApiApp.Application.Exceptions.ValidationException;
 
 namespace WeeControl.ApiApp.Application.Contexts.Essential.Commands;

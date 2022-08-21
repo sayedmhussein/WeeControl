@@ -1,11 +1,11 @@
 using System.Net;
-using WeeControl.Frontend.ApplicationService.Contexts.Essential.Models;
-using WeeControl.Frontend.ApplicationService.Contexts.Essential.Services;
-using WeeControl.Frontend.ApplicationService.Services;
-using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects.User;
-using WeeControl.SharedKernel.RequestsResponses;
+using WeeControl.Common.SharedKernel.Contexts.Essential.DataTransferObjects.User;
+using WeeControl.Common.SharedKernel.RequestsResponses;
+using WeeControl.Frontend.Service.Contexts.Essential.Models;
+using WeeControl.Frontend.Service.Contexts.Essential.Services;
+using WeeControl.Frontend.Service.Services;
 
-namespace WeeControl.Frontend.ApplicationService.UnitTest.Contexts.Essential;
+namespace WeeControl.Frontend.Service.UnitTest.Contexts.Essential;
 
 public class UserServiceTests
 {

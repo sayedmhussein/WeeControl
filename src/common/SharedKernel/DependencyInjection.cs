@@ -1,8 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.SharedKernel.Interfaces;
-using WeeControl.SharedKernel.Services;
+using WeeControl.Common.SharedKernel.Interfaces;
+using WeeControl.Common.SharedKernel.Services;
 
-namespace WeeControl.SharedKernel;
+namespace WeeControl.Common.SharedKernel;
 
 public static class DependencyInjection
 {

@@ -1,6 +1,6 @@
 using System;
-using WeeControl.SharedKernel.Contexts.Business.Elevator.Enums;
-using WeeControl.SharedKernel.Contexts.Business.Elevator.Interfaces;
+using WeeControl.Common.SharedKernel.Contexts.Business.Elevator.Enums;
+using WeeControl.Common.SharedKernel.Contexts.Business.Elevator.Interfaces;
 
 namespace WeeControl.ApiApp.Domain.Contexts.Business.Elevator;
 

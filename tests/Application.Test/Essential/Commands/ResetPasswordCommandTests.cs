@@ -1,8 +1,8 @@
 using System.Linq;
 using WeeControl.ApiApp.Application.Contexts.Essential.Commands;
 using WeeControl.ApiApp.Application.Exceptions;
-using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects.User;
-using WeeControl.SharedKernel.RequestsResponses;
+using WeeControl.Common.SharedKernel.Contexts.Essential.DataTransferObjects.User;
+using WeeControl.Common.SharedKernel.RequestsResponses;
 using Xunit;
 
 namespace WeeControl.ApiApp.Application.Test.Essential.Commands;

@@ -4,7 +4,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Moq;
 using WeeControl.ApiApp.WebApi.Services;
-using WeeControl.SharedKernel;
+using WeeControl.Common.SharedKernel;
 using Xunit;
 
 namespace WeeControl.ApiApp.WebApi.Test.Services;

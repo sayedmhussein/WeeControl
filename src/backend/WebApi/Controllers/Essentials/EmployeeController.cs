@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using WeeControl.SharedKernel;
+using WeeControl.Common.SharedKernel;
 
 namespace WeeControl.ApiApp.WebApi.Controllers.Essentials;
 

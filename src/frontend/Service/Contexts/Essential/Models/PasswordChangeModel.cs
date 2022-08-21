@@ -1,6 +1,6 @@
-using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects.User;
+using WeeControl.Common.SharedKernel.Contexts.Essential.DataTransferObjects.User;
 
-namespace WeeControl.Frontend.ApplicationService.Contexts.Essential.Models;
+namespace WeeControl.Frontend.Service.Contexts.Essential.Models;
 
 public class PasswordChangeModel : UserPasswordChangeRequestDto
 {

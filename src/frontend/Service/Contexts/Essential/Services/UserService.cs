@@ -1,13 +1,13 @@
 using System.Net;
 using System.Net.Http.Json;
-using WeeControl.Frontend.ApplicationService.Contexts.Essential.Interfaces;
-using WeeControl.Frontend.ApplicationService.Contexts.Essential.Models;
-using WeeControl.Frontend.ApplicationService.Interfaces;
-using WeeControl.SharedKernel;
-using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects.User;
-using WeeControl.SharedKernel.RequestsResponses;
+using WeeControl.Common.SharedKernel;
+using WeeControl.Common.SharedKernel.Contexts.Essential.DataTransferObjects.User;
+using WeeControl.Common.SharedKernel.RequestsResponses;
+using WeeControl.Frontend.Service.Contexts.Essential.Interfaces;
+using WeeControl.Frontend.Service.Contexts.Essential.Models;
+using WeeControl.Frontend.Service.Interfaces;
 
-namespace WeeControl.Frontend.ApplicationService.Contexts.Essential.Services;
+namespace WeeControl.Frontend.Service.Contexts.Essential.Services;
 
 internal class UserService : ServiceBase, IUserService
 {

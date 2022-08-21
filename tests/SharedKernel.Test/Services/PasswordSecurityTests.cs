@@ -1,5 +1,5 @@
-using WeeControl.SharedKernel.Interfaces;
-using WeeControl.SharedKernel.Services;
+using WeeControl.Common.SharedKernel.Interfaces;
+using WeeControl.Common.SharedKernel.Services;
 using Xunit;
 
 namespace WeeControl.ApiApp.SharedKernel.Test.Services;

@@ -3,12 +3,12 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
 using Newtonsoft.Json;
-using WeeControl.Frontend.ApplicationService.Interfaces;
-using WeeControl.SharedKernel;
-using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects.User;
-using WeeControl.SharedKernel.RequestsResponses;
+using WeeControl.Common.SharedKernel;
+using WeeControl.Common.SharedKernel.Contexts.Essential.DataTransferObjects.User;
+using WeeControl.Common.SharedKernel.RequestsResponses;
+using WeeControl.Frontend.Service.Interfaces;
 
-namespace WeeControl.Frontend.ApplicationService.Services;
+namespace WeeControl.Frontend.Service.Services;
 
 public class ServerOperationService : IServerOperation
 {

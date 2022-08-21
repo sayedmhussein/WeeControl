@@ -3,7 +3,7 @@ using System.Linq;
 using WeeControl.ApiApp.Application.Contexts.Essential.Commands;
 using WeeControl.ApiApp.Application.Exceptions;
 using WeeControl.ApiApp.Domain.Contexts.Essential;
-using WeeControl.SharedKernel.RequestsResponses;
+using WeeControl.Common.SharedKernel.RequestsResponses;
 using Xunit;
 
 namespace WeeControl.ApiApp.Application.Test.Essential.Commands;

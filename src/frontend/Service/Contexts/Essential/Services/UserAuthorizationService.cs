@@ -1,13 +1,13 @@
 using System.Net;
 using System.Net.Http.Json;
-using WeeControl.Frontend.ApplicationService.Contexts.Essential.Interfaces;
-using WeeControl.Frontend.ApplicationService.Contexts.Essential.Models;
-using WeeControl.Frontend.ApplicationService.Interfaces;
-using WeeControl.SharedKernel;
-using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects.User;
-using WeeControl.SharedKernel.RequestsResponses;
+using WeeControl.Common.SharedKernel;
+using WeeControl.Common.SharedKernel.Contexts.Essential.DataTransferObjects.User;
+using WeeControl.Common.SharedKernel.RequestsResponses;
+using WeeControl.Frontend.Service.Contexts.Essential.Interfaces;
+using WeeControl.Frontend.Service.Contexts.Essential.Models;
+using WeeControl.Frontend.Service.Interfaces;
 
-namespace WeeControl.Frontend.ApplicationService.Contexts.Essential.Services;
+namespace WeeControl.Frontend.Service.Contexts.Essential.Services;
 
 internal class UserAuthorizationService : ServiceBase, IUserAuthorizationService
 {
@@ -39,9 +39,45 @@ internal class UserAuthorizationService : ServiceBase, IUserAuthorizationService
         IsLoading = false;
     }
 
-    public Task UpdateToken(string? otp)
+    public async Task UpdateToken(string? otp)
     {
-        throw new NotImplementedException();
+        if (otp is not null && otp.Length < 4)
+        {
+            await device.Alert.DisplayAlert("AlertEnum.DeveloperMinorBug");
+            return;
+        }
+        
+        HttpRequestMessage message = new()
+        {
+            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Authorization.Route)),
+            Version = new Version("1.0"),
+            Method = HttpMethod.Put
+        };
+        
+        var response = await server.Send(message, otp);
+        switch (response.StatusCode)
+        {
+            case HttpStatusCode.OK:
+                var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<AuthenticationResponseDto>>();
+                var token = responseDto?.Payload?.Token;
+                if (token is not null)
+                {
+                    await device.Security.UpdateTokenAsync(token);
+                }
+                await device.Navigation.NavigateToAsync(Pages.Essential.SplashPage);
+                break;
+            case HttpStatusCode.NotFound:
+                await device.Alert.DisplayAlert("AlertEnum.DeveloperMinorBug");
+                break;
+            case HttpStatusCode.Unauthorized:
+                await device.Alert.DisplayAlert("AlertEnum.DeveloperMinorBug");
+                await device.Navigation.NavigateToAsync(Pages.Essential.UserPage);
+                await device.Security.DeleteTokenAsync();
+                break;
+            default:
+                await device.Alert.DisplayAlert("AlertEnum.DeveloperMinorBug");
+                break;
+        }
     }
 
     public async Task Logout()
@@ -50,7 +86,7 @@ internal class UserAuthorizationService : ServiceBase, IUserAuthorizationService
         {
             RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Authorization.Route)),
             Version = new Version("1.0"),
-            Method = HttpMethod.Delete,
+            Method = HttpMethod.Delete
         };
 
         var response = await server.Send(message, new object());

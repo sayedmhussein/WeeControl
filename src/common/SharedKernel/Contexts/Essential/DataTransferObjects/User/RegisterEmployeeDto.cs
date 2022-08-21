@@ -1,6 +1,6 @@
-using WeeControl.SharedKernel.Contexts.Essential.Entities;
+using WeeControl.Common.SharedKernel.Contexts.Essential.Entities;
 
-namespace WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects.User;
+namespace WeeControl.Common.SharedKernel.Contexts.Essential.DataTransferObjects.User;
 
 public class RegisterEmployeeDto
 {

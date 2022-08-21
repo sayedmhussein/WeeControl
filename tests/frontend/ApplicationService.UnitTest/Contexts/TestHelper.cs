@@ -2,10 +2,10 @@ using System;
 using System.Net.Http;
 using System.Text;
 using Newtonsoft.Json;
-using WeeControl.Frontend.ApplicationService.Interfaces;
-using WeeControl.Frontend.ApplicationService.Services;
+using WeeControl.Frontend.Service.Interfaces;
+using WeeControl.Frontend.Service.Services;
 
-namespace WeeControl.Frontend.ApplicationService.UnitTest.Contexts;
+namespace WeeControl.Frontend.Service.UnitTest.Contexts;
 
 public sealed class TestHelper : IDisposable
 {

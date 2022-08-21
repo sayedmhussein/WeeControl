@@ -1,11 +1,11 @@
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.Frontend.ApplicationService.Contexts.Business.Elevator;
-using WeeControl.Frontend.ApplicationService.Contexts.Essential.Interfaces;
-using WeeControl.Frontend.ApplicationService.Contexts.Essential.Services;
-using WeeControl.Frontend.ApplicationService.Interfaces;
-using WeeControl.Frontend.ApplicationService.Services;
+using WeeControl.Frontend.Service.Contexts.Business.Elevator;
+using WeeControl.Frontend.Service.Contexts.Essential.Interfaces;
+using WeeControl.Frontend.Service.Contexts.Essential.Services;
+using WeeControl.Frontend.Service.Interfaces;
+using WeeControl.Frontend.Service.Services;
 
-namespace WeeControl.Frontend.ApplicationService;
+namespace WeeControl.Frontend.Service;
 
 public static class ApplicationServiceExtensions
 {

@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
-namespace WeeControl.SharedKernel.Contexts.Essential.Entities;
+namespace WeeControl.Common.SharedKernel.Contexts.Essential.Entities;
 
 public class PersonalEntity
 {

@@ -1,6 +1,6 @@
-using WeeControl.SharedKernel.Contexts.Business.Elevator.Enums;
+using WeeControl.Common.SharedKernel.Contexts.Business.Elevator.Enums;
 
-namespace WeeControl.SharedKernel.Contexts.Business.Elevator.Interfaces;
+namespace WeeControl.Common.SharedKernel.Contexts.Business.Elevator.Interfaces;
 
 public interface IRouteModel : IFieldDataModel
 {

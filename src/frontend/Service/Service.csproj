@@ -4,7 +4,7 @@
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>WeeControl.Frontend.ApplicationService</RootNamespace>
+        <RootNamespace>WeeControl.Frontend.Service</RootNamespace>
         <PackageId>Service</PackageId>
     </PropertyGroup>
 

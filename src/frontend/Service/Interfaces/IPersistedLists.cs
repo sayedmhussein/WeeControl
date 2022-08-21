@@ -1,6 +1,6 @@
-using WeeControl.Frontend.ApplicationService.Contexts.Essential.Models;
+using WeeControl.Frontend.Service.Contexts.Essential.Models;
 
-namespace WeeControl.Frontend.ApplicationService.Interfaces;
+namespace WeeControl.Frontend.Service.Interfaces;
 
 public interface IPersistedLists
 {

@@ -1,8 +1,9 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using WeeControl.Frontend.ApplicationService.Interfaces;
+using WeeControl.Frontend.Service.Interfaces;
+
 [assembly: InternalsVisibleTo("ApplicationService.UnitTest")]
-namespace WeeControl.Frontend.ApplicationService;
+namespace WeeControl.Frontend.Service;
 
 public abstract class ServiceBase : IViewModelBase //UserApplication.Test.Integration
 {

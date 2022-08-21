@@ -7,9 +7,9 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using WeeControl.ApiApp.Application.Interfaces;
 using WeeControl.ApiApp.Domain.Contexts.Essential;
-using WeeControl.SharedKernel;
-using WeeControl.SharedKernel.Contexts.Essential.Entities;
-using WeeControl.SharedKernel.Interfaces;
+using WeeControl.Common.SharedKernel;
+using WeeControl.Common.SharedKernel.Contexts.Essential.Entities;
+using WeeControl.Common.SharedKernel.Interfaces;
 
 namespace WeeControl.ApiApp.Application.Contexts.Essential.Commands;
 

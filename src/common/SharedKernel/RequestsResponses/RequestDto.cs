@@ -1,6 +1,6 @@
-﻿using WeeControl.SharedKernel.Interfaces;
+﻿using WeeControl.Common.SharedKernel.Interfaces;
 
-namespace WeeControl.SharedKernel.RequestsResponses;
+namespace WeeControl.Common.SharedKernel.RequestsResponses;
 
 public class RequestDto : IRequestDto
 {

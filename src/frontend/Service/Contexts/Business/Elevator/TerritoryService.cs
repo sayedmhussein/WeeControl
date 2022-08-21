@@ -1,12 +1,12 @@
 using System.Net;
 using System.Net.Http.Json;
-using WeeControl.Frontend.ApplicationService.Contexts.Essential.Models;
-using WeeControl.Frontend.ApplicationService.Interfaces;
-using WeeControl.SharedKernel;
-using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects;
-using WeeControl.SharedKernel.RequestsResponses;
+using WeeControl.Common.SharedKernel;
+using WeeControl.Common.SharedKernel.Contexts.Essential.DataTransferObjects;
+using WeeControl.Common.SharedKernel.RequestsResponses;
+using WeeControl.Frontend.Service.Contexts.Essential.Models;
+using WeeControl.Frontend.Service.Interfaces;
 
-namespace WeeControl.Frontend.ApplicationService.Contexts.Business.Elevator;
+namespace WeeControl.Frontend.Service.Contexts.Business.Elevator;
 
 public class TerritoryService : ServiceBase
 {

@@ -1,6 +1,6 @@
 
 
-namespace WeeControl.SharedKernel;
+namespace WeeControl.Common.SharedKernel;
 
 public static class Api
 {

@@ -11,10 +11,10 @@ using Microsoft.IdentityModel.Tokens;
 using WeeControl.ApiApp.Application.Exceptions;
 using WeeControl.ApiApp.Application.Interfaces;
 using WeeControl.ApiApp.Domain.Contexts.Essential;
-using WeeControl.SharedKernel;
-using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects.User;
-using WeeControl.SharedKernel.Interfaces;
-using WeeControl.SharedKernel.RequestsResponses;
+using WeeControl.Common.SharedKernel;
+using WeeControl.Common.SharedKernel.Contexts.Essential.DataTransferObjects.User;
+using WeeControl.Common.SharedKernel.Interfaces;
+using WeeControl.Common.SharedKernel.RequestsResponses;
 
 namespace WeeControl.ApiApp.Application.Contexts.Essential.Queries;
 

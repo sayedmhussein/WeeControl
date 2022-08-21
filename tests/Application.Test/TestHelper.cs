@@ -6,9 +6,9 @@ using Moq;
 using WeeControl.ApiApp.Application.Interfaces;
 using WeeControl.ApiApp.Domain.Contexts.Essential;
 using WeeControl.ApiApp.Persistence;
-using WeeControl.SharedKernel.Contexts.Essential.Entities;
-using WeeControl.SharedKernel.Interfaces;
-using WeeControl.SharedKernel.Services;
+using WeeControl.Common.SharedKernel.Contexts.Essential.Entities;
+using WeeControl.Common.SharedKernel.Interfaces;
+using WeeControl.Common.SharedKernel.Services;
 
 namespace WeeControl.ApiApp.Application.Test;
 

@@ -1,4 +1,4 @@
-namespace WeeControl.SharedKernel.Contexts.Business.Elevator.Enums;
+namespace WeeControl.Common.SharedKernel.Contexts.Business.Elevator.Enums;
 
 public enum ContractTypeEnum
 {

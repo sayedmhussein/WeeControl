@@ -1,4 +1,4 @@
-namespace WeeControl.Frontend.ApplicationService.Interfaces;
+namespace WeeControl.Frontend.Service.Interfaces;
 
 public interface IDeviceAlert
 {

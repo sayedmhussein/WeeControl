@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations;
-using WeeControl.SharedKernel.Contexts.Essential.Entities;
 
-namespace WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects.User;
+namespace WeeControl.Common.SharedKernel.Contexts.Essential.DataTransferObjects.User;
 
 public class UserPasswordResetRequestDto
 {

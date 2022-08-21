@@ -1,6 +1,6 @@
-using WeeControl.SharedKernel;
+using WeeControl.Common.SharedKernel;
 
-namespace WeeControl.Frontend.ApplicationService;
+namespace WeeControl.Frontend.Service;
 
 public static class Pages
 {

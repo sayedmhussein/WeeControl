@@ -2,9 +2,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.ApiApp.Application.Interfaces;
 using WeeControl.ApiApp.WebApi;
-using WeeControl.Frontend.ApplicationService;
-using WeeControl.Frontend.ApplicationService.Contexts.Essential.Interfaces;
-using WeeControl.Frontend.ApplicationService.Contexts.Essential.Models;
+using WeeControl.Frontend.Service;
+using WeeControl.Frontend.Service.Contexts.Essential.Interfaces;
+using WeeControl.Frontend.Service.Contexts.Essential.Models;
 using Xunit;
 
 namespace WeeControl.User.UserApplication.Test.Integration.Services.Essential;

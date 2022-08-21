@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WeeControl.SharedKernel.Contexts.Essential.Entities;
+namespace WeeControl.Common.SharedKernel.Contexts.Essential.Entities;
 
 public class UserEntity
 {

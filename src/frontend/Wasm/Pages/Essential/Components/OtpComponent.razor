@@ -1,0 +1,12 @@
+@using WeeControl.Frontend.Service.Contexts.Essential.Interfaces
+@inject IUserAuthorizationService UserAuthorizationService
+
+<MudCard>
+    <label>Please enter the code you received</label>
+    <MudText @bind="@otp"></MudText>
+    <MudButton OnClick="@(() => UserAuthorizationService.UpdateToken(otp))"></MudButton>
+</MudCard>
+
+@code {
+    private string otp;
+}

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects.User;
+namespace WeeControl.Common.SharedKernel.Contexts.Essential.DataTransferObjects.User;
 
 public class AuthenticationRequestDto
 {

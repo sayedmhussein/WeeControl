@@ -3,13 +3,13 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using WeeControl.ApiApp.Domain.Contexts.Essential;
-using WeeControl.Frontend.ApplicationService;
-using WeeControl.Frontend.ApplicationService.Contexts.Essential.Interfaces;
-using WeeControl.Frontend.ApplicationService.Contexts.Essential.Models;
-using WeeControl.Frontend.ApplicationService.Interfaces;
-using WeeControl.Frontend.ApplicationService.UnitTest;
-using WeeControl.SharedKernel.Contexts.Essential.Entities;
-using WeeControl.SharedKernel.Services;
+using WeeControl.Common.SharedKernel.Contexts.Essential.Entities;
+using WeeControl.Common.SharedKernel.Services;
+using WeeControl.Frontend.Service;
+using WeeControl.Frontend.Service.Contexts.Essential.Interfaces;
+using WeeControl.Frontend.Service.Contexts.Essential.Models;
+using WeeControl.Frontend.Service.Interfaces;
+using WeeControl.Frontend.Service.UnitTest;
 
 namespace WeeControl.User.UserApplication.Test.Integration.Services;
 

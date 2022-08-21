@@ -1,7 +1,7 @@
-using WeeControl.Frontend.ApplicationService.Contexts.Essential.Models;
-using WeeControl.Frontend.ApplicationService.Interfaces;
+using WeeControl.Frontend.Service.Contexts.Essential.Models;
+using WeeControl.Frontend.Service.Interfaces;
 
-namespace WeeControl.Frontend.ApplicationService.Contexts.Essential.Interfaces;
+namespace WeeControl.Frontend.Service.Contexts.Essential.Interfaces;
 
 public interface IUserService : IViewModelBase
 {

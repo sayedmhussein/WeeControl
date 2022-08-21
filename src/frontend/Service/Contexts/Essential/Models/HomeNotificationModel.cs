@@ -1,4 +1,4 @@
-namespace WeeControl.Frontend.ApplicationService.Contexts.Essential.Models;
+namespace WeeControl.Frontend.Service.Contexts.Essential.Models;
 
 public class HomeNotificationModel
 {

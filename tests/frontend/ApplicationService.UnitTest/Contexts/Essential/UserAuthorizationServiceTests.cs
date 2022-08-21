@@ -2,13 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using WeeControl.Frontend.ApplicationService.Contexts.Essential.Models;
-using WeeControl.Frontend.ApplicationService.Contexts.Essential.Services;
-using WeeControl.Frontend.ApplicationService.Interfaces;
-using WeeControl.SharedKernel.Contexts.Essential.DataTransferObjects.User;
-using WeeControl.SharedKernel.RequestsResponses;
+using WeeControl.Common.SharedKernel.Contexts.Essential.DataTransferObjects.User;
+using WeeControl.Common.SharedKernel.RequestsResponses;
+using WeeControl.Frontend.Service.Contexts.Essential.Models;
+using WeeControl.Frontend.Service.Contexts.Essential.Services;
+using WeeControl.Frontend.Service.Interfaces;
+using WeeControl.Frontend.Service.Services;
 
-namespace WeeControl.Frontend.ApplicationService.UnitTest.Contexts.Essential;
+namespace WeeControl.Frontend.Service.UnitTest.Contexts.Essential;
 
 public class UserAuthorizationServiceTests
 {
@@ -108,7 +109,91 @@ public class UserAuthorizationServiceTests
     #endregion
 
     #region UpdateToken()
+    [Theory]
+    [InlineData(HttpStatusCode.OK)]
+    [InlineData(HttpStatusCode.Unauthorized)]
+    [InlineData(HttpStatusCode.NotFound)]
+    [InlineData(HttpStatusCode.BadRequest)]
+    [InlineData(HttpStatusCode.BadGateway)]
+    [InlineData(HttpStatusCode.InternalServerError)]
+    public async void UpdateToken_ExpectedResponsesBehaviorTests(HttpStatusCode code)
+    {
+        using var helper = new TestHelper(nameof(UpdateToken_ExpectedResponsesBehaviorTests));
+        var content = helper.GetJsonContent(ResponseDto.Create(AuthenticationResponseDto.Create("token", "name")));
+        var device = helper.DeviceMock.GetObject(code, content);
+
+        var service = new UserAuthorizationService(device, new ServerOperationService(device));
+        await service.UpdateToken("value");
+
+        switch (code)
+        {
+            case HttpStatusCode.OK:
+                helper.DeviceMock.AlertMock.Verify(x => 
+                    x.DisplayAlert(It.IsAny<string>()), Times.Never);
+                helper.DeviceMock.NavigationMock.Verify(x => 
+                    x.NavigateToAsync(Pages.Essential.SplashPage,It.IsAny<bool>()), Times.AtLeastOnce);
+                
+                helper.DeviceMock.SecurityMock.Verify(x => 
+                    x.UpdateTokenAsync("token"), Times.AtLeastOnce);
+                break;
+            case HttpStatusCode.NotFound:
+                helper.DeviceMock.AlertMock.Verify(x => 
+                    x.DisplayAlert(It.IsAny<string>()), Times.AtLeastOnce);
+                helper.DeviceMock.NavigationMock.Verify(x => 
+                    x.NavigateToAsync(Pages.Essential.SplashPage,It.IsAny<bool>()), Times.Never);
+                break;
+            case HttpStatusCode.Unauthorized:
+                helper.DeviceMock.AlertMock.Verify(x => 
+                    x.DisplayAlert(It.IsAny<string>()), Times.AtLeastOnce);
+                helper.DeviceMock.NavigationMock.Verify(x => 
+                    x.NavigateToAsync(Pages.Essential.SplashPage,It.IsAny<bool>()), Times.Never);
+                helper.DeviceMock.NavigationMock.Verify(x => 
+                    x.NavigateToAsync(Pages.Essential.UserPage,It.IsAny<bool>()), Times.AtLeastOnce);
+                
+                helper.DeviceMock.SecurityMock.Verify(x => 
+                    x.DeleteTokenAsync(), Times.AtLeastOnce);
+                break;
+            case HttpStatusCode.InternalServerError:
+            case HttpStatusCode.BadRequest:
+            case HttpStatusCode.BadGateway:
+                helper.DeviceMock.AlertMock.Verify(x => 
+                    x.DisplayAlert(It.IsAny<string>()), Times.AtLeastOnce);
+                helper.DeviceMock.NavigationMock.Verify(x => 
+                    x.NavigateToAsync(Pages.Essential.HomePage,true), Times.Never);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(code), code, null);
+        }
+    }
     
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData("1")]
+    [InlineData("12")]
+    [InlineData("123")]
+    [InlineData("1234")]
+    public async void UpdateToken_DataTransferObjectDefensiveValues(string? value)
+    {
+        using var helper = new TestHelper(nameof(UpdateToken_DataTransferObjectDefensiveValues));
+        var content = helper.GetJsonContent(ResponseDto.Create(AuthenticationResponseDto.Create("token", "name")));
+        var device = helper.DeviceMock.GetObject(HttpStatusCode.OK, content);
+
+        var service = new UserAuthorizationService(device, new ServerOperationService(device));
+        await service.UpdateToken(value);
+
+        helper.DeviceMock.AlertMock.Verify(x => 
+            x.DisplayAlert(It.IsAny<string>()), 
+            value is "1234" or null? Times.Never : Times.AtLeastOnce);
+        
+        helper.DeviceMock.NavigationMock.Verify(x => 
+            x.NavigateToAsync(Pages.Essential.SplashPage,It.IsAny<bool>()), 
+            value is "1234" or null ? Times.AtLeastOnce : Times.Never);
+                
+        helper.DeviceMock.SecurityMock.Verify(x => 
+            x.UpdateTokenAsync("token"), 
+            value is "1234" or null? Times.AtLeastOnce : Times.Never);
+    }
     #endregion
 
     #region Logout()
