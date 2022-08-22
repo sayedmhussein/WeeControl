@@ -68,7 +68,7 @@ public abstract class UserController : Controller
     [HttpGet(Api.Essential.User.ServerEndPoints.Notification)]
     [MapToApiVersion("1.0")]
     [Produces(MediaTypeNames.Application.Json)]
-    public async Task<ActionResult<ResponseDto<IEnumerable<UserNotificationDto>>>> GetNotification()
+    public Task<ActionResult<ResponseDto<IEnumerable<UserNotificationDto>>>> GetNotification()
     {
         throw new NotImplementedException();
         // var query = new NotificationQuery();

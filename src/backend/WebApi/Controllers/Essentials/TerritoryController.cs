@@ -39,7 +39,7 @@ public class TerritoryController : Controller
     [HttpPut]
     [MapToApiVersion("1.0")]
     [ProducesResponseType((int)HttpStatusCode.Conflict)]
-    public async Task<ActionResult> AddOrEditTerritoryV1([FromBody] RequestDto<TerritoryDto> dto)
+    public Task<ActionResult> AddOrEditTerritoryV1([FromBody] RequestDto<TerritoryDto> dto)
     {
         throw new NotImplementedException();
     }

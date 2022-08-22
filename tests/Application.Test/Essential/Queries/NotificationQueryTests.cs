@@ -8,7 +8,7 @@ namespace WeeControl.ApiApp.Application.Test.Essential.Queries;
 public class NotificationQueryTests
 {
     [Fact]
-    public async void ReturnListOfNotificationsTest()
+    public void ReturnListOfNotificationsTest()
     {
         using var testHelper = new TestHelper();
         var user = testHelper.GetUserDboWithEncryptedPassword("username", "password");

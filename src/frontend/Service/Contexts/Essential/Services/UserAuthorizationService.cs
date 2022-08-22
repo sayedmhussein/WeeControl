@@ -71,7 +71,6 @@ internal class UserAuthorizationService : ServiceBase, IUserAuthorizationService
                     await device.Navigation.NavigateToAsync(Pages.Essential.SplashPage);
                 }
                 return true;
-                break;
             case HttpStatusCode.NotFound:
                 await device.Alert.DisplayAlert("AlertEnum.DeveloperMinorBug");
                 break;
