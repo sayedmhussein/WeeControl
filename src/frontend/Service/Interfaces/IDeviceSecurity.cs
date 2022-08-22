@@ -8,7 +8,7 @@ public interface IDeviceSecurity
 
     Task UpdateTokenAsync(string token);
 
-    Task<string> GetTokenAsync();
+    Task<string?> GetTokenAsync();
 
     Task DeleteTokenAsync();
 

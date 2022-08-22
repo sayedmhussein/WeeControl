@@ -43,7 +43,7 @@ public class UserDbo : UserEntity
         Password = user.Password.Trim();
         MobileNo = user.MobileNo.Trim();
     }
-    
+
     public void UpdatePassword(string newPassword)
     {
         Password = newPassword;

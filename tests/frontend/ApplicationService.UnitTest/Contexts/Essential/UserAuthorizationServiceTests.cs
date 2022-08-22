@@ -53,7 +53,7 @@ public class UserAuthorizationServiceTests
         var device = helper.DeviceMock.GetObject(expected);
         var service = new UserAuthorizationService(device, helper.GetServer(device));
         
-        await service.Login(new LoginModel() { UsernameOrEmail = "username", Password = "password"});
+        var success = await service.Login(new LoginModel() { UsernameOrEmail = "username", Password = "password"});
 
         switch (code)
         {
@@ -62,8 +62,7 @@ public class UserAuthorizationServiceTests
                     x.DisplayAlert(It.IsAny<string>()), Times.AtMost(1));
                 helper.DeviceMock.SecurityMock.Verify(x => 
                     x.UpdateTokenAsync("token"), Times.AtLeastOnce);
-                helper.DeviceMock.NavigationMock.Verify(x => 
-                    x.NavigateToAsync(Pages.Essential.SplashPage,true), Times.Once);
+                Assert.True(success);
                 break;
             case HttpStatusCode.NotFound:
                 break;
@@ -188,7 +187,7 @@ public class UserAuthorizationServiceTests
         
         helper.DeviceMock.NavigationMock.Verify(x => 
             x.NavigateToAsync(Pages.Essential.SplashPage,It.IsAny<bool>()), 
-            value is "1234" or null ? Times.AtLeastOnce : Times.Never);
+            value is "1234" ? Times.AtLeastOnce : Times.Never);
                 
         helper.DeviceMock.SecurityMock.Verify(x => 
             x.UpdateTokenAsync("token"), 

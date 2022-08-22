@@ -1,14 +1,14 @@
 using System;
 using Microsoft.EntityFrameworkCore;
-using WeeControl.ApiApp.Application.Contexts.Essential.Queries;
+using WeeControl.ApiApp.Application.Contexts.Essential.Commands;
 using WeeControl.ApiApp.Application.Exceptions;
 using WeeControl.Common.SharedKernel.Contexts.Essential.DataTransferObjects.User;
 using WeeControl.Common.SharedKernel.RequestsResponses;
 using Xunit;
 
-namespace WeeControl.ApiApp.Application.Test.Essential.Queries;
+namespace WeeControl.ApiApp.Application.Test.Essential.Commands;
 
-public class UserTokenQueryTests
+public class SessionCreateCommandTests
 {
     #region Username and Password
     [Theory]
@@ -132,92 +132,25 @@ public class UserTokenQueryTests
         Assert.NotEqual(session1.SessionId, session2.SessionId);
     }
     #endregion
-
-    #region Using SessionId
-    [Fact]
-    public async void WhenSessionIsActive_ReturnToken()
-    {
-        using var testHelper = new TestHelper();
-        var user = testHelper.GetUserDboWithEncryptedPassword("username", "password");
-        await testHelper.EssentialDb.Users.AddAsync(user);
-        await testHelper.EssentialDb.SaveChangesAsync(default);
-
-        await GetHandler(testHelper).Handle(GetQuery("username", "password", "device"), 
-            default);
-        
-        var session = await testHelper.EssentialDb.UserSessions.FirstOrDefaultAsync(x => x.UserId == user.UserId && x.DeviceId == "device");
-        Assert.NotNull(session);
-        testHelper.CurrentUserInfoMock.Setup(x => x.SessionId).Returns(session.SessionId);
-
-        var response = await GetHandler(testHelper).Handle(GetQuery("device"), default);
-
-        Assert.NotEmpty(response.Payload.Token);
-        Assert.NotEmpty(response.Payload.FullName);
-    }
     
-    [Fact]
-    public async void WhenSessionIsTerminated_ThrowNotAllowedException()
-    {
-        using var testHelper = new TestHelper();
-        var user = testHelper.GetUserDboWithEncryptedPassword("username", "password");
-        user.SetTemporaryPassword(testHelper.PasswordSecurity.Hash("temporary"));
-        await testHelper.EssentialDb.Users.AddAsync(user);
-        await testHelper.EssentialDb.SaveChangesAsync(default);
-
-        await GetHandler(testHelper).Handle(GetQuery("username", "password"), 
-            default);
-        
-        var session = await testHelper.EssentialDb.UserSessions.FirstOrDefaultAsync(x => x.UserId == user.UserId && x.DeviceId == "device");
-        Assert.NotNull(session);
-        session.TerminationTs = DateTime.Now;
-        await testHelper.EssentialDb.SaveChangesAsync(default);
-        testHelper.CurrentUserInfoMock.Setup(x => x.SessionId).Returns(session.SessionId);
-
-        var query = GetQuery("device");
-        await Assert.ThrowsAsync<NotAllowedException>(() => GetHandler(testHelper).Handle(query, default));
-    }
-    
-    [Fact]
-    public async void WhenSessionIsActiveButFromDifferentDevice_ThrowNotAllowedException()
-    {
-        using var testHelper = new TestHelper();
-        var user = testHelper.GetUserDboWithEncryptedPassword("username", "password");
-        user.SetTemporaryPassword(testHelper.PasswordSecurity.Hash("temporary"));
-        await testHelper.EssentialDb.Users.AddAsync(user);
-        await testHelper.EssentialDb.SaveChangesAsync(default);
-
-        await GetHandler(testHelper).Handle(GetQuery("username", "password"), 
-            default);
-        
-        var session = await testHelper.EssentialDb.UserSessions.FirstOrDefaultAsync(x => x.UserId == user.UserId && x.DeviceId == "device");
-        Assert.NotNull(session);
-        testHelper.CurrentUserInfoMock.Setup(x => x.SessionId).Returns(session.SessionId);
-
-        var query = GetQuery("device2");
-        await Assert.ThrowsAsync<NotAllowedException>(() => GetHandler(testHelper).Handle(query, default));
-    }
-    #endregion
-
-    private UserTokenQuery.UserTokenHandler GetHandler(TestHelper testHelper)
+    private SessionCreateCommand.SessionCreateHandler GetHandler(TestHelper testHelper)
     {
         testHelper.ConfigurationMock.Setup(x => x["Jwt:Key"]).Returns(new string('a', 30));
-        return new UserTokenQuery.UserTokenHandler(
+        return new SessionCreateCommand.SessionCreateHandler(
             testHelper.EssentialDb, 
-            testHelper.JwtService, 
-            testHelper.MediatorMock.Object, 
-            testHelper.ConfigurationMock.Object, 
-            testHelper.CurrentUserInfoMock.Object, 
+            testHelper.JwtService,
+            testHelper.ConfigurationMock.Object,
             testHelper.PasswordSecurity);
     }
     
-    private UserTokenQuery GetQuery(string emailOrUsername, string password, string device = "device")
+    private SessionCreateCommand GetQuery(string emailOrUsername, string password, string device = "device")
     {
-        return new UserTokenQuery(RequestDto.Create(
+        return new SessionCreateCommand(RequestDto.Create(
             AuthenticationRequestDto.Create(emailOrUsername, password),  device, 0, 0));
     }
     
-    private UserTokenQuery GetQuery(string device)
-    {
-        return new UserTokenQuery(RequestDto.Create(device, 0, 0));
-    }
+    // private CreateTokenCommand GetQuery(string device)
+    // {
+    //     return new CreateTokenCommand(RequestDto.Create(device, 0, 0));
+    // }
 }

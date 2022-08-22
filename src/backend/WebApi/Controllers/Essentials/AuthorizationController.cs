@@ -5,7 +5,6 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WeeControl.ApiApp.Application.Contexts.Essential.Commands;
-using WeeControl.ApiApp.Application.Contexts.Essential.Queries;
 using WeeControl.Common.SharedKernel;
 using WeeControl.Common.SharedKernel.Contexts.Essential.DataTransferObjects.User;
 using WeeControl.Common.SharedKernel.RequestsResponses;
@@ -33,9 +32,7 @@ public class AuthorizationController : Controller
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     public async Task<ActionResult<ResponseDto<AuthenticationResponseDto>>> LoginV1([FromBody] RequestDto<AuthenticationRequestDto> dto)
     {
-        var query = new UserTokenQuery(dto);
-        var response = await mediator.Send(query);
-
+        var response = await mediator.Send(new SessionCreateCommand(dto));
         return Ok(response);
     }
     
@@ -44,11 +41,20 @@ public class AuthorizationController : Controller
     [MapToApiVersion("1.0")]
     [ProducesResponseType(typeof(ResponseDto<AuthenticationResponseDto>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.Forbidden)]
+    public async Task<ActionResult<ResponseDto<AuthenticationResponseDto>>> RefreshTokenOtp([FromBody] RequestDto<string> dto)
+    {
+        var response = await mediator.Send(new SessionUpdateCommand(dto));
+        return Ok(response);
+    }
+    
+    [Authorize]
+    [HttpPatch]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(typeof(ResponseDto<AuthenticationResponseDto>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.Forbidden)]
     public async Task<ActionResult<ResponseDto<AuthenticationResponseDto>>> RefreshTokenV1([FromBody] RequestDto dto)
     {
-        var query = new UserTokenQuery(dto);
-        var response = await mediator.Send(query);
-
+        var response = await mediator.Send(new SessionUpdateCommand(dto));
         return Ok(response);
     }
     
@@ -59,9 +65,7 @@ public class AuthorizationController : Controller
     [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
     public async Task<ActionResult<ResponseDto>> LogoutV1([FromBody] RequestDto dto)
     {
-        var command = new UserLogoutCommand(dto);
-        var response = await mediator.Send(command);
-
-        return NotFound(response);
+        var response = await mediator.Send(new SessionTerminateCommand(dto));
+        return Ok(response);
     }
 }

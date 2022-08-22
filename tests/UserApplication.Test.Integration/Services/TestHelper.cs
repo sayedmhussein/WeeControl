@@ -50,7 +50,7 @@ public class TestHelper<T> : IDisposable
         DeviceMock.InjectTokenToMock(await helper.Device.Security.GetTokenAsync());
     }
 
-    public static string GetEncryptedPassword(string password)
+    private static string GetEncryptedPassword(string password)
     {
         return new PasswordSecurity().Hash(password);
     }

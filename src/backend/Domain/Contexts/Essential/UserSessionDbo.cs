@@ -10,16 +10,23 @@ namespace WeeControl.ApiApp.Domain.Contexts.Essential;
 [Table(nameof(UserSessionDbo), Schema = nameof(Essential))]
 public class UserSessionDbo
 {
-    public static UserSessionDbo Create(Guid userid, string deviceid)
+    public static UserSessionDbo Create(Guid userid, string deviceid, string otp)
     {
-        return new UserSessionDbo() { UserId = userid, DeviceId = deviceid, CreatedTs = DateTime.UtcNow };
+        return new UserSessionDbo() { UserId = userid, DeviceId = deviceid, CreatedTs = DateTime.UtcNow, OneTimePassword = otp};
     }
     
     [Key]
     public Guid SessionId { get; }
     public Guid UserId { get; set; }
     public UserDbo User { get; set; }
+    
+    [Required]
+    [StringLength(128)]
     public string DeviceId { get; set; }
+    
+    [StringLength(4, MinimumLength = 4)]
+    public string OneTimePassword { get; set; }
+    
     public DateTime CreatedTs { get; set; }
     public DateTime? TerminationTs { get; set; }
 
@@ -32,6 +39,14 @@ public class UserSessionDbo
 
     private UserSessionDbo()
     {
+    }
+
+    public UserSessionDbo(Guid userid, string deviceid, string otp)
+    {
+        UserId = userid;
+        DeviceId = deviceid;
+        CreatedTs = DateTime.UtcNow;
+        OneTimePassword = otp;
     }
 }
 

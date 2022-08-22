@@ -9,6 +9,7 @@ public static class Pages
         public const string SplashPage = "Splash";
         public const string HomePage = "Index";
         public const string UserPage = "User";
+        public const string OtpPage = "Otp";
     }
 
     public static class Elevator

@@ -27,8 +27,11 @@ public class ServerOperationService : IServerOperation
         }
 
         try
-        { 
-            UpdateHttpAuthorizationHeader(await device.Security.GetTokenAsync());
+        {
+            var bla = device.Security;
+            var dra = bla.GetTokenAsync();
+            var token = await dra;
+            UpdateHttpAuthorizationHeader(token);
             return await device.Server.HttpClient.SendAsync(message);
         }
         catch (HttpRequestException)
@@ -99,7 +102,7 @@ public class ServerOperationService : IServerOperation
         return new StringContent(JsonConvert.SerializeObject(dto), Encoding.UTF8, "application/json");
     }
     
-    private void UpdateHttpAuthorizationHeader(string token)
+    private void UpdateHttpAuthorizationHeader(string? token)
     {
         if (string.IsNullOrWhiteSpace(token))
             return;

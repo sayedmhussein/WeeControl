@@ -1,6 +1,7 @@
 using System;
 using System.Net;
-using System.Net.Http;
+using WeeControl.Common.SharedKernel.Contexts.Essential.DataTransferObjects.User;
+using WeeControl.Common.SharedKernel.RequestsResponses;
 
 namespace WeeControl.Frontend.Service.UnitTest.Contexts;
 
@@ -16,7 +17,8 @@ public class ExampleTests
     public void Function1_ExpectedResponsesBehaviorTests(HttpStatusCode code)
     {
         using var helper = new TestHelper(nameof(Function1_ExpectedResponsesBehaviorTests));
-        var device = helper.DeviceMock.GetObject(code, null);
+        var content = helper.GetJsonContent(ResponseDto.Create(AuthenticationResponseDto.Create("token", "name")));
+        var device = helper.DeviceMock.GetObject(code, content);
         
         //Service Action...
         
@@ -26,7 +28,7 @@ public class ExampleTests
                 helper.DeviceMock.AlertMock.Verify(x => 
                     x.DisplayAlert(It.IsAny<string>()), Times.Never);
                 helper.DeviceMock.NavigationMock.Verify(x => 
-                    x.NavigateToAsync(Pages.Essential.SplashPage,true), Times.Never);
+                    x.NavigateToAsync(Pages.Essential.SplashPage,It.IsAny<bool>()), Times.Never);
                 
                 helper.DeviceMock.SecurityMock.Verify(x => 
                     x.UpdateTokenAsync("token"), Times.Never);

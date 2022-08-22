@@ -4,7 +4,6 @@ using WeeControl.ApiApp.Application.Interfaces;
 using WeeControl.ApiApp.WebApi;
 using WeeControl.Common.SharedKernel.Contexts.Essential.DataTransferObjects.User;
 using WeeControl.Frontend.Service;
-using WeeControl.Frontend.Service;
 using WeeControl.Frontend.Service.Contexts.Essential.Interfaces;
 using WeeControl.Frontend.Service.Contexts.Essential.Models;
 using Xunit;
@@ -287,7 +286,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
         await helper.Service.Register(model);
 
         helper.DeviceMock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Essential.SplashPage, It.IsAny<bool>()), Times.Once);
+            x.NavigateToAsync(Pages.Essential.SplashPage, It.IsAny<bool>()), Times.AtLeastOnce);
     }
     
     [Theory]

@@ -6,8 +6,7 @@ namespace WeeControl.Frontend.Service.Contexts.Essential.Interfaces;
 public interface IUserAuthorizationService : IViewModelBase
 {
     Task<bool> IsAuthorized();
-    Task Login(LoginModel loginModel);
-    Task UpdateToken(string? otp = null);
-    Task Logout();
-    
+    Task<bool> Login(LoginModel loginModel);
+    Task<bool> UpdateToken(string? otp = null);
+    Task<bool> Logout();
 }

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using WeeControl.ApiApp.Application.Contexts.Essential.Queries;
 using WeeControl.ApiApp.Application.Exceptions;
 using WeeControl.ApiApp.Application.Interfaces;
 using WeeControl.ApiApp.Domain.Contexts.Essential;
@@ -85,7 +84,7 @@ public class UserRegisterCommand : IRequest<IResponseDto<AuthenticationResponseD
             await context.SaveChangesAsync(cancellationToken);
 
             var request =
-                new UserTokenQuery(RequestDto.Create(AuthenticationRequestDto.Create(user.Username, cmd.user.Password),
+                new SessionCreateCommand(RequestDto.Create(AuthenticationRequestDto.Create(user.Username, cmd.user.Password),
                     cmd.request));
             var response = await mediator.Send(request, cancellationToken);
             return response;

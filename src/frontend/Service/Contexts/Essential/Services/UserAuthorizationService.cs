@@ -25,33 +25,34 @@ internal class UserAuthorizationService : ServiceBase, IUserAuthorizationService
         return await server.IsTokenValid() && await device.Security.IsAuthenticatedAsync();
     }
 
-    public async Task Login(LoginModel loginModel)
+    public async Task<bool> Login(LoginModel loginModel)
     {
         if (string.IsNullOrWhiteSpace(loginModel.UsernameOrEmail) || string.IsNullOrWhiteSpace(loginModel.Password))
         {
             await device.Alert.DisplayAlert("Please enter your username and password then try again.");
-            return;
+            return false;
         }
 
         IsLoading = true;
-        await ProcessLoginCommand(loginModel);
+        var success = await ProcessLoginCommand(loginModel);
         loginModel.Password = string.Empty;
         IsLoading = false;
+        return success;
     }
 
-    public async Task UpdateToken(string? otp)
+    public async Task<bool> UpdateToken(string? otp)
     {
         if (otp is not null && otp.Length < 4)
         {
             await device.Alert.DisplayAlert("AlertEnum.DeveloperMinorBug");
-            return;
+            return false;
         }
         
         HttpRequestMessage message = new()
         {
             RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Authorization.Route)),
             Version = new Version("1.0"),
-            Method = HttpMethod.Put
+            Method = otp is null ? HttpMethod.Patch : HttpMethod.Put
         };
         
         var response = await server.Send(message, otp);
@@ -64,7 +65,12 @@ internal class UserAuthorizationService : ServiceBase, IUserAuthorizationService
                 {
                     await device.Security.UpdateTokenAsync(token);
                 }
-                await device.Navigation.NavigateToAsync(Pages.Essential.SplashPage);
+
+                if (otp is not null)
+                {
+                    await device.Navigation.NavigateToAsync(Pages.Essential.SplashPage);
+                }
+                return true;
                 break;
             case HttpStatusCode.NotFound:
                 await device.Alert.DisplayAlert("AlertEnum.DeveloperMinorBug");
@@ -78,9 +84,11 @@ internal class UserAuthorizationService : ServiceBase, IUserAuthorizationService
                 await device.Alert.DisplayAlert("AlertEnum.DeveloperMinorBug");
                 break;
         }
+
+        return false;
     }
 
-    public async Task Logout()
+    public async Task<bool> Logout()
     {
         HttpRequestMessage message = new()
         {
@@ -90,9 +98,15 @@ internal class UserAuthorizationService : ServiceBase, IUserAuthorizationService
         };
 
         var response = await server.Send(message, new object());
+        
+        await device.Security.DeleteTokenAsync();
+        await device.Navigation.NavigateToAsync(Pages.Essential.SplashPage);
 
         switch (response.StatusCode)
         {
+            case HttpStatusCode.OK:
+            case HttpStatusCode.Accepted:
+                return true;
             case HttpStatusCode.NotFound:
             case HttpStatusCode.BadGateway:
             case HttpStatusCode.BadRequest:
@@ -103,50 +117,39 @@ internal class UserAuthorizationService : ServiceBase, IUserAuthorizationService
                 await device.Alert.DisplayAlert("AlertEnum.DeveloperMinorBug");
                 break;
         }
-
-        await device.Security.DeleteTokenAsync();
-        await device.Navigation.NavigateToAsync(Pages.Essential.SplashPage);
+        
+        return false;
     }
 
-    private async Task ProcessLoginCommand(LoginModel loginModel)
+    private async Task<bool> ProcessLoginCommand(LoginModel loginModel)
     {
         var response = await server.Send(
             new HttpRequestMessage
             {
                 RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Authorization.Route)),
                 Version = new Version("1.0"),
-                Method = HttpMethod.Post,
-                
+                Method = HttpMethod.Post
             }, 
             AuthenticationRequestDto.Create(loginModel.UsernameOrEmail, loginModel.Password));
 
-        if (response.IsSuccessStatusCode)
-        {
-            var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<AuthenticationResponseDto>>();
-            var token = responseDto?.Payload?.Token;
-            if (token is not null)
-            {
-                await device.Security.UpdateTokenAsync(token);
-                await device.Storage.SaveAsync(nameof(AuthenticationResponseDto.FullName), responseDto?.Payload?.FullName ?? string.Empty);
-                if (await server.IsTokenValid())
-                {
-                    await device.Navigation.NavigateToAsync(Pages.Essential.SplashPage, forceLoad: true);
-                    return;
-                }
-
-                await device.Navigation.NavigateToAsync(Pages.Essential.UserPage, forceLoad: true);
-                return;
-            }
-            else
-            {
-                await device.Alert.DisplayAlert("AlertEnum.DeveloperInvalidUserInput");
-            }
-
-            return;
-        }
-
         switch (response.StatusCode)
         {
+            case HttpStatusCode.OK:
+            case HttpStatusCode.Accepted:
+                var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<AuthenticationResponseDto>>();
+                var token = responseDto?.Payload?.Token;
+                if (token is not null)
+                {
+                    await device.Security.UpdateTokenAsync(token);
+                    await device.Storage.SaveAsync(nameof(AuthenticationResponseDto.FullName), responseDto?.Payload?.FullName ?? string.Empty);
+                    if (true) //await server.IsTokenValid())
+                    {
+                        await device.Navigation.NavigateToAsync(Pages.Essential.OtpPage);
+                        return true;
+                    }
+                }
+                await device.Alert.DisplayAlert("AlertEnum.DeveloperInvalidUserInput");
+                break;
             case HttpStatusCode.NotFound:
                 await device.Alert.DisplayAlert("Invalid username or password, please try again.");
                 break;
@@ -157,7 +160,7 @@ internal class UserAuthorizationService : ServiceBase, IUserAuthorizationService
                 await device.Alert.DisplayAlert("Unexpected error occured! " + response.StatusCode);
                 break;
         }
+
+        return false;
     }
-    
-    
 }
