@@ -6,7 +6,7 @@
 
         <IsPackable>false</IsPackable>
 
-        <RootNamespace>WeeControl.Frontend.ApplicationService.UnitTest</RootNamespace>
+        <RootNamespace>WeeControl.Frontend.Service.UnitTest</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -24,7 +24,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\..\src\frontend\ApplicaitonService\ApplicationService.csproj" />
+      <ProjectReference Include="..\..\..\src\frontend\Service\Service.csproj" />
     </ItemGroup>
 
 </Project>

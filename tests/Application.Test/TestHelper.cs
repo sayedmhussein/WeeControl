@@ -3,13 +3,14 @@ using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using WeeControl.Application.Interfaces;
-using WeeControl.Domain.Contexts.Essential;
-using WeeControl.Persistence;
-using WeeControl.SharedKernel.Interfaces;
-using WeeControl.SharedKernel.Services;
+using WeeControl.ApiApp.Application.Interfaces;
+using WeeControl.ApiApp.Domain.Contexts.Essential;
+using WeeControl.ApiApp.Persistence;
+using WeeControl.Common.SharedKernel.Contexts.Essential.Entities;
+using WeeControl.Common.SharedKernel.Interfaces;
+using WeeControl.Common.SharedKernel.Services;
 
-namespace WeeControl.Application.Test;
+namespace WeeControl.ApiApp.Application.Test;
 
 /// <summary>
 /// Do the necessary setups for mocked objects, then create private field of handler.
@@ -51,13 +52,14 @@ public class TestHelper : IDisposable
 
     public UserDbo GetUserDboWithEncryptedPassword(string username, string password, string territory = "TST")
     {
-        return UserDbo.Create(
-            nameof(UserDbo.FirstName), 
-            nameof(UserDbo.LastName), 
-            (username + "@email.com").ToLower(), 
-            username.ToLower(),
-            PasswordSecurity.Hash(password), 
-            "012345667", 
-            territory, "EGP");
+        var entity = new UserEntity()
+        {
+            Username = username,
+            Email = username + "@email.com",
+            Password = PasswordSecurity.Hash(password),
+            MobileNo = "0123456789"
+        };
+        
+        return new UserDbo(entity);
     }
 }

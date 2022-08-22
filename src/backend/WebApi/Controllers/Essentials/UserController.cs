@@ -1,93 +1,87 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WeeControl.Application.Contexts.Essential.Commands;
-using WeeControl.Application.Contexts.Essential.Queries;
-using WeeControl.SharedKernel;
-using WeeControl.SharedKernel.Essential.DataTransferObjects;
-using WeeControl.SharedKernel.RequestsResponses;
-using WeeControl.WebApi.Security.Policies;
+using WeeControl.ApiApp.Application.Contexts.Essential.Commands;
+using WeeControl.ApiApp.Application.Contexts.Essential.Queries;
+using WeeControl.Common.SharedKernel;
+using WeeControl.Common.SharedKernel.Contexts.Essential.DataTransferObjects.User;
+using WeeControl.Common.SharedKernel.RequestsResponses;
 
-namespace WeeControl.WebApi.Controllers.Essentials;
+namespace WeeControl.ApiApp.WebApi.Controllers.Essentials;
 
 [ApiController]
-[Route(Api.Essential.User.Route)]
-[Consumes(MediaTypeNames.Application.Json)]
-[Produces(MediaTypeNames.Application.Json)]
-public class UserController : Controller
+public abstract class UserController : Controller
 {
-    private readonly IMediator mediator;
+    protected readonly IMediator Mediator;
 
-    public UserController(IMediator mediator)
+    protected UserController(IMediator mediator)
     {
-        this.mediator = mediator;
+        this.Mediator = mediator;
     }
 
     [AllowAnonymous]
-    [HttpPost]
+    [HttpHead("{parameter}/{value}")]
     [MapToApiVersion("1.0")]
-    [ProducesResponseType((int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    [ProducesResponseType((int)HttpStatusCode.Conflict)]
-    public async Task<ActionResult<ResponseDto<TokenDtoV1>>> RegisterV1([FromBody] RequestDto<UserRegisterDto> dto)
+    [ProducesResponseType((int) HttpStatusCode.OK)]
+    [ProducesResponseType((int) HttpStatusCode.Conflict)]
+    public async Task<ActionResult> VerifyNotDuplicate(string parameter, string value)
     {
-        var command = new UserRegisterCommand(dto);
-        var response = await mediator.Send(command);
-
-        return Ok(response);
-    }
-    
-    [Authorize(Policy = nameof(CanEditUserPolicy))]
-    [HttpGet]
-    [MapToApiVersion("1.0")]
-    public async Task<ActionResult<ResponseDto<IEnumerable<UserDtoV1>>>> GetListOfUsersV1()
-    {
-        var command = new UserQuery();
-        var response = await mediator.Send(command);
-
-        return Ok(response);
+        var query = new UserDuplicationQuery(parameter, value);
+        await Mediator.Send(query);
+        return Ok();
     }
     
     [Authorize]
-    [HttpGet("{username}")]
-    [MapToApiVersion("1.0")]
-    public async Task<ActionResult<ResponseDto<IEnumerable<UserDtoV1>>>> GetUserDetailsV1(string username)
-    {
-        var command = new GetUserDetailsQuery(username);
-        var response = await mediator.Send(command);
-
-        return Ok(response);
-    }
-
-    [Authorize]
-    [HttpPatch(Api.Essential.User.ResetPassword)]
+    [HttpPatch(Api.Essential.User.ServerEndPoints.Password)]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
-    public async Task<ActionResult> SetNewPasswordV1([FromBody] RequestDto<SetNewPasswordDtoV1> dto)
+    public async Task<ActionResult> SetNewPasswordV1([FromBody] RequestDto<UserPasswordChangeRequestDto> dto)
     {
         var command = new UserNewPasswordCommand(dto, dto.Payload.OldPassword, dto.Payload.NewPassword);
-        var response = await mediator.Send(command);
+        var response = await Mediator.Send(command);
 
         return Ok();
     }
     
     [AllowAnonymous]
-    [HttpPost(Api.Essential.User.ResetPassword)]
+    [HttpPost(Api.Essential.User.ServerEndPoints.Password)]
     [MapToApiVersion("1.0")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<ActionResult> ResetPasswordV1([FromBody] RequestDto<ForgotMyPasswordDtoV1> dto)
+    public async Task<ActionResult> ResetPasswordV1([FromBody] RequestDto<UserPasswordResetRequestDto> dto)
     {
         var command = new UserForgotMyPasswordCommand(dto);
-        await mediator.Send(command);
+        await Mediator.Send(command);
+        
+        return Ok();
+        throw new NotImplementedException();
+    }
+    
+    [HttpGet(Api.Essential.User.ServerEndPoints.Notification)]
+    [MapToApiVersion("1.0")]
+    [Produces(MediaTypeNames.Application.Json)]
+    public Task<ActionResult<ResponseDto<IEnumerable<UserNotificationDto>>>> GetNotification()
+    {
+        throw new NotImplementedException();
+        // var query = new NotificationQuery();
+        // var response = await mediator.Send(query);
+        // return Ok(response);
+    }
 
+    [HttpDelete(Api.Essential.User.ServerEndPoints.Notification + "/{id:guid}")]
+    [MapToApiVersion("1.0")]
+    public async Task<ActionResult> MuteNotificationV1(Guid id)
+    {
+        var command = new NotificationViewedCommand(id);
+        await Mediator.Send(command);
         return Ok();
     }
 }

@@ -1,0 +1,17 @@
+@using IAuthorizationService = WeeControl.Frontend.Service.Contexts.Essential.Interfaces.IUserAuthorizationService
+@using WeeControl.Frontend.Service
+@inject IAuthorizationService UserAuthorizationService
+
+<MudMenuItem>
+    <MudButton 
+        StartIcon="@Icons.Material.Outlined.Password"
+        Href="@Pages.Essential.UserPage">Change Password
+    </MudButton>
+</MudMenuItem>
+<MudMenuItem>
+    <MudButton 
+        StartIcon="@Icons.Material.Outlined.Logout"
+        Title="Logout"
+        OnClick="@UserAuthorizationService.Logout">Logout
+    </MudButton>
+</MudMenuItem>

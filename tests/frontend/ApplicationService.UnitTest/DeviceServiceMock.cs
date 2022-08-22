@@ -6,9 +6,9 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using Moq.Protected;
-using WeeControl.Frontend.ApplicationService.Interfaces;
+using WeeControl.Frontend.Service.Interfaces;
 
-namespace WeeControl.Frontend.ApplicationService.UnitTest;
+namespace WeeControl.Frontend.Service.UnitTest;
 
 public class DeviceServiceMock
 {

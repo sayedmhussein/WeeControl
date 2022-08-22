@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.Application.Interfaces;
-using WeeControl.Persistence.Essential;
+using WeeControl.ApiApp.Application.Interfaces;
+using WeeControl.ApiApp.Persistence.DbContexts;
 
-namespace WeeControl.Persistence
+namespace WeeControl.ApiApp.Persistence
 {
     public static class DependencyInjection
     {

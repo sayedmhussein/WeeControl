@@ -1,0 +1,20 @@
+@attribute [Route(Pages.Essential.OtpPage)]
+@using WeeControl.Frontend.Service
+@using WeeControl.Frontend.Service.Contexts.Essential.Interfaces
+@inject IUserAuthorizationService UserAuthorizationService
+
+<MudPaper Style="max-width: 650px; align-content: center; align-self: center; justify-content: center">
+    <MudCard>
+        <MudCardContent>
+            <MudTextField @bind-Value="@otp" Label="One Time Password" InputType="InputType.Password"></MudTextField>
+        </MudCardContent>
+        <MudCardActions>
+            <MudButton OnClick="@(() => UserAuthorizationService.UpdateToken(otp))">Send</MudButton>
+        </MudCardActions>
+    </MudCard>
+</MudPaper>
+
+
+@code {
+    private string otp = "0000";
+}

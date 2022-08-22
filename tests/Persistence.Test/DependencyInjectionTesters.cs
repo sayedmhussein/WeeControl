@@ -2,10 +2,10 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using WeeControl.Application.Interfaces;
+using WeeControl.ApiApp.Application.Interfaces;
 using Xunit;
 
-namespace WeeControl.Persistence.Test;
+namespace WeeControl.ApiApp.Persistence.Test;
 
 public class DependencyInjectionTesters : IDisposable
 {
@@ -24,7 +24,7 @@ public class DependencyInjectionTesters : IDisposable
     }
         
     [Fact]
-    public void WhenAddingPresestenceInMemory_ReturnEssentialDbContextObjectAsNotNull()
+    public void WhenAddingPersistenceInMemory_ReturnEssentialDbContextObjectAsNotNull()
     {
         services.AddPersistenceAsInMemory();
             

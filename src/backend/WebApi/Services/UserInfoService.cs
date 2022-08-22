@@ -2,23 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
 using Microsoft.AspNetCore.Http;
-using WeeControl.Application.Contexts.Essential.Queries;
-using WeeControl.Application.Interfaces;
-using WeeControl.SharedKernel;
+using WeeControl.ApiApp.Application.Interfaces;
+using WeeControl.Common.SharedKernel;
 
-namespace WeeControl.WebApi.Services;
+namespace WeeControl.ApiApp.WebApi.Services;
 
 public class UserInfoService : ICurrentUserInfo
 {
     public IEnumerable<Claim> Claims { get; }
-
     public Guid? SessionId { get; }
     
-    public UserInfoService(IHttpContextAccessor httpContextAccessor, IMediator mediator)
+    public string CountryId { get; }
+    
+    public UserInfoService(IHttpContextAccessor httpContextAccessor)
     {
         Claims = httpContextAccessor?.HttpContext?.User.Claims;
         
@@ -27,40 +24,7 @@ public class UserInfoService : ICurrentUserInfo
         {
             SessionId = idGuid;
         }
-        
 
-        this.mediator = mediator;
-    }
-
-   
-    
-    
-    
-    
-    
-    
-    
-    private readonly IMediator mediator;
-    private readonly ICollection<string> territories = new List<string>();
-    
-    public Guid? GetSessionId()
-    {
-        return SessionId;
-    }
-
-    public async Task<IEnumerable<string>> GetTerritoriesListAsync(CancellationToken cancellationToken)
-    {
-        if (territories.Count != 0) return territories;
-            
-        var territoryCode = Claims.FirstOrDefault(c => c.Type == ClaimsValues.ClaimTypes.Territory)?.Value;
-        territories.Add(territoryCode);
-        var cla = await mediator.Send(new TerritoryQuery(territoryCode), cancellationToken);
-
-         foreach (var bra in cla.Payload)
-         {
-             territories.Add(bra.TerritoryCode);
-         }
-
-        return territories;
+        CountryId = Claims?.FirstOrDefault(c => c.Type == ClaimsValues.ClaimTypes.Country)?.Value;
     }
 }

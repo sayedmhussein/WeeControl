@@ -45,9 +45,11 @@
     <ProjectReference Include="..\..\src\backend\Persistence\Persistence.csproj" />
     <ProjectReference Include="..\..\src\backend\WebApi\WebApi.csproj" />
     <ProjectReference Include="..\..\src\frontend\ApplicaitonService\ApplicationService.csproj" />
+    <ProjectReference Include="..\..\src\frontend\Service\Service.csproj" />
     <ProjectReference Include="..\frontend\ApplicationService.UnitTest\ApplicationService.UnitTest.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ViewModels\" />
+    <Folder Include="Services\" />
+    <Folder Include="Services\Business" />
   </ItemGroup>
 </Project>

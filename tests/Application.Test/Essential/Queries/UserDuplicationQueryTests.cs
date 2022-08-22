@@ -1,10 +1,11 @@
 using System.Threading.Tasks;
 using MediatR;
-using WeeControl.Application.Contexts.Essential.Queries;
-using WeeControl.Application.Exceptions;
+using WeeControl.ApiApp.Application.Contexts.Essential.Queries;
+using WeeControl.ApiApp.Application.Exceptions;
+using WeeControl.Common.SharedKernel.Contexts.Essential.DataTransferObjects.User;
 using Xunit;
 
-namespace WeeControl.Application.Test.Essential.Queries;
+namespace WeeControl.ApiApp.Application.Test.Essential.Queries;
 
 public class UserDuplicationQueryTests
 {
@@ -14,9 +15,10 @@ public class UserDuplicationQueryTests
         using var testHelper = new TestHelper();
 
         var handler = await GetHandler(testHelper);
-
-        var result = await handler.Handle(new UserDuplicationQuery("username1", "email@email.com", "+33"), default);
-        Assert.Equal(Unit.Value, result);
+        
+        Assert.Equal(Unit.Value, await handler.Handle(new UserDuplicationQuery(nameof(RegisterCustomerDto.User.Username), "username1"), default));
+        Assert.Equal(Unit.Value, await handler.Handle(new UserDuplicationQuery(nameof(RegisterCustomerDto.User.Email), "email@email.com"), default));
+        Assert.Equal(Unit.Value, await handler.Handle(new UserDuplicationQuery(nameof(RegisterCustomerDto.User.MobileNo), "+33"), default));
     }
     
     [Theory]
@@ -26,11 +28,21 @@ public class UserDuplicationQueryTests
     public async void TestsForFailures(string username, string email, string mobileNo)
     {
         using var testHelper = new TestHelper();
+        var handler = await GetHandler(testHelper);
         
-        await Assert.ThrowsAsync<ConflictFailureException>(async () => await 
-            (await GetHandler(testHelper)).Handle(
-                new UserDuplicationQuery(username:username, email: email, mobile: mobileNo), 
-                default));
+        await Assert.ThrowsAsync<ConflictFailureException>(async () =>
+        {
+            await handler.Handle(
+                new UserDuplicationQuery(nameof(RegisterCustomerDto.User.Username), username),
+                default);
+            await handler.Handle(
+                new UserDuplicationQuery(nameof(RegisterCustomerDto.User.Email), email),
+                default);
+            await handler.Handle(
+                new UserDuplicationQuery(nameof(RegisterCustomerDto.User.MobileNo), mobileNo),
+                default);
+        });
+        
     }
     
     private async Task<UserDuplicationQuery.UserDuplicationHandler> GetHandler(TestHelper testHelper)

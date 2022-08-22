@@ -1,12 +1,12 @@
 using System;
-using WeeControl.Application.Contexts.Essential.Commands;
-using WeeControl.Application.Exceptions;
-using WeeControl.Domain.Contexts.Essential;
-using WeeControl.SharedKernel.Interfaces;
-using WeeControl.SharedKernel.RequestsResponses;
+using WeeControl.ApiApp.Application.Contexts.Essential.Commands;
+using WeeControl.ApiApp.Application.Exceptions;
+using WeeControl.ApiApp.Domain.Contexts.Essential;
+using WeeControl.Common.SharedKernel.Interfaces;
+using WeeControl.Common.SharedKernel.RequestsResponses;
 using Xunit;
 
-namespace WeeControl.Application.Test.Essential.Commands;
+namespace WeeControl.ApiApp.Application.Test.Essential.Commands;
 
 public class SetNewPasswordCommandTests
 {
@@ -20,7 +20,7 @@ public class SetNewPasswordCommandTests
         await testHelper.EssentialDb.Users.AddAsync(user);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         
-        var session = SessionDbo.Create(Guid.NewGuid(), "device");
+        var session = UserSessionDbo.Create(Guid.NewGuid(), "device", "0000");
         session.UserId = user.UserId;
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
@@ -41,7 +41,7 @@ public class SetNewPasswordCommandTests
         await testHelper.EssentialDb.Users.AddAsync(user);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         
-        var session = SessionDbo.Create(Guid.NewGuid(), "device");
+        var session = UserSessionDbo.Create(Guid.NewGuid(), "device", "0000");
         session.UserId = user.UserId;
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);

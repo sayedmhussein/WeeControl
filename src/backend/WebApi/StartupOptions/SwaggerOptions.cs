@@ -7,7 +7,7 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
-namespace WeeControl.WebApi.StartupOptions;
+namespace WeeControl.ApiApp.WebApi.StartupOptions;
 
 public class SwaggerOptions
 {

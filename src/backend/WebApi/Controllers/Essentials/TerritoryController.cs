@@ -1,20 +1,20 @@
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WeeControl.Application.Contexts.Essential.Commands;
-using WeeControl.Application.Contexts.Essential.Queries;
-using WeeControl.SharedKernel;
-using WeeControl.SharedKernel.Essential.DataTransferObjects;
-using WeeControl.SharedKernel.RequestsResponses;
+using WeeControl.ApiApp.Application.Contexts.Essential.Queries;
+using WeeControl.Common.SharedKernel;
+using WeeControl.Common.SharedKernel.Contexts.Essential.DataTransferObjects;
+using WeeControl.Common.SharedKernel.RequestsResponses;
 
-namespace WeeControl.WebApi.Controllers.Essentials;
+namespace WeeControl.ApiApp.WebApi.Controllers.Essentials;
 
 [ApiController]
 [Authorize]
-[Route(Api.Essential.Territory.EndPoint)]
+[Route(Api.Essential.Routes.Territory)]
 [ProducesResponseType((int)HttpStatusCode.OK)]
 [ProducesResponseType((int)HttpStatusCode.Forbidden)]
 [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -39,9 +39,8 @@ public class TerritoryController : Controller
     [HttpPut]
     [MapToApiVersion("1.0")]
     [ProducesResponseType((int)HttpStatusCode.Conflict)]
-    public async Task<ActionResult> AddOrEditTerritoryV1([FromBody] RequestDto<TerritoryDto> dto)
+    public Task<ActionResult> AddOrEditTerritoryV1([FromBody] RequestDto<TerritoryDto> dto)
     {
-        await mediator.Send(new TerritoryPutCommand(dto));
-        return Ok();
+        throw new NotImplementedException();
     }
 }

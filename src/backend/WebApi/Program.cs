@@ -5,11 +5,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using WeeControl.Application.Contexts.Essential.Commands;
-using WeeControl.Application.Interfaces;
-using WeeControl.Persistence.Essential;
+using WeeControl.ApiApp.Application.Contexts.Essential.Commands;
+using WeeControl.ApiApp.Application.Interfaces;
+using WeeControl.ApiApp.Persistence.DbContexts;
 
-namespace WeeControl.WebApi;
+namespace WeeControl.ApiApp.WebApi;
 
 public class Program
 {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace WeeControl.Domain.Interfaces;
+namespace WeeControl.ApiApp.Domain.Interfaces;
 
 public interface INotificationService
 {

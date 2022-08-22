@@ -1,0 +1,20 @@
+@using WeeControl.Frontend.Service.Contexts.Essential.Interfaces
+@inject IUserService UserService
+
+@foreach (var b in UserService.MenuItems)
+{
+    <MudMenuItem>
+        <MudButton 
+            StartIcon="@Icons.Material.Outlined.Computer"
+            Href="@b.PageName">@b.PageName
+        </MudButton>
+    </MudMenuItem>
+}
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await UserService.Refresh();
+    }
+}

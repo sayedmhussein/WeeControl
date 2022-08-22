@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Security.Claims;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace WeeControl.Application.Interfaces;
+namespace WeeControl.ApiApp.Application.Interfaces;
 
 /// <summary>
 /// Use it to get the current user's (requester) session-id, claims and territories.
@@ -13,14 +11,5 @@ public interface ICurrentUserInfo
 {
     IEnumerable<Claim> Claims { get; }
     Guid? SessionId { get; }
-    
-    
-    
-    
-    
-    [Obsolete("Use property instead of function.")]
-    Guid? GetSessionId();
-
-    [Obsolete("Server will check for eligibility using mediator.")]
-    Task<IEnumerable<string>> GetTerritoriesListAsync(CancellationToken cancellationToken);
+    string CountryId { get; }
 }

@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using MudBlazor.Services;
-using WeeControl.Frontend.ApplicationService;
-using WeeControl.Frontend.ApplicationService.Interfaces;
+using WeeControl.Common.SharedKernel;
+using WeeControl.Frontend.Service;
+using WeeControl.Frontend.Service.Interfaces;
 using WeeControl.Frontend.Wasm.Services;
-using WeeControl.SharedKernel;
 
 namespace WeeControl.Frontend.Wasm;
 
@@ -32,7 +32,7 @@ public class Program
         builder.Services.AddScoped<IDeviceSecurity, AuthStateProvider>();
         
         builder.Services.AddUserSecurityService();
-        builder.Services.AddViewModels();
+        builder.Services.AddServices();
 
         builder.Services.AddOptions();
         builder.Services.AddAuthorizationCore();
@@ -55,8 +55,14 @@ public class Program
             
         builder.Services.AddApiAuthorization(options =>
         {
-            options.AuthenticationPaths.LogInPath = ApplicationService.Pages.Essential.Authentication.LoginPage;
+            
+            //options.AuthenticationPaths.LogInPath = ApplicationService.Pages.Essential.Authentication.LoginPage;
         });
+        
+        // builder.Services.Configure<ForwardedHeadersOptions>(options =>
+        // {
+        //     options.KnownProxies.Add(IPAddress.Parse("10.0.0.100"));
+        // });
             
         await builder.Build().RunAsync();
     }

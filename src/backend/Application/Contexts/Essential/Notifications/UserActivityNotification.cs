@@ -3,9 +3,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using WeeControl.Application.Interfaces;
+using WeeControl.ApiApp.Application.Interfaces;
 
-namespace WeeControl.Application.Contexts.Essential.Notifications;
+namespace WeeControl.ApiApp.Application.Contexts.Essential.Notifications;
 
 public class UserActivityNotification : INotification
 {

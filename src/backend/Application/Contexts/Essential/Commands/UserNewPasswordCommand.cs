@@ -2,11 +2,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using WeeControl.Application.Exceptions;
-using WeeControl.Application.Interfaces;
-using WeeControl.SharedKernel.Interfaces;
+using WeeControl.ApiApp.Application.Exceptions;
+using WeeControl.ApiApp.Application.Interfaces;
+using WeeControl.Common.SharedKernel.Interfaces;
 
-namespace WeeControl.Application.Contexts.Essential.Commands;
+namespace WeeControl.ApiApp.Application.Contexts.Essential.Commands;
 
 public class UserNewPasswordCommand : IRequest
 {
@@ -42,7 +42,9 @@ public class UserNewPasswordCommand : IRequest
             }
             
             var session = await context.UserSessions.FirstOrDefaultAsync(x => x.SessionId == currentUserInfo.SessionId, cancellationToken);
-            var user = await context.Users.FirstOrDefaultAsync(x => x.UserId == session.UserId && x.Password == passwordSecurity.Hash(request.OldPassword), cancellationToken);
+            var user = await context.Users.FirstOrDefaultAsync(x => 
+                x.UserId == session.UserId && 
+                (x.Password == passwordSecurity.Hash(request.OldPassword) || x.TempPassword == passwordSecurity.Hash(request.OldPassword)), cancellationToken);
 
             if (user is null)
             {

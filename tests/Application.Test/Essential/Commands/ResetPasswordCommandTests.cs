@@ -1,11 +1,11 @@
 using System.Linq;
-using WeeControl.Application.Contexts.Essential.Commands;
-using WeeControl.Application.Exceptions;
-using WeeControl.SharedKernel.Essential.DataTransferObjects;
-using WeeControl.SharedKernel.RequestsResponses;
+using WeeControl.ApiApp.Application.Contexts.Essential.Commands;
+using WeeControl.ApiApp.Application.Exceptions;
+using WeeControl.Common.SharedKernel.Contexts.Essential.DataTransferObjects.User;
+using WeeControl.Common.SharedKernel.RequestsResponses;
 using Xunit;
 
-namespace WeeControl.Application.Test.Essential.Commands;
+namespace WeeControl.ApiApp.Application.Test.Essential.Commands;
 
 public class ResetPasswordCommandTests
 {
@@ -67,6 +67,6 @@ public class ResetPasswordCommandTests
     {
         return new UserForgotMyPasswordCommand(
             RequestDto.Create(
-                ForgotMyPasswordDtoV1.Create(email, username), device, null, null));
+                UserPasswordResetRequestDto.Create(email, username), device, null, null));
     }
 }

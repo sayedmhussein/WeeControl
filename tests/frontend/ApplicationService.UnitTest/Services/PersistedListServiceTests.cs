@@ -1,6 +1,6 @@
-using WeeControl.Frontend.ApplicationService.Services;
+using WeeControl.Frontend.Service.Services;
 
-namespace WeeControl.Frontend.ApplicationService.UnitTest.Services;
+namespace WeeControl.Frontend.Service.UnitTest.Services;
 
 public class PersistedListServiceTests
 {

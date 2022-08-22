@@ -1,16 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WeeControl.Domain.Contexts.Essential;
-using WeeControl.Domain.Interfaces;
+using WeeControl.ApiApp.Domain.Contexts.Essential;
+using WeeControl.ApiApp.Domain.Interfaces;
 
-namespace WeeControl.Application.Interfaces;
+namespace WeeControl.ApiApp.Application.Interfaces;
 
 public interface IEssentialDbContext : IDbContext
 {
+    DbSet<PersonDbo> Person { get; set; }
     DbSet<UserDbo> Users { get; set; }
-    DbSet<IdentityDbo> UserIdentities { get; set; }
-    DbSet<NotificationDbo> UserNotifications { get; set; }
-    DbSet<SessionDbo> UserSessions { get; set; }
-    DbSet<SessionLogDbo> SessionLogs { get; set; }
+    DbSet<UserIdentityDbo> UserIdentities { get; set; }
+    DbSet<UserNotificationDbo> UserNotifications { get; set; }
+    DbSet<UserSessionDbo> UserSessions { get; set; }
+    DbSet<UserSessionLogDbo> SessionLogs { get; set; }
     DbSet<TerritoryDbo> Territories { get; set; }
-    DbSet<ClaimDbo> UserClaims { get; set; }
+    DbSet<UserClaimDbo> UserClaims { get; set; }
+    DbSet<EmployeeDbo> Employees { get; set; }
+    DbSet<CustomerDbo> Customers { get; set; }
 }

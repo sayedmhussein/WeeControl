@@ -1,0 +1,25 @@
+@page "/"
+@using WeeControl.Frontend.Service.Contexts.Essential.Interfaces
+@using WeeControl.Frontend.Service
+@attribute [Route(Pages.Essential.SplashPage)]
+
+@inject IUserService UserService
+
+<MudContainer Class="d-flex flex-grow-0 align-self-center justify-center justify-content-center">
+    <MudProgressCircular class="align-self-center" Color="Color.Info" Indeterminate="true" Size="Size.Large" /> 
+</MudContainer>
+
+
+@code {
+    // [CascadingParameter]
+    // public Task<AuthenticationState> AuthState { get; set; }
+    
+    // [Inject]
+    // public NavigationManager NavManager { get; set; }
+    
+    protected override async void OnInitialized()
+    {
+        await UserService.Init();
+        await base.OnInitializedAsync();
+    }
+}

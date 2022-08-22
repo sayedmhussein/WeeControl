@@ -2,16 +2,14 @@
 using System.Threading.Tasks;
 using MediatR;
 using MediatR.Pipeline;
-using WeeControl.Application.Contexts.Essential.Notifications;
-using WeeControl.Application.Interfaces;
+using WeeControl.ApiApp.Application.Contexts.Essential.Notifications;
 
-namespace WeeControl.Application.Behaviours;
+namespace WeeControl.ApiApp.Application.Behaviours;
 
 public class RequestLogger<TRequest> : IRequestPreProcessor<TRequest>
 {
     private readonly IMediator mediator;
-
-
+    
     public RequestLogger(IMediator mediator)
     {
         this.mediator = mediator;

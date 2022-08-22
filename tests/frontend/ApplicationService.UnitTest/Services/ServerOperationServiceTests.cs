@@ -1,4 +1,4 @@
-namespace WeeControl.Frontend.ApplicationService.UnitTest.Services;
+namespace WeeControl.Frontend.Service.UnitTest.Services;
 
 public class ServerOperationServiceTests
 {

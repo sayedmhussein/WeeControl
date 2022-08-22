@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <RootNamespace>WeeControl.WebApi</RootNamespace>
+    <RootNamespace>WeeControl.ApiApp.WebApi</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -42,6 +42,7 @@
     <None Remove="Controllers\Credentials\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\common\SharedKernel\SharedKernel.csproj" />
     <ProjectReference Include="..\Application\Application.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>

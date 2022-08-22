@@ -5,10 +5,10 @@ using System.Reflection.Metadata;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using WeeControl.WebApi.Security.CustomHandlers.TokenRefreshment;
+using WeeControl.ApiApp.WebApi.Security.CustomHandlers.TokenRefreshment;
 using Xunit;
 
-namespace WeeControl.WebApi.Test.Security;
+namespace WeeControl.ApiApp.WebApi.Test.Security;
 
 public class MaximumPeriodHandlerTesters : TokenRefreshmentHandler
 {
@@ -20,7 +20,7 @@ public class MaximumPeriodHandlerTesters : TokenRefreshmentHandler
     }
 
     [Fact]
-    public async void WhenIssuedAtIsNotExceedingSpecificTime_ContextShouldBeSuccess()
+    public async void WhenIssueAtIsNotExceedingSpecificTime_ContextShouldBeSuccess()
     {
         var timeSpan = DateTime.UtcNow - DateTime.UnixEpoch;
         var claims = new List<Claim>() { new Claim("iat", timeSpan.TotalSeconds.ToString(CultureInfo.InvariantCulture)) };

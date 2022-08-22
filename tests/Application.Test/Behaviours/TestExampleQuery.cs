@@ -2,7 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 
-namespace WeeControl.Application.Test.Behaviours;
+namespace WeeControl.ApiApp.Application.Test.Behaviours;
 
 public class TestExampleQuery : IRequest<bool>
 {

@@ -4,30 +4,30 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using WeeControl.Application.Interfaces;
-using WeeControl.SharedKernel.Essential.DataTransferObjects;
-using WeeControl.SharedKernel.Interfaces;
-using WeeControl.SharedKernel.RequestsResponses;
+using WeeControl.ApiApp.Application.Interfaces;
+using WeeControl.Common.SharedKernel.Contexts.Essential.DataTransferObjects;
+using WeeControl.Common.SharedKernel.Interfaces;
+using WeeControl.Common.SharedKernel.RequestsResponses;
 
-namespace WeeControl.Application.Contexts.Essential.Queries;
+namespace WeeControl.ApiApp.Application.Contexts.Essential.Queries;
 
 public class TerritoryQuery : IRequest<IResponseDto<IEnumerable<TerritoryDto>>>
 {
-    private readonly ICollection<string> territoryCodes;
+    private readonly ICollection<string> territoryNames;
 
     public TerritoryQuery()
     {
-        territoryCodes = null;
+        territoryNames = null;
     }
     
-    public TerritoryQuery(string territoryCode)
+    public TerritoryQuery(string territoryName)
     {
-        this.territoryCodes = new List<string>() { territoryCode };
+        this.territoryNames = new List<string>() { territoryName };
     }
     
-    public TerritoryQuery(ICollection<string> territoryCodes)
+    public TerritoryQuery(ICollection<string> territoryNames)
     {
-        this.territoryCodes = territoryCodes;
+        this.territoryNames = territoryNames;
     }
     
     public class GetListOfTerritoriesHandler : IRequestHandler<TerritoryQuery, IResponseDto<IEnumerable<TerritoryDto>>>
@@ -43,37 +43,37 @@ public class TerritoryQuery : IRequest<IResponseDto<IEnumerable<TerritoryDto>>>
         {
             var list = new List<TerritoryDto>();
 
-            if (request.territoryCodes is null)
+            if (request.territoryNames is null)
             {
                 await context.Territories.ForEachAsync(x =>
                 {
                     list.Add(new TerritoryDto()
                     {
-                        LocalName = x.AlternativeName,
-                        TerritoryCode = x.TerritoryId, ReportToId = x.ReportToId,
-                        TerritoryName = x.TerritoryName, CountryCode = x.CountryCode
+                        AlternativeName = x.AlternativeName,
+                        UniqueName = x.UniqueName,
+                        CountryCode = x.CountryCode
                     });
                 }, cancellationToken);
             }
             else
             {
                 var ids = new List<string>();
-                ids.AddRange(request.territoryCodes);
+                ids.AddRange(request.territoryNames);
 
-                await context.Territories.Where(x => ids.Contains(x.ReportToId)).ForEachAsync(x =>
+                await context.Territories.Where(x => ids.Contains(x.UniqueName)).ForEachAsync(x =>
                 {
-                    ids.Add(x.TerritoryId);
+                    ids.Add(x.UniqueName);
                 }, cancellationToken);
                 
-                var q = context.Territories.Include(a => a.Reporting).Where(x => ids.Contains(x.TerritoryId));
+                var q = context.Territories.Include(a => a.ReportingTo).Where(x => ids.Contains(x.UniqueName));
                 
                 await q.ForEachAsync(x =>
                 {
                     list.Add(new TerritoryDto()
                     {
-                        LocalName = x.AlternativeName,
-                        TerritoryCode = x.TerritoryId, ReportToId = x.ReportToId,
-                        TerritoryName = x.TerritoryName, CountryCode = x.CountryCode
+                        AlternativeName = x.AlternativeName,
+                        UniqueName = x.UniqueName,
+                        CountryCode = x.CountryCode
                     });
                 }, cancellationToken);
             }

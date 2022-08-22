@@ -4,13 +4,12 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WeeControl.Application.Contexts.Essential.Commands;
-using WeeControl.Application.Contexts.Essential.Queries;
-using WeeControl.SharedKernel;
-using WeeControl.SharedKernel.Essential.DataTransferObjects;
-using WeeControl.SharedKernel.RequestsResponses;
+using WeeControl.ApiApp.Application.Contexts.Essential.Commands;
+using WeeControl.Common.SharedKernel;
+using WeeControl.Common.SharedKernel.Contexts.Essential.DataTransferObjects.User;
+using WeeControl.Common.SharedKernel.RequestsResponses;
 
-namespace WeeControl.WebApi.Controllers.Essentials;
+namespace WeeControl.ApiApp.WebApi.Controllers.Essentials;
 
 [ApiController]
 [Route(Api.Essential.Authorization.Route)]
@@ -31,29 +30,31 @@ public class AuthorizationController : Controller
     [MapToApiVersion("1.0")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<ActionResult<ResponseDto<TokenDtoV1>>> LoginV1([FromBody] RequestDto<LoginDtoV1> dto)
+    public async Task<ActionResult<ResponseDto<AuthenticationResponseDto>>> LoginV1([FromBody] RequestDto<AuthenticationRequestDto> dto)
     {
-        var query = new UserTokenQuery(dto);
-        var response = await mediator.Send(query);
-
+        var response = await mediator.Send(new SessionCreateCommand(dto));
         return Ok(response);
     }
     
-    /// <summary>
-    ///     Used to get token which will be used to authorize user, device must match the same which had the temporary token.
-    /// </summary>
-    /// <param name="dto"></param>
-    /// <returns></returns>
     [Authorize]
     [HttpPut]
     [MapToApiVersion("1.0")]
-    [ProducesResponseType(typeof(ResponseDto<TokenDtoV1>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(ResponseDto<AuthenticationResponseDto>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.Forbidden)]
-    public async Task<ActionResult<ResponseDto<TokenDtoV1>>> RefreshTokenV1([FromBody] RequestDto dto)
+    public async Task<ActionResult<ResponseDto<AuthenticationResponseDto>>> RefreshTokenOtp([FromBody] RequestDto<string> dto)
     {
-        var query = new UserTokenQuery(dto);
-        var response = await mediator.Send(query);
-
+        var response = await mediator.Send(new SessionUpdateCommand(dto));
+        return Ok(response);
+    }
+    
+    [Authorize]
+    [HttpPatch]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(typeof(ResponseDto<AuthenticationResponseDto>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.Forbidden)]
+    public async Task<ActionResult<ResponseDto<AuthenticationResponseDto>>> RefreshTokenV1([FromBody] RequestDto dto)
+    {
+        var response = await mediator.Send(new SessionUpdateCommand(dto));
         return Ok(response);
     }
     
@@ -64,9 +65,7 @@ public class AuthorizationController : Controller
     [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
     public async Task<ActionResult<ResponseDto>> LogoutV1([FromBody] RequestDto dto)
     {
-        var command = new UserLogoutCommand(dto);
-        var response = await mediator.Send(command);
-
-        return NotFound(response);
+        var response = await mediator.Send(new SessionTerminateCommand(dto));
+        return Ok(response);
     }
 }

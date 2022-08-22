@@ -1,45 +1,58 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using WeeControl.SharedKernel.Essential.Interfaces;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using WeeControl.Common.SharedKernel.Contexts.Essential.Entities;
 
-namespace WeeControl.Domain.Contexts.Essential;
+namespace WeeControl.ApiApp.Domain.Contexts.Essential;
 
-public class TerritoryDbo
+[Table(nameof(TerritoryDbo), Schema = nameof(Essential))]
+public class TerritoryDbo : TerritoryEntity
 {
-    public static TerritoryDbo Create(string code, string parent, string country, string name)
-    {
-        return new TerritoryDbo
-        {
-            TerritoryId = code,
-            ReportToId = parent,
-            CountryCode = country,
-            TerritoryName = name
-        };
-    }
+    [Key]
+    public Guid TerritoryId { get; } = Guid.NewGuid();
 
-    public static TerritoryDbo Create(ITerritoryModel model)
-    {
-        return new TerritoryDbo()
-        {
-            TerritoryId = model.TerritoryCode,
-            ReportToId = model.ReportToId,
-            CountryCode = model.CountryCode,
-            TerritoryName = model.TerritoryName,
-            AlternativeName = model.LocalName
-        };
-    }
+    public Guid? ReportToId { get; set; }
     
-    [MinLength(3)] public string TerritoryId { get; set; } 
-    public string TerritoryName { get; set; }
-    public string AlternativeName { get; set; }
-    [MinLength(3)] public string CountryCode { get; set; }
+    public TerritoryDbo ReportTo { get; }
     
-    public TerritoryDbo ReportTo { get; set; }
-    public string ReportToId { get; set; }
-    public ICollection<TerritoryDbo> Reporting { get; set; }
-    
+    public ICollection<TerritoryDbo> ReportingTo { get; }
 
     private TerritoryDbo()
     {
+    }
+
+    public TerritoryDbo(string uniqueName, string alternativeName, string country, Guid? reportToId = null)
+    {
+        UniqueName = uniqueName.Trim().ToUpper();
+        AlternativeName = alternativeName?.Trim();
+        CountryCode = country.Trim().ToUpper();
+        ReportToId = reportToId;
+    }
+    
+    public TerritoryDbo(string uniqueName, Guid? reportToId, string alternativeName, string country)
+    {
+        UniqueName = uniqueName.Trim().ToUpper();
+        AlternativeName = alternativeName?.Trim();
+        CountryCode = country.Trim().ToUpper();
+        ReportToId = reportToId;
+    }
+}
+
+public class TerritoryEntityTypeConfig : IEntityTypeConfiguration<TerritoryDbo>
+{
+    public void Configure(EntityTypeBuilder<TerritoryDbo> builder)
+    {
+        builder.Property(x => x.TerritoryId).ValueGeneratedOnAdd().HasDefaultValue(Guid.NewGuid());
+        builder.HasComment("Territory of corporate.");
+        builder.HasIndex(x => new { x.CountryCode, TerritoryName = x.UniqueName }).IsUnique();
+        
+        builder.HasOne(e => e.ReportTo).WithMany();
+        builder.HasMany(x => x.ReportingTo)
+            .WithOne(x => x.ReportTo)
+            .HasForeignKey(x => x.ReportToId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

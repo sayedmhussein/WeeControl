@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WeeControl.Application.Exceptions;
+namespace WeeControl.ApiApp.Application.Exceptions;
 
 public class NotFoundException : Exception
 {

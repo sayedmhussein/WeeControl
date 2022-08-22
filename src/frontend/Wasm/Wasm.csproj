@@ -25,21 +25,15 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ApplicaitonService\ApplicationService.csproj" />
+    <ProjectReference Include="..\..\common\SharedKernel\SharedKernel.csproj" />
+    <ProjectReference Include="..\Service\Service.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <AdditionalFiles Include="Pages\Essential\Admin\AdminPage.razor" />
-    <AdditionalFiles Include="Pages\Essential\User\UserData.razor" />
-    <AdditionalFiles Include="Pages\Essential\Authentication\LoginPage.razor" />
-    <AdditionalFiles Include="Pages\Essential\Authentication\_Imports.razor" />
-    <AdditionalFiles Include="Pages\Essential\Common\Index.razor" />
-    <AdditionalFiles Include="Pages\Essential\Common\NoInternet.razor" />
-    <AdditionalFiles Include="Pages\Essential\Common\Splash.razor" />
-    <AdditionalFiles Include="Pages\Essential\_Imports.razor" />
-    <AdditionalFiles Include="Pages\Essential\User\ForgotMyPasswordPage.razor" />
-    <AdditionalFiles Include="Pages\Essential\User\RegisterPage.razor" />
-    <AdditionalFiles Include="Pages\Essential\User\SetNewPasswordPage.razor" />
-    <AdditionalFiles Include="Pages\Essential\User\_Imports.razor" />
+    <AdditionalFiles Include="Pages\Essential\UserPage.razor" />
+    <AdditionalFiles Include="Pages\Essential\SplashPage.razor" />
+    <AdditionalFiles Include="Pages\Elevator\_Imports.razor" />
+    <AdditionalFiles Include="Pages\Elevator\Admin\Components\TerritoryComponent.razor" />
+    <AdditionalFiles Include="Pages\Elevator\Admin\Components\UsersComponent.razor" />
   </ItemGroup>
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Pages\Business\Admin\AdminPage.razor" />
@@ -47,5 +41,15 @@
     <_ContentIncludedByDefault Remove="Pages\Business\Admin\TerritoryEditComponent.razor" />
     <_ContentIncludedByDefault Remove="Pages\Business\Admin\TerritoryListComponent.razor" />
     <_ContentIncludedByDefault Remove="Pages\Business\Admin\UserData.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Customer\Authentication\LogoutPage.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Customer\Authentication\_Imports.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Customer\Admin\AdminPage.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Customer\Admin\TerritoryComponent.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Customer\Admin\UsersComponent.razor" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Pages\Essentials\UserPage.razor" />
+    <Content Remove="Pages\Essentials\Components\PasswordForgotComponent.razor" />
+    <Content Remove="Pages\Essentials\Components\PasswordChangeComponent.razor" />
   </ItemGroup>
 </Project>

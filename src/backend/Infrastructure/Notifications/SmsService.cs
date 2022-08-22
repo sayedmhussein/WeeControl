@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WeeControl.Domain.Interfaces;
+using WeeControl.ApiApp.Domain.Interfaces;
 
-namespace WeeControl.Infrastructure.Notifications;
+namespace WeeControl.ApiApp.Infrastructure.Notifications;
 
 public class SmsService : ISmsNotificationService
 {

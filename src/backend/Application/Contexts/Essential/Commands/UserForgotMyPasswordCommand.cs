@@ -2,19 +2,19 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using WeeControl.Application.Contexts.Essential.Notifications;
-using WeeControl.Application.Exceptions;
-using WeeControl.Application.Interfaces;
-using WeeControl.SharedKernel.Essential.DataTransferObjects;
-using WeeControl.SharedKernel.Interfaces;
+using WeeControl.ApiApp.Application.Contexts.Essential.Notifications;
+using WeeControl.ApiApp.Application.Exceptions;
+using WeeControl.ApiApp.Application.Interfaces;
+using WeeControl.Common.SharedKernel.Contexts.Essential.DataTransferObjects.User;
+using WeeControl.Common.SharedKernel.Interfaces;
 
-namespace WeeControl.Application.Contexts.Essential.Commands;
+namespace WeeControl.ApiApp.Application.Contexts.Essential.Commands;
 
 public class UserForgotMyPasswordCommand : IRequest
 {
-    private readonly IRequestDto<ForgotMyPasswordDtoV1> dto;
+    private readonly IRequestDto<UserPasswordResetRequestDto> dto;
 
-    public UserForgotMyPasswordCommand(IRequestDto<ForgotMyPasswordDtoV1> dto)
+    public UserForgotMyPasswordCommand(IRequestDto<UserPasswordResetRequestDto> dto)
     {
         this.dto = dto;
     }

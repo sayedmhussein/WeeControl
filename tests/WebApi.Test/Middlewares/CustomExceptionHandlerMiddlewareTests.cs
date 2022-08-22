@@ -2,11 +2,11 @@
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using WeeControl.Application.Exceptions;
-using WeeControl.WebApi.Middlewares;
+using WeeControl.ApiApp.Application.Exceptions;
+using WeeControl.ApiApp.WebApi.Middlewares;
 using Xunit;
 
-namespace WeeControl.WebApi.Test.Middlewares;
+namespace WeeControl.ApiApp.WebApi.Test.Middlewares;
 
 public class CustomExceptionHandlerMiddlewareTests
 {

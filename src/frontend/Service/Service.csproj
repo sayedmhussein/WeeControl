@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>WeeControl.Frontend.Service</RootNamespace>
+        <PackageId>Service</PackageId>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\common\SharedKernel\SharedKernel.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Contexts\Business" />
+      <Folder Include="Contexts\Essential" />
+    </ItemGroup>
+
+</Project>

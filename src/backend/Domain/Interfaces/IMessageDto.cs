@@ -1,4 +1,4 @@
-﻿namespace WeeControl.Domain.Interfaces;
+﻿namespace WeeControl.ApiApp.Domain.Interfaces;
 
 public interface IMessageDto
 {
