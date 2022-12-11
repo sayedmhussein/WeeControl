@@ -46,8 +46,9 @@ public class RequestPerformanceBehaviour<TRequest, TResponse> :
         return response;
     }
 
-    public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
+        return await next();
     }
 }

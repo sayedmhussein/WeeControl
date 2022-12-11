@@ -1,12 +1,13 @@
-﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.ApiApp.Domain.Interfaces;
+using WeeControl.ApiApp.Infrastructure;
 using Xunit;
 
-namespace WeeControl.ApiApp.Infrastructure.Test;
+namespace WeeControl.ApiApp.WebApi.Test.DependencyInjections;
 
-public class DependencyInjectionTesters
+public class InfrastructureTests
 {
     [Fact]
     public void WhenAddingInfrastructure_EmailServiceObjectMustNotBeNull()

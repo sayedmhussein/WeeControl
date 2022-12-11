@@ -1,16 +1,17 @@
-﻿using System;
+using System;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.ApiApp.Application.Interfaces;
+using WeeControl.ApiApp.Persistence;
 using Xunit;
 
-namespace WeeControl.ApiApp.Persistence.Test;
+namespace WeeControl.ApiApp.WebApi.Test.DependencyInjections;
 
-public class DependencyInjectionTesters : IDisposable
+public class PersistenceTests
 {
     private IServiceCollection services;
-    public DependencyInjectionTesters()
+    public PersistenceTests()
     {
         var configMock = new Mock<IConfiguration>();
         configMock.Setup(x => x.GetSection("ConnectionStrings")["DatabaseProvider"]).Returns("Connection");
@@ -22,7 +23,7 @@ public class DependencyInjectionTesters : IDisposable
     {
         services = null;
     }
-        
+    
     [Fact]
     public void WhenAddingPersistenceInMemory_ReturnEssentialDbContextObjectAsNotNull()
     {
