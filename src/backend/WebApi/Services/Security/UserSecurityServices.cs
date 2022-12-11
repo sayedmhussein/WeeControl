@@ -1,3 +1,5 @@
+using System.Linq;
+using System.Reflection;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using WeeControl.ApiApp.WebApi.Services.Security.CustomHandlers.TokenRefreshment;
@@ -28,6 +30,16 @@ internal static class UserSecurityServices
     
     private static void Configure(AuthorizationOptions options)
     {
+        // var types = Assembly
+        //     .GetExecutingAssembly()
+        //     .GetTypes()
+        //     .Where(t => t.BaseType == typeof(PolicyBuilderBase));
+        //
+        // foreach (var t in types)
+        // {
+        //     options.AddPolicy(t.Name, t.GetPolicy());
+        // }
+        
         options.AddPolicy(DeveloperWithDatabaseOperationPolicy.Name, new DeveloperWithDatabaseOperationPolicy().GetPolicy());
         
         options.AddPolicy(nameof(CanEditUserPolicy), new CanEditUserPolicy().GetPolicy());
