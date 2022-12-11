@@ -4,9 +4,10 @@
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>WeeControl.Frontend.Service</RootNamespace>
-        <PackageId>Service</PackageId>
+        <RootNamespace>WeeControl.Frontend.AppService</RootNamespace>
+        <PackageId>AppService</PackageId>
         <LangVersion>latestmajor</LangVersion>
+        <AssemblyName>AppService</AssemblyName>
     </PropertyGroup>
 
     <ItemGroup>
@@ -15,7 +16,6 @@
 
     <ItemGroup>
       <Folder Include="Contexts\Business" />
-      <Folder Include="Contexts\Essential" />
     </ItemGroup>
 
 </Project>

@@ -4,11 +4,11 @@ using System.Net.Http.Json;
 using System.Text;
 using Newtonsoft.Json;
 using WeeControl.Common.SharedKernel;
-using WeeControl.Common.SharedKernel.Contexts.Essential.DataTransferObjects.User;
+using WeeControl.Common.SharedKernel.DataTransferObjects.User;
 using WeeControl.Common.SharedKernel.RequestsResponses;
-using WeeControl.Frontend.Service.Interfaces;
+using WeeControl.Frontend.AppService.Interfaces;
 
-namespace WeeControl.Frontend.Service.Services;
+namespace WeeControl.Frontend.AppService.Services;
 
 public class ServerOperationService : IServerOperation
 {

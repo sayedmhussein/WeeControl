@@ -1,4 +1,4 @@
-namespace WeeControl.Common.SharedKernel.Contexts.Essential.DataTransferObjects.User;
+namespace WeeControl.Common.SharedKernel.DataTransferObjects.User;
 
 public class AuthenticationResponseDto
 {

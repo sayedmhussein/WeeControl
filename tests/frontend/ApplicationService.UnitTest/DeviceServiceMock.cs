@@ -6,7 +6,7 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using Moq.Protected;
-using WeeControl.Frontend.Service.Interfaces;
+using WeeControl.Frontend.AppService.Interfaces;
 
 namespace WeeControl.Frontend.Service.UnitTest;
 

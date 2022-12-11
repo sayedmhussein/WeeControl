@@ -1,7 +1,8 @@
 using System;
 using System.Net;
-using WeeControl.Common.SharedKernel.Contexts.Essential.DataTransferObjects.User;
+using WeeControl.Common.SharedKernel.DataTransferObjects.User;
 using WeeControl.Common.SharedKernel.RequestsResponses;
+using WeeControl.Frontend.AppService;
 
 namespace WeeControl.Frontend.Service.UnitTest.Contexts;
 

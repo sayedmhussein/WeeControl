@@ -1,15 +1,15 @@
 using System.Net;
 using System.Net.Http.Json;
 using WeeControl.Common.SharedKernel;
-using WeeControl.Common.SharedKernel.Contexts.Essential.DataTransferObjects.User;
+using WeeControl.Common.SharedKernel.DataTransferObjects.User;
 using WeeControl.Common.SharedKernel.RequestsResponses;
-using WeeControl.Frontend.Service.Contexts.Essential.Interfaces;
-using WeeControl.Frontend.Service.Contexts.Essential.Models;
-using WeeControl.Frontend.Service.Interfaces;
+using WeeControl.Frontend.AppService.Contexts.Essential.Interfaces;
+using WeeControl.Frontend.AppService.Contexts.Essential.Models;
+using WeeControl.Frontend.AppService.Interfaces;
 
-namespace WeeControl.Frontend.Service.Contexts.Essential.Services;
+namespace WeeControl.Frontend.AppService.Contexts.Essential.Services;
 
-internal class UserAuthorizationService : ServiceBase, IUserAuthorizationService
+internal class UserAuthorizationService : ViewModelBase, IUserAuthorizationService
 {
     private readonly IDevice device;
     private readonly IServerOperation server;

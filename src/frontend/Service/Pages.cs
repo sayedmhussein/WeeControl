@@ -1,6 +1,6 @@
 using WeeControl.Common.SharedKernel;
 
-namespace WeeControl.Frontend.Service;
+namespace WeeControl.Frontend.AppService;
 
 public static class Pages
 {

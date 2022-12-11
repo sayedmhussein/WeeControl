@@ -1,10 +1,10 @@
-﻿namespace WeeControl.Frontend.MauiApp;
+﻿namespace WeeControl.Frontend.MauiApp.Pages;
 
-public partial class MainPage : ContentPage
+public partial class SplashPage : ContentPage
 {
 	int count = 0;
 
-	public MainPage()
+	public SplashPage()
 	{
 		InitializeComponent();
 	}
@@ -19,6 +19,11 @@ public partial class MainPage : ContentPage
 			CounterBtn.Text = $"Clicked {count} times";
 
 		SemanticScreenReader.Announce(CounterBtn.Text);
+	}
+
+	private async void NavBtn_OnClicked(object sender, EventArgs e)
+	{
+		await Navigation.PushModalAsync(new AuthenticationPage());
 	}
 }
 

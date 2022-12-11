@@ -2,8 +2,8 @@ using System;
 using System.Net.Http;
 using System.Text;
 using Newtonsoft.Json;
-using WeeControl.Frontend.Service.Interfaces;
-using WeeControl.Frontend.Service.Services;
+using WeeControl.Frontend.AppService.Interfaces;
+using WeeControl.Frontend.AppService.Services;
 
 namespace WeeControl.Frontend.Service.UnitTest.Contexts;
 

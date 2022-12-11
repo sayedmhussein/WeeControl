@@ -18,6 +18,7 @@
     <ItemGroup>
       <Folder Include="Contexts\Business\Elevator" />
       <Folder Include="Contexts\Essential" />
+      <Folder Include="DataTransferObjects" />
     </ItemGroup>
 
 </Project>

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="WeeControl.Frontend.MauiApp.MainPage">
+             x:Class="WeeControl.Frontend.MauiApp.Pages.SplashPage">
 
     <ScrollView>
         <VerticalStackLayout
@@ -33,6 +33,13 @@
                 Text="Click me"
                 SemanticProperties.Hint="Counts the number of times you click"
                 Clicked="OnCounterClicked"
+                HorizontalOptions="Center" />
+            
+            <Button
+                x:Name="NavBtn"
+                Text="Navigate to Login"
+                SemanticProperties.Hint="For testing only"
+                Clicked="NavBtn_OnClicked"
                 HorizontalOptions="Center" />
 
         </VerticalStackLayout>

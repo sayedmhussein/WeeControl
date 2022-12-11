@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using WeeControl.Common.SharedKernel.Contexts.Essential.DataTransferObjects.User;
+using WeeControl.Common.SharedKernel.DataTransferObjects.User;
 using WeeControl.Common.SharedKernel.RequestsResponses;
-using WeeControl.Frontend.Service.Contexts.Essential.Models;
-using WeeControl.Frontend.Service.Contexts.Essential.Services;
-using WeeControl.Frontend.Service.Interfaces;
-using WeeControl.Frontend.Service.Services;
+using WeeControl.Frontend.AppService;
+using WeeControl.Frontend.AppService.Contexts.Essential.Models;
+using WeeControl.Frontend.AppService.Contexts.Essential.Services;
+using WeeControl.Frontend.AppService.Interfaces;
+using WeeControl.Frontend.AppService.Services;
 
 namespace WeeControl.Frontend.Service.UnitTest.Contexts.Essential;
 

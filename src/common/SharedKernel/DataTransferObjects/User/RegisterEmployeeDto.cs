@@ -1,12 +1,12 @@
 using WeeControl.Common.SharedKernel.Contexts.Essential.Entities;
 
-namespace WeeControl.Common.SharedKernel.Contexts.Essential.DataTransferObjects.User;
+namespace WeeControl.Common.SharedKernel.DataTransferObjects.User;
 
-public class RegisterCustomerDto
+public class RegisterEmployeeDto
 {
     public PersonalEntity Personal { get; set; } = new ();
 
     public UserEntity User { get; set; } = new ();
 
-    public CustomerEntity Customer { get; set; } = new ();
+    public EmployeeEntity Employee { get; set; } = new ();
 }

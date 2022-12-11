@@ -1,6 +1,6 @@
 using WeeControl.Common.SharedKernel.Contexts.Essential.Entities;
 
-namespace WeeControl.Frontend.Service.Contexts.Essential.Models;
+namespace WeeControl.Frontend.AppService.Contexts.Essential.Models;
 
 public class TerritoryModel : TerritoryEntity
 {

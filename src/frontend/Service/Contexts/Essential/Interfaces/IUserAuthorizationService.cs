@@ -1,7 +1,7 @@
-using WeeControl.Frontend.Service.Contexts.Essential.Models;
-using WeeControl.Frontend.Service.Interfaces;
+using WeeControl.Frontend.AppService.Contexts.Essential.Models;
+using WeeControl.Frontend.AppService.Interfaces;
 
-namespace WeeControl.Frontend.Service.Contexts.Essential.Interfaces;
+namespace WeeControl.Frontend.AppService.Contexts.Essential.Interfaces;
 
 public interface IUserAuthorizationService : IViewModelBase
 {

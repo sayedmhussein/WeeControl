@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using MudBlazor.Services;
 using WeeControl.Common.SharedKernel;
-using WeeControl.Frontend.Service;
-using WeeControl.Frontend.Service.Interfaces;
+using WeeControl.Frontend.AppService;
+using WeeControl.Frontend.AppService.Interfaces;
 using WeeControl.Frontend.Wasm.Services;
 
 namespace WeeControl.Frontend.Wasm;

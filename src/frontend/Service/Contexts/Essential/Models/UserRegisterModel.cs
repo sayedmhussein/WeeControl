@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace WeeControl.Frontend.Service.Contexts.Essential.Models;
+namespace WeeControl.Frontend.AppService.Contexts.Essential.Models;
 
 public class UserRegisterModel 
 {

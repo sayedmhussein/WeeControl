@@ -2,10 +2,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.ApiApp.Application.Interfaces;
 using WeeControl.ApiApp.WebApi;
-using WeeControl.Common.SharedKernel.Contexts.Essential.DataTransferObjects.User;
+using WeeControl.Common.SharedKernel.DataTransferObjects.User;
+using WeeControl.Frontend.AppService;
+using WeeControl.Frontend.AppService.Contexts.Essential.Interfaces;
+using WeeControl.Frontend.AppService.Contexts.Essential.Models;
 using WeeControl.Frontend.Service;
-using WeeControl.Frontend.Service.Contexts.Essential.Interfaces;
-using WeeControl.Frontend.Service.Contexts.Essential.Models;
 using Xunit;
 
 namespace WeeControl.User.UserApplication.Test.Integration.Services.Essential;

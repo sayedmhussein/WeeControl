@@ -1,4 +1,4 @@
-using WeeControl.Frontend.Service.Services;
+using WeeControl.Frontend.AppService.Services;
 
 namespace WeeControl.Frontend.Service.UnitTest.Services;
 

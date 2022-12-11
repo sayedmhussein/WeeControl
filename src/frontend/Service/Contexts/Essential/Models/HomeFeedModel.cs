@@ -1,4 +1,4 @@
-namespace WeeControl.Frontend.Service.Contexts.Essential.Models;
+namespace WeeControl.Frontend.AppService.Contexts.Essential.Models;
 
 public class HomeFeedModel
 {

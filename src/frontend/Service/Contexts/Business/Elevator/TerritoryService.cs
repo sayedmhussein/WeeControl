@@ -3,12 +3,12 @@ using System.Net.Http.Json;
 using WeeControl.Common.SharedKernel;
 using WeeControl.Common.SharedKernel.Contexts.Essential.DataTransferObjects;
 using WeeControl.Common.SharedKernel.RequestsResponses;
-using WeeControl.Frontend.Service.Contexts.Essential.Models;
-using WeeControl.Frontend.Service.Interfaces;
+using WeeControl.Frontend.AppService.Contexts.Essential.Models;
+using WeeControl.Frontend.AppService.Interfaces;
 
-namespace WeeControl.Frontend.Service.Contexts.Business.Elevator;
+namespace WeeControl.Frontend.AppService.Contexts.Business.Elevator;
 
-public class TerritoryService : ServiceBase
+public class TerritoryService : ViewModelBase
 {
     private readonly IDevice device;
     private readonly IServerOperation server;

@@ -5,10 +5,11 @@ using Microsoft.Extensions.DependencyInjection;
 using WeeControl.ApiApp.Domain.Contexts.Essential;
 using WeeControl.Common.SharedKernel.Contexts.Essential.Entities;
 using WeeControl.Common.SharedKernel.Services;
+using WeeControl.Frontend.AppService;
+using WeeControl.Frontend.AppService.Contexts.Essential.Interfaces;
+using WeeControl.Frontend.AppService.Contexts.Essential.Models;
+using WeeControl.Frontend.AppService.Interfaces;
 using WeeControl.Frontend.Service;
-using WeeControl.Frontend.Service.Contexts.Essential.Interfaces;
-using WeeControl.Frontend.Service.Contexts.Essential.Models;
-using WeeControl.Frontend.Service.Interfaces;
 using WeeControl.Frontend.Service.UnitTest;
 
 namespace WeeControl.User.UserApplication.Test.Integration.Services;
