@@ -1,12 +1,8 @@
-using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using WeeControl.ApiApp.Application;
-using WeeControl.ApiApp.Infrastructure;
-using WeeControl.ApiApp.Persistence;
 using WeeControl.ApiApp.WebApi.Middlewares;
 using WeeControl.ApiApp.WebApi.Services;
 using WeeControl.ApiApp.WebApi.Services.Security;
@@ -30,13 +26,8 @@ public class Startup
         services.AddHttpContextAccessor();
 
         services.AddUserSecurityService();
-        services.AddApplication();
-        services.AddInfrastructure(Configuration);
 
-        _ = Configuration["UseInMemoryDb"] == false.ToString() ? 
-            services.AddPersistenceAsPostgres(Configuration, Assembly.GetExecutingAssembly().GetName().Name) :
-            services.AddPersistenceAsInMemory();
-
+        services.AddDomainDrivenDesignService(Configuration);
 
         services.AddApiVersionService();
         services.AddUserInfo();

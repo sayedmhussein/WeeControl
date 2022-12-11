@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WeeControl.ApiApp.Application.Contexts.Essential.Commands;
+using WeeControl.ApiApp.WebApi.Controllers.User;
 using WeeControl.Common.SharedKernel;
 using WeeControl.Common.SharedKernel.Contexts.Essential.DataTransferObjects.User;
 using WeeControl.Common.SharedKernel.RequestsResponses;

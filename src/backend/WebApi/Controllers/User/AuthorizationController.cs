@@ -9,7 +9,7 @@ using WeeControl.Common.SharedKernel;
 using WeeControl.Common.SharedKernel.Contexts.Essential.DataTransferObjects.User;
 using WeeControl.Common.SharedKernel.RequestsResponses;
 
-namespace WeeControl.ApiApp.WebApi.Controllers.Essentials;
+namespace WeeControl.ApiApp.WebApi.Controllers.User;
 
 [ApiController]
 [Route(Api.Essential.Authorization.Route)]
