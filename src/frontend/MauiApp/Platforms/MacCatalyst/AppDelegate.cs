@@ -1,6 +1,4 @@
 ﻿using Foundation;
-using WeeControl.Frontend.MauiApp;
-using Microsoft.Maui.Hosting;
 
 namespace WeeControl.Frontend.MauiApp;
 

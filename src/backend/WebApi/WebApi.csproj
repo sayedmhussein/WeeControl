@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <Folder Include="Services\" />
+    <Folder Include="StartupOptions" />
     <Folder Include="StartupOptions\" />
     <Folder Include="Controllers\Essentials\" />
   </ItemGroup>

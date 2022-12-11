@@ -1,23 +1,15 @@
-using System;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
 using WeeControl.ApiApp.Application;
-using WeeControl.ApiApp.Application.Interfaces;
 using WeeControl.ApiApp.Infrastructure;
 using WeeControl.ApiApp.Persistence;
 using WeeControl.ApiApp.WebApi.Middlewares;
-using WeeControl.ApiApp.WebApi.Security;
 using WeeControl.ApiApp.WebApi.Services;
-using WeeControl.ApiApp.WebApi.StartupOptions;
+using WeeControl.ApiApp.WebApi.Services.Security;
 
 namespace WeeControl.ApiApp.WebApi;
 
@@ -49,42 +41,10 @@ public class Startup
         services.AddApiVersionService();
         services.AddUserInfo();
 
-        services.AddCors(c => c.AddPolicy("AllowAny", builder =>
-        {
-            builder.AllowAnyHeader();
-            builder.AllowAnyMethod();
-            builder.AllowAnyOrigin();
-        }));
+        services.AddCoresService();
 
-        services.AddAuthentication("Bearer").AddJwtBearer(options =>
-        {
-            options.TokenValidationParameters = new TokenValidationParameters()
-            {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["Jwt:Key"])),
-                ValidateIssuer = false,
-                ValidateAudience = false,
-                ValidateLifetime = true,
-                ClockSkew = TimeSpan.Zero
-            };
-                
-            options.Events = new JwtBearerEvents
-            {
-                OnMessageReceived = context =>
-                {
-                    try
-                    {
-                        var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-                        context.Token = token;
-                    }
-                    catch { }
-
-                    return Task.CompletedTask;
-                },
-            };
-        });
-            
-        services.AddSwaggerGen(SwaggerOptions.ConfigureSwaggerGen);
+        services.AddAuthenticationService(Configuration["Jwt:Key"]);
+        services.AddSwaggerService();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -93,7 +53,7 @@ public class Startup
         {
             app.UseDeveloperExceptionPage();
             app.UseSwagger();
-            app.UseSwaggerUI(SwaggerOptions.ConfigureSwaggerUi);
+            app.UseSwaggerUI(SwaggerServices.ConfigureSwaggerUi);
         }
         else
         {

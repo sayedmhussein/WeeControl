@@ -1,7 +1,7 @@
 using System;
-using WeeControl.ApiApp.WebApi.Security.CustomHandlers.TokenRefreshment;
+using WeeControl.ApiApp.WebApi.Services.Security.CustomHandlers.TokenRefreshment;
 
-namespace WeeControl.ApiApp.WebApi.Security.Policies;
+namespace WeeControl.ApiApp.WebApi.Services.Security.Policies;
 
 internal class CanEditTerritoriesPolicy : PolicyBuilderBase
 {

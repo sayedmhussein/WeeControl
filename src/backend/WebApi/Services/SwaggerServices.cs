@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
@@ -7,10 +7,16 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
-namespace WeeControl.ApiApp.WebApi.StartupOptions;
+namespace WeeControl.ApiApp.WebApi.Services;
 
-public static class SwaggerOptions
+public static class SwaggerServices
 {
+    public static IServiceCollection AddSwaggerService(this IServiceCollection services)
+    {
+        services.AddSwaggerGen(ConfigureSwaggerGen);
+        return services;
+    }
+    
     public static void ConfigureSwaggerGen(SwaggerGenOptions swaggerOptions)
     {
         swaggerOptions.SwaggerDoc("v1", new OpenApiInfo
@@ -70,6 +76,4 @@ public static class SwaggerOptions
         swaggerUiOptions.SwaggerEndpoint($"/swagger/v1/swagger.json", "MySystem.Api v1");
         //swaggerUIOptions.RoutePrefix = "api-docs";
     }
-
-
 }

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using WeeControl.Common.SharedKernel;
 
-namespace WeeControl.ApiApp.WebApi.Security.Policies;
+namespace WeeControl.ApiApp.WebApi.Services.Security.Policies;
 
 public abstract class PolicyBuilderBase
 {
