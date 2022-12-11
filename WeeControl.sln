@@ -56,6 +56,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel", "src\common\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "src\frontend\Service\Service.csproj", "{CC16730B-8A1F-4E84-B329-8603EE77DD9F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiApp", "src\frontend\MauiApp\MauiApp.csproj", "{149AA226-7BA1-4235-8870-ADD1817F995A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -246,6 +248,18 @@ Global
 		{CC16730B-8A1F-4E84-B329-8603EE77DD9F}.Debug|iPhone.Build.0 = Debug|Any CPU
 		{CC16730B-8A1F-4E84-B329-8603EE77DD9F}.Release|iPhone.ActiveCfg = Release|Any CPU
 		{CC16730B-8A1F-4E84-B329-8603EE77DD9F}.Release|iPhone.Build.0 = Release|Any CPU
+		{149AA226-7BA1-4235-8870-ADD1817F995A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{149AA226-7BA1-4235-8870-ADD1817F995A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{149AA226-7BA1-4235-8870-ADD1817F995A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{149AA226-7BA1-4235-8870-ADD1817F995A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{149AA226-7BA1-4235-8870-ADD1817F995A}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{149AA226-7BA1-4235-8870-ADD1817F995A}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{149AA226-7BA1-4235-8870-ADD1817F995A}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{149AA226-7BA1-4235-8870-ADD1817F995A}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{149AA226-7BA1-4235-8870-ADD1817F995A}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{149AA226-7BA1-4235-8870-ADD1817F995A}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{149AA226-7BA1-4235-8870-ADD1817F995A}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{149AA226-7BA1-4235-8870-ADD1817F995A}.Release|iPhone.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -275,5 +289,6 @@ Global
 		{EBCD9730-A748-4755-868F-E5057E3936B0} = {6AF303C3-2686-495E-91A1-4184397BE1DA}
 		{305AA9DF-6388-4103-844F-A97D9B0BBF41} = {60C29738-826F-4B5F-85AB-6A22A28F079E}
 		{CC16730B-8A1F-4E84-B329-8603EE77DD9F} = {D311A494-F342-4B0A-8A9F-045AD1D91C9E}
+		{149AA226-7BA1-4235-8870-ADD1817F995A} = {D311A494-F342-4B0A-8A9F-045AD1D91C9E}
 	EndGlobalSection
 EndGlobal
