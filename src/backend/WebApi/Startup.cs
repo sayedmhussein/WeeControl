@@ -44,11 +44,10 @@ public class Startup
         _ = Configuration["UseInMemoryDb"] == false.ToString() ? 
             services.AddPersistenceAsPostgres(Configuration, Assembly.GetExecutingAssembly().GetName().Name) :
             services.AddPersistenceAsInMemory();
-        
-        
-        services.AddApiVersioning(ApiVersionOptions.ConfigureApiVersioning);
-            
-        services.AddScoped<ICurrentUserInfo, UserInfoService>();
+
+
+        services.AddApiVersionService();
+        services.AddUserInfo();
 
         services.AddCors(c => c.AddPolicy("AllowAny", builder =>
         {

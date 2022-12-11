@@ -9,7 +9,7 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace WeeControl.ApiApp.WebApi.StartupOptions;
 
-public class SwaggerOptions
+public static class SwaggerOptions
 {
     public static void ConfigureSwaggerGen(SwaggerGenOptions swaggerOptions)
     {

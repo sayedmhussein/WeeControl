@@ -38,7 +38,7 @@ public class UserInfoServiceTests : IDisposable
     [Fact]
     public void WhenThereAreClaimsInContext_CountMustNotBeZero()
     {
-        var service = new UserInfoService(httpContextMock.Object);
+        var service = new UserInfoServices.UserInfoService(httpContextMock.Object);
 
         var claims = service.Claims;
 
@@ -48,7 +48,7 @@ public class UserInfoServiceTests : IDisposable
     [Fact]
     public void WhenSessionClaimInTheContext_SessionMustNotBeNull()
     {
-        var service = new UserInfoService(httpContextMock.Object);
+        var service = new UserInfoServices.UserInfoService(httpContextMock.Object);
 
         var session = service.SessionId;
 
@@ -60,7 +60,7 @@ public class UserInfoServiceTests : IDisposable
     public void WhenSessionClaimInTheContextNotExist_SessionMustBeNull()
     {
         httpContextMock.Setup(x => x.HttpContext.User.Claims).Returns(new List<Claim>());
-        var service = new UserInfoService(httpContextMock.Object);
+        var service = new UserInfoServices.UserInfoService(httpContextMock.Object);
 
         var session = service.SessionId;
 
