@@ -1,4 +1,6 @@
-﻿namespace WeeControl.Frontend.MauiApp;
+﻿using WeeControl.Frontend.MauiApp.Pages;
+
+namespace WeeControl.Frontend.MauiApp;
 
 public partial class App : Application
 {
@@ -6,7 +8,7 @@ public partial class App : Application
 	{
 		InitializeComponent();
 
-		MainPage = new AppShell();
+		MainPage = new SplashPage();
 	}
 }
 

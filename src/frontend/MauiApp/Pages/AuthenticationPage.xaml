@@ -22,7 +22,7 @@
                 
                 <Entry Placeholder="Password" IsPassword="True"></Entry>
                 
-                <Button Text="Login"></Button>
+                <Button Text="Login" Clicked="Button_OnClicked"></Button>
                 <ActivityIndicator IsRunning="True"></ActivityIndicator>
             </VerticalStackLayout>
         </ScrollView>
