@@ -26,10 +26,18 @@ public class AuthenticationViewModel : ViewModelBase
         }
     }
 
-    public ICommand Login { get; private set; }
-
     public AuthenticationViewModel()
     {
         
+    }
+
+    public Task LoginAsync()
+    {
+        if (string.IsNullOrWhiteSpace(Username))
+        {
+            DisplayAlert("Invalid username!");
+        }
+        DisplayAlert("Hello World");
+        return Task.CompletedTask;
     }
 }

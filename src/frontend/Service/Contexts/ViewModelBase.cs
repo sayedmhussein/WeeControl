@@ -18,9 +18,15 @@ public abstract class ViewModelBase : IViewModelBase //UserApplication.Test.Inte
         }
     }
     public event PropertyChangedEventHandler? PropertyChanged;
+    public event EventHandler<string>? DisplayAlertEventHandler;
     
     protected void OnPropertyChanged(string propertyName)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    protected void DisplayAlert(string message)
+    {
+        DisplayAlertEventHandler?.Invoke(this, message);
     }
 }
