@@ -15,7 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Contexts\Business" />
+      <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
     </ItemGroup>
 
 </Project>

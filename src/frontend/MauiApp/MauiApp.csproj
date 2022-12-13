@@ -12,10 +12,10 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 
 		<!-- Display name -->
-		<ApplicationTitle>MauiApp</ApplicationTitle>
+		<ApplicationTitle>WeeControl</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.mauiapp</ApplicationId>
+		<ApplicationId>com.sayedhussein.mauiapp</ApplicationId>
 		<ApplicationIdGuid>447ce950-7142-4c4b-a1e8-9a8e7d82b2a0</ApplicationIdGuid>
 
 		<!-- Versions -->
@@ -30,6 +30,9 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
+	  <CreatePackage>false</CreatePackage>
+	</PropertyGroup>
 	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
@@ -47,11 +50,25 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
+		<PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
+		<PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.3" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <MauiXaml Update="Pages\SplashPage.xaml">
 	    <SubType>Designer</SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="Flyout\HeaderView.xaml">
+	    <SubType></SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="Flyout\FooterView.xaml">
+	    <SubType></SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\HomePage.xaml">
+	    <SubType></SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\Business\FieldOperation\RoutePage.xaml">
+	    <SubType></SubType>
 	  </MauiXaml>
 	</ItemGroup>
 
@@ -66,4 +83,30 @@
 	  <ProjectReference Include="..\Service\Service.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <None Remove="Flyout\" />
+	  <None Remove="Resources\Images\splashlogo.png" />
+	  <None Remove="Resources\Images\unitescalator.png" />
+	  <None Remove="Resources\Images\app_logo.png" />
+	  <None Remove="Resources\Images\splash_logo.png" />
+	  <None Remove="Pages\Business\" />
+	  <None Remove="Pages\Business\FieldOperation\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Flyout\" />
+	  <Folder Include="Pages\Business\" />
+	  <Folder Include="Pages\Business\FieldOperation\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <BundleResource Include="Resources\Images\splash_logo.png" />
+	  <BundleResource Include="Resources\Images\app_logo.png" />
+	  <BundleResource Include="Resources\Images\app_logo.png" />
+	  <BundleResource Include="Resources\Images\splash_logo.png" />
+	  <BundleResource Include="Resources\Images\app_logo.png" />
+	  <BundleResource Include="Resources\Images\splash_logo.png" />
+	</ItemGroup>
+	<ItemGroup>
+	  <MauiImage Remove="Resources\Images\app_logo.png" />
+	  <MauiImage Remove="Resources\Images\splash_logo.png" />
+	</ItemGroup>
 </Project>

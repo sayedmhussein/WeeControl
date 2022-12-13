@@ -13,9 +13,9 @@ public partial class AuthenticationPage : ContentPage
         InitializeComponent();
     }
 
-    private async void Button_OnClicked(object sender, EventArgs e)
+    private void Button_OnClicked(object sender, EventArgs e)
     {
-        await DisplayAlert("Title", "Navigating to other Page", "Ok");
         App.Current.MainPage = new AppShell();
+        
     }
 }

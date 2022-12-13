@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WeeControl.Frontend.MauiApp.Flyout.HeaderView"
+             HeightRequest="200">
+    <Grid BackgroundColor="Black">
+        <Image Aspect="AspectFit" 
+               Source="splash_logo" 
+               Opacity="0.6" />
+        <Label Text="WeeControl App" 
+               TextColor="White" 
+               FontAttributes="Bold" 
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center" />
+    </Grid>
+</ContentView>
+
