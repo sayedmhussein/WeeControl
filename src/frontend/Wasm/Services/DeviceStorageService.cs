@@ -1,7 +1,9 @@
+using System;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.JSInterop;
 using WeeControl.Frontend.AppService.Interfaces;
+using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces;
 
 namespace WeeControl.Frontend.Wasm.Services;
 
@@ -13,7 +15,9 @@ public class DeviceStorageService : IDeviceStorage
     {
         this.jsRuntime = jsRuntime;
     }
-    
+
+    public string LocalStorageLocation => throw new NotImplementedException();
+
     public Task SaveAsync(string key, string value)
     {
         return SetItem(key, value);

@@ -4,40 +4,45 @@ namespace WeeControl.Frontend.AppService.Contexts.Essential.ViewModels;
 
 public class AuthenticationViewModel : ViewModelBase
 {
-    private string username = string.Empty;
+    private readonly AuthenticationModel model = new();
+
+    public string UsernameLabel => model.UsernameLabel;
     public string Username
     {
-        get => username;
+        get => model.Username;
         set
         {
-            username = value;
+            model.Username = value;
             OnPropertyChanged(nameof(Username));
         }
     }
-    
-    private string password = string.Empty;
+
+    public string PasswordLabel => model.PasswordLabel;
     public string Password
     {
-        get => password;
+        get => model.Password;
         set
         {
-            password = value;
+            model.Password = value;
             OnPropertyChanged(nameof(Password));
         }
     }
+
+    public string LoginButtonLabel => model.LoginButtonLabel;
+    
+    public ICommand LoginCommand { get; }
 
     public AuthenticationViewModel()
     {
         
     }
 
-    public Task LoginAsync()
+    public async Task LoginAsync()
     {
-        if (string.IsNullOrWhiteSpace(Username))
-        {
-            DisplayAlert("Invalid username!");
-        }
-        DisplayAlert("Hello World");
-        return Task.CompletedTask;
+        await Task.Delay(5000);
+        
+        UserIsAuthorized?.Invoke(this, true);
     }
+    
+    public event EventHandler<bool>? UserIsAuthorized;
 }

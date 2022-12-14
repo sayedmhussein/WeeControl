@@ -9,6 +9,7 @@ using WeeControl.Frontend.AppService;
 using WeeControl.Frontend.AppService.Contexts.Essential.Interfaces;
 using WeeControl.Frontend.AppService.Contexts.Essential.Models;
 using WeeControl.Frontend.AppService.Interfaces;
+using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces;
 using WeeControl.Frontend.Service;
 using WeeControl.Frontend.Service.UnitTest;
 
@@ -26,7 +27,7 @@ public class TestHelper<T> : IDisposable
         Device = DeviceMock.GetObject(httpClient);
         
         var appServiceCollection = new ServiceCollection();
-        appServiceCollection.AddServices();
+        appServiceCollection.AddApplicationServices();
         appServiceCollection.AddScoped(p => DeviceMock.GetObject(httpClient));
         
         using var scope = appServiceCollection.BuildServiceProvider().CreateScope();

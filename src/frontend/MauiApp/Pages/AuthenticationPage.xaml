@@ -17,16 +17,30 @@
                 
                 <Image
                     Source="dotnet_bot.png"
-                    SemanticProperties.Description="Cute dot net bot waving hi to you!"
+                    SemanticProperties.Description="WeeControl Application"
                     HeightRequest="200"
                     HorizontalOptions="Center" />
                 
-                <Entry Placeholder="Username"></Entry>
+                <Entry 
+                    x:Name="UsernameEntry"
+                    IsReadOnly="{Binding !IsLoading}"/>
                 
-                <Entry Placeholder="Password" IsPassword="True"></Entry>
+                <Entry 
+                    x:Name="PasswordEntry"
+                    Text="{Binding Password}"
+                    Placeholder="{Binding PasswordLabel}"
+                    IsPassword="True"
+                    IsReadOnly="{Binding !IsLoading}"/>
                 
-                <Button Text="Login" Clicked="Button_OnClicked"></Button>
-                <ActivityIndicator IsRunning="True"></ActivityIndicator>
+                <Button
+                    x:Name="LoginButton"
+                    Command="{Binding LoginCommand}"
+                    Text="{Binding LoginButtonLabel}"
+                    IsEnabled="{Binding !IsLoading}"/>
+                
+                <ActivityIndicator 
+                    IsRunning="{Binding IsLoading}"/>
+                
             </VerticalStackLayout>
         </ScrollView>
     </ContentPage.Content>

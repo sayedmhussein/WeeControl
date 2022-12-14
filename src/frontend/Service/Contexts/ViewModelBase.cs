@@ -17,6 +17,7 @@ public abstract class ViewModelBase : IViewModelBase //UserApplication.Test.Inte
             OnPropertyChanged(nameof(IsLoading));
         }
     }
+    
     public event PropertyChangedEventHandler? PropertyChanged;
     public event EventHandler<string>? DisplayAlertEventHandler;
     

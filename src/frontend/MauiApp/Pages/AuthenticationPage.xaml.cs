@@ -3,19 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WeeControl.Frontend.AppService.Contexts.Essential.Interfaces;
+using WeeControl.Frontend.AppService.Contexts.Essential.ViewModels;
 
 namespace WeeControl.Frontend.MauiApp.Pages;
 
 public partial class AuthenticationPage : ContentPage
 {
-    public AuthenticationPage()
+    private readonly IUserAuthorizationService service;
+
+    public AuthenticationPage(IUserAuthorizationService service)
     {
+        this.service = service;
         InitializeComponent();
+        SetupGui();
     }
 
-    private void Button_OnClicked(object sender, EventArgs e)
+    private void SetupGui()
     {
-        App.Current.MainPage = new AppShell();
-        
+        UsernameEntry.Placeholder = "Username";
+        PasswordEntry.Placeholder = "Password";
+        LoginButton.Text = "Login";
     }
 }

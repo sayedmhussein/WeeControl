@@ -9,9 +9,11 @@ namespace WeeControl.Frontend.AppService;
 
 public static class ApplicationServiceExtensions
 {
-    public static IServiceCollection AddServices(this IServiceCollection services)
+    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         services.AddSingleton<IPersistedLists, PersistedListService>();
+        services.AddSingleton<IDatabaseService, DatabaseService>();
+        
         services.AddTransient<IServerOperation, ServerOperationService>();
         
         services.AddTransient<IUserAuthorizationService, UserAuthorizationService>();

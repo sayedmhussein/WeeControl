@@ -11,7 +11,7 @@ public partial class SplashPage : ContentPage
 	{
 		base.OnAppearing();
 		await Task.Delay(3000);
-		await Navigation.PushModalAsync(new AuthenticationPage());
+		await Navigation.PushModalAsync(new LoginPage(null));
 	}
 }
 

@@ -5,6 +5,7 @@ using WeeControl.Common.SharedKernel.Contexts.Essential.DataTransferObjects;
 using WeeControl.Common.SharedKernel.RequestsResponses;
 using WeeControl.Frontend.AppService.Contexts.Essential.Models;
 using WeeControl.Frontend.AppService.Interfaces;
+using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces;
 
 namespace WeeControl.Frontend.AppService.Contexts.Business.Elevator;
 

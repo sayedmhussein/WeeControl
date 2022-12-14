@@ -1,4 +1,4 @@
-namespace WeeControl.Frontend.AppService.Interfaces;
+namespace WeeControl.Frontend.AppService.Interfaces.GuiInterfaces;
 
 public interface IDevicePageNavigation
 {

@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Moq.Protected;
 using WeeControl.Frontend.AppService.Interfaces;
+using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces;
 
 namespace WeeControl.Frontend.Service.UnitTest;
 

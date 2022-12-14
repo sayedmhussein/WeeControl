@@ -8,6 +8,7 @@ using MudBlazor.Services;
 using WeeControl.Common.SharedKernel;
 using WeeControl.Frontend.AppService;
 using WeeControl.Frontend.AppService.Interfaces;
+using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces;
 using WeeControl.Frontend.Wasm.Services;
 
 namespace WeeControl.Frontend.Wasm;
@@ -32,7 +33,7 @@ public class Program
         builder.Services.AddScoped<IDeviceSecurity, AuthStateProvider>();
         
         builder.Services.AddUserSecurityService();
-        builder.Services.AddServices();
+        builder.Services.AddApplicationServices();
 
         builder.Services.AddOptions();
         builder.Services.AddAuthorizationCore();
