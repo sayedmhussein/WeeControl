@@ -20,7 +20,7 @@
     <FlyoutItem FlyoutDisplayOptions="AsMultipleItems" Shell.TabBarIsVisible="False">
         <ShellContent
             Title="Home"
-            ContentTemplate="{DataTemplate pages:HomePage}"
+            ContentTemplate="{DataTemplate pages:DummyPage}"
             Route="HomePage"/>
 
         <ShellContent

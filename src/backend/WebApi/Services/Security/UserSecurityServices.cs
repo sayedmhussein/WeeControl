@@ -1,5 +1,3 @@
-using System.Linq;
-using System.Reflection;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using WeeControl.ApiApp.WebApi.Services.Security.CustomHandlers.TokenRefreshment;

@@ -1,31 +1,34 @@
 @using WeeControl.Frontend.AppService.Contexts.Essential.Interfaces
 @using WeeControl.Frontend.AppService.Contexts.Essential.Models
-@inject IUserAuthorizationService AuthorizationService
+@using IAuthorizationService = WeeControl.Frontend.AppService.AppInterfaces.IAuthorizationService
+@using Microsoft.AspNetCore.Components
+@using WeeControl.Common.SharedKernel.DataTransferObjects.User
+@inject IAuthorizationService AuthorizationService
 
 <MudCardHeader>
     <h4>Please enter your username and password</h4>
 </MudCardHeader>
 
 <MudCardContent>
-    <EditForm Model="@loginModel" OnValidSubmit="@(() => AuthorizationService.Login(loginModel))">
+    <EditForm Model="@loginModel" OnValidSubmit="@(() => AuthorizationService.Login(loginModel.UsernameOrEmail, loginModel.Password))">
         <DataAnnotationsValidator/>
         <div class="form-group">
             <label>Username or Email</label>
-            <InputText @bind-Value="loginModel.UsernameOrEmail" readonly="@AuthorizationService.IsLoading" class="form-control"/>
+            <InputText @bind-Value="loginModel.UsernameOrEmail" readonly="@isLoading" class="form-control"/>
             <ValidationMessage For="@(() => loginModel.UsernameOrEmail)"/>
         </div>
         <div class="form-group">
             <label>Password</label>
-            <InputText @bind-Value="loginModel.Password" readonly="@AuthorizationService.IsLoading" type="password" class="form-control"/>
+            <InputText @bind-Value="loginModel.Password" readonly="@isLoading" type="password" class="form-control"/>
             <ValidationMessage For="@(() => loginModel.Password)"/>
         </div>
         <MudButton
             ButtonType="ButtonType.Submit"
             Variant="Variant.Filled"
             Color="Color.Primary"
-            Disabled="@AuthorizationService.IsLoading"
+            Disabled="@isLoading"
             Class="ml-auto">
-            @if (AuthorizationService.IsLoading)
+            @if (isLoading)
             {
                 <span class="spinner-border spinner-border-sm mr-1"></span>
             }
@@ -36,6 +39,6 @@
 
 @code
 {
-    private readonly LoginModel loginModel = new();
-    
+    private readonly AuthenticationRequestDto loginModel = new();
+    private bool isLoading = false;
 }

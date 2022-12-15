@@ -1,6 +1,6 @@
 using System.Security.Claims;
 
-namespace WeeControl.Frontend.AppService.Interfaces.GuiInterfaces;
+namespace WeeControl.Frontend.AppService.Interfaces.GuiInterfaces.Obsolute;
 
 public interface IDeviceSecurity
 {

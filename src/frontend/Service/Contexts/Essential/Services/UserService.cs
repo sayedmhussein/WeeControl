@@ -3,18 +3,19 @@ using System.Net.Http.Json;
 using WeeControl.Common.SharedKernel;
 using WeeControl.Common.SharedKernel.DataTransferObjects.User;
 using WeeControl.Common.SharedKernel.RequestsResponses;
+using WeeControl.Frontend.AppService.AppInterfaces;
+using WeeControl.Frontend.AppService.AppModels;
 using WeeControl.Frontend.AppService.Contexts.Essential.Interfaces;
 using WeeControl.Frontend.AppService.Contexts.Essential.Models;
 using WeeControl.Frontend.AppService.Interfaces;
-using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces;
 
 namespace WeeControl.Frontend.AppService.Contexts.Essential.Services;
 
-internal class UserService : ViewModelBase, IUserService
+internal class UserService : IUserService
 {
     private readonly IDevice device;
     private readonly IServerOperation server;
-    private readonly IUserAuthorizationService userAuthorizationService;
+    private readonly IAuthorizationService userAuthorizationService;
     
     public IEnumerable<CountryModel> Countries { get; }
     public string GreetingMessage { get; private set; }
@@ -24,7 +25,7 @@ internal class UserService : ViewModelBase, IUserService
     public List<HomeFeedModel> FeedsList { get; }
     public List<HomeNotificationModel> NotificationsList { get; }
 
-    public UserService(IDevice device, IServerOperation server, IPersistedLists persistedLists, IUserAuthorizationService userAuthorizationService)
+    public UserService(IDevice device, IServerOperation server, IPersistedLists persistedLists, IAuthorizationService userAuthorizationService)
     {
         this.device = device;
         this.server = server;
@@ -63,7 +64,7 @@ internal class UserService : ViewModelBase, IUserService
             await Refresh();
         }
 
-        await device.Navigation.NavigateToAsync(Pages.Essential.HomePage, forceLoad:true);
+        await device.Navigation.NavigateToAsync(ApplicationPages.Essential.HomePage, forceLoad:true);
     }
 
     public async Task Refresh()
@@ -87,23 +88,18 @@ internal class UserService : ViewModelBase, IUserService
 
     public async Task Register(CustomerRegisterModel registerModel)
     {
-        IsLoading = true;
         await RegisterAsync(registerModel);
-        IsLoading = false;
     }
 
     public async Task RequestPasswordReset(PasswordResetModel passwordResetModel)
     {
-        IsLoading = true;
         if (string.IsNullOrWhiteSpace(passwordResetModel.Email) || string.IsNullOrWhiteSpace(passwordResetModel.Username))
         {
             await device.Alert.DisplayAlert("Please enter your email and username first!");
-            IsLoading = false;
             return;
         }
         
         await ProcessPasswordReset(passwordResetModel);
-        IsLoading = false;
     }
 
     public async Task ChangeMyPassword(PasswordChangeModel passwordChangeModel)
@@ -116,10 +112,8 @@ internal class UserService : ViewModelBase, IUserService
             await device.Alert.DisplayAlert("Invalid Properties");
             return;
         }
-
-        IsLoading = true;
+        
         await ProcessChangingPassword(passwordChangeModel);
-        IsLoading = false;
     }
 
     private async Task ProcessPasswordReset(UserPasswordResetRequestDto? dtoV1)
@@ -135,7 +129,7 @@ internal class UserService : ViewModelBase, IUserService
         if (responseMessage.IsSuccessStatusCode)
         {
             await device.Alert.DisplayAlert("New Password was created, please check your email.");
-            await device.Navigation.NavigateToAsync(Pages.Essential.UserPage, forceLoad:true);
+            await device.Navigation.NavigateToAsync(ApplicationPages.Essential.UserPage, forceLoad:true);
             return;
         }
         
@@ -159,7 +153,7 @@ internal class UserService : ViewModelBase, IUserService
             var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<AuthenticationResponseDto>>();
             var token = responseDto?.Payload?.Token;
             await device.Security.UpdateTokenAsync(token ?? string.Empty);
-            await device.Navigation.NavigateToAsync(Pages.Essential.SplashPage, forceLoad: true);
+            await device.Navigation.NavigateToAsync(ApplicationPages.Essential.SplashPage, forceLoad: true);
             return;
         }
 
@@ -190,7 +184,7 @@ internal class UserService : ViewModelBase, IUserService
             case HttpStatusCode.OK:
             case HttpStatusCode.Accepted:
                 await device.Alert.DisplayAlert("PasswordUpdatedSuccessfully");
-                await device.Navigation.NavigateToAsync(Pages.Essential.SplashPage);
+                await device.Navigation.NavigateToAsync(ApplicationPages.Essential.SplashPage);
                 return;
             case HttpStatusCode.NotFound:
                 await device.Alert.DisplayAlert("InvalidPassword");
@@ -200,7 +194,7 @@ internal class UserService : ViewModelBase, IUserService
                 break;
         }
         
-        await device.Navigation.NavigateToAsync(Pages.Essential.UserPage, forceLoad: true);
+        await device.Navigation.NavigateToAsync(ApplicationPages.Essential.UserPage, forceLoad: true);
     }
     
     private async Task SetupMenuAsync()

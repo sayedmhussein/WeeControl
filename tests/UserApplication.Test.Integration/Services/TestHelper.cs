@@ -6,11 +6,8 @@ using WeeControl.ApiApp.Domain.Contexts.Essential;
 using WeeControl.Common.SharedKernel.Contexts.Essential.Entities;
 using WeeControl.Common.SharedKernel.Services;
 using WeeControl.Frontend.AppService;
-using WeeControl.Frontend.AppService.Contexts.Essential.Interfaces;
-using WeeControl.Frontend.AppService.Contexts.Essential.Models;
+using WeeControl.Frontend.AppService.AppInterfaces;
 using WeeControl.Frontend.AppService.Interfaces;
-using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces;
-using WeeControl.Frontend.Service;
 using WeeControl.Frontend.Service.UnitTest;
 
 namespace WeeControl.User.UserApplication.Test.Integration.Services;
@@ -43,11 +40,11 @@ public class TestHelper<T> : IDisposable
 
     public async Task Authorize(string username, string password, string device = null)
     {
-        using var helper = new TestHelper<IUserAuthorizationService>(Device.Server.HttpClient);
+        using var helper = new TestHelper<IAuthorizationService>(Device.Server.HttpClient);
         if (device is not null)
             helper.DeviceMock.DeviceMock.Setup(x => x.DeviceId).Returns(device);
 
-        await helper.Service.Login(new LoginModel() { UsernameOrEmail = username, Password = password});
+        await helper.Service.Login(username, password);
         
         DeviceMock.InjectTokenToMock(await helper.Device.Security.GetTokenAsync());
     }

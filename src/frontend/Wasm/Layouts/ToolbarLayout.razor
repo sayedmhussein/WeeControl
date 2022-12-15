@@ -1,7 +1,6 @@
 ﻿@using WeeControl.Frontend.Wasm.Layouts.Components
-@using WeeControl.Frontend.AppService.Interfaces
 @using WeeControl.Frontend.AppService
-@using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces
+@using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces.Obsolute
 @inherits LayoutComponentBase
 @attribute [AllowAnonymous]
 
@@ -40,7 +39,7 @@
         }
 
         var currentPageName = NavManager.Uri.Split("/").Last();
-        if (currentPageName is Pages.Essential.SplashPage or Pages.Essential.UserPage)
+        if (currentPageName is ApplicationPages.Essential.SplashPage or ApplicationPages.Essential.UserPage)
         {
             showLoginButton = false;
         }

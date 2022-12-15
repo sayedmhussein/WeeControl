@@ -19,11 +19,11 @@ public class RequestDto : IRequestDto
         return new RequestDto<T>(payload,dto);
     }
 
-    public string DeviceId { get; set; }
+    public string DeviceId { get; }
 
-    public double? Latitude { get; set; }
+    public double? Latitude { get; }
 
-    public double? Longitude { get; set; }
+    public double? Longitude { get; }
 
     internal RequestDto()
     {
@@ -44,7 +44,7 @@ public class RequestDto : IRequestDto
 
 public class RequestDto<T> : RequestDto, IRequestDto<T> where T : class
 {
-    public T Payload { get; set; }
+    public T Payload { get; }
 
     internal RequestDto()
     {

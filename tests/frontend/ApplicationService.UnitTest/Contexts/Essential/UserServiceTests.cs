@@ -30,7 +30,7 @@ public class UserServiceTests
 
         await service.Register(new CustomerRegisterModel());
 
-        helper.DeviceMock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Essential.SplashPage, It.IsAny<bool>()));
+        helper.DeviceMock.NavigationMock.Verify(x => x.NavigateToAsync(ApplicationPages.Essential.SplashPage, It.IsAny<bool>()));
     }
     
     [Theory]
@@ -47,7 +47,7 @@ public class UserServiceTests
         await service.Register(new CustomerRegisterModel());
         
         helper.DeviceMock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
-        helper.DeviceMock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Essential.SplashPage, It.IsAny<bool>()), Times.Never);
+        helper.DeviceMock.NavigationMock.Verify(x => x.NavigateToAsync(ApplicationPages.Essential.SplashPage, It.IsAny<bool>()), Times.Never);
         Assert.False(service.IsLoading);
     }
 
@@ -67,7 +67,7 @@ public class UserServiceTests
         await service.Register(new CustomerRegisterModel());
         
         helper.DeviceMock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
-        helper.DeviceMock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Essential.SplashPage, It.IsAny<bool>()), Times.Never);
+        helper.DeviceMock.NavigationMock.Verify(x => x.NavigateToAsync(ApplicationPages.Essential.SplashPage, It.IsAny<bool>()), Times.Never);
         Assert.False(service.IsLoading);
     }
     #endregion
@@ -83,7 +83,7 @@ public class UserServiceTests
 
         await service.RequestPasswordReset(new PasswordResetModel() { Email = "e@e.e", Username = "u"});
 
-        helper.DeviceMock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Essential.UserPage, It.IsAny<bool>()));
+        helper.DeviceMock.NavigationMock.Verify(x => x.NavigateToAsync(ApplicationPages.Essential.UserPage, It.IsAny<bool>()));
     }
     
     [Fact]
@@ -95,7 +95,7 @@ public class UserServiceTests
         var service = new UserService(device, new ServerOperationService(device), new PersistedListService(), new UserAuthorizationService(device, new ServerOperationService(device)));
         await service.RequestPasswordReset(new PasswordResetModel());
         
-        helper.DeviceMock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Essential.UserPage, It.IsAny<bool>()), Times.Never);
+        helper.DeviceMock.NavigationMock.Verify(x => x.NavigateToAsync(ApplicationPages.Essential.UserPage, It.IsAny<bool>()), Times.Never);
     }
     
     [Fact]
@@ -108,7 +108,7 @@ public class UserServiceTests
 
         await service.RequestPasswordReset(new PasswordResetModel());
         
-        helper.DeviceMock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Essential.UserPage, It.IsAny<bool>()), Times.Never);
+        helper.DeviceMock.NavigationMock.Verify(x => x.NavigateToAsync(ApplicationPages.Essential.UserPage, It.IsAny<bool>()), Times.Never);
     }
     
     [Theory]
@@ -125,7 +125,7 @@ public class UserServiceTests
         
         await service.RequestPasswordReset(new PasswordResetModel() { Email = email, Username = username});
         
-        helper.DeviceMock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Essential.UserPage, It.IsAny<bool>()), Times.Never);
+        helper.DeviceMock.NavigationMock.Verify(x => x.NavigateToAsync(ApplicationPages.Essential.UserPage, It.IsAny<bool>()), Times.Never);
         Assert.False(service.IsLoading);
     }
     #endregion
@@ -144,7 +144,7 @@ public class UserServiceTests
             OldPassword = "bla", ConfirmPassword = "bla", NewPassword = "bla"
         });
 
-        helper.DeviceMock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Essential.SplashPage, It.IsAny<bool>()));
+        helper.DeviceMock.NavigationMock.Verify(x => x.NavigateToAsync(ApplicationPages.Essential.SplashPage, It.IsAny<bool>()));
     }
     
     [Fact]
@@ -158,7 +158,7 @@ public class UserServiceTests
         await service.ChangeMyPassword(new PasswordChangeModel());
 
         helper.DeviceMock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
-        helper.DeviceMock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Essential.SplashPage, It.IsAny<bool>()), Times.Never);
+        helper.DeviceMock.NavigationMock.Verify(x => x.NavigateToAsync(ApplicationPages.Essential.SplashPage, It.IsAny<bool>()), Times.Never);
     }
     
     [Fact]
@@ -172,7 +172,7 @@ public class UserServiceTests
         await service.ChangeMyPassword(new PasswordChangeModel());
 
         helper.DeviceMock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
-        helper.DeviceMock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Essential.SplashPage, It.IsAny<bool>()), Times.Never);
+        helper.DeviceMock.NavigationMock.Verify(x => x.NavigateToAsync(ApplicationPages.Essential.SplashPage, It.IsAny<bool>()), Times.Never);
     }
     
     [Fact]
@@ -186,7 +186,7 @@ public class UserServiceTests
         await service.ChangeMyPassword(new PasswordChangeModel());
 
         helper.DeviceMock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
-        helper.DeviceMock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Essential.SplashPage, It.IsAny<bool>()), Times.Never);
+        helper.DeviceMock.NavigationMock.Verify(x => x.NavigateToAsync(ApplicationPages.Essential.SplashPage, It.IsAny<bool>()), Times.Never);
     }
     
     [Fact]
@@ -200,7 +200,7 @@ public class UserServiceTests
         await service.ChangeMyPassword(new PasswordChangeModel());
 
         helper.DeviceMock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
-        helper.DeviceMock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Essential.SplashPage, It.IsAny<bool>()), Times.Never);
+        helper.DeviceMock.NavigationMock.Verify(x => x.NavigateToAsync(ApplicationPages.Essential.SplashPage, It.IsAny<bool>()), Times.Never);
     }
     
     [Theory]
@@ -224,7 +224,7 @@ public class UserServiceTests
         });
 
         helper.DeviceMock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
-        helper.DeviceMock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Essential.SplashPage, It.IsAny<bool>()), Times.Never);
+        helper.DeviceMock.NavigationMock.Verify(x => x.NavigateToAsync(ApplicationPages.Essential.SplashPage, It.IsAny<bool>()), Times.Never);
     }
     #endregion
 }

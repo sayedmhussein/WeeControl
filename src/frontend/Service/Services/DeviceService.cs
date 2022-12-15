@@ -1,9 +1,10 @@
 using WeeControl.Frontend.AppService.Interfaces;
 using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces;
+using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces.Obsolute;
 
 namespace WeeControl.Frontend.AppService.Services;
 
-public class DeviceService : IDevice
+internal class DeviceService : IDevice
 {
     public DeviceService(IDeviceAlert alert, IDeviceLocation location, IDeviceSecurity security, IDeviceServerCommunication server, IStorage storage, IDevicePageNavigation navigation)
     {
@@ -21,6 +22,6 @@ public class DeviceService : IDevice
     public IDeviceServerCommunication Server { get; }
     public IStorage Storage { get; }
     public IDevicePageNavigation Navigation { get; }
-    public string DeviceId => "__Blazor__";
+    public string DeviceId => "__Test__";
     public DateTime CurrentTs => DateTime.Now;
 }

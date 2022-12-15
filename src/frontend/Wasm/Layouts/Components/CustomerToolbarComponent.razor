@@ -1,8 +1,9 @@
-@using IAuthorizationService = WeeControl.Frontend.AppService.Contexts.Essential.Interfaces.IUserAuthorizationService
+@using IAuthorizationService = WeeControl.Frontend.AppService.AppInterfaces.IAuthorizationService
 @using WeeControl.Frontend.AppService.Contexts.Essential.Interfaces
 @using WeeControl.Frontend.AppService.Interfaces
 @using WeeControl.Frontend.AppService
 @using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces
+@using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces.Obsolute
 @inject IUserService UserService
 @inject IAuthorizationService UserAuthorizationService
 @inject IDevicePageNavigation Navigation
@@ -17,7 +18,7 @@
             <MudMenuItem>
                 <MudButton 
                     StartIcon="@Icons.Material.Outlined.Home"
-                    Href="@Pages.Essential.HomePage">Home
+                    Href="@ApplicationPages.Essential.HomePage">Home
                 </MudButton>
             </MudMenuItem>
             @if (UserService.IsCustomer)
@@ -38,7 +39,7 @@
         <MudIconButton 
             Icon="@Icons.Material.Outlined.Login" 
             Color="Color.Primary" Title="Login"
-            OnClick="@(() => Navigation.NavigateToAsync(Pages.Essential.UserPage))"
+            OnClick="@(() => Navigation.NavigateToAsync(ApplicationPages.Essential.UserPage))"
         ></MudIconButton>
     }
     @if (ShowLogout)

@@ -2,6 +2,7 @@ using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using WeeControl.Common.SharedKernel.Interfaces;
 using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces;
+using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces.Obsolute;
 
 namespace WeeControl.Frontend.MauiApp.Services;
 

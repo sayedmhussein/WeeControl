@@ -3,42 +3,42 @@ using System.Net.Http.Json;
 using WeeControl.Common.SharedKernel;
 using WeeControl.Common.SharedKernel.DataTransferObjects.User;
 using WeeControl.Common.SharedKernel.RequestsResponses;
-using WeeControl.Frontend.AppService.Contexts.Essential.Interfaces;
-using WeeControl.Frontend.AppService.Contexts.Essential.Models;
+using WeeControl.Frontend.AppService.AppInterfaces;
 using WeeControl.Frontend.AppService.Interfaces;
-using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces;
 
-namespace WeeControl.Frontend.AppService.Contexts.Essential.Services;
+namespace WeeControl.Frontend.AppService.AppServices;
 
-internal class UserAuthorizationService : ViewModelBase, IUserAuthorizationService
+internal class AuthorizationService : IAuthorizationService
 {
     private readonly IDevice device;
     private readonly IServerOperation server;
 
-    public UserAuthorizationService(IDevice device, IServerOperation server)
+    public AuthorizationService(IDevice device, IServerOperation server)
     {
         this.device = device;
         this.server = server;
     }
-
+    
     public async Task<bool> IsAuthorized()
     {
         return await server.IsTokenValid() && await device.Security.IsAuthenticatedAsync();
     }
 
-    public async Task<bool> Login(LoginModel loginModel)
+    public async Task<bool> Login(string usernameOrEmail, string password)
     {
-        if (string.IsNullOrWhiteSpace(loginModel.UsernameOrEmail) || string.IsNullOrWhiteSpace(loginModel.Password))
+        if (string.IsNullOrWhiteSpace(usernameOrEmail) || usernameOrEmail.Trim().Length < 4)
         {
-            await device.Alert.DisplayAlert("Please enter your username and password then try again.");
+            await device.Alert.DisplayAlert("Please enter correct username");
+            return false;
+        }
+        
+        if (string.IsNullOrWhiteSpace(password) || password.Length < 4)
+        {
+            await device.Alert.DisplayAlert("Please enter correct password");
             return false;
         }
 
-        IsLoading = true;
-        var success = await ProcessLoginCommand(loginModel);
-        loginModel.Password = string.Empty;
-        IsLoading = false;
-        return success;
+        return await ProcessLoginCommand(usernameOrEmail, password);
     }
 
     public async Task<bool> UpdateToken(string? otp)
@@ -48,20 +48,20 @@ internal class UserAuthorizationService : ViewModelBase, IUserAuthorizationServi
             await device.Alert.DisplayAlert("AlertEnum.DeveloperMinorBug");
             return false;
         }
-        
-        HttpRequestMessage message = new()
+
+        var response = await server.Send(new HttpRequestMessage
         {
             RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Authorization.Route)),
             Version = new Version("1.0"),
             Method = otp is null ? HttpMethod.Patch : HttpMethod.Put
-        };
+        }, otp);
         
-        var response = await server.Send(message, otp);
         switch (response.StatusCode)
         {
             case HttpStatusCode.OK:
-                var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<AuthenticationResponseDto>>();
-                var token = responseDto?.Payload?.Token;
+                var responseDto = await server.ReadFromContent<AuthenticationResponseDto>(response.Content);
+                //var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<AuthenticationResponseDto>>();
+                var token = responseDto?.Token;
                 if (token is not null)
                 {
                     await device.Security.UpdateTokenAsync(token);
@@ -69,7 +69,7 @@ internal class UserAuthorizationService : ViewModelBase, IUserAuthorizationServi
 
                 if (otp is not null)
                 {
-                    await device.Navigation.NavigateToAsync(Pages.Essential.SplashPage);
+                    await device.Navigation.NavigateToAsync(ApplicationPages.Essential.SplashPage);
                 }
                 return true;
             case HttpStatusCode.NotFound:
@@ -77,7 +77,7 @@ internal class UserAuthorizationService : ViewModelBase, IUserAuthorizationServi
                 break;
             case HttpStatusCode.Unauthorized:
                 await device.Alert.DisplayAlert("AlertEnum.DeveloperMinorBug");
-                await device.Navigation.NavigateToAsync(Pages.Essential.UserPage);
+                await device.Navigation.NavigateToAsync(ApplicationPages.Essential.UserPage);
                 await device.Security.DeleteTokenAsync();
                 break;
             default:
@@ -90,17 +90,15 @@ internal class UserAuthorizationService : ViewModelBase, IUserAuthorizationServi
 
     public async Task<bool> Logout()
     {
-        HttpRequestMessage message = new()
+        var response = await server.Send(new HttpRequestMessage
         {
             RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Authorization.Route)),
             Version = new Version("1.0"),
             Method = HttpMethod.Delete
-        };
-
-        var response = await server.Send(message, new object());
+        });
         
         await device.Security.DeleteTokenAsync();
-        await device.Navigation.NavigateToAsync(Pages.Essential.SplashPage);
+        await device.Navigation.NavigateToAsync(ApplicationPages.Essential.SplashPage);
 
         switch (response.StatusCode)
         {
@@ -111,7 +109,7 @@ internal class UserAuthorizationService : ViewModelBase, IUserAuthorizationServi
             case HttpStatusCode.BadGateway:
             case HttpStatusCode.BadRequest:
             case HttpStatusCode.Unauthorized:
-                await device.Navigation.NavigateToAsync(Pages.Essential.SplashPage, forceLoad: true);
+                await device.Navigation.NavigateToAsync(ApplicationPages.Essential.SplashPage, forceLoad: true);
                 break;
             default:
                 await device.Alert.DisplayAlert("AlertEnum.DeveloperMinorBug");
@@ -120,8 +118,8 @@ internal class UserAuthorizationService : ViewModelBase, IUserAuthorizationServi
         
         return false;
     }
-
-    private async Task<bool> ProcessLoginCommand(LoginModel loginModel)
+    
+    private async Task<bool> ProcessLoginCommand(string usernameOrEmail, string password)
     {
         var response = await server.Send(
             new HttpRequestMessage
@@ -130,7 +128,7 @@ internal class UserAuthorizationService : ViewModelBase, IUserAuthorizationServi
                 Version = new Version("1.0"),
                 Method = HttpMethod.Post
             }, 
-            AuthenticationRequestDto.Create(loginModel.UsernameOrEmail, loginModel.Password));
+            AuthenticationRequestDto.Create(usernameOrEmail, password));
 
         switch (response.StatusCode)
         {
@@ -144,7 +142,7 @@ internal class UserAuthorizationService : ViewModelBase, IUserAuthorizationServi
                     await device.Storage.SaveAsync(nameof(AuthenticationResponseDto.FullName), responseDto?.Payload?.FullName ?? string.Empty);
                     if (true) //await server.IsTokenValid())
                     {
-                        await device.Navigation.NavigateToAsync(Pages.Essential.OtpPage);
+                        await device.Navigation.NavigateToAsync(ApplicationPages.Essential.OtpPage);
                         return true;
                     }
                 }

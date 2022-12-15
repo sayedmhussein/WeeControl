@@ -5,11 +5,10 @@ using WeeControl.Common.SharedKernel.Contexts.Essential.DataTransferObjects;
 using WeeControl.Common.SharedKernel.RequestsResponses;
 using WeeControl.Frontend.AppService.Contexts.Essential.Models;
 using WeeControl.Frontend.AppService.Interfaces;
-using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces;
 
 namespace WeeControl.Frontend.AppService.Contexts.Business.Elevator;
 
-public class TerritoryService : ViewModelBase
+internal class TerritoryService
 {
     private readonly IDevice device;
     private readonly IServerOperation server;
@@ -27,7 +26,7 @@ public class TerritoryService : ViewModelBase
 
     public async Task GetListOfTerritories()
     {
-        var response = await server.Send<object>(
+        var response = await server.Send(
             new HttpRequestMessage
             {
                 RequestUri = new Uri(uriString),

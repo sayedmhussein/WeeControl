@@ -29,7 +29,7 @@ public class ExampleTests
                 helper.DeviceMock.AlertMock.Verify(x => 
                     x.DisplayAlert(It.IsAny<string>()), Times.Never);
                 helper.DeviceMock.NavigationMock.Verify(x => 
-                    x.NavigateToAsync(Pages.Essential.SplashPage,It.IsAny<bool>()), Times.Never);
+                    x.NavigateToAsync(ApplicationPages.Essential.SplashPage,It.IsAny<bool>()), Times.Never);
                 
                 helper.DeviceMock.SecurityMock.Verify(x => 
                     x.UpdateTokenAsync("token"), Times.Never);
@@ -42,7 +42,7 @@ public class ExampleTests
                 helper.DeviceMock.AlertMock.Verify(x => 
                     x.DisplayAlert(It.IsAny<string>()), Times.Never);
                 helper.DeviceMock.NavigationMock.Verify(x => 
-                    x.NavigateToAsync(Pages.Essential.HomePage,true), Times.Never);
+                    x.NavigateToAsync(ApplicationPages.Essential.HomePage,true), Times.Never);
                 
                 helper.DeviceMock.SecurityMock.Verify(x => 
                     x.UpdateTokenAsync("token"), Times.Never);
@@ -63,7 +63,7 @@ public class ExampleTests
         helper.DeviceMock.AlertMock.Verify(x => 
             x.DisplayAlert(It.IsAny<string>()), Times.Never);
         helper.DeviceMock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Essential.SplashPage,true), Times.Never);
+            x.NavigateToAsync(ApplicationPages.Essential.SplashPage,true), Times.Never);
                 
         helper.DeviceMock.SecurityMock.Verify(x => 
             x.UpdateTokenAsync("token"), Times.Never);

@@ -2,7 +2,7 @@ using WeeControl.Common.SharedKernel;
 
 namespace WeeControl.Frontend.AppService;
 
-public static class Pages
+public static class ApplicationPages
 {
     public static class Essential
     {

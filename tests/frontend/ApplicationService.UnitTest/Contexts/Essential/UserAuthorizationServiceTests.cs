@@ -5,8 +5,6 @@ using System.Net.Http;
 using WeeControl.Common.SharedKernel.DataTransferObjects.User;
 using WeeControl.Common.SharedKernel.RequestsResponses;
 using WeeControl.Frontend.AppService;
-using WeeControl.Frontend.AppService.Contexts.Essential.Models;
-using WeeControl.Frontend.AppService.Contexts.Essential.Services;
 using WeeControl.Frontend.AppService.Interfaces;
 using WeeControl.Frontend.AppService.Services;
 
@@ -75,7 +73,7 @@ public class UserAuthorizationServiceTests
                 helper.DeviceMock.SecurityMock.Verify(x => 
                     x.UpdateTokenAsync("token"), Times.Never);
                 helper.DeviceMock.NavigationMock.Verify(x => 
-                    x.NavigateToAsync(Pages.Essential.HomePage,true), Times.Never);
+                    x.NavigateToAsync(ApplicationPages.Essential.HomePage,true), Times.Never);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(code), code, null);
@@ -104,7 +102,7 @@ public class UserAuthorizationServiceTests
         helper.DeviceMock.SecurityMock.Verify(x => 
             x.UpdateTokenAsync(It.IsAny<string>()), Times.Never);
         helper.DeviceMock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Essential.HomePage,true), Times.Never);
+            x.NavigateToAsync(ApplicationPages.Essential.HomePage,true), Times.Never);
     }
     #endregion
 
@@ -131,7 +129,7 @@ public class UserAuthorizationServiceTests
                 helper.DeviceMock.AlertMock.Verify(x => 
                     x.DisplayAlert(It.IsAny<string>()), Times.Never);
                 helper.DeviceMock.NavigationMock.Verify(x => 
-                    x.NavigateToAsync(Pages.Essential.SplashPage,It.IsAny<bool>()), Times.AtLeastOnce);
+                    x.NavigateToAsync(ApplicationPages.Essential.SplashPage,It.IsAny<bool>()), Times.AtLeastOnce);
                 
                 helper.DeviceMock.SecurityMock.Verify(x => 
                     x.UpdateTokenAsync("token"), Times.AtLeastOnce);
@@ -140,15 +138,15 @@ public class UserAuthorizationServiceTests
                 helper.DeviceMock.AlertMock.Verify(x => 
                     x.DisplayAlert(It.IsAny<string>()), Times.AtLeastOnce);
                 helper.DeviceMock.NavigationMock.Verify(x => 
-                    x.NavigateToAsync(Pages.Essential.SplashPage,It.IsAny<bool>()), Times.Never);
+                    x.NavigateToAsync(ApplicationPages.Essential.SplashPage,It.IsAny<bool>()), Times.Never);
                 break;
             case HttpStatusCode.Unauthorized:
                 helper.DeviceMock.AlertMock.Verify(x => 
                     x.DisplayAlert(It.IsAny<string>()), Times.AtLeastOnce);
                 helper.DeviceMock.NavigationMock.Verify(x => 
-                    x.NavigateToAsync(Pages.Essential.SplashPage,It.IsAny<bool>()), Times.Never);
+                    x.NavigateToAsync(ApplicationPages.Essential.SplashPage,It.IsAny<bool>()), Times.Never);
                 helper.DeviceMock.NavigationMock.Verify(x => 
-                    x.NavigateToAsync(Pages.Essential.UserPage,It.IsAny<bool>()), Times.AtLeastOnce);
+                    x.NavigateToAsync(ApplicationPages.Essential.UserPage,It.IsAny<bool>()), Times.AtLeastOnce);
                 
                 helper.DeviceMock.SecurityMock.Verify(x => 
                     x.DeleteTokenAsync(), Times.AtLeastOnce);
@@ -159,7 +157,7 @@ public class UserAuthorizationServiceTests
                 helper.DeviceMock.AlertMock.Verify(x => 
                     x.DisplayAlert(It.IsAny<string>()), Times.AtLeastOnce);
                 helper.DeviceMock.NavigationMock.Verify(x => 
-                    x.NavigateToAsync(Pages.Essential.HomePage,true), Times.Never);
+                    x.NavigateToAsync(ApplicationPages.Essential.HomePage,true), Times.Never);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(code), code, null);
@@ -187,7 +185,7 @@ public class UserAuthorizationServiceTests
             value is "1234" or null? Times.Never : Times.AtLeastOnce);
         
         helper.DeviceMock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Essential.SplashPage,It.IsAny<bool>()), 
+            x.NavigateToAsync(ApplicationPages.Essential.SplashPage,It.IsAny<bool>()), 
             value is "1234" ? Times.AtLeastOnce : Times.Never);
                 
         helper.DeviceMock.SecurityMock.Verify(x => 
@@ -207,7 +205,7 @@ public class UserAuthorizationServiceTests
         await vm.Logout();
         
         helper.DeviceMock.SecurityMock.Verify(x => x.DeleteTokenAsync());
-        helper.DeviceMock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Essential.SplashPage, It.IsAny<bool>()));
+        helper.DeviceMock.NavigationMock.Verify(x => x.NavigateToAsync(ApplicationPages.Essential.SplashPage, It.IsAny<bool>()));
     }
     
     [Fact]
@@ -220,7 +218,7 @@ public class UserAuthorizationServiceTests
         await vm.Logout();
         
         helper.DeviceMock.SecurityMock.Verify(x => x.DeleteTokenAsync());
-        helper.DeviceMock.NavigationMock.Verify(x => x.NavigateToAsync(Pages.Essential.SplashPage, It.IsAny<bool>()));
+        helper.DeviceMock.NavigationMock.Verify(x => x.NavigateToAsync(ApplicationPages.Essential.SplashPage, It.IsAny<bool>()));
     }
     
     [Fact]

@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Configuration;
 using WeeControl.Common.SharedKernel.DataTransferObjects.User;
 using WeeControl.Common.SharedKernel.Interfaces;
-using WeeControl.Frontend.AppService.Interfaces;
 using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces;
+using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces.Obsolute;
 
 namespace WeeControl.Frontend.Wasm.Services;
 

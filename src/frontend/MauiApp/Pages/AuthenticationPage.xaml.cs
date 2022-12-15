@@ -1,18 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WeeControl.Frontend.AppService.Contexts.Essential.Interfaces;
-using WeeControl.Frontend.AppService.Contexts.Essential.ViewModels;
+using WeeControl.Frontend.AppService.AppInterfaces;
 
 namespace WeeControl.Frontend.MauiApp.Pages;
 
 public partial class AuthenticationPage : ContentPage
 {
-    private readonly IUserAuthorizationService service;
+    private readonly IAuthorizationService service;
 
-    public AuthenticationPage(IUserAuthorizationService service)
+    public AuthenticationPage(IAuthorizationService service)
     {
         this.service = service;
         InitializeComponent();

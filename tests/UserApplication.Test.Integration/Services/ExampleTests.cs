@@ -3,9 +3,7 @@ using Moq;
 using WeeControl.ApiApp.Application.Interfaces;
 using WeeControl.ApiApp.WebApi;
 using WeeControl.Frontend.AppService;
-using WeeControl.Frontend.AppService.Contexts.Essential.Interfaces;
-using WeeControl.Frontend.AppService.Contexts.Essential.Models;
-using WeeControl.Frontend.Service;
+using WeeControl.Frontend.AppService.AppInterfaces;
 using Xunit;
 
 namespace WeeControl.User.UserApplication.Test.Integration.Services;
@@ -22,7 +20,7 @@ public class ExampleTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     [Fact]
     public async void Test1_()
     {
-        using var helper = new TestHelper<IUserAuthorizationService>(factory.WithWebHostBuilder(builder =>
+        using var helper = new TestHelper<IAuthorizationService>(factory.WithWebHostBuilder(builder =>
         {
             builder.ConfigureServices(services =>
             {
@@ -35,9 +33,9 @@ public class ExampleTests : IClassFixture<CustomWebApplicationFactory<Startup>>
             });
         }).CreateClient());
         
-        await helper.Service.Login(new LoginModel() { UsernameOrEmail = "username", Password = "password" });
+        await helper.Service.Login("username", "password");
         
         helper.DeviceMock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Essential.SplashPage, It.IsAny<bool>()), Times.Never);
+            x.NavigateToAsync(ApplicationPages.Essential.SplashPage, It.IsAny<bool>()), Times.Never);
     }
 }

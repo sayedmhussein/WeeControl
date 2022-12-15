@@ -1,12 +1,11 @@
-using Microsoft.Maui.Controls.Compatibility;
-using WeeControl.Frontend.AppService.Contexts.Essential.Interfaces;
-using WeeControl.Frontend.AppService.Contexts.Essential.Models;
+
+using WeeControl.Frontend.AppService.AppInterfaces;
 
 namespace WeeControl.Frontend.MauiApp.Pages;
 
 public class LoginPage : ContentPage
 {
-    private readonly IUserAuthorizationService service;
+    private readonly IAuthorizationService service;
 
     private readonly ScrollView scrollView;
     private readonly VerticalStackLayout stackLayout;
@@ -16,7 +15,7 @@ public class LoginPage : ContentPage
     private readonly Button loginButton;
     private readonly ActivityIndicator indicator;
     
-    public LoginPage(IUserAuthorizationService service)
+    public LoginPage(IAuthorizationService service)
     {
         this.service = service;
 
@@ -31,6 +30,7 @@ public class LoginPage : ContentPage
         SetupGui();
         GuiIsBusy(false);
 
+        Title = "Authenticating";
         Content = scrollView;
     }
     
@@ -78,11 +78,10 @@ public class LoginPage : ContentPage
 
         GuiIsBusy(true);
         
-        await service.Login(new LoginModel()
-        {
-            UsernameOrEmail = usernameEntry.Text?? string.Empty, 
-            Password = passwordEntry.Text ?? string.Empty
-        });
+        await service.Login(usernameEntry.Text?? 
+                            throw new ArgumentNullException(nameof(usernameEntry.Text), "Username can't be null!"), 
+            passwordEntry.Text??
+            throw new ArgumentNullException(nameof(passwordEntry.Text), "Password can't be null!"));
         
         GuiIsBusy(false);
     }

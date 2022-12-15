@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using Microsoft.JSInterop;
-using WeeControl.Frontend.AppService.Interfaces;
-using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces;
+using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces.Obsolute;
 
 namespace WeeControl.Frontend.Wasm.Services;
 

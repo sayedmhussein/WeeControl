@@ -2,7 +2,6 @@ using System;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.JSInterop;
-using WeeControl.Frontend.AppService.Interfaces;
 using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces;
 
 namespace WeeControl.Frontend.Wasm.Services;

@@ -1,11 +1,11 @@
-@using IAuthorizationService = WeeControl.Frontend.AppService.Contexts.Essential.Interfaces.IUserAuthorizationService
+@using IAuthorizationService = WeeControl.Frontend.AppService.AppInterfaces.IAuthorizationService
 @using WeeControl.Frontend.AppService
 @inject IAuthorizationService UserAuthorizationService
 
 <MudMenuItem>
     <MudButton 
         StartIcon="@Icons.Material.Outlined.Password"
-        Href="@Pages.Essential.UserPage">Change Password
+        Href="@ApplicationPages.Essential.UserPage">Change Password
     </MudButton>
 </MudMenuItem>
 <MudMenuItem>

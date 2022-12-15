@@ -2,8 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-using WeeControl.Frontend.AppService.Interfaces;
-using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces;
+using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces.Obsolute;
 
 namespace WeeControl.Frontend.Wasm.Services;
 
@@ -17,7 +16,7 @@ public class DevicePageNavigationService : IDevicePageNavigation
         this.navigationManager = navigationManager;
         
         history = new List<string>();
-        history.Add(AppService.Pages.Essential.HomePage);
+        history.Add(AppService.ApplicationPages.Essential.HomePage);
     }
 
     public Task NavigateToAsync(string pageName, bool forceLoad = false)

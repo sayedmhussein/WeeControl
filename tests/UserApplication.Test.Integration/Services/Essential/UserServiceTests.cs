@@ -6,7 +6,6 @@ using WeeControl.Common.SharedKernel.DataTransferObjects.User;
 using WeeControl.Frontend.AppService;
 using WeeControl.Frontend.AppService.Contexts.Essential.Interfaces;
 using WeeControl.Frontend.AppService.Contexts.Essential.Models;
-using WeeControl.Frontend.Service;
 using Xunit;
 
 namespace WeeControl.User.UserApplication.Test.Integration.Services.Essential;
@@ -74,7 +73,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
         });
             
         helper.DeviceMock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Essential.SplashPage, It.IsAny<bool>()), Times.Once);
+            x.NavigateToAsync(ApplicationPages.Essential.SplashPage, It.IsAny<bool>()), Times.Once);
     }
     
     [Fact]
@@ -103,7 +102,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
             
         helper.DeviceMock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
         helper.DeviceMock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
+            x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
     }
     
     [Fact]
@@ -133,7 +132,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
             
         helper.DeviceMock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
         helper.DeviceMock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
+            x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
     }
 
     [Fact]
@@ -164,7 +163,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
             
         helper.DeviceMock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
         helper.DeviceMock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
+            x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
     }
     #endregion
 
@@ -193,7 +192,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
         });
             
         helper.DeviceMock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Essential.UserPage, It.IsAny<bool>()), Times.Once);
+            x.NavigateToAsync(ApplicationPages.Essential.UserPage, It.IsAny<bool>()), Times.Once);
     }
     
     [Theory]
@@ -223,7 +222,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
         });
             
         helper.DeviceMock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Essential.UserPage, It.IsAny<bool>()), Times.Never);
+            x.NavigateToAsync(ApplicationPages.Essential.UserPage, It.IsAny<bool>()), Times.Never);
     }
 
     [Fact]
@@ -251,7 +250,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
         });
             
         helper.DeviceMock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Essential.UserPage, It.IsAny<bool>()), Times.Never);
+            x.NavigateToAsync(ApplicationPages.Essential.UserPage, It.IsAny<bool>()), Times.Never);
     }
     #endregion
 
@@ -287,7 +286,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
         await helper.Service.Register(model);
 
         helper.DeviceMock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Essential.SplashPage, It.IsAny<bool>()), Times.AtLeastOnce);
+            x.NavigateToAsync(ApplicationPages.Essential.SplashPage, It.IsAny<bool>()), Times.AtLeastOnce);
     }
     
     [Theory]
@@ -336,7 +335,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
             
         helper.DeviceMock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
         helper.DeviceMock.NavigationMock.Verify(x => 
-            x.NavigateToAsync(Pages.Essential.SplashPage, It.IsAny<bool>()), Times.Never);;
+            x.NavigateToAsync(ApplicationPages.Essential.SplashPage, It.IsAny<bool>()), Times.Never);;
     }
     #endregion
 }

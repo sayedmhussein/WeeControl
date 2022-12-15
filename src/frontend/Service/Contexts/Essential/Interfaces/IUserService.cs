@@ -1,9 +1,9 @@
+using WeeControl.Frontend.AppService.AppModels;
 using WeeControl.Frontend.AppService.Contexts.Essential.Models;
-using WeeControl.Frontend.AppService.Interfaces;
 
 namespace WeeControl.Frontend.AppService.Contexts.Essential.Interfaces;
 
-public interface IUserService : IViewModelBase
+public interface IUserService
 {
     IEnumerable<CountryModel> Countries { get; }
     string GreetingMessage { get; }

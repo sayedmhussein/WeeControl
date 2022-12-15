@@ -24,7 +24,7 @@ public class ResponseDto : IResponseDto
         Debug = debug;
     }
 
-    public string Debug { get; set; }
+    public string Debug { get; private init; }
 }
 
 public class ResponseDto<T> : ResponseDto, IResponseDto<T> where T : class

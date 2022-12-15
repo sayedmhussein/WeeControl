@@ -7,11 +7,10 @@ using WeeControl.Common.SharedKernel;
 using WeeControl.Common.SharedKernel.DataTransferObjects.User;
 using WeeControl.Common.SharedKernel.RequestsResponses;
 using WeeControl.Frontend.AppService.Interfaces;
-using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces;
 
 namespace WeeControl.Frontend.AppService.Services;
 
-public class ServerOperationService : IServerOperation
+internal class ServerOperationService : IServerOperation
 {
     private readonly IDevice device;
 
@@ -19,8 +18,14 @@ public class ServerOperationService : IServerOperation
     {
         this.device = device;
     }
-    
-    public async Task<HttpResponseMessage> Send<T>(HttpRequestMessage message, T? payload = default(T?), bool accurateLocation = false) where T : class
+
+    public Task<HttpResponseMessage> Send(HttpRequestMessage message, bool accurateLocation = false)
+    {
+        //todo: to confirm that message verb allow no content.
+        return Send(message, new object(), accurateLocation);
+    }
+
+    public async Task<HttpResponseMessage> Send<T>(HttpRequestMessage message, T payload, bool accurateLocation = false) where T : class
     {
         if (message.Content is null && message.Method != HttpMethod.Get)
         {
@@ -46,6 +51,21 @@ public class ServerOperationService : IServerOperation
         }
     }
 
+    public async Task<T?> ReadFromContent<T>(HttpContent content) where T : class
+    {
+        try
+        {
+            var response = await content.ReadFromJsonAsync<ResponseDto<T>>();
+            return response?.Payload;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+
+        return null;
+    }
+
     public async Task<bool> IsTokenValid()
     {
         if (await device.Security.IsAuthenticatedAsync() == false)
@@ -60,7 +80,7 @@ public class ServerOperationService : IServerOperation
             Method = HttpMethod.Put
         };
 
-        var response = await Send<object>(message);
+        var response = await Send(message);
         if (response.IsSuccessStatusCode)
         {
             var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<AuthenticationResponseDto>>();

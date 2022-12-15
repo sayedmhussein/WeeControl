@@ -1,7 +1,7 @@
-@using WeeControl.Frontend.AppService.Contexts.Essential.Interfaces
 @using WeeControl.Frontend.AppService
-@attribute [Route(Pages.Essential.OtpPage)]
-@inject IUserAuthorizationService UserAuthorizationService
+@using IAuthorizationService = WeeControl.Frontend.AppService.AppInterfaces.IAuthorizationService
+@attribute [Route(ApplicationPages.Essential.OtpPage)]
+@inject IAuthorizationService UserAuthorizationService
 
 <MudPaper Style="max-width: 650px; align-content: center; align-self: center; justify-content: center">
     <MudCard>

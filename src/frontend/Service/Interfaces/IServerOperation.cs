@@ -1,11 +1,17 @@
 namespace WeeControl.Frontend.AppService.Interfaces;
 
-public interface IServerOperation
+internal interface IServerOperation
 {
+    Task<HttpResponseMessage> Send(
+        HttpRequestMessage message,
+        bool accurateLocation = false);
+    
     Task<HttpResponseMessage> Send<T>(
         HttpRequestMessage message,
-        T? payload = null,
+        T payload,
         bool accurateLocation = false) where T : class;
+
+    Task<T?> ReadFromContent<T>(HttpContent content) where T : class;
     
     Task<bool> IsTokenValid();
 }

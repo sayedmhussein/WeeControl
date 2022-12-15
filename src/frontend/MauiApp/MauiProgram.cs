@@ -2,14 +2,13 @@
 using Microsoft.Extensions.Logging;
 using WeeControl.Frontend.AppService;
 using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces;
-using WeeControl.Frontend.AppService.Services;
+using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces.Obsolute;
 using WeeControl.Frontend.MauiApp.Pages;
 using WeeControl.Frontend.MauiApp.Services;
 
 namespace WeeControl.Frontend.MauiApp;
 
 using Microsoft.Maui.Hosting;
-using WeeControl.Frontend.AppService.Interfaces;
 
 public static class MauiProgram
 {

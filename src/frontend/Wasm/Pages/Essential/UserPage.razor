@@ -1,7 +1,7 @@
-﻿@using IAuthorizationService = WeeControl.Frontend.AppService.Contexts.Essential.Interfaces.IUserAuthorizationService
+﻿@using IAuthorizationService = WeeControl.Frontend.AppService.AppInterfaces.IAuthorizationService
 @using WeeControl.Frontend.AppService
 
-@attribute [Route(Pages.Essential.UserPage)]
+@attribute [Route(ApplicationPages.Essential.UserPage)]
 @inject IAuthorizationService UserAuthorizationService
 
 @if (isAuthorized)

@@ -3,7 +3,7 @@ using WeeControl.Frontend.AppService.Interfaces;
 
 namespace WeeControl.Frontend.AppService.Services;
 
-public class PersistedListService : IPersistedLists
+internal class PersistedListService : IPersistedLists
 {
     public IEnumerable<CountryModel> Countries => new List<CountryModel>()
     {
