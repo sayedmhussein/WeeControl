@@ -4,6 +4,11 @@ namespace WeeControl.Frontend.AppService;
 
 public static class ApplicationPages
 {
+
+    public const string AuthenticationPage = "Authentication";
+    public const string HomePage = "Index";
+
+
     public static class Essential
     {
         public const string SplashPage = "Splash";

@@ -41,11 +41,11 @@ internal class AuthorizationService : IAuthorizationService
         return await ProcessLoginCommand(usernameOrEmail, password);
     }
 
-    public async Task<bool> UpdateToken(string? otp)
+    public async Task<bool> UpdateToken(string otp)
     {
-        if (otp is not null && otp.Length < 4)
+        if (string.IsNullOrWhiteSpace(otp) || otp.Trim().Length < 4)
         {
-            await device.Alert.DisplayAlert("AlertEnum.DeveloperMinorBug");
+            await device.Alert.DisplayAlert("Invalid OTP, Please try again");
             return false;
         }
 
