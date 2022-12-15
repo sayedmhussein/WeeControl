@@ -9,7 +9,7 @@ internal class DatabaseService : IDatabaseService
 {
     private readonly SQLiteAsyncConnection database;
 
-    public DatabaseService(IDeviceStorage deviceStorage) //FileSystem.AppDataDirectory
+    public DatabaseService(IStorage deviceStorage) //FileSystem.AppDataDirectory
     {
         if (database is null)
         {
@@ -17,7 +17,7 @@ internal class DatabaseService : IDatabaseService
                                           SQLiteOpenFlags.Create |
                                           SQLiteOpenFlags.SharedCache;
             
-            database = new SQLiteAsyncConnection(Path.Combine(deviceStorage.LocalStorageLocation, "AppDb.db3"), flags);
+            database = new SQLiteAsyncConnection(Path.Combine(deviceStorage.AppDataDirectory, "AppDb.db3"), flags);
         }
     }
     

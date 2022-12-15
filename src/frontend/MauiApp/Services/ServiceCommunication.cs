@@ -13,6 +13,6 @@ public class ServiceCommunication : IDeviceServerCommunication
     
     public string GetFullAddress(string relative)
     {
-        return "http://192.168.45.107/" + relative;
+        return "http://192.168.45.107:5001" + relative;
     }
 }

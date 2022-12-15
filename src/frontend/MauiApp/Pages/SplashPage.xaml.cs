@@ -2,8 +2,11 @@
 
 public partial class SplashPage : ContentPage
 {
-	public SplashPage()
+	private readonly LoginPage loginPage;
+
+	public SplashPage(LoginPage loginPage)
 	{
+		this.loginPage = loginPage;
 		InitializeComponent();
 	}
 
@@ -11,7 +14,7 @@ public partial class SplashPage : ContentPage
 	{
 		base.OnAppearing();
 		await Task.Delay(3000);
-		await Navigation.PushModalAsync(new LoginPage(null));
+		await Navigation.PushModalAsync(loginPage);
 	}
 }
 

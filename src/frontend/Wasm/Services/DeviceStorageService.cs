@@ -7,7 +7,7 @@ using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces;
 
 namespace WeeControl.Frontend.Wasm.Services;
 
-public class DeviceStorageService : IDeviceStorage
+public class DeviceStorageService : IStorage
 {
     private readonly IJSRuntime jsRuntime;
 
@@ -16,7 +16,8 @@ public class DeviceStorageService : IDeviceStorage
         this.jsRuntime = jsRuntime;
     }
 
-    public string LocalStorageLocation => throw new NotImplementedException();
+    public string CashDirectory => throw new NotImplementedException();
+    public string AppDataDirectory => throw new NotImplementedException();
 
     public Task SaveAsync(string key, string value)
     {

@@ -1,8 +1,9 @@
 namespace WeeControl.Frontend.AppService.Interfaces.GuiInterfaces;
 
-public interface IDeviceStorage
+public interface IStorage
 {
-    string LocalStorageLocation { get; }
+    string CashDirectory { get; }
+    string AppDataDirectory { get; }
     
     Task SaveAsync(string key, string value);
 

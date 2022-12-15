@@ -1,4 +1,6 @@
-namespace WeeControl.Frontend.AppService.Interfaces.GuiInterfaces;
+using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces;
+
+namespace WeeControl.Frontend.AppService.Interfaces;
 
 public interface IDevice
 {
@@ -6,7 +8,7 @@ public interface IDevice
     IDeviceLocation Location { get; }
     IDeviceSecurity Security { get; }
     IDeviceServerCommunication Server { get; }
-    IDeviceStorage Storage { get; }
+    IStorage Storage { get; }
     IDevicePageNavigation Navigation { get; }
     
     public string DeviceId { get; }

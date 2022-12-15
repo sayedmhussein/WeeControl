@@ -13,13 +13,13 @@ namespace WeeControl.Frontend.Wasm.Services;
 
 public class AuthStateProvider : AuthenticationStateProvider, IDeviceSecurity
 {
-    private readonly IDeviceStorage localStorage;
+    private readonly IStorage localStorage;
     private readonly IJwtService jwtService;
     private readonly IConfiguration configuration;
     private readonly AuthenticationState anonymous;
     private readonly string tokenKeyName;
 
-    public AuthStateProvider(IDeviceStorage localStorage, IJwtService jwtService, IConfiguration configuration)
+    public AuthStateProvider(IStorage localStorage, IJwtService jwtService, IConfiguration configuration)
     {
         this.localStorage = localStorage;
         this.jwtService = jwtService;

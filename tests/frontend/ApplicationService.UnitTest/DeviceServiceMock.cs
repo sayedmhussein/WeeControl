@@ -17,7 +17,7 @@ public class DeviceServiceMock
     public Mock<IDeviceAlert> AlertMock { get; }
     public Mock<IDeviceLocation> LocationMock { get; }
     public Mock<IDeviceSecurity> SecurityMock { get; }
-    public Mock<IDeviceStorage> StorageMock { get; }
+    public Mock<IStorage> StorageMock { get; }
     public Mock<IDevicePageNavigation> NavigationMock { get; }
     public Mock<IDeviceServerCommunication> ServerMock { get; }
 
@@ -45,7 +45,7 @@ public class DeviceServiceMock
         SecurityMock.Setup(x => x.DeleteTokenAsync())
             .Callback(() =>InjectTokenToMock(string.Empty));
         
-        StorageMock = new Mock<IDeviceStorage>();
+        StorageMock = new Mock<IStorage>();
         StorageMock.SetupAllProperties();
         StorageMock.Setup(x => x.SaveAsync(It.IsAny<string>(), It.IsAny<string>()))
             .Callback((string k, string v) =>

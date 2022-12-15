@@ -4,11 +4,14 @@ namespace WeeControl.Frontend.MauiApp;
 
 public partial class App : Application
 {
-	public App()
+	private readonly LoginPage loginPage;
+
+	public App(LoginPage loginPage)
 	{
+		this.loginPage = loginPage;
 		InitializeComponent();
 
-		MainPage = new SplashPage();
+		MainPage = new SplashPage(loginPage);
 	}
 }
 

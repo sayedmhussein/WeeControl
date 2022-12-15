@@ -30,6 +30,8 @@ public class LoginPage : ContentPage
         
         SetupGui();
         GuiIsBusy(false);
+
+        Content = scrollView;
     }
     
     private void SetupGui()
@@ -37,6 +39,9 @@ public class LoginPage : ContentPage
         scrollView.Content = stackLayout;
         
         stackLayout.WidthRequest = 400;
+        stackLayout.Spacing = 25;
+        stackLayout.Padding = new Thickness(30, 0);
+        stackLayout.VerticalOptions = LayoutOptions.Center;
         stackLayout.Add(image);
         stackLayout.Add(usernameEntry);
         stackLayout.Add(passwordEntry);
@@ -64,13 +69,11 @@ public class LoginPage : ContentPage
         if (string.IsNullOrWhiteSpace(usernameEntry.Text))
         {
             usernameEntry.Focus();
-            usernameEntry.BackgroundColor = Colors.LightYellow;
         }
         
         if (string.IsNullOrWhiteSpace(passwordEntry.Text))
         {
             passwordEntry.Focus();
-            passwordEntry.BackgroundColor = Colors.LightYellow;
         }
 
         GuiIsBusy(true);
@@ -87,6 +90,8 @@ public class LoginPage : ContentPage
     private void GuiIsBusy(bool isBusy)
     {
         indicator.IsVisible = isBusy;
+        indicator.IsEnabled = isBusy;
+        indicator.IsRunning = isBusy;
         usernameEntry.IsEnabled = !isBusy;
         passwordEntry.IsEnabled = !isBusy;
         loginButton.IsEnabled = !isBusy;

@@ -5,10 +5,11 @@ using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces;
 
 namespace WeeControl.Frontend.MauiApp.Services;
 
-public class DeviceStorage : IDeviceStorage, IDeviceSecurity
+public class DeviceStorage : IStorage, IDeviceSecurity
 {
     private readonly IJwtService jwtService;
-    public string LocalStorageLocation => FileSystem.AppDataDirectory;
+    public string CashDirectory => FileSystem.CacheDirectory;
+    public string AppDataDirectory => FileSystem.AppDataDirectory;
 
     public DeviceStorage(IJwtService jwtService)
     {

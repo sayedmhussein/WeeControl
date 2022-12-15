@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using WeeControl.Frontend.AppService;
 using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces;
 using WeeControl.Frontend.AppService.Services;
+using WeeControl.Frontend.MauiApp.Pages;
 using WeeControl.Frontend.MauiApp.Services;
 
 namespace WeeControl.Frontend.MauiApp;
@@ -28,9 +29,14 @@ public static class MauiProgram
 		builder.Logging.AddDebug();
 #endif
 		
-		builder.Services.AddSingleton<IDeviceStorage, DeviceStorage>();
+		builder.Services.AddSingleton<IStorage, DeviceStorage>();
 		builder.Services.AddSingleton<IDeviceSecurity, DeviceStorage>();
 		builder.Services.AddSingleton<IDeviceServerCommunication, ServiceCommunication>();
+		builder.Services.AddSingleton<IDevicePageNavigation, DeviceNavigation>();
+		builder.Services.AddSingleton<IDeviceLocation, DeviceLocation>();
+		builder.Services.AddSingleton<IDeviceAlert, DeviceAlert>();
+
+		builder.Services.AddTransient<LoginPage>();
 
 		builder.Services.AddApplicationServices();
 
