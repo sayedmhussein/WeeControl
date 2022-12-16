@@ -2,6 +2,7 @@ using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces;
 
 namespace WeeControl.Frontend.MauiApp.Services;
 
+[Obsolete("Use GuiService class", true)]
 public class SharingService : ISharing
 {
     public Task CopyToClipboard(string text)

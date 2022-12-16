@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using WeeControl.ApiApp.Application.Contexts.Essential.Commands;
 using WeeControl.ApiApp.WebApi.Controllers.User;
 using WeeControl.Common.SharedKernel;
+using WeeControl.Common.SharedKernel.DataTransferObjects.Authentication;
 using WeeControl.Common.SharedKernel.DataTransferObjects.User;
 using WeeControl.Common.SharedKernel.RequestsResponses;
 
@@ -28,7 +29,7 @@ public class CustomerController : UserController
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.Conflict)]
-    public async Task<ActionResult<ResponseDto<AuthenticationResponseDto>>> RegisterV1([FromBody] RequestDto<RegisterCustomerDto> dto)
+    public async Task<ActionResult<ResponseDto<TokenResponseDto>>> RegisterV1([FromBody] RequestDto<RegisterCustomerDto> dto)
     {
         var command = new UserRegisterCommand(dto);
         var response = await Mediator.Send(command);

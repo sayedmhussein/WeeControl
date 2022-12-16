@@ -4,6 +4,7 @@ using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces.Obsolute;
 
 namespace WeeControl.Frontend.AppService.Services;
 
+[Obsolete("", true)]
 internal class DeviceService : IDevice
 {
     public DeviceService(IDeviceAlert alert, IDeviceLocation location, IDeviceSecurity security, IDeviceServerCommunication server, IStorage storage, IDevicePageNavigation navigation)

@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Http.Json;
 using WeeControl.Common.SharedKernel;
+using WeeControl.Common.SharedKernel.DataTransferObjects.Authentication;
 using WeeControl.Common.SharedKernel.DataTransferObjects.User;
 using WeeControl.Common.SharedKernel.RequestsResponses;
 using WeeControl.Frontend.AppService.AppInterfaces;
@@ -13,7 +14,8 @@ namespace WeeControl.Frontend.AppService.Contexts.Essential.Services;
 
 internal class UserService : IUserService
 {
-    private readonly IDevice device;
+    private readonly IGuiInterface device;
+    private readonly IDeviceSecurity security;
     private readonly IServerOperation server;
     private readonly IAuthorizationService userAuthorizationService;
     
@@ -25,9 +27,10 @@ internal class UserService : IUserService
     public List<HomeFeedModel> FeedsList { get; }
     public List<HomeNotificationModel> NotificationsList { get; }
 
-    public UserService(IDevice device, IServerOperation server, IPersistedLists persistedLists, IAuthorizationService userAuthorizationService)
+    public UserService(IGuiInterface device, IDeviceSecurity security, IServerOperation server, IPersistedLists persistedLists, IAuthorizationService userAuthorizationService)
     {
         this.device = device;
+        this.security = security;
         this.server = server;
         this.userAuthorizationService = userAuthorizationService;
 
@@ -44,7 +47,7 @@ internal class UserService : IUserService
         {
             RequestUri = 
                 new Uri(
-                    device.Server.GetFullAddress(Api.Essential.Customer.EndPoints.Service.Customer +
+                    server.GetFullAddress(Api.Essential.Customer.EndPoints.Service.Customer +
                                                  "/" + propertyName+
                                                  "/" + username
                     )),
@@ -52,7 +55,7 @@ internal class UserService : IUserService
             Method = HttpMethod.Head,
         };
         
-        var responseMessage = await server.Send<object>(message, null);
+        var responseMessage = await server.Send(message);
 
         return responseMessage.IsSuccessStatusCode;
     }
@@ -64,15 +67,15 @@ internal class UserService : IUserService
             await Refresh();
         }
 
-        await device.Navigation.NavigateToAsync(ApplicationPages.Essential.HomePage, forceLoad:true);
+        await device.NavigateToAsync(ApplicationPages.Essential.HomePage, forceLoad:true);
     }
 
     public async Task Refresh()
     {
         await SetupMenuAsync();
         
-        GreetingMessage = "Hello " + await device.Storage.GetAsync(nameof(AuthenticationResponseDto.FullName));
-        var claims = await device.Security.GetClaimsAsync();
+        GreetingMessage = "Hello " + await device.GetAsync(nameof(TokenResponseDto.FullName));
+        var claims = await security.GetClaimsAsync();
         if (claims.FirstOrDefault(x => x.Type == ClaimsValues.ClaimTypes.Territory)?.Value is not null)
         {
             IsEmployee = true;
@@ -95,7 +98,7 @@ internal class UserService : IUserService
     {
         if (string.IsNullOrWhiteSpace(passwordResetModel.Email) || string.IsNullOrWhiteSpace(passwordResetModel.Username))
         {
-            await device.Alert.DisplayAlert("Please enter your email and username first!");
+            await device.DisplayAlert("Please enter your email and username first!");
             return;
         }
         
@@ -109,7 +112,7 @@ internal class UserService : IUserService
             string.IsNullOrWhiteSpace(passwordChangeModel.ConfirmPassword) ||
             passwordChangeModel.NewPassword != passwordChangeModel.ConfirmPassword)
         {
-            await device.Alert.DisplayAlert("Invalid Properties");
+            await device.DisplayAlert("Invalid Properties");
             return;
         }
         
@@ -120,7 +123,7 @@ internal class UserService : IUserService
     {
         HttpRequestMessage message = new()
         {
-            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Customer.EndPoints.Service.Password)),
+            RequestUri = new Uri(server.GetFullAddress(Api.Essential.Customer.EndPoints.Service.Password)),
             Version = new Version("1.0"),
             Method = HttpMethod.Post,
         };
@@ -128,20 +131,20 @@ internal class UserService : IUserService
         var responseMessage = await server.Send(message, dtoV1);
         if (responseMessage.IsSuccessStatusCode)
         {
-            await device.Alert.DisplayAlert("New Password was created, please check your email.");
-            await device.Navigation.NavigateToAsync(ApplicationPages.Essential.UserPage, forceLoad:true);
+            await device.DisplayAlert("New Password was created, please check your email.");
+            await device.NavigateToAsync(ApplicationPages.Essential.UserPage, forceLoad:true);
             return;
         }
         
         Console.WriteLine("Invalid message: " + responseMessage.ReasonPhrase);
-        await device.Alert.DisplayAlert("Something went wrong!");
+        await device.DisplayAlert("Something went wrong!");
     }
     
     private async Task RegisterAsync(RegisterCustomerDto model)
     {
         HttpRequestMessage message = new()
         {
-            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Customer.EndPoints.Service.Customer)),
+            RequestUri = new Uri(server.GetFullAddress(Api.Essential.Customer.EndPoints.Service.Customer)),
             Version = new Version("1.0"),
             Method = HttpMethod.Post,
         };
@@ -150,10 +153,10 @@ internal class UserService : IUserService
 
         if (response.IsSuccessStatusCode)
         {
-            var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<AuthenticationResponseDto>>();
+            var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<TokenResponseDto>>();
             var token = responseDto?.Payload?.Token;
-            await device.Security.UpdateTokenAsync(token ?? string.Empty);
-            await device.Navigation.NavigateToAsync(ApplicationPages.Essential.SplashPage, forceLoad: true);
+            await security.UpdateTokenAsync(token ?? string.Empty);
+            await device.NavigateToAsync(ApplicationPages.Essential.SplashPage, forceLoad: true);
             return;
         }
 
@@ -165,14 +168,14 @@ internal class UserService : IUserService
             _ => throw new ArgumentOutOfRangeException(response.StatusCode.ToString())
         };
         
-        await device.Alert.DisplayAlert(displayString);
+        await device.DisplayAlert(displayString);
     }
     
     private async Task ProcessChangingPassword(UserPasswordChangeRequestDto? dto)
     {
         HttpRequestMessage message = new()
         {
-            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Customer.EndPoints.Service.Password)),
+            RequestUri = new Uri(server.GetFullAddress(Api.Essential.Customer.EndPoints.Service.Password)),
             Version = new Version("1.0"),
             Method = HttpMethod.Patch,
         };
@@ -183,25 +186,25 @@ internal class UserService : IUserService
         {
             case HttpStatusCode.OK:
             case HttpStatusCode.Accepted:
-                await device.Alert.DisplayAlert("PasswordUpdatedSuccessfully");
-                await device.Navigation.NavigateToAsync(ApplicationPages.Essential.SplashPage);
+                await device.DisplayAlert("PasswordUpdatedSuccessfully");
+                await device.NavigateToAsync(ApplicationPages.Essential.SplashPage);
                 return;
             case HttpStatusCode.NotFound:
-                await device.Alert.DisplayAlert("InvalidPassword");
+                await device.DisplayAlert("InvalidPassword");
                 break;
             default:
-                await device.Alert.DisplayAlert("DeveloperMinorBug");
+                await device.DisplayAlert("DeveloperMinorBug");
                 break;
         }
         
-        await device.Navigation.NavigateToAsync(ApplicationPages.Essential.UserPage, forceLoad: true);
+        await device.NavigateToAsync(ApplicationPages.Essential.UserPage, forceLoad: true);
     }
     
     private async Task SetupMenuAsync()
     {
         var list = new List<MenuItemModel>();
 
-        foreach (var claim in await device.Security.GetClaimsAsync())
+        foreach (var claim in await security.GetClaimsAsync())
         {
             if (claim.Type is ClaimsValues.ClaimTypes.Session or ClaimsValues.ClaimTypes.Territory or ClaimsValues.ClaimTypes.Country)
             {

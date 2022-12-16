@@ -2,8 +2,11 @@ using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces;
 
 namespace WeeControl.Frontend.MauiApp.Services;
 
+[Obsolete("Use GuiService class", true)]
 public class CommunicationService : ICommunication
 {
+    public string ServerUrl { get; }
+
     public Task SendAnEmail(IEnumerable<string> to, string subject, string body)
     {
         return SendAnEmail(to, subject, body, null);

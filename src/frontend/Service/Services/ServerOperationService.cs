@@ -1,22 +1,33 @@
 using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Newtonsoft.Json;
 using WeeControl.Common.SharedKernel;
-using WeeControl.Common.SharedKernel.DataTransferObjects.User;
+using WeeControl.Common.SharedKernel.DataTransferObjects.Authentication;
 using WeeControl.Common.SharedKernel.RequestsResponses;
 using WeeControl.Frontend.AppService.Interfaces;
+using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces.Obsolute;
 
+[assembly: InternalsVisibleTo("ApplicationService.UnitTest")]
 namespace WeeControl.Frontend.AppService.Services;
 
 internal class ServerOperationService : IServerOperation
 {
-    private readonly IDevice device;
+    private static HttpClient httpClient = new HttpClient();
+    private readonly IGuiInterface guiInterface;
+    private readonly IDeviceSecurity device;
 
-    public ServerOperationService(IDevice device)
+    public ServerOperationService(IGuiInterface guiInterface, IDeviceSecurity device)
     {
+        this.guiInterface = guiInterface;
         this.device = device;
+    }
+
+    public string GetFullAddress(string relative)
+    {
+        return guiInterface.ServerUrl + relative;
     }
 
     public Task<HttpResponseMessage> Send(HttpRequestMessage message, bool accurateLocation = false)
@@ -34,11 +45,11 @@ internal class ServerOperationService : IServerOperation
 
         try
         {
-            var bla = device.Security;
+            var bla = device;
             var dra = bla.GetTokenAsync();
             var token = await dra;
             UpdateHttpAuthorizationHeader(token);
-            return await device.Server.HttpClient.SendAsync(message);
+            return await httpClient.SendAsync(message);
         }
         catch (HttpRequestException)
         {
@@ -68,14 +79,14 @@ internal class ServerOperationService : IServerOperation
 
     public async Task<bool> IsTokenValid()
     {
-        if (await device.Security.IsAuthenticatedAsync() == false)
+        if (await device.IsAuthenticatedAsync() == false)
         {
             return false;
         }
 
         HttpRequestMessage message = new()
         {
-            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Authorization.Route)),
+            RequestUri = new Uri(GetFullAddress(Api.Essential.Authorization.Route)),
             Version = new Version("1.0"),
             Method = HttpMethod.Put
         };
@@ -83,14 +94,14 @@ internal class ServerOperationService : IServerOperation
         var response = await Send(message);
         if (response.IsSuccessStatusCode)
         {
-            var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<AuthenticationResponseDto>>();
+            var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<TokenResponseDto>>();
             var token = responseDto?.Payload?.Token;
             if (responseDto is not null && token is not null)
             {
-                await device.Storage.SaveAsync(nameof(AuthenticationResponseDto.Token), token);
-                await device.Storage.SaveAsync(nameof(AuthenticationResponseDto.FullName),
+                await guiInterface.SaveAsync(nameof(TokenResponseDto.Token), token);
+                await guiInterface.SaveAsync(nameof(TokenResponseDto.FullName),
                     responseDto?.Payload?.FullName ?? string.Empty);
-                await device.Security.UpdateTokenAsync(token);
+                await device.UpdateTokenAsync(token);
                 return true;
             }
             else
@@ -101,24 +112,25 @@ internal class ServerOperationService : IServerOperation
         
         if (response.StatusCode != HttpStatusCode.BadGateway)
         {
-            await device.Security.DeleteTokenAsync();
-            await device.Storage.ClearAsync();
+            await device.DeleteTokenAsync();
+            await guiInterface.ClearAsync();
         }
         
         return false;
     }
     
-    private Task<(double? Latitude, double? Longitude)> GetCurrentLocationAsync(bool accurate)
+    private async Task<(double? Latitude, double? Longitude)> GetCurrentLocationAsync(bool accurate)
     {
-        return accurate ? device.Location.GetAccurateLocationAsync() : device.Location.GetLastKnownLocationAsync();
+        var loc = await guiInterface.GetDeviceLocation(accurate);
+        return (loc.Latitude, loc.Longitude);
     }
     
     private async Task<HttpContent> GetResponseDtoAsHttpContentAsync<T>(bool locationAccuracy, T? payload = null) where T : class
     {
         var location = await GetCurrentLocationAsync(locationAccuracy);
         var dto = payload == null ? 
-            RequestDto.Create(device.DeviceId, location.Latitude, location.Longitude) : 
-            RequestDto.Create(payload, device.DeviceId, location.Latitude, location.Longitude);
+            RequestDto.Create(await guiInterface.GetDeviceId(), location.Latitude, location.Longitude) : 
+            RequestDto.Create(payload, await guiInterface.GetDeviceId(), location.Latitude, location.Longitude);
         
         return new StringContent(JsonConvert.SerializeObject(dto), Encoding.UTF8, "application/json");
     }
@@ -128,7 +140,7 @@ internal class ServerOperationService : IServerOperation
         if (string.IsNullOrWhiteSpace(token))
             return;
         
-        device.Server.HttpClient.DefaultRequestHeaders.Authorization = 
+        httpClient.DefaultRequestHeaders.Authorization = 
             new AuthenticationHeaderValue("Brear", token);
     }
 }

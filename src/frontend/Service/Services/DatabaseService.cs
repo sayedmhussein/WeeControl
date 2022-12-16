@@ -8,7 +8,7 @@ internal class DatabaseService : IDatabaseService
 {
     private readonly SQLiteAsyncConnection database;
 
-    public DatabaseService(IStorage deviceStorage) //FileSystem.AppDataDirectory
+    public DatabaseService(IStorage deviceStorage)
     {
         if (database is not null) return;
         

@@ -2,6 +2,7 @@ using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces.Obsolute;
 
 namespace WeeControl.Frontend.MauiApp.Services;
 
+[Obsolete("Use GuiService class", true)]
 public class ServiceCommunication : IDeviceServerCommunication
 {
     public HttpClient HttpClient { get; }

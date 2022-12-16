@@ -1,11 +1,10 @@
-using System.Reflection;
-using System.Runtime.CompilerServices;
 using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces;
 using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces.Obsolute;
 //[assembly: InternalsVisibleTo("UserApplication.Test.Integration")]
 
 namespace WeeControl.Frontend.AppService.Interfaces;
 
+[Obsolete("error: true", true)]
 internal interface IDevice
 {
     IDeviceAlert Alert { get; }

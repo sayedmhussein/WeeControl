@@ -4,8 +4,9 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Configuration;
-using WeeControl.Common.SharedKernel.DataTransferObjects.User;
+using WeeControl.Common.SharedKernel.DataTransferObjects.Authentication;
 using WeeControl.Common.SharedKernel.Interfaces;
+using WeeControl.Frontend.AppService.Interfaces;
 using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces;
 using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces.Obsolute;
 
@@ -29,7 +30,7 @@ public class AuthStateProvider : AuthenticationStateProvider, IDeviceSecurity
         var cp = new ClaimsPrincipal(identity);
         anonymous = new AuthenticationState(cp);
 
-        tokenKeyName = nameof(AuthenticationResponseDto.Token);
+        tokenKeyName = nameof(TokenResponseDto.Token);
     }
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()

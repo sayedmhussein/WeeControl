@@ -2,7 +2,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using WeeControl.ApiApp.Application.Contexts.Essential.Commands;
 using WeeControl.ApiApp.Application.Exceptions;
-using WeeControl.Common.SharedKernel.DataTransferObjects.User;
+using WeeControl.Common.SharedKernel.DataTransferObjects.Authentication;
 using WeeControl.Common.SharedKernel.RequestsResponses;
 using Xunit;
 
@@ -146,7 +146,7 @@ public class SessionCreateCommandTests
     private SessionCreateCommand GetQuery(string emailOrUsername, string password, string device = "device")
     {
         return new SessionCreateCommand(RequestDto.Create(
-            AuthenticationRequestDto.Create(emailOrUsername, password),  device, 0, 0));
+            LoginRequestDto.Create(emailOrUsername, password),  device, 0, 0));
     }
     
     // private CreateTokenCommand GetQuery(string device)

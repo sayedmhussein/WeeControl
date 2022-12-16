@@ -1,8 +1,8 @@
 using System.Security.Claims;
 
-namespace WeeControl.Frontend.AppService.Interfaces.GuiInterfaces.Obsolute;
+namespace WeeControl.Frontend.AppService.Interfaces;
 
-public interface IDeviceSecurity
+internal interface IDeviceSecurity
 {
     Task<bool> IsAuthenticatedAsync();
 

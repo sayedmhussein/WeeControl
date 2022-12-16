@@ -11,13 +11,13 @@ using Microsoft.IdentityModel.Tokens;
 using WeeControl.ApiApp.Application.Exceptions;
 using WeeControl.ApiApp.Application.Interfaces;
 using WeeControl.Common.SharedKernel;
-using WeeControl.Common.SharedKernel.DataTransferObjects.User;
+using WeeControl.Common.SharedKernel.DataTransferObjects.Authentication;
 using WeeControl.Common.SharedKernel.Interfaces;
 using WeeControl.Common.SharedKernel.RequestsResponses;
 
 namespace WeeControl.ApiApp.Application.Contexts.Essential.Commands;
 
-public class SessionUpdateCommand : IRequest<ResponseDto<AuthenticationResponseDto>>
+public class SessionUpdateCommand : IRequest<ResponseDto<TokenResponseDto>>
 {
     private readonly IRequestDto dto;
     private readonly string otp;
@@ -34,7 +34,7 @@ public class SessionUpdateCommand : IRequest<ResponseDto<AuthenticationResponseD
         otp = dto.Payload;
     }
 
-    public class UserTokenHandler : IRequestHandler<SessionUpdateCommand, ResponseDto<AuthenticationResponseDto>>
+    public class UserTokenHandler : IRequestHandler<SessionUpdateCommand, ResponseDto<TokenResponseDto>>
     {
         private readonly IEssentialDbContext context;
         private readonly IJwtService jwtService;
@@ -59,7 +59,7 @@ public class SessionUpdateCommand : IRequest<ResponseDto<AuthenticationResponseD
             this.passwordSecurity = passwordSecurity;
         }
 
-        public async Task<ResponseDto<AuthenticationResponseDto>> Handle(SessionUpdateCommand request, CancellationToken cancellationToken)
+        public async Task<ResponseDto<TokenResponseDto>> Handle(SessionUpdateCommand request, CancellationToken cancellationToken)
         {
             if (currentUserInfo.SessionId is not null)
             {
@@ -112,7 +112,7 @@ public class SessionUpdateCommand : IRequest<ResponseDto<AuthenticationResponseD
                 };
                 var token = jwtService.GenerateToken(descriptor);
 
-                return ResponseDto.Create(AuthenticationResponseDto.Create(token, session.User.Person?.FirstName + " " + session.User.Person?.LastName));
+                return ResponseDto.Create(TokenResponseDto.Create(token, session.User.Person?.FirstName + " " + session.User.Person?.LastName));
             }
         
             throw new BadRequestException("Invalid request query parameters.");

@@ -1,5 +1,5 @@
-using System.Net.Http.Json;
 using WeeControl.Common.SharedKernel;
+using WeeControl.Common.SharedKernel.DataTransferObjects.Home;
 using WeeControl.Common.SharedKernel.DataTransferObjects.User;
 using WeeControl.Frontend.AppService.AppInterfaces;
 using WeeControl.Frontend.AppService.AppModels;
@@ -9,11 +9,11 @@ namespace WeeControl.Frontend.AppService.AppServices;
 
 internal class HomeService : IHomeService
 {
-    private readonly IDevice device;
+    private readonly IGuiInterface device;
     private readonly IServerOperation server;
     private readonly IDatabaseService db;
 
-    public HomeService(IDevice device, IServerOperation server, IDatabaseService db)
+    public HomeService(IGuiInterface device, IServerOperation server, IDatabaseService db)
     {
         this.device = device;
         this.server = server;
@@ -24,7 +24,7 @@ internal class HomeService : IHomeService
     {
         var response = await server.Send(new HttpRequestMessage
         {
-            RequestUri = new Uri(device.Server.GetFullAddress(Api.Essential.Authorization.Route)),
+            RequestUri = new Uri(server.GetFullAddress(Api.Essential.Authorization.Route)),
             Version = new Version("1.0"),
             Method = HttpMethod.Get
         });

@@ -2,6 +2,8 @@ namespace WeeControl.Frontend.AppService.Interfaces;
 
 internal interface IServerOperation
 {
+    string GetFullAddress(string relative);
+    
     Task<HttpResponseMessage> Send(
         HttpRequestMessage message,
         bool accurateLocation = false);

@@ -28,12 +28,14 @@ public static class MauiProgram
 		builder.Logging.AddDebug();
 #endif
 		
-		builder.Services.AddSingleton<IStorage, DeviceStorage>();
-		builder.Services.AddSingleton<IDeviceSecurity, DeviceStorage>();
-		builder.Services.AddSingleton<IDeviceServerCommunication, ServiceCommunication>();
-		builder.Services.AddSingleton<IDevicePageNavigation, DeviceNavigation>();
-		builder.Services.AddSingleton<IDeviceLocation, DeviceLocation>();
-		builder.Services.AddSingleton<IDeviceAlert, DeviceAlert>();
+		builder.Services.AddSingleton<IGuiInterface, GuiServices>();
+		
+		// builder.Services.AddSingleton<IStorage, DeviceStorage>();
+		// builder.Services.AddSingleton<IDeviceSecurity, DeviceStorage>();
+		// builder.Services.AddSingleton<IDeviceServerCommunication, ServiceCommunication>();
+		// builder.Services.AddSingleton<IDevicePageNavigation, DeviceNavigation>();
+		// builder.Services.AddSingleton<IDeviceLocation, DeviceLocation>();
+		// builder.Services.AddSingleton<IDeviceAlert, DeviceAlert>();
 
 		builder.Services.AddTransient<LoginPage>();
 

@@ -2,6 +2,7 @@ using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces.Obsolute;
 
 namespace WeeControl.Frontend.MauiApp.Services;
 
+[Obsolete("Use GuiService class", true)]
 public class DeviceLocation : IDeviceLocation
 {
     public Task<(double? Latitude, double? Longitude)> GetAccurateLocationAsync()

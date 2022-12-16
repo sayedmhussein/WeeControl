@@ -2,6 +2,7 @@
 @using WeeControl.Frontend.AppService.Contexts.Essential.Models
 @using IAuthorizationService = WeeControl.Frontend.AppService.AppInterfaces.IAuthorizationService
 @using Microsoft.AspNetCore.Components
+@using WeeControl.Common.SharedKernel.DataTransferObjects.Authentication
 @using WeeControl.Common.SharedKernel.DataTransferObjects.User
 @inject IAuthorizationService AuthorizationService
 
@@ -39,6 +40,6 @@
 
 @code
 {
-    private readonly AuthenticationRequestDto loginModel = new();
+    private readonly LoginRequestDto loginModel = new();
     private bool isLoading = false;
 }

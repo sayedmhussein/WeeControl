@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MudBlazor.Services;
 using WeeControl.Common.SharedKernel;
 using WeeControl.Frontend.AppService;
+using WeeControl.Frontend.AppService.Interfaces;
 using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces;
 using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces.Obsolute;
 using WeeControl.Frontend.Wasm.Services;

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WeeControl.ApiApp.Application.Contexts.Essential.Commands;
 using WeeControl.Common.SharedKernel;
-using WeeControl.Common.SharedKernel.DataTransferObjects.User;
+using WeeControl.Common.SharedKernel.DataTransferObjects.Authentication;
 using WeeControl.Common.SharedKernel.RequestsResponses;
 
 namespace WeeControl.ApiApp.WebApi.Controllers.User;
@@ -30,7 +30,7 @@ public class AuthorizationController : Controller
     [MapToApiVersion("1.0")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<ActionResult<ResponseDto<AuthenticationResponseDto>>> LoginV1([FromBody] RequestDto<AuthenticationRequestDto> dto)
+    public async Task<ActionResult<ResponseDto<TokenResponseDto>>> LoginV1([FromBody] RequestDto<LoginRequestDto> dto)
     {
         var response = await mediator.Send(new SessionCreateCommand(dto));
         return Ok(response);
@@ -39,9 +39,9 @@ public class AuthorizationController : Controller
     [Authorize]
     [HttpPut]
     [MapToApiVersion("1.0")]
-    [ProducesResponseType(typeof(ResponseDto<AuthenticationResponseDto>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(ResponseDto<TokenResponseDto>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.Forbidden)]
-    public async Task<ActionResult<ResponseDto<AuthenticationResponseDto>>> RefreshTokenOtp([FromBody] RequestDto<string> dto)
+    public async Task<ActionResult<ResponseDto<TokenResponseDto>>> RefreshTokenOtp([FromBody] RequestDto<string> dto)
     {
         var response = await mediator.Send(new SessionUpdateCommand(dto));
         return Ok(response);
@@ -50,9 +50,9 @@ public class AuthorizationController : Controller
     [Authorize]
     [HttpPatch]
     [MapToApiVersion("1.0")]
-    [ProducesResponseType(typeof(ResponseDto<AuthenticationResponseDto>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(ResponseDto<TokenResponseDto>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.Forbidden)]
-    public async Task<ActionResult<ResponseDto<AuthenticationResponseDto>>> RefreshTokenV1([FromBody] RequestDto dto)
+    public async Task<ActionResult<ResponseDto<TokenResponseDto>>> RefreshTokenV1([FromBody] RequestDto dto)
     {
         var response = await mediator.Send(new SessionUpdateCommand(dto));
         return Ok(response);

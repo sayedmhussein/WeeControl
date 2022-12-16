@@ -10,17 +10,17 @@ namespace WeeControl.Frontend.AppService.Contexts.Business.Elevator;
 
 internal class TerritoryService
 {
-    private readonly IDevice device;
+    private readonly IGuiInterface device;
     private readonly IServerOperation server;
     private readonly string uriString;
 
     public List<TerritoryModel> ListOfTerritories { get; }
     
-    public TerritoryService(IDevice device, IServerOperation server)
+    public TerritoryService(IGuiInterface device, IServerOperation server)
     {
         this.device = device;
         this.server = server;
-        uriString = device.Server.GetFullAddress(Api.Essential.Routes.Territory);
+        uriString = server.GetFullAddress(Api.Essential.Routes.Territory);
         ListOfTerritories = new List<TerritoryModel>();
     }
 
@@ -53,14 +53,14 @@ internal class TerritoryService
         switch (response.StatusCode)
         {
             case HttpStatusCode.BadGateway:
-                await device.Alert.DisplayAlert("Check your internet connection");
+                await device.DisplayAlert("Check your internet connection");
                 break;
             case HttpStatusCode.Unauthorized:
             case HttpStatusCode.Forbidden:
-                await device.Alert.DisplayAlert("You are not authorized");
+                await device.DisplayAlert("You are not authorized");
                 break;
             default:
-                await device.Alert.DisplayAlert("Unexpected Error Occured");
+                await device.DisplayAlert("Unexpected Error Occured");
                 throw new ArgumentOutOfRangeException(response.StatusCode.ToString());
         }
     }
@@ -78,17 +78,17 @@ internal class TerritoryService
         switch (response.StatusCode)
         {
             case HttpStatusCode.OK:
-                await device.Alert.DisplayAlert("Saved");
+                await device.DisplayAlert("Saved");
                 break;
             case HttpStatusCode.BadGateway:
-                await device.Alert.DisplayAlert("Check your internet connection");
+                await device.DisplayAlert("Check your internet connection");
                 break;
             case HttpStatusCode.Unauthorized:
             case HttpStatusCode.Forbidden:
-                await device.Alert.DisplayAlert("You are not authorized");
+                await device.DisplayAlert("You are not authorized");
                 break;
             default:
-                await device.Alert.DisplayAlert("Unexpected Error Occured");
+                await device.DisplayAlert("Unexpected Error Occured");
                 throw new ArgumentOutOfRangeException(response.StatusCode.ToString());
         }
     }

@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace WeeControl.Common.SharedKernel.DataTransferObjects.User;
+namespace WeeControl.Common.SharedKernel.DataTransferObjects.Authentication;
 
-public class AuthenticationRequestDto
+public class LoginRequestDto
 {
     [Required]
     [StringLength(45, MinimumLength = 3)]
@@ -12,11 +12,11 @@ public class AuthenticationRequestDto
     [DataType(DataType.Password)]
     public string Password { get; set; } = string.Empty;
 
-    public static AuthenticationRequestDto Create(string usernameOrEmail, string password)
+    public static LoginRequestDto Create(string usernameOrEmail, string password)
     {
-        return new AuthenticationRequestDto()
+        return new LoginRequestDto()
         {
-            UsernameOrEmail = usernameOrEmail, Password = password
+            UsernameOrEmail = usernameOrEmail.Trim(), Password = password
         };
     }
 }

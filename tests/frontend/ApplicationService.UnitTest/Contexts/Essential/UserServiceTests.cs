@@ -1,5 +1,4 @@
 using System.Net;
-using WeeControl.Common.SharedKernel.DataTransferObjects.User;
 using WeeControl.Common.SharedKernel.RequestsResponses;
 using WeeControl.Frontend.AppService;
 using WeeControl.Frontend.AppService.Contexts.Essential.Models;

@@ -8,6 +8,7 @@ using WeeControl.ApiApp.Application.Exceptions;
 using WeeControl.ApiApp.Application.Interfaces;
 using WeeControl.ApiApp.Domain.Contexts.Essential;
 using WeeControl.Common.SharedKernel.Contexts.Essential.Entities;
+using WeeControl.Common.SharedKernel.DataTransferObjects.Authentication;
 using WeeControl.Common.SharedKernel.DataTransferObjects.User;
 using WeeControl.Common.SharedKernel.Interfaces;
 using WeeControl.Common.SharedKernel.RequestsResponses;
@@ -15,7 +16,7 @@ using ValidationException = WeeControl.ApiApp.Application.Exceptions.ValidationE
 
 namespace WeeControl.ApiApp.Application.Contexts.Essential.Commands;
 
-public class UserRegisterCommand : IRequest<IResponseDto<AuthenticationResponseDto>>
+public class UserRegisterCommand : IRequest<IResponseDto<TokenResponseDto>>
 {
     private readonly IRequestDto request;
     private readonly PersonalEntity person;
@@ -39,7 +40,7 @@ public class UserRegisterCommand : IRequest<IResponseDto<AuthenticationResponseD
         employee = dto.Payload.Employee;
     }
     
-    public class RegisterHandler : IRequestHandler<UserRegisterCommand, IResponseDto<AuthenticationResponseDto>>
+    public class RegisterHandler : IRequestHandler<UserRegisterCommand, IResponseDto<TokenResponseDto>>
     {
         private readonly IEssentialDbContext context;
         private readonly IMediator mediator;
@@ -52,7 +53,7 @@ public class UserRegisterCommand : IRequest<IResponseDto<AuthenticationResponseD
             this.passwordSecurity = passwordSecurity;
         }
 
-        public async Task<IResponseDto<AuthenticationResponseDto>> Handle(UserRegisterCommand cmd, CancellationToken cancellationToken)
+        public async Task<IResponseDto<TokenResponseDto>> Handle(UserRegisterCommand cmd, CancellationToken cancellationToken)
         {
             var validationResults = new List<ValidationResult>();
             
@@ -84,7 +85,7 @@ public class UserRegisterCommand : IRequest<IResponseDto<AuthenticationResponseD
             await context.SaveChangesAsync(cancellationToken);
 
             var request =
-                new SessionCreateCommand(RequestDto.Create(AuthenticationRequestDto.Create(user.Username, cmd.user.Password),
+                new SessionCreateCommand(RequestDto.Create(LoginRequestDto.Create(user.Username, cmd.user.Password),
                     cmd.request));
             var response = await mediator.Send(request, cancellationToken);
             return response;

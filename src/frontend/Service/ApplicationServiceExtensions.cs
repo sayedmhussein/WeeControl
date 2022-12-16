@@ -18,8 +18,9 @@ public static class ApplicationServiceExtensions
         
         services.AddSingleton<IPersistedLists, PersistedListService>();
         services.AddSingleton<IDatabaseService, DatabaseService>();
+        services.AddSingleton<IDeviceSecurity, SecurityService>();
         
-        services.AddSingleton<IDevice, DeviceService>();
+        //services.AddSingleton<IDevice, DeviceService>();
         
         services.AddTransient<IServerOperation, ServerOperationService>();
         

@@ -1,11 +1,13 @@
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using WeeControl.Common.SharedKernel.Interfaces;
+using WeeControl.Frontend.AppService.Interfaces;
 using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces;
 using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces.Obsolute;
 
 namespace WeeControl.Frontend.MauiApp.Services;
 
+[Obsolete("Use GuiService class", true)]
 public class DeviceStorage : IStorage, IDeviceSecurity
 {
     private readonly IJwtService jwtService;

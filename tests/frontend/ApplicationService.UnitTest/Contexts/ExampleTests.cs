@@ -1,6 +1,6 @@
 using System;
 using System.Net;
-using WeeControl.Common.SharedKernel.DataTransferObjects.User;
+using WeeControl.Common.SharedKernel.DataTransferObjects.Authentication;
 using WeeControl.Common.SharedKernel.RequestsResponses;
 using WeeControl.Frontend.AppService;
 
@@ -18,7 +18,7 @@ public class ExampleTests
     public void Function1_ExpectedResponsesBehaviorTests(HttpStatusCode code)
     {
         using var helper = new TestHelper(nameof(Function1_ExpectedResponsesBehaviorTests));
-        var content = helper.GetJsonContent(ResponseDto.Create(AuthenticationResponseDto.Create("token", "name")));
+        var content = helper.GetJsonContent(ResponseDto.Create(TokenResponseDto.Create("token", "name")));
         var device = helper.DeviceMock.GetObject(code, content);
         
         //Service Action...
