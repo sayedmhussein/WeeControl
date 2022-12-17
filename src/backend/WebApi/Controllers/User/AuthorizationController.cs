@@ -6,13 +6,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WeeControl.ApiApp.Application.Contexts.Essential.Commands;
 using WeeControl.Common.SharedKernel;
-using WeeControl.Common.SharedKernel.DataTransferObjects.Authentication;
+using WeeControl.Common.SharedKernel.Contexts.Authentication;
 using WeeControl.Common.SharedKernel.RequestsResponses;
 
 namespace WeeControl.ApiApp.WebApi.Controllers.User;
 
 [ApiController]
-[Route(Api.Essential.Authorization.Route)]
+[Route(ApiRouting.AuthorizationRoute)]
 [ProducesResponseType((int)HttpStatusCode.BadRequest)]
 [Consumes(MediaTypeNames.Application.Json)]
 [Produces(MediaTypeNames.Application.Json)]

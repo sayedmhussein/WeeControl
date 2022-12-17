@@ -4,11 +4,9 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Configuration;
-using WeeControl.Common.SharedKernel.DataTransferObjects.Authentication;
+using WeeControl.Common.SharedKernel.Contexts.Authentication;
 using WeeControl.Common.SharedKernel.Interfaces;
-using WeeControl.Frontend.AppService.Interfaces;
-using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces;
-using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces.Obsolute;
+using WeeControl.Frontend.AppService.GuiInterfaces;
 
 namespace WeeControl.Frontend.Wasm.Services;
 

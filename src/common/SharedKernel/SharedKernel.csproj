@@ -17,7 +17,7 @@
 
     <ItemGroup>
       <Folder Include="Contexts\Business\Elevator" />
-      <Folder Include="Contexts\Essential" />
+      <Folder Include="Contexts\Temporary" />
     </ItemGroup>
 
 </Project>

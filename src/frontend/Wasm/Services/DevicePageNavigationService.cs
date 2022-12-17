@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces.Obsolute;
+using WeeControl.Frontend.AppService.GuiInterfaces.Obsolute;
 
 namespace WeeControl.Frontend.Wasm.Services;
 

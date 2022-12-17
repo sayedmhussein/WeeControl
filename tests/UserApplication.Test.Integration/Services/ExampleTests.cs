@@ -3,7 +3,7 @@ using Moq;
 using WeeControl.ApiApp.Application.Interfaces;
 using WeeControl.ApiApp.WebApi;
 using WeeControl.Frontend.AppService;
-using WeeControl.Frontend.AppService.AppInterfaces;
+using WeeControl.Frontend.AppService.Contexts.Home;
 using Xunit;
 
 namespace WeeControl.User.UserApplication.Test.Integration.Services;
@@ -35,7 +35,7 @@ public class ExampleTests : IClassFixture<CustomWebApplicationFactory<Startup>>
         
         await helper.Service.Login("username", "password");
         
-        helper.DeviceMock.NavigationMock.Verify(x => 
+        helper.DeviceMock.Verify(x => 
             x.NavigateToAsync(ApplicationPages.Essential.SplashPage, It.IsAny<bool>()), Times.Never);
     }
 }

@@ -1,8 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using WeeControl.Frontend.AppService;
-using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces;
-using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces.Obsolute;
 using WeeControl.Frontend.MauiApp.Pages;
 using WeeControl.Frontend.MauiApp.Services;
 

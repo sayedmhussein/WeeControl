@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using WeeControl.ApiApp.Application.Interfaces;
-using WeeControl.Common.SharedKernel.Contexts.Essential.DataTransferObjects;
+using WeeControl.Common.SharedKernel.Contexts.Temporary.DataTransferObjects;
 using WeeControl.Common.SharedKernel.Interfaces;
 using WeeControl.Common.SharedKernel.RequestsResponses;
 

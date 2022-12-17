@@ -2,10 +2,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.ApiApp.Application.Interfaces;
 using WeeControl.ApiApp.WebApi;
-using WeeControl.Common.SharedKernel.DataTransferObjects.User;
+using WeeControl.Common.SharedKernel.Contexts.Temporary.User;
 using WeeControl.Frontend.AppService;
-using WeeControl.Frontend.AppService.Contexts.Essential.Interfaces;
-using WeeControl.Frontend.AppService.Contexts.Essential.Models;
+using WeeControl.Frontend.AppService.Contexts.Temporary.Interfaces;
+using WeeControl.Frontend.AppService.Contexts.Temporary.Models;
 using Xunit;
 
 namespace WeeControl.User.UserApplication.Test.Integration.Services.Essential;
@@ -72,7 +72,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
             ConfirmPassword = "someNewPassword"
         });
             
-        helper.DeviceMock.NavigationMock.Verify(x => 
+        helper.DeviceMock.Verify(x => 
             x.NavigateToAsync(ApplicationPages.Essential.SplashPage, It.IsAny<bool>()), Times.Once);
     }
     
@@ -100,8 +100,8 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
             ConfirmPassword = "someNewPassword"
         });
             
-        helper.DeviceMock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
-        helper.DeviceMock.NavigationMock.Verify(x => 
+        helper.DeviceMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
+        helper.DeviceMock.Verify(x => 
             x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
     }
     
@@ -130,8 +130,8 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
             ConfirmPassword = "someNewPassword"
         });
             
-        helper.DeviceMock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
-        helper.DeviceMock.NavigationMock.Verify(x => 
+        helper.DeviceMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
+        helper.DeviceMock.Verify(x => 
             x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
     }
 
@@ -161,8 +161,8 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
             ConfirmPassword = "someNewPassword"
         });
             
-        helper.DeviceMock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
-        helper.DeviceMock.NavigationMock.Verify(x => 
+        helper.DeviceMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
+        helper.DeviceMock.Verify(x => 
             x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
     }
     #endregion
@@ -191,7 +191,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
             Username = "username"
         });
             
-        helper.DeviceMock.NavigationMock.Verify(x => 
+        helper.DeviceMock.Verify(x => 
             x.NavigateToAsync(ApplicationPages.Essential.UserPage, It.IsAny<bool>()), Times.Once);
     }
     
@@ -221,7 +221,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
             Username = username
         });
             
-        helper.DeviceMock.NavigationMock.Verify(x => 
+        helper.DeviceMock.Verify(x => 
             x.NavigateToAsync(ApplicationPages.Essential.UserPage, It.IsAny<bool>()), Times.Never);
     }
 
@@ -249,7 +249,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
             Username = "username"
         });
             
-        helper.DeviceMock.NavigationMock.Verify(x => 
+        helper.DeviceMock.Verify(x => 
             x.NavigateToAsync(ApplicationPages.Essential.UserPage, It.IsAny<bool>()), Times.Never);
     }
     #endregion
@@ -285,7 +285,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
         
         await helper.Service.Register(model);
 
-        helper.DeviceMock.NavigationMock.Verify(x => 
+        helper.DeviceMock.Verify(x => 
             x.NavigateToAsync(ApplicationPages.Essential.SplashPage, It.IsAny<bool>()), Times.AtLeastOnce);
     }
     
@@ -333,8 +333,8 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
         
         await helper.Service.Register(model);
             
-        helper.DeviceMock.AlertMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
-        helper.DeviceMock.NavigationMock.Verify(x => 
+        helper.DeviceMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
+        helper.DeviceMock.Verify(x => 
             x.NavigateToAsync(ApplicationPages.Essential.SplashPage, It.IsAny<bool>()), Times.Never);;
     }
     #endregion

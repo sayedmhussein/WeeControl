@@ -1,9 +1,6 @@
-@using WeeControl.Frontend.AppService.Contexts.Essential.Interfaces
-@using WeeControl.Frontend.AppService.Contexts.Essential.Models
-@using IAuthorizationService = WeeControl.Frontend.AppService.AppInterfaces.IAuthorizationService
+@using IAuthorizationService = WeeControl.Frontend.AppService.Contexts.Home.IAuthorizationService
 @using Microsoft.AspNetCore.Components
-@using WeeControl.Common.SharedKernel.DataTransferObjects.Authentication
-@using WeeControl.Common.SharedKernel.DataTransferObjects.User
+@using WeeControl.Common.SharedKernel.Contexts.Authentication
 @inject IAuthorizationService AuthorizationService
 
 <MudCardHeader>

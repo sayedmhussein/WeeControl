@@ -2,7 +2,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using WeeControl.ApiApp.Application.Contexts.Essential.Commands;
 using WeeControl.ApiApp.Application.Exceptions;
-using WeeControl.Common.SharedKernel.DataTransferObjects.Authentication;
+using WeeControl.Common.SharedKernel.Contexts.Authentication;
 using WeeControl.Common.SharedKernel.RequestsResponses;
 using Xunit;
 

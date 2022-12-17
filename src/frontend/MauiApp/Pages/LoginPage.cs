@@ -1,5 +1,5 @@
 
-using WeeControl.Frontend.AppService.AppInterfaces;
+using WeeControl.Frontend.AppService.Contexts.Home;
 
 namespace WeeControl.Frontend.MauiApp.Pages;
 
@@ -52,11 +52,11 @@ public class LoginPage : ContentPage
         image.HorizontalOptions = LayoutOptions.Center;
         image.Aspect = Aspect.AspectFit;
 
-        usernameEntry.Placeholder = "Username";
+        usernameEntry.Placeholder = service.GuiStrings.UsernameLabel;
         usernameEntry.Text = string.Empty;
         usernameEntry.Keyboard = Keyboard.Email;
 
-        passwordEntry.Placeholder = "Password";
+        passwordEntry.Placeholder = service.GuiStrings.PasswordLabel;
         passwordEntry.Text = string.Empty;
         passwordEntry.IsPassword = true;
 

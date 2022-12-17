@@ -1,12 +1,12 @@
 using System.Globalization;
 using WeeControl.Frontend.AppService;
-using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces;
 
 namespace WeeControl.Frontend.MauiApp.Services;
 
 public class GuiServices : IGuiInterface
 {
     public string ServerUrl => "https://localhost:5001/";
+    public HttpClient HttpClient { get; set; } = new();
 
     public Task SendAnEmail(IEnumerable<string> to, string subject, string body)
     {

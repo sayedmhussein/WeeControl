@@ -1,7 +1,7 @@
 using System.Net.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.JSInterop;
-using WeeControl.Frontend.AppService.Interfaces.GuiInterfaces.Obsolute;
+using WeeControl.Frontend.AppService.GuiInterfaces.Obsolute;
 
 namespace WeeControl.Frontend.Wasm.Services;
 
