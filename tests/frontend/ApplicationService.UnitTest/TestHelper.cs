@@ -17,11 +17,11 @@ namespace WeeControl.Frontend.Service.UnitTest;
 
 public class TestHelper : IDisposable
 {
-    public Mock<IGuiInterface> DeviceMock { get; private set; }
+    public Mock<IDeviceData> DeviceMock { get; private set; }
 
     public TestHelper(string deviceName)
     {
-        DeviceMock = new Mock<IGuiInterface>();
+        DeviceMock = new Mock<IDeviceData>();
         DeviceMock.SetupAllProperties();
         DeviceMock.Setup(x => x.GetDeviceId()).ReturnsAsync(deviceName);
         
@@ -44,7 +44,7 @@ public class TestHelper : IDisposable
         var collection = new ServiceCollection();
         collection.AddApplicationServices();
         
-        collection.AddSingleton<IGuiInterface>(DeviceMock.Object);
+        collection.AddSingleton<IDeviceData>(DeviceMock.Object);
         collection.AddSingleton<IStorage>(DeviceMock.Object);
         
         using var scope = collection.BuildServiceProvider().CreateScope();

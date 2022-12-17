@@ -15,19 +15,19 @@ namespace WeeControl.Frontend.AppService.Internals.Services;
 internal class ServerOperationService : IServerOperation
 {
     private readonly HttpClient httpClient;
-    private readonly IGuiInterface guiInterface;
+    private readonly IDeviceData deviceData;
     private readonly IDeviceSecurity device;
 
-    public ServerOperationService(IGuiInterface guiInterface, IDeviceSecurity device)
+    public ServerOperationService(IDeviceData deviceData, IDeviceSecurity device)
     {
-        httpClient = guiInterface.HttpClient;
-        this.guiInterface = guiInterface;
+        httpClient = deviceData.HttpClient;
+        this.deviceData = deviceData;
         this.device = device;
     }
 
     public string GetFullAddress(string relative)
     {
-        return guiInterface.ServerUrl + relative;
+        return deviceData.ServerUrl + relative;
     }
 
     public Task<HttpResponseMessage> Send(HttpRequestMessage message, bool accurateLocation = false)
@@ -38,16 +38,16 @@ internal class ServerOperationService : IServerOperation
 
     public async Task<HttpResponseMessage> Send<T>(HttpRequestMessage message, T payload, bool accurateLocation = false) where T : class
     {
-        if (message.Content is null && message.Method != HttpMethod.Get)
+        if (message.Content is not null)
         {
-            message.Content = await GetResponseDtoAsHttpContentAsync(accurateLocation, payload);
+            throw new ArgumentException("You can't pass another payload in message with existing content, either remove the content or use the overloaded function.");
         }
+        
+        message.Content = await GetResponseDtoAsHttpContentAsync(accurateLocation, payload);
 
         try
         {
-            var bla = device;
-            var dra = bla.GetTokenAsync();
-            var token = await dra;
+            var token = await device.GetTokenAsync();
             UpdateHttpAuthorizationHeader(token);
             return await httpClient.SendAsync(message);
         }
@@ -98,8 +98,8 @@ internal class ServerOperationService : IServerOperation
             var token = responseDto?.Payload?.Token;
             if (responseDto is not null && token is not null)
             {
-                await guiInterface.SaveAsync(nameof(TokenResponseDto.Token), token);
-                await guiInterface.SaveAsync(nameof(TokenResponseDto.FullName),
+                await deviceData.SaveAsync(nameof(TokenResponseDto.Token), token);
+                await deviceData.SaveAsync(nameof(TokenResponseDto.FullName),
                     responseDto?.Payload?.FullName ?? string.Empty);
                 await device.UpdateTokenAsync(token);
                 return true;
@@ -113,7 +113,7 @@ internal class ServerOperationService : IServerOperation
         if (response.StatusCode != HttpStatusCode.BadGateway)
         {
             await device.DeleteTokenAsync();
-            await guiInterface.ClearAsync();
+            await deviceData.ClearAsync();
         }
         
         return false;
@@ -121,16 +121,14 @@ internal class ServerOperationService : IServerOperation
     
     private async Task<(double? Latitude, double? Longitude)> GetCurrentLocationAsync(bool accurate)
     {
-        var loc = await guiInterface.GetDeviceLocation(accurate);
+        var loc = await deviceData.GetDeviceLocation(accurate);
         return (loc.Latitude, loc.Longitude);
     }
     
-    private async Task<HttpContent> GetResponseDtoAsHttpContentAsync<T>(bool locationAccuracy, T? payload = null) where T : class
+    private async Task<HttpContent> GetResponseDtoAsHttpContentAsync<T>(bool locationAccuracy, T payload) where T : class
     {
         var location = await GetCurrentLocationAsync(locationAccuracy);
-        var dto = payload == null ? 
-            RequestDto.Create(await guiInterface.GetDeviceId(), location.Latitude, location.Longitude) : 
-            RequestDto.Create(payload, await guiInterface.GetDeviceId(), location.Latitude, location.Longitude);
+        var dto = RequestDto.Create(payload, await deviceData.GetDeviceId(), location.Latitude, location.Longitude);
         
         return new StringContent(JsonConvert.SerializeObject(dto), Encoding.UTF8, "application/json");
     }

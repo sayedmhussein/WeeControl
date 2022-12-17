@@ -1,10 +1,9 @@
 @using IAuthorizationService = WeeControl.Frontend.AppService.Contexts.Home.IAuthorizationService
 @using WeeControl.Frontend.AppService
 @using WeeControl.Frontend.AppService.Contexts.Temporary.Interfaces
-@using WeeControl.Frontend.AppService.GuiInterfaces.Obsolute
 @inject IUserService UserService
 @inject IAuthorizationService UserAuthorizationService
-@inject IDevicePageNavigation Navigation
+@inject IDeviceData Navigation
 
 <MudToolBar Elevation="25" Class="d-flex">
     <MudLink Class="d-inline-flex" Href="/">

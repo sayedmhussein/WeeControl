@@ -12,12 +12,12 @@ internal class AuthorizationService : IAuthorizationService
 {
     public AuthorizationGui GuiStrings { get; }
     
-    private readonly IGuiInterface device;
+    private readonly IDeviceData device;
     private readonly IDeviceSecurity security;
     private readonly IServerOperation server;
     private const string Route = ApiRouting.AuthorizationRoute;
 
-    public AuthorizationService(IGuiInterface device, IDeviceSecurity security, IServerOperation server)
+    public AuthorizationService(IDeviceData device, IDeviceSecurity security, IServerOperation server)
     {
         this.device = device;
         this.security = security;
@@ -137,7 +137,6 @@ internal class AuthorizationService : IAuthorizationService
             case HttpStatusCode.OK:
             case HttpStatusCode.Accepted:
                 var responseDto = await server.ReadFromContent<TokenResponseDto>(response.Content);
-                //var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<TokenResponseDto>>();
                 var token = responseDto?.Token;
                 if (token is not null)
                 {

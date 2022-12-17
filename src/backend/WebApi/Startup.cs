@@ -23,6 +23,9 @@ public class Startup
         services.AddControllers().AddNewtonsoftJson(options =>
             options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
+        // services.AddControllers(
+        //     options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
+
         services.AddHttpContextAccessor();
 
         services.AddUserSecurityService();

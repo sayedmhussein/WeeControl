@@ -13,7 +13,7 @@ namespace WeeControl.Frontend.AppService.Contexts.Temporary.Services;
 
 internal class UserService : IUserService
 {
-    private readonly IGuiInterface device;
+    private readonly IDeviceData device;
     private readonly IDeviceSecurity security;
     private readonly IServerOperation server;
     private readonly IAuthorizationService userAuthorizationService;
@@ -27,7 +27,7 @@ internal class UserService : IUserService
     public List<HomeFeedModel> FeedsList { get; }
     public List<HomeNotificationModel> NotificationsList { get; }
 
-    public UserService(IGuiInterface device, IDeviceSecurity security, IServerOperation server, IPersistedLists persistedLists, IAuthorizationService userAuthorizationService)
+    public UserService(IDeviceData device, IDeviceSecurity security, IServerOperation server, IPersistedLists persistedLists, IAuthorizationService userAuthorizationService)
     {
         this.device = device;
         this.security = security;

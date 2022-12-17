@@ -3,7 +3,7 @@ using WeeControl.Frontend.AppService;
 
 namespace WeeControl.Frontend.MauiApp.Services;
 
-public class GuiServices : IGuiInterface
+public class GuiServices : IDeviceData
 {
     public string ServerUrl => "https://localhost:5001/";
     public HttpClient HttpClient { get; set; } = new();

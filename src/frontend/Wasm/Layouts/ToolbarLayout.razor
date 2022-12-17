@@ -3,7 +3,7 @@
 @inherits LayoutComponentBase
 @attribute [AllowAnonymous]
 
-@inject IDeviceSecurity DeviceSecurity
+@inject IServiceData ServiceData
 @inject NavigationManager NavManager
 
 <MudThemeProvider/>
@@ -26,7 +26,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        if (await DeviceSecurity.IsAuthenticatedAsync())
+        if (await ServiceData.IsAuthenticated())
         {
             showLoginButton = false;
             showLogoutButton = true;

@@ -4,6 +4,7 @@ using WeeControl.Frontend.AppService.Contexts.Authentication;
 using WeeControl.Frontend.AppService.Contexts.Home;
 using WeeControl.Frontend.AppService.Contexts.Temporary.Interfaces;
 using WeeControl.Frontend.AppService.Contexts.Temporary.Services;
+using WeeControl.Frontend.AppService.GuiInterfaces;
 using WeeControl.Frontend.AppService.Internals.Interfaces;
 using WeeControl.Frontend.AppService.Internals.Services;
 
@@ -14,13 +15,14 @@ public static class ApplicationServiceExtensions
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         services.AddUserSecurityService(); //From Shared Kernel
-        
+
+        services.AddSingleton<IStorage>(x => x.GetRequiredService<IDeviceData>());
+
         services.AddSingleton<IPersistedLists, PersistedListService>();
         services.AddSingleton<IDatabaseService, DatabaseService>();
         services.AddSingleton<IDeviceSecurity, SecurityService>();
-        
-        //services.AddSingleton<IDevice, DeviceService>();
-        
+        services.AddSingleton<IServiceData, ServiceDataService>();
+
         services.AddTransient<IServerOperation, ServerOperationService>();
         
         services.AddTransient<IAuthorizationService, AuthorizationService>();

@@ -2,7 +2,7 @@
 @using WeeControl.Frontend.AppService
 
 @attribute [Route(ApplicationPages.Essential.UserPage)]
-@inject IAuthorizationService UserAuthorizationService
+@inject IServiceData UserAuthorizationService
 
 @if (isAuthorized)
 {
@@ -58,7 +58,7 @@ else
     {
         await base.OnInitializedAsync();
 
-        if (await UserAuthorizationService.IsAuthorized())
+        if (await UserAuthorizationService.IsAuthenticated())
         {
             isAuthorized = true;
         }

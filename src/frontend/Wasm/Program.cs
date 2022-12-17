@@ -7,8 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 using MudBlazor.Services;
 using WeeControl.Common.SharedKernel;
 using WeeControl.Frontend.AppService;
-using WeeControl.Frontend.AppService.GuiInterfaces;
-using WeeControl.Frontend.AppService.GuiInterfaces.Obsolute;
 using WeeControl.Frontend.Wasm.Services;
 
 namespace WeeControl.Frontend.Wasm;
@@ -23,14 +21,8 @@ public class Program
         
         builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
         
-        builder.Services.AddScoped<IDeviceAlert, DeviceAlertSimple>();
-        builder.Services.AddScoped<IDeviceLocation, DeviceLocationService>();
-        builder.Services.AddScoped<IDevicePageNavigation, DevicePageNavigationService>();
-        builder.Services.AddScoped<IDeviceServerCommunication, EssentialDeviceServerDeviceService>();
-        builder.Services.AddScoped<IStorage, DeviceStorageService>();
-        
-        builder.Services.AddScoped<IDeviceSecurity, AuthStateProvider>();
-        
+        builder.Services.AddSingleton<IDeviceData, DeviceDataService>();
+
         builder.Services.AddUserSecurityService();
         builder.Services.AddApplicationServices();
 

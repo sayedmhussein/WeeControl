@@ -6,11 +6,11 @@ namespace WeeControl.Frontend.AppService.Contexts.Home;
 
 internal class HomeService : IHomeService
 {
-    private readonly IGuiInterface device;
+    private readonly IDeviceData device;
     private readonly IServerOperation server;
     private readonly IDatabaseService db;
 
-    public HomeService(IGuiInterface device, IServerOperation server, IDatabaseService db)
+    public HomeService(IDeviceData device, IServerOperation server, IDatabaseService db)
     {
         this.device = device;
         this.server = server;

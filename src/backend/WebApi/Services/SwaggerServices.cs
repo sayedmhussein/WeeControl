@@ -74,6 +74,6 @@ public static class SwaggerServices
     public static void ConfigureSwaggerUi(SwaggerUIOptions swaggerUiOptions)
     {
         swaggerUiOptions.SwaggerEndpoint($"/swagger/v1/swagger.json", "MySystem.Api v1");
-        //swaggerUIOptions.RoutePrefix = "api-docs";
+        // swaggerUiOptions.RoutePrefix = "api-docs";
     }
 }

@@ -26,7 +26,7 @@ public static class MauiProgram
 		builder.Logging.AddDebug();
 #endif
 		
-		builder.Services.AddSingleton<IGuiInterface, GuiServices>();
+		builder.Services.AddSingleton<IDeviceData, GuiServices>();
 		
 		// builder.Services.AddSingleton<IStorage, DeviceStorage>();
 		// builder.Services.AddSingleton<IDeviceSecurity, DeviceStorage>();

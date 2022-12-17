@@ -14,8 +14,8 @@ namespace WeeControl.User.UserApplication.Test.Integration.Services;
 
 public class TestHelper<T> : IDisposable where T : class
 {
-    public Mock<IGuiInterface> DeviceMock { get; private set; }
-    public IGuiInterface Device { get; private set; }
+    public Mock<IDeviceData> DeviceMock { get; private set; }
+    public IDeviceData Device { get; private set; }
     public T Service { get; private set; }
 
     public TestHelper(HttpClient httpClient)
