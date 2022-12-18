@@ -1,4 +1,5 @@
-﻿using WeeControl.Common.SharedKernel.Interfaces;
+﻿using System.ComponentModel.DataAnnotations;
+using WeeControl.Common.SharedKernel.Interfaces;
 
 namespace WeeControl.Common.SharedKernel.RequestsResponses;
 
@@ -19,11 +20,12 @@ public class RequestDto : IRequestDto
         return new RequestDto<T>(payload,dto);
     }
 
-    public string DeviceId { get; }
+    [Required]
+    public string DeviceId { get; init; }
 
-    public double? Latitude { get; }
+    public double? Latitude { get; init; }
 
-    public double? Longitude { get; }
+    public double? Longitude { get; init; }
 
     internal RequestDto()
     {
@@ -44,7 +46,7 @@ public class RequestDto : IRequestDto
 
 public class RequestDto<T> : RequestDto, IRequestDto<T> where T : class
 {
-    public T Payload { get; }
+    public T Payload { get; init; }
 
     internal RequestDto()
     {

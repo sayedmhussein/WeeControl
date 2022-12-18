@@ -1,7 +1,7 @@
-using WeeControl.Frontend.AppService.Contexts.Home;
-using WeeControl.Frontend.AppService.Contexts.Temporary.Models;
+using WeeControl.Frontend.AppService.GuiInterfaces.Home;
+using WeeControl.Frontend.AppService.Internals.Temporary.Models;
 
-namespace WeeControl.Frontend.AppService.Contexts.Temporary.Interfaces;
+namespace WeeControl.Frontend.AppService.Internals.Temporary.Interfaces;
 
 public interface IUserService
 {

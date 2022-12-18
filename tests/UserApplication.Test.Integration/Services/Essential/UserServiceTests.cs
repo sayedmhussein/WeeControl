@@ -4,8 +4,8 @@ using WeeControl.ApiApp.Application.Interfaces;
 using WeeControl.ApiApp.WebApi;
 using WeeControl.Common.SharedKernel.Contexts.Temporary.User;
 using WeeControl.Frontend.AppService;
-using WeeControl.Frontend.AppService.Contexts.Temporary.Interfaces;
-using WeeControl.Frontend.AppService.Contexts.Temporary.Models;
+using WeeControl.Frontend.AppService.Internals.Temporary.Interfaces;
+using WeeControl.Frontend.AppService.Internals.Temporary.Models;
 using Xunit;
 
 namespace WeeControl.User.UserApplication.Test.Integration.Services.Essential;

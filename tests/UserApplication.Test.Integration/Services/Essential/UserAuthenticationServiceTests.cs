@@ -3,7 +3,7 @@ using Moq;
 using WeeControl.ApiApp.Application.Interfaces;
 using WeeControl.ApiApp.WebApi;
 using WeeControl.Frontend.AppService;
-using WeeControl.Frontend.AppService.Contexts.Home;
+using WeeControl.Frontend.AppService.GuiInterfaces.Authorization;
 using WeeControl.Frontend.Service.UnitTest;
 using Xunit;
 
@@ -89,7 +89,6 @@ public class UserAuthenticationServiceTests : IClassFixture<CustomWebApplication
 
         Assert.True(await service.Login("username", "password"));
         Assert.False(await service.UpdateToken(otp));
-        Assert.False(await service.Logout());
     }
     
     #region BusinessLogic

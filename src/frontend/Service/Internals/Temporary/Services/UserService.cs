@@ -4,12 +4,13 @@ using WeeControl.Common.SharedKernel;
 using WeeControl.Common.SharedKernel.Contexts.Authentication;
 using WeeControl.Common.SharedKernel.Contexts.Temporary.User;
 using WeeControl.Common.SharedKernel.RequestsResponses;
-using WeeControl.Frontend.AppService.Contexts.Home;
-using WeeControl.Frontend.AppService.Contexts.Temporary.Interfaces;
-using WeeControl.Frontend.AppService.Contexts.Temporary.Models;
+using WeeControl.Frontend.AppService.GuiInterfaces.Authorization;
+using WeeControl.Frontend.AppService.GuiInterfaces.Home;
 using WeeControl.Frontend.AppService.Internals.Interfaces;
+using WeeControl.Frontend.AppService.Internals.Temporary.Interfaces;
+using WeeControl.Frontend.AppService.Internals.Temporary.Models;
 
-namespace WeeControl.Frontend.AppService.Contexts.Temporary.Services;
+namespace WeeControl.Frontend.AppService.Internals.Temporary.Services;
 
 internal class UserService : IUserService
 {
@@ -75,13 +76,13 @@ internal class UserService : IUserService
         await SetupMenuAsync();
         
         GreetingMessage = "Hello " + await device.GetAsync(nameof(TokenResponseDto.FullName));
-        var claims = await security.GetClaimsAsync();
-        if (claims.FirstOrDefault(x => x.Type == ClaimsValues.ClaimTypes.Territory)?.Value is not null)
+        var claims = await security.GetClaimsPrincipal();
+        if (claims.Claims.FirstOrDefault(x => x.Type == ClaimsValues.ClaimTypes.Territory)?.Value is not null)
         {
             IsEmployee = true;
         }
             
-        if (claims.FirstOrDefault(x => x.Type == ClaimsValues.ClaimTypes.Country)?.Value is not null)
+        if (claims.Claims.FirstOrDefault(x => x.Type == ClaimsValues.ClaimTypes.Country)?.Value is not null)
         {
             IsCustomer = true;
         }
@@ -204,7 +205,7 @@ internal class UserService : IUserService
     {
         var list = new List<MenuItemModel>();
 
-        foreach (var claim in await security.GetClaimsAsync())
+        foreach (var claim in (await security.GetClaimsPrincipal()).Claims)
         {
             if (claim.Type is ClaimsValues.ClaimTypes.Session or ClaimsValues.ClaimTypes.Territory or ClaimsValues.ClaimTypes.Country)
             {

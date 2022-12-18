@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using WeeControl.Common.SharedKernel.Contexts.Authentication;
 using WeeControl.Common.SharedKernel.Interfaces;
 using WeeControl.Frontend.AppService;
@@ -12,34 +14,26 @@ namespace WeeControl.Frontend.Wasm.Services;
 
 public class AuthStateProvider : AuthenticationStateProvider
 {
-    private readonly IJwtService jwtService;
-    private readonly IDeviceData deviceData;
-    private readonly IConfiguration configuration;
+    private readonly IServiceData serviceData;
     private readonly AuthenticationState anonymous;
-    private readonly string tokenKeyName;
 
-    public AuthStateProvider(IDeviceData deviceData, IJwtService jwtService, IConfiguration configuration)
+    public AuthStateProvider(IServiceData serviceData)
     {
-        this.deviceData = deviceData;
-        this.jwtService = jwtService;
-        this.configuration = configuration;
-        
+        this.serviceData = serviceData;
+
         var identity = new ClaimsIdentity();
         var cp = new ClaimsPrincipal(identity);
         anonymous = new AuthenticationState(cp);
-
-        tokenKeyName = nameof(TokenResponseDto.Token);
     }
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
-        var token = await GetTokenAsync();
-        if (string.IsNullOrWhiteSpace(token))
+        if (await serviceData.IsAuthenticated())
         {
             return anonymous;
         }
 
-        var cp = GetClaimPrincipal(token);
+        var cp = await serviceData.GetClaimPrincipal();
         return new AuthenticationState(cp);
     }
 
@@ -47,8 +41,8 @@ public class AuthStateProvider : AuthenticationStateProvider
     {
         if (string.IsNullOrWhiteSpace(token) == false)
         {
-            var cp = GetClaimPrincipal(token);
-            var state = new AuthenticationState(cp);
+            var cp = serviceData.GetClaimPrincipal();
+            var state = new AuthenticationState(cp.GetAwaiter().GetResult());
             var authState = Task.FromResult(state);
             NotifyAuthenticationStateChanged(authState);
         }
@@ -57,62 +51,4 @@ public class AuthStateProvider : AuthenticationStateProvider
             NotifyAuthenticationStateChanged(Task.FromResult(anonymous));
         }
     }
-    
-    private ClaimsPrincipal GetClaimPrincipal(string token)
-    {
-        // var key = configuration["Jwt:Key"] ?? throw new NullReferenceException("Jwt:Key in IConfiguration can't be null!");
-        //     
-        // var validationParameters = new TokenValidationParameters()
-        // {
-        //     ValidateIssuerSigningKey = true,
-        //     IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(key)),
-        //     ValidateIssuer = false,
-        //     ValidateAudience = false,
-        //     ValidateLifetime = false,
-        //     ClockSkew = TimeSpan.Zero
-        // };
-
-        return jwtService.GetClaimPrincipal(token, null);
-    }
-    
-    public async Task<bool> IsAuthenticatedAsync()
-    {
-        var token = Token ?? await deviceData.GetAsync(tokenKeyName);
-        return !string.IsNullOrWhiteSpace(token);
-    }
-
-    public async Task UpdateTokenAsync(string token)
-    {
-        Token = token;
-        await deviceData.SaveAsync(tokenKeyName, token);
-        NotifyUserAuthentication(token);
-    }
-
-    public async Task<string> GetTokenAsync()
-    {
-        return Token ?? await deviceData.GetAsync(tokenKeyName);
-    }
-
-    public Task DeleteTokenAsync()
-    {
-        Token = string.Empty;
-        return deviceData.SaveAsync(tokenKeyName, string.Empty);
-    }
-
-    public async Task<IEnumerable<Claim>> GetClaimsAsync()
-    {
-        try
-        {
-            var token = await deviceData.GetAsync(tokenKeyName);
-            var cp = GetClaimPrincipal(token);
-            return cp.Claims;
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            return new List<Claim>();
-        }
-    }
-
-    public string Token { get; private set; }
 }

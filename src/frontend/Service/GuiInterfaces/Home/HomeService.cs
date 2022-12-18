@@ -2,7 +2,7 @@ using WeeControl.Common.SharedKernel;
 using WeeControl.Common.SharedKernel.Contexts.Home;
 using WeeControl.Frontend.AppService.Internals.Interfaces;
 
-namespace WeeControl.Frontend.AppService.Contexts.Home;
+namespace WeeControl.Frontend.AppService.GuiInterfaces.Home;
 
 internal class HomeService : IHomeService
 {

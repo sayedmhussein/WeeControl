@@ -1,7 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using WeeControl.ApiApp.Application.Interfaces;
 using WeeControl.ApiApp.WebApi;
-using WeeControl.Frontend.AppService.Contexts.Home;
+using WeeControl.Frontend.AppService.GuiInterfaces.Authorization;
 using Xunit;
 
 namespace WeeControl.User.UserApplication.Test.Integration.Services;

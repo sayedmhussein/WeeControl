@@ -1,12 +1,12 @@
 using Microsoft.Extensions.DependencyInjection;
 using WeeControl.Common.SharedKernel;
-using WeeControl.Frontend.AppService.Contexts.Authentication;
-using WeeControl.Frontend.AppService.Contexts.Home;
-using WeeControl.Frontend.AppService.Contexts.Temporary.Interfaces;
-using WeeControl.Frontend.AppService.Contexts.Temporary.Services;
 using WeeControl.Frontend.AppService.DeviceInterfaces;
+using WeeControl.Frontend.AppService.GuiInterfaces.Authorization;
+using WeeControl.Frontend.AppService.GuiInterfaces.Home;
 using WeeControl.Frontend.AppService.Internals.Interfaces;
 using WeeControl.Frontend.AppService.Internals.Services;
+using WeeControl.Frontend.AppService.Internals.Temporary.Interfaces;
+using WeeControl.Frontend.AppService.Internals.Temporary.Services;
 
 namespace WeeControl.Frontend.AppService;
 

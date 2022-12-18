@@ -1,17 +1,12 @@
 using System.Net;
-using System.Net.Http.Json;
 using WeeControl.Common.SharedKernel;
 using WeeControl.Common.SharedKernel.Contexts.Authentication;
-using WeeControl.Common.SharedKernel.RequestsResponses;
-using WeeControl.Frontend.AppService.Contexts.Home;
 using WeeControl.Frontend.AppService.Internals.Interfaces;
 
-namespace WeeControl.Frontend.AppService.Contexts.Authentication;
+namespace WeeControl.Frontend.AppService.GuiInterfaces.Authorization;
 
 internal class AuthorizationService : IAuthorizationService
 {
-    public AuthorizationGui GuiStrings { get; }
-    
     private readonly IDeviceData device;
     private readonly IDeviceSecurity security;
     private readonly IServerOperation server;
@@ -22,21 +17,19 @@ internal class AuthorizationService : IAuthorizationService
         this.device = device;
         this.security = security;
         this.server = server;
-
-        GuiStrings = new AuthorizationGui();
     }
 
     public async Task<bool> Login(string usernameOrEmail, string password)
     {
         if (string.IsNullOrWhiteSpace(usernameOrEmail) || usernameOrEmail.Trim().Length < 4)
         {
-            await device.DisplayAlert(GuiStrings.InvalidUsernameMessage);
+            await device.DisplayAlert(IAuthorizationService.InvalidUsernameMessage);
             return false;
         }
         
         if (string.IsNullOrWhiteSpace(password) || password.Length < 4)
         {
-            await device.DisplayAlert(GuiStrings.InvalidPasswordMessage);
+            await device.DisplayAlert(IAuthorizationService.InvalidPasswordMessage);
             return false;
         }
 
@@ -47,7 +40,7 @@ internal class AuthorizationService : IAuthorizationService
     {
         if (string.IsNullOrWhiteSpace(otp) || otp.Trim().Length < 4)
         {
-            await device.DisplayAlert(GuiStrings.InvalidOtpMessage);
+            await device.DisplayAlert(IAuthorizationService.InvalidOtpMessage);
             return false;
         }
 
@@ -61,8 +54,8 @@ internal class AuthorizationService : IAuthorizationService
         switch (response.StatusCode)
         {
             case HttpStatusCode.OK:
+              
                 var responseDto = await server.ReadFromContent<TokenResponseDto>(response.Content);
-                //var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<AuthenticationResponseDto>>();
                 var token = responseDto?.Token;
                 if (token is not null)
                 {
@@ -75,15 +68,15 @@ internal class AuthorizationService : IAuthorizationService
                 }
                 return true;
             case HttpStatusCode.NotFound:
-                await device.DisplayAlert(GuiStrings.InvalidOtpMessage);
+                await device.DisplayAlert(IAuthorizationService.InvalidOtpMessage);
                 break;
             case HttpStatusCode.Unauthorized:
-                await device.DisplayAlert(GuiStrings.UserIsBlocked);
+                await device.DisplayAlert(IAuthorizationService.UserIsBlocked);
                 await device.NavigateToAsync(ApplicationPages.Essential.UserPage);
                 await security.DeleteTokenAsync();
                 break;
             default:
-                await device.DisplayAlert(GuiStrings.ApplicationError);
+                await device.DisplayAlert(IAuthorizationService.ApplicationError);
                 break;
         }
 
@@ -114,7 +107,7 @@ internal class AuthorizationService : IAuthorizationService
                 await device.NavigateToAsync(ApplicationPages.Essential.SplashPage, forceLoad: true);
                 break;
             default:
-                await device.DisplayAlert(GuiStrings.ApplicationError);
+                await device.DisplayAlert(IAuthorizationService.ApplicationError);
                 break;
         }
         
@@ -148,16 +141,16 @@ internal class AuthorizationService : IAuthorizationService
                         return true;
                     }
                 }
-                await device.DisplayAlert("AlertEnum.DeveloperInvalidUserInput");
+                await device.DisplayAlert(IAuthorizationService.ApplicationError);
                 break;
             case HttpStatusCode.NotFound:
-                await device.DisplayAlert(GuiStrings.UnmatchedUsernameAndPassword);
+                await device.DisplayAlert(IAuthorizationService.UnmatchedUsernameAndPassword);
                 break;
             case HttpStatusCode.Forbidden:
-                await device.DisplayAlert(GuiStrings.UserIsBlocked);
+                await device.DisplayAlert(IAuthorizationService.UserIsBlocked);
                 break;
             default:
-                await device.DisplayAlert(GuiStrings.ApplicationError + response.StatusCode);
+                await device.DisplayAlert(IAuthorizationService.ApplicationError + response.StatusCode);
                 var c = await response.Content.ReadAsStringAsync();
                 Console.WriteLine(c);
                 break;

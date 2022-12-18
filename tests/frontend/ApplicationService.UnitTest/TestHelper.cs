@@ -23,9 +23,28 @@ public class TestHelper : IDisposable
     {
         DeviceMock = new Mock<IDeviceData>();
         DeviceMock.SetupAllProperties();
-        DeviceMock.Setup(x => x.GetDeviceId()).ReturnsAsync(deviceName);
         
+        //ICommunication
         DeviceMock.Setup(x => x.ServerUrl).Returns(GetLocalIpAddress());
+        DeviceMock.Setup(x => x.IsConnectedToInternet()).ReturnsAsync(true);
+        
+        //IFeature
+        DeviceMock.Setup(x => x.IsEnergySavingMode()).ReturnsAsync(false);
+        DeviceMock.Setup(x => x.GetDeviceId()).ReturnsAsync(deviceName);
+        DeviceMock.Setup(x => x.GetDeviceLocation(It.IsAny<bool>())).ReturnsAsync((null, null, null));
+        DeviceMock.Setup(x => x.IsMockedDeviceLocation()).ReturnsAsync(false);
+        
+        //IGui
+        //IMedia
+        //ISharing
+        
+        //IStorage
+        DeviceMock.Setup(x => x.CashDirectory)
+            .Returns(AppDomain.CurrentDomain.BaseDirectory + @"CashDirectory");
+        DeviceMock.Setup(x => x.AppDataDirectory)
+            .Returns(AppDomain.CurrentDomain.BaseDirectory + @"AppDirectory");
+        DeviceMock.Setup(x => x.SaveAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .Callback((string a, string b) => DeviceMock.Setup(x => x.GetAsync(a)).ReturnsAsync(b));
     }
 
     void IDisposable.Dispose()
@@ -33,12 +52,6 @@ public class TestHelper : IDisposable
         DeviceMock = null;
     }
     
-    [Obsolete("Get Service Instead...")]
-    public HttpContent GetJsonContent<T>(T dto)
-    {
-        return new StringContent(JsonConvert.SerializeObject(dto), Encoding.UTF8, "application/json");
-    }
-
     public T GetService<T>() where T : class
     {
         var collection = new ServiceCollection();

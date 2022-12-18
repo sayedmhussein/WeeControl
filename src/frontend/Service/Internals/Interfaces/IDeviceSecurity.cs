@@ -12,5 +12,5 @@ internal interface IDeviceSecurity
 
     Task DeleteTokenAsync();
 
-    Task<IEnumerable<Claim>> GetClaimsAsync();
+    Task<ClaimsPrincipal> GetClaimsPrincipal();
 }

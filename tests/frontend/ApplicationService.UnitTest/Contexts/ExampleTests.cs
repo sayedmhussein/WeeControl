@@ -2,7 +2,7 @@ using System;
 using System.Net;
 using WeeControl.Common.SharedKernel.Contexts.Authentication;
 using WeeControl.Frontend.AppService;
-using WeeControl.Frontend.AppService.Contexts.Home;
+using WeeControl.Frontend.AppService.GuiInterfaces.Authorization;
 
 namespace WeeControl.Frontend.Service.UnitTest.Contexts;
 

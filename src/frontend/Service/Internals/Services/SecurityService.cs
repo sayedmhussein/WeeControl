@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using WeeControl.Common.SharedKernel.Interfaces;
 using WeeControl.Frontend.AppService.DeviceInterfaces;
@@ -38,9 +39,25 @@ internal class SecurityService : IDeviceSecurity
         return storage.SaveAsync(TokenKeyName, string.Empty);
     }
 
-    public async Task<IEnumerable<Claim>> GetClaimsAsync()
+    public async Task<ClaimsPrincipal> GetClaimsPrincipal()
     {
-        var cp = jwtService.GetClaimPrincipal(await GetTokenAsync() ?? string.Empty, new TokenValidationParameters());
-        return cp.Claims;
+        var token = await GetTokenAsync();
+        if (string.IsNullOrEmpty(token))
+            return new ClaimsPrincipal();
+        
+        var validationParameters = new TokenValidationParameters()
+                {
+                    RequireSignedTokens = false,
+                    RequireAudience = false, RequireExpirationTime = false, LogValidationExceptions = true,
+                    ValidateIssuerSigningKey = false,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(new string('a', 30))),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = false,
+                    ClockSkew = TimeSpan.Zero
+                };
+        
+        var cp = jwtService.GetClaimPrincipal( token, validationParameters);
+        return cp;
     }
 }

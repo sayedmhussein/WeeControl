@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using WeeControl.Frontend.AppService.Internals.Interfaces;
 
 namespace WeeControl.Frontend.AppService.Internals.Services;
@@ -14,5 +15,10 @@ internal class ServiceDataService : IServiceData
     public Task<bool> IsAuthenticated()
     {
         return deviceSecurity.IsAuthenticatedAsync();
+    }
+
+    public Task<ClaimsPrincipal> GetClaimPrincipal()
+    {
+        return deviceSecurity.GetClaimsPrincipal();
     }
 }

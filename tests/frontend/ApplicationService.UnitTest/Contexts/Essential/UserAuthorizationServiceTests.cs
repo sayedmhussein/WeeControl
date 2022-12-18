@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Net.Http;
 using WeeControl.Common.SharedKernel.Contexts.Authentication;
-using WeeControl.Common.SharedKernel.RequestsResponses;
 using WeeControl.Frontend.AppService;
-using WeeControl.Frontend.AppService.Contexts.Home;
+using WeeControl.Frontend.AppService.GuiInterfaces.Authorization;
 
 namespace WeeControl.Frontend.Service.UnitTest.Contexts.Essential;
 

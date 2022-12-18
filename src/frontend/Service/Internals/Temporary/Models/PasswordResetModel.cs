@@ -1,6 +1,6 @@
 using WeeControl.Common.SharedKernel.Contexts.Temporary.User;
 
-namespace WeeControl.Frontend.AppService.Contexts.Temporary.Models;
+namespace WeeControl.Frontend.AppService.Internals.Temporary.Models;
 
 public class PasswordResetModel : UserPasswordResetRequestDto
 {

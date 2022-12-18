@@ -1,13 +1,11 @@
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.ApiApp.Domain.Contexts.Essential;
 using WeeControl.Common.SharedKernel.Contexts.Temporary.Entities;
 using WeeControl.Common.SharedKernel.Services;
 using WeeControl.Frontend.AppService;
-using WeeControl.Frontend.AppService.Contexts.Home;
 using WeeControl.Frontend.Service.UnitTest;
 
 namespace WeeControl.User.UserApplication.Test.Integration.Services;
