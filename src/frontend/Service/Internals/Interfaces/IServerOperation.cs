@@ -15,5 +15,5 @@ internal interface IServerOperation
 
     Task<T?> ReadFromContent<T>(HttpContent content) where T : class;
     
-    Task<bool> IsTokenValid();
+    Task<bool> TokenRevalidatedSuccessfully();
 }

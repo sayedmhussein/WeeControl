@@ -7,7 +7,6 @@ using Microsoft.Extensions.Configuration;
 using WeeControl.Common.SharedKernel.Contexts.Authentication;
 using WeeControl.Common.SharedKernel.Interfaces;
 using WeeControl.Frontend.AppService;
-using WeeControl.Frontend.AppService.GuiInterfaces;
 
 namespace WeeControl.Frontend.Wasm.Services;
 

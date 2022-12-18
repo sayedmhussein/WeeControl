@@ -1,7 +1,7 @@
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using WeeControl.Common.SharedKernel.Interfaces;
-using WeeControl.Frontend.AppService.GuiInterfaces;
+using WeeControl.Frontend.AppService.DeviceInterfaces;
 using WeeControl.Frontend.AppService.Internals.Interfaces;
 
 namespace WeeControl.Frontend.AppService.Internals.Services;

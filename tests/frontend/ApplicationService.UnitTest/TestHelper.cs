@@ -11,7 +11,7 @@ using Moq.Protected;
 using Newtonsoft.Json;
 using WeeControl.Common.SharedKernel.RequestsResponses;
 using WeeControl.Frontend.AppService;
-using WeeControl.Frontend.AppService.GuiInterfaces;
+using WeeControl.Frontend.AppService.DeviceInterfaces;
 
 namespace WeeControl.Frontend.Service.UnitTest;
 

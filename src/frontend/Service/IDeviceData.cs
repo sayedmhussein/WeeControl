@@ -1,4 +1,4 @@
-using WeeControl.Frontend.AppService.GuiInterfaces;
+using WeeControl.Frontend.AppService.DeviceInterfaces;
 
 namespace WeeControl.Frontend.AppService;
 

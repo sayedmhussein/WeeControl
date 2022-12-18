@@ -1,4 +1,4 @@
-namespace WeeControl.Frontend.AppService.GuiInterfaces;
+namespace WeeControl.Frontend.AppService.DeviceInterfaces;
 
 public interface IStorage
 {

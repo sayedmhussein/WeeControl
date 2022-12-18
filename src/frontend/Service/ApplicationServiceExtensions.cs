@@ -4,7 +4,7 @@ using WeeControl.Frontend.AppService.Contexts.Authentication;
 using WeeControl.Frontend.AppService.Contexts.Home;
 using WeeControl.Frontend.AppService.Contexts.Temporary.Interfaces;
 using WeeControl.Frontend.AppService.Contexts.Temporary.Services;
-using WeeControl.Frontend.AppService.GuiInterfaces;
+using WeeControl.Frontend.AppService.DeviceInterfaces;
 using WeeControl.Frontend.AppService.Internals.Interfaces;
 using WeeControl.Frontend.AppService.Internals.Services;
 

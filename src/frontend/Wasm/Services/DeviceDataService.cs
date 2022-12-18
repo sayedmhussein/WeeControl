@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Text.Json;
+using Microsoft.Extensions.Configuration;
 using WeeControl.Frontend.AppService;
 
 namespace WeeControl.Frontend.Wasm.Services;
@@ -12,13 +13,16 @@ public class DeviceDataService : IDeviceData
 {
     private readonly IJSRuntime jsRuntime;
     private readonly NavigationManager navigationManager;
-    public string ServerUrl { get; }
-    public HttpClient HttpClient { get; set; }
+    private readonly IConfiguration configuration;
+    public string ServerUrl => configuration["ApiBaseAddress"];
+    public HttpClient HttpClient { get; init; }
 
-    public DeviceDataService(IJSRuntime jsRuntime, NavigationManager navigationManager)
+    public DeviceDataService(IJSRuntime jsRuntime, NavigationManager navigationManager, IConfiguration configuration)
     {
         this.jsRuntime = jsRuntime;
         this.navigationManager = navigationManager;
+        this.configuration = configuration;
+        HttpClient = new HttpClient();
     }
     
     public Task SendAnEmail(IEnumerable<string> to, string subject, string body)
@@ -36,9 +40,9 @@ public class DeviceDataService : IDeviceData
         throw new System.NotImplementedException();
     }
 
-    public Task<bool> IsConnectedToInternet()
+    public async Task<bool> IsConnectedToInternet()
     {
-        throw new System.NotImplementedException();
+        return await jsRuntime.InvokeAsync<bool>("navigator.onLine");
     }
 
     public Task<bool> PhoneDial(string phoneNo)
@@ -53,17 +57,23 @@ public class DeviceDataService : IDeviceData
 
     public Task<string> GetDeviceId()
     {
-        throw new System.NotImplementedException();
+        return Task.FromResult("__ThisIsBlaorApp");
     }
 
-    public Task<(double? Latitude, double? Longitude, double? Elevation)> GetDeviceLocation(bool accurate = false)
+    public async Task<(double? Latitude, double? Longitude, double? Elevation)> GetDeviceLocation(bool accurate = false)
     {
-        throw new System.NotImplementedException();
+        // var locationAvailable = await jsRuntime.InvokeAsync<bool>("position.coords.latitude");
+        // if (locationAvailable)
+        // {
+        //     return (null, null, null);
+        // }
+        
+        return (null, null, null);
     }
 
     public Task<bool> IsMockedDeviceLocation()
     {
-        throw new System.NotImplementedException();
+        return Task.FromResult(true);
     }
 
     public Task DisplayAlert(string message)

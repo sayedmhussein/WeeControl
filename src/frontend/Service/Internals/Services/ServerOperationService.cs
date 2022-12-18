@@ -1,8 +1,10 @@
+using System.ComponentModel;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Runtime.CompilerServices;
 using System.Text;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using WeeControl.Common.SharedKernel;
 using WeeControl.Common.SharedKernel.Contexts.Authentication;
@@ -12,7 +14,7 @@ using WeeControl.Frontend.AppService.Internals.Interfaces;
 [assembly: InternalsVisibleTo("ApplicationService.UnitTest")]
 namespace WeeControl.Frontend.AppService.Internals.Services;
 
-internal class ServerOperationService : IServerOperation
+internal class ServerOperationService : IServerOperation, IServerActivity
 {
     private readonly HttpClient httpClient;
     private readonly IDeviceData deviceData;
@@ -27,6 +29,9 @@ internal class ServerOperationService : IServerOperation
 
     public string GetFullAddress(string relative)
     {
+        if (string.IsNullOrEmpty(deviceData.ServerUrl))
+            throw new NullReferenceException("Server URL was not defined!");
+        
         return deviceData.ServerUrl + relative;
     }
 
@@ -77,7 +82,7 @@ internal class ServerOperationService : IServerOperation
         return null;
     }
 
-    public async Task<bool> IsTokenValid()
+    public async Task<bool> TokenRevalidatedSuccessfully()
     {
         if (await device.IsAuthenticatedAsync() == false)
         {
@@ -118,16 +123,10 @@ internal class ServerOperationService : IServerOperation
         
         return false;
     }
-    
-    private async Task<(double? Latitude, double? Longitude)> GetCurrentLocationAsync(bool accurate)
-    {
-        var loc = await deviceData.GetDeviceLocation(accurate);
-        return (loc.Latitude, loc.Longitude);
-    }
-    
+
     private async Task<HttpContent> GetResponseDtoAsHttpContentAsync<T>(bool locationAccuracy, T payload) where T : class
     {
-        var location = await GetCurrentLocationAsync(locationAccuracy);
+        var location = await deviceData.GetDeviceLocation(locationAccuracy);
         var dto = RequestDto.Create(payload, await deviceData.GetDeviceId(), location.Latitude, location.Longitude);
         
         return new StringContent(JsonConvert.SerializeObject(dto), Encoding.UTF8, "application/json");
@@ -140,5 +139,51 @@ internal class ServerOperationService : IServerOperation
         
         httpClient.DefaultRequestHeaders.Authorization = 
             new AuthenticationHeaderValue("Brear", token);
+    }
+
+    public async Task<HttpResponseMessage> GetResponseMessage(HttpMethod method, Version version, string relativeUri, bool accurateLocation = false)
+    {
+        if (string.IsNullOrWhiteSpace(relativeUri))
+            throw new InvalidEnumArgumentException("You must provide a valid relative uri for the API.");
+        
+        var message = new HttpRequestMessage()
+        {
+            Method = method, 
+            Version = version, 
+            RequestUri = new Uri(GetFullAddress(relativeUri))
+        };
+        
+        try
+        {
+            var token = await device.GetTokenAsync();
+            UpdateHttpAuthorizationHeader(token);
+            
+            var response = await httpClient.SendAsync(message);
+            if (response.IsSuccessStatusCode)
+                return response;
+
+            switch (response.StatusCode)
+            {
+                case HttpStatusCode.Unauthorized:
+                    return response;
+                default:
+                    return response;
+            }
+        }
+        catch (HttpRequestException)
+        {
+            return new HttpResponseMessage(HttpStatusCode.BadGateway);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    public Task<HttpResponseMessage> GetResponseMessage<T>(HttpMethod method, Version version, string relativeUri, T dto,
+        bool accurateLocation = false)
+    {
+        throw new NotImplementedException();
     }
 }
