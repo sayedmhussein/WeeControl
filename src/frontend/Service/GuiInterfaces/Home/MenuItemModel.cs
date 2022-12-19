@@ -1,4 +1,4 @@
-namespace WeeControl.Frontend.AppService.Internals.Temporary.Models;
+namespace WeeControl.Frontend.AppService.GuiInterfaces.Home;
 
 public class MenuItemModel
 {

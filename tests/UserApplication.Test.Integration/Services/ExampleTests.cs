@@ -36,6 +36,6 @@ public class ExampleTests : IClassFixture<CustomWebApplicationFactory<Startup>>
         await helper.Service.Login("username", "password");
         
         helper.DeviceMock.Verify(x => 
-            x.NavigateToAsync(ApplicationPages.Essential.SplashPage, It.IsAny<bool>()), Times.Never);
+            x.NavigateToAsync(ApplicationPages.SplashPage, It.IsAny<bool>()), Times.Never);
     }
 }

@@ -9,21 +9,24 @@ using Xunit;
 
 namespace WeeControl.User.UserApplication.Test.Integration.Services.Essential;
 
-public class UserAuthenticationServiceTests : IClassFixture<CustomWebApplicationFactory<Startup>>
+public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFactory<Startup>>
 {
     private readonly CustomWebApplicationFactory<Startup> factory;
 
-    public UserAuthenticationServiceTests(CustomWebApplicationFactory<Startup> factory)
+    public AuthenticationServiceTests(CustomWebApplicationFactory<Startup> factory)
     {
         this.factory = factory;
     }
     
     [Theory]
-    [InlineData("username")]
-    [InlineData("username@email.com")]
-    public async void SuccessfulUserLoginAndGetTokenTest(string usernameOrEmail)
+    [InlineData("username", "password", true)]
+    [InlineData("username@email.com", "password", true)]
+    [InlineData("username", "passwordX", false)]
+    [InlineData("usernameX", "password", false)]
+    [InlineData("usernameX", "passwordX", false)]
+    public async void LoginTest(string usernameOrEmail, string password, bool success)
     {
-        using var h = new TestHelper(nameof(SuccessfulUserLoginAndGetTokenTest));
+        using var h = new TestHelper(nameof(LoginTest));
         var service = h.GetService<IAuthorizationService>(factory.WithWebHostBuilder(builder =>
         {
             builder.ConfigureServices(services =>
@@ -36,35 +39,11 @@ public class UserAuthenticationServiceTests : IClassFixture<CustomWebApplication
             });
         }).CreateClient());
 
-        Assert.True(await service.Login(usernameOrEmail,  "password" ));
-        Assert.True(await service.UpdateToken("0000"));
-        Assert.True(await service.Logout());
+        Assert.Equal(success, await service.Login(usernameOrEmail,  password ));
+        Assert.Equal(success, await service.UpdateToken("0000"));
+        Assert.Equal(success, await service.Logout());
     }
-    
-    [Theory]
-    [InlineData("username", "passwordX")]
-    [InlineData("usernameX", "password")]
-    [InlineData("usernameX", "passwordX")]
-    public async void InvalidUsernameOrPasswordTest(string username, string password)
-    {
-        using var h = new TestHelper(nameof(SuccessfulUserLoginAndGetTokenTest));
-        var service = h.GetService<IAuthorizationService>(factory.WithWebHostBuilder(builder =>
-        {
-            builder.ConfigureServices(services =>
-            {
-                using var scope = services.BuildServiceProvider().CreateScope();
-                var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-                var user = TestHelper<object>.GetUserDboWithEncryptedPassword("username", "password");
-                db.Users.Add(user);
-                db.SaveChanges();
-            });
-        }).CreateClient());
 
-        Assert.False(await service.Login(username, password));
-        Assert.False(await service.UpdateToken("0000"));
-        Assert.False(await service.Logout());
-    }
-    
     [Theory]
     [InlineData(null)]
     [InlineData("")]
@@ -72,9 +51,9 @@ public class UserAuthenticationServiceTests : IClassFixture<CustomWebApplication
     [InlineData("00")]
     [InlineData("000")]
     [InlineData("1234")]
-    public async void InvalidOrNoOtpTest(string otp)
+    public async void UpdateTokenTests(string otp)
     {
-        using var h = new TestHelper(nameof(SuccessfulUserLoginAndGetTokenTest));
+        using var h = new TestHelper(nameof(UpdateTokenTests));
         var service = h.GetService<IAuthorizationService>(factory.WithWebHostBuilder(builder =>
         {
             builder.ConfigureServices(services =>
@@ -113,17 +92,20 @@ public class UserAuthenticationServiceTests : IClassFixture<CustomWebApplication
         await helper.Service.Login("username", "password");
         
         helper.DeviceMock.Verify(x => 
-            x.NavigateToAsync(ApplicationPages.Essential.SplashPage, It.IsAny<bool>()), Times.Never);
+            x.NavigateToAsync(ApplicationPages.SplashPage, It.IsAny<bool>()), Times.Never);
         
         helper.DeviceMock.Verify(x => 
             x.DisplayAlert(It.IsAny<string>()), Times.Once);
     }
     #endregion
     
-    [Fact]
-    public async void Logout_WhenSuccess_AnyResponseFromServerAndDeleteToken()
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public async void LogoutTests(bool isLoggedIn)
     {
-        var httpClient = factory.WithWebHostBuilder(builder =>
+        using var h = new TestHelper(nameof(UpdateTokenTests));
+        var service = h.GetService<IAuthorizationService>(factory.WithWebHostBuilder(builder =>
         {
             builder.ConfigureServices(services =>
             {
@@ -133,16 +115,14 @@ public class UserAuthenticationServiceTests : IClassFixture<CustomWebApplication
                 db.Users.Add(user);
                 db.SaveChanges();
             });
-        }).CreateClient();
-        
-        using var helper = new TestHelper<IAuthorizationService>(httpClient);
-        await helper.Authorize("username", "password");
+        }).CreateClient());
 
-        await helper.Service.Logout();
+        if (isLoggedIn)
+        {
+            Assert.True(await service.Login("username", "password"));
+            Assert.True(await service.UpdateToken("0000"));
+        }
         
-        helper.DeviceMock.Verify(x => 
-            x.NavigateToAsync(ApplicationPages.Essential.SplashPage, It.IsAny<bool>()));
-        
-        // helper.DeviceMock.Verify(x => x.DeleteTokenAsync(), Times.AtLeastOnce);
+        Assert.Equal(isLoggedIn, await service.Logout());
     }
 }

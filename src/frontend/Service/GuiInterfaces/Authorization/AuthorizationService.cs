@@ -23,13 +23,13 @@ internal class AuthorizationService : IAuthorizationService
     {
         if (string.IsNullOrWhiteSpace(usernameOrEmail) || usernameOrEmail.Trim().Length < 4)
         {
-            await device.DisplayAlert(IAuthorizationService.InvalidUsernameMessage);
+            await device.DisplayAlert(this.InvalidUsernameMessage);
             return false;
         }
         
         if (string.IsNullOrWhiteSpace(password) || password.Length < 4)
         {
-            await device.DisplayAlert(IAuthorizationService.InvalidPasswordMessage);
+            await device.DisplayAlert(this.InvalidPasswordMessage);
             return false;
         }
 
@@ -40,7 +40,7 @@ internal class AuthorizationService : IAuthorizationService
     {
         if (string.IsNullOrWhiteSpace(otp) || otp.Trim().Length < 4)
         {
-            await device.DisplayAlert(IAuthorizationService.InvalidOtpMessage);
+            await device.DisplayAlert(this.InvalidOtpMessage);
             return false;
         }
 
@@ -64,19 +64,19 @@ internal class AuthorizationService : IAuthorizationService
 
                 if (otp is not null)
                 {
-                    await device.NavigateToAsync(ApplicationPages.Essential.SplashPage);
+                    await device.NavigateToAsync(ApplicationPages.SplashPage);
                 }
                 return true;
             case HttpStatusCode.NotFound:
-                await device.DisplayAlert(IAuthorizationService.InvalidOtpMessage);
+                await device.DisplayAlert(this.InvalidOtpMessage);
                 break;
             case HttpStatusCode.Unauthorized:
-                await device.DisplayAlert(IAuthorizationService.UserIsBlocked);
+                await device.DisplayAlert(this.UserIsBlocked);
                 await device.NavigateToAsync(ApplicationPages.Essential.UserPage);
                 await security.DeleteTokenAsync();
                 break;
             default:
-                await device.DisplayAlert(IAuthorizationService.ApplicationError);
+                await device.DisplayAlert(ApplicationError);
                 break;
         }
 
@@ -93,7 +93,7 @@ internal class AuthorizationService : IAuthorizationService
         });
         
         await security.DeleteTokenAsync();
-        await device.NavigateToAsync(ApplicationPages.Essential.SplashPage);
+        await device.NavigateToAsync(ApplicationPages.SplashPage);
 
         switch (response.StatusCode)
         {
@@ -104,16 +104,26 @@ internal class AuthorizationService : IAuthorizationService
             case HttpStatusCode.BadGateway:
             case HttpStatusCode.BadRequest:
             case HttpStatusCode.Unauthorized:
-                await device.NavigateToAsync(ApplicationPages.Essential.SplashPage, forceLoad: true);
+                await device.NavigateToAsync(ApplicationPages.SplashPage, forceLoad: true);
                 break;
             default:
-                await device.DisplayAlert(IAuthorizationService.ApplicationError);
+                await device.DisplayAlert(ApplicationError);
                 break;
         }
         
         return false;
     }
-    
+
+    public string UsernameLabel => "Username";
+    public string PasswordLabel => "Password";
+    public string LoginButtonLabel => "Login";
+    public string InvalidUsernameMessage => "Please enter valid username.";
+    public string InvalidPasswordMessage => "Please enter valid username.";
+    public string InvalidOtpMessage => "Please enter valid OTP.";
+    public string UnmatchedUsernameAndPassword => "Either username or password are not correct.";
+    public string UserIsBlocked => "Account suspended, please contact the admin.";
+    public string ApplicationError  => "Internal App Error.";
+
     private async Task<bool> ProcessLoginCommand(string usernameOrEmail, string password)
     {
         var response = await server.Send(
@@ -141,16 +151,16 @@ internal class AuthorizationService : IAuthorizationService
                         return true;
                     }
                 }
-                await device.DisplayAlert(IAuthorizationService.ApplicationError);
+                await device.DisplayAlert(ApplicationError);
                 break;
             case HttpStatusCode.NotFound:
-                await device.DisplayAlert(IAuthorizationService.UnmatchedUsernameAndPassword);
+                await device.DisplayAlert(UnmatchedUsernameAndPassword);
                 break;
             case HttpStatusCode.Forbidden:
-                await device.DisplayAlert(IAuthorizationService.UserIsBlocked);
+                await device.DisplayAlert(UserIsBlocked);
                 break;
             default:
-                await device.DisplayAlert(IAuthorizationService.ApplicationError + response.StatusCode);
+                await device.DisplayAlert(ApplicationError + response.StatusCode);
                 var c = await response.Content.ReadAsStringAsync();
                 Console.WriteLine(c);
                 break;

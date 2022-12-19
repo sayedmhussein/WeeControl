@@ -4,8 +4,7 @@ using WeeControl.ApiApp.Application.Interfaces;
 using WeeControl.ApiApp.WebApi;
 using WeeControl.Common.SharedKernel.Contexts.Temporary.User;
 using WeeControl.Frontend.AppService;
-using WeeControl.Frontend.AppService.Internals.Temporary.Interfaces;
-using WeeControl.Frontend.AppService.Internals.Temporary.Models;
+using WeeControl.Frontend.AppService.GuiInterfaces.Home;
 using Xunit;
 
 namespace WeeControl.User.UserApplication.Test.Integration.Services.Essential;
@@ -18,33 +17,6 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
     {
         this.factory = factory;
     }
-
-    #region PropertyIsAllowed()
-    [Theory]
-    [InlineData(nameof(RegisterCustomerDto.User.Username), "username", false)]
-    [InlineData(nameof(RegisterCustomerDto.User.Username), "Username", false)]
-    [InlineData(nameof(RegisterCustomerDto.User.Username), "username2", true)]
-    public async void UsernameAllowedTest(string propertyName, string username, bool isAllowed)
-    {
-        var httpClient = factory.WithWebHostBuilder(builder =>
-        {
-            builder.ConfigureServices(services =>
-            {
-                using var scope = services.BuildServiceProvider().CreateScope();
-                var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-                var user = TestHelper<object>.GetUserDboWithEncryptedPassword("username", "password");
-                db.Users.Add(user);
-                db.SaveChanges();
-            });
-        }).CreateClient();
-        
-        using var helper = new TestHelper<IUserService>(httpClient);
-
-        var allowed = await helper.Service.PropertyIsAllowed(propertyName, username);
-
-        Assert.Equal(isAllowed, allowed);
-    }
-    #endregion
 
     #region ChangeMyPassword()
     [Fact]
@@ -62,10 +34,10 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
             });
         }).CreateClient();
         
-        using var helper = new TestHelper<IUserService>(httpClient);
+        using var helper = new TestHelper<IHomeService>(httpClient);
         await helper.Authorize("username", "password");
 
-        await helper.Service.ChangeMyPassword(new PasswordChangeModel()
+        await helper.Service.ChangeMyPassword(new UserPasswordChangeRequestDto()
         {
             OldPassword = "password",
             NewPassword = "someNewPassword",
@@ -73,7 +45,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
         });
             
         helper.DeviceMock.Verify(x => 
-            x.NavigateToAsync(ApplicationPages.Essential.SplashPage, It.IsAny<bool>()), Times.Once);
+            x.NavigateToAsync(ApplicationPages.SplashPage, It.IsAny<bool>()), Times.Once);
     }
     
     [Fact]
@@ -91,9 +63,9 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
             });
         }).CreateClient();
         
-        using var helper = new TestHelper<IUserService>(httpClient);
+        using var helper = new TestHelper<IHomeService>(httpClient);
 
-        await helper.Service.ChangeMyPassword(new PasswordChangeModel()
+        await helper.Service.ChangeMyPassword(new UserPasswordChangeRequestDto()
         {
             OldPassword = "password",
             NewPassword = "someNewPassword",
@@ -120,10 +92,10 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
             });
         }).CreateClient();
         
-        using var helper = new TestHelper<IUserService>(httpClient);
+        using var helper = new TestHelper<IHomeService>(httpClient);
         await helper.Authorize("username", "password");
 
-        await helper.Service.ChangeMyPassword(new PasswordChangeModel()
+        await helper.Service.ChangeMyPassword(new UserPasswordChangeRequestDto()
         {
             OldPassword = "invalid password",
             NewPassword = "someNewPassword",
@@ -151,10 +123,10 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
             });
         }).CreateClient();
         
-        using var helper = new TestHelper<IUserService>(httpClient);
+        using var helper = new TestHelper<IHomeService>(httpClient);
         await helper.Authorize("username", "password");
 
-        await helper.Service.ChangeMyPassword(new PasswordChangeModel()
+        await helper.Service.ChangeMyPassword(new UserPasswordChangeRequestDto()
         {
             OldPassword = "password",
             NewPassword = "someNewPassword",
@@ -183,9 +155,9 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
             });
         }).CreateClient();
         
-        using var helper = new TestHelper<IUserService>(httpClient);
+        using var helper = new TestHelper<IHomeService>(httpClient);
 
-        await helper.Service.RequestPasswordReset(new PasswordResetModel()
+        await helper.Service.RequestPasswordReset(new UserPasswordResetRequestDto()
         {
             Email = "email@email.com",
             Username = "username"
@@ -213,9 +185,9 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
             });
         }).CreateClient();
         
-        using var helper = new TestHelper<IUserService>(httpClient);
+        using var helper = new TestHelper<IHomeService>(httpClient);
 
-        await helper.Service.RequestPasswordReset(new PasswordResetModel()
+        await helper.Service.RequestPasswordReset(new UserPasswordResetRequestDto()
         {
             Email = email,
             Username = username
@@ -241,9 +213,9 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
             });
         }).CreateClient();
         
-        using var helper = new TestHelper<IUserService>(httpClient);
+        using var helper = new TestHelper<IHomeService>(httpClient);
 
-        await helper.Service.RequestPasswordReset(new PasswordResetModel()
+        await helper.Service.RequestPasswordReset(new UserPasswordResetRequestDto()
         {
             Email = "username@email.com",
             Username = "username"
@@ -259,7 +231,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
     [InlineData("someEmail@email.com", "someUsername", "0123456789")]
     public async void Register_WhenSuccess(string email, string username, string mobileNo)
     {
-        var model = new CustomerRegisterModel
+        var model = new RegisterCustomerDto
         {
             Personal =
             {
@@ -281,12 +253,12 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
             }
         };
 
-        using var helper = new TestHelper<IUserService>(factory.CreateClient());
+        using var helper = new TestHelper<IHomeService>(factory.CreateClient());
         
         await helper.Service.Register(model);
 
         helper.DeviceMock.Verify(x => 
-            x.NavigateToAsync(ApplicationPages.Essential.SplashPage, It.IsAny<bool>()), Times.AtLeastOnce);
+            x.NavigateToAsync(ApplicationPages.SplashPage, It.IsAny<bool>()), Times.AtLeastOnce);
     }
     
     [Theory]
@@ -308,9 +280,9 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
             });
         }).CreateClient();
         
-        using var helper = new TestHelper<IUserService>(httpClient);
+        using var helper = new TestHelper<IHomeService>(httpClient);
 
-        var model = new CustomerRegisterModel
+        var model = new RegisterCustomerDto
         {
             Personal =
             {
@@ -335,7 +307,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
             
         helper.DeviceMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
         helper.DeviceMock.Verify(x => 
-            x.NavigateToAsync(ApplicationPages.Essential.SplashPage, It.IsAny<bool>()), Times.Never);;
+            x.NavigateToAsync(ApplicationPages.SplashPage, It.IsAny<bool>()), Times.Never);;
     }
     #endregion
 }

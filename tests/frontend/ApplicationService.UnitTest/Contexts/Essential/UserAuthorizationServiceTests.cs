@@ -10,6 +10,24 @@ namespace WeeControl.Frontend.Service.UnitTest.Contexts.Essential;
 public class UserAuthorizationServiceTests
 {
     #region Login()
+    [Fact]
+    public async void WhenSuccessUsernameAndPasswordAndOtp()
+    {
+        using var helper = new TestHelper(nameof(WhenSuccessUsernameAndPasswordAndOtp));
+        var service = helper.GetService<IAuthorizationService>(
+            new List<Tuple<HttpStatusCode, object?>>()
+            {
+                new (HttpStatusCode.OK, TokenResponseDto.Create("token", "name")),
+                new (HttpStatusCode.OK, TokenResponseDto.Create("token", "name")),
+                new (HttpStatusCode.OK, TokenResponseDto.Create("token", "name"))
+            });
+        
+        Assert.True(await service.Login("username", "password"));
+        Assert.True(await service.UpdateToken("0000"));
+        helper.DeviceMock.Verify(x => 
+            x.NavigateToAsync(ApplicationPages.SplashPage, It.IsAny<bool>()), Times.Once);
+    }
+    
     [Theory]
     [InlineData(HttpStatusCode.OK, true)]
     [InlineData(HttpStatusCode.NotFound, false)]
@@ -175,7 +193,7 @@ public class UserAuthorizationServiceTests
         var service = helper.GetService<IAuthorizationService>(httpStatusCode, null);
 
         Assert.Equal(fnReturn, await service.Logout());
-        helper.DeviceMock.Verify(x => x.NavigateToAsync(ApplicationPages.Essential.SplashPage, It.IsAny<bool>()));
+        helper.DeviceMock.Verify(x => x.NavigateToAsync(ApplicationPages.SplashPage, It.IsAny<bool>()));
     }
     #endregion
 }

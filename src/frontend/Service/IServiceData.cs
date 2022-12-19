@@ -6,4 +6,6 @@ public interface IServiceData
 {
     Task<bool> IsAuthenticated();
     Task<ClaimsPrincipal> GetClaimPrincipal();
+    
+    
 }

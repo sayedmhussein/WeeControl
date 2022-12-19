@@ -1,9 +1,9 @@
 @page "/"
 @using WeeControl.Frontend.AppService
-@using WeeControl.Frontend.AppService.Internals.Temporary.Interfaces
-@attribute [Route(ApplicationPages.Essential.SplashPage)]
+@using WeeControl.Frontend.AppService.GuiInterfaces.Home
+@attribute [Route(ApplicationPages.SplashPage)]
 
-@inject IUserService UserService
+@inject IHomeService UserService
 
 <MudContainer Class="d-flex flex-grow-0 align-self-center justify-center justify-content-center">
     <MudProgressCircular class="align-self-center" Color="Color.Info" Indeterminate="true" Size="Size.Large" /> 
@@ -19,7 +19,7 @@
     
     protected override async void OnInitialized()
     {
-        await UserService.Init();
+        await UserService.Sync();
         await base.OnInitializedAsync();
     }
 }

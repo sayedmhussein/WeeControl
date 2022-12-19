@@ -27,7 +27,7 @@ public class ExampleTests
                 // helper.DeviceMock.Verify(x => 
                 //     x.DisplayAlert(It.IsAny<string>()), Times.Never);
                 helper.DeviceMock.Verify(x => 
-                    x.NavigateToAsync(ApplicationPages.Essential.SplashPage,It.IsAny<bool>()), Times.Never);
+                    x.NavigateToAsync(ApplicationPages.SplashPage,It.IsAny<bool>()), Times.Never);
                 
                 // helper.DeviceMock.Verify(x => 
                 //     x.UpdateTokenAsync("token"), Times.Never);

@@ -1,7 +1,8 @@
 @using Microsoft.AspNetCore.Components
-@using WeeControl.Frontend.AppService.Internals.Temporary.Interfaces
-@using WeeControl.Frontend.AppService.Internals.Temporary.Models
-@inject IUserService UserService
+@using WeeControl.Common.SharedKernel.Contexts.Temporary.User
+@using WeeControl.Frontend.AppService.GuiInterfaces.Home
+
+@inject IHomeService UserService
 
 <MudCardHeader>
     <h4>Please fill the below form:</h4>
@@ -60,18 +61,19 @@
 </MudCardContent>
 
 @code {
-    private readonly CustomerRegisterModel registerModel = new();
+    private readonly RegisterCustomerDto registerModel = new();
     private string usernameHelperText;
 
-    private async Task UserNameChanged(string text)
+    private Task UserNameChanged(string text)
     {
-        if (await UserService.PropertyIsAllowed(nameof(registerModel.User.Username), text))
-        {
-            usernameHelperText = string.Empty;
-        }
-        else
-        {
-            usernameHelperText = "Username already exist, please try something else";
-        }
+        // if (await UserService.PropertyIsAllowed(nameof(registerModel.User.Username), text))
+        // {
+        //     usernameHelperText = string.Empty;
+        // }
+        // else
+        // {
+        //     usernameHelperText = "Username already exist, please try something else";
+        // }
+        return Task.CompletedTask;
     }
 }

@@ -1,7 +1,7 @@
 @using IAuthorizationService = WeeControl.Frontend.AppService.GuiInterfaces.Authorization.IAuthorizationService
 @using WeeControl.Frontend.AppService
-@using WeeControl.Frontend.AppService.Internals.Temporary.Interfaces
-@inject IUserService UserService
+@using WeeControl.Frontend.AppService.GuiInterfaces.Home
+@inject IHomeService UserService
 @inject IAuthorizationService UserAuthorizationService
 @inject IDeviceData Navigation
 
@@ -18,14 +18,15 @@
                     Href="@ApplicationPages.Essential.HomePage">Home
                 </MudButton>
             </MudMenuItem>
-            @if (UserService.IsCustomer)
-            {
-                <MenuOfCustomerComponent></MenuOfCustomerComponent>
-            }
-            @if (UserService.IsEmployee)
-            {
-                <MenuOfEmployeeComponent></MenuOfEmployeeComponent>
-            }
+            @* @if (UserService.IsCustomer) *@
+            @* { *@
+            @*     <MenuOfCustomerComponent></MenuOfCustomerComponent> *@
+            @* } *@
+            @* @if (UserService.IsEmployee) *@
+            @* { *@
+            @*     <MenuOfEmployeeComponent></MenuOfEmployeeComponent> *@
+            @* } *@
+            <MenuOfEmployeeComponent></MenuOfEmployeeComponent>
             <MenuOfMenuComponent></MenuOfMenuComponent>
         }
     </MudMenu>
@@ -41,7 +42,7 @@
     }
     @if (ShowLogout)
     {
-        <MudText>@UserService.GreetingMessage</MudText>
+        <MudText>@UserService.GetGreetingMessage</MudText>
         <MudMenu Icon="@Icons.Material.Outlined.Notifications" AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight" MaxHeight="@componentMaxHeight">
             <MenuOfNotificationComponent></MenuOfNotificationComponent>
         </MudMenu>
@@ -60,7 +61,7 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        await UserService.Refresh();
+        await UserService.Sync();
     }
 
     private async Task Logout()

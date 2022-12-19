@@ -1,4 +1,4 @@
-using WeeControl.Frontend.AppService.Internals.Temporary.Models;
+using WeeControl.Frontend.AppService.Models;
 
 namespace WeeControl.Frontend.AppService.Internals.Interfaces;
 

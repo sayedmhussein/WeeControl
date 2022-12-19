@@ -1,13 +1,13 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace WeeControl.Frontend.AppService.Internals.Temporary.Models;
+namespace WeeControl.Frontend.AppService.Models;
 
 public class CityModel
 {
     [Key] 
-    public string CityCode { get; init; }
-    public string CityName { get; init; }
-    public string LocalName { get; init; }
+    public string CityCode { get; }
+    public string CityName { get; }
+    public string LocalName { get; }
 
     public CityModel(string code, string name, string localName)
     {

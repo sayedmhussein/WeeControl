@@ -1,5 +1,6 @@
-@using WeeControl.Frontend.AppService.Internals.Temporary.Interfaces
-@inject IUserService UserService
+
+@using WeeControl.Frontend.AppService.GuiInterfaces.Home
+@inject IHomeService UserService
 
 @foreach (var b in UserService.MenuItems)
 {
@@ -15,6 +16,6 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        await UserService.Refresh();
+        await UserService.Sync();
     }
 }

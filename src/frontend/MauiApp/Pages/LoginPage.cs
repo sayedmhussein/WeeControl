@@ -52,15 +52,15 @@ public class LoginPage : ContentPage
         image.HorizontalOptions = LayoutOptions.Center;
         image.Aspect = Aspect.AspectFit;
 
-        usernameEntry.Placeholder = IAuthorizationService.UsernameLabel;
+        usernameEntry.Placeholder = service.UsernameLabel;
         usernameEntry.Text = string.Empty;
         usernameEntry.Keyboard = Keyboard.Email;
 
-        passwordEntry.Placeholder = IAuthorizationService.PasswordLabel;
+        passwordEntry.Placeholder = service.PasswordLabel;
         passwordEntry.Text = string.Empty;
         passwordEntry.IsPassword = true;
 
-        loginButton.Text = "Login";
+        loginButton.Text = service.LoginButtonLabel;
         loginButton.Clicked += LoginButtonOnClicked;
     }
 

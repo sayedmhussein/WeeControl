@@ -8,16 +8,14 @@ public interface IAuthorizationService
     Task<bool> UpdateToken(string otp);
     Task<bool> Logout();
     
-    public const string UsernameLabel = "Username";
-    public const string PasswordLabel = "Password";
-    public const string LoginButtonLabel = "Login";
+    public string UsernameLabel { get; } 
+    public string PasswordLabel  { get; } 
+    public string LoginButtonLabel  { get; } 
     
-    public const string InvalidUsernameMessage = "Please enter valid username.";
-    public const string InvalidPasswordMessage = "Please enter valid username.";
-    public const string InvalidOtpMessage = "Please enter valid OTP.";
-    //
-    public const string UnmatchedUsernameAndPassword = "Either username or password are not correct.";
-    public const string UserIsBlocked = "Account suspended, please contact the admin.";
-    //
-    public const string ApplicationError = "Internal App Error.";
+    public string InvalidUsernameMessage  { get; } 
+    public string InvalidPasswordMessage  { get; } 
+    public string InvalidOtpMessage  { get; }
+    public string UnmatchedUsernameAndPassword  { get; } 
+    public string UserIsBlocked  { get; }
+    public string ApplicationError  { get; }
 }

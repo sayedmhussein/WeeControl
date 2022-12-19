@@ -5,8 +5,6 @@ using WeeControl.Frontend.AppService.GuiInterfaces.Authorization;
 using WeeControl.Frontend.AppService.GuiInterfaces.Home;
 using WeeControl.Frontend.AppService.Internals.Interfaces;
 using WeeControl.Frontend.AppService.Internals.Services;
-using WeeControl.Frontend.AppService.Internals.Temporary.Interfaces;
-using WeeControl.Frontend.AppService.Internals.Temporary.Services;
 
 namespace WeeControl.Frontend.AppService;
 
@@ -28,7 +26,7 @@ public static class ApplicationServiceExtensions
         services.AddTransient<IAuthorizationService, AuthorizationService>();
         services.AddTransient<IHomeService, HomeService>();
         
-        services.AddTransient<IUserService, UserService>();
+        //services.AddTransient<IUserService, UserService>();
         
         //services.AddTransient<TerritoryService>();
 

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace WeeControl.Frontend.AppService.Internals.Temporary.Models;
+namespace WeeControl.Frontend.AppService.Models;
 
 public class CountryModel
 {
