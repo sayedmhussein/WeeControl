@@ -1,7 +1,9 @@
+using System.Runtime.CompilerServices;
 using SQLite;
 using WeeControl.Frontend.AppService.DeviceInterfaces;
 using WeeControl.Frontend.AppService.Internals.Interfaces;
 
+[assembly: InternalsVisibleTo("ApplicationService.UnitTest")]
 namespace WeeControl.Frontend.AppService.Internals.Services;
 
 internal class DatabaseService : IDatabaseService

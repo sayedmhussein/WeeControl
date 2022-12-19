@@ -7,7 +7,7 @@ using WeeControl.Frontend.AppService.GuiInterfaces.Authorization;
 using WeeControl.Frontend.Service.UnitTest;
 using Xunit;
 
-namespace WeeControl.User.UserApplication.Test.Integration.Services.Essential;
+namespace WeeControl.User.UserApplication.Test.Integration.Contexts.Essential;
 
 public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFactory<Startup>>
 {

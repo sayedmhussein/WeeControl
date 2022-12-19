@@ -4,7 +4,7 @@ using WeeControl.ApiApp.WebApi;
 using WeeControl.Frontend.AppService.GuiInterfaces.Authorization;
 using Xunit;
 
-namespace WeeControl.User.UserApplication.Test.Integration.Services;
+namespace WeeControl.User.UserApplication.Test.Integration.Contexts;
 
 public class TestForTestClass : IClassFixture<CustomWebApplicationFactory<Startup>>
 {

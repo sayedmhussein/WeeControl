@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
@@ -44,18 +45,28 @@ internal class SecurityService : IDeviceSecurity
         var token = await GetTokenAsync();
         if (string.IsNullOrEmpty(token))
             return new ClaimsPrincipal();
+
+        const string key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
         
         var validationParameters = new TokenValidationParameters()
                 {
                     RequireSignedTokens = false,
                     RequireAudience = false, RequireExpirationTime = false, LogValidationExceptions = true,
                     ValidateIssuerSigningKey = false,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(new string('a', 30))),
+                    //IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(key)),
+                    SignatureValidator = delegate(string token, TokenValidationParameters parameters)
+                    {
+                        var jwt = new JwtSecurityToken(token);
+
+                        return jwt;
+                    },
                     ValidateIssuer = false,
                     ValidateAudience = false,
                     ValidateLifetime = false,
                     ClockSkew = TimeSpan.Zero
                 };
+
+        validationParameters.RequireSignedTokens = false;
         
         var cp = jwtService.GetClaimPrincipal( token, validationParameters);
         return cp;

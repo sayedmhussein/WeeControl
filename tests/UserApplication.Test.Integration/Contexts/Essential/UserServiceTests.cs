@@ -7,7 +7,7 @@ using WeeControl.Frontend.AppService;
 using WeeControl.Frontend.AppService.GuiInterfaces.Home;
 using Xunit;
 
-namespace WeeControl.User.UserApplication.Test.Integration.Services.Essential;
+namespace WeeControl.User.UserApplication.Test.Integration.Contexts.Essential;
 
 public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startup>>
 {

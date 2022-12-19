@@ -51,6 +51,6 @@
     <ProjectReference Include="..\frontend\ApplicationService.UnitTest\ApplicationService.UnitTest.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Services\" />
+    <Folder Include="Contexts\" />
   </ItemGroup>
 </Project>

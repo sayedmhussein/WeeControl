@@ -6,7 +6,7 @@ using WeeControl.Frontend.AppService;
 using WeeControl.Frontend.AppService.GuiInterfaces.Authorization;
 using Xunit;
 
-namespace WeeControl.User.UserApplication.Test.Integration.Services;
+namespace WeeControl.User.UserApplication.Test.Integration.Contexts;
 
 public class ExampleTests : IClassFixture<CustomWebApplicationFactory<Startup>>
 {

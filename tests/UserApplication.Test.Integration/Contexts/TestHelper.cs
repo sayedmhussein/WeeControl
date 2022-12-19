@@ -8,7 +8,7 @@ using WeeControl.Common.SharedKernel.Services;
 using WeeControl.Frontend.AppService;
 using WeeControl.Frontend.Service.UnitTest;
 
-namespace WeeControl.User.UserApplication.Test.Integration.Services;
+namespace WeeControl.User.UserApplication.Test.Integration.Contexts;
 
 public class TestHelper<T> : IDisposable where T : class
 {
