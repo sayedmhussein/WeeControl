@@ -10,13 +10,15 @@ internal class AuthorizationService : IAuthorizationService
     private readonly IDeviceData device;
     private readonly IDeviceSecurity security;
     private readonly IServerOperation server;
+    private readonly IServerActivity serverActivity;
     private const string Route = ApiRouting.AuthorizationRoute;
 
-    public AuthorizationService(IDeviceData device, IDeviceSecurity security, IServerOperation server)
+    public AuthorizationService(IDeviceData device, IDeviceSecurity security, IServerOperation server, IServerActivity serverActivity)
     {
         this.device = device;
         this.security = security;
         this.server = server;
+        this.serverActivity = serverActivity;
     }
 
     public async Task<bool> Login(string usernameOrEmail, string password)
@@ -126,7 +128,14 @@ internal class AuthorizationService : IAuthorizationService
 
     private async Task<bool> ProcessLoginCommand(string usernameOrEmail, string password)
     {
-        var response = await server.Send(
+        var response = await serverActivity
+            .GetResponseMessage(
+                HttpMethod.Post, 
+                new Version("1.0"), 
+                Route,
+                LoginRequestDto.Create(usernameOrEmail, password));
+        
+        var r = await server.Send(
             new HttpRequestMessage
             {
                 RequestUri = new Uri(server.GetFullAddress(Route)),

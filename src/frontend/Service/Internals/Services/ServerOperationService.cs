@@ -140,24 +140,49 @@ internal class ServerOperationService : IServerOperation, IServerActivity
             new AuthenticationHeaderValue("Brear", token);
     }
 
-    public async Task<HttpResponseMessage> GetResponseMessage(HttpMethod method, Version version, string relativeUri, bool accurateLocation = false)
+    public Task<HttpResponseMessage> GetResponseMessage(HttpMethod method, Version version, string relativeUri, bool accurateLocation = false)
+    {
+        var message = GetHttpRequestMessage(method, version, relativeUri);
+
+        return GetHttpResponseMessage(message);
+    }
+
+    public async Task<HttpResponseMessage> GetResponseMessage<T>(HttpMethod method, Version version, string relativeUri, T dto,
+        bool accurateLocation = false) where T : class
+    {
+        var message = GetHttpRequestMessage(method, version, relativeUri);
+        
+        if (message.Content is not null)
+        {
+            throw new ArgumentException("You can't pass another payload in message with existing content, either remove the content or use the overloaded function.");
+        }
+        
+        message.Content = await GetResponseDtoAsHttpContentAsync(accurateLocation, dto);
+
+        return await GetHttpResponseMessage(message);
+    }
+
+    private HttpRequestMessage GetHttpRequestMessage(HttpMethod method, Version version, string relativeUri)
     {
         if (string.IsNullOrWhiteSpace(relativeUri))
             throw new InvalidEnumArgumentException("You must provide a valid relative uri for the API.");
         
-        var message = new HttpRequestMessage()
+        return new HttpRequestMessage()
         {
             Method = method, 
             Version = version, 
             RequestUri = new Uri(GetFullAddress(relativeUri))
         };
-        
+    }
+
+    private async Task<HttpResponseMessage> GetHttpResponseMessage(HttpRequestMessage httpRequestMessage)
+    {
         try
         {
             var token = await device.GetTokenAsync();
             UpdateHttpAuthorizationHeader(token);
             
-            var response = await httpClient.SendAsync(message);
+            var response = await httpClient.SendAsync(httpRequestMessage);
             if (response.IsSuccessStatusCode)
                 return response;
 
@@ -178,11 +203,5 @@ internal class ServerOperationService : IServerOperation, IServerActivity
             Console.WriteLine(e);
             throw;
         }
-    }
-
-    public Task<HttpResponseMessage> GetResponseMessage<T>(HttpMethod method, Version version, string relativeUri, T dto,
-        bool accurateLocation = false)
-    {
-        throw new NotImplementedException();
     }
 }

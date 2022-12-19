@@ -1,9 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
-using Moq;
 using WeeControl.ApiApp.Application.Interfaces;
 using WeeControl.ApiApp.WebApi;
 using WeeControl.Frontend.AppService;
-using WeeControl.Frontend.AppService.GuiInterfaces.Authorization;
+using WeeControl.Frontend.Service.UnitTest;
 using Xunit;
 
 namespace WeeControl.User.UserApplication.Test.Integration.Contexts;
@@ -18,24 +17,23 @@ public class ExampleTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     }
 
     [Fact]
-    public async void Test1_()
+    public async void TestAuthorizeInCustomerWebApplication()
     {
-        using var helper = new TestHelper<IAuthorizationService>(factory.WithWebHostBuilder(builder =>
+        using var helper = new TestHelper(nameof(TestAuthorizeInCustomerWebApplication));
+        var service = helper.GetService<IServiceData>(factory.WithWebHostBuilder(builder =>
         {
             builder.ConfigureServices(services =>
             {
                 using var scope = services.BuildServiceProvider().CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-                var user = TestHelper<object>.GetUserDboWithEncryptedPassword("username", "password");
+                var user = factory.GetUserDboWithEncryptedPassword("username", "password");
                 db.Users.Add(user);
-                //Prepare database as required
                 db.SaveChanges();
             });
         }).CreateClient());
+
+        await factory.Authorize(helper, "username", "password");
         
-        await helper.Service.Login("username", "password");
-        
-        helper.DeviceMock.Verify(x => 
-            x.NavigateToAsync(ApplicationPages.SplashPage, It.IsAny<bool>()), Times.Never);
+        Assert.True(await service.IsAuthenticated());  
     }
 }

@@ -51,6 +51,11 @@ public class TestHelper : IDisposable
     {
         DeviceMock = null;
     }
+
+    public void Setup()
+    {
+        
+    }
     
     public T GetService<T>() where T : class
     {

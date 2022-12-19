@@ -6,5 +6,5 @@ internal interface IServerActivity
         GetResponseMessage(HttpMethod method, Version version, string relativeUri, bool accurateLocation = false);
     
     Task<HttpResponseMessage> 
-        GetResponseMessage<T>(HttpMethod method, Version version, string relativeUri, T dto, bool accurateLocation = false);
+        GetResponseMessage<T>(HttpMethod method, Version version, string relativeUri, T dto, bool accurateLocation = false) where T : class;
 }

@@ -1,6 +1,5 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using WeeControl.Common.SharedKernel.Interfaces;
 using WeeControl.Frontend.AppService.DeviceInterfaces;

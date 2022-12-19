@@ -17,7 +17,7 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
     {
         this.factory = factory;
     }
-    
+
     [Theory]
     [InlineData("username", "password", true)]
     [InlineData("username@email.com", "password", true)]
@@ -33,7 +33,7 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
             {
                 using var scope = services.BuildServiceProvider().CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-                var user = TestHelper<object>.GetUserDboWithEncryptedPassword("username", "password");
+                var user = factory.GetUserDboWithEncryptedPassword("username", "password");
                 db.Users.Add(user);
                 db.SaveChanges();
             });
@@ -60,7 +60,7 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
             {
                 using var scope = services.BuildServiceProvider().CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-                var user = TestHelper<object>.GetUserDboWithEncryptedPassword("username", "password");
+                var user = factory.GetUserDboWithEncryptedPassword("username", "password");
                 db.Users.Add(user);
                 db.SaveChanges();
             });
@@ -74,22 +74,22 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
     [Fact]
     public async void WhenUserIsLocked()
     {
-        var httpClient = factory.WithWebHostBuilder(builder =>
+        using var helper = new TestHelper(nameof(WhenUserIsLocked));
+        var service = helper.GetService<IAuthorizationService>(factory.WithWebHostBuilder(builder =>
         {
             builder.ConfigureServices(services =>
             {
                 using var scope = services.BuildServiceProvider().CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-                var user = TestHelper<object>.GetUserDboWithEncryptedPassword("username", "password");
+                var user = factory.GetUserDboWithEncryptedPassword("username", "password");
                 db.Users.Add(user);
                 user.Suspend("for testing");
                 db.SaveChanges();
             });
-        }).CreateClient();
+        }).CreateClient());
         
-        using var helper = new TestHelper<IAuthorizationService>(httpClient);
 
-        await helper.Service.Login("username", "password");
+        await service.Login("username", "password");
         
         helper.DeviceMock.Verify(x => 
             x.NavigateToAsync(ApplicationPages.SplashPage, It.IsAny<bool>()), Times.Never);
@@ -111,7 +111,7 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
             {
                 using var scope = services.BuildServiceProvider().CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-                var user = TestHelper<object>.GetUserDboWithEncryptedPassword("username", "password");
+                var user = factory.GetUserDboWithEncryptedPassword("username", "password");
                 db.Users.Add(user);
                 db.SaveChanges();
             });
