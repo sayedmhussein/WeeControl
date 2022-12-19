@@ -20,9 +20,8 @@ public static class ApplicationServiceExtensions
         services.AddSingleton<IDatabaseService, DatabaseService>();
         services.AddSingleton<IDeviceSecurity, SecurityService>();
         services.AddSingleton<IServiceData, ServiceDataService>();
-
+        
         services.AddTransient<IServerOperation, ServerOperationService>();
-        services.AddTransient<IServerActivity, ServerOperationService>();
         
         services.AddTransient<IAuthorizationService, AuthorizationService>();
         services.AddTransient<IHomeService, HomeService>();

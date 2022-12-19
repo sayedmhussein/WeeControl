@@ -44,13 +44,8 @@ internal class HomeService : IHomeService
         {
             //IsCustomer = true;
         }
-        
-        var response = await server.Send(new HttpRequestMessage
-        {
-            RequestUri = new Uri(server.GetFullAddress(ApiRouting.HomeRoute)),
-            Version = new Version("1.0"),
-            Method = HttpMethod.Get
-        });
+
+        var response = await server.GetResponseMessage(HttpMethod.Get, new Version("1.0"), ApiRouting.UserHomeEndpoint);
 
         if (response.IsSuccessStatusCode)
         {
@@ -110,37 +105,29 @@ internal class HomeService : IHomeService
     public string SyncButtonLabel => "Sync";
     public string InternetIssueMessage => "Unable to reach to server, please try again later.";
 
-    private async Task ProcessPasswordReset(UserPasswordResetRequestDto? dtoV1)
+    private async Task ProcessPasswordReset(UserPasswordResetRequestDto dtoV1)
     {
-        HttpRequestMessage message = new()
-        {
-            RequestUri = new Uri(server.GetFullAddress(UserRoute)),
-            Version = new Version("1.0"),
-            Method = HttpMethod.Post,
-        };
+        var s = new string[] { "", "" };
+        var response = await server.GetResponseMessage(
+            HttpMethod.Post, new Version("1.0"), new [] {
+            ApiRouting.UserRoute, ApiRouting.UserPasswordEndpoint
+        }, dtoV1);
         
-        var responseMessage = await server.Send(message, dtoV1);
-        if (responseMessage.IsSuccessStatusCode)
+        if (response.IsSuccessStatusCode)
         {
             await device.DisplayAlert("New Password was created, please check your email.");
             await device.NavigateToAsync(ApplicationPages.Essential.UserPage, forceLoad:true);
             return;
         }
         
-        Console.WriteLine("Invalid message: " + responseMessage.ReasonPhrase);
+        Console.WriteLine("Invalid message: " + response.ReasonPhrase);
         await device.DisplayAlert("Something went wrong!");
     }
     
     private async Task RegisterAsync(RegisterCustomerDto model)
     {
-        HttpRequestMessage message = new()
-        {
-            RequestUri = new Uri(server.GetFullAddress(UserRoute)),
-            Version = new Version("1.0"),
-            Method = HttpMethod.Post,
-        };
-        
-        var response = await server.Send(message, model);
+        var response = await server.GetResponseMessage(
+            HttpMethod.Post, new Version("1.0"), ApiRouting.UserRoute, model);
 
         if (response.IsSuccessStatusCode)
         {
@@ -162,16 +149,11 @@ internal class HomeService : IHomeService
         await device.DisplayAlert(displayString);
     }
     
-    private async Task ProcessChangingPassword(UserPasswordChangeRequestDto? dto)
+    private async Task ProcessChangingPassword(UserPasswordChangeRequestDto dto)
     {
-        HttpRequestMessage message = new()
-        {
-            RequestUri = new Uri(server.GetFullAddress(UserRoute)),
-            Version = new Version("1.0"),
-            Method = HttpMethod.Patch,
-        };
-        
-        var response = await server.Send(message, dto);
+        var response = await server.GetResponseMessage(
+            HttpMethod.Patch, new Version("1.0"), new [] {
+                ApiRouting.UserRoute, ApiRouting.UserPasswordEndpoint }, dto);
 
         switch (response.StatusCode)
         {

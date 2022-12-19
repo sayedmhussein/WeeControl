@@ -13,7 +13,7 @@ using WeeControl.Frontend.AppService.Internals.Interfaces;
 [assembly: InternalsVisibleTo("ApplicationService.UnitTest")]
 namespace WeeControl.Frontend.AppService.Internals.Services;
 
-internal class ServerOperationService : IServerOperation, IServerActivity
+internal class ServerOperationService : IServerOperation
 {
     private readonly HttpClient httpClient;
     private readonly IDeviceData deviceData;
@@ -26,7 +26,7 @@ internal class ServerOperationService : IServerOperation, IServerActivity
         this.device = device;
     }
 
-    public string GetFullAddress(string relative)
+    private string GetFullAddress(string relative)
     {
         if (string.IsNullOrEmpty(deviceData.ServerUrl))
             throw new NullReferenceException("Server URL was not defined!");
@@ -34,13 +34,13 @@ internal class ServerOperationService : IServerOperation, IServerActivity
         return deviceData.ServerUrl + relative;
     }
 
-    public Task<HttpResponseMessage> Send(HttpRequestMessage message, bool accurateLocation = false)
+    private Task<HttpResponseMessage> Send(HttpRequestMessage message, bool accurateLocation = false)
     {
         //todo: to confirm that message verb allow no content.
         return Send(message, new object(), accurateLocation);
     }
 
-    public async Task<HttpResponseMessage> Send<T>(HttpRequestMessage message, T payload, bool accurateLocation = false) where T : class
+    private async Task<HttpResponseMessage> Send<T>(HttpRequestMessage message, T payload, bool accurateLocation = false) where T : class
     {
         if (message.Content is not null)
         {
@@ -81,7 +81,7 @@ internal class ServerOperationService : IServerOperation, IServerActivity
         return null;
     }
 
-    public async Task<bool> TokenRevalidatedSuccessfully()
+    public async Task<bool> RefreshToken()
     {
         if (await device.IsAuthenticatedAsync() == false)
         {
@@ -140,14 +140,24 @@ internal class ServerOperationService : IServerOperation, IServerActivity
             new AuthenticationHeaderValue("Brear", token);
     }
 
-    public Task<HttpResponseMessage> GetResponseMessage(HttpMethod method, Version version, string relativeUri, bool accurateLocation = false)
+    public Task<HttpResponseMessage> GetResponseMessage
+        (HttpMethod method, Version version, string relativeUri, bool accurateLocation = false)
     {
         var message = GetHttpRequestMessage(method, version, relativeUri);
 
         return GetHttpResponseMessage(message);
     }
+    
+    public Task<HttpResponseMessage> GetResponseMessage
+        (HttpMethod method, Version version, string[] routeAndEndpoints, bool accurateLocation = false)
+    {
+        var message = GetHttpRequestMessage(method, version, string.Join('/', routeAndEndpoints));
 
-    public async Task<HttpResponseMessage> GetResponseMessage<T>(HttpMethod method, Version version, string relativeUri, T dto,
+        return GetHttpResponseMessage(message);
+    }
+
+    public async Task<HttpResponseMessage> GetResponseMessage<T>
+    (HttpMethod method, Version version, string relativeUri, T dto,
         bool accurateLocation = false) where T : class
     {
         var message = GetHttpRequestMessage(method, version, relativeUri);
@@ -160,6 +170,13 @@ internal class ServerOperationService : IServerOperation, IServerActivity
         message.Content = await GetResponseDtoAsHttpContentAsync(accurateLocation, dto);
 
         return await GetHttpResponseMessage(message);
+    }
+
+    public Task<HttpResponseMessage> GetResponseMessage<T>
+    (HttpMethod method, Version version, string[] routeAndEndpoints, T dto,
+        bool accurateLocation = false) where T : class
+    {
+        return GetResponseMessage(method, version, string.Join('/', routeAndEndpoints), dto, accurateLocation);
     }
 
     private HttpRequestMessage GetHttpRequestMessage(HttpMethod method, Version version, string relativeUri)

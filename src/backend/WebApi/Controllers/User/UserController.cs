@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Mime;
@@ -7,37 +7,42 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WeeControl.ApiApp.Application.Contexts.Essential.Commands;
-using WeeControl.ApiApp.Application.Contexts.Essential.Queries;
 using WeeControl.Common.SharedKernel;
+using WeeControl.Common.SharedKernel.Contexts.Authentication;
 using WeeControl.Common.SharedKernel.Contexts.Temporary.User;
 using WeeControl.Common.SharedKernel.RequestsResponses;
 
 namespace WeeControl.ApiApp.WebApi.Controllers.User;
 
 [ApiController]
-public abstract class UserController : Controller
+[Route(ApiRouting.UserRoute)]
+[Consumes(MediaTypeNames.Application.Json)]
+[Produces(MediaTypeNames.Application.Json)]
+public class UserController : Controller
 {
-    protected readonly IMediator Mediator;
+    private readonly IMediator mediator;
 
-    protected UserController(IMediator mediator)
+    public UserController(IMediator mediator)
     {
-        this.Mediator = mediator;
+        this.mediator = mediator;
     }
 
     [AllowAnonymous]
-    [HttpHead("{parameter}/{value}")]
+    [HttpPost]
     [MapToApiVersion("1.0")]
-    [ProducesResponseType((int) HttpStatusCode.OK)]
-    [ProducesResponseType((int) HttpStatusCode.Conflict)]
-    public async Task<ActionResult> VerifyNotDuplicate(string parameter, string value)
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.Conflict)]
+    public async Task<ActionResult<ResponseDto<TokenResponseDto>>> RegisterV1([FromBody] RequestDto<RegisterCustomerDto> dto)
     {
-        var query = new UserDuplicationQuery(parameter, value);
-        await Mediator.Send(query);
-        return Ok();
+        var command = new UserRegisterCommand(dto);
+        var response = await mediator.Send(command);
+        
+        return Ok(response);
     }
     
     [Authorize]
-    [HttpPatch(ApiRouting.HomeRoute)]
+    [HttpPatch(ApiRouting.UserPasswordEndpoint)]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -46,26 +51,25 @@ public abstract class UserController : Controller
     public async Task<ActionResult> SetNewPasswordV1([FromBody] RequestDto<UserPasswordChangeRequestDto> dto)
     {
         var command = new UserNewPasswordCommand(dto, dto.Payload.OldPassword, dto.Payload.NewPassword);
-        var response = await Mediator.Send(command);
+        var response = await mediator.Send(command);
 
         return Ok();
     }
     
     [AllowAnonymous]
-    [HttpPost(ApiRouting.HomeRoute)]
+    [HttpPost(ApiRouting.UserPasswordEndpoint)]
     [MapToApiVersion("1.0")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<ActionResult> ResetPasswordV1([FromBody] RequestDto<UserPasswordResetRequestDto> dto)
     {
         var command = new UserForgotMyPasswordCommand(dto);
-        await Mediator.Send(command);
+        await mediator.Send(command);
         
         return Ok();
-        throw new NotImplementedException();
     }
     
-    [HttpGet(ApiRouting.UserRoute)]
+    [HttpGet(ApiRouting.UserNotificationEndpoint)]
     [MapToApiVersion("1.0")]
     [Produces(MediaTypeNames.Application.Json)]
     public Task<ActionResult<ResponseDto<IEnumerable<UserNotificationDto>>>> GetNotification()
@@ -76,12 +80,15 @@ public abstract class UserController : Controller
         // return Ok(response);
     }
 
-    [HttpDelete(ApiRouting.UserRoute + "/{id:guid}")]
+    [HttpDelete(ApiRouting.UserNotificationEndpoint + "/{id:guid}")]
     [MapToApiVersion("1.0")]
     public async Task<ActionResult> MuteNotificationV1(Guid id)
     {
         var command = new NotificationViewedCommand(id);
-        await Mediator.Send(command);
+        await mediator.Send(command);
         return Ok();
     }
+    
+
+    
 }

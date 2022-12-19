@@ -36,7 +36,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
         });
             
         helper.DeviceMock.Verify(x => 
-            x.NavigateToAsync(ApplicationPages.SplashPage, It.IsAny<bool>()), Times.Once);
+            x.NavigateToAsync(ApplicationPages.SplashPage, It.IsAny<bool>()), Times.AtLeastOnce);
     }
     
     [Fact]

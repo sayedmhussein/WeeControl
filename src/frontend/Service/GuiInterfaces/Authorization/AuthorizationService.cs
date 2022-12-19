@@ -9,16 +9,14 @@ internal class AuthorizationService : IAuthorizationService
 {
     private readonly IDeviceData device;
     private readonly IDeviceSecurity security;
-    private readonly IServerOperation server;
-    private readonly IServerActivity serverActivity;
+    private readonly IServerOperation serverOperation;
     private const string Route = ApiRouting.AuthorizationRoute;
 
-    public AuthorizationService(IDeviceData device, IDeviceSecurity security, IServerOperation server, IServerActivity serverActivity)
+    public AuthorizationService(IDeviceData device, IDeviceSecurity security, IServerOperation serverOperation)
     {
         this.device = device;
         this.security = security;
-        this.server = server;
-        this.serverActivity = serverActivity;
+        this.serverOperation = serverOperation;
     }
 
     public async Task<bool> Login(string usernameOrEmail, string password)
@@ -42,32 +40,29 @@ internal class AuthorizationService : IAuthorizationService
     {
         if (string.IsNullOrWhiteSpace(otp) || otp.Trim().Length < 4)
         {
-            await device.DisplayAlert(this.InvalidOtpMessage);
+            await device.DisplayAlert(InvalidOtpMessage);
             return false;
         }
-
-        var response = await server.Send(new HttpRequestMessage
-        {
-            RequestUri = new Uri(server.GetFullAddress(Route)),
-            Version = new Version("1.0"),
-            Method = string.IsNullOrWhiteSpace(otp) ? HttpMethod.Patch : HttpMethod.Put
-        }, otp);
         
+        var response = await serverOperation
+            .GetResponseMessage(
+                HttpMethod.Put, 
+                new Version("1.0"), 
+                Route,
+                otp);
+
         switch (response.StatusCode)
         {
             case HttpStatusCode.OK:
               
-                var responseDto = await server.ReadFromContent<TokenResponseDto>(response.Content);
+                var responseDto = await serverOperation.ReadFromContent<TokenResponseDto>(response.Content);
                 var token = responseDto?.Token;
                 if (token is not null)
                 {
                     await security.UpdateTokenAsync(token);
                 }
 
-                if (otp is not null)
-                {
-                    await device.NavigateToAsync(ApplicationPages.SplashPage);
-                }
+                await device.NavigateToAsync(ApplicationPages.SplashPage);
                 return true;
             case HttpStatusCode.NotFound:
                 await device.DisplayAlert(this.InvalidOtpMessage);
@@ -87,13 +82,13 @@ internal class AuthorizationService : IAuthorizationService
 
     public async Task<bool> Logout()
     {
-        var response = await server.Send(new HttpRequestMessage
-        {
-            RequestUri = new Uri(server.GetFullAddress(Route)),
-            Version = new Version("1.0"),
-            Method = HttpMethod.Delete
-        });
-        
+        var response = await serverOperation
+            .GetResponseMessage(
+                HttpMethod.Delete, 
+                new Version("1.0"), 
+                Route, "To send the dto"
+                );
+
         await security.DeleteTokenAsync();
         await device.NavigateToAsync(ApplicationPages.SplashPage);
 
@@ -128,27 +123,18 @@ internal class AuthorizationService : IAuthorizationService
 
     private async Task<bool> ProcessLoginCommand(string usernameOrEmail, string password)
     {
-        var response = await serverActivity
+        var response = await serverOperation
             .GetResponseMessage(
                 HttpMethod.Post, 
                 new Version("1.0"), 
                 Route,
                 LoginRequestDto.Create(usernameOrEmail, password));
-        
-        var r = await server.Send(
-            new HttpRequestMessage
-            {
-                RequestUri = new Uri(server.GetFullAddress(Route)),
-                Version = new Version("1.0"),
-                Method = HttpMethod.Post
-            }, 
-            LoginRequestDto.Create(usernameOrEmail, password));
 
         switch (response.StatusCode)
         {
             case HttpStatusCode.OK:
             case HttpStatusCode.Accepted:
-                var responseDto = await server.ReadFromContent<TokenResponseDto>(response.Content);
+                var responseDto = await serverOperation.ReadFromContent<TokenResponseDto>(response.Content);
                 var token = responseDto?.Token;
                 if (token is not null)
                 {
