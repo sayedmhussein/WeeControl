@@ -28,6 +28,20 @@ internal class DatabaseService : IDatabaseService
         return database.CreateTableAsync<T>();
     }
 
+    public async Task ClearAllTables()
+    {
+        try
+        {
+            var dbPath = database.DatabasePath;
+            await database.CloseAsync();
+            File.Delete(dbPath);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+    }
+
     public async Task ClearTable<T>() where T : new()
     {
         await Init<T>();

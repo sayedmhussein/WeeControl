@@ -19,7 +19,7 @@
     
     protected override async void OnInitialized()
     {
-        await UserService.Sync();
+        await UserService.VerifyAuthentication();
         await base.OnInitializedAsync();
     }
 }

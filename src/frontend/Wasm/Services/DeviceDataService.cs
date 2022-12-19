@@ -25,39 +25,41 @@ public class DeviceDataService : IDeviceData
         HttpClient = new HttpClient();
     }
     
-    public Task SendAnEmail(IEnumerable<string> to, string subject, string body)
+    public async Task SendAnEmail(IEnumerable<string> to, string subject, string body)
     {
-        throw new System.NotImplementedException();
+        await jsRuntime.InvokeAsync<bool>($"Sending Email to {to}", body);
     }
 
-    public Task SendAnEmail(IEnumerable<string> to, string subject, string body, IEnumerable<string> attachments)
+    public async Task SendAnEmail(IEnumerable<string> to, string subject, string body, IEnumerable<string> attachments)
     {
-        throw new System.NotImplementedException();
+        await jsRuntime.InvokeAsync<bool>($"Sending Email to {to}", body);
     }
 
-    public Task SendSms(IEnumerable<string> to, string text)
+    public async Task SendSms(IEnumerable<string> to, string text)
     {
-        throw new System.NotImplementedException();
+        await jsRuntime.InvokeAsync<bool>($"Sending SMS to {to}", text);
     }
 
-    public async Task<bool> IsConnectedToInternet()
+    public Task<bool> IsConnectedToInternet()
     {
-        return await jsRuntime.InvokeAsync<bool>("navigator.onLine");
+        return Task.FromResult(true);
+        //return await jsRuntime.InvokeAsync<bool>("window.navigator.onLine");
     }
 
-    public Task<bool> PhoneDial(string phoneNo)
+    public async Task<bool> PhoneDial(string phoneNo)
     {
-        throw new System.NotImplementedException();
+        await jsRuntime.InvokeAsync<bool>($"Phone Call", $"Please call the following number from your mobile {phoneNo}");
+        return true;
     }
 
     public Task<bool> IsEnergySavingMode()
     {
-        throw new System.NotImplementedException();
+        return Task.FromResult(false);
     }
 
     public Task<string> GetDeviceId()
     {
-        return Task.FromResult("__ThisIsBlaorApp");
+        return Task.FromResult("__ThisIsBlazorApp");
     }
 
     public async Task<(double? Latitude, double? Longitude, double? Elevation)> GetDeviceLocation(bool accurate = false)
@@ -67,7 +69,7 @@ public class DeviceDataService : IDeviceData
         // {
         //     return (null, null, null);
         // }
-        
+        await Task.Delay(10);
         return (null, null, null);
     }
 
@@ -107,24 +109,25 @@ public class DeviceDataService : IDeviceData
 
     public Task ClearClipboard()
     {
-        throw new System.NotImplementedException();
+        return Task.CompletedTask;
     }
 
     public string CashDirectory { get; }
     public string AppDataDirectory { get; }
-    public Task SaveAsync(string key, string value)
+    
+    public Task SaveKeyValue(string key, string value)
     {
         jsRuntime.InvokeVoidAsync("localStorage.setItem", key, JsonSerializer.Serialize(value)).ConfigureAwait(false);
         return Task.CompletedTask;
     }
 
-    public async Task<string> GetAsync(string key)
+    public async Task<string> GetKeyValue(string key)
     {
         var json = await jsRuntime.InvokeAsync<string>("localStorage.getItem", key).ConfigureAwait(false);
         return json == null ? default : JsonSerializer.Deserialize<string>(json);
     }
 
-    public Task ClearAsync()
+    public Task ClearKeysValues()
     {
         jsRuntime.InvokeVoidAsync("localStorage.clear").ConfigureAwait(false);
         return Task.CompletedTask;

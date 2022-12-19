@@ -1,9 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
+		<TargetFrameworks>net7.0-android;net7.0-ios;net7.0-maccatalyst</TargetFrameworks>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net7.0-windows10.0.19041.0</TargetFrameworks>
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
 		<!-- <TargetFrameworks>$(TargetFrameworks);net7.0-tizen</TargetFrameworks> -->
+		<OutputType>Exe</OutputType>
 		<RootNamespace>WeeControl.Frontend.MauiApp</RootNamespace>
 		<UseMaui>true</UseMaui>
 		<SingleProject>true</SingleProject>
@@ -26,21 +28,10 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
-		<TargetFramework>net7.0</TargetFramework>
-		<LangVersion>latestmajor</LangVersion>
-		<OutputType>Exe</OutputType>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
-	  <CreatePackage>false</CreatePackage>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-	  <WarningLevel>4</WarningLevel>
-	  <LangVersion>latest</LangVersion>
-	  <PlatformTarget>AnyCPU</PlatformTarget>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-	  <LangVersion>latest</LangVersion>
+		<CreatePackage>false</CreatePackage>
 	</PropertyGroup>
 	<ItemGroup>
 		<!-- App Icon -->
@@ -65,45 +56,45 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Flyout\HeaderView.xaml">
-	    <SubType></SubType>
-	  </MauiXaml>
-	  <MauiXaml Update="Flyout\FooterView.xaml">
-	    <SubType></SubType>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\Business\FieldOperation\RoutePage.xaml">
-	    <SubType></SubType>
-	  </MauiXaml>
+		<MauiXaml Update="Flyout\HeaderView.xaml">
+			<SubType></SubType>
+		</MauiXaml>
+		<MauiXaml Update="Flyout\FooterView.xaml">
+			<SubType></SubType>
+		</MauiXaml>
+		<MauiXaml Update="Pages\Business\FieldOperation\RoutePage.xaml">
+			<SubType></SubType>
+		</MauiXaml>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Service\Service.csproj" />
+		<ProjectReference Include="..\Service\Service.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="Flyout\" />
-	  <None Remove="Resources\Images\splashlogo.png" />
-	  <None Remove="Resources\Images\unitescalator.png" />
-	  <None Remove="Resources\Images\app_logo.png" />
-	  <None Remove="Resources\Images\splash_logo.png" />
-	  <None Remove="Pages\Business\" />
-	  <None Remove="Pages\Business\FieldOperation\" />
+		<None Remove="Flyout\" />
+		<None Remove="Resources\Images\splashlogo.png" />
+		<None Remove="Resources\Images\unitescalator.png" />
+		<None Remove="Resources\Images\app_logo.png" />
+		<None Remove="Resources\Images\splash_logo.png" />
+		<None Remove="Pages\Business\" />
+		<None Remove="Pages\Business\FieldOperation\" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Flyout\" />
-	  <Folder Include="Pages\Business\" />
-	  <Folder Include="Pages\Business\FieldOperation\" />
+		<Folder Include="Flyout\" />
+		<Folder Include="Pages\Business\" />
+		<Folder Include="Pages\Business\FieldOperation\" />
 	</ItemGroup>
 	<ItemGroup>
-	  <BundleResource Include="Resources\Images\splash_logo.png" />
-	  <BundleResource Include="Resources\Images\app_logo.png" />
-	  <BundleResource Include="Resources\Images\app_logo.png" />
-	  <BundleResource Include="Resources\Images\splash_logo.png" />
-	  <BundleResource Include="Resources\Images\app_logo.png" />
-	  <BundleResource Include="Resources\Images\splash_logo.png" />
+		<BundleResource Include="Resources\Images\splash_logo.png" />
+		<BundleResource Include="Resources\Images\app_logo.png" />
+		<BundleResource Include="Resources\Images\app_logo.png" />
+		<BundleResource Include="Resources\Images\splash_logo.png" />
+		<BundleResource Include="Resources\Images\app_logo.png" />
+		<BundleResource Include="Resources\Images\splash_logo.png" />
 	</ItemGroup>
 	<ItemGroup>
-	  <MauiImage Remove="Resources\Images\app_logo.png" />
-	  <MauiImage Remove="Resources\Images\splash_logo.png" />
+		<MauiImage Remove="Resources\Images\app_logo.png" />
+		<MauiImage Remove="Resources\Images\splash_logo.png" />
 	</ItemGroup>
 </Project>

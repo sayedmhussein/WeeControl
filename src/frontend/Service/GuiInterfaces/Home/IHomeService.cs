@@ -6,9 +6,11 @@ namespace WeeControl.Frontend.AppService.GuiInterfaces.Home;
 public interface IHomeService
 {
     IEnumerable<CountryModel> Countries { get; }
-    Task<bool> Sync();
-    Task<string> GetGreetingMessage();
     List<MenuItemModel> MenuItems { get; }
+    string GreetingMessage { get; }
+
+    Task<bool> VerifyAuthentication();
+    Task<bool> Sync();
     Task<IEnumerable<HomeFeedModel>> GetHomeFeeds();
     Task<IEnumerable<HomeNotificationModel>> GetHomeNotifications();
     

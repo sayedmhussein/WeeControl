@@ -15,7 +15,7 @@
             <MudMenuItem>
                 <MudButton 
                     StartIcon="@Icons.Material.Outlined.Home"
-                    Href="@ApplicationPages.Essential.HomePage">Home
+                    Href="@ApplicationPages.HomePage">Home
                 </MudButton>
             </MudMenuItem>
             @* @if (UserService.IsCustomer) *@
@@ -42,7 +42,7 @@
     }
     @if (ShowLogout)
     {
-        <MudText>@UserService.GetGreetingMessage</MudText>
+        <MudText>@UserService.GreetingMessage</MudText>
         <MudMenu Icon="@Icons.Material.Outlined.Notifications" AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight" MaxHeight="@componentMaxHeight">
             <MenuOfNotificationComponent></MenuOfNotificationComponent>
         </MudMenu>

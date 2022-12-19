@@ -43,8 +43,8 @@ public class TestHelper : IDisposable
             .Returns(AppDomain.CurrentDomain.BaseDirectory + @"CashDirectory");
         DeviceMock.Setup(x => x.AppDataDirectory)
             .Returns(AppDomain.CurrentDomain.BaseDirectory + @"AppDirectory");
-        DeviceMock.Setup(x => x.SaveAsync(It.IsAny<string>(), It.IsAny<string>()))
-            .Callback((string a, string b) => DeviceMock.Setup(x => x.GetAsync(a)).ReturnsAsync(b));
+        DeviceMock.Setup(x => x.SaveKeyValue(It.IsAny<string>(), It.IsAny<string>()))
+            .Callback((string a, string b) => DeviceMock.Setup(x => x.GetKeyValue(a)).ReturnsAsync(b));
     }
 
     void IDisposable.Dispose()
@@ -52,11 +52,6 @@ public class TestHelper : IDisposable
         DeviceMock = null;
     }
 
-    public void Setup()
-    {
-        
-    }
-    
     public T GetService<T>() where T : class
     {
         var collection = new ServiceCollection();

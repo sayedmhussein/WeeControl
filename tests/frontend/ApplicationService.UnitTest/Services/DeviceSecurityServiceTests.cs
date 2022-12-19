@@ -33,7 +33,7 @@ public class DeviceSecurityServiceTests : IDisposable
     [InlineData("", false)]
     public async void IsAuthenticatedTests(string token, bool isTrue)
     {
-        storageMock.Setup(x => x.GetAsync(It.IsAny<string>())).ReturnsAsync(token);
+        storageMock.Setup(x => x.GetKeyValue(It.IsAny<string>())).ReturnsAsync(token);
 
         var result = await new SecurityService(storageMock.Object, jwtService).IsAuthenticatedAsync();
         
@@ -43,8 +43,8 @@ public class DeviceSecurityServiceTests : IDisposable
     [Fact]
     public async void TokenSettingAndGetting()
     {
-        storageMock.Setup(x => x.SaveAsync(It.IsAny<string>(), It.IsAny<string>()))
-            .Callback((string k, string v) => storageMock.Setup(x => x.GetAsync(k)).ReturnsAsync(v));
+        storageMock.Setup(x => x.SaveKeyValue(It.IsAny<string>(), It.IsAny<string>()))
+            .Callback((string k, string v) => storageMock.Setup(x => x.GetKeyValue(k)).ReturnsAsync(v));
 
         const string token = "This should contains Token String";
         var service = new SecurityService(storageMock.Object, jwtService);
@@ -56,8 +56,8 @@ public class DeviceSecurityServiceTests : IDisposable
     [Fact]
     public async void DeletingTokenTest()
     {
-        storageMock.Setup(x => x.SaveAsync(It.IsAny<string>(), It.IsAny<string>()))
-            .Callback((string k, string v) => storageMock.Setup(x => x.GetAsync(k)).ReturnsAsync(v));
+        storageMock.Setup(x => x.SaveKeyValue(It.IsAny<string>(), It.IsAny<string>()))
+            .Callback((string k, string v) => storageMock.Setup(x => x.GetKeyValue(k)).ReturnsAsync(v));
         const string token = "This should contains Token String";
         
         var service = new SecurityService(storageMock.Object, jwtService);
@@ -70,8 +70,8 @@ public class DeviceSecurityServiceTests : IDisposable
     [Fact]
     public async void GettingClaimPrincipleTest()
     {
-        storageMock.Setup(x => x.SaveAsync(It.IsAny<string>(), It.IsAny<string>()))
-            .Callback((string k, string v) => storageMock.Setup(x => x.GetAsync(k)).ReturnsAsync(v));
+        storageMock.Setup(x => x.SaveKeyValue(It.IsAny<string>(), It.IsAny<string>()))
+            .Callback((string k, string v) => storageMock.Setup(x => x.GetKeyValue(k)).ReturnsAsync(v));
         var ci = new ClaimsIdentity("xxx");
         ci.AddClaim(new Claim("bla1", "bla2"));
         var key = Encoding.ASCII.GetBytes(new string('x', 30));

@@ -10,13 +10,15 @@ internal class AuthorizationService : IAuthorizationService
     private readonly IDeviceData device;
     private readonly IDeviceSecurity security;
     private readonly IServerOperation serverOperation;
+    private readonly IDatabaseService database;
     private const string Route = ApiRouting.AuthorizationRoute;
 
-    public AuthorizationService(IDeviceData device, IDeviceSecurity security, IServerOperation serverOperation)
+    public AuthorizationService(IDeviceData device, IDeviceSecurity security, IServerOperation serverOperation, IDatabaseService database)
     {
         this.device = device;
         this.security = security;
         this.serverOperation = serverOperation;
+        this.database = database;
     }
 
     public async Task<bool> Login(string usernameOrEmail, string password)
@@ -90,6 +92,10 @@ internal class AuthorizationService : IAuthorizationService
                 );
 
         await security.DeleteTokenAsync();
+        await database.ClearAllTables();
+        await device.ClearClipboard();
+        await device.ClearKeysValues();
+
         await device.NavigateToAsync(ApplicationPages.SplashPage);
 
         switch (response.StatusCode)
@@ -139,7 +145,7 @@ internal class AuthorizationService : IAuthorizationService
                 if (token is not null)
                 {
                     await security.UpdateTokenAsync(token);
-                    await device.SaveAsync(nameof(TokenResponseDto.FullName), responseDto?.FullName ?? string.Empty);
+                    await device.SaveKeyValue(nameof(TokenResponseDto.FullName), responseDto?.FullName ?? string.Empty);
                     if (true) //await server.IsTokenValid())
                     {
                         await device.NavigateToAsync(ApplicationPages.Essential.OtpPage);

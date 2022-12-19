@@ -1,6 +1,7 @@
-﻿using Foundation;
+﻿using Microsoft.Maui;
+using Foundation;
 
-namespace WeeControl.Frontend.MauiApp;
+namespace WeeControl.Frontend.MauiApp.Platforms.MacCatalyst;
 
 [Register("AppDelegate")]
 public class AppDelegate : MauiUIApplicationDelegate

@@ -21,22 +21,22 @@ internal class SecurityService : IDeviceSecurity
     
     public async Task<bool> IsAuthenticatedAsync()
     {
-        return !string.IsNullOrWhiteSpace(await storage.GetAsync(TokenKeyName));
+        return !string.IsNullOrWhiteSpace(await storage.GetKeyValue(TokenKeyName));
     }
 
     public Task UpdateTokenAsync(string token)
     {
-        return storage.SaveAsync(TokenKeyName, token);
+        return storage.SaveKeyValue(TokenKeyName, token);
     }
 
     public Task<string?> GetTokenAsync()
     {
-        return storage.GetAsync(TokenKeyName);
+        return storage.GetKeyValue(TokenKeyName);
     }
 
     public Task DeleteTokenAsync()
     {
-        return storage.SaveAsync(TokenKeyName, string.Empty);
+        return storage.SaveKeyValue(TokenKeyName, string.Empty);
     }
 
     public async Task<ClaimsPrincipal> GetClaimsPrincipal()

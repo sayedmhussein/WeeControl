@@ -27,13 +27,6 @@ public static class MauiProgram
 #endif
 		
 		builder.Services.AddSingleton<IDeviceData, GuiServices>();
-		
-		// builder.Services.AddSingleton<IStorage, DeviceStorage>();
-		// builder.Services.AddSingleton<IDeviceSecurity, DeviceStorage>();
-		// builder.Services.AddSingleton<IDeviceServerCommunication, ServiceCommunication>();
-		// builder.Services.AddSingleton<IDevicePageNavigation, DeviceNavigation>();
-		// builder.Services.AddSingleton<IDeviceLocation, DeviceLocation>();
-		// builder.Services.AddSingleton<IDeviceAlert, DeviceAlert>();
 
 		builder.Services.AddTransient<LoginPage>();
 

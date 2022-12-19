@@ -17,13 +17,13 @@ internal class ServerOperationService : IServerOperation
 {
     private readonly HttpClient httpClient;
     private readonly IDeviceData deviceData;
-    private readonly IDeviceSecurity device;
+    private readonly IDeviceSecurity security;
 
-    public ServerOperationService(IDeviceData deviceData, IDeviceSecurity device)
+    public ServerOperationService(IDeviceData deviceData, IDeviceSecurity security)
     {
         httpClient = deviceData.HttpClient;
         this.deviceData = deviceData;
-        this.device = device;
+        this.security = security;
     }
 
     private string GetFullAddress(string relative)
@@ -51,7 +51,7 @@ internal class ServerOperationService : IServerOperation
 
         try
         {
-            var token = await device.GetTokenAsync();
+            var token = await security.GetTokenAsync();
             UpdateHttpAuthorizationHeader(token);
             return await httpClient.SendAsync(message);
         }
@@ -83,7 +83,7 @@ internal class ServerOperationService : IServerOperation
 
     public async Task<bool> RefreshToken()
     {
-        if (await device.IsAuthenticatedAsync() == false)
+        if (await security.IsAuthenticatedAsync() == false)
         {
             return false;
         }
@@ -102,10 +102,10 @@ internal class ServerOperationService : IServerOperation
             var token = responseDto?.Payload?.Token;
             if (responseDto is not null && token is not null)
             {
-                await deviceData.SaveAsync(nameof(TokenResponseDto.Token), token);
-                await deviceData.SaveAsync(nameof(TokenResponseDto.FullName),
-                    responseDto?.Payload?.FullName ?? string.Empty);
-                await device.UpdateTokenAsync(token);
+                await deviceData.SaveKeyValue(nameof(TokenResponseDto.Token), token);
+                await deviceData.SaveKeyValue(nameof(TokenResponseDto.FullName),
+                    responseDto.Payload?.FullName ?? string.Empty);
+                await security.UpdateTokenAsync(token);
                 return true;
             }
             else
@@ -116,8 +116,8 @@ internal class ServerOperationService : IServerOperation
         
         if (response.StatusCode != HttpStatusCode.BadGateway)
         {
-            await device.DeleteTokenAsync();
-            await deviceData.ClearAsync();
+            await security.DeleteTokenAsync();
+            await deviceData.ClearKeysValues();
         }
         
         return false;
@@ -196,7 +196,7 @@ internal class ServerOperationService : IServerOperation
     {
         try
         {
-            var token = await device.GetTokenAsync();
+            var token = await security.GetTokenAsync();
             UpdateHttpAuthorizationHeader(token);
             
             var response = await httpClient.SendAsync(httpRequestMessage);

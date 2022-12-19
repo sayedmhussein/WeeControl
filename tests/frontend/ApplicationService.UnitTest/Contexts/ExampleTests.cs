@@ -38,7 +38,7 @@ public class ExampleTests
             case HttpStatusCode.BadRequest:
             case HttpStatusCode.BadGateway:
                 helper.DeviceMock.Verify(x => 
-                    x.NavigateToAsync(ApplicationPages.Essential.HomePage,true), Times.Never);
+                    x.NavigateToAsync(ApplicationPages.HomePage,true), Times.Never);
                 
                 // helper.DeviceMock.Verify(x => 
                 //     x.UpdateTokenAsync("token"), Times.Never);

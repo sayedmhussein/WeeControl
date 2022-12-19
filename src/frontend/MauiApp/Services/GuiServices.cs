@@ -163,17 +163,17 @@ public class GuiServices : IDeviceData
 
     public string CashDirectory => FileSystem.CacheDirectory;
     public string AppDataDirectory => FileSystem.AppDataDirectory;
-    public Task SaveAsync(string key, string value)
+    public Task SaveKeyValue(string key, string value)
     {
         return SecureStorage.Default.SetAsync(key, value);
     }
 
-    public Task<string> GetAsync(string key)
+    public Task<string> GetKeyValue(string key)
     {
         return SecureStorage.Default.GetAsync(key);
     }
 
-    public Task ClearAsync()
+    public Task ClearKeysValues()
     {
         SecureStorage.Default.RemoveAll();
         return Task.CompletedTask;

@@ -17,7 +17,7 @@ public static class ApplicationPages
     public static class Essential
     {
         
-        public const string HomePage = "Index";
+        //public const string HomePage = "Index";
         public const string UserPage = "User";
         public const string OtpPage = "Otp";
     }

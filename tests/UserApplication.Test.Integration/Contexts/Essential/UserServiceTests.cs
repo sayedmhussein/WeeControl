@@ -21,6 +21,20 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
         this.factory = factory;
     }
 
+    #region VerifyAuthentication
+
+    [Fact]
+    public async void VerifyAuthenticationTests()
+    {
+        using var helper = await GetTestHelperWithStandardUsername();
+        var service = helper.GetService<IHomeService>();
+
+        var result = service.VerifyAuthentication();
+        
+        
+    }
+    #endregion
+
     #region ChangeMyPassword()
     [Fact]
     public async void ChangeMyPassword_WhenSuccess()
@@ -55,7 +69,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
             
         helper.DeviceMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
         helper.DeviceMock.Verify(x => 
-            x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
+            x.NavigateToAsync(ApplicationPages.HomePage, It.IsAny<bool>()), Times.Never);
     }
     
     [Fact]
@@ -73,7 +87,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
             
         helper.DeviceMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
         helper.DeviceMock.Verify(x => 
-            x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
+            x.NavigateToAsync(ApplicationPages.HomePage, It.IsAny<bool>()), Times.Never);
     }
 
     [Fact]
@@ -91,7 +105,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
             
         helper.DeviceMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
         helper.DeviceMock.Verify(x => 
-            x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
+            x.NavigateToAsync(ApplicationPages.HomePage, It.IsAny<bool>()), Times.Never);
     }
     #endregion
 

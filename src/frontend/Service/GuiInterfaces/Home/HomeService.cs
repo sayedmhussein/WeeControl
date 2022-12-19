@@ -19,6 +19,8 @@ internal class HomeService : IHomeService
     private const string UserRoute = ApiRouting.UserRoute;
     
     public List<MenuItemModel> MenuItems { get; }
+    public IEnumerable<CountryModel> Countries { get; }
+    public string GreetingMessage { get; private set; }
 
     public HomeService(IDeviceData device, IServerOperation server, IDatabaseService db, IDeviceSecurity security, IPersistedLists persistedLists)
     {
@@ -28,9 +30,21 @@ internal class HomeService : IHomeService
         this.security = security;
         Countries = persistedLists.Countries;
         MenuItems = new List<MenuItemModel>();
+        GreetingMessage = "Hello";
     }
-
-    public IEnumerable<CountryModel> Countries { get; }
+    
+    public async Task<bool> VerifyAuthentication()
+    {
+        if ((await device.IsConnectedToInternet() == true && await server.RefreshToken()) ||
+            (await device.IsConnectedToInternet() == false && await security.IsAuthenticatedAsync()))
+        {
+            await device.NavigateToAsync(ApplicationPages.HomePage);
+            return true;
+        }
+        
+        await device.NavigateToAsync(ApplicationPages.AuthenticationPage);
+        return false;
+    }
 
     public async Task<bool> Sync()
     {
