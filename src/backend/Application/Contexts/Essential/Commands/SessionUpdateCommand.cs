@@ -28,10 +28,10 @@ public class SessionUpdateCommand : IRequest<ResponseDto<TokenResponseDto>>
         otp = null;
     }
 
-    public SessionUpdateCommand(IRequestDto<string> dto)
+    public SessionUpdateCommand(IRequestDto dto, string otp)
     {
         this.dto = dto;
-        otp = dto.Payload;
+        this.otp = otp;
     }
 
     public class UserTokenHandler : IRequestHandler<SessionUpdateCommand, ResponseDto<TokenResponseDto>>

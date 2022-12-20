@@ -9,16 +9,10 @@
     <MudProgressCircular class="align-self-center" Color="Color.Info" Indeterminate="true" Size="Size.Large" /> 
 </MudContainer>
 
-
 @code {
-    // [CascadingParameter]
-    // public Task<AuthenticationState> AuthState { get; set; }
-    
-    // [Inject]
-    // public NavigationManager NavManager { get; set; }
-    
     protected override async void OnInitialized()
     {
+        await Task.Delay(3000);
         await UserService.VerifyAuthentication();
         await base.OnInitializedAsync();
     }

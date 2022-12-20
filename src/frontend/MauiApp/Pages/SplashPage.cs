@@ -1,3 +1,7 @@
+using System.Threading.Tasks;
+using Microsoft.Maui;
+using Microsoft.Maui.Controls;
+
 namespace WeeControl.Frontend.MauiApp.Pages;
 
 public class SplashPage : ContentPage

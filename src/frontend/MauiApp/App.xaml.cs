@@ -1,4 +1,5 @@
-﻿using WeeControl.Frontend.MauiApp.Pages;
+﻿using Microsoft.Maui.Controls;
+using WeeControl.Frontend.MauiApp.Pages;
 
 namespace WeeControl.Frontend.MauiApp;
 

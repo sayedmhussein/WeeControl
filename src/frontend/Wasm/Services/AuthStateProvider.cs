@@ -17,6 +17,19 @@ public class AuthStateProvider : AuthenticationStateProvider
         var identity = new ClaimsIdentity();
         var cp = new ClaimsPrincipal(identity);
         anonymous = new AuthenticationState(cp);
+
+        serviceData.AuthenticationChanged += ServiceDataOnAuthenticationChanged;
+    }
+
+    private async void ServiceDataOnAuthenticationChanged(object sender, bool e)
+    {
+        if (e)
+        {
+            NotifyUserAuthentication(await serviceData.GetClaimPrincipal());
+            return;
+        }
+        
+        NotifyUserAuthentication(null);
     }
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
@@ -30,12 +43,11 @@ public class AuthStateProvider : AuthenticationStateProvider
         return new AuthenticationState(cp);
     }
 
-    private void NotifyUserAuthentication(string token)
+    private void NotifyUserAuthentication(ClaimsPrincipal? claimsPrincipal)
     {
-        if (string.IsNullOrWhiteSpace(token) == false)
+        if (claimsPrincipal != null)
         {
-            var cp = serviceData.GetClaimPrincipal();
-            var state = new AuthenticationState(cp.GetAwaiter().GetResult());
+            var state = new AuthenticationState(claimsPrincipal);
             var authState = Task.FromResult(state);
             NotifyAuthenticationStateChanged(authState);
         }

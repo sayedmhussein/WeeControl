@@ -25,13 +25,13 @@ internal class AuthorizationService : IAuthorizationService
     {
         if (string.IsNullOrWhiteSpace(usernameOrEmail) || usernameOrEmail.Trim().Length < 4)
         {
-            await device.DisplayAlert(this.InvalidUsernameMessage);
+            await device.DisplayAlert(GetMessage(IAuthorizationService.Message.InvalidUsername));
             return false;
         }
         
         if (string.IsNullOrWhiteSpace(password) || password.Length < 4)
         {
-            await device.DisplayAlert(this.InvalidPasswordMessage);
+            await device.DisplayAlert(GetMessage(IAuthorizationService.Message.InvalidPassword));
             return false;
         }
 
@@ -42,7 +42,7 @@ internal class AuthorizationService : IAuthorizationService
     {
         if (string.IsNullOrWhiteSpace(otp) || otp.Trim().Length < 4)
         {
-            await device.DisplayAlert(InvalidOtpMessage);
+            await device.DisplayAlert(GetMessage(IAuthorizationService.Message.InvalidOtp));
             return false;
         }
         
@@ -50,7 +50,7 @@ internal class AuthorizationService : IAuthorizationService
             .GetResponseMessage(
                 HttpMethod.Put, 
                 new Version("1.0"), 
-                Route,
+                new []{Route, otp},
                 otp);
 
         switch (response.StatusCode)
@@ -64,18 +64,18 @@ internal class AuthorizationService : IAuthorizationService
                     await security.UpdateTokenAsync(token);
                 }
 
-                await device.NavigateToAsync(ApplicationPages.SplashPage);
+                await device.NavigateToAsync(ApplicationPages.SplashPage, forceLoad:true);
                 return true;
             case HttpStatusCode.NotFound:
-                await device.DisplayAlert(this.InvalidOtpMessage);
+                await device.DisplayAlert(GetMessage(IAuthorizationService.Message.InvalidUsernameAndPassword));
                 break;
             case HttpStatusCode.Unauthorized:
-                await device.DisplayAlert(this.UserIsBlocked);
-                await device.NavigateToAsync(ApplicationPages.Essential.UserPage);
+                await device.DisplayAlert(GetMessage(IAuthorizationService.Message.LockedUser));
+                await device.NavigateToAsync(ApplicationPages.AuthenticationPage);
                 await security.DeleteTokenAsync();
                 break;
             default:
-                await device.DisplayAlert(ApplicationError);
+                await device.DisplayAlert("Unhandled error");
                 break;
         }
 
@@ -110,22 +110,46 @@ internal class AuthorizationService : IAuthorizationService
                 await device.NavigateToAsync(ApplicationPages.SplashPage, forceLoad: true);
                 break;
             default:
-                await device.DisplayAlert(ApplicationError);
+                await device.DisplayAlert("Unexpected error occured!!!");
                 break;
         }
         
         return false;
     }
 
-    public string UsernameLabel => "Username";
-    public string PasswordLabel => "Password";
-    public string LoginButtonLabel => "Login";
-    public string InvalidUsernameMessage => "Please enter valid username.";
-    public string InvalidPasswordMessage => "Please enter valid username.";
-    public string InvalidOtpMessage => "Please enter valid OTP.";
-    public string UnmatchedUsernameAndPassword => "Either username or password are not correct.";
-    public string UserIsBlocked => "Account suspended, please contact the admin.";
-    public string ApplicationError  => "Internal App Error.";
+    public string GetLabel(IAuthorizationService.Label label)
+    {
+        return label switch
+        {
+            IAuthorizationService.Label.LoginHeader => "Please enter your username and password",
+            IAuthorizationService.Label.LoginButton => "Login",
+            IAuthorizationService.Label.OtpHeader => "Please enter the OTP",
+            IAuthorizationService.Label.OtpButton => "Send",
+            IAuthorizationService.Label.Username => "Username",
+            IAuthorizationService.Label.Password => "Password",
+            
+            _ => throw new ArgumentOutOfRangeException(nameof(label), label, null)
+        };
+    }
+
+    public string GetMessage(IAuthorizationService.Message message)
+    {
+        switch (message)
+        {
+            case IAuthorizationService.Message.InvalidUsername:
+                return "Please enter valid username.";
+            case IAuthorizationService.Message.InvalidPassword:
+                return "Please enter valid username.";
+            case IAuthorizationService.Message.InvalidUsernameAndPassword:
+                return "Either username or password are not correct.";
+            case IAuthorizationService.Message.InvalidOtp:
+                return "Please enter valid OTP.";
+            case IAuthorizationService.Message.LockedUser:
+                return "Account suspended, please contact the admin.";
+            default:
+                throw new ArgumentOutOfRangeException(nameof(message), message, null);
+        }
+    }
 
     private async Task<bool> ProcessLoginCommand(string usernameOrEmail, string password)
     {
@@ -152,16 +176,15 @@ internal class AuthorizationService : IAuthorizationService
                         return true;
                     }
                 }
-                await device.DisplayAlert(ApplicationError);
                 break;
             case HttpStatusCode.NotFound:
-                await device.DisplayAlert(UnmatchedUsernameAndPassword);
+                await device.DisplayAlert(GetMessage(IAuthorizationService.Message.InvalidUsernameAndPassword));
                 break;
             case HttpStatusCode.Forbidden:
-                await device.DisplayAlert(UserIsBlocked);
+                await device.DisplayAlert(GetMessage(IAuthorizationService.Message.LockedUser));
                 break;
             default:
-                await device.DisplayAlert(ApplicationError + response.StatusCode);
+                await device.DisplayAlert("Unexpected error" + response.StatusCode);
                 var c = await response.Content.ReadAsStringAsync();
                 Console.WriteLine(c);
                 break;

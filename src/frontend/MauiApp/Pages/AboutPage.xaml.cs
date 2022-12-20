@@ -1,3 +1,6 @@
+using System;
+using Microsoft.Maui.Controls;
+
 namespace WeeControl.Frontend.MauiApp.Pages;
 
 public partial class AboutPage : ContentPage

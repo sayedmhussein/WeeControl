@@ -42,6 +42,7 @@ public class DeviceDataService : IDeviceData
 
     public Task<bool> IsConnectedToInternet()
     {
+        
         return Task.FromResult(true);
         //return await jsRuntime.InvokeAsync<bool>("window.navigator.onLine");
     }

@@ -26,6 +26,7 @@ internal class SecurityService : IDeviceSecurity
 
     public Task UpdateTokenAsync(string token)
     {
+        TokenChanged?.Invoke(this, token);
         return storage.SaveKeyValue(TokenKeyName, token);
     }
 
@@ -70,4 +71,6 @@ internal class SecurityService : IDeviceSecurity
         var cp = jwtService.GetClaimPrincipal( token, validationParameters);
         return cp;
     }
+
+    public event EventHandler<string>? TokenChanged;
 }

@@ -1,0 +1,88 @@
+@using WeeControl.Frontend.AppService
+@using Microsoft.AspNetCore.Components
+@using WeeControl.Common.SharedKernel.Contexts.Authentication
+@using IAuthorizationService = WeeControl.Frontend.AppService.GuiInterfaces.Authorization.IAuthorizationService
+
+@attribute [Route(ApplicationPages.AuthenticationPage)]
+@inject WeeControl.Frontend.AppService.GuiInterfaces.Authorization.IAuthorizationService AuthService
+@inject IServiceData ServiceData
+@inject IDeviceData Device
+
+@if (viewOtp)
+{
+    <MudPaper Style="max-width: 650px; align-content: center; align-self: center; justify-content: center">
+        <MudCard>
+            <MudCardContent>
+                <MudTextField @bind-Value="@otp" Label="@AuthService.GetLabel(IAuthorizationService.Label.OtpHeader)" InputType="InputType.Password"></MudTextField>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton OnClick="@(async () => await AuthService.UpdateToken(otp))">@AuthService.GetLabel(IAuthorizationService.Label.OtpButton)</MudButton>
+            </MudCardActions>
+        </MudCard>
+    </MudPaper>
+}
+else
+{
+    <MudCard Class="flex-fill" Style="max-width: 650px; align-content: center; align-self: center; justify-content: center">
+        <MudCardHeader>
+                <h4>@AuthService.GetLabel(IAuthorizationService.Label.LoginHeader)</h4>
+            </MudCardHeader>
+        <MudCardContent>
+                <EditForm Model="@loginModel" OnValidSubmit="@LoginButtonPressed">
+                    <DataAnnotationsValidator/>
+                    <div class="form-group">
+                        <label>Username or Email</label>
+                        <InputText @bind-Value="loginModel.UsernameOrEmail" readonly="@isLoading" class="form-control"/>
+                        <ValidationMessage For="@(() => loginModel.UsernameOrEmail)"/>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <InputText @bind-Value="loginModel.Password" readonly="@isLoading" type="password" class="form-control"/>
+                        <ValidationMessage For="@(() => loginModel.Password)"/>
+                    </div>
+                    <MudButton
+                        ButtonType="ButtonType.Submit"
+                        Variant="Variant.Filled"
+                        Color="Color.Primary"
+                        Disabled="@isLoading"
+                        Class="ml-auto">
+                        @if (isLoading)
+                        {
+                            <span class="spinner-border spinner-border-sm mr-1"></span>
+                        }
+                        Login
+                    </MudButton>
+                </EditForm>
+            </MudCardContent>
+    </MudCard>
+    
+}
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        if (await ServiceData.IsAuthenticated())
+        {
+            await Device.NavigateToAsync(ApplicationPages.HomePage);
+        }
+    }
+
+    private readonly LoginRequestDto loginModel = new();
+    private bool isLoading = false;
+    private bool viewOtp = false;
+    private string otp = "0000";
+
+    private async Task LoginButtonPressed()
+    {
+        isLoading = true;
+        var success = await AuthService.Login(loginModel.UsernameOrEmail, loginModel.Password);
+        if (success)
+        {
+            viewOtp = true;
+        }
+        isLoading = false;
+    }
+
+}

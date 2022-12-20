@@ -1,3 +1,5 @@
+using Microsoft.Maui.Controls;
+
 namespace WeeControl.Frontend.MauiApp.Pages;
 
 public class HomePage : ContentPage

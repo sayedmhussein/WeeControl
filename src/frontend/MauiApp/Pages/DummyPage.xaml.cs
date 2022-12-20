@@ -1,3 +1,5 @@
+using Microsoft.Maui.Controls;
+
 namespace WeeControl.Frontend.MauiApp.Pages;
 
 public partial class DummyPage : ContentPage

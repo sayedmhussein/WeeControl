@@ -1,4 +1,7 @@
 
+using System;
+using Microsoft.Maui;
+using Microsoft.Maui.Controls;
 using WeeControl.Frontend.AppService.GuiInterfaces.Authorization;
 
 namespace WeeControl.Frontend.MauiApp.Pages;
@@ -52,15 +55,15 @@ public class LoginPage : ContentPage
         image.HorizontalOptions = LayoutOptions.Center;
         image.Aspect = Aspect.AspectFit;
 
-        usernameEntry.Placeholder = service.UsernameLabel;
+        usernameEntry.Placeholder = service.GetLabel(IAuthorizationService.Label.Username);
         usernameEntry.Text = string.Empty;
         usernameEntry.Keyboard = Keyboard.Email;
 
-        passwordEntry.Placeholder = service.PasswordLabel;
+        passwordEntry.Placeholder = service.GetLabel(IAuthorizationService.Label.Password);
         passwordEntry.Text = string.Empty;
         passwordEntry.IsPassword = true;
 
-        loginButton.Text = service.LoginButtonLabel;
+        loginButton.Text = service.GetLabel(IAuthorizationService.Label.LoginButton);
         loginButton.Clicked += LoginButtonOnClicked;
     }
 

@@ -16,18 +16,25 @@ internal class HomeService : IHomeService
     private readonly IServerOperation server;
     private readonly IDatabaseService db;
     private readonly IDeviceSecurity security;
+    private readonly IServiceData serviceData;
     private const string UserRoute = ApiRouting.UserRoute;
     
     public List<MenuItemModel> MenuItems { get; }
     public IEnumerable<CountryModel> Countries { get; }
     public string GreetingMessage { get; private set; }
 
-    public HomeService(IDeviceData device, IServerOperation server, IDatabaseService db, IDeviceSecurity security, IPersistedLists persistedLists)
+    public HomeService(
+        IDeviceData device, 
+        IServerOperation server, 
+        IDatabaseService db, 
+        IDeviceSecurity security, 
+        IPersistedLists persistedLists, IServiceData serviceData)
     {
         this.device = device;
         this.server = server;
         this.db = db;
         this.security = security;
+        this.serviceData = serviceData;
         Countries = persistedLists.Countries;
         MenuItems = new List<MenuItemModel>();
         GreetingMessage = "Hello";
@@ -35,8 +42,8 @@ internal class HomeService : IHomeService
     
     public async Task<bool> VerifyAuthentication()
     {
-        if ((await device.IsConnectedToInternet() == true && await server.RefreshToken()) ||
-            (await device.IsConnectedToInternet() == false && await security.IsAuthenticatedAsync()))
+        if (((await device.IsConnectedToInternet() && await serviceData.IsConnectedToServer())== true && await server.RefreshToken()) ||
+            ((await device.IsConnectedToInternet() || await serviceData.IsConnectedToServer())== false && await security.IsAuthenticatedAsync()))
         {
             await device.NavigateToAsync(ApplicationPages.HomePage);
             return true;

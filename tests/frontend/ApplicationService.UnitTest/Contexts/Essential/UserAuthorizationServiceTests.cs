@@ -138,7 +138,7 @@ public class UserAuthorizationServiceTests
                 helper.DeviceMock.Verify(x => 
                     x.NavigateToAsync(ApplicationPages.SplashPage,It.IsAny<bool>()), Times.Never);
                 helper.DeviceMock.Verify(x => 
-                    x.NavigateToAsync(ApplicationPages.Essential.UserPage,It.IsAny<bool>()), Times.AtLeastOnce);
+                    x.NavigateToAsync(ApplicationPages.AuthenticationPage,It.IsAny<bool>()), Times.AtLeastOnce);
                 
                 // helper.DeviceMock.SecurityMock.Verify(x => 
                 //     x.DeleteTokenAsync(), Times.AtLeastOnce);

@@ -24,6 +24,15 @@ public class AuthorizationController : Controller
     {
         this.mediator = mediator;
     }
+
+    [AllowAnonymous]
+    [HttpHead]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    public ActionResult Ping()
+    {
+        return Ok();
+    }
     
     [AllowAnonymous]
     [HttpPost]
@@ -37,13 +46,13 @@ public class AuthorizationController : Controller
     }
     
     [Authorize]
-    [HttpPut]
+    [HttpPut("{otp}")]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(typeof(ResponseDto<TokenResponseDto>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.Forbidden)]
-    public async Task<ActionResult<ResponseDto<TokenResponseDto>>> RefreshTokenOtp([FromBody] RequestDto<string> dto)
+    public async Task<ActionResult<ResponseDto<TokenResponseDto>>> RefreshTokenOtp(string otp, [FromBody] RequestDto dto)
     {
-        var response = await mediator.Send(new SessionUpdateCommand(dto));
+        var response = await mediator.Send(new SessionUpdateCommand(dto, otp));
         return Ok(response);
     }
     

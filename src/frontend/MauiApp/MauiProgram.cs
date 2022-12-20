@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Maui;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Maui.Controls.Hosting;
 using WeeControl.Frontend.AppService;
 using WeeControl.Frontend.MauiApp.Pages;
 using WeeControl.Frontend.MauiApp.Services;

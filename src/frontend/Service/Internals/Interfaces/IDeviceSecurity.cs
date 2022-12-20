@@ -16,4 +16,6 @@ internal interface IDeviceSecurity
     Task DeleteTokenAsync();
 
     Task<ClaimsPrincipal> GetClaimsPrincipal();
+
+    event EventHandler<string> TokenChanged;
 }
