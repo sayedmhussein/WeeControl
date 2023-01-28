@@ -2,7 +2,7 @@
 
 namespace WeeControl.ApiApp.Domain.Models;
 
-public class MessageDto : IMessageDto
+public class MessageDto
 {
     public string From { get; set; }
     public string To { get; set; }
