@@ -1,10 +1,10 @@
-﻿using System;
-using System.Net;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using WeeControl.ApiApp.Application.Exceptions;
+using System;
+using System.Net;
+using System.Threading.Tasks;
+using WeeControl.Core.Application.Exceptions;
 
 namespace WeeControl.ApiApp.WebApi.Middlewares;
 

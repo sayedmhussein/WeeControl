@@ -1,13 +1,11 @@
-using System.Net;
-using System.Net.Mime;
-using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
+using System.Net.Mime;
+using System.Threading.Tasks;
 using WeeControl.ApiApp.Application.Contexts.Essential.Commands;
-using WeeControl.Common.SharedKernel;
-using WeeControl.Common.SharedKernel.Contexts.Authentication;
-using WeeControl.Common.SharedKernel.RequestsResponses;
+using WeeControl.Core.SharedKernel;
 
 namespace WeeControl.ApiApp.WebApi.Controllers.User;
 
@@ -33,7 +31,7 @@ public class AuthorizationController : Controller
     {
         return Ok();
     }
-    
+
     [AllowAnonymous]
     [HttpPost]
     [MapToApiVersion("1.0")]
@@ -44,7 +42,7 @@ public class AuthorizationController : Controller
         var response = await mediator.Send(new SessionCreateCommand(dto));
         return Ok(response);
     }
-    
+
     [Authorize]
     [HttpPut("{otp}")]
     [MapToApiVersion("1.0")]
@@ -55,7 +53,7 @@ public class AuthorizationController : Controller
         var response = await mediator.Send(new SessionUpdateCommand(dto, otp));
         return Ok(response);
     }
-    
+
     [Authorize]
     [HttpPatch]
     [MapToApiVersion("1.0")]
@@ -66,7 +64,7 @@ public class AuthorizationController : Controller
         var response = await mediator.Send(new SessionUpdateCommand(dto));
         return Ok(response);
     }
-    
+
     [Authorize]
     [HttpDelete]
     [MapToApiVersion("1.0")]

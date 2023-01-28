@@ -2,8 +2,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using WeeControl.ApiApp.WebApi.Services.Security.CustomHandlers.TokenRefreshment;
 using WeeControl.ApiApp.WebApi.Services.Security.Policies;
-using WeeControl.Common.SharedKernel.Interfaces;
-using WeeControl.Common.SharedKernel.Services;
+using WeeControl.Core.SharedKernel.Interfaces;
+using WeeControl.Core.SharedKernel.Services;
 
 namespace WeeControl.ApiApp.WebApi.Services.Security;
 
@@ -19,13 +19,13 @@ internal static class UserSecurityServices
         {
             options.DefaultPolicy = new AuthorizationPolicyBuilder().AddAuthenticationSchemes("Bearer").RequireAuthenticatedUser().Build();
             options.FallbackPolicy = new AuthorizationPolicyBuilder().AddAuthenticationSchemes("Bearer").RequireAuthenticatedUser().Build();
-                
+
             Configure(options);
         });
 
         return services;
     }
-    
+
     private static void Configure(AuthorizationOptions options)
     {
         // var types = Assembly
@@ -37,9 +37,9 @@ internal static class UserSecurityServices
         // {
         //     options.AddPolicy(t.Name, t.GetPolicy());
         // }
-        
+
         options.AddPolicy(DeveloperWithDatabaseOperationPolicy.Name, new DeveloperWithDatabaseOperationPolicy().GetPolicy());
-        
+
         options.AddPolicy(nameof(CanEditUserPolicy), new CanEditUserPolicy().GetPolicy());
         options.AddPolicy(CanEditTerritoriesPolicy.Name, new CanEditTerritoriesPolicy().GetPolicy());
     }

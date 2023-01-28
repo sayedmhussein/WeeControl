@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using WeeControl.ApiApp.Domain.Contexts.Essential;
+using WeeControl.Core.Domain.User;
 using Xunit;
 
 namespace WeeControl.ApiApp.Application.Test.Essential.Queries;
@@ -31,7 +31,7 @@ public class NotificationQueryTests
         //
         // Assert.Equal(3, list.Payload.Count());
     }
-    
+
     // private NotificationQuery.NotificationHandler GetHandler(TestHelper testHelper)
     // {
     //     return new NotificationQuery.NotificationHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object);

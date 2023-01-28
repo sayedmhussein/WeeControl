@@ -1,14 +1,12 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using WeeControl.ApiApp.Domain.Contexts.Essential;
-using WeeControl.ApiApp.Domain.Interfaces;
+using System.Linq;
+using System.Threading.Tasks;
+using WeeControl.ApiApp.Domain.Essential;
 using WeeControl.ApiApp.Infrastructure.Notifications;
 using WeeControl.ApiApp.Persistence;
-using WeeControl.Common.SharedKernel.Contexts.Temporary.Entities;
 using WeeControl.Common.SharedKernel.Services;
 using WeeControl.Frontend.AppService.GuiInterfaces.Authorization;
 using WeeControl.Frontend.Service.UnitTest;
@@ -45,11 +43,11 @@ public class CustomWebApplicationFactory<TStartup>
             Email = (username + "@email.com").ToLower()
         });
     }
-    
+
     public async Task Authorize(TestHelper testHelper, string username, string password)
     {
         var service = testHelper.GetService<IAuthorizationService>();
-        
+
         await service.Login(username, password);
         await service.UpdateToken("0000");
     }

@@ -1,8 +1,6 @@
 using System.Linq;
-using WeeControl.ApiApp.Application.Contexts.Essential.Commands;
-using WeeControl.ApiApp.Application.Exceptions;
-using WeeControl.Common.SharedKernel.Contexts.Temporary.User;
-using WeeControl.Common.SharedKernel.RequestsResponses;
+using WeeControl.Core.Application.Contexts.User.Commands;
+using WeeControl.Core.Application.Exceptions;
 using Xunit;
 
 namespace WeeControl.ApiApp.Application.Test.Essential.Commands;
@@ -16,16 +14,16 @@ public class ResetPasswordCommandTests
         var user = testHelper.GetUserDboWithEncryptedPassword("username", "password");
         await testHelper.EssentialDb.Users.AddAsync(user);
         await testHelper.EssentialDb.SaveChangesAsync(default);
-        
-        await GetHandler(testHelper).Handle(GetCommand(user.Email, user.Username, "device"), 
+
+        await GetHandler(testHelper).Handle(GetCommand(user.Email, user.Username, "device"),
             default);
-        
+
         var newPass = testHelper.EssentialDb.Users.First().TempPassword;
         Assert.NotNull(newPass);
         Assert.NotEmpty(newPass);
         Assert.NotEqual("password", newPass);
     }
-    
+
     [Fact]
     public async void WhenBadRequest()
     {
@@ -36,7 +34,7 @@ public class ResetPasswordCommandTests
         var handler = GetHandler(testHelper);
 
         var command = GetCommand(user.Email, user.Username, string.Empty);
-        
+
         await Assert.ThrowsAsync<BadRequestException>(() =>
             handler.Handle(command, default));
     }
@@ -50,7 +48,7 @@ public class ResetPasswordCommandTests
         using var testHelper = new TestHelper();
         var handler = GetHandler(testHelper);
         var command = GetCommand(email, username, "device");
-        
+
         await Assert.ThrowsAsync<BadRequestException>(() =>
             handler.Handle(command, default));
     }
@@ -58,8 +56,8 @@ public class ResetPasswordCommandTests
     private UserForgotMyPasswordCommand.ForgotMyPasswordHandler GetHandler(TestHelper testHelper)
     {
         return new UserForgotMyPasswordCommand.ForgotMyPasswordHandler(
-            testHelper.EssentialDb, 
-            testHelper.MediatorMock.Object, 
+            testHelper.EssentialDb,
+            testHelper.MediatorMock.Object,
             testHelper.PasswordSecurity);
     }
 

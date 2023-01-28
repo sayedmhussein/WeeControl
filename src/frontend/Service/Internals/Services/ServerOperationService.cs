@@ -1,13 +1,11 @@
+using Newtonsoft.Json;
 using System.ComponentModel;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Runtime.CompilerServices;
 using System.Text;
-using Newtonsoft.Json;
-using WeeControl.Common.SharedKernel;
-using WeeControl.Common.SharedKernel.Contexts.Authentication;
-using WeeControl.Common.SharedKernel.RequestsResponses;
+using WeeControl.Core.SharedKernel;
 using WeeControl.Frontend.AppService.Internals.Interfaces;
 
 [assembly: InternalsVisibleTo("ApplicationService.UnitTest")]
@@ -30,7 +28,7 @@ internal class ServerOperationService : IServerOperation
     {
         if (string.IsNullOrEmpty(deviceData.ServerUrl))
             throw new NullReferenceException("Server URL was not defined!");
-        
+
         return deviceData.ServerUrl + relative;
     }
 
@@ -46,7 +44,7 @@ internal class ServerOperationService : IServerOperation
         {
             throw new ArgumentException("You can't pass another payload in message with existing content, either remove the content or use the overloaded function.");
         }
-        
+
         message.Content = await GetResponseDtoAsHttpContentAsync(accurateLocation, payload);
 
         try
@@ -113,13 +111,13 @@ internal class ServerOperationService : IServerOperation
                 throw new NullReferenceException("Response DTO from server is null");
             }
         }
-        
+
         if (response.StatusCode != HttpStatusCode.BadGateway)
         {
             await security.DeleteTokenAsync();
             await deviceData.ClearKeysValues();
         }
-        
+
         return false;
     }
 
@@ -127,16 +125,16 @@ internal class ServerOperationService : IServerOperation
     {
         var location = await deviceData.GetDeviceLocation(locationAccuracy);
         var dto = RequestDto.Create(payload, await deviceData.GetDeviceId(), location.Latitude, location.Longitude);
-        
+
         return new StringContent(JsonConvert.SerializeObject(dto), Encoding.UTF8, "application/json");
     }
-    
+
     private void UpdateHttpAuthorizationHeader(string? token)
     {
         if (string.IsNullOrWhiteSpace(token))
             return;
-        
-        httpClient.DefaultRequestHeaders.Authorization = 
+
+        httpClient.DefaultRequestHeaders.Authorization =
             new AuthenticationHeaderValue("Brear", token);
     }
 
@@ -147,7 +145,7 @@ internal class ServerOperationService : IServerOperation
 
         return GetHttpResponseMessage(message);
     }
-    
+
     public Task<HttpResponseMessage> GetResponseMessage
         (HttpMethod method, Version version, string[] routeAndEndpoints, bool accurateLocation = false)
     {
@@ -161,12 +159,12 @@ internal class ServerOperationService : IServerOperation
         bool accurateLocation = false) where T : class
     {
         var message = GetHttpRequestMessage(method, version, relativeUri);
-        
+
         if (message.Content is not null)
         {
             throw new ArgumentException("You can't pass another payload in message with existing content, either remove the content or use the overloaded function.");
         }
-        
+
         message.Content = await GetResponseDtoAsHttpContentAsync(accurateLocation, dto);
 
         return await GetHttpResponseMessage(message);
@@ -183,11 +181,11 @@ internal class ServerOperationService : IServerOperation
     {
         if (string.IsNullOrWhiteSpace(relativeUri))
             throw new InvalidEnumArgumentException("You must provide a valid relative uri for the API.");
-        
+
         return new HttpRequestMessage()
         {
-            Method = method, 
-            Version = version, 
+            Method = method,
+            Version = version,
             RequestUri = new Uri(GetFullAddress(relativeUri))
         };
     }
@@ -198,7 +196,7 @@ internal class ServerOperationService : IServerOperation
         {
             var token = await security.GetTokenAsync();
             UpdateHttpAuthorizationHeader(token);
-            
+
             var response = await httpClient.SendAsync(httpRequestMessage);
             if (response.IsSuccessStatusCode)
                 return response;

@@ -1,6 +1,6 @@
+using Microsoft.AspNetCore.Components.Authorization;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components.Authorization;
 using WeeControl.Frontend.AppService;
 
 namespace WeeControl.Frontend.Wasm.Services;
@@ -28,7 +28,7 @@ public class AuthStateProvider : AuthenticationStateProvider
             NotifyUserAuthentication(await serviceData.GetClaimPrincipal());
             return;
         }
-        
+
         NotifyUserAuthentication(null);
     }
 

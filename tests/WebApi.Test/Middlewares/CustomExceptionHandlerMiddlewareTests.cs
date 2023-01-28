@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Net;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using WeeControl.ApiApp.Application.Exceptions;
 using WeeControl.ApiApp.WebApi.Middlewares;
 using Xunit;
@@ -45,7 +45,7 @@ public class CustomExceptionHandlerMiddlewareTests
 
         Assert.Equal(HttpStatusCode.InternalServerError, (HttpStatusCode)httpContext.Response.StatusCode);
     }
-    
+
     [Fact]
     public async void WhenContextThrowNotFoundException_TaskInvokedAndResponseIsNotFound()
     {

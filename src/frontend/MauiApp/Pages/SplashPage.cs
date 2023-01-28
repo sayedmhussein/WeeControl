@@ -1,7 +1,36 @@
+
+/* Unmerged change from project 'MauiApp (net7.0-ios)'
+Before:
 using System.Threading.Tasks;
 using Microsoft.Maui;
 using Microsoft.Maui.Controls;
+After:
+using Microsoft.Maui;
+using Microsoft.Maui.Controls;
+using System.Threading.Tasks;
+*/
 
+/* Unmerged change from project 'MauiApp (net7.0-maccatalyst)'
+Before:
+using System.Threading.Tasks;
+using Microsoft.Maui;
+using Microsoft.Maui.Controls;
+After:
+using Microsoft.Maui;
+using Microsoft.Maui.Controls;
+using System.Threading.Tasks;
+*/
+
+/* Unmerged change from project 'MauiApp (net7.0-windows10.0.19041.0)'
+Before:
+using System.Threading.Tasks;
+using Microsoft.Maui;
+using Microsoft.Maui.Controls;
+After:
+using Microsoft.Maui;
+using Microsoft.Maui.Controls;
+using System.Threading.Tasks;
+*/
 namespace WeeControl.Frontend.MauiApp.Pages;
 
 public class SplashPage : ContentPage

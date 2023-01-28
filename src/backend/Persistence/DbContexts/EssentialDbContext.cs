@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WeeControl.ApiApp.Application.Interfaces;
-using WeeControl.ApiApp.Domain.Contexts.Essential;
+using WeeControl.Core.Application.Interfaces;
+using WeeControl.Core.Domain.Business;
+using WeeControl.Core.Domain.User;
 
 namespace WeeControl.ApiApp.Persistence.DbContexts
 {
@@ -8,7 +9,7 @@ namespace WeeControl.ApiApp.Persistence.DbContexts
     {
         public DbSet<PersonDbo> Person { get; set; }
         public DbSet<UserDbo> Users { get; set; }
-        public DbSet<UserIdentityDbo> UserIdentities { get; set; }
+        public DbSet<PersonIdentity> UserIdentities { get; set; }
         public DbSet<UserClaimDbo> UserClaims { get; set; }
         public DbSet<EmployeeDbo> Employees { get; set; }
         public DbSet<CustomerDbo> Customers { get; set; }
@@ -16,7 +17,7 @@ namespace WeeControl.ApiApp.Persistence.DbContexts
         public DbSet<UserSessionDbo> UserSessions { get; set; }
         public DbSet<UserSessionLogDbo> SessionLogs { get; set; }
         public DbSet<TerritoryDbo> Territories { get; set; }
-        
+
 
         public EssentialDbContext(DbContextOptions<EssentialDbContext> options) : base(options)
         {
@@ -25,7 +26,7 @@ namespace WeeControl.ApiApp.Persistence.DbContexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            
+
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserDbo).Assembly);
         }
     }

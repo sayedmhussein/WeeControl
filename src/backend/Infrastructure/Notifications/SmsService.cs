@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WeeControl.ApiApp.Domain.Interfaces;
+using WeeControl.Core.Application.Interfaces;
 
 namespace WeeControl.ApiApp.Infrastructure.Notifications;
 

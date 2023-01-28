@@ -1,5 +1,5 @@
-using WeeControl.Common.SharedKernel.Interfaces;
 using WeeControl.Common.SharedKernel.Services;
+using WeeControl.Core.SharedKernel.Interfaces;
 using Xunit;
 
 namespace WeeControl.ApiApp.SharedKernel.Test.Services;
@@ -19,10 +19,10 @@ public class PasswordSecurityTests
         const string plainPassword = "Password";
 
         var hash = passwordSecurity.Hash(plainPassword);
-        
+
         Assert.NotEmpty(hash);
     }
-    
+
     [Fact]
     public void WhenVerifyingCorrectPassword_ShouldReturnTrue()
     {
@@ -30,7 +30,7 @@ public class PasswordSecurityTests
         var hash = passwordSecurity.Hash(plainPassword);
 
         var isValid = passwordSecurity.Verify(plainPassword, hash);
-        
+
         Assert.True(isValid);
     }
 
@@ -40,7 +40,7 @@ public class PasswordSecurityTests
         const string plainPassword = "Password";
 
         var isValid = passwordSecurity.Verify(plainPassword, "Invalid");
-        
+
         Assert.False(isValid);
     }
 
@@ -48,7 +48,7 @@ public class PasswordSecurityTests
     public void WhenGeneratePassword_StringIsCreated()
     {
         var str = passwordSecurity.GenerateRandomPassword();
-        
+
         Assert.NotEmpty(str);
     }
 }

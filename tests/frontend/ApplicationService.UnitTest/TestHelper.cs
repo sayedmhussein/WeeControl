@@ -1,3 +1,6 @@
+using Microsoft.Extensions.DependencyInjection;
+using Moq.Protected;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -6,10 +9,6 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
-using Moq.Protected;
-using Newtonsoft.Json;
-using WeeControl.Common.SharedKernel.RequestsResponses;
 using WeeControl.Frontend.AppService;
 using WeeControl.Frontend.AppService.DeviceInterfaces;
 
@@ -23,21 +22,21 @@ public class TestHelper : IDisposable
     {
         DeviceMock = new Mock<IDeviceData>();
         DeviceMock.SetupAllProperties();
-        
+
         //ICommunication
         DeviceMock.Setup(x => x.ServerUrl).Returns(GetLocalIpAddress());
         DeviceMock.Setup(x => x.IsConnectedToInternet()).ReturnsAsync(true);
-        
+
         //IFeature
         DeviceMock.Setup(x => x.IsEnergySavingMode()).ReturnsAsync(false);
         DeviceMock.Setup(x => x.GetDeviceId()).ReturnsAsync(deviceName);
         DeviceMock.Setup(x => x.GetDeviceLocation(It.IsAny<bool>())).ReturnsAsync((null, null, null));
         DeviceMock.Setup(x => x.IsMockedDeviceLocation()).ReturnsAsync(false);
-        
+
         //IGui
         //IMedia
         //ISharing
-        
+
         //IStorage
         DeviceMock.Setup(x => x.CashDirectory)
             .Returns(AppDomain.CurrentDomain.BaseDirectory + @"CashDirectory");
@@ -56,10 +55,10 @@ public class TestHelper : IDisposable
     {
         var collection = new ServiceCollection();
         collection.AddApplicationServices();
-        
+
         collection.AddSingleton<IDeviceData>(DeviceMock.Object);
         collection.AddSingleton<IStorage>(DeviceMock.Object);
-        
+
         using var scope = collection.BuildServiceProvider().CreateScope();
         return scope.ServiceProvider.GetRequiredService<T>();
     }
@@ -80,7 +79,7 @@ public class TestHelper : IDisposable
         }
 
         var handlerMock = new Mock<HttpMessageHandler>();
-        
+
         handlerMock.Protected()
             .Setup<Task<HttpResponseMessage>>(
                 "SendAsync",
@@ -96,14 +95,14 @@ public class TestHelper : IDisposable
         var content = new StringContent(JsonConvert.SerializeObject(ResponseDto.Create(dto)), Encoding.UTF8, "application/json");
         return GetService<T>(statusCode, content);
     }
-    
+
     public T GetService<T>(IEnumerable<Tuple<HttpStatusCode, HttpContent>> sequenceResponse) where T : class
     {
         var client = GetHttpClientWithHttpMessageHandlerSequenceResponseMock(sequenceResponse);
 
         return GetService<T>(client);
     }
-    
+
     public T GetService<T>(IEnumerable<Tuple<HttpStatusCode, object?>> sequenceResponse) where T : class
     {
         var expected = new List<Tuple<HttpStatusCode, HttpContent>>();
@@ -114,13 +113,13 @@ public class TestHelper : IDisposable
             var t = new Tuple<HttpStatusCode, HttpContent>(item.Item1, content);
             expected.Add(t);
         }
-        
+
         var client = GetHttpClientWithHttpMessageHandlerSequenceResponseMock(expected);
 
         return GetService<T>(client);
     }
-    
-    private HttpClient GetHttpClientWithHttpMessageHandlerSequenceResponseMock(IEnumerable<Tuple<HttpStatusCode,HttpContent>> returns)
+
+    private HttpClient GetHttpClientWithHttpMessageHandlerSequenceResponseMock(IEnumerable<Tuple<HttpStatusCode, HttpContent>> returns)
     {
         var handlerMock = new Mock<HttpMessageHandler>(MockBehavior.Strict);
         var handlerPart = handlerMock
@@ -134,10 +133,10 @@ public class TestHelper : IDisposable
 
         foreach (var item in returns)
         {
-            handlerPart = AddReturnPart(handlerPart,item.Item1,item.Item2);
+            handlerPart = AddReturnPart(handlerPart, item.Item1, item.Item2);
         }
         handlerMock.Verify();
-        
+
         var httpClient = new HttpClient(handlerMock.Object);
         return httpClient;
     }

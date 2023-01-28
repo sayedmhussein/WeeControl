@@ -1,7 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using WeeControl.ApiApp.Application.Interfaces;
 using WeeControl.ApiApp.WebApi;
+using WeeControl.Core.Application.Interfaces;
 using WeeControl.Frontend.AppService;
 using WeeControl.Frontend.AppService.GuiInterfaces.Authorization;
 using WeeControl.Frontend.Service.UnitTest;
@@ -39,7 +39,7 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
             });
         }).CreateClient());
 
-        Assert.Equal(success, await service.Login(usernameOrEmail,  password ));
+        Assert.Equal(success, await service.Login(usernameOrEmail, password));
         Assert.Equal(success, await service.UpdateToken("0000"));
         Assert.Equal(success, await service.Logout());
     }
@@ -69,7 +69,7 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
         Assert.True(await service.Login("username", "password"));
         Assert.False(await service.UpdateToken(otp));
     }
-    
+
     #region BusinessLogic
     [Fact]
     public async void WhenUserIsLocked()
@@ -87,18 +87,18 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
                 db.SaveChanges();
             });
         }).CreateClient());
-        
+
 
         await service.Login("username", "password");
-        
-        helper.DeviceMock.Verify(x => 
+
+        helper.DeviceMock.Verify(x =>
             x.NavigateToAsync(ApplicationPages.SplashPage, It.IsAny<bool>()), Times.Never);
-        
-        helper.DeviceMock.Verify(x => 
+
+        helper.DeviceMock.Verify(x =>
             x.DisplayAlert(It.IsAny<string>()), Times.Once);
     }
     #endregion
-    
+
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
@@ -122,7 +122,7 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
             Assert.True(await service.Login("username", "password"));
             Assert.True(await service.UpdateToken("0000"));
         }
-        
+
         Assert.Equal(isLoggedIn, await service.Logout());
     }
 }

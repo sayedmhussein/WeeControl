@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Authorization;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection.Metadata;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using WeeControl.ApiApp.WebApi.Services.Security.CustomHandlers.TokenRefreshment;
 using Xunit;
 
@@ -26,9 +26,9 @@ public class MaximumPeriodHandlerTesters : TokenRefreshmentHandler
         var claims = new List<Claim>() { new Claim("iat", timeSpan.TotalSeconds.ToString(CultureInfo.InvariantCulture)) };
         var context = GetContext(claims);
         await Task.Delay(1000);
-        
+
         await HandleRequirementAsync(context, new TokenRefreshmentRequirement(TimeSpan.FromSeconds(2)));
-        
+
         Assert.True(context.HasSucceeded);
     }
 
@@ -39,9 +39,9 @@ public class MaximumPeriodHandlerTesters : TokenRefreshmentHandler
         var claims = new List<Claim>() { new Claim("iat", timeSpan.TotalSeconds.ToString(CultureInfo.InvariantCulture)) };
         var context = GetContext(claims);
         await Task.Delay(3000);
-        
+
         await HandleRequirementAsync(context, new TokenRefreshmentRequirement(TimeSpan.FromSeconds(2)));
-        
+
         Assert.False(context.HasSucceeded);
     }
 }

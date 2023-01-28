@@ -1,9 +1,8 @@
 using System.Collections.ObjectModel;
-using WeeControl.Common.SharedKernel.Contexts.Business.FieldOperation;
 
 namespace WeeControl.Frontend.AppService.Internals.Temporary.Business.FieldOperation;
 
-public class RouteSheetViewModel 
+public class RouteSheetViewModel
 {
     private ObservableCollection<RouteSheetDto> RouteSheet { get; }
 
@@ -14,7 +13,7 @@ public class RouteSheetViewModel
         set
         {
             searchText = value;
-         
+
         }
     }
 

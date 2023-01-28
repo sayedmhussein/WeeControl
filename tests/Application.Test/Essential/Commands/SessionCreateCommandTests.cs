@@ -1,9 +1,7 @@
-using System;
 using Microsoft.EntityFrameworkCore;
-using WeeControl.ApiApp.Application.Contexts.Essential.Commands;
-using WeeControl.ApiApp.Application.Exceptions;
-using WeeControl.Common.SharedKernel.Contexts.Authentication;
-using WeeControl.Common.SharedKernel.RequestsResponses;
+using System;
+using WeeControl.Core.Application.Contexts.User.Commands;
+using WeeControl.Core.Application.Exceptions;
 using Xunit;
 
 namespace WeeControl.ApiApp.Application.Test.Essential.Commands;
@@ -29,7 +27,7 @@ public class SessionCreateCommandTests
         var query = GetQuery(emailOrUsername, password);
 
         var response = await GetHandler(testHelper).Handle(query, default);
-        
+
         Assert.NotEmpty(response.Payload.Token);
         Assert.NotEmpty(response.Payload.FullName);
     }
@@ -44,7 +42,7 @@ public class SessionCreateCommandTests
     {
         using var testHelper = new TestHelper();
         var query = GetQuery(usernameOrEmail, password, device);
-        
+
         await Assert.ThrowsAsync<BadRequestException>(() => GetHandler(testHelper).Handle(query, default));
     }
 
@@ -64,10 +62,10 @@ public class SessionCreateCommandTests
         await testHelper.EssentialDb.SaveChangesAsync(default);
 
         var query = GetQuery(emailOrUsername, password);
-        
+
         await Assert.ThrowsAsync<NotFoundException>(() => GetHandler(testHelper).Handle(query, default));
     }
-    
+
     [Fact]
     public async void WhenSameUserLoginTwiceFromSameDevice_SessionShouldBeSame()
     {
@@ -80,10 +78,10 @@ public class SessionCreateCommandTests
         var query = GetQuery("username", "password");
         await GetHandler(testHelper).Handle(query, default);
         var count1 = await testHelper.EssentialDb.UserSessions.CountAsync();
-        
+
         await GetHandler(testHelper).Handle(query, default);
         var count2 = await testHelper.EssentialDb.UserSessions.CountAsync();
-        
+
         Assert.Equal(count1, count2);
     }
 
@@ -100,17 +98,17 @@ public class SessionCreateCommandTests
         await GetHandler(testHelper).Handle(query, default);
         var count1 = await testHelper.EssentialDb.UserSessions.CountAsync();
         var session = await testHelper.EssentialDb.UserSessions.FirstOrDefaultAsync(x => x.UserId == user.UserId);
-        
+
         Assert.NotNull(session);
         session.TerminationTs = DateTime.Now;
         await testHelper.EssentialDb.SaveChangesAsync(default);
-        
+
         await GetHandler(testHelper).Handle(query, default);
         var count2 = await testHelper.EssentialDb.UserSessions.CountAsync();
-        
+
         Assert.Equal(count1 + 1, count2);
     }
-    
+
     [Fact]
     public async void WhenSameUserLoginTwiceFromDifferentDevices_SessionShouldNotBeSame()
     {
@@ -126,29 +124,29 @@ public class SessionCreateCommandTests
         var query2 = GetQuery("username", "password", "device 2");
         await GetHandler(testHelper).Handle(query2, default);
         var session2 = await testHelper.EssentialDb.UserSessions.FirstOrDefaultAsync(x => x.UserId == user.UserId && x.DeviceId == "device 2");
-        
+
         Assert.NotNull(session1);
         Assert.NotNull(session2);
         Assert.NotEqual(session1.SessionId, session2.SessionId);
     }
     #endregion
-    
+
     private SessionCreateCommand.SessionCreateHandler GetHandler(TestHelper testHelper)
     {
         testHelper.ConfigurationMock.Setup(x => x["Jwt:Key"]).Returns(new string('a', 30));
         return new SessionCreateCommand.SessionCreateHandler(
-            testHelper.EssentialDb, 
+            testHelper.EssentialDb,
             testHelper.JwtService,
             testHelper.ConfigurationMock.Object,
             testHelper.PasswordSecurity);
     }
-    
+
     private SessionCreateCommand GetQuery(string emailOrUsername, string password, string device = "device")
     {
         return new SessionCreateCommand(RequestDto.Create(
-            LoginRequestDto.Create(emailOrUsername, password),  device, 0, 0));
+            LoginRequestDto.Create(emailOrUsername, password), device, 0, 0));
     }
-    
+
     // private CreateTokenCommand GetQuery(string device)
     // {
     //     return new CreateTokenCommand(RequestDto.Create(device, 0, 0));

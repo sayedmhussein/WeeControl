@@ -1,13 +1,13 @@
-﻿using System.Diagnostics;
+﻿using MediatR;
+using Microsoft.Extensions.Logging;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using MediatR;
-using Microsoft.Extensions.Logging;
-using WeeControl.ApiApp.Application.Interfaces;
+using WeeControl.Core.Application.Interfaces;
 
-namespace WeeControl.ApiApp.Application.Behaviours;
+namespace WeeControl.Core.Application.Behaviours;
 
-public class RequestPerformanceBehaviour<TRequest, TResponse> : 
+public class RequestPerformanceBehaviour<TRequest, TResponse> :
     IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
     private const int ThresholdTime = 500;
@@ -16,7 +16,7 @@ public class RequestPerformanceBehaviour<TRequest, TResponse> :
     private readonly ICurrentUserInfo currentUserService;
 
     public RequestPerformanceBehaviour(
-        ILogger<RequestPerformanceBehaviour<TRequest, TResponse>> logger, 
+        ILogger<RequestPerformanceBehaviour<TRequest, TResponse>> logger,
         ICurrentUserInfo currentUserService)
     {
         timer = new Stopwatch();
@@ -26,8 +26,8 @@ public class RequestPerformanceBehaviour<TRequest, TResponse> :
     }
 
     public async Task<TResponse> Handle(
-        TRequest request, 
-        CancellationToken cancellationToken, 
+        TRequest request,
+        CancellationToken cancellationToken,
         RequestHandlerDelegate<TResponse> next)
     {
         timer.Start();
@@ -35,13 +35,13 @@ public class RequestPerformanceBehaviour<TRequest, TResponse> :
         timer.Stop();
 
         if (timer.ElapsedMilliseconds <= ThresholdTime) return response;
-        
+
         var name = typeof(TRequest).Name;
         logger.LogWarning(
             "WeeControl Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@UserId} {@Request}",
-            name, 
-            timer.ElapsedMilliseconds, 
-            currentUserService.SessionId, 
+            name,
+            timer.ElapsedMilliseconds,
+            currentUserService.SessionId,
             request);
         return response;
     }

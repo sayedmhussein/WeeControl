@@ -1,9 +1,8 @@
-using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using WeeControl.ApiApp.Application.Interfaces;
+using System.Threading.Tasks;
 using WeeControl.ApiApp.WebApi;
-using WeeControl.Common.SharedKernel.Contexts.Temporary.User;
+using WeeControl.Core.Application.Interfaces;
 using WeeControl.Frontend.AppService;
 using WeeControl.Frontend.AppService.GuiInterfaces.Authorization;
 using WeeControl.Frontend.AppService.GuiInterfaces.Home;
@@ -30,8 +29,8 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
         var service = helper.GetService<IHomeService>();
 
         var result = service.VerifyAuthentication();
-        
-        
+
+
     }
     #endregion
 
@@ -48,11 +47,11 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
             NewPassword = "someNewPassword",
             ConfirmPassword = "someNewPassword"
         });
-            
-        helper.DeviceMock.Verify(x => 
+
+        helper.DeviceMock.Verify(x =>
             x.NavigateToAsync(ApplicationPages.SplashPage, It.IsAny<bool>()), Times.AtLeastOnce);
     }
-    
+
     [Fact]
     public async void ChangeMyPassword_WhenUnauthorized()
     {
@@ -66,12 +65,12 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
             NewPassword = "someNewPassword",
             ConfirmPassword = "someNewPassword"
         });
-            
+
         helper.DeviceMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
-        helper.DeviceMock.Verify(x => 
+        helper.DeviceMock.Verify(x =>
             x.NavigateToAsync(ApplicationPages.HomePage, It.IsAny<bool>()), Times.Never);
     }
-    
+
     [Fact]
     public async void ChangeMyPassword_WhenBusinessNotAllow_InvalidPassword()
     {
@@ -84,9 +83,9 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
             NewPassword = "someNewPassword",
             ConfirmPassword = "someNewPassword"
         });
-            
+
         helper.DeviceMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
-        helper.DeviceMock.Verify(x => 
+        helper.DeviceMock.Verify(x =>
             x.NavigateToAsync(ApplicationPages.HomePage, It.IsAny<bool>()), Times.Never);
     }
 
@@ -102,9 +101,9 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
             NewPassword = "someNewPassword",
             ConfirmPassword = "someNewPassword"
         });
-            
+
         helper.DeviceMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
-        helper.DeviceMock.Verify(x => 
+        helper.DeviceMock.Verify(x =>
             x.NavigateToAsync(ApplicationPages.HomePage, It.IsAny<bool>()), Times.Never);
     }
     #endregion
@@ -121,11 +120,11 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
             Email = "email@email.com",
             Username = "username"
         });
-            
-        helper.DeviceMock.Verify(x => 
+
+        helper.DeviceMock.Verify(x =>
             x.NavigateToAsync(ApplicationPages.Essential.UserPage, It.IsAny<bool>()), Times.Once);
     }
-    
+
     [Theory]
     [InlineData("", "")]
     [InlineData("email@email.com", "")]
@@ -140,8 +139,8 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
             Email = email,
             Username = username
         });
-            
-        helper.DeviceMock.Verify(x => 
+
+        helper.DeviceMock.Verify(x =>
             x.NavigateToAsync(ApplicationPages.Essential.UserPage, It.IsAny<bool>()), Times.Never);
     }
 
@@ -160,7 +159,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
                 db.SaveChanges();
             });
         }).CreateClient();
-        
+
         using var helper = new TestHelper(nameof(RequestPasswordReset_WhenBusinessNotAllow_IsLockedUser));
         var service = helper.GetService<IHomeService>(httpClient);
 
@@ -169,8 +168,8 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
             Email = "username@email.com",
             Username = "username"
         });
-            
-        helper.DeviceMock.Verify(x => 
+
+        helper.DeviceMock.Verify(x =>
             x.NavigateToAsync(ApplicationPages.Essential.UserPage, It.IsAny<bool>()), Times.Never);
     }
     #endregion
@@ -204,13 +203,13 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
 
         using var helper = await GetTestHelperWithStandardUsername();
         var service = helper.GetService<IHomeService>();
-        
+
         await service.Register(model);
 
-        helper.DeviceMock.Verify(x => 
+        helper.DeviceMock.Verify(x =>
             x.NavigateToAsync(ApplicationPages.SplashPage, It.IsAny<bool>()), Times.AtLeastOnce);
     }
-    
+
     [Theory]
     [InlineData("username@email.com", "username", "0123456")]
     [InlineData("username1@email.com1", "username", "0123456")]
@@ -229,7 +228,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
                 db.SaveChanges();
             });
         }).CreateClient();
-        
+
         using var helper = new TestHelper(nameof(RequestPasswordReset_WhenBusinessNotAllow_IsLockedUser));
         var service = helper.GetService<IHomeService>(httpClient);
 
@@ -253,12 +252,12 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
                 CountryCode = "EGP"
             }
         };
-        
+
         await service.Register(model);
-            
+
         helper.DeviceMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
-        helper.DeviceMock.Verify(x => 
-            x.NavigateToAsync(ApplicationPages.SplashPage, It.IsAny<bool>()), Times.Never);;
+        helper.DeviceMock.Verify(x =>
+            x.NavigateToAsync(ApplicationPages.SplashPage, It.IsAny<bool>()), Times.Never); ;
     }
     #endregion
 
@@ -275,7 +274,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
                 db.SaveChanges();
             });
         }).CreateClient();
-        
+
         var helper = new TestHelper(nameof(ChangeMyPassword_WhenSuccess));
         helper.GetService<IAuthorizationService>(httpClient);
         await factory.Authorize(helper, "username", "password");

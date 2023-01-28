@@ -1,11 +1,11 @@
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.IdentityModel.Tokens;
-using WeeControl.Common.SharedKernel.Interfaces;
 using WeeControl.Common.SharedKernel.Services;
+using WeeControl.Core.SharedKernel.Interfaces;
 using Xunit;
 
 namespace WeeControl.ApiApp.SharedKernel.Test.Services;
@@ -14,7 +14,7 @@ public class JwtServiceTests : IDisposable
 {
     private IJwtService service;
     private readonly string securityKey = new string('a', 30);
-        
+
     public JwtServiceTests()
     {
         service = new JwtService();
@@ -43,7 +43,7 @@ public class JwtServiceTests : IDisposable
         };
 
         var token = service.GenerateToken(descriptor);
-            
+
         Assert.NotEmpty(token);
 
         var parameters = new TokenValidationParameters()
@@ -56,7 +56,7 @@ public class JwtServiceTests : IDisposable
         };
 
         var cp = service.GetClaimPrincipal(token, parameters);
-            
+
         Assert.Equal(type, cp.Claims.First().Type);
         Assert.Equal(value, cp.Claims.First().Value);
     }

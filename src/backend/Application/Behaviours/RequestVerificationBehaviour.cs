@@ -1,12 +1,12 @@
-﻿using System.Threading;
+﻿using MediatR.Pipeline;
+using System.Threading;
 using System.Threading.Tasks;
-using MediatR.Pipeline;
 
-namespace WeeControl.ApiApp.Application.Behaviours;
+namespace WeeControl.Core.Application.Behaviours;
 
 public class RequestVerificationBehaviour<TRequest> : IRequestPreProcessor<TRequest>
 {
-    
+
     public Task Process(TRequest request, CancellationToken cancellationToken)
     {
         // if (string.IsNullOrWhiteSpace(request.RequestDto.DeviceId))

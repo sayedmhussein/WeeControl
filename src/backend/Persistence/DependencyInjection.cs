@@ -1,12 +1,12 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.ApiApp.Application.Interfaces;
+using System;
+using System.Globalization;
+using System.Linq;
 using WeeControl.ApiApp.Persistence.DbContexts;
+using WeeControl.Core.Application.Interfaces;
 
 namespace WeeControl.ApiApp.Persistence
 {
@@ -18,7 +18,7 @@ namespace WeeControl.ApiApp.Persistence
                 configuration.GetConnectionString("EssentialDbProvider"),
                 migrationAssemblyName);
             services.AddScoped(p => options);
-            
+
             services.AddScoped<IEssentialDbContext>(p =>
                 new EssentialDbContext(options));
 
@@ -49,7 +49,7 @@ namespace WeeControl.ApiApp.Persistence
             return options.Options;
         }
 
-        private static IServiceCollection RemoveDbFromServices<T>(this IServiceCollection services) where T: DbContext
+        private static IServiceCollection RemoveDbFromServices<T>(this IServiceCollection services) where T : DbContext
         {
             var descriptor = services.SingleOrDefault(
                     d => d.ServiceType ==
@@ -59,7 +59,7 @@ namespace WeeControl.ApiApp.Persistence
             return services;
         }
 
-        private static DbContextOptions<T> GetInMemoryOptions<T>(string dbName) where T: DbContext
+        private static DbContextOptions<T> GetInMemoryOptions<T>(string dbName) where T : DbContext
         {
             var options = new DbContextOptionsBuilder<T>();
             options.EnableDetailedErrors();

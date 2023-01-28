@@ -1,6 +1,3 @@
-using WeeControl.Common.SharedKernel.Contexts.Business.Elevator.Enums;
-using WeeControl.Common.SharedKernel.Contexts.Business.Elevator.Interfaces;
-
 namespace WeeControl.Frontend.AppService.Internals.Temporary.Business.Elevator;
 
 public class RouteModel : IRouteModel

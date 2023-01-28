@@ -1,6 +1,6 @@
 using System.Reflection;
 
-namespace WeeControl.Common.SharedKernel;
+namespace WeeControl.Core.SharedKernel;
 
 public static class ClaimsValues
 {
@@ -10,7 +10,7 @@ public static class ClaimsValues
             typeof(ClaimTypes).GetFields(BindingFlags.Static | BindingFlags.Public);
         return fieldInfos.ToDictionary(info => info.Name, info => info?.GetValue(null)?.ToString())!;
     }
-    
+
     public static Dictionary<string, string> GetClaimValues()
     {
         var fieldInfos =
@@ -23,7 +23,7 @@ public static class ClaimsValues
         public const string Session = "e_s";
         public const string Territory = "e_r";
         public const string Country = "e_c";
-        
+
         public const string Developer = "e_dv";
         public const string Administrator = "e_ad";
         public const string HumanResource = "e_hr";
@@ -33,7 +33,7 @@ public static class ClaimsValues
         public const string Sales = "e_sl";
         public const string Field = "e_fd";
     }
-    
+
     public static class ClaimValues
     {
         public const string SuperUser = "e_su";

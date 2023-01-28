@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
-    <RootNamespace>WeeControl.ApiApp.Application</RootNamespace>
+    <RootNamespace>WeeControl.Core.Application</RootNamespace>
     <LangVersion>latestmajor</LangVersion>
   </PropertyGroup>
   <ItemGroup>
@@ -23,7 +23,7 @@
     <None Remove="BoundContexts\Shared\Notifications\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\common\SharedKernel\SharedKernel.csproj" />
+    <ProjectReference Include="..\..\common\DataTransferObject\DataTransferObject.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 </Project>

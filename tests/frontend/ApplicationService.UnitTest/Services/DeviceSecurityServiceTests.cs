@@ -1,10 +1,10 @@
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.IdentityModel.Tokens;
-using WeeControl.Common.SharedKernel.Interfaces;
 using WeeControl.Common.SharedKernel.Services;
+using WeeControl.Core.SharedKernel.Interfaces;
 using WeeControl.Frontend.AppService.DeviceInterfaces;
 using WeeControl.Frontend.AppService.Internals.Services;
 
@@ -21,7 +21,7 @@ public class DeviceSecurityServiceTests : IDisposable
 
         jwtService = new JwtService();
     }
-    
+
     public void Dispose()
     {
         storageMock = null;
@@ -36,7 +36,7 @@ public class DeviceSecurityServiceTests : IDisposable
         storageMock.Setup(x => x.GetKeyValue(It.IsAny<string>())).ReturnsAsync(token);
 
         var result = await new SecurityService(storageMock.Object, jwtService).IsAuthenticatedAsync();
-        
+
         Assert.Equal(isTrue, result);
     }
 
@@ -49,21 +49,21 @@ public class DeviceSecurityServiceTests : IDisposable
         const string token = "This should contains Token String";
         var service = new SecurityService(storageMock.Object, jwtService);
         await service.UpdateTokenAsync(token);
-        
+
         Assert.Equal(token, await service.GetTokenAsync());
     }
-    
+
     [Fact]
     public async void DeletingTokenTest()
     {
         storageMock.Setup(x => x.SaveKeyValue(It.IsAny<string>(), It.IsAny<string>()))
             .Callback((string k, string v) => storageMock.Setup(x => x.GetKeyValue(k)).ReturnsAsync(v));
         const string token = "This should contains Token String";
-        
+
         var service = new SecurityService(storageMock.Object, jwtService);
         await service.UpdateTokenAsync(token);
         await service.DeleteTokenAsync();
-        
+
         Assert.NotEqual(token, await service.GetTokenAsync());
     }
 
@@ -80,11 +80,11 @@ public class DeviceSecurityServiceTests : IDisposable
             Subject = ci,
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         });
-        
+
         var service = new SecurityService(storageMock.Object, jwtService);
         await service.UpdateTokenAsync(token);
         var cp = await service.GetClaimsPrincipal();
-        
+
         Assert.Equal("bla1", cp.Claims.First().Type);
         Assert.Equal("bla2", cp.Claims.First().Value);
     }

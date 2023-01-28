@@ -1,16 +1,13 @@
-﻿using System;
+﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Mime;
 using System.Threading.Tasks;
-using MediatR;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using WeeControl.ApiApp.Application.Contexts.Essential.Commands;
-using WeeControl.Common.SharedKernel;
-using WeeControl.Common.SharedKernel.Contexts.Authentication;
-using WeeControl.Common.SharedKernel.Contexts.Temporary.User;
-using WeeControl.Common.SharedKernel.RequestsResponses;
+using WeeControl.Core.SharedKernel;
 
 namespace WeeControl.ApiApp.WebApi.Controllers.User;
 
@@ -37,10 +34,10 @@ public class UserController : Controller
     {
         var command = new UserRegisterCommand(dto);
         var response = await mediator.Send(command);
-        
+
         return Ok(response);
     }
-    
+
     [Authorize]
     [HttpPatch(ApiRouting.UserPasswordEndpoint)]
     [MapToApiVersion("1.0")]
@@ -55,7 +52,7 @@ public class UserController : Controller
 
         return Ok();
     }
-    
+
     [AllowAnonymous]
     [HttpPost(ApiRouting.UserPasswordEndpoint)]
     [MapToApiVersion("1.0")]
@@ -65,10 +62,10 @@ public class UserController : Controller
     {
         var command = new UserForgotMyPasswordCommand(dto);
         await mediator.Send(command);
-        
+
         return Ok();
     }
-    
+
     [HttpGet(ApiRouting.UserNotificationEndpoint)]
     [MapToApiVersion("1.0")]
     [Produces(MediaTypeNames.Application.Json)]
@@ -88,7 +85,7 @@ public class UserController : Controller
         await mediator.Send(command);
         return Ok();
     }
-    
 
-    
+
+
 }

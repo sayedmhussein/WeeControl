@@ -11,7 +11,7 @@ public static class ApiVersionServices
         services.AddApiVersioning(ConfigureApiVersioning);
         return services;
     }
-    
+
     private static void ConfigureApiVersioning(ApiVersioningOptions options)
     {
         options.DefaultApiVersion = new ApiVersion(1, 0);

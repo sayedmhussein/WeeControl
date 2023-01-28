@@ -1,10 +1,10 @@
+using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Configuration;
+using Microsoft.JSInterop;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 using System.Text.Json;
-using Microsoft.Extensions.Configuration;
+using System.Threading.Tasks;
 using WeeControl.Frontend.AppService;
 
 namespace WeeControl.Frontend.Wasm.Services;
@@ -24,7 +24,7 @@ public class DeviceDataService : IDeviceData
         this.configuration = configuration;
         HttpClient = new HttpClient();
     }
-    
+
     public async Task SendAnEmail(IEnumerable<string> to, string subject, string body)
     {
         await jsRuntime.InvokeAsync<bool>($"Sending Email to {to}", body);
@@ -42,7 +42,7 @@ public class DeviceDataService : IDeviceData
 
     public Task<bool> IsConnectedToInternet()
     {
-        
+
         return Task.FromResult(true);
         //return await jsRuntime.InvokeAsync<bool>("window.navigator.onLine");
     }
@@ -115,7 +115,7 @@ public class DeviceDataService : IDeviceData
 
     public string CashDirectory { get; }
     public string AppDataDirectory { get; }
-    
+
     public Task SaveKeyValue(string key, string value)
     {
         jsRuntime.InvokeVoidAsync("localStorage.setItem", key, JsonSerializer.Serialize(value)).ConfigureAwait(false);

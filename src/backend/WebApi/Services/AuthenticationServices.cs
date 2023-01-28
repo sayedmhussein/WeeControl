@@ -1,11 +1,11 @@
-using System;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace WeeControl.ApiApp.WebApi.Services;
 
@@ -24,7 +24,7 @@ public static class AuthenticationServices
                 ValidateLifetime = true,
                 ClockSkew = TimeSpan.Zero
             };
-                
+
             options.Events = new JwtBearerEvents
             {
                 OnMessageReceived = context =>
@@ -42,7 +42,7 @@ public static class AuthenticationServices
         });
         return services;
     }
-    
+
     public static void ConfigureAuthorizationService(AuthenticationOptions options)
     {
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

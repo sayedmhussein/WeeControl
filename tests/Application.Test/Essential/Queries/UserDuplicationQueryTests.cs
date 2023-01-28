@@ -1,8 +1,7 @@
-using System.Threading.Tasks;
 using MediatR;
-using WeeControl.ApiApp.Application.Contexts.Essential.Queries;
-using WeeControl.ApiApp.Application.Exceptions;
-using WeeControl.Common.SharedKernel.Contexts.Temporary.User;
+using System.Threading.Tasks;
+using WeeControl.Core.Application.Contexts.User.Queries;
+using WeeControl.Core.Application.Exceptions;
 using Xunit;
 
 namespace WeeControl.ApiApp.Application.Test.Essential.Queries;
@@ -15,12 +14,12 @@ public class UserDuplicationQueryTests
         using var testHelper = new TestHelper();
 
         var handler = await GetHandler(testHelper);
-        
+
         Assert.Equal(Unit.Value, await handler.Handle(new UserDuplicationQuery(nameof(RegisterCustomerDto.User.Username), "username1"), default));
         Assert.Equal(Unit.Value, await handler.Handle(new UserDuplicationQuery(nameof(RegisterCustomerDto.User.Email), "email@email.com"), default));
         Assert.Equal(Unit.Value, await handler.Handle(new UserDuplicationQuery(nameof(RegisterCustomerDto.User.MobileNo), "+33"), default));
     }
-    
+
     [Theory]
     [InlineData("username", "", "")]
     [InlineData("", "user@email.com", "")]
@@ -29,7 +28,7 @@ public class UserDuplicationQueryTests
     {
         using var testHelper = new TestHelper();
         var handler = await GetHandler(testHelper);
-        
+
         await Assert.ThrowsAsync<ConflictFailureException>(async () =>
         {
             await handler.Handle(
@@ -42,9 +41,9 @@ public class UserDuplicationQueryTests
                 new UserDuplicationQuery(nameof(RegisterCustomerDto.User.MobileNo), mobileNo),
                 default);
         });
-        
+
     }
-    
+
     private async Task<UserDuplicationQuery.UserDuplicationHandler> GetHandler(TestHelper testHelper)
     {
         var user = testHelper.GetUserDboWithEncryptedPassword("username", "password");

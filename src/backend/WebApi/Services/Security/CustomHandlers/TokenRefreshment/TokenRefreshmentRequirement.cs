@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
+using System;
 
 namespace WeeControl.ApiApp.WebApi.Services.Security.CustomHandlers.TokenRefreshment;
 

@@ -10,7 +10,7 @@ public class PersistedListServiceTests
         var service = new PersistedListService();
 
         var countries = service.Countries;
-        
+
         Assert.NotNull(countries);
         Assert.NotEmpty(countries);
     }

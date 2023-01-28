@@ -3,7 +3,7 @@
     <PropertyGroup>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>WeeControl.Common.SharedKernel</RootNamespace>
+        <RootNamespace>WeeControl.Core.SharedKernel</RootNamespace>
         <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
         <LangVersion>latestmajor</LangVersion>
     </PropertyGroup>
@@ -13,11 +13,6 @@
       <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.26.0" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
       <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.26.0" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Contexts\Business\Elevator" />
-      <Folder Include="Contexts\Temporary" />
     </ItemGroup>
 
 </Project>

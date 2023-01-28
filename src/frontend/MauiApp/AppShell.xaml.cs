@@ -1,15 +1,14 @@
-﻿using Microsoft.Maui.Controls;
-using WeeControl.Frontend.MauiApp.Pages;
+﻿using WeeControl.Frontend.MauiApp.Pages;
 
 namespace WeeControl.Frontend.MauiApp;
 
 public partial class AppShell : Shell
 {
-	public AppShell()
-	{
-		InitializeComponent();
+    public AppShell()
+    {
+        InitializeComponent();
         Routing.RegisterRoute("AboutPage", typeof(AboutPage));
-	}
+    }
 
     async void AboutItem_Clicked(System.Object sender, System.EventArgs e)
     {

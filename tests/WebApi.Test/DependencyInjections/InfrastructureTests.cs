@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using WeeControl.ApiApp.Domain.Interfaces;
 using WeeControl.ApiApp.Infrastructure;
 using Xunit;
 
@@ -19,7 +18,7 @@ public class InfrastructureTests
         var services = new ServiceCollection();
         services.AddInfrastructure(configMock.Object);
         var provider = services.BuildServiceProvider();
-        
+
         var service = provider.GetService<IEmailNotificationService>();
 
         Assert.NotNull(service);

@@ -1,5 +1,5 @@
 using System.Security.Claims;
-using WeeControl.Common.SharedKernel;
+using WeeControl.Core.SharedKernel;
 using WeeControl.Frontend.AppService.Internals.Interfaces;
 
 namespace WeeControl.Frontend.AppService.Internals.Services;

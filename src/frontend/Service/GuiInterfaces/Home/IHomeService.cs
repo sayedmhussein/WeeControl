@@ -1,4 +1,3 @@
-using WeeControl.Common.SharedKernel.Contexts.Temporary.User;
 using WeeControl.Frontend.AppService.Models;
 
 namespace WeeControl.Frontend.AppService.GuiInterfaces.Home;
@@ -13,7 +12,7 @@ public interface IHomeService
     Task<bool> Sync();
     Task<IEnumerable<HomeFeedModel>> GetHomeFeeds();
     Task<IEnumerable<HomeNotificationModel>> GetHomeNotifications();
-    
+
     Task Register(RegisterCustomerDto registerModel);
     Task RequestPasswordReset(UserPasswordResetRequestDto passwordResetModel);
     Task ChangeMyPassword(UserPasswordChangeRequestDto passwordChangeModel);

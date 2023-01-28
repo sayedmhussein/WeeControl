@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
-using WeeControl.Common.SharedKernel;
+using WeeControl.Core.SharedKernel;
 
 namespace WeeControl.ApiApp.WebApi.Services.Security.Policies;
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WeeControl.ApiApp.Application.Exceptions;
+namespace WeeControl.Core.Application.Exceptions;
 
 public class NotAllowedException : Exception
 {

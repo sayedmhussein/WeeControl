@@ -1,13 +1,13 @@
-using System;
-using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using System.Threading.Tasks;
 using WeeControl.ApiApp.Application.Contexts.Essential.Commands;
-using WeeControl.ApiApp.Application.Interfaces;
 using WeeControl.ApiApp.Persistence.DbContexts;
+using WeeControl.Core.Application.Interfaces;
 
 namespace WeeControl.ApiApp.WebApi;
 
@@ -25,7 +25,7 @@ public class Program
         {
             Console.WriteLine(e);
             Console.WriteLine("xxxxxxxxxxxxx End of Program Exception xxxxxxxxxxxxx");
-            
+
             try
             {
                 await PrepareDatabase(scope);
@@ -37,7 +37,7 @@ public class Program
                 throw;
             }
         }
-        
+
         await host.RunAsync();
     }
 
@@ -59,7 +59,7 @@ public class Program
         //     var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
         //     await mediator.Send(new SeedEssentialDatabaseCommand());
         // }
-        
+
         var context = (EssentialDbContext)scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
         if (context.Database.IsRelational())
         {
@@ -70,7 +70,7 @@ public class Program
         {
             await context.Database.EnsureCreatedAsync();
         }
-        
+
         var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
         await mediator.Send(new SeedEssentialDatabaseCommand());
     }

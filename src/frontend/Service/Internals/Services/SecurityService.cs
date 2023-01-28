@@ -1,7 +1,7 @@
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using Microsoft.IdentityModel.Tokens;
-using WeeControl.Common.SharedKernel.Interfaces;
+using WeeControl.Core.SharedKernel.Interfaces;
 using WeeControl.Frontend.AppService.DeviceInterfaces;
 using WeeControl.Frontend.AppService.Internals.Interfaces;
 
@@ -18,7 +18,7 @@ internal class SecurityService : IDeviceSecurity
         this.storage = storage;
         this.jwtService = jwtService;
     }
-    
+
     public async Task<bool> IsAuthenticatedAsync()
     {
         return !string.IsNullOrWhiteSpace(await storage.GetKeyValue(TokenKeyName));
@@ -47,28 +47,30 @@ internal class SecurityService : IDeviceSecurity
             return new ClaimsPrincipal();
 
         const string key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
-        
-        var validationParameters = new TokenValidationParameters()
-                {
-                    RequireSignedTokens = false,
-                    RequireAudience = false, RequireExpirationTime = false, LogValidationExceptions = true,
-                    ValidateIssuerSigningKey = false,
-                    //IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(key)),
-                    SignatureValidator = delegate(string token, TokenValidationParameters parameters)
-                    {
-                        var jwt = new JwtSecurityToken(token);
 
-                        return jwt;
-                    },
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                    ValidateLifetime = false,
-                    ClockSkew = TimeSpan.Zero
-                };
+        var validationParameters = new TokenValidationParameters()
+        {
+            RequireSignedTokens = false,
+            RequireAudience = false,
+            RequireExpirationTime = false,
+            LogValidationExceptions = true,
+            ValidateIssuerSigningKey = false,
+            //IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(key)),
+            SignatureValidator = delegate (string token, TokenValidationParameters parameters)
+            {
+                var jwt = new JwtSecurityToken(token);
+
+                return jwt;
+            },
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = false,
+            ClockSkew = TimeSpan.Zero
+        };
 
         validationParameters.RequireSignedTokens = false;
-        
-        var cp = jwtService.GetClaimPrincipal( token, validationParameters);
+
+        var cp = jwtService.GetClaimPrincipal(token, validationParameters);
         return cp;
     }
 

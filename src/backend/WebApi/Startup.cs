@@ -57,7 +57,7 @@ public class Startup
         app.UseCustomExceptionHandler();
 
         app.UseRouting();
-            
+
         app.UseCors("AllowAny");
 
         app.UseAuthentication();

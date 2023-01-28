@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.ApiApp.Application.Interfaces;
 using WeeControl.ApiApp.WebApi;
+using WeeControl.Core.Application.Interfaces;
 using WeeControl.Frontend.AppService;
 using WeeControl.Frontend.Service.UnitTest;
 using Xunit;
@@ -10,7 +10,7 @@ namespace WeeControl.User.UserApplication.Test.Integration.Contexts;
 public class ExampleTests : IClassFixture<CustomWebApplicationFactory<Startup>>
 {
     private readonly CustomWebApplicationFactory<Startup> factory;
-    
+
     public ExampleTests(CustomWebApplicationFactory<Startup> factory)
     {
         this.factory = factory;
@@ -33,7 +33,7 @@ public class ExampleTests : IClassFixture<CustomWebApplicationFactory<Startup>>
         }).CreateClient());
 
         await factory.Authorize(helper, "username", "password");
-        
-        Assert.True(await service.IsAuthenticated());  
+
+        Assert.True(await service.IsAuthenticated());
     }
 }

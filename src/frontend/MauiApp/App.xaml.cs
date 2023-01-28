@@ -1,18 +1,17 @@
-﻿using Microsoft.Maui.Controls;
-using WeeControl.Frontend.MauiApp.Pages;
+﻿using WeeControl.Frontend.MauiApp.Pages;
 
 namespace WeeControl.Frontend.MauiApp;
 
 public partial class App : Application
 {
-	private readonly LoginPage loginPage;
+    private readonly LoginPage loginPage;
 
-	public App(LoginPage loginPage)
-	{
-		this.loginPage = loginPage;
-		InitializeComponent();
+    public App(LoginPage loginPage)
+    {
+        this.loginPage = loginPage;
+        InitializeComponent();
 
-		MainPage = new SplashPage(loginPage);
-	}
+        MainPage = new SplashPage(loginPage);
+    }
 }
 

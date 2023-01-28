@@ -1,5 +1,3 @@
-using WeeControl.Common.SharedKernel.Contexts.Home;
-
 namespace WeeControl.Frontend.AppService.GuiInterfaces.Home;
 
 public class HomeFeedModel : IHomeFeedModel

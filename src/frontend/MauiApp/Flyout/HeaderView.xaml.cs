@@ -1,11 +1,9 @@
-﻿using Microsoft.Maui.Controls;
-
-namespace WeeControl.Frontend.MauiApp.Flyout;
+﻿namespace WeeControl.Frontend.MauiApp.Flyout;
 
 public partial class HeaderView : ContentView
 {
-	public HeaderView()
-	{
-		InitializeComponent();
-	}
+    public HeaderView()
+    {
+        InitializeComponent();
+    }
 }

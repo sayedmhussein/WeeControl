@@ -1,14 +1,13 @@
-using System;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using WeeControl.ApiApp.Application.Interfaces;
-using WeeControl.ApiApp.Domain.Contexts.Essential;
+using System;
+using WeeControl.ApiApp.Domain.Essential;
 using WeeControl.ApiApp.Persistence;
-using WeeControl.Common.SharedKernel.Contexts.Temporary.Entities;
-using WeeControl.Common.SharedKernel.Interfaces;
 using WeeControl.Common.SharedKernel.Services;
+using WeeControl.Core.Application.Interfaces;
+using WeeControl.Core.SharedKernel.Interfaces;
 
 namespace WeeControl.ApiApp.Application.Test;
 
@@ -23,25 +22,25 @@ public class TestHelper : IDisposable
     public Mock<IMediator> MediatorMock;
     public Mock<IConfiguration> ConfigurationMock;
     public Mock<ICurrentUserInfo> CurrentUserInfoMock;
-    
+
     public TestHelper()
     {
         JwtService = new JwtService();
-        
+
         PasswordSecurity = new PasswordSecurity();
-        
+
         EssentialDb = new ServiceCollection()
             .AddPersistenceAsInMemory()
             .BuildServiceProvider()
             .GetService<IEssentialDbContext>();
-        
+
         MediatorMock = new Mock<IMediator>();
-        
+
         ConfigurationMock = new Mock<IConfiguration>();
-        
+
         CurrentUserInfoMock = new Mock<ICurrentUserInfo>();
     }
-    
+
     public void Dispose()
     {
         EssentialDb = null;
@@ -59,7 +58,7 @@ public class TestHelper : IDisposable
             Password = PasswordSecurity.Hash(password),
             MobileNo = "0123456789"
         };
-        
+
         return new UserDbo(entity);
     }
 }

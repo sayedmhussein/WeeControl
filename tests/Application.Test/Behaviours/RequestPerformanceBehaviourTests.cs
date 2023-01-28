@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 using Microsoft.Extensions.Logging;
 using Moq;
-using WeeControl.ApiApp.Application.Behaviours;
-using WeeControl.ApiApp.Application.Interfaces;
+using System;
+using System.Threading.Tasks;
+using WeeControl.Core.Application.Behaviours;
+using WeeControl.Core.Application.Interfaces;
 using Xunit;
 
 namespace WeeControl.ApiApp.Application.Test.Behaviours;
@@ -14,7 +14,7 @@ public class RequestPerformanceBehaviourTests : IDisposable
     private Mock<ILogger<RequestPerformanceBehaviour<TestExampleQuery, bool>>> loggerMock;
     private Mock<ICurrentUserInfo> userMock;
     private RequestHandlerDelegate<bool> handlerDelegate;
-    
+
     public RequestPerformanceBehaviourTests()
     {
         loggerMock = new Mock<ILogger<RequestPerformanceBehaviour<TestExampleQuery, bool>>>();
@@ -29,7 +29,7 @@ public class RequestPerformanceBehaviourTests : IDisposable
         userMock = null;
         handlerDelegate = null;
     }
-    
+
     [Fact(Skip = "Issue in this unit test!")]
     //[Fact]
     public async void HandlerShouldNotLogWarningIfTimeIsLess()
@@ -42,10 +42,10 @@ public class RequestPerformanceBehaviourTests : IDisposable
         };
 
         var response = await behaviour.Handle(new TestExampleQuery(true), default, handlerDelegate);
-        
-        
+
+
     }
-    
+
     [Fact(Skip = "Issue in this unit test!")]
     public async void HandlerShouldLogWarningIfTimeIsHigh()
     {
@@ -55,8 +55,8 @@ public class RequestPerformanceBehaviourTests : IDisposable
             await Task.Delay(1000);
             return false;
         };
-        
+
         var response = await behaviour.Handle(new TestExampleQuery(false), default, handlerDelegate);
-        
+
     }
 }

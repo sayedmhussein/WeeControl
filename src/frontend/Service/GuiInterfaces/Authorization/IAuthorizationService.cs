@@ -10,12 +10,12 @@ public interface IAuthorizationService
 
     string GetLabel(Label label);
     string GetMessage(Message message);
-    
+
     enum Label { LoginHeader, LoginButton, OtpHeader, OtpButton, Username, Password, }
 
     enum Message
     {
-        InvalidUsername, InvalidPassword, InvalidUsernameAndPassword, 
+        InvalidUsername, InvalidPassword, InvalidUsernameAndPassword,
         InvalidOtp, LockedUser
     }
 }

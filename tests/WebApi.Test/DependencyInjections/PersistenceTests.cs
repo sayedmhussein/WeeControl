@@ -1,8 +1,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using WeeControl.ApiApp.Application.Interfaces;
 using WeeControl.ApiApp.Persistence;
+using WeeControl.Core.Application.Interfaces;
 using Xunit;
 
 namespace WeeControl.ApiApp.WebApi.Test.DependencyInjections;
@@ -17,17 +17,17 @@ public class PersistenceTests
 
         services = new ServiceCollection();
     }
-        
+
     public void Dispose()
     {
         services = null;
     }
-    
+
     [Fact]
     public void WhenAddingPersistenceInMemory_ReturnEssentialDbContextObjectAsNotNull()
     {
         services.AddPersistenceAsInMemory();
-            
+
         var service = services.BuildServiceProvider().GetService<IEssentialDbContext>();
 
         Assert.NotNull(service);

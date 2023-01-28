@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
-using WeeControl.Common.SharedKernel.Contexts.Authentication;
 using WeeControl.Frontend.AppService;
 using WeeControl.Frontend.AppService.GuiInterfaces.Authorization;
 
@@ -21,13 +20,13 @@ public class UserAuthorizationServiceTests
                 new (HttpStatusCode.OK, TokenResponseDto.Create("token", "name")),
                 new (HttpStatusCode.OK, TokenResponseDto.Create("token", "name"))
             });
-        
+
         Assert.True(await service.Login("username", "password"));
         Assert.True(await service.UpdateToken("0000"));
-        helper.DeviceMock.Verify(x => 
+        helper.DeviceMock.Verify(x =>
             x.NavigateToAsync(ApplicationPages.SplashPage, It.IsAny<bool>()), Times.Once);
     }
-    
+
     [Theory]
     [InlineData(HttpStatusCode.OK, true)]
     [InlineData(HttpStatusCode.NotFound, false)]
@@ -44,7 +43,7 @@ public class UserAuthorizationServiceTests
             new (code, TokenResponseDto.Create("token", "name")),
             new (code, TokenResponseDto.Create("token", "name"))
         };
-        
+
         var service = helper.GetService<IAuthorizationService>(expected);
 
         Assert.Equal(fnReturn, await service.Login("username", "password"));
@@ -62,18 +61,18 @@ public class UserAuthorizationServiceTests
             case HttpStatusCode.InternalServerError:
             case HttpStatusCode.BadRequest:
             case HttpStatusCode.BadGateway:
-                helper.DeviceMock.Verify(x => 
+                helper.DeviceMock.Verify(x =>
                     x.DisplayAlert(It.IsAny<string>()), Times.Once);
                 // helper.DeviceMock.Verify(x => 
                 //     x.UpdateTokenAsync("token"), Times.Never);
-                helper.DeviceMock.Verify(x => 
-                    x.NavigateToAsync(ApplicationPages.HomePage,true), Times.Never);
+                helper.DeviceMock.Verify(x =>
+                    x.NavigateToAsync(ApplicationPages.HomePage, true), Times.Never);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(code), code, null);
         }
     }
-    
+
     [Theory]
     [InlineData("", "")]
     [InlineData("", "password")]
@@ -86,15 +85,15 @@ public class UserAuthorizationServiceTests
         using var helper = new TestHelper(nameof(Login_DataTransferObjectDefensiveValues));
         var service = helper.GetService<IAuthorizationService>(HttpStatusCode.OK, TokenResponseDto.Create("token", "name"));
 
-        await service.Login(username,password);
-        
-        helper.DeviceMock.Verify(x => 
+        await service.Login(username, password);
+
+        helper.DeviceMock.Verify(x =>
             x.DisplayAlert(It.IsAny<string>()), Times.Once);
-        helper.DeviceMock.Verify(x => 
-            x.NavigateToAsync(ApplicationPages.HomePage,true), Times.Never);
+        helper.DeviceMock.Verify(x =>
+            x.NavigateToAsync(ApplicationPages.HomePage, true), Times.Never);
     }
     #endregion
-    
+
     #region UpdateToken()
     [Theory]
     [InlineData(HttpStatusCode.OK)]
@@ -107,55 +106,55 @@ public class UserAuthorizationServiceTests
     {
         using var helper = new TestHelper(nameof(Logout_WhenNotFound_OrSuccess));
         var service = helper.GetService<IAuthorizationService>(code, TokenResponseDto.Create("token", "name"));
-        
+
         // using var helper = new TestHelper(nameof(UpdateToken_ExpectedResponsesBehaviorTests));
         // var content = helper.GetJsonContent(ResponseDto.Create());
         // var device = helper.DeviceMock.GetObject(code, content);
         //
         // var service = new UserAuthorizationService(device, new ServerOperationService(device));
         await service.UpdateToken("value");
-    
+
         switch (code)
         {
             case HttpStatusCode.OK:
-                helper.DeviceMock.Verify(x => 
+                helper.DeviceMock.Verify(x =>
                     x.DisplayAlert(It.IsAny<string>()), Times.Never);
-                helper.DeviceMock.Verify(x => 
-                    x.NavigateToAsync(ApplicationPages.SplashPage,It.IsAny<bool>()), Times.AtLeastOnce);
-                
+                helper.DeviceMock.Verify(x =>
+                    x.NavigateToAsync(ApplicationPages.SplashPage, It.IsAny<bool>()), Times.AtLeastOnce);
+
                 // helper.DeviceMock.Verify(x => 
                 //     x.UpdateTokenAsync("token"), Times.AtLeastOnce);
                 break;
             case HttpStatusCode.NotFound:
-                helper.DeviceMock.Verify(x => 
+                helper.DeviceMock.Verify(x =>
                     x.DisplayAlert(It.IsAny<string>()), Times.AtLeastOnce);
-                helper.DeviceMock.Verify(x => 
-                    x.NavigateToAsync(ApplicationPages.SplashPage,It.IsAny<bool>()), Times.Never);
+                helper.DeviceMock.Verify(x =>
+                    x.NavigateToAsync(ApplicationPages.SplashPage, It.IsAny<bool>()), Times.Never);
                 break;
             case HttpStatusCode.Unauthorized:
-                helper.DeviceMock.Verify(x => 
+                helper.DeviceMock.Verify(x =>
                     x.DisplayAlert(It.IsAny<string>()), Times.AtLeastOnce);
-                helper.DeviceMock.Verify(x => 
-                    x.NavigateToAsync(ApplicationPages.SplashPage,It.IsAny<bool>()), Times.Never);
-                helper.DeviceMock.Verify(x => 
-                    x.NavigateToAsync(ApplicationPages.AuthenticationPage,It.IsAny<bool>()), Times.AtLeastOnce);
-                
+                helper.DeviceMock.Verify(x =>
+                    x.NavigateToAsync(ApplicationPages.SplashPage, It.IsAny<bool>()), Times.Never);
+                helper.DeviceMock.Verify(x =>
+                    x.NavigateToAsync(ApplicationPages.AuthenticationPage, It.IsAny<bool>()), Times.AtLeastOnce);
+
                 // helper.DeviceMock.SecurityMock.Verify(x => 
                 //     x.DeleteTokenAsync(), Times.AtLeastOnce);
                 break;
             case HttpStatusCode.InternalServerError:
             case HttpStatusCode.BadRequest:
             case HttpStatusCode.BadGateway:
-                helper.DeviceMock.Verify(x => 
+                helper.DeviceMock.Verify(x =>
                     x.DisplayAlert(It.IsAny<string>()), Times.AtLeastOnce);
-                helper.DeviceMock.Verify(x => 
-                    x.NavigateToAsync(ApplicationPages.HomePage,true), Times.Never);
+                helper.DeviceMock.Verify(x =>
+                    x.NavigateToAsync(ApplicationPages.HomePage, true), Times.Never);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(code), code, null);
         }
     }
-    
+
     [Theory]
     [InlineData(null)]
     [InlineData("")]
@@ -166,17 +165,17 @@ public class UserAuthorizationServiceTests
     {
         using var helper = new TestHelper(nameof(Logout_WhenNotFound_OrSuccess));
         var service = helper.GetService<IAuthorizationService>(HttpStatusCode.OK, TokenResponseDto.Create("token"));
-        
+
         await service.UpdateToken(value);
-    
-        helper.DeviceMock.Verify(x => 
+
+        helper.DeviceMock.Verify(x =>
             x.DisplayAlert(It.IsAny<string>()), Times.AtLeastOnce);
-        
-        helper.DeviceMock.Verify(x => 
-            x.NavigateToAsync(ApplicationPages.SplashPage,It.IsAny<bool>()), Times.Never);
+
+        helper.DeviceMock.Verify(x =>
+            x.NavigateToAsync(ApplicationPages.SplashPage, It.IsAny<bool>()), Times.Never);
     }
     #endregion
-    
+
     #region Logout()
     [Theory]
     [InlineData(HttpStatusCode.OK, true)]

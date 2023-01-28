@@ -1,9 +1,7 @@
 using System;
-using WeeControl.ApiApp.Application.Contexts.Essential.Commands;
-using WeeControl.ApiApp.Application.Exceptions;
-using WeeControl.ApiApp.Domain.Contexts.Essential;
-using WeeControl.Common.SharedKernel.Interfaces;
-using WeeControl.Common.SharedKernel.RequestsResponses;
+using WeeControl.Core.Application.Contexts.User.Commands;
+using WeeControl.Core.Application.Exceptions;
+using WeeControl.Core.Domain.User;
 using Xunit;
 
 namespace WeeControl.ApiApp.Application.Test.Essential.Commands;
@@ -19,7 +17,7 @@ public class SetNewPasswordCommandTests
         var user = testHelper.GetUserDboWithEncryptedPassword("username", "password");
         await testHelper.EssentialDb.Users.AddAsync(user);
         await testHelper.EssentialDb.SaveChangesAsync(default);
-        
+
         var session = UserSessionDbo.Create(Guid.NewGuid(), "device", "0000");
         session.UserId = user.UserId;
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
@@ -29,10 +27,10 @@ public class SetNewPasswordCommandTests
 
         var handler = new UserNewPasswordCommand.SetNewPasswordHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object, testHelper.PasswordSecurity);
         await handler.Handle(new UserNewPasswordCommand(requestDto, "password", "NewPassword"), default);
-        
+
         Assert.Equal(testHelper.PasswordSecurity.Hash("NewPassword"), user.Password);
     }
-    
+
     [Fact]
     public async void WhenRequestSentInvalidOldPassword_ThrowNotFound()
     {
@@ -40,7 +38,7 @@ public class SetNewPasswordCommandTests
         var user = testHelper.GetUserDboWithEncryptedPassword("username", "password");
         await testHelper.EssentialDb.Users.AddAsync(user);
         await testHelper.EssentialDb.SaveChangesAsync(default);
-        
+
         var session = UserSessionDbo.Create(Guid.NewGuid(), "device", "0000");
         session.UserId = user.UserId;
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
@@ -49,10 +47,10 @@ public class SetNewPasswordCommandTests
         testHelper.CurrentUserInfoMock.Setup(x => x.SessionId).Returns(session.SessionId);
 
         var handler = new UserNewPasswordCommand.SetNewPasswordHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object, testHelper.PasswordSecurity);
-        
+
         await Assert.ThrowsAsync<NotFoundException>(() => handler.Handle(new UserNewPasswordCommand(requestDto, "OtherPassword", "NewPassword"), default));
     }
-    
+
     [Theory]
     [InlineData("", "")]
     [InlineData("oldPassword", "")]

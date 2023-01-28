@@ -1,6 +1,5 @@
 using System.Net;
-using WeeControl.Common.SharedKernel;
-using WeeControl.Common.SharedKernel.Contexts.Authentication;
+using WeeControl.Core.SharedKernel;
 using WeeControl.Frontend.AppService.Internals.Interfaces;
 
 namespace WeeControl.Frontend.AppService.GuiInterfaces.Authorization;
@@ -28,7 +27,7 @@ internal class AuthorizationService : IAuthorizationService
             await device.DisplayAlert(GetMessage(IAuthorizationService.Message.InvalidUsername));
             return false;
         }
-        
+
         if (string.IsNullOrWhiteSpace(password) || password.Length < 4)
         {
             await device.DisplayAlert(GetMessage(IAuthorizationService.Message.InvalidPassword));
@@ -45,18 +44,18 @@ internal class AuthorizationService : IAuthorizationService
             await device.DisplayAlert(GetMessage(IAuthorizationService.Message.InvalidOtp));
             return false;
         }
-        
+
         var response = await serverOperation
             .GetResponseMessage(
-                HttpMethod.Put, 
-                new Version("1.0"), 
-                new []{Route, otp},
+                HttpMethod.Put,
+                new Version("1.0"),
+                new[] { Route, otp },
                 otp);
 
         switch (response.StatusCode)
         {
             case HttpStatusCode.OK:
-              
+
                 var responseDto = await serverOperation.ReadFromContent<TokenResponseDto>(response.Content);
                 var token = responseDto?.Token;
                 if (token is not null)
@@ -64,7 +63,7 @@ internal class AuthorizationService : IAuthorizationService
                     await security.UpdateTokenAsync(token);
                 }
 
-                await device.NavigateToAsync(ApplicationPages.SplashPage, forceLoad:true);
+                await device.NavigateToAsync(ApplicationPages.SplashPage, forceLoad: true);
                 return true;
             case HttpStatusCode.NotFound:
                 await device.DisplayAlert(GetMessage(IAuthorizationService.Message.InvalidUsernameAndPassword));
@@ -86,8 +85,8 @@ internal class AuthorizationService : IAuthorizationService
     {
         var response = await serverOperation
             .GetResponseMessage(
-                HttpMethod.Delete, 
-                new Version("1.0"), 
+                HttpMethod.Delete,
+                new Version("1.0"),
                 Route, "To send the dto"
                 );
 
@@ -113,7 +112,7 @@ internal class AuthorizationService : IAuthorizationService
                 await device.DisplayAlert("Unexpected error occured!!!");
                 break;
         }
-        
+
         return false;
     }
 
@@ -127,7 +126,7 @@ internal class AuthorizationService : IAuthorizationService
             IAuthorizationService.Label.OtpButton => "Send",
             IAuthorizationService.Label.Username => "Username",
             IAuthorizationService.Label.Password => "Password",
-            
+
             _ => throw new ArgumentOutOfRangeException(nameof(label), label, null)
         };
     }
@@ -155,8 +154,8 @@ internal class AuthorizationService : IAuthorizationService
     {
         var response = await serverOperation
             .GetResponseMessage(
-                HttpMethod.Post, 
-                new Version("1.0"), 
+                HttpMethod.Post,
+                new Version("1.0"),
                 Route,
                 LoginRequestDto.Create(usernameOrEmail, password));
 

@@ -1,5 +1,3 @@
-using WeeControl.Common.SharedKernel.Contexts.Home;
-
 namespace WeeControl.Frontend.AppService.GuiInterfaces.Home;
 
 public class HomeNotificationModel : INotificationModel
@@ -13,6 +11,6 @@ public class HomeNotificationModel : INotificationModel
     public string NotificationUrl { get; set; } = string.Empty;
 
     public DateTime NotificationTs { get; set; }
-    
+
     public bool IsRead { get; set; }
 }

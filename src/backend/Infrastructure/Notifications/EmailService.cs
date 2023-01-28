@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using MailKit.Net.Smtp;
+﻿using MailKit.Net.Smtp;
 using MimeKit;
 using Org.BouncyCastle.Security;
-using WeeControl.ApiApp.Domain.Interfaces;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace WeeControl.ApiApp.Infrastructure.Notifications;
 
@@ -56,7 +55,7 @@ public class EmailService : IEmailNotificationService
         }
     }
 
-    public Task SendAsync(IMessageDto message)
+    public Task SendAsync(MessageDto message)
     {
         return SendAsync(message.From, message.To, message.Subject, message.Body);
     }
@@ -82,7 +81,7 @@ public class EmailService : IEmailNotificationService
         await client.DisconnectAsync(true);
     }
 
-    public async Task SendAsync(IEnumerable<IMessageDto> messages)
+    public async Task SendAsync(IEnumerable<MessageDto> messages)
     {
         foreach (var message in messages)
         {
