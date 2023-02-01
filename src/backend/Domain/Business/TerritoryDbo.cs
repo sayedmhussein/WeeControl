@@ -55,7 +55,6 @@ public class TerritoryEntityTypeConfig : IEntityTypeConfiguration<TerritoryDbo>
     public void Configure(EntityTypeBuilder<TerritoryDbo> builder)
     {
         builder.Property(x => x.TerritoryId).ValueGeneratedOnAdd().HasDefaultValue(Guid.NewGuid());
-        builder.HasComment("Territory of corporate.");
         builder.HasIndex(x => new { x.CountryCode, TerritoryName = x.UniqueName }).IsUnique();
 
         builder.HasOne(e => e.ReportTo).WithMany();
