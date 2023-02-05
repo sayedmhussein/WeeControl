@@ -9,6 +9,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using WeeControl.Core.DataTransferObject;
 using WeeControl.Frontend.AppService;
 using WeeControl.Frontend.AppService.DeviceInterfaces;
 

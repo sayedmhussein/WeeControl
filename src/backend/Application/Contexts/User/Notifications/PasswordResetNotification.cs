@@ -3,8 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using WeeControl.Core.Application.Contexts;
 using WeeControl.Core.Application.Interfaces;
+using WeeControl.Core.Domain.Interfaces;
 
 namespace WeeControl.Core.Application.Contexts.User.Notifications;
 

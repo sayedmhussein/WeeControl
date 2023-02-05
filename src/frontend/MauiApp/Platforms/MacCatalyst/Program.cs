@@ -1,6 +1,4 @@
-﻿using UIKit;
-
-namespace WeeControl.Frontend.MauiApp.Platforms.MacCatalyst;
+﻿namespace WeeControl.Frontend.MauiApp.Platforms.MacCatalyst;
 
 public class Program
 {

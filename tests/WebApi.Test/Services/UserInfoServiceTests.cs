@@ -3,8 +3,8 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
-using WeeControl.ApiApp.WebApi.Services;
 using WeeControl.Core.SharedKernel;
+using WeeControl.Host.WebApi.Services;
 using Xunit;
 
 namespace WeeControl.ApiApp.WebApi.Test.Services;

@@ -7,17 +7,21 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using WeeControl.ApiApp.Application.Exceptions;
-using WeeControl.Core.Application.Interfaces;
+using WeeControl.Core.Application.Exceptions;
+using WeeControl.Core.DataTransferObject;
 using WeeControl.Core.DataTransferObject.User;
+using WeeControl.Core.Domain.Contexts.User;
+using WeeControl.Core.Domain.Interfaces;
+using WeeControl.Core.SharedKernel;
+using WeeControl.Core.SharedKernel.Interfaces;
 
 namespace WeeControl.Core.Application.Contexts.User.Commands;
 
 public class SessionCreateCommand : IRequest<ResponseDto<TokenResponseDto>>
 {
-    private readonly IRequestDto<LoginRequestDto> dto;
+    private readonly RequestDto<LoginRequestDto> dto;
 
-    public SessionCreateCommand(IRequestDto<LoginRequestDto> dto)
+    public SessionCreateCommand(RequestDto<LoginRequestDto> dto)
     {
         this.dto = dto;
     }

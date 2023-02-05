@@ -1,15 +1,18 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Mime;
 using System.Threading.Tasks;
-using WeeControl.ApiApp.Application.Contexts.Essential.Commands;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using WeeControl.Core.Application.Contexts.User.Commands;
+using WeeControl.Core.DataTransferObject;
+using WeeControl.Core.DataTransferObject.Temporary.User;
+using WeeControl.Core.DataTransferObject.User;
 using WeeControl.Core.SharedKernel;
 
-namespace WeeControl.ApiApp.WebApi.Controllers.User;
+namespace WeeControl.Host.WebApi.Controllers.User;
 
 [ApiController]
 [Route(ApiRouting.UserRoute)]

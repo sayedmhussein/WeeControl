@@ -1,6 +1,8 @@
 using System.Linq;
 using WeeControl.Core.Application.Contexts.User.Commands;
 using WeeControl.Core.Application.Exceptions;
+using WeeControl.Core.DataTransferObject;
+using WeeControl.Core.DataTransferObject.Temporary.User;
 using Xunit;
 
 namespace WeeControl.ApiApp.Application.Test.Essential.Commands;

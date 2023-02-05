@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using WeeControl.Core.Application.Interfaces;
+using WeeControl.Core.DataTransferObject;
 using WeeControl.Core.DataTransferObject.Temporary.DataTransferObjects;
+using WeeControl.Core.Domain.Interfaces;
 
 namespace WeeControl.Core.Application.Contexts.User.Queries;
 
-public class TerritoryQuery : IRequest<IResponseDto<IEnumerable<TerritoryDto>>>
+public class TerritoryQuery : IRequest<ResponseDto<IEnumerable<TerritoryDto>>>
 {
     private readonly ICollection<string> territoryNames;
 
@@ -28,7 +29,7 @@ public class TerritoryQuery : IRequest<IResponseDto<IEnumerable<TerritoryDto>>>
         this.territoryNames = territoryNames;
     }
 
-    public class GetListOfTerritoriesHandler : IRequestHandler<TerritoryQuery, IResponseDto<IEnumerable<TerritoryDto>>>
+    public class GetListOfTerritoriesHandler : IRequestHandler<TerritoryQuery, ResponseDto<IEnumerable<TerritoryDto>>>
     {
         private readonly IEssentialDbContext context;
 
@@ -37,7 +38,7 @@ public class TerritoryQuery : IRequest<IResponseDto<IEnumerable<TerritoryDto>>>
             this.context = context;
         }
 
-        public async Task<IResponseDto<IEnumerable<TerritoryDto>>> Handle(TerritoryQuery request, CancellationToken cancellationToken)
+        public async Task<ResponseDto<IEnumerable<TerritoryDto>>> Handle(TerritoryQuery request, CancellationToken cancellationToken)
         {
             var list = new List<TerritoryDto>();
 

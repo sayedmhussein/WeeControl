@@ -3,16 +3,18 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using WeeControl.ApiApp.Application.Exceptions;
+using WeeControl.Core.Application.Exceptions;
 using WeeControl.Core.Application.Interfaces;
+using WeeControl.Core.DataTransferObject;
+using WeeControl.Core.Domain.Interfaces;
 
 namespace WeeControl.Core.Application.Contexts.User.Commands;
 
 public class SessionTerminateCommand : IRequest
 {
-    private readonly IRequestDto request;
+    private readonly RequestDto request;
 
-    public SessionTerminateCommand(IRequestDto request)
+    public SessionTerminateCommand(RequestDto request)
     {
         this.request = request;
     }

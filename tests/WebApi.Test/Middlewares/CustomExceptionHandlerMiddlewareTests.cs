@@ -2,8 +2,8 @@
 using System;
 using System.Net;
 using System.Threading.Tasks;
-using WeeControl.ApiApp.Application.Exceptions;
-using WeeControl.ApiApp.WebApi.Middlewares;
+using WeeControl.Core.Application.Exceptions;
+using WeeControl.Host.WebApi.Middlewares;
 using Xunit;
 
 namespace WeeControl.ApiApp.WebApi.Test.Middlewares;

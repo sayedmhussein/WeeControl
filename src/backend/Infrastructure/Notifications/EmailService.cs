@@ -3,6 +3,8 @@ using MimeKit;
 using Org.BouncyCastle.Security;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using WeeControl.Core.Application.Contexts;
+using WeeControl.Core.Application.Interfaces;
 
 namespace WeeControl.ApiApp.Infrastructure.Notifications;
 

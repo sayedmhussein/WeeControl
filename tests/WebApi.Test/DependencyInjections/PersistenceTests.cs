@@ -2,7 +2,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.ApiApp.Persistence;
-using WeeControl.Core.Application.Interfaces;
+using WeeControl.Core.Domain.Interfaces;
 using Xunit;
 
 namespace WeeControl.ApiApp.WebApi.Test.DependencyInjections;

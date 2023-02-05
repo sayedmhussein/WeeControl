@@ -1,13 +1,13 @@
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using WeeControl.Core.Application.Interfaces;
 using WeeControl.Core.SharedKernel;
 
-namespace WeeControl.ApiApp.WebApi.Services;
+namespace WeeControl.Host.WebApi.Services;
 
 public static class UserInfoServices
 {

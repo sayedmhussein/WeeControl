@@ -1,11 +1,11 @@
+using System.Reflection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 using WeeControl.ApiApp.Infrastructure;
 using WeeControl.ApiApp.Persistence;
 using WeeControl.Core.Application;
 
-namespace WeeControl.ApiApp.WebApi.Services;
+namespace WeeControl.Host.WebApi.Services;
 
 public static class DomainDrivenDesignServices
 {

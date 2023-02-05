@@ -1,11 +1,11 @@
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.ApiApp.WebApi;
-using WeeControl.Core.Application.Interfaces;
+using WeeControl.Core.Domain.Interfaces;
 using WeeControl.Frontend.AppService;
 using WeeControl.Frontend.Service.UnitTest;
+using WeeControl.Host.WebApi;
 using Xunit;
 
-namespace WeeControl.User.UserApplication.Test.Integration.Contexts;
+namespace WeeControl.User.UserApplication.Test.Integration;
 
 public class ExampleTests : IClassFixture<CustomWebApplicationFactory<Startup>>
 {

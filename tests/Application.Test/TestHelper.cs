@@ -3,11 +3,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using System;
-using WeeControl.ApiApp.Domain.Essential;
 using WeeControl.ApiApp.Persistence;
-using WeeControl.Common.SharedKernel.Services;
 using WeeControl.Core.Application.Interfaces;
+using WeeControl.Core.DataTransferObject.Temporary.Entities;
+using WeeControl.Core.Domain.Contexts.User;
+using WeeControl.Core.Domain.Interfaces;
 using WeeControl.Core.SharedKernel.Interfaces;
+using WeeControl.Core.SharedKernel.Services;
 
 namespace WeeControl.ApiApp.Application.Test;
 
@@ -51,14 +53,6 @@ public class TestHelper : IDisposable
 
     public UserDbo GetUserDboWithEncryptedPassword(string username, string password, string territory = "TST")
     {
-        var entity = new UserEntity()
-        {
-            Username = username,
-            Email = username + "@email.com",
-            Password = PasswordSecurity.Hash(password),
-            MobileNo = "0123456789"
-        };
-
-        return new UserDbo(entity);
+        return UserDbo.Create(username + "@email.com", username, "0123456789", PasswordSecurity.Hash(password));
     }
 }

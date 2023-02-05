@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Reflection.Metadata;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using WeeControl.ApiApp.WebApi.Services.Security.CustomHandlers.TokenRefreshment;
+using WeeControl.Host.WebApi.Services.Security.CustomHandlers.TokenRefreshment;
 using Xunit;
 
 namespace WeeControl.ApiApp.WebApi.Test.Security;

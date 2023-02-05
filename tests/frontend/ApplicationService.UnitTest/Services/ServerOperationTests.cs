@@ -1,4 +1,5 @@
 using System.Net;
+using WeeControl.Core.DataTransferObject.User;
 using WeeControl.Frontend.AppService;
 using WeeControl.Frontend.AppService.Internals.Interfaces;
 using WeeControl.Frontend.AppService.Internals.Services;

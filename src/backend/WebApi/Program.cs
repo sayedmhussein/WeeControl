@@ -1,15 +1,15 @@
+using System;
+using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Threading.Tasks;
-using WeeControl.ApiApp.Application.Contexts.Essential.Commands;
 using WeeControl.ApiApp.Persistence.DbContexts;
-using WeeControl.Core.Application.Interfaces;
+using WeeControl.Core.Application.Contexts.User.Commands;
+using WeeControl.Core.Domain.Interfaces;
 
-namespace WeeControl.ApiApp.WebApi;
+namespace WeeControl.Host.WebApi;
 
 public class Program
 {
@@ -42,7 +42,7 @@ public class Program
     }
 
     private static IHostBuilder CreateHostBuilder(string[] args) =>
-        Host.CreateDefaultBuilder(args)
+        Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
             .ConfigureWebHostDefaults(webBuilder =>
             {
                 webBuilder.UseStartup<Startup>();

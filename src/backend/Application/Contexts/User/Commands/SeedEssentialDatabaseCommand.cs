@@ -5,7 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using WeeControl.Core.Application.Interfaces;
+using WeeControl.Core.DataTransferObject.Temporary.Entities;
+using WeeControl.Core.Domain.Contexts.Business;
+using WeeControl.Core.Domain.Contexts.User;
+using WeeControl.Core.Domain.Interfaces;
+using WeeControl.Core.SharedKernel;
+using WeeControl.Core.SharedKernel.Interfaces;
 
 namespace WeeControl.Core.Application.Contexts.User.Commands;
 
@@ -73,13 +78,9 @@ public class SeedEssentialDatabaseCommand : IRequest
 
         private async Task<Guid> AddUser(string name, IEnumerable<(string Type, string Value)> claims, CancellationToken cancellationToken)
         {
-            var user = new UserDbo(new UserEntity()
-            {
-                Username = name,
-                Email = $"{name}@WeeControl.com",
-                MobileNo = "+10" + new Random().NextInt64(minValue: 10000, maxValue: 19999),
-                Password = passwordSecurity.Hash(name)
-            });
+            var user = UserDbo.Create($"{name}@WeeControl.com", name,
+                "+10" + new Random().NextInt64(minValue: 10000, maxValue: 19999), passwordSecurity.Hash(name));
+            
             await context.Users.AddAsync(user, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
 
@@ -100,19 +101,15 @@ public class SeedEssentialDatabaseCommand : IRequest
 
         private async Task AddPerson(Guid userId, string name, string nationality, CancellationToken cancellationToken)
         {
-            var person = new PersonalEntity()
-            {
-                FirstName = name,
-                LastName = name,
-                Nationality = nationality
-            };
-            await context.Person.AddAsync(new PersonDbo(userId, person), cancellationToken);
+            var person = PersonDbo.Create(userId,name, name, nationality, new DateOnly(1999, 12, 31));
+
+            await context.Person.AddAsync(person, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
         }
 
         private async Task AddEmployee(Guid userId, Guid territoryId, CancellationToken cancellationToken)
         {
-            var employee = new EmployeeDbo(userId, territoryId, new EmployeeEntity());
+            var employee = new EmployeeDbo(userId, territoryId, "12345");
             await context.Employees.AddAsync(employee, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
         }

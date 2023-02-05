@@ -1,6 +1,8 @@
 using System;
 using WeeControl.Core.Application.Contexts.User.Commands;
 using WeeControl.Core.Application.Exceptions;
+using WeeControl.Core.DataTransferObject;
+using WeeControl.Core.Domain.Contexts.User;
 using Xunit;
 
 namespace WeeControl.ApiApp.Application.Test.Essential.Commands;

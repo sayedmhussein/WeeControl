@@ -8,24 +8,28 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using WeeControl.ApiApp.Application.Exceptions;
+using WeeControl.Core.Application.Exceptions;
 using WeeControl.Core.Application.Interfaces;
+using WeeControl.Core.DataTransferObject;
 using WeeControl.Core.DataTransferObject.User;
+using WeeControl.Core.Domain.Interfaces;
+using WeeControl.Core.SharedKernel;
+using WeeControl.Core.SharedKernel.Interfaces;
 
 namespace WeeControl.Core.Application.Contexts.User.Commands;
 
 public class SessionUpdateCommand : IRequest<ResponseDto<TokenResponseDto>>
 {
-    private readonly IRequestDto dto;
+    private readonly RequestDto dto;
     private readonly string otp;
 
-    public SessionUpdateCommand(IRequestDto dto)
+    public SessionUpdateCommand(RequestDto dto)
     {
         this.dto = dto;
         otp = null;
     }
 
-    public SessionUpdateCommand(IRequestDto dto, string otp)
+    public SessionUpdateCommand(RequestDto dto, string otp)
     {
         this.dto = dto;
         this.otp = otp;

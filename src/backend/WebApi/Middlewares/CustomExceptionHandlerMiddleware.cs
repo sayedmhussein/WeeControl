@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using WeeControl.Core.Application.Exceptions;
 
-namespace WeeControl.ApiApp.WebApi.Middlewares;
+namespace WeeControl.Host.WebApi.Middlewares;
 
 public class CustomExceptionHandlerMiddleware
 {

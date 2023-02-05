@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WeeControl.ApiApp.Infrastructure.Notifications;
+using WeeControl.Core.Application.Interfaces;
 
 namespace WeeControl.ApiApp.Infrastructure;
 

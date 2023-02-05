@@ -25,6 +25,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\..\src\common\DataTransferObject\DataTransferObject.csproj" />
       <ProjectReference Include="..\..\..\src\frontend\Service\Service.csproj" />
     </ItemGroup>
 

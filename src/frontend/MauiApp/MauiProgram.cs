@@ -1,12 +1,8 @@
-﻿using CommunityToolkit.Maui;
-using Microsoft.Extensions.Logging;
-using WeeControl.Frontend.AppService;
+﻿using WeeControl.Frontend.AppService;
 using WeeControl.Frontend.MauiApp.Pages;
 using WeeControl.Frontend.MauiApp.Services;
 
 namespace WeeControl.Frontend.MauiApp;
-
-using Microsoft.Maui.Hosting;
 
 public static class MauiProgram
 {

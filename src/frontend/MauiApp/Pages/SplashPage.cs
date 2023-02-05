@@ -31,6 +31,9 @@ using Microsoft.Maui;
 using Microsoft.Maui.Controls;
 using System.Threading.Tasks;
 */
+
+using WeeControl.Frontend.AppService.GuiInterfaces.Authorization;
+
 namespace WeeControl.Frontend.MauiApp.Pages;
 
 public class SplashPage : ContentPage
@@ -48,7 +51,7 @@ public class SplashPage : ContentPage
         };
         SemanticProperties.SetDescription(image, "Welcome to WeeControl App");
 
-        var label = new Label()
+        var label = new IAuthorizationService.Label()
         {
             Text = "Please wait",
             FontSize = 32,

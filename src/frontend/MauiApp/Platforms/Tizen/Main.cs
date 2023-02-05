@@ -1,8 +1,4 @@
-﻿using System;
-using Microsoft.Maui;
-using Microsoft.Maui.Hosting;
-
-namespace MauiApp;
+﻿namespace WeeControl.Frontend.MauiApp.Platforms.Tizen;
 
 class Program : MauiApplication
 {

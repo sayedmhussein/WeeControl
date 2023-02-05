@@ -4,10 +4,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using System.Linq;
 using System.Threading.Tasks;
-using WeeControl.ApiApp.Domain.Essential;
 using WeeControl.ApiApp.Infrastructure.Notifications;
 using WeeControl.ApiApp.Persistence;
-using WeeControl.Common.SharedKernel.Services;
+using WeeControl.Core.Application.Interfaces;
+using WeeControl.Core.DataTransferObject.Temporary.Entities;
+using WeeControl.Core.Domain.Contexts.User;
+using WeeControl.Core.SharedKernel.Services;
 using WeeControl.Frontend.AppService.GuiInterfaces.Authorization;
 using WeeControl.Frontend.Service.UnitTest;
 
@@ -35,13 +37,7 @@ public class CustomWebApplicationFactory<TStartup>
 
     public UserDbo GetUserDboWithEncryptedPassword(string username, string password, string territory = "TST")
     {
-        return new UserDbo(new UserEntity()
-        {
-            Username = username,
-            Password = new PasswordSecurity().Hash(password),
-            MobileNo = "012345667",
-            Email = (username + "@email.com").ToLower()
-        });
+        return UserDbo.Create((username + "@email.com").ToLower(), username, "0123456789", new PasswordSecurity().Hash(password));
     }
 
     public async Task Authorize(TestHelper testHelper, string username, string password)

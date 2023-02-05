@@ -4,26 +4,27 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using WeeControl.ApiApp.Application.Contexts.Essential.Commands;
-using WeeControl.ApiApp.Domain.Essential;
 using WeeControl.Core.Application.Exceptions;
-using WeeControl.Core.Application.Interfaces;
+using WeeControl.Core.DataTransferObject;
 using WeeControl.Core.DataTransferObject.Temporary.Entities;
 using WeeControl.Core.DataTransferObject.Temporary.User;
 using WeeControl.Core.DataTransferObject.User;
+using WeeControl.Core.Domain.Contexts.User;
+using WeeControl.Core.Domain.Interfaces;
+using WeeControl.Core.SharedKernel.Interfaces;
 using ValidationException = WeeControl.Core.Application.Exceptions.ValidationException;
 
 namespace WeeControl.Core.Application.Contexts.User.Commands;
 
-public class UserRegisterCommand : IRequest<IResponseDto<TokenResponseDto>>
+public class UserRegisterCommand : IRequest<ResponseDto<TokenResponseDto>>
 {
-    private readonly IRequestDto request;
+    private readonly RequestDto request;
     private readonly PersonalEntity person;
     private readonly UserEntity user;
     private readonly EmployeeEntity employee;
     private readonly CustomerEntity customer;
 
-    public UserRegisterCommand(IRequestDto<RegisterCustomerDto> dto)
+    public UserRegisterCommand(RequestDto<RegisterCustomerDto> dto)
     {
         request = dto;
         person = dto.Payload.Personal;
@@ -31,7 +32,7 @@ public class UserRegisterCommand : IRequest<IResponseDto<TokenResponseDto>>
         customer = dto.Payload.Customer;
     }
 
-    public UserRegisterCommand(IRequestDto<RegisterEmployeeDto> dto)
+    public UserRegisterCommand(RequestDto<RegisterEmployeeDto> dto)
     {
         request = dto;
         person = dto.Payload.Personal;
@@ -39,7 +40,7 @@ public class UserRegisterCommand : IRequest<IResponseDto<TokenResponseDto>>
         employee = dto.Payload.Employee;
     }
 
-    public class RegisterHandler : IRequestHandler<UserRegisterCommand, IResponseDto<TokenResponseDto>>
+    public class RegisterHandler : IRequestHandler<UserRegisterCommand, ResponseDto<TokenResponseDto>>
     {
         private readonly IEssentialDbContext context;
         private readonly IMediator mediator;
@@ -52,7 +53,7 @@ public class UserRegisterCommand : IRequest<IResponseDto<TokenResponseDto>>
             this.passwordSecurity = passwordSecurity;
         }
 
-        public async Task<IResponseDto<TokenResponseDto>> Handle(UserRegisterCommand cmd, CancellationToken cancellationToken)
+        public async Task<ResponseDto<TokenResponseDto>> Handle(UserRegisterCommand cmd, CancellationToken cancellationToken)
         {
             var validationResults = new List<ValidationResult>();
 
@@ -75,10 +76,7 @@ public class UserRegisterCommand : IRequest<IResponseDto<TokenResponseDto>>
                 throw new ConflictFailureException();
             }
 
-            var user = new UserDbo(cmd.user)
-            {
-                Password = passwordSecurity.Hash(cmd.user.Password)
-            };
+            var user = UserDbo.Create(cmd.user.Email, cmd.user.Username, cmd.user.MobileNo, passwordSecurity.Hash(cmd.user.Password));
 
             await context.Users.AddAsync(user, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);

@@ -2,18 +2,21 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
-using WeeControl.ApiApp.Application.Exceptions;
+using WeeControl.Core.Application.Exceptions;
 using WeeControl.Core.Application.Interfaces;
+using WeeControl.Core.DataTransferObject;
+using WeeControl.Core.Domain.Interfaces;
+using WeeControl.Core.SharedKernel.Interfaces;
 
 namespace WeeControl.Core.Application.Contexts.User.Commands;
 
 public class UserNewPasswordCommand : IRequest
 {
-    private IRequestDto Request { get; }
+    private RequestDto Request { get; }
     private string OldPassword { get; }
     private string NewPassword { get; }
 
-    public UserNewPasswordCommand(IRequestDto dto, string oldPassword, string newPassword)
+    public UserNewPasswordCommand(RequestDto dto, string oldPassword, string newPassword)
     {
         Request = dto;
         OldPassword = oldPassword;

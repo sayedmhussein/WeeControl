@@ -6,7 +6,7 @@ using System;
 using System.Globalization;
 using System.Linq;
 using WeeControl.ApiApp.Persistence.DbContexts;
-using WeeControl.Core.Application.Interfaces;
+using WeeControl.Core.Domain.Interfaces;
 
 namespace WeeControl.ApiApp.Persistence
 {

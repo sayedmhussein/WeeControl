@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WeeControl.Core.Application.Interfaces;
-using WeeControl.Core.Domain.Business;
-using WeeControl.Core.Domain.User;
+using WeeControl.Core.Domain.Contexts.Business;
+using WeeControl.Core.Domain.Contexts.User;
+using WeeControl.Core.Domain.Interfaces;
 
 namespace WeeControl.ApiApp.Persistence.DbContexts
 {
