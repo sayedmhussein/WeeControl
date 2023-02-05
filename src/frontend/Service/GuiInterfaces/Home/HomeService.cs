@@ -91,7 +91,7 @@ internal class HomeService : IHomeService
         return db.ReadFromTable<HomeNotificationModel>();
     }
 
-    public async Task Register(RegisterCustomerDto registerModel)
+    public async Task Register(CustomerRegisterDto registerModel)
     {
         await RegisterAsync(registerModel);
     }
@@ -144,7 +144,7 @@ internal class HomeService : IHomeService
         await device.DisplayAlert("Something went wrong!");
     }
 
-    private async Task RegisterAsync(RegisterCustomerDto model)
+    private async Task RegisterAsync(CustomerRegisterDto model)
     {
         var response = await server.GetResponseMessage(
             HttpMethod.Post, new Version("1.0"), ApiRouting.UserRoute, model);

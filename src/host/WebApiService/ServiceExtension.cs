@@ -1,4 +1,4 @@
-﻿namespace WebApiService;
+﻿namespace WeeControl.Host.WebApiService;
 
 public class ServiceExtension
 {

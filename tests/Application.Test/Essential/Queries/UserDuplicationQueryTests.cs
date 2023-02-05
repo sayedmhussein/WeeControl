@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using WeeControl.Core.Application.Contexts.User.Queries;
 using WeeControl.Core.Application.Exceptions;
 using WeeControl.Core.DataTransferObject.Contexts.Temporary.User;
+using WeeControl.Core.DataTransferObject.Contexts.User;
 using Xunit;
 
 namespace WeeControl.ApiApp.Application.Test.Essential.Queries;
@@ -16,9 +17,9 @@ public class UserDuplicationQueryTests
 
         var handler = await GetHandler(testHelper);
 
-        Assert.Equal(Unit.Value, await handler.Handle(new UserDuplicationQuery(nameof(RegisterCustomerDto.User.Username), "username1"), default));
-        Assert.Equal(Unit.Value, await handler.Handle(new UserDuplicationQuery(nameof(RegisterCustomerDto.User.Email), "email@email.com"), default));
-        Assert.Equal(Unit.Value, await handler.Handle(new UserDuplicationQuery(nameof(RegisterCustomerDto.User.MobileNo), "+33"), default));
+        Assert.Equal(Unit.Value, await handler.Handle(new UserDuplicationQuery(nameof(CustomerRegisterDto.User.Username), "username1"), default));
+        Assert.Equal(Unit.Value, await handler.Handle(new UserDuplicationQuery(nameof(CustomerRegisterDto.User.Email), "email@email.com"), default));
+        Assert.Equal(Unit.Value, await handler.Handle(new UserDuplicationQuery(nameof(CustomerRegisterDto.User.MobileNo), "+33"), default));
     }
 
     [Theory]
@@ -33,13 +34,13 @@ public class UserDuplicationQueryTests
         await Assert.ThrowsAsync<ConflictFailureException>(async () =>
         {
             await handler.Handle(
-                new UserDuplicationQuery(nameof(RegisterCustomerDto.User.Username), username),
+                new UserDuplicationQuery(nameof(CustomerRegisterDto.User.Username), username),
                 default);
             await handler.Handle(
-                new UserDuplicationQuery(nameof(RegisterCustomerDto.User.Email), email),
+                new UserDuplicationQuery(nameof(CustomerRegisterDto.User.Email), email),
                 default);
             await handler.Handle(
-                new UserDuplicationQuery(nameof(RegisterCustomerDto.User.MobileNo), mobileNo),
+                new UserDuplicationQuery(nameof(CustomerRegisterDto.User.MobileNo), mobileNo),
                 default);
         });
 

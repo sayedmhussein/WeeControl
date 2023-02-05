@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using WeeControl.Core.Application.Exceptions;
 using WeeControl.Core.DataTransferObject.Contexts.Temporary.User;
+using WeeControl.Core.DataTransferObject.Contexts.User;
 using WeeControl.Core.Domain.Interfaces;
 
 namespace WeeControl.Core.Application.Contexts.User.Queries;
@@ -39,7 +40,7 @@ public class UserDuplicationQuery : IRequest
         {
             switch (request.parameter)
             {
-                case nameof(RegisterCustomerDto.User.Username):
+                case nameof(EmployeeRegisterDto.User.Username):
                     if (request.value is not null &&
                         await essentialDbContext.Users.Select(x => x.Username.Trim().ToLower())
                             .ContainsAsync(request.value.Trim().ToLower(), cancellationToken))
@@ -47,7 +48,7 @@ public class UserDuplicationQuery : IRequest
                         throw new ConflictFailureException("username already exist");
                     }
                     break;
-                case nameof(RegisterCustomerDto.User.Email):
+                case nameof(EmployeeRegisterDto.User.Email):
                     if (request.value is not null &&
                         await essentialDbContext.Users.Select(x => x.Email.Trim().ToLower())
                             .ContainsAsync(request.value.Trim().ToLower(), cancellationToken))
@@ -55,7 +56,7 @@ public class UserDuplicationQuery : IRequest
                         throw new ConflictFailureException("username already exist");
                     }
                     break;
-                case nameof(RegisterCustomerDto.User.MobileNo):
+                case nameof(EmployeeRegisterDto.User.MobileNo):
                     if (request.value is not null &&
                         await essentialDbContext.Users.Select(x => x.MobileNo)
                             .ContainsAsync(request.value.Trim().ToLower(), cancellationToken))

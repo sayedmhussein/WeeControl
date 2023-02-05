@@ -5,6 +5,6 @@ namespace WeeControl.Host.WebApiService.Contexts.User;
 
 public interface IRegisterService
 {
-    Task RegisterCustomer(RegisterCustomerDto dto);
+    Task RegisterCustomer(CustomerRegisterDto dto);
     Task ResisterEmployee(EmployeeRegisterDto dto);
 }

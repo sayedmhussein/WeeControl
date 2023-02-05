@@ -11,6 +11,7 @@ using WeeControl.Core.DataTransferObject.Contexts.Temporary.User;
 using WeeControl.Core.DataTransferObject.Contexts.User;
 using WeeControl.Core.Domain.Contexts.User;
 using WeeControl.Core.Domain.Interfaces;
+using WeeControl.Core.SharedKernel.Contexts.User;
 using WeeControl.Core.SharedKernel.Interfaces;
 using ValidationException = WeeControl.Core.Application.Exceptions.ValidationException;
 
@@ -19,23 +20,23 @@ namespace WeeControl.Core.Application.Contexts.User.Commands;
 public class UserRegisterCommand : IRequest<ResponseDto<TokenResponseDto>>
 {
     private readonly RequestDto request;
-    private readonly PersonalEntity person;
-    private readonly UserEntity user;
-    private readonly EmployeeEntity employee;
-    private readonly CustomerEntity customer;
+    private readonly PersonModel person;
+    private readonly UserModel user;
+    private readonly EmployeeModel employee;
+    private readonly CustomerModel customer;
 
-    public UserRegisterCommand(RequestDto<RegisterCustomerDto> dto)
+    public UserRegisterCommand(RequestDto<CustomerRegisterDto> dto)
     {
         request = dto;
-        person = dto.Payload.Personal;
+        person = dto.Payload.Person;
         user = dto.Payload.User;
         customer = dto.Payload.Customer;
     }
 
-    public UserRegisterCommand(RequestDto<RegisterEmployeeDto> dto)
+    public UserRegisterCommand(RequestDto<EmployeeRegisterDto> dto)
     {
         request = dto;
-        person = dto.Payload.Personal;
+        person = dto.Payload.Person;
         user = dto.Payload.User;
         employee = dto.Payload.Employee;
     }

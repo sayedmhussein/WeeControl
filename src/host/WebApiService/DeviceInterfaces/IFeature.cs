@@ -1,4 +1,4 @@
-namespace WeeControl.Frontend.AppService.DeviceInterfaces;
+namespace WeeControl.Host.WebApiService.DeviceInterfaces;
 
 public interface IFeature
 {

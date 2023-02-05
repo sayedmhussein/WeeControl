@@ -33,7 +33,7 @@ public class UserController : Controller
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.Conflict)]
-    public async Task<ActionResult<ResponseDto<TokenResponseDto>>> RegisterV1([FromBody] RequestDto<RegisterCustomerDto> dto)
+    public async Task<ActionResult<ResponseDto<TokenResponseDto>>> RegisterV1([FromBody] RequestDto<CustomerRegisterDto> dto)
     {
         var command = new UserRegisterCommand(dto);
         var response = await mediator.Send(command);
@@ -69,16 +69,16 @@ public class UserController : Controller
         return Ok();
     }
 
-    [HttpGet(ApiRouting.UserNotificationEndpoint)]
-    [MapToApiVersion("1.0")]
-    [Produces(MediaTypeNames.Application.Json)]
-    public Task<ActionResult<ResponseDto<IEnumerable<UserNotificationDto>>>> GetNotification()
-    {
-        throw new NotImplementedException();
-        // var query = new NotificationQuery();
-        // var response = await mediator.Send(query);
-        // return Ok(response);
-    }
+    // [HttpGet(ApiRouting.UserNotificationEndpoint)]
+    // [MapToApiVersion("1.0")]
+    // [Produces(MediaTypeNames.Application.Json)]
+    // public Task<ActionResult<ResponseDto<IEnumerable<UserNotificationDto>>>> GetNotification()
+    // {
+    //     throw new NotImplementedException();
+    //     // var query = new NotificationQuery();
+    //     // var response = await mediator.Send(query);
+    //     // return Ok(response);
+    // }
 
     [HttpDelete(ApiRouting.UserNotificationEndpoint + "/{id:guid}")]
     [MapToApiVersion("1.0")]

@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using System.Threading.Tasks;
 using WeeControl.Core.DataTransferObject.Contexts.Temporary.User;
+using WeeControl.Core.DataTransferObject.Contexts.User;
 using WeeControl.Core.Domain.Interfaces;
 using WeeControl.Frontend.AppService;
 using WeeControl.Frontend.AppService.GuiInterfaces.Authorization;
@@ -180,20 +181,20 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
     [InlineData("someEmail@email.com", "someUsername", "0123456789")]
     public async void Register_WhenSuccess(string email, string username, string mobileNo)
     {
-        var model = new RegisterCustomerDto
+        var model = new CustomerRegisterDto
         {
-            Personal =
+            Person =
             {
-                // FirstName = username,
-                // LastName = username,
-                // Nationality = "EGP"
+                FirstName = username,
+                LastName = username,
+                Nationality = "EGP"
             },
             User =
             {
                 Email = email,
                 Username = username,
                 Password = "somePassword",
-                PasswordConfirmation = "somePassword",
+                //PasswordConfirmation = "somePassword",
                 MobileNo = mobileNo
             },
             Customer =
@@ -233,13 +234,13 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
         using var helper = new TestHelper(nameof(RequestPasswordReset_WhenBusinessNotAllow_IsLockedUser));
         var service = helper.GetService<IHomeService>(httpClient);
 
-        var model = new RegisterCustomerDto
+        var model = new CustomerRegisterDto
         {
-            Personal =
+            Person =
             {
-                // FirstName = username,
-                // LastName = username,
-                // Nationality = "EGP"
+                FirstName = username,
+                LastName = username,
+                Nationality = "EGP"
             },
             User =
             {
