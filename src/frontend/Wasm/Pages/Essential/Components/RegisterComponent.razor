@@ -2,7 +2,9 @@
 @using WeeControl.Core.DataTransferObject.Contexts.Temporary.User
 @using WeeControl.Core.DataTransferObject.Contexts.User
 @using WeeControl.Frontend.AppService.GuiInterfaces.Home
+@using WeeControl.Host.WebApiService.Contexts.User
 
+@inject IRegisterService RegisterService
 @inject IHomeService UserService
 
 <MudCardHeader>
@@ -10,7 +12,7 @@
 </MudCardHeader>
 
 <MudCardContent>
-    <EditForm Model="@registerModel" OnValidSubmit="@(() =>UserService.Register(registerModel))">
+    <EditForm Model="@registerModel" OnValidSubmit="@(() => RegisterService.ResisterEmployee(registerModel))">
         <DataAnnotationsValidator/>
         <MudGrid>
             <MudItem xs="3">
@@ -36,7 +38,7 @@
                 <MudSelectItem Value="@(t.CountryCode)">@t.CountryCode: @t.CountryName</MudSelectItem>
             }
         </MudSelect>
-        <MudSelect T="string" Label="Current Residency" AnchorOrigin="Origin.BottomCenter" @bind-Value="@registerModel.Person.CountryCode">
+        <MudSelect T="string" Label="Current Residency" AnchorOrigin="Origin.BottomCenter" @bind-Value="@registerModel.Person.Nationality">
             @foreach (var t in UserService.Countries)
             {
                 <MudSelectItem Value="@(t.CountryCode)">@t.CountryCode: @t.CountryName</MudSelectItem>
@@ -53,7 +55,7 @@
         <MudTextField Label="Password" HelperText="Choose a strong password" Class="mt-3"
                       @bind-Value="@registerModel.User.Password" For="@(() => registerModel.User.Password)" InputType="InputType.Password"/>
         <MudTextField Label="Confirm Password" HelperText="Repeat the password" Class="mt-3"
-                      @bind-Value="@registerModel.User.PasswordConfirmation" For="@(() => registerModel.User.PasswordConfirmation)" InputType="InputType.Password"/>
+                      @bind-Value="@passwordConfirmationString" For="@(() => passwordConfirmationString)" InputType="InputType.Password"/>
         <MudTextField Label="Mobile Number" HelperText="Max. 8 characters"
                       @bind-Value="@registerModel.User.MobileNo" For="@(() => registerModel.User.MobileNo)"/>
         
@@ -63,18 +65,11 @@
 
 @code {
     private readonly EmployeeRegisterDto registerModel = new();
+    private string passwordConfirmationString;
     private string usernameHelperText;
 
     private Task UserNameChanged(string text)
     {
-        // if (await UserService.PropertyIsAllowed(nameof(registerModel.User.Username), text))
-        // {
-        //     usernameHelperText = string.Empty;
-        // }
-        // else
-        // {
-        //     usernameHelperText = "Username already exist, please try something else";
-        // }
         return Task.CompletedTask;
     }
 }
