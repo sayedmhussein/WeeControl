@@ -5,7 +5,6 @@ using Moq;
 using System;
 using WeeControl.ApiApp.Persistence;
 using WeeControl.Core.Application.Interfaces;
-using WeeControl.Core.DataTransferObject.Temporary.Entities;
 using WeeControl.Core.Domain.Contexts.User;
 using WeeControl.Core.Domain.Interfaces;
 using WeeControl.Core.SharedKernel.Interfaces;

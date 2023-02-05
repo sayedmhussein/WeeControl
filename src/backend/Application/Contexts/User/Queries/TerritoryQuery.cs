@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using WeeControl.Core.DataTransferObject;
-using WeeControl.Core.DataTransferObject.Temporary.DataTransferObjects;
+using WeeControl.Core.DataTransferObject.Contexts.Temporary.DataTransferObjects;
 using WeeControl.Core.Domain.Interfaces;
 
 namespace WeeControl.Core.Application.Contexts.User.Queries;

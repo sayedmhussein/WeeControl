@@ -1,3 +1,6 @@
+using WeeControl.Core.DataTransferObject.Contexts.Business.Elevator.Enums;
+using WeeControl.Core.DataTransferObject.Contexts.Business.Elevator.Interfaces;
+
 namespace WeeControl.Frontend.AppService.Internals.Temporary.Business.Elevator;
 
 public class RouteModel : IRouteModel

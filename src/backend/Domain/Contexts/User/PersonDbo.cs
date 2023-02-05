@@ -4,11 +4,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using WeeControl.Core.SharedKernel.Contexts.User;
 
 namespace WeeControl.Core.Domain.Contexts.User;
 
 [Table(nameof(PersonDbo), Schema = nameof(User))]
-public class PersonDbo
+public class PersonDbo : PersonModel
 {
     public static PersonDbo Create(Guid userId, string firstName, string lastName, string nationality, DateOnly dateOfBirth)
     {
@@ -24,28 +25,7 @@ public class PersonDbo
 
     public Guid UserId { get; private set; }
     public UserDbo User { get; }
-
-    [Required]
-    [StringLength(45, MinimumLength = 1)]
-    public string FirstName { get; set; } = string.Empty;
-
-    [AllowNull]
-    [StringLength(45)]
-    public string SecondName { get; set; } = string.Empty;
-
-    [AllowNull]
-    [StringLength(45)]
-    public string ThirdName { get; set; } = string.Empty;
-
-    [Required]
-    [StringLength(45, MinimumLength = 1)]
-    public string LastName { get; set; } = string.Empty;
-
-    [StringLength(3, MinimumLength = 3)]
-    public string Nationality { get; set; } = string.Empty;
-
-    public DateOnly DateOfBirth { get; set; }
-
+    
     private PersonDbo()
     {
     }

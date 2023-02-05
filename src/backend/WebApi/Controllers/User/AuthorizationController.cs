@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WeeControl.Core.Application.Contexts.User.Commands;
 using WeeControl.Core.DataTransferObject;
-using WeeControl.Core.DataTransferObject.User;
+using WeeControl.Core.DataTransferObject.Contexts.User;
 using WeeControl.Core.SharedKernel;
 
 namespace WeeControl.Host.WebApi.Controllers.User;

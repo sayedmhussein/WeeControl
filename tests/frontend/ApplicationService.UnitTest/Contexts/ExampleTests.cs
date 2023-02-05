@@ -1,6 +1,6 @@
 using System;
 using System.Net;
-using WeeControl.Core.DataTransferObject.User;
+using WeeControl.Core.DataTransferObject.Contexts.User;
 using WeeControl.Frontend.AppService;
 using WeeControl.Frontend.AppService.GuiInterfaces.Authorization;
 

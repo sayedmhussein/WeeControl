@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using WeeControl.ApiApp.Infrastructure.Notifications;
 using WeeControl.ApiApp.Persistence;
 using WeeControl.Core.Application.Interfaces;
-using WeeControl.Core.DataTransferObject.Temporary.Entities;
 using WeeControl.Core.Domain.Contexts.User;
 using WeeControl.Core.SharedKernel.Services;
 using WeeControl.Frontend.AppService.GuiInterfaces.Authorization;

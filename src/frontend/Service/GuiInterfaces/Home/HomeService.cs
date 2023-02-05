@@ -1,5 +1,8 @@
 using System.Net;
 using System.Net.Http.Json;
+using WeeControl.Core.DataTransferObject;
+using WeeControl.Core.DataTransferObject.Contexts.Temporary.User;
+using WeeControl.Core.DataTransferObject.Contexts.User;
 using WeeControl.Core.SharedKernel;
 using WeeControl.Frontend.AppService.Internals.Interfaces;
 using WeeControl.Frontend.AppService.Models;

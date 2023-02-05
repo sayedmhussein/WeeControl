@@ -5,11 +5,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using WeeControl.Core.SharedKernel.Contexts.User;
 
 namespace WeeControl.Core.Domain.Contexts.User;
 
 [Table(nameof(UserDbo), Schema = nameof(User))]
-public class UserDbo
+public class UserDbo : UserModel
 {
     public static UserDbo Create(string email, string username, string mobileNo, string password)
     {
@@ -23,24 +24,6 @@ public class UserDbo
     public Guid UserId { get; }
 
     public PersonDbo Person { get; set; }
-
-    [Required]
-    [StringLength(500, MinimumLength = 3)]
-    [EmailAddress]
-    public string Email { get; set; } = string.Empty;
-
-    [Required]
-    [Phone]
-    [StringLength(20)]
-    public string MobileNo { get; set; } = string.Empty;
-
-    [Required]
-    [StringLength(255)]
-    public string Username { get; set; } = string.Empty;
-
-    [Required]
-    [StringLength(128, MinimumLength = 6)]
-    public string Password { get; set; } = string.Empty;
 
     [AllowNull]
     public string SuspendArgs { get; private set; }

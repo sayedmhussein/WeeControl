@@ -7,4 +7,12 @@
     <RootNamespace>WeeControl.Core.DataTransferObject</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Contexts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SharedKernel\SharedKernel.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using WeeControl.Core.Application.Exceptions;
 using WeeControl.Core.Application.Interfaces;
 using WeeControl.Core.DataTransferObject;
-using WeeControl.Core.DataTransferObject.User;
+using WeeControl.Core.DataTransferObject.Contexts.User;
 using WeeControl.Core.Domain.Interfaces;
 using WeeControl.Core.SharedKernel;
 using WeeControl.Core.SharedKernel.Interfaces;

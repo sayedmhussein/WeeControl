@@ -1,5 +1,6 @@
 @using Microsoft.AspNetCore.Components
-@using WeeControl.Common.SharedKernel.Contexts.Temporary.User
+@using WeeControl.Core.DataTransferObject.Contexts.Temporary.User
+@using WeeControl.Core.DataTransferObject.Contexts.User
 @using WeeControl.Frontend.AppService.GuiInterfaces.Home
 
 @inject IHomeService UserService
@@ -14,28 +15,28 @@
         <MudGrid>
             <MudItem xs="3">
                 <MudTextField Label="First Name" HelperText="Max. 8 characters"
-                              @bind-Value="@registerModel.Personal.FirstName" For="@(() => registerModel.Personal.FirstName)"/>
+                              @bind-Value="@registerModel.Person.FirstName" For="@(() => registerModel.Person.FirstName)"/>
             </MudItem>
             <MudItem xs="3">
                 <MudTextField Label="Second Name" HelperText="Max. 8 characters"
-                              @bind-Value="@registerModel.Personal.SecondName" For="@(() => registerModel.Personal.SecondName)"/>
+                              @bind-Value="@registerModel.Person.SecondName" For="@(() => registerModel.Person.SecondName)"/>
             </MudItem>
             <MudItem xs="3">
                 <MudTextField Label="Third name" HelperText="Max. 8 characters"
-                              @bind-Value="@registerModel.Personal.ThirdName" For="@(() => registerModel.Personal.ThirdName)"/>
+                              @bind-Value="@registerModel.Person.ThirdName" For="@(() => registerModel.Person.ThirdName)"/>
             </MudItem>
             <MudItem xs="3">
                 <MudTextField Label="Last name" HelperText="Max. 8 characters"
-                              @bind-Value="@registerModel.Personal.LastName" For="@(() => registerModel.Personal.LastName)"/>
+                              @bind-Value="@registerModel.Person.LastName" For="@(() => registerModel.Person.LastName)"/>
             </MudItem>
         </MudGrid>
-        <MudSelect T="string" Label="Nationality" AnchorOrigin="Origin.BottomCenter" @bind-Value="@registerModel.Personal.Nationality">
+        <MudSelect T="string" Label="Nationality" AnchorOrigin="Origin.BottomCenter" @bind-Value="@registerModel.Person.Nationality">
             @foreach (var t in UserService.Countries)
             {
                 <MudSelectItem Value="@(t.CountryCode)">@t.CountryCode: @t.CountryName</MudSelectItem>
             }
         </MudSelect>
-        <MudSelect T="string" Label="Current Residency" AnchorOrigin="Origin.BottomCenter" @bind-Value="@registerModel.Customer.CountryCode">
+        <MudSelect T="string" Label="Current Residency" AnchorOrigin="Origin.BottomCenter" @bind-Value="@registerModel.Person.CountryCode">
             @foreach (var t in UserService.Countries)
             {
                 <MudSelectItem Value="@(t.CountryCode)">@t.CountryCode: @t.CountryName</MudSelectItem>
@@ -61,7 +62,7 @@
 </MudCardContent>
 
 @code {
-    private readonly RegisterCustomerDto registerModel = new();
+    private readonly EmployeeRegisterDto registerModel = new();
     private string usernameHelperText;
 
     private Task UserNameChanged(string text)

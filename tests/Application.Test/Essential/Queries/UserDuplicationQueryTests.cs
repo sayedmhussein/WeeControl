@@ -2,7 +2,7 @@ using MediatR;
 using System.Threading.Tasks;
 using WeeControl.Core.Application.Contexts.User.Queries;
 using WeeControl.Core.Application.Exceptions;
-using WeeControl.Core.DataTransferObject.Temporary.User;
+using WeeControl.Core.DataTransferObject.Contexts.Temporary.User;
 using Xunit;
 
 namespace WeeControl.ApiApp.Application.Test.Essential.Queries;

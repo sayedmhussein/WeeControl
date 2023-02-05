@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using WeeControl.Core.Application.Contexts.User.Notifications;
 using WeeControl.Core.Application.Exceptions;
 using WeeControl.Core.DataTransferObject;
-using WeeControl.Core.DataTransferObject.Temporary.User;
+using WeeControl.Core.DataTransferObject.Contexts.Temporary.User;
 using WeeControl.Core.Domain.Interfaces;
 using WeeControl.Core.SharedKernel.Interfaces;
 

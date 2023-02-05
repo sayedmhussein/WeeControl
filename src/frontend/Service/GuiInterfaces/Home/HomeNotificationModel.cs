@@ -1,3 +1,5 @@
+using WeeControl.Core.DataTransferObject.Contexts.User;
+
 namespace WeeControl.Frontend.AppService.GuiInterfaces.Home;
 
 public class HomeNotificationModel : INotificationModel
