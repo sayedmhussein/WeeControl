@@ -6,12 +6,14 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace WeeControl.Core.Domain.Contexts.User;
 
-[Table(nameof(PersonIdentity), Schema = nameof(User))]
-public class PersonIdentity
+[Table(nameof(PersonIdentityDbo), Schema = nameof(User))]
+public class PersonIdentityDbo
 {
     [Key]
     public Guid IdentityId { get; set; }
-    public Guid UserId { get; set; }
+    
+    public Guid PersonId { get; set; }
+    public PersonIdentityDbo Person { get; }
 
     [Required]
     [StringLength(25)]
@@ -31,9 +33,9 @@ public class PersonIdentity
 
 }
 
-public class UserIdentityEntityTypeConfig : IEntityTypeConfiguration<PersonIdentity>
+public class UserIdentityEntityTypeConfig : IEntityTypeConfiguration<PersonIdentityDbo>
 {
-    public void Configure(EntityTypeBuilder<PersonIdentity> builder)
+    public void Configure(EntityTypeBuilder<PersonIdentityDbo> builder)
     {
         builder.Property(x => x.IdentityId).ValueGeneratedOnAdd();
     }

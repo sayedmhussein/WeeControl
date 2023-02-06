@@ -100,7 +100,7 @@ public class SeedEssentialDatabaseCommand : IRequest
 
         private async Task AddPerson(Guid userId, string name, string nationality, CancellationToken cancellationToken)
         {
-            var person = PersonDbo.Create(userId,name, name, nationality, new DateOnly(1999, 12, 31));
+            var person = PersonDbo.Create(name, name, nationality, new DateOnly(1999, 12, 31));
 
             await context.Person.AddAsync(person, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);

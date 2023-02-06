@@ -1,12 +1,10 @@
 ﻿                               |-<--<-|
-                               |      |                 |->1--------inf->[UserSession]-1-------inf->[UserSessionLog]
-             |->1-------1->[Employee]-|                 |
-   [Person]->|->1----------------------------1->[User]->|->1--------inf->[UserNotification]
-             |--inf-----inf--[Customer]->|              |
-             |                           |              |->1--------inf->[UserClaim]
-             |                           |
-             |                           |->1----inf->[CustomerAddress]
+                               |      |         
+             |->1-------1->[Employee]-|     |->1--------inf->[UserSession]->1-------inf->[UserSessionLog]
+   [Person]->|->1-------1->[User]---------->|->1--------inf->[UserNotification]
+             |<>inf---inf<>[Customer]       |->1--------inf->[UserClaim]  
+             |                                         
              |
-             |->1---------inf-[PersonIdentity]
-             |
-             |->1---------inf-[PersonAddress]
+             |->1---------inf->[PersonIdentity]
+             |->1---------inf->[PersonAddress]
+             |->1---------inf->[PersonContact]

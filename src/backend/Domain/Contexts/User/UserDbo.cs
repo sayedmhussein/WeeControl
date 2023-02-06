@@ -23,6 +23,7 @@ public class UserDbo : UserModel
     [Key]
     public Guid UserId { get; }
 
+    public Guid PersonId { get; }
     public PersonDbo Person { get; set; }
 
     [AllowNull]
@@ -35,9 +36,6 @@ public class UserDbo : UserModel
 
     public virtual IEnumerable<UserSessionDbo> Sessions { get; }
     public virtual ICollection<UserClaimDbo> Claims { get; }
-
-    public virtual ICollection<PersonIdentity> Identities { get; }
-
     public virtual IEnumerable<UserNotificationDbo> Notifications { get; }
 
     private UserDbo()
@@ -90,8 +88,8 @@ public class UserEntityTypeConfig : IEntityTypeConfiguration<UserDbo>
         builder.Property(p => p.PhotoUrl).HasMaxLength(255);
 
         builder.HasOne(x => x.Person)
-            .WithOne(x => x.User)
-            .HasForeignKey<PersonDbo>(x => x.UserId);
+            .WithOne()
+            .HasForeignKey<PersonDbo>(x => x.PersonId);
 
         builder.HasOne<EmployeeDbo>()
             .WithOne(x => x.User)
@@ -107,7 +105,6 @@ public class UserEntityTypeConfig : IEntityTypeConfiguration<UserDbo>
         builder.HasMany(x => x.Notifications)
             .WithOne().HasForeignKey(x => x.UserId);
 
-        builder.HasMany(x => x.Identities)
-            .WithOne().HasForeignKey(x => x.UserId);
+        
     }
 }

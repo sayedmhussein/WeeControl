@@ -6,11 +6,17 @@ public class CustomerModel
 {
     [Required]
     [StringLength(25)]
-    public string CompanyName { get; set; } = string.Empty;
+    public string CustomerName { get; set; } = string.Empty;
 
     [StringLength(25)]
-    public string? CompanyLocalName { get; set; } = string.Empty;
+    public string? CustomerLocalName { get; set; } = string.Empty;
     
     [StringLength(3, MinimumLength = 3)]
     public string CountryCode { get; set; } = string.Empty;
+
+    [StringLength(255)]
+    public string CustomerAddress { get; set; } = string.Empty;
+    
+    [StringLength(255)]
+    public string InvoiceAddress { get; set; } = string.Empty;
 }

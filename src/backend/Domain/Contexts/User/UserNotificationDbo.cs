@@ -43,8 +43,7 @@ public class UserNotificationEntityTypeConfig : IEntityTypeConfiguration<UserNot
         builder.HasOne(x => x.User)
             .WithMany()
             .HasForeignKey(x => x.UserId);
-
-
+        
         builder.Property(x => x.PublishedTs).HasDefaultValue(DateTime.UtcNow);
     }
 }

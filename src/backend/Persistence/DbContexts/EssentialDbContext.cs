@@ -8,8 +8,9 @@ namespace WeeControl.ApiApp.Persistence.DbContexts
     public class EssentialDbContext : DbContext, IEssentialDbContext
     {
         public DbSet<PersonDbo> Person { get; set; }
+        public DbSet<PersonIdentityDbo> PersonIdentities { get; set; }
+        public DbSet<PersonAddressDbo> PersonAddresses { get; set; }
         public DbSet<UserDbo> Users { get; set; }
-        public DbSet<PersonIdentity> UserIdentities { get; set; }
         public DbSet<UserClaimDbo> UserClaims { get; set; }
         public DbSet<EmployeeDbo> Employees { get; set; }
         public DbSet<CustomerDbo> Customers { get; set; }
