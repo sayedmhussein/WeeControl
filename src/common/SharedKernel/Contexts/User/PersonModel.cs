@@ -23,6 +23,6 @@ public class PersonModel
 
     [StringLength(3, MinimumLength = 3)]
     public string Nationality { get; set; } = string.Empty;
-
+    
     public DateOnly DateOfBirth { get; set; }
 }

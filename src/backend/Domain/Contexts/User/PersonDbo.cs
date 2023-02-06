@@ -11,7 +11,9 @@ namespace WeeControl.Core.Domain.Contexts.User;
 [Table(nameof(PersonDbo), Schema = nameof(User))]
 public class PersonDbo : PersonModel
 {
-    public static PersonDbo Create(Guid userId, string firstName, string lastName, string nationality, DateOnly dateOfBirth)
+    [Obsolete]
+    public static PersonDbo Create(Guid userId, string firstName, string lastName, string nationality,
+        DateOnly dateOfBirth)
     {
         return new PersonDbo()
         {
@@ -19,8 +21,19 @@ public class PersonDbo : PersonModel
             FirstName = firstName, LastName = lastName, Nationality = nationality, DateOfBirth = dateOfBirth
         };
     }
-    
-    [Key]
+
+    public static PersonDbo Create(PersonModel model)
+    {
+        var dbo = new PersonDbo();
+        //To check each of the below and raise exception if not correct!
+        dbo.FirstName = model.FirstName;
+        dbo.LastName = model.LastName;
+        dbo.Nationality = model.Nationality;
+        dbo.DateOfBirth = model.DateOfBirth;
+        return dbo;
+    }
+
+[Key]
     public Guid PersonId { get; }
 
     public Guid UserId { get; private set; }
