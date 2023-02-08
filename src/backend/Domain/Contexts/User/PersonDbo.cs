@@ -2,14 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WeeControl.Core.SharedKernel.Contexts.User;
 
 namespace WeeControl.Core.Domain.Contexts.User;
 
-[Table(nameof(PersonDbo), Schema = nameof(User))]
+[Table("Person", Schema = nameof(User))]
 public class PersonDbo : PersonModel
 {
     public static PersonDbo Create(PersonModel model)
@@ -33,8 +32,9 @@ public class PersonDbo : PersonModel
     [Key]
     public Guid PersonId { get; }
 
-    public virtual ICollection<PersonIdentityDbo> Identities { get; }
-    public virtual ICollection<PersonAddressDbo> Addresses { get; }
+    public virtual IEnumerable<PersonIdentityDbo> Identities { get; }
+    public virtual IEnumerable<AddressDbo> Addresses { get; }
+    public virtual IEnumerable<PersonContactDbo> Contacts { get; }
     
     private PersonDbo()
     {
@@ -45,12 +45,15 @@ public class PersonEntityTypeConfig : IEntityTypeConfiguration<PersonDbo>
 {
     public void Configure(EntityTypeBuilder<PersonDbo> builder)
     {
-        builder.Property(x => x.PersonId).ValueGeneratedOnAdd().HasDefaultValue(Guid.NewGuid());
+        builder.Property(x => x.PersonId).ValueGeneratedOnAdd();//.HasDefaultValue(Guid.NewGuid());
         
         builder.HasMany(x => x.Identities)
             .WithOne().HasForeignKey(x => x.PersonId);
         
         builder.HasMany(x => x.Addresses)
+            .WithOne().HasForeignKey(x => x.PersonId);
+        
+        builder.HasMany(x => x.Contacts)
             .WithOne().HasForeignKey(x => x.PersonId);
     }
 }

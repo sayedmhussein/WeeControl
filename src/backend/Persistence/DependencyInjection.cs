@@ -12,7 +12,8 @@ namespace WeeControl.ApiApp.Persistence
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddPersistenceAsPostgres(this IServiceCollection services, IConfiguration configuration, string migrationAssemblyName)
+        public static IServiceCollection AddPersistenceAsPostgres(this IServiceCollection services,
+            IConfiguration configuration, string migrationAssemblyName)
         {
             var options = GetPostgresOptions<EssentialDbContext>(
                 configuration.GetConnectionString("EssentialDbProvider"),
@@ -21,6 +22,26 @@ namespace WeeControl.ApiApp.Persistence
 
             services.AddScoped<IEssentialDbContext>(p =>
                 new EssentialDbContext(options));
+
+            return services;
+        }
+
+        public static IServiceCollection AddPersistenceAsSqlite(this IServiceCollection services, 
+            string dbName = null, string migrationAssemblyName = null)
+        {
+            var options = new DbContextOptionsBuilder<EssentialDbContext>();
+            options.EnableDetailedErrors();
+            options.EnableSensitiveDataLogging();
+            options.UseSqlite($"Filename={dbName}.db", 
+                o => o.MigrationsAssembly(migrationAssemblyName));
+            
+            
+            //options.ConfigureWarnings(x => x.Ignore(SqliteEventId.SchemaConfiguredWarning));
+
+            //services.AddScoped(p => options);
+
+            services.AddScoped<IEssentialDbContext>(p =>
+                new EssentialDbContext(options.Options));
 
             return services;
         }
@@ -52,8 +73,8 @@ namespace WeeControl.ApiApp.Persistence
         private static IServiceCollection RemoveDbFromServices<T>(this IServiceCollection services) where T : DbContext
         {
             var descriptor = services.SingleOrDefault(
-                    d => d.ServiceType ==
-                        typeof(DbContextOptions<T>));
+                d => d.ServiceType ==
+                     typeof(DbContextOptions<T>));
             if (descriptor != null)
                 services.Remove(descriptor);
             return services;

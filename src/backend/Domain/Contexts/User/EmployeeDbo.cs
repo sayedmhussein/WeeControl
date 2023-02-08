@@ -4,11 +4,10 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using WeeControl.Core.Domain.Contexts.Business;
 
 namespace WeeControl.Core.Domain.Contexts.User;
 
-[Table(nameof(EmployeeDbo), Schema = nameof(User))]
+[Table("Employee", Schema = nameof(User))]
 public class EmployeeDbo
 {
     [Key]
@@ -16,10 +15,10 @@ public class EmployeeDbo
     
     public Guid? SupervisorId { get; set; }
     public EmployeeDbo Supervisor { get; }
-    public ICollection<EmployeeDbo> Supervise { get; }
+    public IEnumerable<EmployeeDbo> Supervise { get; }
 
-    public Guid UserId { get; set; }
-    public UserDbo User { get; set; }
+    public Guid PersonId { get; set; }
+    public PersonDbo Person { get; set; }
 
     public Guid TerritoryId { get; set; }
 
@@ -33,7 +32,7 @@ public class EmployeeDbo
 
     public EmployeeDbo(Guid userId, Guid territoryId, string employeeNo)
     {
-        UserId = userId;
+        PersonId = userId;
         TerritoryId = territoryId;
         EmployeeNo = employeeNo;
     }
@@ -50,5 +49,7 @@ public class EmployeeEntityTypeConfig : IEntityTypeConfiguration<EmployeeDbo>
             .WithOne(x => x.Supervisor)
             .HasForeignKey(x => x.SupervisorId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(x => x.Person).WithOne();
     }
 }

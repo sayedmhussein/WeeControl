@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace WeeControl.Core.Domain.Contexts.User;
 
-[Table(nameof(PersonIdentityDbo), Schema = nameof(User))]
+[Table("PersonIdentity", Schema = nameof(User))]
 public class PersonIdentityDbo
 {
     [Key]

@@ -25,14 +25,15 @@ public class UserDbo : UserModel
 
     public Guid PersonId { get; }
     public PersonDbo Person { get; set; }
-
-    [AllowNull]
-    public string SuspendArgs { get; private set; }
+    
+    [StringLength(255)]
+    public string? SuspendArgs { get; private set; }
 
     public string TempPassword { get; private set; }
     public DateTime? TempPasswordTs { get; private set; }
 
-    public string PhotoUrl { get; set; }
+    [StringLength(255)]
+    public string? PhotoUrl { get; set; }
 
     public virtual IEnumerable<UserSessionDbo> Sessions { get; }
     public virtual ICollection<UserClaimDbo> Claims { get; }
@@ -91,9 +92,9 @@ public class UserEntityTypeConfig : IEntityTypeConfiguration<UserDbo>
             .WithOne()
             .HasForeignKey<PersonDbo>(x => x.PersonId);
 
-        builder.HasOne<EmployeeDbo>()
-            .WithOne(x => x.User)
-            .HasForeignKey<EmployeeDbo>(x => x.UserId);
+        // builder.HasOne<EmployeeDbo>()
+        //     .WithOne(x => x.Person)
+        //     .HasForeignKey<EmployeeDbo>(x => x.PersonId);
 
         builder.HasOne<CustomerDbo>()
             .WithOne(x => x.User)

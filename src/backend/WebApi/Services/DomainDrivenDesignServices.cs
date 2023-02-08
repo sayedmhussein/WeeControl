@@ -1,4 +1,3 @@
-using System.Reflection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WeeControl.ApiApp.Infrastructure;
@@ -15,7 +14,8 @@ public static class DomainDrivenDesignServices
         services.AddInfrastructure(Configuration);
 
         _ = Configuration["UseInMemoryDb"] == false.ToString() ?
-            services.AddPersistenceAsPostgres(Configuration, Assembly.GetExecutingAssembly().GetName().Name) :
+            //services.AddPersistenceAsPostgres(Configuration, Assembly.GetExecutingAssembly().GetName().Name) :
+            services.AddPersistenceAsSqlite("MyDB") :
             services.AddPersistenceAsInMemory();
 
 

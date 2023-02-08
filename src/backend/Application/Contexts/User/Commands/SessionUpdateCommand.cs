@@ -84,7 +84,7 @@ public class SessionUpdateCommand : IRequest<ResponseDto<TokenResponseDto>>
                 var ci = new ClaimsIdentity("custom");
                 ci.AddClaim(new Claim(ClaimsValues.ClaimTypes.Session, session.SessionId.ToString()));
 
-                var employee = await context.Employees.FirstOrDefaultAsync(x => x.UserId == session.UserId, cancellationToken);
+                var employee = await context.Employees.FirstOrDefaultAsync(x => x.PersonId == session.UserId, cancellationToken);
                 if (employee is not null)
                 {
                     ci.AddClaim(new Claim(ClaimsValues.ClaimTypes.Territory, employee.TerritoryId.ToString()));

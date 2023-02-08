@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WeeControl.Core.Domain.Contexts.Business;
-using WeeControl.Core.Domain.Contexts.Business.Elevator;
 using WeeControl.Core.Domain.Contexts.User;
 using CustomerDbo = WeeControl.Core.Domain.Contexts.User.CustomerDbo;
 
@@ -10,7 +9,7 @@ public interface IEssentialDbContext : IDbContext
 {
     DbSet<PersonDbo> Person { get; set; }
     DbSet<PersonIdentityDbo> PersonIdentities { get; set; }
-    DbSet<PersonAddressDbo> PersonAddresses { get; set; }
+    DbSet<AddressDbo> PersonAddresses { get; set; }
 
     DbSet<UserDbo> Users { get; set; }
     DbSet<UserNotificationDbo> UserNotifications { get; set; }

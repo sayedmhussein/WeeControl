@@ -9,7 +9,7 @@ namespace WeeControl.ApiApp.Persistence.DbContexts
     {
         public DbSet<PersonDbo> Person { get; set; }
         public DbSet<PersonIdentityDbo> PersonIdentities { get; set; }
-        public DbSet<PersonAddressDbo> PersonAddresses { get; set; }
+        public DbSet<AddressDbo> PersonAddresses { get; set; }
         public DbSet<UserDbo> Users { get; set; }
         public DbSet<UserClaimDbo> UserClaims { get; set; }
         public DbSet<EmployeeDbo> Employees { get; set; }

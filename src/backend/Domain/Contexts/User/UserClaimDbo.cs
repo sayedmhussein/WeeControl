@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace WeeControl.Core.Domain.Contexts.User;
 
-[Table(nameof(UserClaimDbo), Schema = nameof(User))]
+[Table("UserClaim", Schema = nameof(User))]
 public class UserClaimDbo
 {
     public static UserClaimDbo Create(Guid userId, string type, string tag, Guid grantedById)
