@@ -2,7 +2,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WeeControl.Core.DataTransferObject.Contexts.Temporary.User;
+namespace WeeControl.Core.DataTransferObject.Contexts.User;
 
 public class UserPasswordChangeRequestDto
 {

@@ -1,7 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using System.Threading.Tasks;
-using WeeControl.Core.DataTransferObject.Contexts.Temporary.User;
 using WeeControl.Core.DataTransferObject.Contexts.User;
 using WeeControl.Core.Domain.Interfaces;
 using WeeControl.Frontend.AppService;

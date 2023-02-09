@@ -1,4 +1,3 @@
-using WeeControl.Core.DataTransferObject.Contexts.Temporary.User;
 using WeeControl.Core.DataTransferObject.Contexts.User;
 using WeeControl.Frontend.AppService.Models;
 

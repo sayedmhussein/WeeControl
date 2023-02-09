@@ -1,5 +1,3 @@
-using WeeControl.Core.DataTransferObject.Contexts.Temporary.Entities;
-
 namespace WeeControl.Core.DataTransferObject.Contexts.Temporary.DataTransferObjects;
 
 public class TerritoryDto : TerritoryEntity

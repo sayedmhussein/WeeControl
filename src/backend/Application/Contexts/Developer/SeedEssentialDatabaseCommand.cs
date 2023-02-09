@@ -1,17 +1,17 @@
-using MediatR;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 using WeeControl.Core.Domain.Contexts.Business;
 using WeeControl.Core.Domain.Contexts.User;
 using WeeControl.Core.Domain.Interfaces;
 using WeeControl.Core.SharedKernel;
 using WeeControl.Core.SharedKernel.Interfaces;
 
-namespace WeeControl.Core.Application.Contexts.User.Commands;
+namespace WeeControl.Core.Application.Contexts.Developer;
 
 public class SeedEssentialDatabaseCommand : IRequest
 {

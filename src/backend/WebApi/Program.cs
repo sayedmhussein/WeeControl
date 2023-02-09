@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WeeControl.ApiApp.Persistence.DbContexts;
+using WeeControl.Core.Application.Contexts.Developer;
 using WeeControl.Core.Application.Contexts.User.Commands;
 using WeeControl.Core.Domain.Interfaces;
 

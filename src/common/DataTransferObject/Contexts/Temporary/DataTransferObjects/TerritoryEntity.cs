@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace WeeControl.Core.DataTransferObject.Contexts.Temporary.Entities;
+namespace WeeControl.Core.DataTransferObject.Contexts.Temporary.DataTransferObjects;
 
 public class TerritoryEntity
 {
