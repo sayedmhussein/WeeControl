@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System;
+using MediatR;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -75,7 +76,7 @@ public class UserRegisterCommand : IRequest<ResponseDto<TokenResponseDto>>
                 throw new ConflictFailureException();
             }
 
-            var user = UserDbo.Create(cmd.user.Email, cmd.user.Username, cmd.user.MobileNo, passwordSecurity.Hash(cmd.user.Password));
+            var user = UserDbo.Create(Guid.Empty, cmd.user.Email, cmd.user.Username, cmd.user.MobileNo, passwordSecurity.Hash(cmd.user.Password));
 
             await context.Users.AddAsync(user, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);

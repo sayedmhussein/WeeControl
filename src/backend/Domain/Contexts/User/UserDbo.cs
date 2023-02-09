@@ -12,18 +12,18 @@ namespace WeeControl.Core.Domain.Contexts.User;
 [Table(nameof(UserDbo), Schema = nameof(User))]
 public class UserDbo : UserModel
 {
-    public static UserDbo Create(string email, string username, string mobileNo, string password)
+    public static UserDbo Create(Guid personId, string email, string username, string mobileNo, string password)
     {
         return new UserDbo()
         {
-            Email = email, Username = username, Password = password
+            PersonId = personId, Email = email, Username = username, Password = password
         };
     }
     
     [Key]
     public Guid UserId { get; }
 
-    public Guid PersonId { get; }
+    public Guid PersonId { get; private set; }
     public PersonDbo Person { get; set; }
     
     [StringLength(255)]
@@ -90,11 +90,12 @@ public class UserEntityTypeConfig : IEntityTypeConfiguration<UserDbo>
 
         builder.HasOne(x => x.Person)
             .WithOne()
-            .HasForeignKey<PersonDbo>(x => x.PersonId);
+            .HasForeignKey<PersonDbo>(x => x.PersonId)
+            .IsRequired();
 
-        // builder.HasOne<EmployeeDbo>()
-        //     .WithOne(x => x.Person)
-        //     .HasForeignKey<EmployeeDbo>(x => x.PersonId);
+        builder.HasOne<EmployeeDbo>()
+            .WithOne()
+            .HasForeignKey<EmployeeDbo>(x => x.PersonId);
 
         builder.HasOne<CustomerDbo>()
             .WithOne(x => x.User)

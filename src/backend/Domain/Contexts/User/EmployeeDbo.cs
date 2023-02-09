@@ -50,6 +50,9 @@ public class EmployeeEntityTypeConfig : IEntityTypeConfiguration<EmployeeDbo>
             .HasForeignKey(x => x.SupervisorId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne(x => x.Person).WithOne();
+        builder.HasOne(x => x.Person)
+            .WithOne()
+            .HasForeignKey<EmployeeDbo>(x => x.PersonId)
+            .IsRequired();
     }
 }

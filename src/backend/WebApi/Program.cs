@@ -18,27 +18,8 @@ public class Program
     {
         var host = CreateHostBuilder(args).Build();
         using var scope = host.Services.CreateScope();
-        try
-        {
-            await PrepareDatabase(scope);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            Console.WriteLine("xxxxxxxxxxxxx End of Program Exception xxxxxxxxxxxxx");
-
-            try
-            {
-                await PrepareDatabase(scope);
-
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception);
-                throw;
-            }
-        }
-
+        await PrepareDatabase(scope);
+        
         await host.RunAsync();
     }
 
@@ -64,8 +45,8 @@ public class Program
         var context = (EssentialDbContext)scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
         if (context.Database.IsRelational())
         {
-            //await context.Database.MigrateAsync();
-            await context.Database.EnsureCreatedAsync();
+            await context.Database.MigrateAsync();
+            //await context.Database.EnsureCreatedAsync();
         }
         else
         {

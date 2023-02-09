@@ -22,10 +22,10 @@ public class PersonAddressEntityTypeConfig : IEntityTypeConfiguration<AddressDbo
     public void Configure(EntityTypeBuilder<AddressDbo> builder)
     {
         builder.Property(x => x.AddressId).ValueGeneratedOnAdd();
-        // builder
-        //     .HasOne<PersonDbo>()
-        //     .WithMany(x => x.Addresses)
-        //     .HasForeignKey(x => x.PersonId)
-        //     .OnDelete(DeleteBehavior.Restrict);
+        builder
+            .HasOne<PersonDbo>()
+            .WithMany(x => x.Addresses)
+            .HasForeignKey(x => x.PersonId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

@@ -45,7 +45,8 @@ public class PersonEntityTypeConfig : IEntityTypeConfiguration<PersonDbo>
 {
     public void Configure(EntityTypeBuilder<PersonDbo> builder)
     {
-        builder.Property(x => x.PersonId).ValueGeneratedOnAdd();//.HasDefaultValue(Guid.NewGuid());
+        builder.Property(x => x.PersonId).HasDefaultValue(Guid.NewGuid());
+        //builder.Property(x => x.PersonId).ValueGeneratedOnAdd();
         
         builder.HasMany(x => x.Identities)
             .WithOne().HasForeignKey(x => x.PersonId);
