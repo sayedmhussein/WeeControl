@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Net;
-using System.Threading.Tasks;
+﻿using System.Net;
+using Microsoft.AspNetCore.Http;
 using WeeControl.Core.Application.Exceptions;
 using WeeControl.Host.WebApi.Middlewares;
-using Xunit;
 
-namespace WeeControl.ApiApp.WebApi.Test.Middlewares;
+namespace WeeControl.Host.Test.Api.Middlewares;
 
 public class CustomExceptionHandlerMiddlewareTests
 {

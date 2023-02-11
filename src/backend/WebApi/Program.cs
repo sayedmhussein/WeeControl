@@ -30,21 +30,10 @@ public class Program
 
     private static async Task PrepareDatabase(IServiceScope scope)
     {
-        // var context = (EssentialDbContext)scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-        // if (await context.Database.EnsureCreatedAsync())
-        // {
-        //     if (context.Database.IsRelational())
-        //         await context.Database.MigrateAsync();
-        //
-        //     var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
-        //     await mediator.Send(new SeedEssentialDatabaseCommand());
-        // }
-
         var context = (EssentialDbContext)scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
         if (context.Database.IsRelational())
         {
             await context.Database.MigrateAsync();
-            //await context.Database.EnsureCreatedAsync();
         }
         else
         {

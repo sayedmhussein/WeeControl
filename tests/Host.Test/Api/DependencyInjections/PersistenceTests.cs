@@ -3,9 +3,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using WeeControl.ApiApp.Persistence;
 using WeeControl.Core.Domain.Interfaces;
-using Xunit;
 
-namespace WeeControl.ApiApp.WebApi.Test.DependencyInjections;
+namespace WeeControl.Host.Test.Api.DependencyInjections;
 
 public class PersistenceTests
 {

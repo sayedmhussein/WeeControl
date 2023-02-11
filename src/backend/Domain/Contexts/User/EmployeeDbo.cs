@@ -20,7 +20,7 @@ public class EmployeeDbo
     public Guid PersonId { get; set; }
     public PersonDbo Person { get; set; }
 
-    public Guid TerritoryId { get; set; }
+    //public Guid TerritoryId { get; set; }
 
     [Required]
     [StringLength(45)]
@@ -30,10 +30,9 @@ public class EmployeeDbo
     {
     }
 
-    public EmployeeDbo(Guid userId, Guid territoryId, string employeeNo)
+    public EmployeeDbo(Guid userId, string employeeNo)
     {
         PersonId = userId;
-        TerritoryId = territoryId;
         EmployeeNo = employeeNo;
     }
 }

@@ -18,7 +18,7 @@ namespace WeeControl.ApiApp.Persistence
             var options = GetPostgresOptions<EssentialDbContext>(
                 configuration.GetConnectionString("EssentialDbProvider"),
                 migrationAssemblyName);
-            services.AddScoped(p => options);
+            //services.AddScoped(p => options);
 
             services.AddScoped<IEssentialDbContext>(p =>
                 new EssentialDbContext(options));
@@ -26,14 +26,14 @@ namespace WeeControl.ApiApp.Persistence
             return services;
         }
 
-        public static IServiceCollection AddPersistenceAsSqlite(this IServiceCollection services, 
-            string dbName = null, string migrationAssemblyName = null)
+        public static IServiceCollection AddPersistenceAsSqlite(this IServiceCollection services, string connectionString = "Data Source=:memory:")
         {
+            services.RemoveDbFromServices<EssentialDbContext>();
+            
             var options = new DbContextOptionsBuilder<EssentialDbContext>();
             options.EnableDetailedErrors();
             options.EnableSensitiveDataLogging();
-            options.UseSqlite("Filename=:memory:", 
-                o => o.MigrationsAssembly(migrationAssemblyName));
+            options.UseSqlite(connectionString);
 
             services.AddScoped<IEssentialDbContext>(p =>
                 new EssentialDbContext(options.Options));

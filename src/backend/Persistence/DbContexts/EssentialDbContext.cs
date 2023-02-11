@@ -27,8 +27,7 @@ namespace WeeControl.ApiApp.Persistence.DbContexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserDbo).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(IDbContext).Assembly);
         }
     }
 }

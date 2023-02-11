@@ -25,12 +25,14 @@ public class UserDbo : UserModel
     public Guid PersonId { get; private set; }
     public PersonDbo Person { get; set; }
     
+    
     [StringLength(255)]
     public string? SuspendArgs { get; private set; }
 
     public string TempPassword { get; private set; }
     public DateTime? TempPasswordTs { get; private set; }
 
+    
     [StringLength(255)]
     public string? PhotoUrl { get; set; }
 

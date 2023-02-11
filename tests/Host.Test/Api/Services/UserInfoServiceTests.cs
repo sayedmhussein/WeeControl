@@ -1,13 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Security.Claims;
 using WeeControl.Core.SharedKernel;
 using WeeControl.Host.WebApi.Services;
-using Xunit;
 
-namespace WeeControl.ApiApp.WebApi.Test.Services;
+namespace WeeControl.Host.Test.Api.Services;
 
 public class UserInfoServiceTests : IDisposable
 {

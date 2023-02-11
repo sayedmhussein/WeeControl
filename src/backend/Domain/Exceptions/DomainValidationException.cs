@@ -24,7 +24,7 @@ public class DomainValidationException : DomainOutOfRangeException
     public IDictionary<string, string[]> Failures { get; } = new Dictionary<string, string[]>();
 
     public DomainValidationException(ICollection<ValidationResult> failures)
-        : base("Check property named \"Failures\" for more details")
+        : base($"Check property named \"Failures\" for more details. Member(s) { failures.FirstOrDefault()?.MemberNames.FirstOrDefault() } has error {failures.FirstOrDefault()?.ErrorMessage}")
     {
         var propertyNames = failures
             .Select(e => e.MemberNames)

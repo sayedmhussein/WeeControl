@@ -3,7 +3,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using System;
+using Microsoft.EntityFrameworkCore;
 using WeeControl.ApiApp.Persistence;
+using WeeControl.ApiApp.Persistence.DbContexts;
 using WeeControl.Core.Application.Interfaces;
 using WeeControl.Core.Domain.Contexts.User;
 using WeeControl.Core.Domain.Interfaces;
@@ -31,9 +33,14 @@ public class TestHelper : IDisposable
         PasswordSecurity = new PasswordSecurity();
 
         EssentialDb = new ServiceCollection()
-            .AddPersistenceAsInMemory()
+            .AddPersistenceAsSqlite()
+            //.AddPersistenceAsInMemory()
             .BuildServiceProvider()
             .GetService<IEssentialDbContext>();
+
+        var context = (EssentialDbContext) EssentialDb;
+        context.Database.EnsureCreated();
+        context.Database.Migrate();
 
         MediatorMock = new Mock<IMediator>();
 
@@ -52,6 +59,7 @@ public class TestHelper : IDisposable
 
     public UserDbo GetUserDboWithEncryptedPassword(string username, string password, string territory = "TST")
     {
+        
         return UserDbo.Create(Guid.NewGuid(),username + "@email.com", username, "0123456789", PasswordSecurity.Hash(password));
     }
 }

@@ -10,7 +10,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using WeeControl.Core.Application.Exceptions;
 using WeeControl.Core.Application.Interfaces;
-using WeeControl.Core.DataTransferObject;
 using WeeControl.Core.DataTransferObject.BodyObjects;
 using WeeControl.Core.DataTransferObject.Contexts.User;
 using WeeControl.Core.Domain.Interfaces;
@@ -88,7 +87,7 @@ public class SessionUpdateCommand : IRequest<ResponseDto<TokenResponseDto>>
                 var employee = await context.Employees.FirstOrDefaultAsync(x => x.PersonId == session.UserId, cancellationToken);
                 if (employee is not null)
                 {
-                    ci.AddClaim(new Claim(ClaimsValues.ClaimTypes.Territory, employee.TerritoryId.ToString()));
+                    ci.AddClaim(new Claim(ClaimsValues.ClaimTypes.Territory, Guid.Empty.ToString()));
                 }
 
                 var customer =

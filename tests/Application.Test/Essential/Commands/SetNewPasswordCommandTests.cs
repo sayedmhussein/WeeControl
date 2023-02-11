@@ -1,7 +1,6 @@
 using System;
 using WeeControl.Core.Application.Contexts.User.Commands;
 using WeeControl.Core.Application.Exceptions;
-using WeeControl.Core.DataTransferObject;
 using WeeControl.Core.DataTransferObject.BodyObjects;
 using WeeControl.Core.Domain.Contexts.User;
 using Xunit;

@@ -45,21 +45,17 @@ public class SeedEssentialDatabaseCommand : IRequest
                 (ClaimsValues.ClaimTypes.Field, ClaimsValues.ClaimValues.SuperUser),
                 (ClaimsValues.ClaimTypes.Finance, ClaimsValues.ClaimValues.SuperUser)
             }, cancellationToken);
-            
-            await AddEmployee(developerId, GetTerritories().First(x => x.UniqueName == "USA-HO").TerritoryId,
-                cancellationToken);
+             await AddEmployee(developerId, cancellationToken);
 
             var adminId = await AddPerson("admin", "EGP", cancellationToken);
-                await AddUser(adminId, "admin", new List<(string Type, string Value)>()
+            await AddUser(adminId, "admin", new List<(string Type, string Value)>()
             {
                 (ClaimsValues.ClaimTypes.Administrator, ClaimsValues.ClaimValues.SuperUser),
                 (ClaimsValues.ClaimTypes.Administrator, ClaimsValues.ClaimValues.Manager)
             }, cancellationToken);
-            
-            await AddEmployee(adminId, GetTerritories().First(x => x.UniqueName == "SAU-WEST").TerritoryId,
-                cancellationToken);
+            await AddEmployee(adminId, cancellationToken);
 
-            var customerId = await AddPerson( "customer", "customer", cancellationToken);
+            var customerId = await AddPerson( "customer", "USA", cancellationToken);
             await AddUser(customerId,"customer", null, cancellationToken);
             
             await AddCustomer(customerId, "EGP", cancellationToken);
@@ -110,9 +106,9 @@ public class SeedEssentialDatabaseCommand : IRequest
             return person.PersonId;
         }
 
-        private async Task AddEmployee(Guid userId, Guid territoryId, CancellationToken cancellationToken)
+        private async Task AddEmployee(Guid userId, CancellationToken cancellationToken)
         {
-            var employee = new EmployeeDbo(userId, territoryId, "12345");
+            var employee = new EmployeeDbo(userId, "12345");
             await context.Employees.AddAsync(employee, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
         }
