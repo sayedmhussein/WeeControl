@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using WeeControl.Core.Application.Exceptions;
+using WeeControl.Core.Domain.Exceptions;
 
 namespace WeeControl.Host.WebApi.Middlewares;
 
@@ -31,18 +32,23 @@ public class CustomExceptionHandlerMiddleware
 
     private static Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
+        context.Response.ContentType = "application/json";
+
         HttpStatusCode code;
         string result = string.Empty;
 
         switch (exception)
         {
-            case ValidationException validationException:
-                code = HttpStatusCode.BadRequest;
-                result = JsonConvert.SerializeObject(validationException.Failures);
-                break;
+            case DomainValidationException validationException:
+                context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return context.Response.WriteAsync(JsonConvert.SerializeObject(validationException.Failures));
             case BadRequestException badRequestException:
                 code = HttpStatusCode.BadRequest;
                 result = badRequestException.Message;
+                break;
+            case DomainOutOfRangeException domainOutOfRanceException:
+                code = HttpStatusCode.BadRequest;
+                result = domainOutOfRanceException.Message;
                 break;
             case NotFoundException:
                 code = HttpStatusCode.NotFound;
@@ -55,20 +61,27 @@ public class CustomExceptionHandlerMiddleware
                 break;
             default:
                 code = HttpStatusCode.InternalServerError;
+#if DEBUG
                 result = exception.StackTrace;
+#else
+                result = exception.Message;
+#endif
+                
                 break;
         }
-
-        context.Response.ContentType = "application/json";
-        context.Response.StatusCode = (int)code;
-
+        
         if (result == string.Empty)
         {
-            result = "{\"Error\": \"" + result + "\"}";
-            //result = JsonConvert.SerializeObject(new ErrorSimpleDetailsDto() { Error = result });
+            result = "Check statues code";
         }
+        
+        context.Response.StatusCode = (int)code;
+        return context.Response.WriteAsync(GetSingleLineErrorSerialized(result));
+    }
 
-        return context.Response.WriteAsync(result);
+    private static string GetSingleLineErrorSerialized(string errorMessage)
+    {
+        return "{\"Error\": \"" + errorMessage + "\"}";
     }
 }
 

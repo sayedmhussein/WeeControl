@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace WeeControl.Core.Domain.Exceptions;
 
-public class DomainOutOfRanceException : ArgumentOutOfRangeException
+public class DomainOutOfRangeException : ArgumentOutOfRangeException
 {
-    public DomainOutOfRanceException(string arg) : base(arg)
+    public DomainOutOfRangeException(string arg) : base(arg)
     {
     }
 }

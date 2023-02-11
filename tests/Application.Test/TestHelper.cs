@@ -52,6 +52,6 @@ public class TestHelper : IDisposable
 
     public UserDbo GetUserDboWithEncryptedPassword(string username, string password, string territory = "TST")
     {
-        return UserDbo.Create(username + "@email.com", username, "0123456789", PasswordSecurity.Hash(password));
+        return UserDbo.Create(Guid.NewGuid(),username + "@email.com", username, "0123456789", PasswordSecurity.Hash(password));
     }
 }

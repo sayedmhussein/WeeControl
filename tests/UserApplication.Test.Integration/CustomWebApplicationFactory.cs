@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using System;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
@@ -36,7 +37,7 @@ public class CustomWebApplicationFactory<TStartup>
 
     public UserDbo GetUserDboWithEncryptedPassword(string username, string password, string territory = "TST")
     {
-        return UserDbo.Create((username + "@email.com").ToLower(), username, "0123456789", new PasswordSecurity().Hash(password));
+        return UserDbo.Create(Guid.Empty, (username + "@email.com").ToLower(), username, "0123456789", new PasswordSecurity().Hash(password));
     }
 
     public async Task Authorize(TestHelper testHelper, string username, string password)

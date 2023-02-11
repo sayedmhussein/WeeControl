@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace WeeControl.Core.Application.Exceptions;
 
+[Obsolete("Use inside domain")]
 public class ValidationException : Exception
 {
     public IDictionary<string, string[]> Failures { get; }
