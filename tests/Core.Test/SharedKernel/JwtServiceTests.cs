@@ -1,14 +1,10 @@
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.IdentityModel.Tokens;
 using WeeControl.Core.SharedKernel.Interfaces;
 using WeeControl.Core.SharedKernel.Services;
-using Xunit;
 
-namespace WeeControl.ApiApp.SharedKernel.Test.Services;
+namespace WeeControl.Core.Test.SharedKernel;
 
 public class JwtServiceTests : IDisposable
 {

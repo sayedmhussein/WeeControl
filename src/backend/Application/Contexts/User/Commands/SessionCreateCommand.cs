@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using WeeControl.Core.Application.Exceptions;
 using WeeControl.Core.DataTransferObject;
+using WeeControl.Core.DataTransferObject.BodyObjects;
 using WeeControl.Core.DataTransferObject.Contexts.User;
 using WeeControl.Core.Domain.Contexts.User;
 using WeeControl.Core.Domain.Interfaces;

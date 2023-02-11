@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using WeeControl.Core.Domain.Contexts.User;
-using WeeControl.Core.Domain.Exceptions;
+﻿using WeeControl.Core.Domain.Exceptions;
 using WeeControl.Core.SharedKernel.Contexts.User;
 
 namespace WeeControl.Core.Test.Domain;
@@ -12,28 +10,26 @@ public class DomainValidationExceptionTests
     {
         var model = new PersonModel()
         {
-            FirstName = "FirstName", LastName = "LastName", Nationality = "EGP", DateOfBirth = new DateOnly(2000, 12, 31)
+            FirstName = "FirstName", LastName = "LastName", NationalityCode = "EGP", DateOfBirth = new DateOnly(2000, 12, 31)
         };
-        
-        var person = PersonDbo.Create(model);
-        
-        DomainValidationException.ValidateEntity(person);
+
+        DomainValidationException.ValidateEntity(model);
     }
 
     [Theory]
     [InlineData("", "LastName", "EGP", 1)]
+    [InlineData("", "", "EGP", 2)]
+    [InlineData("FirstName", "LastName", "EGYPT", 1)]
+    [InlineData("FirstName", "LastName", "EG", 1)]
     public void TestWhenFailures_ExceptionThrown(string firstName, string lastName, string nationality, int errorCount)
     {
         var model = new PersonModel()
         {
-            FirstName = firstName, LastName = lastName, Nationality = nationality, DateOfBirth = new DateOnly(2000, 12, 31)
+            FirstName = firstName, LastName = lastName, NationalityCode = nationality, DateOfBirth = new DateOnly(2000, 12, 31)
         };
-         
-        var person = PersonDbo.Create(model);
+
+        var ex = Assert.Throws<DomainValidationException>(() => DomainValidationException.ValidateEntity(model));
         
-        Assert.ThrowsAny<DomainValidationException>(() =>
-        {
-            DomainValidationException.ValidateEntity(person);
-        });
+        Assert.Equal(errorCount, ex.Failures.Count);
     }
 }

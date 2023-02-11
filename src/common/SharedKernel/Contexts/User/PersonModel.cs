@@ -6,8 +6,10 @@ public class PersonModel
 {
     [Required]
     [StringLength(45, MinimumLength = 1)]
+    [Display(Name = "First Name")]
     public string FirstName { get; set; } = string.Empty;
     
+    [Display(Name = "Second Name")]
     [StringLength(45)]
     public string? SecondName { get; set; } = string.Empty;
     
@@ -15,10 +17,11 @@ public class PersonModel
     public string? ThirdName { get; set; } = string.Empty;
 
     [Required]
+    [Display(Name = "Last Name")]
     [StringLength(45, MinimumLength = 1)]
     public string LastName { get; set; } = string.Empty;
 
     [StringLength(3, MinimumLength = 3)]
-    public string Nationality { get; set; } = string.Empty;
+    public string NationalityCode { get; set; } = string.Empty;
     public DateOnly DateOfBirth { get; set; }
 }

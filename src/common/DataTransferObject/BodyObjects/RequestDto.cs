@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WeeControl.Core.DataTransferObject;
+namespace WeeControl.Core.DataTransferObject.BodyObjects;
 
 public class RequestDto
 {

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WeeControl.Core.Application.Contexts.User.Commands;
 using WeeControl.Core.DataTransferObject;
+using WeeControl.Core.DataTransferObject.BodyObjects;
 using WeeControl.Core.DataTransferObject.Contexts.User;
 using WeeControl.Core.SharedKernel;
 

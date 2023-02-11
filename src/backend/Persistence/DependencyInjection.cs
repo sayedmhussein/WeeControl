@@ -32,13 +32,8 @@ namespace WeeControl.ApiApp.Persistence
             var options = new DbContextOptionsBuilder<EssentialDbContext>();
             options.EnableDetailedErrors();
             options.EnableSensitiveDataLogging();
-            options.UseSqlite($"Filename={dbName}.db", 
+            options.UseSqlite("Filename=:memory:", 
                 o => o.MigrationsAssembly(migrationAssemblyName));
-            
-            
-            //options.ConfigureWarnings(x => x.Ignore(SqliteEventId.SchemaConfiguredWarning));
-
-            //services.AddScoped(p => options);
 
             services.AddScoped<IEssentialDbContext>(p =>
                 new EssentialDbContext(options.Options));

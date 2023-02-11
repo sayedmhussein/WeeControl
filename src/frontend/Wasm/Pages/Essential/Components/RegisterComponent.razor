@@ -31,13 +31,13 @@
                               @bind-Value="@registerModel.Person.LastName" For="@(() => registerModel.Person.LastName)"/>
             </MudItem>
         </MudGrid>
-        <MudSelect T="string" Label="Nationality" AnchorOrigin="Origin.BottomCenter" @bind-Value="@registerModel.Person.Nationality">
+        <MudSelect T="string" Label="Nationality" AnchorOrigin="Origin.BottomCenter" @bind-Value="@registerModel.Person.NationalityCode">
             @foreach (var t in UserService.Countries)
             {
                 <MudSelectItem Value="@(t.CountryCode)">@t.CountryCode: @t.CountryName</MudSelectItem>
             }
         </MudSelect>
-        <MudSelect T="string" Label="Current Residency" AnchorOrigin="Origin.BottomCenter" @bind-Value="@registerModel.Person.Nationality">
+        <MudSelect T="string" Label="Current Residency" AnchorOrigin="Origin.BottomCenter" @bind-Value="@registerModel.Person.NationalityCode">
             @foreach (var t in UserService.Countries)
             {
                 <MudSelectItem Value="@(t.CountryCode)">@t.CountryCode: @t.CountryName</MudSelectItem>

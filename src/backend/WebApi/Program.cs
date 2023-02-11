@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
@@ -7,7 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WeeControl.ApiApp.Persistence.DbContexts;
 using WeeControl.Core.Application.Contexts.Developer;
-using WeeControl.Core.Application.Contexts.User.Commands;
 using WeeControl.Core.Domain.Interfaces;
 
 namespace WeeControl.Host.WebApi;

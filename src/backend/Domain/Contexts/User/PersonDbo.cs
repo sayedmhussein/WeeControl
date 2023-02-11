@@ -22,14 +22,14 @@ public class PersonDbo : PersonModel
             SecondName = model.SecondName,
             ThirdName = model.ThirdName,
             LastName = model.LastName,
-            Nationality = model.Nationality,
+            NationalityCode = model.NationalityCode.ToUpper(),
             DateOfBirth = model.DateOfBirth
         };
     }
 
-    public static PersonDbo Create(string firstName, string lastName, string nationality, DateOnly dob)
+    public static PersonDbo Create(string firstName, string lastName, string nationalityCode, DateOnly dob)
     {
-        return Create(new PersonModel { FirstName = firstName, LastName = lastName, Nationality = nationality, DateOfBirth = dob});
+        return Create(new PersonModel { FirstName = firstName, LastName = lastName, NationalityCode = nationalityCode, DateOfBirth = dob});
     }
 
     [Key]

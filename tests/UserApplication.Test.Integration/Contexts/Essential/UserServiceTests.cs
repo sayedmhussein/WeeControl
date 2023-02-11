@@ -186,7 +186,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
             {
                 FirstName = username,
                 LastName = username,
-                Nationality = "EGP"
+                NationalityCode = "EGP"
             },
             User =
             {
@@ -239,7 +239,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
             {
                 FirstName = username,
                 LastName = username,
-                Nationality = "EGP"
+                NationalityCode = "EGP"
             },
             User =
             {
