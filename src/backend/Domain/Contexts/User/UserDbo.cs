@@ -90,7 +90,7 @@ public class UserEntityTypeConfig : IEntityTypeConfiguration<UserDbo>
 
         builder.HasOne(x => x.Person)
             .WithOne()
-            .HasForeignKey<PersonDbo>(x => x.PersonId)
+            .HasForeignKey<UserDbo>(x => x.PersonId)
             .IsRequired();
 
         builder.HasOne<EmployeeDbo>()
