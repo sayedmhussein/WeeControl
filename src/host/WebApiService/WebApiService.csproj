@@ -11,4 +11,9 @@
       <ProjectReference Include="..\..\common\DataTransferObject\DataTransferObject.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Internals\Interfaces" />
+      <Folder Include="Internals\Services" />
+    </ItemGroup>
+
 </Project>

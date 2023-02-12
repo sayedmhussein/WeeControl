@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using WeeControl.Core.SharedKernel;
 using WeeControl.Frontend.AppService;
 using WeeControl.Frontend.Wasm.Services;
+using WeeControl.Host.WebApiService;
 
 namespace WeeControl.Frontend.Wasm;
 
@@ -22,6 +23,7 @@ public class Program
         builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
 
         builder.Services.AddSingleton<IDeviceData, DeviceDataService>();
+        builder.Services.AddWebApiService();
 
         builder.Services.AddUserSecurityService();
         builder.Services.AddApplicationServices();

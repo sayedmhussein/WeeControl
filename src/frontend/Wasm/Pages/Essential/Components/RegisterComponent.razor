@@ -11,7 +11,7 @@
 </MudCardHeader>
 
 <MudCardContent>
-    <EditForm Model="@registerModel" OnValidSubmit="@(() => RegisterService.ResisterEmployee(registerModel))">
+    <EditForm Model="@registerModel" OnValidSubmit="@(() => RegisterService.Register(registerModel))">
         <DataAnnotationsValidator/>
         <MudGrid>
             <MudItem xs="3">

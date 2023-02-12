@@ -37,7 +37,7 @@ public class ServerOperationTests
         var helper = new TestHelper(nameof(RefreshTokenTest));
         helper.DeviceMock.Setup(x => x.GetKeyValue(It.IsAny<string>())).ReturnsAsync("token");
 
-        var service = helper.GetService<IServerOperation>(HttpStatusCode.OK, TokenResponseDto.Create("token", "fullname"));
+        var service = helper.GetService<IServerOperation>(HttpStatusCode.OK, TokenResponseDto.Create("token"));
 
         Assert.True(await service.RefreshToken());
     }
