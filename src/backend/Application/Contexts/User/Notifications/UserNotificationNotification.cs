@@ -45,8 +45,8 @@ public class UserNotificationNotification : INotification
                 {
                     UserId = user.UserId,
                     Subject = notification.subject,
-                    Details = notification.details,
-                    Link = notification.uri
+                    Body= notification.details,
+                    NotificationUrl = notification.uri
                 }, cancellationToken);
 
             await essentialDbContext.SaveChangesAsync(cancellationToken);

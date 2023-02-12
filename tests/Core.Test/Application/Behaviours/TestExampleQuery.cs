@@ -1,8 +1,6 @@
 using MediatR;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace WeeControl.ApiApp.Application.Test.Behaviours;
+namespace WeeControl.Core.Test.Application.Behaviours;
 
 public class TestExampleQuery : IRequest<bool>
 {

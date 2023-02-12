@@ -1,13 +1,8 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using WeeControl.Core.Application.Contexts.User.Commands;
 using WeeControl.Core.Application.Exceptions;
 using WeeControl.Core.DataTransferObject.BodyObjects;
-using WeeControl.Core.Domain.Contexts.User;
-using Xunit;
 
-namespace WeeControl.ApiApp.Application.Test.Essential.Commands;
+namespace WeeControl.Core.Test.Application.Contexts.User.Commands;
 
 public class SetNewPasswordCommandTests
 {

@@ -14,6 +14,7 @@ namespace WeeControl.ApiApp.Persistence.DbContexts
         public DbSet<UserClaimDbo> UserClaims { get; set; }
         public DbSet<EmployeeDbo> Employees { get; set; }
         public DbSet<CustomerDbo> Customers { get; set; }
+        public DbSet<UserFeedsDbo> Feeds { get; set; }
         public DbSet<UserNotificationDbo> UserNotifications { get; set; }
         public DbSet<UserSessionDbo> UserSessions { get; set; }
         public DbSet<UserSessionLogDbo> SessionLogs { get; set; }

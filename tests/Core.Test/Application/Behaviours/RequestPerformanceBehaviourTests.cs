@@ -1,13 +1,10 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System;
-using System.Threading.Tasks;
 using WeeControl.Core.Application.Behaviours;
 using WeeControl.Core.Application.Interfaces;
-using Xunit;
 
-namespace WeeControl.ApiApp.Application.Test.Behaviours;
+namespace WeeControl.Core.Test.Application.Behaviours;
 
 public class RequestPerformanceBehaviourTests : IDisposable
 {

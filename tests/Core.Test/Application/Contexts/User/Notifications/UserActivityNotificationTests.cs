@@ -1,9 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using WeeControl.Core.Application.Contexts.User.Notifications;
-using Xunit;
 
-namespace WeeControl.ApiApp.Application.Test.Essential.Notifications;
+namespace WeeControl.Core.Test.Application.Contexts.User.Notifications;
 
 public class UserActivityNotificationTests
 {

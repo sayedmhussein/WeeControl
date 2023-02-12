@@ -21,4 +21,6 @@ public interface IEssentialDbContext : IDbContext
     
     DbSet<EmployeeDbo> Employees { get; set; }
     DbSet<CustomerDbo> Customers { get; set; }
+    
+    DbSet<UserFeedsDbo> Feeds { get; set; }
 }

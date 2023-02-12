@@ -1,8 +1,12 @@
+using WeeControl.Core.SharedKernel.Contexts.User;
+
 namespace WeeControl.Core.DataTransferObject.Contexts.User;
 
 public class HomeResponseDto
 {
-    public IEnumerable<INotificationModel> Notifications { get; set; }
-    public IEnumerable<IHomeFeedModel> Feeds { get; set; }
-
+    public string FullName { get; set; } = string.Empty;
+    public string PhotoUrl { get; set; } = string.Empty;
+    
+    public IEnumerable<HomeNotificationModel> Notifications { get; set; } = new List<HomeNotificationModel>();
+    public IEnumerable<HomeFeedModel> Feeds { get; set; } = new List<HomeFeedModel>();
 }

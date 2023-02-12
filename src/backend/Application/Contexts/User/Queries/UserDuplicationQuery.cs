@@ -17,13 +17,16 @@ public class UserDuplicationQuery : IRequest
         Username, Email, Mobile
     };
 
-    private readonly string parameter;
+    private readonly Parameter parameter;
     private readonly string value;
 
-    public UserDuplicationQuery(string parameter, string value)
+    public UserDuplicationQuery(Parameter parameter, string value)
     {
+        if (string.IsNullOrWhiteSpace(value))
+            throw new BadRequestException("Must provide value");
+        
         this.parameter = parameter;
-        this.value = value;
+        this.value = value.Trim();
     }
 
     public class UserDuplicationHandler : IRequestHandler<UserDuplicationQuery>
@@ -39,28 +42,25 @@ public class UserDuplicationQuery : IRequest
         {
             switch (request.parameter)
             {
-                case nameof(EmployeeRegisterDto.User.Username):
-                    if (request.value is not null &&
-                        await essentialDbContext.Users.Select(x => x.Username.Trim().ToLower())
-                            .ContainsAsync(request.value.Trim().ToLower(), cancellationToken))
+                case Parameter.Username:
+                    if (await essentialDbContext.Users.Select(x => x.Username)
+                            .ContainsAsync(request.value.ToLower(), cancellationToken))
                     {
                         throw new ConflictFailureException("username already exist");
                     }
                     break;
-                case nameof(EmployeeRegisterDto.User.Email):
-                    if (request.value is not null &&
-                        await essentialDbContext.Users.Select(x => x.Email.Trim().ToLower())
-                            .ContainsAsync(request.value.Trim().ToLower(), cancellationToken))
+                case Parameter.Email:
+                    if (await essentialDbContext.Users.Select(x => x.Email)
+                            .ContainsAsync(request.value.ToLower(), cancellationToken))
                     {
-                        throw new ConflictFailureException("username already exist");
+                        throw new ConflictFailureException("email already exist");
                     }
                     break;
-                case nameof(EmployeeRegisterDto.User.MobileNo):
-                    if (request.value is not null &&
-                        await essentialDbContext.Users.Select(x => x.MobileNo)
-                            .ContainsAsync(request.value.Trim().ToLower(), cancellationToken))
+                case Parameter.Mobile:
+                    if (await essentialDbContext.Users.Select(x => x.MobileNo)
+                            .ContainsAsync(request.value.ToUpper(), cancellationToken))
                     {
-                        throw new ConflictFailureException("username already exist");
+                        throw new ConflictFailureException("mobile already exist");
                     }
                     break;
                 default:

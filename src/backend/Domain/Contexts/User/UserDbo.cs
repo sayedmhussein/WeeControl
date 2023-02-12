@@ -29,7 +29,7 @@ public class UserDbo : UserModel
             PersonId = personId, 
             Email = model.Email.Trim().ToLower(), 
             Username = model.Username.Trim().ToLower(), 
-            MobileNo = model.MobileNo, 
+            MobileNo = model.MobileNo.Trim().ToUpper(), 
             Password = model.Password
         };
     }

@@ -3,6 +3,7 @@ using System.Net.Http.Json;
 using WeeControl.Core.DataTransferObject.BodyObjects;
 using WeeControl.Core.DataTransferObject.Contexts.User;
 using WeeControl.Core.SharedKernel;
+using WeeControl.Core.SharedKernel.Contexts.User;
 using WeeControl.Frontend.AppService.Internals.Interfaces;
 using WeeControl.Frontend.AppService.Models;
 

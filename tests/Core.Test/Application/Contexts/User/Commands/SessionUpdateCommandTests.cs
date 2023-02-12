@@ -1,11 +1,9 @@
-using System;
 using WeeControl.Core.Application.Contexts.User.Commands;
 using WeeControl.Core.Application.Exceptions;
 using WeeControl.Core.DataTransferObject.BodyObjects;
 using WeeControl.Core.Domain.Contexts.User;
-using Xunit;
 
-namespace WeeControl.ApiApp.Application.Test.Essential.Commands;
+namespace WeeControl.Core.Test.Application.Contexts.User.Commands;
 
 public class SessionUpdateCommandTests
 {
@@ -13,8 +11,8 @@ public class SessionUpdateCommandTests
     public async void WhenOtpIsRequired_ThrowsNotAllowedException()
     {
         using var testHelper = new TestHelper();
-        testHelper.SeedDatabase();
-        var session = UserSessionDbo.Create(testHelper.GetUserId(), "device", "0000");
+        var seed = testHelper.SeedDatabase();
+        var session = UserSessionDbo.Create(seed.userId, "device", "0000");
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         testHelper.CurrentUserInfoMock.Setup(x => x.SessionId).Returns(session.SessionId);
@@ -30,8 +28,8 @@ public class SessionUpdateCommandTests
     public async void WhenSessionIsActive_ReturnToken()
     {
         using var testHelper = new TestHelper();
-        testHelper.SeedDatabase();
-        var session = UserSessionDbo.Create(testHelper.GetUserId(), "device", "0000");
+        var seed = testHelper.SeedDatabase();
+        var session = UserSessionDbo.Create(seed.userId, "device", "0000");
         session.DisableOtpRequirement();
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
@@ -47,8 +45,8 @@ public class SessionUpdateCommandTests
     public async void WhenSessionIsTerminated_ThrowNotAllowedException()
     {
         using var testHelper = new TestHelper();
-        testHelper.SeedDatabase();
-        var session = UserSessionDbo.Create(testHelper.GetUserId(), "device", "0000");
+        var seed = testHelper.SeedDatabase();
+        var session = UserSessionDbo.Create(seed.userId, "device", "0000");
         session.TerminationTs = DateTime.UtcNow;
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
@@ -62,8 +60,8 @@ public class SessionUpdateCommandTests
     public async void WhenSessionIsActiveButFromDifferentDevice_ThrowNotAllowedException()
     {
         using var testHelper = new TestHelper();
-        testHelper.SeedDatabase();
-        var session = UserSessionDbo.Create(testHelper.GetUserId(), "device", "0000");
+        var seed = testHelper.SeedDatabase();
+        var session = UserSessionDbo.Create(seed.userId, "device", "0000");
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         testHelper.CurrentUserInfoMock.Setup(x => x.SessionId).Returns(session.SessionId);
