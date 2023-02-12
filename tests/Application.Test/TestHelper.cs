@@ -10,6 +10,7 @@ using WeeControl.ApiApp.Persistence.DbContexts;
 using WeeControl.Core.Application.Interfaces;
 using WeeControl.Core.Domain.Contexts.User;
 using WeeControl.Core.Domain.Interfaces;
+using WeeControl.Core.SharedKernel.Contexts.User;
 using WeeControl.Core.SharedKernel.Interfaces;
 using WeeControl.Core.SharedKernel.Services;
 
@@ -20,6 +21,10 @@ namespace WeeControl.ApiApp.Application.Test;
 /// </summary>
 public class TestHelper : IDisposable
 {
+    public const string Email = "username@email.com";
+    public const string Username = "username";
+    public const string Password = "password";
+    
     public readonly IJwtService JwtService;
     public readonly IPasswordSecurity PasswordSecurity;
     public IEssentialDbContext EssentialDb;
@@ -48,14 +53,6 @@ public class TestHelper : IDisposable
         context.Database.EnsureCreated();
 
         EssentialDb = context;
-        
-        // EssentialDb = new ServiceCollection()
-        //     .AddPersistenceAsSqlite()
-        //     //.AddPersistenceAsInMemory()
-        //     .BuildServiceProvider()
-        //     .GetService<IEssentialDbContext>();
-        
-        
 
         MediatorMock = new Mock<IMediator>();
 
@@ -76,7 +73,31 @@ public class TestHelper : IDisposable
 
     public UserDbo GetUserDboWithEncryptedPassword(string username, string password, string territory = "TST")
     {
-        
         return UserDbo.Create(Guid.NewGuid(),username + "@email.com", username, "0123456789", PasswordSecurity.Hash(password));
+    }
+
+    public (PersonModel Person, UserModel User) SeedDatabase()
+    {
+        var personModel = new PersonModel()
+        {
+            FirstName = "First Name", SecondName = "Father Name", ThirdName = "Third Name", LastName = "Last Name",
+            NationalityCode = "EGP", DateOfBirth = new DateOnly(1999, 12, 31)
+        };
+        var person = PersonDbo.Create(personModel);
+        EssentialDb.Person.Add(person);
+        EssentialDb.SaveChanges();
+
+        var userModel = new UserModel()
+        {
+            Email = Email, Username = Username,
+            MobileNo = "0123456789", Password = PasswordSecurity.Hash(Password)
+        };
+        var user = UserDbo.Create(person.PersonId, userModel);
+        EssentialDb.Users.Add(user);
+        EssentialDb.SaveChanges();
+
+        userModel.Password = Password;
+
+        return (personModel, userModel);
     }
 }

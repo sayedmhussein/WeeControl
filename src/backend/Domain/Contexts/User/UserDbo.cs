@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using WeeControl.Core.Domain.Exceptions;
 using WeeControl.Core.SharedKernel.Contexts.User;
 
 namespace WeeControl.Core.Domain.Contexts.User;
@@ -13,9 +14,23 @@ public class UserDbo : UserModel
 {
     public static UserDbo Create(Guid personId, string email, string username, string mobileNo, string password)
     {
+        return Create(personId, new UserModel(){ Email = email, Username = username, MobileNo = mobileNo, Password = password});
+    }
+
+    public static UserDbo Create(Guid personId, UserModel model)
+    {
+        if (personId == Guid.Empty)
+            throw new DomainOutOfRangeException("Person ID can't be empty GUID");
+        
+        DomainValidationException.ValidateEntity(model);
+        
         return new UserDbo()
         {
-            PersonId = personId, Email = email, Username = username, Password = password
+            PersonId = personId, 
+            Email = model.Email.Trim().ToLower(), 
+            Username = model.Username.Trim().ToLower(), 
+            MobileNo = model.MobileNo, 
+            Password = model.Password
         };
     }
     

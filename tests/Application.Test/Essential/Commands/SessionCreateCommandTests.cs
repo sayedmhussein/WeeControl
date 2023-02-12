@@ -14,9 +14,6 @@ namespace WeeControl.ApiApp.Application.Test.Essential.Commands;
 
 public class SessionCreateCommandTests
 {
-    private const string ValidUsername = "username";
-    private const string ValidPassword = "password";
-    
     #region Username and Password
     [Theory]
     [InlineData("", "", "")]
@@ -34,19 +31,24 @@ public class SessionCreateCommandTests
     }
     
     [Theory]
-    [InlineData("username@email.com", "password")]
+    [InlineData("username@Email.com", "password")]
     [InlineData("Username@Email.com", "password")]
-    [InlineData(ValidUsername, ValidPassword)]
-    [InlineData("Username", "password")]
+    [InlineData(TestHelper.Email, TestHelper.Password)]
+    [InlineData(TestHelper.Username, "password")]
     [InlineData("Username@email.com", "temporary")]
     [InlineData("Username", "temporary")]
     public async void WhenExistingUser_ReturnToken(string emailOrUsername, string password)
     {
         using var testHelper = new TestHelper();
-
+        testHelper.SeedDatabase();
+        var user = await testHelper.EssentialDb.Users.FirstOrDefaultAsync(x => x.Username == TestHelper.Username);
+        user.SetTemporaryPassword(testHelper.PasswordSecurity.Hash("temporary"));
+        await testHelper.EssentialDb.SaveChangesAsync(default);
+        
         var response = await GetHandler(testHelper).Handle(GetQuery(emailOrUsername, password), default);
 
         Assert.NotEmpty(response.Payload.Token);
+        Assert.NotEmpty(testHelper.EssentialDb.UserSessions);
     }
 
     [Theory]
@@ -59,7 +61,8 @@ public class SessionCreateCommandTests
     public async void WhenUserNotExist_ThrowNotFoundException(string emailOrUsername, string password)
     {
         using var testHelper = new TestHelper();
-
+        testHelper.SeedDatabase();
+        
         var query = GetQuery(emailOrUsername, password);
 
         await Assert.ThrowsAsync<NotFoundException>(() => GetHandler(testHelper).Handle(query, default));
@@ -69,7 +72,8 @@ public class SessionCreateCommandTests
     public async void WhenSameUserLoginTwiceFromSameDevice_SessionShouldBeSame()
     {
         using var testHelper = new TestHelper();
-        var query = GetQuery(ValidUsername, ValidPassword);
+        var entity = testHelper.SeedDatabase();
+        var query = GetQuery(entity.User.Username, entity.User.Password);
         
         await GetHandler(testHelper).Handle(query, default);
         var count1 = await testHelper.EssentialDb.UserSessions.CountAsync();
@@ -84,7 +88,8 @@ public class SessionCreateCommandTests
     public async void WhenSameUserLoginTwiceFromSameDeviceButAfterLoggedOutFirstTime_SessionShouldNotBeSame()
     {
         using var testHelper = new TestHelper();
-        var query = GetQuery(ValidUsername, ValidPassword);
+        var entity = testHelper.SeedDatabase();
+        var query = GetQuery(entity.User.Username, entity.User.Password);
 
         await GetHandler(testHelper).Handle(query, default);
         var count1 = await testHelper.EssentialDb.UserSessions.CountAsync();
@@ -104,12 +109,13 @@ public class SessionCreateCommandTests
     public async void WhenSameUserLoginTwiceFromDifferentDevices_SessionShouldNotBeSame()
     {
         using var testHelper = new TestHelper();
+        var entity = testHelper.SeedDatabase();
 
-        var query1 = GetQuery("username", "password", "device 1");
+        var query1 = GetQuery(entity.User.Username, entity.User.Password, "device 1");
         await GetHandler(testHelper).Handle(query1, default);
         var session1 = await testHelper.EssentialDb.UserSessions.FirstOrDefaultAsync(x => x.DeviceId == "device 1");
 
-        var query2 = GetQuery("username", "password", "device 2");
+        var query2 = GetQuery(entity.User.Username, entity.User.Password, "device 2");
         await GetHandler(testHelper).Handle(query2, default);
         var session2 = await testHelper.EssentialDb.UserSessions.FirstOrDefaultAsync(x => x.DeviceId == "device 2");
 
@@ -119,25 +125,10 @@ public class SessionCreateCommandTests
     }
     #endregion
 
-    private void SeedDb(TestHelper testHelper)
-    {
-        var person = PersonDbo.Create("FirstName", "LastName", "EGP", new DateOnly(1999, 12, 31));
-        testHelper.EssentialDb.Person.Add(person);
-        testHelper.EssentialDb.SaveChanges();
-
-        var user = UserDbo.Create(person.PersonId, "username@email.com", ValidUsername, "0123456789", testHelper.PasswordSecurity.Hash(ValidPassword));
-        user.SetTemporaryPassword(testHelper.PasswordSecurity.Hash("temporary")); 
-        testHelper.EssentialDb.Users.Add(user);
-        testHelper.EssentialDb.SaveChanges();
-    }
-
     private SessionCreateCommand.SessionCreateHandler GetHandler(TestHelper testHelper)
     {
         testHelper.ConfigurationMock.Setup(x => x["Jwt:Key"]).Returns(new string('a', 30));
-        
-        if (testHelper.EssentialDb.Person.IsNullOrEmpty())
-            SeedDb(testHelper);
-        
+
         return new SessionCreateCommand.SessionCreateHandler(
             testHelper.EssentialDb,
             testHelper.JwtService,
