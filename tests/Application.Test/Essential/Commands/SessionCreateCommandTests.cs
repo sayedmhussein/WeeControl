@@ -1,5 +1,7 @@
 using System;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using WeeControl.ApiApp.Persistence.DbContexts;
 using WeeControl.Core.Application.Contexts.User.Commands;
 using WeeControl.Core.Application.Exceptions;
@@ -117,10 +119,8 @@ public class SessionCreateCommandTests
     }
     #endregion
 
-    private SessionCreateCommand.SessionCreateHandler GetHandler(TestHelper testHelper)
+    private void SeedDb(TestHelper testHelper)
     {
-        testHelper.ConfigurationMock.Setup(x => x["Jwt:Key"]).Returns(new string('a', 30));
-        
         var person = PersonDbo.Create("FirstName", "LastName", "EGP", new DateOnly(1999, 12, 31));
         testHelper.EssentialDb.Person.Add(person);
         testHelper.EssentialDb.SaveChanges();
@@ -129,7 +129,15 @@ public class SessionCreateCommandTests
         user.SetTemporaryPassword(testHelper.PasswordSecurity.Hash("temporary")); 
         testHelper.EssentialDb.Users.Add(user);
         testHelper.EssentialDb.SaveChanges();
+    }
 
+    private SessionCreateCommand.SessionCreateHandler GetHandler(TestHelper testHelper)
+    {
+        testHelper.ConfigurationMock.Setup(x => x["Jwt:Key"]).Returns(new string('a', 30));
+        
+        if (testHelper.EssentialDb.Person.IsNullOrEmpty())
+            SeedDb(testHelper);
+        
         return new SessionCreateCommand.SessionCreateHandler(
             testHelper.EssentialDb,
             testHelper.JwtService,

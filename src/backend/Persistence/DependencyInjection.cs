@@ -26,21 +26,6 @@ namespace WeeControl.ApiApp.Persistence
             return services;
         }
 
-        public static IServiceCollection AddPersistenceAsSqlite(this IServiceCollection services, string connectionString = "Data Source=:memory:")
-        {
-            services.RemoveDbFromServices<EssentialDbContext>();
-            
-            var options = new DbContextOptionsBuilder<EssentialDbContext>();
-            options.EnableDetailedErrors();
-            options.EnableSensitiveDataLogging();
-            options.UseSqlite(connectionString);
-
-            services.AddScoped<IEssentialDbContext>(p =>
-                new EssentialDbContext(options.Options));
-
-            return services;
-        }
-
         public static IServiceCollection AddPersistenceAsInMemory(this IServiceCollection services,
             string dbName = null)
         {

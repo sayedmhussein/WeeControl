@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using System;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using WeeControl.ApiApp.Persistence;
 using WeeControl.ApiApp.Persistence.DbContexts;
@@ -26,21 +27,35 @@ public class TestHelper : IDisposable
     public Mock<IConfiguration> ConfigurationMock;
     public Mock<ICurrentUserInfo> CurrentUserInfoMock;
 
+    private readonly SqliteConnection connection;
+    private readonly EssentialDbContext context;
+
     public TestHelper()
     {
         JwtService = new JwtService();
 
         PasswordSecurity = new PasswordSecurity();
 
-        EssentialDb = new ServiceCollection()
-            .AddPersistenceAsSqlite()
-            //.AddPersistenceAsInMemory()
-            .BuildServiceProvider()
-            .GetService<IEssentialDbContext>();
-
-        var context = (EssentialDbContext) EssentialDb;
+        connection = new SqliteConnection("Filename=:memory:");
+        connection.Open();
+        var options = new DbContextOptionsBuilder<EssentialDbContext>()
+            .UseSqlite(connection)
+            .EnableDetailedErrors()
+            .EnableSensitiveDataLogging()
+            .Options;
+        
+        context = new EssentialDbContext(options);
         context.Database.EnsureCreated();
-        context.Database.Migrate();
+
+        EssentialDb = context;
+        
+        // EssentialDb = new ServiceCollection()
+        //     .AddPersistenceAsSqlite()
+        //     //.AddPersistenceAsInMemory()
+        //     .BuildServiceProvider()
+        //     .GetService<IEssentialDbContext>();
+        
+        
 
         MediatorMock = new Mock<IMediator>();
 
@@ -51,6 +66,8 @@ public class TestHelper : IDisposable
 
     public void Dispose()
     {
+        connection.Dispose();
+        context.Dispose();
         EssentialDb = null;
         MediatorMock = null;
         ConfigurationMock = null;
