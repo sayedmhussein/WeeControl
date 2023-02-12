@@ -16,7 +16,7 @@ public class ResetPasswordCommandTests
         var seed = testHelper.SeedDatabase();
 
         await GetHandler(testHelper).Handle(
-            GetCommand(TestHelper.Email, TestHelper.Username, nameof(testHelper.SeedDatabase)),
+            GetCommand(TestHelper.Email, TestHelper.Username, TestHelper.DeviceId),
             default);
 
         var newPass = testHelper.EssentialDb.Users.First().TempPassword;
@@ -29,15 +29,12 @@ public class ResetPasswordCommandTests
     public async void WhenBadRequest()
     {
         using var testHelper = new TestHelper();
-        var user = testHelper.GetUserDboWithEncryptedPassword("username", "password");
-        await testHelper.EssentialDb.Users.AddAsync(user);
-        await testHelper.EssentialDb.SaveChangesAsync(default);
-        var handler = GetHandler(testHelper);
-
-        var command = GetCommand(user.Email, user.Username, string.Empty);
-
+        testHelper.SeedDatabase();
+        
         await Assert.ThrowsAsync<BadRequestException>(() =>
-            handler.Handle(command, default));
+            GetHandler(testHelper).Handle(
+                GetCommand(TestHelper.Email, TestHelper.Username, string.Empty),
+                default));
     }
 
     [Theory]

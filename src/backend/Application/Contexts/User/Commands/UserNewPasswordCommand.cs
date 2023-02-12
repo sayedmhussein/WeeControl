@@ -1,3 +1,4 @@
+using System.Linq;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
@@ -43,17 +44,24 @@ public class UserNewPasswordCommand : IRequest
                 throw new BadRequestException("Invalid old and new password supplied");
             }
 
-            var session = await context.UserSessions.FirstOrDefaultAsync(x => x.SessionId == currentUserInfo.SessionId, cancellationToken);
-            var user = await context.Users.FirstOrDefaultAsync(x =>
-                x.UserId == session.UserId &&
-                (x.Password == passwordSecurity.Hash(request.OldPassword) || x.TempPassword == passwordSecurity.Hash(request.OldPassword)), cancellationToken);
+            var session = await context.UserSessions
+                .Include(x => x.User)
+                .Where(x => x.SessionId == currentUserInfo.SessionId)
+                .Where(x => 
+                    x.User.Password == passwordSecurity.Hash(request.OldPassword ) || 
+                    x.User.TempPassword == passwordSecurity.Hash(request.OldPassword))
+                .FirstOrDefaultAsync(cancellationToken);
 
-            if (user is null)
+            if (session is null)
             {
                 throw new NotFoundException("User not found!");
             }
 
-            user.UpdatePassword(passwordSecurity.Hash(request.NewPassword));
+            session.User.UpdatePassword(passwordSecurity.Hash(request.NewPassword));
+            context.Users.Attach(session.User);
+            context.Users.Entry(session.User).Property(x => x.Password).IsModified = true;
+            //context.Users.Entry(session.User).State = EntityState.Modified;
+            //context.Users.Update(session.User);
 
             await context.SaveChangesAsync(cancellationToken);
 

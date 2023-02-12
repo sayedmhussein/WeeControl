@@ -11,19 +11,15 @@ public class NotificationQueryTests
     public void ReturnListOfNotificationsTest()
     {
         using var testHelper = new TestHelper();
-        var user = testHelper.GetUserDboWithEncryptedPassword("username", "password");
-        testHelper.EssentialDb.Users.Add(user);
-        testHelper.EssentialDb.SaveChanges();
-
-        testHelper.EssentialDb.UserSessions.Add(UserSessionDbo.Create(user.UserId, "device", "0000"));
-        testHelper.EssentialDb.UserNotifications.Add(UserNotificationDbo.Create(user.UserId, "1", "1", ""));
-        testHelper.EssentialDb.UserNotifications.Add(UserNotificationDbo.Create(user.UserId, "2", "2", ""));
-        testHelper.EssentialDb.UserNotifications.Add(UserNotificationDbo.Create(user.UserId, "3", "3", ""));
+        var seed = testHelper.SeedDatabase();
+        testHelper.EssentialDb.UserNotifications.Add(UserNotificationDbo.Create(seed.userId, "1", "1", ""));
+        testHelper.EssentialDb.UserNotifications.Add(UserNotificationDbo.Create(seed.userId, "2", "2", ""));
+        testHelper.EssentialDb.UserNotifications.Add(UserNotificationDbo.Create(seed.userId, "3", "3", ""));
         testHelper.EssentialDb.UserNotifications.Add(UserNotificationDbo.Create(Guid.NewGuid(), "1", "1", ""));
-
+        //
         testHelper.EssentialDb.SaveChanges();
 
-        testHelper.CurrentUserInfoMock.SetupGet(x => x.SessionId).Returns(testHelper.EssentialDb.UserSessions.First().SessionId);
+        testHelper.CurrentUserInfoMock.SetupGet(x => x.SessionId).Returns(seed.sessionId);
 
         //var handler = GetHandler(testHelper);
 

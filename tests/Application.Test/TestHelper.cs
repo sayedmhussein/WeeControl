@@ -25,6 +25,7 @@ public class TestHelper : IDisposable
     public const string Email = "username@email.com";
     public const string Username = "username";
     public const string Password = "password";
+    public const string DeviceId = "DeviceId";
     
     public readonly IJwtService JwtService;
     public readonly IPasswordSecurity PasswordSecurity;
@@ -97,7 +98,7 @@ public class TestHelper : IDisposable
         EssentialDb.Users.Add(user);
         EssentialDb.SaveChanges();
 
-        var session = UserSessionDbo.Create(user.UserId, nameof(SeedDatabase), "0000");
+        var session = UserSessionDbo.Create(user.UserId, DeviceId, "0000");
         EssentialDb.UserSessions.Add(session);
         session.DisableOtpRequirement();
         EssentialDb.SaveChanges();
