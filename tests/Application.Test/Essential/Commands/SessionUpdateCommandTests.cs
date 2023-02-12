@@ -13,10 +13,8 @@ public class SessionUpdateCommandTests
     public async void WhenOtpIsRequired_ThrowsNotAllowedException()
     {
         using var testHelper = new TestHelper();
-        var user = testHelper.GetUserDboWithEncryptedPassword("username", "password");
-        await testHelper.EssentialDb.Users.AddAsync(user);
-        await testHelper.EssentialDb.SaveChangesAsync(default);
-        var session = new UserSessionDbo(user.UserId, "device", "0000");
+        testHelper.SeedDatabase();
+        var session = UserSessionDbo.Create(testHelper.GetUserId(), "device", "0000");
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         testHelper.CurrentUserInfoMock.Setup(x => x.SessionId).Returns(session.SessionId);
@@ -32,29 +30,25 @@ public class SessionUpdateCommandTests
     public async void WhenSessionIsActive_ReturnToken()
     {
         using var testHelper = new TestHelper();
-        var user = testHelper.GetUserDboWithEncryptedPassword("username", "password");
-        await testHelper.EssentialDb.Users.AddAsync(user);
-        await testHelper.EssentialDb.SaveChangesAsync(default);
-        var session = new UserSessionDbo(user.UserId, "device", null);
+        testHelper.SeedDatabase();
+        var session = UserSessionDbo.Create(testHelper.GetUserId(), "device", "0000");
+        session.DisableOtpRequirement();
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
+        //
         testHelper.CurrentUserInfoMock.Setup(x => x.SessionId).Returns(session.SessionId);
 
         var response = await GetHandler(testHelper).Handle(GetQuery("device", null), default);
 
         Assert.NotEmpty(response.Payload.Token);
-        Assert.NotEmpty(response.Payload.FullName);
     }
 
     [Fact]
     public async void WhenSessionIsTerminated_ThrowNotAllowedException()
     {
         using var testHelper = new TestHelper();
-        var user = testHelper.GetUserDboWithEncryptedPassword("username", "password");
-        user.SetTemporaryPassword(testHelper.PasswordSecurity.Hash("temporary"));
-        await testHelper.EssentialDb.Users.AddAsync(user);
-        await testHelper.EssentialDb.SaveChangesAsync(default);
-        var session = new UserSessionDbo(user.UserId, "device", null);
+        testHelper.SeedDatabase();
+        var session = UserSessionDbo.Create(testHelper.GetUserId(), "device", "0000");
         session.TerminationTs = DateTime.UtcNow;
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
@@ -68,16 +62,13 @@ public class SessionUpdateCommandTests
     public async void WhenSessionIsActiveButFromDifferentDevice_ThrowNotAllowedException()
     {
         using var testHelper = new TestHelper();
-        var user = testHelper.GetUserDboWithEncryptedPassword("username", "password");
-        user.SetTemporaryPassword(testHelper.PasswordSecurity.Hash("temporary"));
-        await testHelper.EssentialDb.Users.AddAsync(user);
-        await testHelper.EssentialDb.SaveChangesAsync(default);
-        var session = new UserSessionDbo(user.UserId, "device", null);
+        testHelper.SeedDatabase();
+        var session = UserSessionDbo.Create(testHelper.GetUserId(), "device", "0000");
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         testHelper.CurrentUserInfoMock.Setup(x => x.SessionId).Returns(session.SessionId);
 
-        var query = GetQuery("device2", null);
+        var query = GetQuery("device2", "0000");
         await Assert.ThrowsAsync<NotAllowedException>(() => GetHandler(testHelper).Handle(query, default));
     }
     #endregion

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -73,7 +74,7 @@ public class SessionCreateCommandTests
     {
         using var testHelper = new TestHelper();
         var entity = testHelper.SeedDatabase();
-        var query = GetQuery(entity.User.Username, entity.User.Password);
+        var query = GetQuery(TestHelper.Username, TestHelper.Password);
         
         await GetHandler(testHelper).Handle(query, default);
         var count1 = await testHelper.EssentialDb.UserSessions.CountAsync();
@@ -87,20 +88,22 @@ public class SessionCreateCommandTests
     [Fact]
     public async void WhenSameUserLoginTwiceFromSameDeviceButAfterLoggedOutFirstTime_SessionShouldNotBeSame()
     {
+        const string deviceName = "DeviceName";
+        //
         using var testHelper = new TestHelper();
         var entity = testHelper.SeedDatabase();
-        var query = GetQuery(entity.User.Username, entity.User.Password);
+        var query = GetQuery(TestHelper.Username, TestHelper.Password, deviceName);
 
         await GetHandler(testHelper).Handle(query, default);
-        var count1 = await testHelper.EssentialDb.UserSessions.CountAsync();
-        var session = await testHelper.EssentialDb.UserSessions.FirstOrDefaultAsync();
+        var count1 = await testHelper.EssentialDb.UserSessions.Where(x => x.DeviceId == deviceName).CountAsync();
+        var session = await testHelper.EssentialDb.UserSessions.Where(x => x.DeviceId == deviceName).FirstOrDefaultAsync();
         Assert.NotNull(session);
         //
         session.TerminationTs = DateTime.Now;
         await testHelper.EssentialDb.SaveChangesAsync(default);
 
         await GetHandler(testHelper).Handle(query, default);
-        var count2 = await testHelper.EssentialDb.UserSessions.CountAsync();
+        var count2 = await testHelper.EssentialDb.UserSessions.Where(x => x.DeviceId == deviceName).CountAsync();
 
         Assert.Equal(count1 + 1, count2);
     }
@@ -111,11 +114,11 @@ public class SessionCreateCommandTests
         using var testHelper = new TestHelper();
         var entity = testHelper.SeedDatabase();
 
-        var query1 = GetQuery(entity.User.Username, entity.User.Password, "device 1");
+        var query1 = GetQuery(TestHelper.Username, TestHelper.Password, "device 1");
         await GetHandler(testHelper).Handle(query1, default);
         var session1 = await testHelper.EssentialDb.UserSessions.FirstOrDefaultAsync(x => x.DeviceId == "device 1");
 
-        var query2 = GetQuery(entity.User.Username, entity.User.Password, "device 2");
+        var query2 = GetQuery(TestHelper.Username, TestHelper.Password, "device 2");
         await GetHandler(testHelper).Handle(query2, default);
         var session2 = await testHelper.EssentialDb.UserSessions.FirstOrDefaultAsync(x => x.DeviceId == "device 2");
 

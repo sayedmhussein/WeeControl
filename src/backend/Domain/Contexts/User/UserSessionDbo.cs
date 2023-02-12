@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using WeeControl.Core.Domain.Exceptions;
 
 namespace WeeControl.Core.Domain.Contexts.User;
 
@@ -12,11 +14,28 @@ public class UserSessionDbo
 {
     public static UserSessionDbo Create(Guid userid, string deviceid, string otp)
     {
-        return new UserSessionDbo() { UserId = userid, DeviceId = deviceid, CreatedTs = DateTime.UtcNow, OneTimePassword = otp };
+        if (userid == Guid.Empty)
+            throw new DomainOutOfRangeException("User ID can't but empty GUID.");
+        
+        if (string.IsNullOrWhiteSpace(deviceid))
+            throw new DomainOutOfRangeException("Device ID must be supplied.");
+        
+        if (string.IsNullOrWhiteSpace(otp))
+            throw new ArgumentException("OTP must be supplied by application logic when creating new session.");
+
+        var dbo = new UserSessionDbo()
+        {
+            UserId = userid, DeviceId = deviceid.Trim(), CreatedTs = DateTime.UtcNow, OneTimePassword = otp.Trim()
+        };
+        
+        DomainValidationException.ValidateEntity(dbo);
+
+        return dbo;
     }
 
     [Key]
-    public Guid SessionId { get; }
+    public Guid SessionId { get; init; }
+    
     public Guid UserId { get; set; }
     public UserDbo User { get; set; }
 
@@ -24,6 +43,7 @@ public class UserSessionDbo
     [StringLength(128)]
     public string DeviceId { get; set; }
 
+    [AllowNull]
     [StringLength(4, MinimumLength = 4)]
     public string OneTimePassword { get; set; }
 
@@ -41,12 +61,9 @@ public class UserSessionDbo
     {
     }
 
-    public UserSessionDbo(Guid userid, string deviceid, string otp)
+    public void DisableOtpRequirement()
     {
-        UserId = userid;
-        DeviceId = deviceid;
-        CreatedTs = DateTime.UtcNow;
-        OneTimePassword = otp;
+        OneTimePassword = null;
     }
 }
 
@@ -61,7 +78,7 @@ public class UserSessionEntityTypeConfig : IEntityTypeConfiguration<UserSessionD
             .HasForeignKey(x => x.UserId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.Property(x => x.DeviceId).HasMaxLength(255).IsRequired();
+        builder.Property(x => x.DeviceId);
 
         builder.Property(p => p.CreatedTs).HasDefaultValue(DateTime.UtcNow);
 

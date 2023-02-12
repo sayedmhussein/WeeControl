@@ -77,7 +77,7 @@ public class SessionUpdateCommand : IRequest<ResponseDto<TokenResponseDto>>
                         throw new NotAllowedException("Otp Isn't matching the recorded.");
                     }
 
-                    session.OneTimePassword = null;
+                    session.DisableOtpRequirement();
                     await context.SaveChangesAsync(cancellationToken);
                 }
 

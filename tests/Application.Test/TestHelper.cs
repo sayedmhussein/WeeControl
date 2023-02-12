@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using System;
+using System.Linq;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using WeeControl.ApiApp.Persistence;
@@ -76,7 +77,7 @@ public class TestHelper : IDisposable
         return UserDbo.Create(Guid.NewGuid(),username + "@email.com", username, "0123456789", PasswordSecurity.Hash(password));
     }
 
-    public (PersonModel Person, UserModel User) SeedDatabase()
+    public (PersonModel Person, UserModel User, Guid personId, Guid userId, Guid sessionId) SeedDatabase()
     {
         var personModel = new PersonModel()
         {
@@ -96,8 +97,17 @@ public class TestHelper : IDisposable
         EssentialDb.Users.Add(user);
         EssentialDb.SaveChanges();
 
-        userModel.Password = Password;
+        var session = UserSessionDbo.Create(user.UserId, nameof(SeedDatabase), "0000");
+        EssentialDb.UserSessions.Add(session);
+        session.DisableOtpRequirement();
+        EssentialDb.SaveChanges();
 
-        return (personModel, userModel);
+        return (personModel, userModel, person.PersonId, user.UserId, session.SessionId);
+    }
+
+    [Obsolete("Use returned value from seed")]
+    public Guid GetUserId(string username = Username)
+    {
+        return EssentialDb.Users.First(x => x.Username == username).UserId;
     }
 }

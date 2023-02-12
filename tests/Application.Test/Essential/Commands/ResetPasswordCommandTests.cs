@@ -13,11 +13,10 @@ public class ResetPasswordCommandTests
     public async void WhenSuccessfulOrOk()
     {
         using var testHelper = new TestHelper();
-        var user = testHelper.GetUserDboWithEncryptedPassword("username", "password");
-        await testHelper.EssentialDb.Users.AddAsync(user);
-        await testHelper.EssentialDb.SaveChangesAsync(default);
+        var seed = testHelper.SeedDatabase();
 
-        await GetHandler(testHelper).Handle(GetCommand(user.Email, user.Username, "device"),
+        await GetHandler(testHelper).Handle(
+            GetCommand(TestHelper.Email, TestHelper.Username, nameof(testHelper.SeedDatabase)),
             default);
 
         var newPass = testHelper.EssentialDb.Users.First().TempPassword;
