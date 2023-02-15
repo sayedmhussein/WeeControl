@@ -1,7 +1,6 @@
 using MediatR;
 using WeeControl.Core.Application.Contexts.User.Queries;
 using WeeControl.Core.Application.Exceptions;
-using WeeControl.Core.DataTransferObject.Contexts.User;
 
 namespace WeeControl.Core.Test.Application.Contexts.User.Queries;
 

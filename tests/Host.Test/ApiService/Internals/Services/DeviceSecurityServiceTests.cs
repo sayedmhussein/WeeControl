@@ -1,19 +1,17 @@
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.IdentityModel.Tokens;
 using WeeControl.Core.SharedKernel.Interfaces;
 using WeeControl.Core.SharedKernel.Services;
-using WeeControl.Frontend.AppService.DeviceInterfaces;
-using WeeControl.Frontend.AppService.Internals.Services;
+using WeeControl.Host.WebApiService.DeviceInterfaces;
+using WeeControl.Host.WebApiService.Internals.Services;
 
-namespace WeeControl.Frontend.Service.UnitTest.Services;
+namespace WeeControl.Host.Test.ApiService.Internals.Services;
 
 public class DeviceSecurityServiceTests : IDisposable
 {
-    private Mock<IStorage> storageMock;
-    private IJwtService jwtService;
+    private readonly Mock<IStorage> storageMock;
+    private readonly IJwtService jwtService;
 
     public DeviceSecurityServiceTests()
     {
@@ -24,7 +22,8 @@ public class DeviceSecurityServiceTests : IDisposable
 
     public void Dispose()
     {
-        storageMock = null;
+        storageMock.DefaultValue = DefaultValue.Mock;
+        //storageMock = null;
     }
 
     [Theory]

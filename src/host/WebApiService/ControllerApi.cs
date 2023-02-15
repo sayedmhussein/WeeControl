@@ -9,7 +9,7 @@ public class ControllerApi
     
     public static class User
     {
-        public const string AuthorizationRoute = "Api/User";
+        public const string Route = "Api/User";
         
         public const string RegisterEndpoint = "Register";
         public const string PasswordEndpoint = "Password";

@@ -1,4 +1,5 @@
 ﻿using WeeControl.Core.DataTransferObject.Contexts.User;
+using WeeControl.Core.SharedKernel.Contexts.User;
 using WeeControl.Host.WebApiService.Contexts.User;
 
 namespace WeeControl.Host.WebApiService.Internals.Contexts;
@@ -11,6 +12,11 @@ internal class RegisterService : IRegisterService
     }
 
     public Task Register(EmployeeRegisterDto dto)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<UserModel> GetUser()
     {
         throw new NotImplementedException();
     }

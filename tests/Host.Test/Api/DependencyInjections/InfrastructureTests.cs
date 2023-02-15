@@ -1,6 +1,5 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Moq;
 using WeeControl.ApiApp.Infrastructure;
 using WeeControl.Core.Application.Interfaces;
 

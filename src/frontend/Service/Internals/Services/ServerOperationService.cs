@@ -66,6 +66,7 @@ internal class ServerOperationService : IServerOperation
         }
     }
 
+    [Obsolete]
     public async Task<T?> ReadFromContent<T>(HttpContent content) where T : class
     {
         try
@@ -81,6 +82,7 @@ internal class ServerOperationService : IServerOperation
         return null;
     }
 
+    
     public async Task<bool> RefreshToken()
     {
         if (await security.IsAuthenticatedAsync() == false)

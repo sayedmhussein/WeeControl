@@ -1,13 +1,12 @@
-using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
 using WeeControl.Core.SharedKernel.Interfaces;
-using WeeControl.Frontend.AppService.DeviceInterfaces;
-using WeeControl.Frontend.AppService.Internals.Interfaces;
+using WeeControl.Host.WebApiService.DeviceInterfaces;
+using WeeControl.Host.WebApiService.Internals.Interfaces;
 
-namespace WeeControl.Frontend.AppService.Internals.Services;
+namespace WeeControl.Host.WebApiService.Internals.Services;
 
-[Obsolete]
 internal class SecurityService : IDeviceSecurity
 {
     private const string TokenKeyName = nameof(TokenKeyName);
@@ -19,7 +18,7 @@ internal class SecurityService : IDeviceSecurity
         this.storage = storage;
         this.jwtService = jwtService;
     }
-
+    
     public async Task<bool> IsAuthenticatedAsync()
     {
         return !string.IsNullOrWhiteSpace(await storage.GetKeyValue(TokenKeyName));

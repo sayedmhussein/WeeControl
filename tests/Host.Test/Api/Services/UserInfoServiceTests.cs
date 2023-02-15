@@ -1,6 +1,5 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
-using Moq;
 using WeeControl.Core.SharedKernel;
 using WeeControl.Host.WebApi.Services;
 
