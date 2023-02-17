@@ -1,3 +1,4 @@
+using System;
 using System.Net;
 using WeeControl.Core.DataTransferObject.Contexts.User;
 using WeeControl.Frontend.AppService;
@@ -6,6 +7,7 @@ using WeeControl.Frontend.AppService.Internals.Services;
 
 namespace WeeControl.Frontend.Service.UnitTest.Services;
 
+[Obsolete]
 public class ServerOperationTests
 {
     private Mock<IDeviceData> deviceDataMock;

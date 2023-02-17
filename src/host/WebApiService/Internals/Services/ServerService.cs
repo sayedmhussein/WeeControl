@@ -1,7 +1,10 @@
+using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
+using Newtonsoft.Json;
 using WeeControl.Core.DataTransferObject.BodyObjects;
+using WeeControl.Core.DataTransferObject.Contexts.User;
 using WeeControl.Host.WebApiService.DeviceInterfaces;
 using WeeControl.Host.WebApiService.Internals.Interfaces;
 
@@ -11,25 +14,35 @@ internal class ServerService : IServerOperation
 {
     private readonly ICommunication communication;
     private readonly IDeviceSecurity security;
+    private readonly IFeature feature;
     private readonly HttpClient httpClient;
 
-    public ServerService(ICommunication communication, IDeviceSecurity security)
+    public ServerService(ICommunication communication, IDeviceSecurity security, IFeature feature)
     {
         httpClient = communication.HttpClient;
         this.communication = communication;
         this.security = security;
+        this.feature = feature;
     }
     
     public Task<HttpResponseMessage> GetResponseMessage(HttpMethod method, Version version, string route, string? endpoint = null,
         string[]? query = null)
     {
-        throw new NotImplementedException();
+        var address = GetFullAddress(route, endpoint, query);
+        
+        return Send(method, version, new Uri(address));
     }
 
-    public Task<HttpResponseMessage> GetResponseMessage<T>(HttpMethod method, Version version, T dto, string route, string? endpoint = null,
+    public async Task<HttpResponseMessage> GetResponseMessage<T>(HttpMethod method, Version version, T dto, string route, string? endpoint = null,
         string[]? query = null) where T : class
     {
-        throw new NotImplementedException();
+        var address = GetFullAddress(route, endpoint, query);
+        
+        var location = await feature.GetDeviceLocation();
+        var payload = RequestDto.Create(dto, await feature.GetDeviceId(), location.Latitude, location.Longitude);
+        var content = new StringContent(JsonConvert.SerializeObject(payload), Encoding.UTF8, "application/json");
+
+        return await Send(method, version, new Uri(address), content);
     }
 
     public async Task<T?> ReadFromContent<T>(HttpContent content) where T : class
@@ -47,14 +60,45 @@ internal class ServerService : IServerOperation
         return null;
     }
 
-    public Task<bool> RefreshToken()
+    public async Task<bool> RefreshToken()
     {
-        throw new NotImplementedException();
+        if (await security.IsAuthenticated() == false)
+            return false;
+
+        var response = await GetResponseMessage(HttpMethod.Put, new Version("1.0"), ControllerApi.Authorization.Route);
+        if (response.IsSuccessStatusCode)
+        {
+            var dto = await ReadFromContent<TokenResponseDto>(response.Content);
+            if (dto is not null)
+            {
+                var token = dto.Token;
+                await security.UpdateToken(token);
+            }
+        }
+
+        if (response.StatusCode != HttpStatusCode.BadGateway)
+            await security.DeleteToken();
+        
+        return false;
     }
-    
+
+    private async Task<HttpResponseMessage> Send(HttpMethod method, Version version, Uri uri, HttpContent? content = null)
+    {
+        var requestMessage = new HttpRequestMessage()
+        {
+            Method = method, Version = version, RequestUri = uri, Content = content
+        };
+
+        await UpdateHttpAuthorizationHeader();
+
+        var responseMessage = await communication.HttpClient.SendAsync(requestMessage);
+
+        return responseMessage;
+    }
+
     private async Task UpdateHttpAuthorizationHeader()
     {
-        var token = await security.GetTokenAsync();
+        var token = await security.GetToken();
         if (string.IsNullOrWhiteSpace(token))
             return;
 
@@ -73,17 +117,17 @@ internal class ServerService : IServerOperation
         var address = new StringBuilder();
         address.Append(communication.ServerUrl);
 
-        if (communication.ServerUrl[-1] != '/')
+        if (communication.ServerUrl.Last() != '/')
             address.Append('/');
         
         address.Append(relative);
-        if (relative[-1] != '/')
+        if (relative.Last() != '/')
             address.Append('/');
 
         if (!string.IsNullOrEmpty(endPoint))
         {
             address.Append(endPoint);
-            if (endPoint[-1] != '/')
+            if (endPoint.Last() != '/')
                 address.Append('/');
         }
 

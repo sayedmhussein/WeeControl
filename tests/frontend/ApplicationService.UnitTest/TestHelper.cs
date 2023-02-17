@@ -15,6 +15,7 @@ using WeeControl.Frontend.AppService.DeviceInterfaces;
 
 namespace WeeControl.Frontend.Service.UnitTest;
 
+[Obsolete]
 public class TestHelper : IDisposable
 {
     public Mock<IDeviceData> DeviceMock { get; private set; }

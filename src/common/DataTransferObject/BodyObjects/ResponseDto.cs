@@ -11,7 +11,7 @@ public class ResponseDto
 
     public static ResponseDto<T> Create<T>(T dto, string debug = null!) where T : class
     {
-        return new ResponseDto<T>(dto, debug);
+        return new ResponseDto<T>() { Debug = debug, Payload = dto };
     }
 
     protected ResponseDto()
@@ -31,13 +31,9 @@ public class ResponseDto<T> : ResponseDto where T : class
 {
     public T Payload { get; set; }
 
-    private ResponseDto() : base()
+    public ResponseDto()
     {
         Payload = null!;
     }
-
-    internal ResponseDto(T payload, string debug) : base(debug)
-    {
-        Payload = payload;
-    }
+    
 }

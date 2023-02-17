@@ -9,7 +9,6 @@ namespace WeeControl.Host.WebApiService.Internals.Services;
 
 internal class SecurityService : IDeviceSecurity
 {
-    private const string TokenKeyName = nameof(TokenKeyName);
     private readonly IStorage storage;
     private readonly IJwtService jwtService;
 
@@ -19,30 +18,30 @@ internal class SecurityService : IDeviceSecurity
         this.jwtService = jwtService;
     }
     
-    public async Task<bool> IsAuthenticatedAsync()
+    public async Task<bool> IsAuthenticated()
     {
-        return !string.IsNullOrWhiteSpace(await storage.GetKeyValue(TokenKeyName));
+        return !string.IsNullOrWhiteSpace(await storage.GetKeyValue(IDeviceSecurity.TokenKeyName));
     }
 
-    public Task UpdateTokenAsync(string token)
+    public Task UpdateToken(string token)
     {
         TokenChanged?.Invoke(this, token);
-        return storage.SaveKeyValue(TokenKeyName, token);
+        return storage.SaveKeyValue(IDeviceSecurity.TokenKeyName, token);
     }
 
-    public Task<string?> GetTokenAsync()
+    public Task<string?> GetToken()
     {
-        return storage.GetKeyValue(TokenKeyName);
+        return storage.GetKeyValue(IDeviceSecurity.TokenKeyName);
     }
 
-    public Task DeleteTokenAsync()
+    public Task DeleteToken()
     {
-        return storage.SaveKeyValue(TokenKeyName, string.Empty);
+        return storage.SaveKeyValue(IDeviceSecurity.TokenKeyName, string.Empty);
     }
 
     public async Task<ClaimsPrincipal> GetClaimsPrincipal()
     {
-        var token = await GetTokenAsync();
+        var token = await GetToken();
         if (string.IsNullOrEmpty(token))
             return new ClaimsPrincipal();
 

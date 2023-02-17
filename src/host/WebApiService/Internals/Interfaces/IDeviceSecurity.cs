@@ -4,13 +4,14 @@ namespace WeeControl.Host.WebApiService.Internals.Interfaces;
 
 internal interface IDeviceSecurity
 {
-    Task<bool> IsAuthenticatedAsync();
+    internal const string TokenKeyName = nameof(TokenKeyName);
+    Task<bool> IsAuthenticated();
 
-    Task UpdateTokenAsync(string token);
+    Task UpdateToken(string token);
 
-    Task<string?> GetTokenAsync();
+    Task<string?> GetToken();
 
-    Task DeleteTokenAsync();
+    Task DeleteToken();
 
     Task<ClaimsPrincipal> GetClaimsPrincipal();
 
