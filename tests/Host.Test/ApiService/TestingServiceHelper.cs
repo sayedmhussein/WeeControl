@@ -105,10 +105,11 @@ public class TestingServiceHelper : IDisposable
 
     public T GetService<T>(IEnumerable<(HttpStatusCode statusCode, object? dto)> responses) where T : class
     {
-        var client = GetHttpClientWithHttpMessageHandlerSequenceResponseMock(responses);
+        var res = responses.Select(v => new ValueTuple<HttpStatusCode, HttpContent>(v.statusCode, new StringContent(JsonConvert.SerializeObject(ResponseDto.Create(v.dto)), Encoding.UTF8, "application/json"))).ToList();
+        
+        var client = GetHttpClientWithHttpMessageHandlerSequenceResponseMock(res);
 
         return GetService<T>(client);
-        throw new NotImplementedException();
     }
 
     private HttpClient GetHttpClientWithHttpMessageHandlerSequenceResponseMock(IEnumerable<(HttpStatusCode, HttpContent)> returns)

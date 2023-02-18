@@ -24,6 +24,7 @@ public static class ServiceExtension
 
     private static IServiceCollection AddContexts(this IServiceCollection services)
     {
+        services.AddSingleton<IAuthenticationService, AuthenticationService>();
         services.AddSingleton<IRegisterService, RegisterService>();
         
         return services;
