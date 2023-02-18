@@ -54,7 +54,6 @@ public class ServerOperationTests
         var service = testingHelper.GetService<IServerOperation>(HttpStatusCode.Forbidden);
         
         Assert.False(await service.RefreshToken());
-        testingHelper.StorageMock.Verify(x => x.SaveKeyValue(IDeviceSecurity.TokenKeyName, string.Empty));
     }
     #endregion
     

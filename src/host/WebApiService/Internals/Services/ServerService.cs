@@ -73,6 +73,7 @@ internal class ServerService : IServerOperation
             {
                 var token = dto.Token;
                 await security.UpdateToken(token);
+                return true;
             }
         }
 
