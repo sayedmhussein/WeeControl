@@ -12,8 +12,7 @@ public static class ApplicationPages
 
 
 
-
-
+    
 
 
     public static class Essential

@@ -103,6 +103,49 @@ public class TestingServiceHelper : IDisposable
         return GetService<T>(new HttpClient(handlerMock.Object));
     }
 
+    public T GetService<T>(IEnumerable<(HttpStatusCode statusCode, object? dto)> responses) where T : class
+    {
+        var client = GetHttpClientWithHttpMessageHandlerSequenceResponseMock(responses);
+
+        return GetService<T>(client);
+        throw new NotImplementedException();
+    }
+
+    private HttpClient GetHttpClientWithHttpMessageHandlerSequenceResponseMock(IEnumerable<(HttpStatusCode, HttpContent)> returns)
+    {
+        var handlerMock = new Mock<HttpMessageHandler>(MockBehavior.Strict);
+        var handlerPart = handlerMock
+            .Protected()
+            // Setup the PROTECTED method to mock
+            .SetupSequence<Task<HttpResponseMessage>>(
+                "SendAsync",
+                ItExpr.IsAny<HttpRequestMessage>(),
+                ItExpr.IsAny<CancellationToken>()
+            );
+
+        foreach (var item in returns)
+        {
+            handlerPart = AddReturnPart(handlerPart, item.Item1, item.Item2);
+        }
+        handlerMock.Verify();
+
+        var httpClient = new HttpClient(handlerMock.Object);
+        return httpClient;
+    }
+
+    private Moq.Language.ISetupSequentialResult<Task<HttpResponseMessage>> AddReturnPart(Moq.Language.ISetupSequentialResult<Task<HttpResponseMessage>> handlerPart,
+        HttpStatusCode statusCode, HttpContent content)
+    {
+        return handlerPart
+
+            // prepare the expected response of the mocked http call
+            .ReturnsAsync(new HttpResponseMessage()
+            {
+                StatusCode = statusCode, // HttpStatusCode.Unauthorized,
+                Content = content //new StringContent("[{'id':1,'value':'1'}]"),
+            });
+    }
+    
     private static string GetLocalIpAddress()
     {
         var host = Dns.GetHostEntry(Dns.GetHostName());
