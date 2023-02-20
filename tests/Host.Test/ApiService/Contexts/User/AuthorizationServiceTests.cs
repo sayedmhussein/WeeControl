@@ -1,5 +1,4 @@
 using System.Net;
-using Microsoft.AspNetCore.Authorization;
 using WeeControl.Core.DataTransferObject.Contexts.User;
 using WeeControl.Host.WebApiService;
 using WeeControl.Host.WebApiService.Contexts.User;

@@ -36,6 +36,7 @@ public static class ServiceExtension
         services.AddSingleton<IDatabaseService, DatabaseService>();
         services.AddSingleton<IDeviceSecurity, SecurityService>();
         services.AddSingleton<IServerOperation, ServerService>();
+        services.AddSingleton<ISecurity, AppSecurityService>();
         
         return services;
     }

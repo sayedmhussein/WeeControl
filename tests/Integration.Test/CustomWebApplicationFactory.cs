@@ -1,19 +1,8 @@
-﻿using System;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
-using Moq;
-using System.Linq;
-using System.Threading.Tasks;
-using WeeControl.ApiApp.Infrastructure.Notifications;
-using WeeControl.ApiApp.Persistence;
-using WeeControl.Core.Application.Interfaces;
-using WeeControl.Core.Domain.Contexts.User;
-using WeeControl.Core.SharedKernel.Services;
-using WeeControl.Frontend.AppService.GuiInterfaces.Authorization;
-using WeeControl.Frontend.Service.UnitTest;
 
-namespace WeeControl.User.UserApplication.Test.Integration;
+namespace WeeControl.Integration.Test;
 
 public class CustomWebApplicationFactory<TStartup>
     : WebApplicationFactory<TStartup> where TStartup : class

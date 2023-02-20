@@ -1,7 +1,7 @@
-﻿@using WeeControl.Frontend.AppService
-
+﻿@using WeeControl.Host.WebApiService
+@using WeeControl.Host.WebApiService.Contexts.User
 @attribute [Route(ApplicationPages.Essential.UserPage)]
-@inject IServiceData UserAuthorizationService
+@inject IAuthenticationService UserAuthorizationService
 
 @if (isAuthorized)
 {

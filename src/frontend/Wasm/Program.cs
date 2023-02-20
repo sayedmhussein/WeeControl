@@ -6,7 +6,6 @@ using MudBlazor.Services;
 using System.Net.Http;
 using System.Threading.Tasks;
 using WeeControl.Core.SharedKernel;
-using WeeControl.Frontend.AppService;
 using WeeControl.Frontend.Wasm.Services;
 using WeeControl.Host.WebApiService;
 
@@ -21,12 +20,10 @@ public class Program
         builder.RootComponents.Add<App>("#app");
 
         builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
-
-        builder.Services.AddSingleton<IDeviceData, DeviceDataService>();
+        
         builder.Services.AddWebApiService();
 
         builder.Services.AddUserSecurityService();
-        builder.Services.AddApplicationServices();
 
         builder.Services.AddOptions();
         builder.Services.AddAuthorizationCore();

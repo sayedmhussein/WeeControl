@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
-using WeeControl.Frontend.AppService;
 
 namespace WeeControl.Frontend.Wasm.Services;
 

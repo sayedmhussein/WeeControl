@@ -1,9 +1,9 @@
 ﻿@using WeeControl.Frontend.Wasm.Layouts.Components
-@using WeeControl.Frontend.AppService
+@using WeeControl.Host.WebApiService
 @inherits LayoutComponentBase
 @attribute [AllowAnonymous]
 
-@inject IServiceData ServiceData
+@inject ISecurity ServiceData
 @inject NavigationManager NavManager
 
 <MudThemeProvider/>
@@ -38,7 +38,7 @@
         }
 
         var currentPageName = NavManager.Uri.Split("/").Last();
-        if (currentPageName is ApplicationPages.SplashPage or ApplicationPages.AuthenticationPage)
+        if (currentPageName is ApplicationPages.SplashPage or ApplicationPages.LoginPage)
         {
             showLoginButton = false;
         }

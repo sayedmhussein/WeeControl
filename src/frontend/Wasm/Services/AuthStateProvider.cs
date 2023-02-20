@@ -1,16 +1,16 @@
 using Microsoft.AspNetCore.Components.Authorization;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using WeeControl.Frontend.AppService;
+using WeeControl.Host.WebApiService;
 
 namespace WeeControl.Frontend.Wasm.Services;
 
 public class AuthStateProvider : AuthenticationStateProvider
 {
-    private readonly IServiceData serviceData;
+    private readonly ISecurity serviceData;
     private readonly AuthenticationState anonymous;
 
-    public AuthStateProvider(IServiceData serviceData)
+    public AuthStateProvider(ISecurity serviceData)
     {
         this.serviceData = serviceData;
 
@@ -25,7 +25,7 @@ public class AuthStateProvider : AuthenticationStateProvider
     {
         if (e)
         {
-            NotifyUserAuthentication(await serviceData.GetClaimPrincipal());
+            NotifyUserAuthentication(await serviceData.GetClaimsPrincipal());
             return;
         }
 
@@ -39,7 +39,7 @@ public class AuthStateProvider : AuthenticationStateProvider
             return anonymous;
         }
 
-        var cp = await serviceData.GetClaimPrincipal();
+        var cp = await serviceData.GetClaimsPrincipal();
         return new AuthenticationState(cp);
     }
 

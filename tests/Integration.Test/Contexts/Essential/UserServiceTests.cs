@@ -1,16 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
-using Moq;
-using System.Threading.Tasks;
-using WeeControl.Core.DataTransferObject.Contexts.User;
-using WeeControl.Core.Domain.Interfaces;
-using WeeControl.Frontend.AppService;
-using WeeControl.Frontend.AppService.GuiInterfaces.Authorization;
-using WeeControl.Frontend.AppService.GuiInterfaces.Home;
-using WeeControl.Frontend.Service.UnitTest;
-using WeeControl.Host.WebApi;
-using Xunit;
 
-namespace WeeControl.User.UserApplication.Test.Integration.Contexts.Essential;
+namespace WeeControl.Integration.Test.Contexts.Essential;
 
 public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startup>>
 {

@@ -1,31 +1,66 @@
+using SQLite;
+using WeeControl.Host.WebApiService.DeviceInterfaces;
 using WeeControl.Host.WebApiService.Internals.Interfaces;
 
 namespace WeeControl.Host.WebApiService.Internals.Services;
 
 internal class DatabaseService : IDatabaseService
 {
-    public Task ClearAllTables()
+    private readonly SQLiteAsyncConnection database;
+    
+    public DatabaseService(IStorage deviceStorage)
     {
-        throw new NotImplementedException();
+        if (database is not null) return;
+
+        const SQLiteOpenFlags flags = SQLiteOpenFlags.ReadWrite |
+                                      SQLiteOpenFlags.Create |
+                                      SQLiteOpenFlags.SharedCache;
+
+        database = string.IsNullOrEmpty(deviceStorage.AppDataDirectory) ?
+            new SQLiteAsyncConnection(":memory:", flags) :
+            new SQLiteAsyncConnection(Path.Combine(deviceStorage.AppDataDirectory, "AppDb.db3"), flags);
+    }
+    
+    public async Task ClearAllTables()
+    {
+        try
+        {
+            var dbPath = database.DatabasePath;
+            await database.CloseAsync();
+            File.Delete(dbPath);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
     }
 
-    public Task ClearTable<T>() where T : new()
+    public async Task ClearTable<T>() where T : new()
     {
-        throw new NotImplementedException();
+        await Init<T>();
+        await database.DeleteAllAsync<T>();
     }
 
-    public Task AddToTable<T>(IEnumerable<T> data) where T : new()
+    public async Task AddToTable<T>(IEnumerable<T> data) where T : new()
     {
-        throw new NotImplementedException();
+        await Init<T>();
+        await database.InsertAsync(data);
     }
 
-    public Task AddToTable<T>(T item) where T : new()
+    public async Task AddToTable<T>(T item) where T : new()
     {
-        throw new NotImplementedException();
+        await Init<T>();
+        await database.InsertAsync(item);
     }
 
-    public Task<IEnumerable<T>> ReadFromTable<T>() where T : new()
+    public async Task<IEnumerable<T>> ReadFromTable<T>() where T : new()
     {
-        throw new NotImplementedException();
+        await Init<T>();
+        return await database.Table<T>().ToListAsync();
+    }
+    
+    private Task Init<T>() where T : new()
+    {
+        return database.CreateTableAsync<T>();
     }
 }

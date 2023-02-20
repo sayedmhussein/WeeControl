@@ -1,9 +1,9 @@
-@using IAuthorizationService = WeeControl.Frontend.AppService.GuiInterfaces.Authorization.IAuthorizationService
-@using WeeControl.Frontend.AppService
-@using WeeControl.Frontend.AppService.GuiInterfaces.Home
-@inject IHomeService UserService
-@inject IAuthorizationService UserAuthorizationService
-@inject IDeviceData Navigation
+
+@using WeeControl.Host.WebApiService
+@using WeeControl.Host.WebApiService.Contexts.User
+@using WeeControl.Host.WebApiService.DeviceInterfaces
+@inject IAuthenticationService UserAuthorizationService
+@inject IGui Navigation
 
 <MudToolBar Elevation="25" Class="d-flex">
     <MudLink Class="d-inline-flex" Href="/">
@@ -37,12 +37,12 @@
         <MudIconButton 
             Icon="@Icons.Material.Outlined.Login" 
             Color="Color.Primary" Title="Login"
-            OnClick="@(() => Navigation.NavigateToAsync(ApplicationPages.AuthenticationPage))"
+            OnClick="@(() => Navigation.NavigateToAsync(ApplicationPages.LoginPage))"
         ></MudIconButton>
     }
     @if (ShowLogout)
     {
-        <MudText>@UserService.GreetingMessage</MudText>
+        <MudText></MudText>
         <MudMenu Icon="@Icons.Material.Outlined.Notifications" AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight" MaxHeight="@componentMaxHeight">
             <MenuOfNotificationComponent></MenuOfNotificationComponent>
         </MudMenu>
@@ -61,7 +61,7 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        await UserService.Sync();
+        //await UserService.Sync();
     }
 
     private async Task Logout()

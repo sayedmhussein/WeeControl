@@ -47,10 +47,5 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\backend\Persistence\Persistence.csproj" />
     <ProjectReference Include="..\..\src\backend\WebApi\WebApi.csproj" />
-    <ProjectReference Include="..\..\src\frontend\Service\Service.csproj" />
-    <ProjectReference Include="..\frontend\ApplicationService.UnitTest\ApplicationService.UnitTest.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Contexts\" />
   </ItemGroup>
 </Project>

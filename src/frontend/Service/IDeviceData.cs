@@ -5,6 +5,7 @@ using WeeControl.Frontend.AppService.DeviceInterfaces;
 [assembly: InternalsVisibleTo("ApplicationService.UnitTest")]
 namespace WeeControl.Frontend.AppService;
 
+[Obsolete]
 public interface IDeviceData : ICommunication, IFeature, IGui, IMedia, ISharing, IStorage
 {
 }
