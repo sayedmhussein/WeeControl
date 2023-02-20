@@ -2,6 +2,7 @@
 
 namespace WeeControl.Frontend.AppService.GuiInterfaces.Authorization;
 
+[Obsolete]
 public interface IAuthorizationService
 {
     Task<bool> Login(string usernameOrEmail, string password);

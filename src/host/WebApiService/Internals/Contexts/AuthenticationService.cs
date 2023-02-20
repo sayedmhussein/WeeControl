@@ -93,8 +93,11 @@ internal class AuthenticationService : IAuthenticationService
         await gui.NavigateToAsync(ApplicationPages.LoginPage);
     }
 
-    public Task Logout()
+    public async Task Logout()
     {
-        throw new NotImplementedException();
+        var response = await server
+            .GetResponseMessage(HttpMethod.Delete, new Version("1.0"), ControllerApi.Authorization.Route);
+
+        await gui.NavigateToAsync(ApplicationPages.LoginPage);
     }
 }
