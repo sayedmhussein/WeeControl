@@ -2,10 +2,11 @@
 
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
+using WeeControl.Core.SharedKernel.Interfaces;
 
 namespace WeeControl.Core.SharedKernel.Contexts.User;
 
-public class HomeNotificationModel
+public class HomeNotificationModel : IEntityModel
 {
     public Guid NotificationId { get; set; }
 

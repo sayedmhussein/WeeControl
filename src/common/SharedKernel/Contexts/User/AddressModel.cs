@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using WeeControl.Core.SharedKernel.Interfaces;
 
 namespace WeeControl.Core.SharedKernel.Contexts.User;
 
-public class AddressModel
+public class AddressModel : IEntityModel
 {
     [StringLength(25)]
     public string Line1 { get; set; } = string.Empty;

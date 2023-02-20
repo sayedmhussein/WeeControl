@@ -1,8 +1,9 @@
 using System.ComponentModel.DataAnnotations;
+using WeeControl.Core.SharedKernel.Interfaces;
 
 namespace WeeControl.Core.SharedKernel.Contexts.User;
 
-public class UserModel
+public class UserModel : IEntityModel
 {
     [Required]
     [StringLength(500, MinimumLength = 3)]

@@ -1,6 +1,8 @@
-﻿namespace WeeControl.Core.SharedKernel.Contexts.User;
+﻿using WeeControl.Core.SharedKernel.Interfaces;
 
-public class ContactModel
+namespace WeeControl.Core.SharedKernel.Contexts.User;
+
+public class ContactModel : IEntityModel
 {
     public string ContactType { get; set; } = string.Empty;
     public string ContactValue { get; set; } = string.Empty;

@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using WeeControl.Core.SharedKernel.Interfaces;
 
 namespace WeeControl.Core.SharedKernel.Contexts.User;
 
-public class CustomerModel
+public class CustomerModel : IEntityModel
 {
     [Required]
     [StringLength(25)]

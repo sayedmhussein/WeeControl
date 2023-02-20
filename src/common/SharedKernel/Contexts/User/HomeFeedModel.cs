@@ -1,8 +1,9 @@
 using System.ComponentModel.DataAnnotations;
+using WeeControl.Core.SharedKernel.Interfaces;
 
 namespace WeeControl.Core.SharedKernel.Contexts.User;
 
-public class HomeFeedModel
+public class HomeFeedModel : IEntityModel
 {
     [StringLength(25)]
     public string FeedString { get; init; } = string.Empty;

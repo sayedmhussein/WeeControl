@@ -1,9 +1,9 @@
-﻿using WeeControl.Core.Domain.Exceptions;
+﻿using WeeControl.Core.SharedKernel;
 using WeeControl.Core.SharedKernel.Contexts.User;
 
-namespace WeeControl.Core.Test.Domain;
+namespace WeeControl.Core.Test.SharedKernel;
 
-public class DomainValidationExceptionTests
+public class ModelValidationErrorTests
 {
     [Fact]
     public void TestWhenPersonIsValidatedAndOK_NoException()
@@ -13,7 +13,7 @@ public class DomainValidationExceptionTests
             FirstName = "FirstName", LastName = "LastName", NationalityCode = "EGP", DateOfBirth = new DateOnly(2000, 12, 31)
         };
 
-        DomainValidationException.ValidateEntity(model);
+        Assert.Empty(model.GetModelValidationError());
     }
 
     [Theory]
@@ -28,9 +28,9 @@ public class DomainValidationExceptionTests
             FirstName = firstName, LastName = lastName, NationalityCode = nationality, DateOfBirth = new DateOnly(2000, 12, 31)
         };
 
-        var ex = Assert.Throws<DomainValidationException>(() => DomainValidationException.ValidateEntity(model));
+        var ex = model.GetModelValidationError();
         
-        Assert.Equal(errorCount, ex.Failures.Count);
+        Assert.Equal(errorCount, ex.Count);
     }
-    
+
 }

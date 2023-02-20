@@ -26,7 +26,7 @@ public class AuthorizationServiceTests
         await service.UpdateToken("0000");
         
         helper.GuiMock.Verify(x =>
-            x.NavigateToAsync(ApplicationPages.SplashPage, It.IsAny<bool>()), Times.Once);
+            x.NavigateToAsync(ApplicationPages.HomePage, It.IsAny<bool>()), Times.Once);
     }
 
     [Theory]

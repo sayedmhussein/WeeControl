@@ -1,23 +1,96 @@
+using System.Net;
 using WeeControl.Core.DataTransferObject.Contexts.User;
+using WeeControl.Core.SharedKernel;
 using WeeControl.Host.WebApiService.Contexts.User;
+using WeeControl.Host.WebApiService.DeviceInterfaces;
+using WeeControl.Host.WebApiService.Internals.Interfaces;
 
 namespace WeeControl.Host.WebApiService.Internals.Contexts;
 
 internal class AuthenticationService : IAuthenticationService
 {
-    public Task Login(LoginRequestDto dto)
+    private readonly IGui gui;
+    private readonly IServerOperation server;
+    private readonly IDeviceSecurity security;
+
+    public AuthenticationService(IGui gui, IServerOperation server, IDeviceSecurity security)
     {
-        throw new NotImplementedException();
+        this.gui = gui;
+        this.server = server;
+        this.security = security;
+    }
+    
+    public async Task Login(LoginRequestDto dto)
+    {
+        var errors = dto.GetModelValidationError();
+        if (errors.Any())
+        {
+            await gui.DisplayAlert(errors.Keys.First());
+            return;
+        }
+
+        var response = await server
+            .GetResponseMessage(HttpMethod.Post, new Version("1.0"), ControllerApi.Authorization.Route);
+
+        if (response.IsSuccessStatusCode)
+        {
+            var token = await server.ReadFromContent<TokenResponseDto>(response.Content);
+            if (token?.Token is not null)
+            {
+                await security.UpdateToken(token.Token);
+                await gui.NavigateToAsync(ApplicationPages.OtpPage);
+                return;
+            }
+        }
+
+        switch (response.StatusCode)
+        {
+            case HttpStatusCode.NotFound:
+                await gui.DisplayAlert("Ínvalid credentials, please try again.");
+                break;
+            case HttpStatusCode.Forbidden:
+                await gui.DisplayAlert("Account is locked, please contact your admin.");
+                break;
+            default:
+                await gui.DisplayAlert("Unexpected Error, please try again.");
+                break;
+        }
     }
 
-    public Task UpdateToken()
+    public async Task UpdateToken()
     {
-        throw new NotImplementedException();
+        if (await security.IsAuthenticated())
+        {
+            await server.RefreshToken();
+            return;
+        }
+
+        await gui.DisplayAlert("Please login.");
+        await gui.NavigateToAsync(ApplicationPages.LoginPage);
     }
 
-    public Task UpdateToken(string otp)
+    public async Task UpdateToken(string otp)
     {
-        throw new NotImplementedException();
+        if (await security.IsAuthenticated())
+        {
+            var response = await server
+                .GetResponseMessage(HttpMethod.Put, new Version("1.0"), ControllerApi.Authorization.Route, 
+                    query: new []{"otp", otp});
+
+            if (response.IsSuccessStatusCode)
+            {
+                var token = await server.ReadFromContent<TokenResponseDto>(response.Content);
+                if (token?.Token is not null)
+                {
+                    await security.UpdateToken(token.Token);
+                    await gui.NavigateToAsync(ApplicationPages.HomePage);
+                    return;
+                }
+            }
+        }
+        
+        await gui.DisplayAlert("Please login.");
+        await gui.NavigateToAsync(ApplicationPages.LoginPage);
     }
 
     public Task Logout()
