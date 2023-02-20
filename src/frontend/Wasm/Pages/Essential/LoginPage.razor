@@ -1,14 +1,20 @@
-@using IAuthorizationService = WeeControl.Frontend.AppService.GuiInterfaces.Authorization.IAuthorizationService
+@attribute [Route(ApplicationPages.Essential.LoginPage)]
+@attribute [AllowAnonymous]
+
 @using Microsoft.AspNetCore.Components
 @using WeeControl.Core.DataTransferObject.Contexts.User
-@inject IAuthorizationService AuthorizationService
+@using WeeControl.Host.WebApiService
+@using WeeControl.Host.WebApiService.Contexts.User
+@inject IAuthenticationService AuthorizationService
 
 <MudCardHeader>
     <h4>Please enter your username and password</h4>
 </MudCardHeader>
 
 <MudCardContent>
-    <EditForm Model="@loginModel" OnValidSubmit="@(() => AuthorizationService.Login(loginModel.UsernameOrEmail, loginModel.Password))">
+    <EditForm Model="@loginModel" OnValidSubmit="@(() => { isLoading = true;
+                                                             AuthorizationService.Login(loginModel); 
+                                                             isLoading = false; })">
         <DataAnnotationsValidator/>
         <div class="form-group">
             <label>Username or Email</label>

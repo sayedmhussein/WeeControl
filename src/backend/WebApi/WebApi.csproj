@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\common\SharedKernel\SharedKernel.csproj" />
+    <ProjectReference Include="..\..\host\WebApiService\WebApiService.csproj" />
     <ProjectReference Include="..\Application\Application.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>

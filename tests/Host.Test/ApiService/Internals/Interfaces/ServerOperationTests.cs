@@ -11,7 +11,7 @@ public class ServerOperationTests
     [Fact]
     public async void GetResponseMessage_Test()
     {
-        using var testingHelper = new TestingServiceHelper();
+        using var testingHelper = new HostTestHelper();
         var service = testingHelper.GetService<IServerOperation>(HttpStatusCode.OK, TokenResponseDto.Create("Token"));
 
         var response = await service
@@ -27,7 +27,7 @@ public class ServerOperationTests
     [Fact]
     public async void RefreshToken_WhenServerAccept_ReturnTrueAndTokenGetUpdated()
     {
-        using var testingHelper = new TestingServiceHelper();
+        using var testingHelper = new HostTestHelper();
         testingHelper.StorageMock.Setup(x => x.GetKeyValue(IDeviceSecurity.TokenKeyName)).ReturnsAsync("Something");
 
         var service = testingHelper.GetService<IServerOperation>(HttpStatusCode.OK, TokenResponseDto.Create("Token"));
@@ -38,7 +38,7 @@ public class ServerOperationTests
     [Fact]
     public async void RefreshToken_WhenNoTokenInDevice_ReturnFalse()
     {
-        using var testingHelper = new TestingServiceHelper();
+        using var testingHelper = new HostTestHelper();
         testingHelper.StorageMock.Setup(x => x.GetKeyValue(IDeviceSecurity.TokenKeyName)).ReturnsAsync(string.Empty);
 
         var service = testingHelper.GetService<IServerOperation>(HttpStatusCode.OK, TokenResponseDto.Create("Token"));
@@ -49,7 +49,7 @@ public class ServerOperationTests
     [Fact]
     public async void RefreshToken_WhenServerReject_ReturnFalseAndTokenGetRemoved()
     {
-        using var testingHelper = new TestingServiceHelper();
+        using var testingHelper = new HostTestHelper();
 
         var service = testingHelper.GetService<IServerOperation>(HttpStatusCode.Forbidden);
         

@@ -1,6 +1,6 @@
 ﻿namespace WeeControl.Host.WebApiService;
 
-public class ControllerApi
+public static class ControllerApi
 {
     public static class Authorization
     {

@@ -10,7 +10,7 @@ public class SessionUpdateCommandTests
     [Fact]
     public async void WhenOtpIsRequired_ThrowsNotAllowedException()
     {
-        using var testHelper = new TestHelper();
+        using var testHelper = new CoreTestHelper();
         var seed = testHelper.SeedDatabase();
         var session = UserSessionDbo.Create(seed.userId, "device", "0000");
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
@@ -27,7 +27,7 @@ public class SessionUpdateCommandTests
     [Fact]
     public async void WhenSessionIsActive_ReturnToken()
     {
-        using var testHelper = new TestHelper();
+        using var testHelper = new CoreTestHelper();
         var seed = testHelper.SeedDatabase();
         var session = UserSessionDbo.Create(seed.userId, "device", "0000");
         session.DisableOtpRequirement();
@@ -44,7 +44,7 @@ public class SessionUpdateCommandTests
     [Fact]
     public async void WhenSessionIsTerminated_ThrowNotAllowedException()
     {
-        using var testHelper = new TestHelper();
+        using var testHelper = new CoreTestHelper();
         var seed = testHelper.SeedDatabase();
         var session = UserSessionDbo.Create(seed.userId, "device", "0000");
         session.TerminationTs = DateTime.UtcNow;
@@ -59,7 +59,7 @@ public class SessionUpdateCommandTests
     [Fact]
     public async void WhenSessionIsActiveButFromDifferentDevice_ThrowNotAllowedException()
     {
-        using var testHelper = new TestHelper();
+        using var testHelper = new CoreTestHelper();
         var seed = testHelper.SeedDatabase();
         var session = UserSessionDbo.Create(seed.userId, "device", "0000");
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
@@ -71,16 +71,16 @@ public class SessionUpdateCommandTests
     }
     #endregion
 
-    private SessionUpdateCommand.UserTokenHandler GetHandler(TestHelper testHelper)
+    private SessionUpdateCommand.UserTokenHandler GetHandler(CoreTestHelper coreTestHelper)
     {
-        testHelper.ConfigurationMock.Setup(x => x["Jwt:Key"]).Returns(new string('a', 30));
+        coreTestHelper.ConfigurationMock.Setup(x => x["Jwt:Key"]).Returns(new string('a', 30));
         return new SessionUpdateCommand.UserTokenHandler(
-            testHelper.EssentialDb,
-            testHelper.JwtService,
-            testHelper.MediatorMock.Object,
-            testHelper.ConfigurationMock.Object,
-            testHelper.CurrentUserInfoMock.Object,
-            testHelper.PasswordSecurity);
+            coreTestHelper.EssentialDb,
+            coreTestHelper.JwtService,
+            coreTestHelper.MediatorMock.Object,
+            coreTestHelper.ConfigurationMock.Object,
+            coreTestHelper.CurrentUserInfoMock.Object,
+            coreTestHelper.PasswordSecurity);
     }
 
     private SessionUpdateCommand GetQuery(string device, string otp)

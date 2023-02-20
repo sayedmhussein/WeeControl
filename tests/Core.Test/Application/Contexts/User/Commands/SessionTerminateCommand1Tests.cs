@@ -10,7 +10,7 @@ public class SessionTerminateCommand1Tests
     [Fact]
     public async void WhenSessionExistAndNotTerminated_SessionBecomeTerminated()
     {
-        using var testHelper = new TestHelper();
+        using var testHelper = new CoreTestHelper();
         var session = UserSessionDbo.Create(GetUserId(testHelper), "device", "0000");
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
@@ -28,7 +28,7 @@ public class SessionTerminateCommand1Tests
     [Fact]
     public async void WhenRequestDtoHasDifferentSession_ThrowNotAllowedException()
     {
-        using var testHelper = new TestHelper();
+        using var testHelper = new CoreTestHelper();
         var session = UserSessionDbo.Create(GetUserId(testHelper), "device", "0000");
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
@@ -43,7 +43,7 @@ public class SessionTerminateCommand1Tests
     [Fact]
     public async void WhenRequestDtoHasDifferentDevice_ThrowNotAllowedException()
     {
-        using var testHelper = new TestHelper();
+        using var testHelper = new CoreTestHelper();
         var session = UserSessionDbo.Create(GetUserId(testHelper), "device", "0000");
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
@@ -58,7 +58,7 @@ public class SessionTerminateCommand1Tests
     [Fact]
     public async void WhenSessionAlreadyTerminated_ThrowNotAllowedException()
     {
-        using var testHelper = new TestHelper();
+        using var testHelper = new CoreTestHelper();
         var session = UserSessionDbo.Create(GetUserId(testHelper), "device", "0000");
         session.TerminationTs = DateTime.UtcNow;
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
@@ -74,7 +74,7 @@ public class SessionTerminateCommand1Tests
     [Fact]
     public async void WhenDeviceIDNotSupplied_ThrowBadRequestException()
     {
-        using var testHelper = new TestHelper();
+        using var testHelper = new CoreTestHelper();
         var session = UserSessionDbo.Create(GetUserId(testHelper), "device", "0000");
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
@@ -90,7 +90,7 @@ public class SessionTerminateCommand1Tests
     [Fact]
     public async void WhenSessionIDIsNull_ThrowArgumentNullException()
     {
-        using var testHelper = new TestHelper();
+        using var testHelper = new CoreTestHelper();
         var session = UserSessionDbo.Create(GetUserId(testHelper), "device", "0000");
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
@@ -103,7 +103,7 @@ public class SessionTerminateCommand1Tests
             handler.Handle(new SessionTerminateCommand(RequestDto.Create("device", 0, 0)), default));
     }
 
-    private Guid GetUserId(TestHelper helper)
+    private Guid GetUserId(CoreTestHelper helper)
     {
         var domain = helper.SeedDatabase();
         var user = helper.EssentialDb.Users.FirstOrDefault(x => x.Username == domain.User.Username);

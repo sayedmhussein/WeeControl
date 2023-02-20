@@ -30,7 +30,7 @@ internal class AuthenticationService : IAuthenticationService
         }
 
         var response = await server
-            .GetResponseMessage(HttpMethod.Post, new Version("1.0"), ControllerApi.Authorization.Route);
+            .GetResponseMessage(HttpMethod.Post, new Version("1.0"), dto, ControllerApi.Authorization.Route);
 
         if (response.IsSuccessStatusCode)
         {
@@ -38,7 +38,7 @@ internal class AuthenticationService : IAuthenticationService
             if (token?.Token is not null)
             {
                 await security.UpdateToken(token.Token);
-                await gui.NavigateToAsync(ApplicationPages.OtpPage);
+                await gui.NavigateToAsync(ApplicationPages.Essential.OtpPage);
                 return;
             }
         }
@@ -66,9 +66,9 @@ internal class AuthenticationService : IAuthenticationService
         }
 
         await gui.DisplayAlert("Please login.");
-        await gui.NavigateToAsync(ApplicationPages.LoginPage);
+        await gui.NavigateToAsync(ApplicationPages.Essential.LoginPage);
     }
-
+    
     public async Task UpdateToken(string otp)
     {
         if (await security.IsAuthenticated())
@@ -83,14 +83,14 @@ internal class AuthenticationService : IAuthenticationService
                 if (token?.Token is not null)
                 {
                     await security.UpdateToken(token.Token);
-                    await gui.NavigateToAsync(ApplicationPages.HomePage);
+                    await gui.NavigateToAsync(ApplicationPages.Essential.HomePage);
                     return;
                 }
             }
         }
         
         await gui.DisplayAlert("Please login.");
-        await gui.NavigateToAsync(ApplicationPages.LoginPage);
+        await gui.NavigateToAsync(ApplicationPages.Essential.LoginPage);
     }
 
     public async Task Logout()
@@ -98,6 +98,6 @@ internal class AuthenticationService : IAuthenticationService
         var response = await server
             .GetResponseMessage(HttpMethod.Delete, new Version("1.0"), ControllerApi.Authorization.Route);
 
-        await gui.NavigateToAsync(ApplicationPages.LoginPage);
+        await gui.NavigateToAsync(ApplicationPages.Essential.LoginPage);
     }
 }

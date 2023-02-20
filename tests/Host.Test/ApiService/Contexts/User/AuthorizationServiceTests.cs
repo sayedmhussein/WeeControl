@@ -13,7 +13,7 @@ public class AuthorizationServiceTests
     [Fact]
     public async void WhenSuccessUsernameAndPasswordAndOtp()
     {
-        using var helper = new TestingServiceHelper();
+        using var helper = new HostTestHelper();
         var service = helper.GetService<IAuthenticationService>(
             new (HttpStatusCode statusCode, object? dto)[]
         {
@@ -26,7 +26,7 @@ public class AuthorizationServiceTests
         await service.UpdateToken("0000");
         
         helper.GuiMock.Verify(x =>
-            x.NavigateToAsync(ApplicationPages.HomePage, It.IsAny<bool>()), Times.Once);
+            x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Once);
     }
 
     [Theory]
@@ -37,7 +37,7 @@ public class AuthorizationServiceTests
     [InlineData(HttpStatusCode.InternalServerError, false)]
     public async void Login_ExpectedResponsesBehaviorTests(HttpStatusCode code, bool fnReturn)
     {
-        using var helper = new TestingServiceHelper();
+        using var helper = new HostTestHelper();
 
         var expected = new (HttpStatusCode statusCode, object? dto)[]
         {
@@ -68,7 +68,7 @@ public class AuthorizationServiceTests
                 // helper.DeviceMock.Verify(x => 
                 //     x.UpdateTokenAsync("token"), Times.Never);
                 helper.GuiMock.Verify(x =>
-                    x.NavigateToAsync(ApplicationPages.HomePage, true), Times.Never);
+                    x.NavigateToAsync(ApplicationPages.Essential.HomePage, true), Times.Never);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(code), code, null);
@@ -84,7 +84,7 @@ public class AuthorizationServiceTests
     [InlineData("   ", "    ")]
     public async void Login_DataTransferObjectDefensiveValues(string username, string password)
     {
-        using var helper = new TestingServiceHelper();
+        using var helper = new HostTestHelper();
         var service = helper.GetService<IAuthenticationService>(HttpStatusCode.OK, TokenResponseDto.Create("token"));
 
         await service.Login(LoginRequestDto.Create(username, password));
@@ -92,7 +92,7 @@ public class AuthorizationServiceTests
         helper.GuiMock.Verify(x =>
             x.DisplayAlert(It.IsAny<string>()), Times.Once);
         helper.GuiMock.Verify(x =>
-            x.NavigateToAsync(ApplicationPages.HomePage, true), Times.Never);
+            x.NavigateToAsync(ApplicationPages.Essential.HomePage, true), Times.Never);
     }
     #endregion
     
@@ -106,7 +106,7 @@ public class AuthorizationServiceTests
     [InlineData(HttpStatusCode.InternalServerError)]
     public async void UpdateToken_ExpectedResponsesBehaviorTests(HttpStatusCode code)
     {
-        using var helper = new TestingServiceHelper();
+        using var helper = new HostTestHelper();
         var service = helper.GetService<IAuthenticationService>(code, TokenResponseDto.Create("token"));
         if (code == HttpStatusCode.OK)
         {
@@ -127,7 +127,7 @@ public class AuthorizationServiceTests
                 helper.GuiMock.Verify(x =>
                     x.DisplayAlert(It.IsAny<string>()), Times.Never);
                 helper.GuiMock.Verify(x =>
-                    x.NavigateToAsync(ApplicationPages.HomePage, It.IsAny<bool>()), Times.AtLeastOnce);
+                    x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.AtLeastOnce);
 
                 // helper.DeviceMock.Verify(x => 
                 //     x.UpdateTokenAsync("token"), Times.AtLeastOnce);
@@ -136,15 +136,15 @@ public class AuthorizationServiceTests
                 helper.GuiMock.Verify(x =>
                     x.DisplayAlert(It.IsAny<string>()), Times.AtLeastOnce);
                 helper.GuiMock.Verify(x =>
-                    x.NavigateToAsync(ApplicationPages.SplashPage, It.IsAny<bool>()), Times.Never);
+                    x.NavigateToAsync(ApplicationPages.Essential.SplashPage, It.IsAny<bool>()), Times.Never);
                 break;
             case HttpStatusCode.Unauthorized:
                 helper.GuiMock.Verify(x =>
                     x.DisplayAlert(It.IsAny<string>()), Times.AtLeastOnce);
                 helper.GuiMock.Verify(x =>
-                    x.NavigateToAsync(ApplicationPages.SplashPage, It.IsAny<bool>()), Times.Never);
+                    x.NavigateToAsync(ApplicationPages.Essential.SplashPage, It.IsAny<bool>()), Times.Never);
                 helper.GuiMock.Verify(x =>
-                    x.NavigateToAsync(ApplicationPages.LoginPage, It.IsAny<bool>()), Times.AtLeastOnce);
+                    x.NavigateToAsync(ApplicationPages.Essential.LoginPage, It.IsAny<bool>()), Times.AtLeastOnce);
 
                 // helper.DeviceMock.SecurityMock.Verify(x => 
                 //     x.DeleteTokenAsync(), Times.AtLeastOnce);
@@ -155,7 +155,7 @@ public class AuthorizationServiceTests
                 helper.GuiMock.Verify(x =>
                     x.DisplayAlert(It.IsAny<string>()), Times.AtLeastOnce);
                 helper.GuiMock.Verify(x =>
-                    x.NavigateToAsync(ApplicationPages.HomePage, true), Times.Never);
+                    x.NavigateToAsync(ApplicationPages.Essential.HomePage, true), Times.Never);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(code), code, null);
@@ -170,7 +170,7 @@ public class AuthorizationServiceTests
     [InlineData("123")]
     public async void UpdateToken_DataTransferObjectDefensiveValues(string value)
     {
-        using var helper = new TestingServiceHelper();
+        using var helper = new HostTestHelper();
         var service = helper.GetService<IAuthenticationService>(HttpStatusCode.OK, TokenResponseDto.Create("token"));
 
         await service.UpdateToken(value);
@@ -179,7 +179,7 @@ public class AuthorizationServiceTests
             x.DisplayAlert(It.IsAny<string>()), Times.AtLeastOnce);
 
         helper.GuiMock.Verify(x =>
-            x.NavigateToAsync(ApplicationPages.SplashPage, It.IsAny<bool>()), Times.Never);
+            x.NavigateToAsync(ApplicationPages.Essential.SplashPage, It.IsAny<bool>()), Times.Never);
     }
     #endregion
 
@@ -189,12 +189,12 @@ public class AuthorizationServiceTests
     [InlineData(HttpStatusCode.BadRequest)]
     public async void Logout_WhenNotFound_OrSuccess(HttpStatusCode httpStatusCode)
     {
-        using var helper = new TestingServiceHelper();
+        using var helper = new HostTestHelper();
         var service = helper.GetService<IAuthenticationService>(httpStatusCode);
 
         await service.Logout();
         
-        helper.GuiMock.Verify(x => x.NavigateToAsync(ApplicationPages.LoginPage, It.IsAny<bool>()));
+        helper.GuiMock.Verify(x => x.NavigateToAsync(ApplicationPages.Essential.LoginPage, It.IsAny<bool>()));
     }
     #endregion
 }

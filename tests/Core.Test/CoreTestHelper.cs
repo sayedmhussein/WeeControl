@@ -16,7 +16,7 @@ namespace WeeControl.Core.Test;
 /// <summary>
 /// Do the necessary setups for mocked objects, then create private field of handler.
 /// </summary>
-public class TestHelper : IDisposable
+public class CoreTestHelper : IDisposable
 {
     public const string Email = "username@email.com";
     public const string Username = "username";
@@ -34,7 +34,7 @@ public class TestHelper : IDisposable
     private readonly SqliteConnection connection;
     private readonly EssentialDbContext context;
 
-    public TestHelper()
+    public CoreTestHelper()
     {
         JwtService = new JwtService();
 
@@ -72,14 +72,19 @@ public class TestHelper : IDisposable
     
     public (PersonModel Person, UserModel User, Guid personId, Guid userId, Guid sessionId) SeedDatabase()
     {
-        var person = CreatePerson();
-        var user = CreateUser(person.PersonId);
-        var session = CreateSession(user.UserId);
+        return SeedDatabase(EssentialDb);
+    }
+    
+    public static (PersonModel Person, UserModel User, Guid personId, Guid userId, Guid sessionId) SeedDatabase(IEssentialDbContext dbContext)
+    {
+        var person = CreatePerson(dbContext);
+        var user = CreateUser(dbContext, person.PersonId);
+        var session = CreateSession(dbContext, user.UserId);
 
         return (person, user, person.PersonId, user.UserId, session.SessionId);
     }
 
-    private PersonDbo CreatePerson()
+    private static PersonDbo CreatePerson(IEssentialDbContext dbContext)
     {
         var personModel = new PersonModel()
         {
@@ -87,33 +92,33 @@ public class TestHelper : IDisposable
             NationalityCode = "EGP", DateOfBirth = new DateOnly(1999, 12, 31)
         };
         var person = PersonDbo.Create(personModel);
-        EssentialDb.Person.Add(person);
-        EssentialDb.SaveChanges();
+        dbContext.Person.Add(person);
+        dbContext.SaveChanges();
 
         return person;
     }
 
-    private UserDbo CreateUser(Guid personId)
+    private static UserDbo CreateUser(IEssentialDbContext dbContext, Guid personId)
     {
         var userModel = new UserModel()
         {
             Email = Email, Username = Username,
-            MobileNo = MobileNo, Password = PasswordSecurity.Hash(Password)
+            MobileNo = MobileNo, Password = new PasswordSecurity().Hash(Password)
         };
         
         var user = UserDbo.Create(personId, userModel);
-        EssentialDb.Users.Add(user);
-        EssentialDb.SaveChanges();
+        dbContext.Users.Add(user);
+        dbContext.SaveChanges();
 
         return user;
     }
 
-    private UserSessionDbo CreateSession(Guid userId)
+    private static UserSessionDbo CreateSession(IEssentialDbContext dbContext, Guid userId)
     {
         var session = UserSessionDbo.Create(userId, DeviceId, "0000");
-        EssentialDb.UserSessions.Add(session);
+        dbContext.UserSessions.Add(session);
         session.DisableOtpRequirement();
-        EssentialDb.SaveChanges();
+        dbContext.SaveChanges();
         return session;
     }
 }

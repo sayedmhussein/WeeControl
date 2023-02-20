@@ -2,6 +2,7 @@ using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
+using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
 using WeeControl.Core.DataTransferObject.BodyObjects;
 using WeeControl.Core.DataTransferObject.Contexts.User;
@@ -122,20 +123,32 @@ internal class ServerService : IServerOperation
             address.Append('/');
         
         address.Append(relative);
-        if (relative.Last() != '/')
-            address.Append('/');
-
+        
         if (!string.IsNullOrEmpty(endPoint))
         {
-            address.Append(endPoint);
-            if (endPoint.Last() != '/')
+            if (relative.Last() != '/')
                 address.Append('/');
+            address.Append(endPoint);
         }
 
         if (query is not null && query.Length >= 1)
         {
-            address.Append(string.Join("?=", query));
+            address.Append('?');
+            for (int i = 0; i < query.Length; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    address.Append(query[i]);
+                    address.Append('=');
+                }
+                else
+                {
+                    address.Append($"\"{query[i]}\"&");
+                }
+            }
         }
+        
+        
 
         return address.ToString();
     }

@@ -9,7 +9,7 @@ public class UserDuplicationQueryTests
     [Fact]
     public async void TestForSuccess()
     {
-        using var testHelper = new TestHelper();
+        using var testHelper = new CoreTestHelper();
 
         var handler = GetHandler(testHelper);
 
@@ -19,12 +19,12 @@ public class UserDuplicationQueryTests
     }
 
     [Theory]
-    [InlineData(TestHelper.Email + "x", TestHelper.Username + "y", TestHelper.MobileNo)]
-    [InlineData(TestHelper.Email + "x", TestHelper.Username, TestHelper.MobileNo + "0")]
-    [InlineData(TestHelper.Email, TestHelper.Username + "y", TestHelper.MobileNo + "0")]
+    [InlineData(CoreTestHelper.Email + "x", CoreTestHelper.Username + "y", CoreTestHelper.MobileNo)]
+    [InlineData(CoreTestHelper.Email + "x", CoreTestHelper.Username, CoreTestHelper.MobileNo + "0")]
+    [InlineData(CoreTestHelper.Email, CoreTestHelper.Username + "y", CoreTestHelper.MobileNo + "0")]
     public async void TestsForFailures(string email, string username, string mobileNo)
     {
-        using var testHelper = new TestHelper();
+        using var testHelper = new CoreTestHelper();
         
         var handler = GetHandler(testHelper);
 
@@ -42,9 +42,9 @@ public class UserDuplicationQueryTests
         });
     }
 
-    private UserDuplicationQuery.UserDuplicationHandler GetHandler(TestHelper testHelper)
+    private UserDuplicationQuery.UserDuplicationHandler GetHandler(CoreTestHelper coreTestHelper)
     {
-        testHelper.SeedDatabase();
-        return new UserDuplicationQuery.UserDuplicationHandler(testHelper.EssentialDb);
+        coreTestHelper.SeedDatabase();
+        return new UserDuplicationQuery.UserDuplicationHandler(coreTestHelper.EssentialDb);
     }
 }

@@ -1,6 +1,13 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
+using WeeControl.ApiApp.Infrastructure.Notifications;
+using WeeControl.ApiApp.Persistence;
+using WeeControl.Core.Application.Interfaces;
+using WeeControl.Core.DataTransferObject.Contexts.User;
+using WeeControl.Host.Test.ApiService;
+using WeeControl.Host.WebApiService;
+using WeeControl.Host.WebApiService.Contexts.User;
 
 namespace WeeControl.Integration.Test;
 
@@ -24,16 +31,11 @@ public class CustomWebApplicationFactory<TStartup>
         });
     }
 
-    public UserDbo GetUserDboWithEncryptedPassword(string username, string password, string territory = "TST")
+    public async Task Authorize(HostTestHelper testHelper, string username, string password)
     {
-        return UserDbo.Create(Guid.Empty, (username + "@email.com").ToLower(), username, "0123456789", new PasswordSecurity().Hash(password));
-    }
+        var service = testHelper.GetService<IAuthenticationService>();
 
-    public async Task Authorize(TestHelper testHelper, string username, string password)
-    {
-        var service = testHelper.GetService<IAuthorizationService>();
-
-        await service.Login(username, password);
+        await service.Login(LoginRequestDto.Create(username, password));
         await service.UpdateToken("0000");
     }
 }

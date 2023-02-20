@@ -10,7 +10,7 @@ using WeeControl.Host.WebApiService.DeviceInterfaces;
 
 namespace WeeControl.Host.Test.ApiService;
 
-public class TestingServiceHelper : IDisposable
+public class HostTestHelper : IDisposable
 {
     public Mock<ICommunication> CommunicationMock { get; private set; }
     public Mock<IFeature> FeatureMock { get; private set; }
@@ -19,7 +19,7 @@ public class TestingServiceHelper : IDisposable
     public Mock<ISharing> SharingMock { get; private set; }
     public Mock<IStorage> StorageMock { get; private set; }
 
-    public TestingServiceHelper()
+    public HostTestHelper()
     {
         CommunicationMock = new Mock<ICommunication>();
         CommunicationMock.Setup(x => x.ServerUrl).Returns(GetLocalIpAddress());

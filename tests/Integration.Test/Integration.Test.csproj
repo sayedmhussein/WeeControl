@@ -25,4 +25,11 @@
         </PackageReference>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\backend\Infrastructure\Infrastructure.csproj" />
+      <ProjectReference Include="..\..\src\backend\Persistence\Persistence.csproj" />
+      <ProjectReference Include="..\Core.Test\Core.Test.csproj" />
+      <ProjectReference Include="..\Host.Test\Host.Test.csproj" />
+    </ItemGroup>
+
 </Project>

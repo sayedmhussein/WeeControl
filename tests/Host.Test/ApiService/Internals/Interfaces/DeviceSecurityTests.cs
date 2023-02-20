@@ -14,7 +14,7 @@ public class DeviceSecurityTests
     [InlineData("", false)]
     public async void IsAuthenticatedTests(string token, bool isTrue)
     {
-        using var service = new TestingServiceHelper();
+        using var service = new HostTestHelper();
         service.StorageMock.Setup(x => x.GetKeyValue(IDeviceSecurity.TokenKeyName)).ReturnsAsync(token);
         
         Assert.Equal(isTrue, await service.GetService<IDeviceSecurity>().IsAuthenticated());
@@ -23,7 +23,7 @@ public class DeviceSecurityTests
     [Fact]
     public async void TokenSettingAndGetting()
     {
-        using var testingService = new TestingServiceHelper();
+        using var testingService = new HostTestHelper();
         testingService.StorageMock.Setup(x => x.SaveKeyValue(It.IsAny<string>(), It.IsAny<string>()))
             .Callback((string k, string v) => testingService.StorageMock.Setup(x => x.GetKeyValue(k)).ReturnsAsync(v));
 
@@ -37,7 +37,7 @@ public class DeviceSecurityTests
     [Fact]
     public async void DeletingTokenTest()
     {
-        using var testService = new TestingServiceHelper();
+        using var testService = new HostTestHelper();
         testService.StorageMock.Setup(x => x.SaveKeyValue(It.IsAny<string>(), It.IsAny<string>()))
             .Callback((string k, string v) => testService.StorageMock.Setup(x => x.GetKeyValue(k)).ReturnsAsync(v));
         const string token = "This should contains Token String";
@@ -52,7 +52,7 @@ public class DeviceSecurityTests
     [Fact]
     public async void GettingClaimPrincipleTest()
     {
-        using var testingService = new TestingServiceHelper();
+        using var testingService = new HostTestHelper();
         testingService.StorageMock.Setup(x => x.SaveKeyValue(It.IsAny<string>(), It.IsAny<string>()))
             .Callback((string k, string v) => testingService.StorageMock.Setup(x => x.GetKeyValue(k)).ReturnsAsync(v));
         var ci = new ClaimsIdentity("xxx");

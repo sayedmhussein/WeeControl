@@ -5,10 +5,11 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using WeeControl.Host.WebApiService.DeviceInterfaces;
 
 namespace WeeControl.Frontend.Wasm.Services;
 
-public class DeviceDataService : IDeviceData
+public class DeviceDataService : IGui
 {
     private readonly IJSRuntime jsRuntime;
     private readonly NavigationManager navigationManager;

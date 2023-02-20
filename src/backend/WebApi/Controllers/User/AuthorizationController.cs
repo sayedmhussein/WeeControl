@@ -8,11 +8,12 @@ using WeeControl.Core.Application.Contexts.User.Commands;
 using WeeControl.Core.DataTransferObject.BodyObjects;
 using WeeControl.Core.DataTransferObject.Contexts.User;
 using WeeControl.Core.SharedKernel;
+using WeeControl.Host.WebApiService;
 
 namespace WeeControl.Host.WebApi.Controllers.User;
 
 [ApiController]
-[Route(ApiRouting.AuthorizationRoute)]
+[Route(ControllerApi.Authorization.Route)]
 [ProducesResponseType((int)HttpStatusCode.BadRequest)]
 [Consumes(MediaTypeNames.Application.Json)]
 [Produces(MediaTypeNames.Application.Json)]
@@ -50,7 +51,7 @@ public class AuthorizationController : Controller
     [MapToApiVersion("1.0")]
     [ProducesResponseType(typeof(ResponseDto<TokenResponseDto>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.Forbidden)]
-    public async Task<ActionResult<ResponseDto<TokenResponseDto>>> RefreshTokenOtp(string otp, [FromBody] RequestDto dto)
+    public async Task<ActionResult<ResponseDto<TokenResponseDto>>> RefreshTokenOtp([FromQuery] string otp, [FromBody] RequestDto dto)
     {
         var response = await mediator.Send(new SessionUpdateCommand(dto, otp));
         return Ok(response);

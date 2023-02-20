@@ -8,7 +8,7 @@ public class UserActivityNotificationTests
     [Fact]
     public async void WhenNotificationWasPublished_ListIsIncreased()
     {
-        using var helper = new TestHelper();
+        using var helper = new CoreTestHelper();
         var seed = helper.SeedDatabase();
 
         var count1 = await helper.EssentialDb.UserNotifications.CountAsync();

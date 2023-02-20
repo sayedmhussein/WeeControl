@@ -10,11 +10,11 @@ public class ResetPasswordCommandTests
     [Fact]
     public async void WhenSuccessfulOrOk()
     {
-        using var testHelper = new TestHelper();
+        using var testHelper = new CoreTestHelper();
         var seed = testHelper.SeedDatabase();
 
         await GetHandler(testHelper).Handle(
-            GetCommand(TestHelper.Email, TestHelper.Username, TestHelper.DeviceId),
+            GetCommand(CoreTestHelper.Email, CoreTestHelper.Username, CoreTestHelper.DeviceId),
             default);
 
         var newPass = testHelper.EssentialDb.Users.First().TempPassword;
@@ -26,12 +26,12 @@ public class ResetPasswordCommandTests
     [Fact]
     public async void WhenBadRequest()
     {
-        using var testHelper = new TestHelper();
+        using var testHelper = new CoreTestHelper();
         testHelper.SeedDatabase();
         
         await Assert.ThrowsAsync<BadRequestException>(() =>
             GetHandler(testHelper).Handle(
-                GetCommand(TestHelper.Email, TestHelper.Username, string.Empty),
+                GetCommand(CoreTestHelper.Email, CoreTestHelper.Username, string.Empty),
                 default));
     }
 
@@ -41,7 +41,7 @@ public class ResetPasswordCommandTests
     [InlineData("", "username")]
     public async void WhenInvalidCommandParameters(string email, string username)
     {
-        using var testHelper = new TestHelper();
+        using var testHelper = new CoreTestHelper();
         var handler = GetHandler(testHelper);
         var command = GetCommand(email, username, "device");
 
@@ -49,12 +49,12 @@ public class ResetPasswordCommandTests
             handler.Handle(command, default));
     }
 
-    private UserForgotMyPasswordCommand.ForgotMyPasswordHandler GetHandler(TestHelper testHelper)
+    private UserForgotMyPasswordCommand.ForgotMyPasswordHandler GetHandler(CoreTestHelper coreTestHelper)
     {
         return new UserForgotMyPasswordCommand.ForgotMyPasswordHandler(
-            testHelper.EssentialDb,
-            testHelper.MediatorMock.Object,
-            testHelper.PasswordSecurity);
+            coreTestHelper.EssentialDb,
+            coreTestHelper.MediatorMock.Object,
+            coreTestHelper.PasswordSecurity);
     }
 
     private UserForgotMyPasswordCommand GetCommand(string email, string username, string device)

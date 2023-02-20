@@ -15,7 +15,7 @@
             <MudMenuItem>
                 <MudButton 
                     StartIcon="@Icons.Material.Outlined.Home"
-                    Href="@ApplicationPages.HomePage">Home
+                    Href="@ApplicationPages.Essential.HomePage">Home
                 </MudButton>
             </MudMenuItem>
             @* @if (UserService.IsCustomer) *@
@@ -37,7 +37,7 @@
         <MudIconButton 
             Icon="@Icons.Material.Outlined.Login" 
             Color="Color.Primary" Title="Login"
-            OnClick="@(() => Navigation.NavigateToAsync(ApplicationPages.LoginPage))"
+            OnClick="@(() => Navigation.NavigateToAsync(ApplicationPages.Essential.LoginPage))"
         ></MudIconButton>
     }
     @if (ShowLogout)

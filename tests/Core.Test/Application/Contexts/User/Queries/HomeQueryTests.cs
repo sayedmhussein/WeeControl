@@ -11,7 +11,7 @@ public class HomeQueryTests
     [Fact]
     public async void ReturnHomeDataAsStoredInDb()
     {
-        using var testHelper = new TestHelper();
+        using var testHelper = new CoreTestHelper();
         var seed = testHelper.SeedDatabase();
         
         var dto = await GetDto(testHelper, seed.userId, seed.sessionId);
@@ -23,21 +23,21 @@ public class HomeQueryTests
     [Fact]
     public async void WhenNotExist()
     {
-        using var testHelper = new TestHelper();
+        using var testHelper = new CoreTestHelper();
         var seed = testHelper.SeedDatabase();
 
         await Assert.ThrowsAsync<NotFoundException>(() => GetDto(testHelper, seed.userId, Guid.NewGuid()));
     }
 
-    private Task<ResponseDto<HomeResponseDto>> GetDto(TestHelper testHelper, Guid userId, Guid sessionId)
+    private Task<ResponseDto<HomeResponseDto>> GetDto(CoreTestHelper coreTestHelper, Guid userId, Guid sessionId)
     {
-        testHelper.EssentialDb.UserNotifications.Add(UserNotificationDbo.Create(userId, "1", "1", ""));
-        testHelper.EssentialDb.UserNotifications.Add(UserNotificationDbo.Create(userId, "2", "2", ""));
-        testHelper.EssentialDb.UserNotifications.Add(UserNotificationDbo.Create(userId, "3", "3", ""));
-        testHelper.EssentialDb.SaveChanges();
+        coreTestHelper.EssentialDb.UserNotifications.Add(UserNotificationDbo.Create(userId, "1", "1", ""));
+        coreTestHelper.EssentialDb.UserNotifications.Add(UserNotificationDbo.Create(userId, "2", "2", ""));
+        coreTestHelper.EssentialDb.UserNotifications.Add(UserNotificationDbo.Create(userId, "3", "3", ""));
+        coreTestHelper.EssentialDb.SaveChanges();
         
-        testHelper.CurrentUserInfoMock.SetupGet(x => x.SessionId).Returns(sessionId);
-        var handler = new HomeQuery.HomeHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object);
+        coreTestHelper.CurrentUserInfoMock.SetupGet(x => x.SessionId).Returns(sessionId);
+        var handler = new HomeQuery.HomeHandler(coreTestHelper.EssentialDb, coreTestHelper.CurrentUserInfoMock.Object);
         return handler.Handle(new HomeQuery(), default);
     }
 }

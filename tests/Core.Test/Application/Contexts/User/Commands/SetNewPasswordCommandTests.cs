@@ -9,11 +9,11 @@ public class SetNewPasswordCommandTests
     [Fact]
     public async void WhenRequestSentCorrect_PasswordIsChangedSuccessfully()
     {
-        using var testHelper = new TestHelper();
+        using var testHelper = new CoreTestHelper();
         var seed = testHelper.SeedDatabase();
         testHelper.CurrentUserInfoMock.Setup(x => x.SessionId).Returns(seed.sessionId);
 
-        await ExecuteHandler(testHelper, TestHelper.Password, "NewPassword");
+        await ExecuteHandler(testHelper, CoreTestHelper.Password, "NewPassword");
 
         var storedPassword = testHelper.EssentialDb.Users.First(x => x.UserId == seed.userId).Password;
         Assert.Equal(testHelper.PasswordSecurity.Hash("NewPassword"), storedPassword);
@@ -22,7 +22,7 @@ public class SetNewPasswordCommandTests
     [Fact]
     public async void WhenRequestSentInvalidOldPassword_ThrowNotFound()
     {
-        using var testHelper = new TestHelper();
+        using var testHelper = new CoreTestHelper();
         var seed = testHelper.SeedDatabase();
         testHelper.CurrentUserInfoMock.Setup(x => x.SessionId).Returns(seed.sessionId);
 
@@ -37,16 +37,16 @@ public class SetNewPasswordCommandTests
     [InlineData("", "NewPassword")]
     public async void WhenInvalidCommandParameters(string oldPassword, string newPassword)
     {
-        using var testHelper = new TestHelper();
+        using var testHelper = new CoreTestHelper();
         var handler = new UserNewPasswordCommand.SetNewPasswordHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object, testHelper.PasswordSecurity);
 
         await Assert.ThrowsAsync<BadRequestException>(() =>
             ExecuteHandler(testHelper, oldPassword, newPassword));
     }
 
-    private Task ExecuteHandler(TestHelper helper, string oldPassword, string newPassword)
+    private Task ExecuteHandler(CoreTestHelper helper, string oldPassword, string newPassword)
     {
-        var requestDto = RequestDto.Create(TestHelper.DeviceId, 0, 0);
+        var requestDto = RequestDto.Create(CoreTestHelper.DeviceId, 0, 0);
         
         var handler = new UserNewPasswordCommand.SetNewPasswordHandler(
             helper.EssentialDb, 
