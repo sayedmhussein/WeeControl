@@ -47,7 +47,8 @@ public class AuthorizationController : Controller
     }
 
     [Authorize]
-    [HttpPut("{otp}")]
+    //[HttpPut("{otp}")]
+    [HttpPut]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(typeof(ResponseDto<TokenResponseDto>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.Forbidden)]

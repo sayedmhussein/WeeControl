@@ -74,7 +74,7 @@ internal class AuthenticationService : IAuthenticationService
         if (await security.IsAuthenticated())
         {
             var response = await server
-                .GetResponseMessage(HttpMethod.Put, new Version("1.0"), ControllerApi.Authorization.Route, 
+                .GetResponseMessage(HttpMethod.Put, new Version("1.0"), new object(), ControllerApi.Authorization.Route, 
                     query: new []{"otp", otp});
 
             if (response.IsSuccessStatusCode)

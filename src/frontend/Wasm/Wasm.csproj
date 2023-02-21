@@ -30,8 +30,6 @@
     <ProjectReference Include="..\..\host\WebApiService\WebApiService.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <AdditionalFiles Include="Pages\Essential\UserPage.razor" />
-    <AdditionalFiles Include="Pages\Essential\SplashPage.razor" />
     <AdditionalFiles Include="Pages\Elevator\_Imports.razor" />
     <AdditionalFiles Include="Pages\Elevator\Admin\Components\TerritoryComponent.razor" />
     <AdditionalFiles Include="Pages\Elevator\Admin\Components\UsersComponent.razor" />

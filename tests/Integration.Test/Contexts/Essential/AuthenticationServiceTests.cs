@@ -34,9 +34,6 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
                 using var scope = services.BuildServiceProvider().CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
                 CoreTestHelper.SeedDatabase(db);
-                // var user = factory.GetUserDboWithEncryptedPassword("username", "password");
-                // db.Users.Add(user);
-                // db.SaveChanges();
             });
         }).CreateClient());
 
@@ -64,13 +61,11 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
             {
                 using var scope = services.BuildServiceProvider().CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-                // var user = factory.GetUserDboWithEncryptedPassword("username", "password");
-                // db.Users.Add(user);
-                // db.SaveChanges();
+                CoreTestHelper.SeedDatabase(db);
             });
         }).CreateClient());
 
-        await service.Login(LoginRequestDto.Create("username", "password"));
+        await service.Login(LoginRequestDto.Create(CoreTestHelper.Username, CoreTestHelper.Password));
         await service.UpdateToken(otp);
         
         h.GuiMock.Verify(x => 
@@ -123,9 +118,6 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
                 using var scope = services.BuildServiceProvider().CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
                 CoreTestHelper.SeedDatabase(db);
-                // var user = factory.GetUserDboWithEncryptedPassword("username", "password");
-                // db.Users.Add(user);
-                // db.SaveChanges();
             });
         }).CreateClient());
 

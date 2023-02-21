@@ -143,7 +143,7 @@ internal class ServerService : IServerOperation
                 }
                 else
                 {
-                    address.Append($"\"{query[i]}\"&");
+                    address.Append($"{query[i]}");
                 }
             }
         }
