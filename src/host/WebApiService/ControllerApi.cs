@@ -14,5 +14,6 @@ public static class ControllerApi
         public const string RegisterEndpoint = "Register";
         public const string PasswordEndpoint = "Password";
         public const string HomeEndpoint = "Register";
+        public const string NotificationEndpoint = "Notification";
     }
 }

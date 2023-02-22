@@ -1,4 +1,9 @@
+// using Microsoft.AspNetCore.Authorization;
 // using Microsoft.Extensions.DependencyInjection;
+// using WeeControl.Core.DataTransferObject.Contexts.User;
+// using WeeControl.Core.Domain.Interfaces;
+// using WeeControl.Host.WebApi;
+// using WeeControl.Host.WebApiService;
 //
 // namespace WeeControl.Integration.Test.Contexts.Essential;
 //

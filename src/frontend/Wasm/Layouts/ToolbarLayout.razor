@@ -22,10 +22,10 @@
         <MudSpacer></MudSpacer>
         @if (isAuthenticated)
         {
-            <MudButton 
-                StartIcon="@Icons.Material.Outlined.Home"
-                Href="@ApplicationPages.Essential.HomePage">Home
-            </MudButton>
+            <MudMenu Icon="@Icons.Material.Outlined.Notifications" AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight" MaxHeight="300">
+                <MenuOfNotificationComponent></MenuOfNotificationComponent>
+            </MudMenu>
+            
             <MudIconButton 
                 Icon="@Icons.Material.Outlined.Logout" 
                 Color="Color.Primary" Title="Logout"
@@ -64,6 +64,6 @@
     private async Task Logout()
     {
         await UserAuthorizationService.Logout();
-        StateHasChanged();
+        //StateHasChanged();
     }
 }

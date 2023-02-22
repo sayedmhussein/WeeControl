@@ -12,12 +12,14 @@ internal class AuthenticationService : IAuthenticationService
     private readonly IGui gui;
     private readonly IServerOperation server;
     private readonly IDeviceSecurity security;
+    private readonly IStorage storage;
 
-    public AuthenticationService(IGui gui, IServerOperation server, IDeviceSecurity security)
+    public AuthenticationService(IGui gui, IServerOperation server, IDeviceSecurity security, IStorage storage)
     {
         this.gui = gui;
         this.server = server;
         this.security = security;
+        this.storage = storage;
     }
     
     public async Task Login(LoginRequestDto dto)
@@ -66,7 +68,7 @@ internal class AuthenticationService : IAuthenticationService
         }
 
         await gui.DisplayAlert("Please login.");
-        await gui.NavigateToAsync(ApplicationPages.Essential.LoginPage);
+        await gui.NavigateToAsync(ApplicationPages.Essential.LoginPage, forceLoad:true);
     }
     
     public async Task UpdateToken(string otp)
@@ -83,7 +85,7 @@ internal class AuthenticationService : IAuthenticationService
                 if (token?.Token is not null)
                 {
                     await security.UpdateToken(token.Token);
-                    await gui.NavigateToAsync(ApplicationPages.Essential.HomePage);
+                    await gui.NavigateToAsync(ApplicationPages.Essential.HomePage, forceLoad: true);
                     return;
                 }
             }
@@ -95,9 +97,11 @@ internal class AuthenticationService : IAuthenticationService
 
     public async Task Logout()
     {
-        var response = await server
+        await security.DeleteToken();
+        await storage.ClearKeysValues();
+        await server
             .GetResponseMessage(HttpMethod.Delete, new Version("1.0"), ControllerApi.Authorization.Route);
 
-        await gui.NavigateToAsync(ApplicationPages.Essential.LoginPage);
+        await gui.NavigateToAsync(ApplicationPages.Essential.LoginPage, forceLoad: true);
     }
 }

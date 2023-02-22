@@ -8,6 +8,7 @@ using WeeControl.Core.DataTransferObject.Contexts.User;
 using WeeControl.Host.Test.ApiService;
 using WeeControl.Host.WebApiService;
 using WeeControl.Host.WebApiService.Contexts.User;
+using WeeControl.Host.WebApiService.DeviceInterfaces;
 
 namespace WeeControl.Integration.Test;
 

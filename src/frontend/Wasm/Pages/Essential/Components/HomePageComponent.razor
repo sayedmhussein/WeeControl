@@ -1,9 +1,12 @@
 @using WeeControl.Core.SharedKernel
 @using System.Security.Claims
+@using WeeControl.Host.WebApiService.Contexts.User
+@inject IUserService User
 
 <p class="align-self-center">Here we put compnay introduction and required views for unregistered and registered customers.</p>
     
-<MudPaper hidden="true">
+<p>@fullUsername</p>
+<MudPaper hidden="false">
     <p class="align-self-center">Here we put compnay introduction and required views for unregistered and registered customers.</p>
     
     <h1>List of Claims embidded in token</h1>
@@ -29,14 +32,17 @@
 {
     [CascadingParameter]
     public Task<AuthenticationState> AuthState { get; set; }
+
+    private string fullUsername;
     
     private readonly ICollection<Claim> claims = new List<Claim>();
     private IDictionary<string,string> claimTypes = new Dictionary<string, string>();
     private IDictionary<string,string> claimTags = new Dictionary<string, string>();
     
-    protected override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
-        return GetClaims();
+        fullUsername = await User.GetFullName();
+        await GetClaims();
     }
 
     private async Task GetClaims()

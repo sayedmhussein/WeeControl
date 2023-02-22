@@ -128,5 +128,7 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
         }
 
         await service.Logout();
+        
+        hostTestHelper.StorageMock.Verify(x => x.ClearKeysValues(), Times.AtLeastOnce);
     }
 }
