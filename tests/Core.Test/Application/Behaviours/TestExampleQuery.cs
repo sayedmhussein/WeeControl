@@ -2,21 +2,21 @@ using MediatR;
 
 namespace WeeControl.Core.Test.Application.Behaviours;
 
-public class TestExampleQuery : IRequest<bool>
+public class TestExampleQuery : IRequest
 {
-    private bool delay;
+    private int delay;
 
-    public TestExampleQuery(bool delay)
+    public TestExampleQuery(int delay)
     {
         this.delay = delay;
     }
 
-    public class TestExampleHandler : IRequestHandler<TestExampleQuery, bool>
+    public class TestExampleHandler : IRequestHandler<TestExampleQuery, Unit>
     {
-        public async Task<bool> Handle(TestExampleQuery request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(TestExampleQuery request, CancellationToken cancellationToken)
         {
-            await Task.Delay(1, cancellationToken);
-            return request.delay;
+            await Task.Delay(request.delay, cancellationToken);
+            return Unit.Value;
         }
     }
 }

@@ -25,17 +25,14 @@ public class RequestPerformanceBehaviour<TRequest, TResponse> :
         this.currentUserService = currentUserService;
     }
 
-    public async Task<TResponse> Handle(
-        TRequest request,
-        CancellationToken cancellationToken,
-        RequestHandlerDelegate<TResponse> next)
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
         timer.Start();
         var response = await next();
         timer.Stop();
-
+    
         if (timer.ElapsedMilliseconds <= ThresholdTime) return response;
-
+    
         var name = typeof(TRequest).Name;
         logger.LogWarning(
             "WeeControl Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@UserId} {@Request}",
@@ -44,11 +41,5 @@ public class RequestPerformanceBehaviour<TRequest, TResponse> :
             currentUserService.SessionId,
             request);
         return response;
-    }
-
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
-    {
-        //throw new System.NotImplementedException();
-        return await next();
     }
 }

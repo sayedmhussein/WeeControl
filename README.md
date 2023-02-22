@@ -8,7 +8,7 @@ This project is created as a milestone to develop and customize a software appli
 * Functional and Unit testing are important during development.
 
 ### Technologies:
-* .NET 6 for Server API.
+* .NET 7 for Server API.
 * Blazor WebAssembly as front end.
 * Entity Framework Core as database persistence.
 
