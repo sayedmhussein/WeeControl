@@ -17,7 +17,7 @@ public class HomeQueryTests
         var dto = await GetDto(testHelper, seed.userId, seed.sessionId);
 
         Assert.NotEmpty(dto.Payload.FullName);
-        Assert.Equal(3, dto.Payload.Notifications.Count());
+        Assert.Equal(6, dto.Payload.Notifications.Count());
     }
     
     [Fact]

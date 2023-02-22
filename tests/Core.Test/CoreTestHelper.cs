@@ -110,6 +110,14 @@ public class CoreTestHelper : IDisposable
         dbContext.Users.Add(user);
         dbContext.SaveChanges();
 
+        dbContext.UserNotifications.Add(UserNotificationDbo.Create(user.UserId, "Subject 1", $"Created at {DateTime.Now}",""));
+        dbContext.UserNotifications.Add(UserNotificationDbo.Create(user.UserId, "Subject 2", $"Created at {DateTime.Now}", ""));
+        dbContext.UserNotifications.Add(UserNotificationDbo.Create(user.UserId, "Subject 3", $"Created at {DateTime.Now}", ""));
+        
+        dbContext.Feeds.Add(UserFeedsDbo.Create("Feed Subject 1", "Feed body 1", ""));
+        dbContext.Feeds.Add(UserFeedsDbo.Create("Feed Subject 2", "Feed body 2", ""));
+        
+        dbContext.SaveChanges();
         return user;
     }
 

@@ -10,10 +10,22 @@ namespace WeeControl.Core.Domain.Contexts.User;
 [Table(nameof(UserFeedsDbo), Schema = nameof(User))]
 public class UserFeedsDbo : HomeFeedModel
 {
+    public static UserFeedsDbo Create(string subject, string body, string url)
+    {
+        return new UserFeedsDbo()
+        {
+            FeedSubject = subject, FeedBody = body, FeedUrl = url, FeedTs = DateTime.UtcNow
+        };
+    }
+    
     [Key]
     public Guid FeedId { get; private set; }
     
     public DateTime? HideTs { get; set; }
+
+    private UserFeedsDbo()
+    {
+    }
 }
 
 public class UserFeedEntityTypeConfig : IEntityTypeConfiguration<UserFeedsDbo>
