@@ -5,9 +5,9 @@ using Microsoft.Extensions.Configuration;
 using Moq;
 using WeeControl.ApiApp.Persistence.DbContexts;
 using WeeControl.Core.Application.Interfaces;
-using WeeControl.Core.Domain.Contexts.User;
+using WeeControl.Core.Domain.Contexts.Essentials;
 using WeeControl.Core.Domain.Interfaces;
-using WeeControl.Core.SharedKernel.Contexts.User;
+using WeeControl.Core.SharedKernel.Contexts.Essentials;
 using WeeControl.Core.SharedKernel.Interfaces;
 using WeeControl.Core.SharedKernel.Services;
 

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WeeControl.Core.Domain.Contexts.Business;
-using WeeControl.Core.Domain.Contexts.User;
-using CustomerDbo = WeeControl.Core.Domain.Contexts.User.CustomerDbo;
+using WeeControl.Core.Domain.Contexts.Essentials;
+using CustomerDbo = WeeControl.Core.Domain.Contexts.Essentials.CustomerDbo;
 
 namespace WeeControl.Core.Domain.Interfaces;
 

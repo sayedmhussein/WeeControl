@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace WeeControl.Core.Domain.Contexts.Business;
 
-[Table(nameof(TerritoryDbo), Schema = nameof(User))]
+[Table(nameof(TerritoryDbo), Schema = nameof(Business))]
 public class TerritoryDbo
 {
     [Key]

@@ -2,8 +2,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using WeeControl.Core.SharedKernel;
 using WeeControl.Host.WebApiService.Contexts.Constants;
-using WeeControl.Host.WebApiService.Contexts.User;
-using WeeControl.Host.WebApiService.Internals.Contexts;
+using WeeControl.Host.WebApiService.Contexts.Essentials;
+using WeeControl.Host.WebApiService.Contexts.Essentials.Services;
 using WeeControl.Host.WebApiService.Internals.Interfaces;
 using WeeControl.Host.WebApiService.Internals.Services;
 

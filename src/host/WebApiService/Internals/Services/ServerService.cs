@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
 using WeeControl.Core.DataTransferObject.BodyObjects;
-using WeeControl.Core.DataTransferObject.Contexts.User;
+using WeeControl.Core.DataTransferObject.Contexts.Essentials;
 using WeeControl.Host.WebApiService.DeviceInterfaces;
 using WeeControl.Host.WebApiService.Internals.Interfaces;
 
@@ -66,7 +66,7 @@ internal class ServerService : IServerOperation
         if (await security.IsAuthenticated() == false)
             return false;
 
-        var response = await GetResponseMessage(HttpMethod.Put, new Version("1.0"), ControllerApi.Authorization.Route);
+        var response = await GetResponseMessage(HttpMethod.Put, new Version("1.0"), ControllerApi.Essentials.Authorization.Route);
         if (response.IsSuccessStatusCode)
         {
             var dto = await ReadFromContent<TokenResponseDto>(response.Content);

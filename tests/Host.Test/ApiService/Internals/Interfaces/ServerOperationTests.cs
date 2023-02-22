@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using WeeControl.Core.DataTransferObject.Contexts.User;
+using WeeControl.Core.DataTransferObject.Contexts.Essentials;
 using WeeControl.Host.WebApiService.Internals.Interfaces;
 
 namespace WeeControl.Host.Test.ApiService.Internals.Interfaces;

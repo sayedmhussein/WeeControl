@@ -1,29 +1,52 @@
 @using WeeControl.Core.SharedKernel
 @using System.Security.Claims
-@using WeeControl.Host.WebApiService.Contexts.User
+@using WeeControl.Core.SharedKernel.Contexts.Essentials
+@using WeeControl.Host.WebApiService
+@using WeeControl.Host.WebApiService.Contexts.Essentials
 @inject IUserService User
+@inject ISecurity Security
 
-<p class="align-self-center">Here we put compnay introduction and required views for unregistered and registered customers.</p>
-    
-<p>@fullUsername</p>
-<MudPaper hidden="false">
-    <p class="align-self-center">Here we put compnay introduction and required views for unregistered and registered customers.</p>
-    
-    <h1>List of Claims embidded in token</h1>
-    <MudTable Items="@claims" Hover="true" Breakpoint="Breakpoint.Sm" LoadingProgressColor="Color.Info">
-        <HeaderContent>
-            <MudTh>Type</MudTh>
-            <MudTh>Type Meaning</MudTh>
-            <MudTh>Value</MudTh>
-            <MudTh>Value Meaning</MudTh>
-        </HeaderContent>
-        <RowTemplate>
-            <MudTd DataLabel="Type">@context.Type</MudTd>
-            <MudTd DataLabel="Type Meaning">@ClaimsValues.GetClaimTypes().FirstOrDefault(x => x.Value == context.Type).Key</MudTd>
-            <MudTd DataLabel="Value">@context.Value</MudTd>
-            <MudTd DataLabel="Value Meaning">@ClaimsValues.GetClaimValues().FirstOrDefault(x => x.Value == context.Value).Key</MudTd>
-        </RowTemplate>
-    </MudTable>
+<p class="align-self-center">Here we put company introduction and required views for unregistered and registered customers.</p>
+
+<MudPaper>
+    <MudGrid>
+        <MudItem xs="6">
+            <MudStack>
+                @if (feeds.Any())
+                {
+                    @foreach (var f in feeds)
+                    {
+                        <MudCard>
+                            <h4>@f.FeedSubject</h4>
+                            <p>Published at @f.FeedTs</p>
+                            <p>@f.FeedBody</p>
+                        </MudCard>
+                    }
+                }
+                else
+                {
+                    <p>There is no feeds to show right now.</p>
+                }
+            </MudStack>
+        </MudItem>
+        <MudItem xs="6">
+            <h1>List of Claims embidded in token</h1>
+            <MudTable Items="@claims" Hover="true" Breakpoint="Breakpoint.Sm" LoadingProgressColor="Color.Info">
+                <HeaderContent>
+                    <MudTh>Type</MudTh>
+                    <MudTh>Type Meaning</MudTh>
+                    <MudTh>Value</MudTh>
+                    <MudTh>Value Meaning</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd DataLabel="Type">@context.Type</MudTd>
+                    <MudTd DataLabel="Type Meaning">@ClaimsValues.GetClaimTypes().FirstOrDefault(x => x.Value == context.Type).Key</MudTd>
+                    <MudTd DataLabel="Value">@context.Value</MudTd>
+                    <MudTd DataLabel="Value Meaning">@ClaimsValues.GetClaimValues().FirstOrDefault(x => x.Value == context.Value).Key</MudTd>
+                </RowTemplate>
+            </MudTable>
+        </MudItem>
+    </MudGrid>
 </MudPaper>
 
 
@@ -33,21 +56,25 @@
     [CascadingParameter]
     public Task<AuthenticationState> AuthState { get; set; }
 
-    private string fullUsername;
-    
     private readonly ICollection<Claim> claims = new List<Claim>();
+    private IEnumerable<HomeFeedModel> feeds = new List<HomeFeedModel>();
     private IDictionary<string,string> claimTypes = new Dictionary<string, string>();
     private IDictionary<string,string> claimTags = new Dictionary<string, string>();
     
     protected override async Task OnInitializedAsync()
     {
-        fullUsername = await User.GetFullName();
+        feeds = await User.GetFeeds();
         await GetClaims();
     }
 
     private async Task GetClaims()
     {
-        foreach (var claim in (await AuthState).User.Claims)
+        // foreach (var claim in (await AuthState).User.Claims)
+        // {
+        //     claims.Add(claim);  
+        // }
+        
+        foreach (var claim in (await Security.GetClaimsPrincipal()).Claims)
         {
             claims.Add(claim);  
         }

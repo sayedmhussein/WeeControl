@@ -3,7 +3,7 @@ using WeeControl.Core.Domain.Interfaces;
 using WeeControl.Core.Test;
 using WeeControl.Host.Test.ApiService;
 using WeeControl.Host.WebApi;
-using WeeControl.Host.WebApiService.Contexts.User;
+using WeeControl.Host.WebApiService.Contexts.Essentials;
 
 namespace WeeControl.Integration.Test.Contexts.Essential;
 

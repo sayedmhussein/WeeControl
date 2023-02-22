@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using WeeControl.Core.Domain.Contexts.Business;
-using WeeControl.Core.Domain.Contexts.User;
+using WeeControl.Core.Domain.Contexts.Essentials;
 using WeeControl.Core.Domain.Interfaces;
 using WeeControl.Core.SharedKernel;
 using WeeControl.Core.SharedKernel.Interfaces;
@@ -95,6 +95,9 @@ public class SeedEssentialDatabaseCommand : IRequest
 
                 await context.SaveChangesAsync(cancellationToken);
             }
+
+            await context.UserNotifications.AddAsync(UserNotificationDbo.Create(user.UserId, "User was created", "Body", "Link"), cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
             return user.UserId;
         }
 

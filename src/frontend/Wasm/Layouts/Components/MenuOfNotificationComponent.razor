@@ -1,4 +1,25 @@
-@for(int i = 0; i < 10; i++)
+@using WeeControl.Host.WebApiService.Contexts.Essentials
+@using WeeControl.Core.SharedKernel.Contexts.Essentials
+@inject IUserService User
+
+@foreach (var n in notifications)
 {
-    <MudMenuItem>Example @i</MudMenuItem>    
+    <MudMenuItem>
+        <MudCard>
+            <p>@n.Subject</p>
+            <p>@n.Body</p>
+            <p>@n.PublishedTs</p>
+        </MudCard>
+    </MudMenuItem> 
+}
+
+@code
+{
+    private IEnumerable<HomeNotificationModel> notifications = new List<HomeNotificationModel>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        notifications = await User.GetNotifications();
+        await base.OnInitializedAsync();
+    }
 }

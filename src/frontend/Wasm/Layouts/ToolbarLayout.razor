@@ -1,6 +1,6 @@
 ﻿@using WeeControl.Frontend.Wasm.Layouts.Components
 @using WeeControl.Host.WebApiService
-@using WeeControl.Host.WebApiService.Contexts.User
+@using WeeControl.Host.WebApiService.Contexts.Essentials
 @using WeeControl.Host.WebApiService.DeviceInterfaces
 @inherits LayoutComponentBase
 @attribute [AllowAnonymous]
@@ -8,7 +8,7 @@
 @inject ISecurity Security
 @inject IGui Gui
 @inject IAuthenticationService UserAuthorizationService
-@inject NavigationManager NavManager
+@inject IUserService User;
 
 <MudThemeProvider/>
 <MudDialogProvider/>
@@ -19,9 +19,10 @@
         <MudLink Class="d-inline-flex" Href="/">
             <MudImage Src="images/logo.png" Alt="WeeControl" Width="20" Height="20" Style="margin-right: 5px"></MudImage>
         </MudLink>
-        <MudSpacer></MudSpacer>
         @if (isAuthenticated)
         {
+            <MudText Align="Align.Start">@fullName</MudText>
+            <MudSpacer></MudSpacer>
             <MudMenu Icon="@Icons.Material.Outlined.Notifications" AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight" MaxHeight="300">
                 <MenuOfNotificationComponent></MenuOfNotificationComponent>
             </MudMenu>
@@ -29,12 +30,13 @@
             <MudIconButton 
                 Icon="@Icons.Material.Outlined.Logout" 
                 Color="Color.Primary" Title="Logout"
-                OnClick="@Logout"
+                OnClick="@UserAuthorizationService.Logout"
             ></MudIconButton>
             
         }
         else
         {
+            <MudSpacer></MudSpacer>
             if (Gui.CurrentPageName() != ApplicationPages.Essential.LoginPage)
             {
                 <MudIconButton 
@@ -54,16 +56,13 @@
 @code
 {
     bool isAuthenticated;
+    string fullName;
     
      protected override async Task OnInitializedAsync()
     {
         isAuthenticated = await Security.IsAuthenticated();
-        await base.OnInitializedAsync();
+         fullName = "Hello " + await User.GetFullName();
+         await base.OnInitializedAsync();
     }
 
-    private async Task Logout()
-    {
-        await UserAuthorizationService.Logout();
-        //StateHasChanged();
-    }
 }

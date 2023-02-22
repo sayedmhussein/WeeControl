@@ -1,5 +1,5 @@
 ﻿using WeeControl.Core.SharedKernel;
-using WeeControl.Core.SharedKernel.Contexts.User;
+using WeeControl.Core.SharedKernel.Contexts.Essentials;
 
 namespace WeeControl.Core.Test.SharedKernel;
 
