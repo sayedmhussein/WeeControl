@@ -136,13 +136,13 @@ public class AuthorizationServiceTests
                 helper.GuiMock.Verify(x =>
                     x.DisplayAlert(It.IsAny<string>()), Times.AtLeastOnce);
                 helper.GuiMock.Verify(x =>
-                    x.NavigateToAsync(ApplicationPages.Essential.SplashPage, It.IsAny<bool>()), Times.Never);
+                    x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
                 break;
             case HttpStatusCode.Unauthorized:
                 helper.GuiMock.Verify(x =>
                     x.DisplayAlert(It.IsAny<string>()), Times.AtLeastOnce);
                 helper.GuiMock.Verify(x =>
-                    x.NavigateToAsync(ApplicationPages.Essential.SplashPage, It.IsAny<bool>()), Times.Never);
+                    x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
                 helper.GuiMock.Verify(x =>
                     x.NavigateToAsync(ApplicationPages.Essential.LoginPage, It.IsAny<bool>()), Times.AtLeastOnce);
 
@@ -179,7 +179,7 @@ public class AuthorizationServiceTests
             x.DisplayAlert(It.IsAny<string>()), Times.AtLeastOnce);
 
         helper.GuiMock.Verify(x =>
-            x.NavigateToAsync(ApplicationPages.Essential.SplashPage, It.IsAny<bool>()), Times.Never);
+            x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
     }
     #endregion
 

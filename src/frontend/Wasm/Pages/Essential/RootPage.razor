@@ -1,0 +1,16 @@
+﻿@page "/"
+@attribute [AllowAnonymous]
+
+@using WeeControl.Host.WebApiService
+@inject ISecurity Security
+
+<h3>RootPage</h3>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await Task.Delay(2000);
+        await Security.NavigateToNecessaryPage();
+    }
+}

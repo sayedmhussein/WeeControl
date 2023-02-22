@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using WeeControl.Core.SharedKernel;
 using WeeControl.Frontend.Wasm.Services;
 using WeeControl.Host.WebApiService;
+using WeeControl.Host.WebApiService.DeviceInterfaces;
 
 namespace WeeControl.Frontend.Wasm;
 
@@ -54,6 +55,14 @@ public class Program
         // {
         //     options.KnownProxies.Add(IPAddress.Parse("10.0.0.100"));
         // });
+
+        builder.Services.AddSingleton<DeviceDataService>();
+        builder.Services.AddSingleton<ICommunication>(x => x.GetRequiredService<DeviceDataService>());
+        builder.Services.AddSingleton<IFeature>(x => x.GetRequiredService<DeviceDataService>());
+        builder.Services.AddSingleton<IGui>(x => x.GetRequiredService<DeviceDataService>());
+        builder.Services.AddSingleton<IMedia>(x => x.GetRequiredService<DeviceDataService>());
+        builder.Services.AddSingleton<ISharing>(x => x.GetRequiredService<DeviceDataService>());
+        builder.Services.AddSingleton<IStorage>(x => x.GetRequiredService<DeviceDataService>());
 
         await builder.Build().RunAsync();
     }

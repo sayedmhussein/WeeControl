@@ -7,25 +7,25 @@ namespace WeeControl.Frontend.Wasm.Services;
 
 public class AuthStateProvider : AuthenticationStateProvider
 {
-    private readonly ISecurity serviceData;
+    private readonly ISecurity security;
     private readonly AuthenticationState anonymous;
 
-    public AuthStateProvider(ISecurity serviceData)
+    public AuthStateProvider(ISecurity security)
     {
-        this.serviceData = serviceData;
+        this.security = security;
 
         var identity = new ClaimsIdentity();
         var cp = new ClaimsPrincipal(identity);
         anonymous = new AuthenticationState(cp);
 
-        serviceData.AuthenticationChanged += ServiceDataOnAuthenticationChanged;
+        security.AuthenticationChanged += ServiceDataOnAuthenticationChanged;
     }
 
     private async void ServiceDataOnAuthenticationChanged(object sender, bool e)
     {
         if (e)
         {
-            NotifyUserAuthentication(await serviceData.GetClaimsPrincipal());
+            NotifyUserAuthentication(await security.GetClaimsPrincipal());
             return;
         }
 
@@ -34,12 +34,12 @@ public class AuthStateProvider : AuthenticationStateProvider
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
-        if (await serviceData.IsAuthenticated())
+        if (await security.IsAuthenticated() == false)
         {
             return anonymous;
         }
 
-        var cp = await serviceData.GetClaimsPrincipal();
+        var cp = await security.GetClaimsPrincipal();
         return new AuthenticationState(cp);
     }
 

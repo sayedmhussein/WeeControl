@@ -1,9 +1,13 @@
 ﻿@using WeeControl.Frontend.Wasm.Layouts.Components
 @using WeeControl.Host.WebApiService
+@using WeeControl.Host.WebApiService.Contexts.User
+@using WeeControl.Host.WebApiService.DeviceInterfaces
 @inherits LayoutComponentBase
 @attribute [AllowAnonymous]
 
-@inject ISecurity ServiceData
+@inject ISecurity Security
+@inject IGui Gui
+@inject IAuthenticationService UserAuthorizationService
 @inject NavigationManager NavManager
 
 <MudThemeProvider/>
@@ -11,9 +15,37 @@
 <MudSnackbarProvider/>
 
 <MudPaper Class="d-flex flex-column flex-grow-1 gap-4" Elevation="5">
-    <CustomerToolbarComponent 
-        ShowLogin="@showLoginButton" ShowLogout="@showLogoutButton">
-    </CustomerToolbarComponent>
+    <MudToolBar Elevation="25" Class="d-flex">
+        <MudLink Class="d-inline-flex" Href="/">
+            <MudImage Src="images/logo.png" Alt="WeeControl" Width="20" Height="20" Style="margin-right: 5px"></MudImage>
+        </MudLink>
+        <MudSpacer></MudSpacer>
+        @if (isAuthenticated)
+        {
+            <MudButton 
+                StartIcon="@Icons.Material.Outlined.Home"
+                Href="@ApplicationPages.Essential.HomePage">Home
+            </MudButton>
+            <MudIconButton 
+                Icon="@Icons.Material.Outlined.Logout" 
+                Color="Color.Primary" Title="Logout"
+                OnClick="@Logout"
+            ></MudIconButton>
+            
+        }
+        else
+        {
+            if (Gui.CurrentPageName() != ApplicationPages.Essential.LoginPage)
+            {
+                <MudIconButton 
+                    Icon="@Icons.Material.Outlined.Login" 
+                    Color="Color.Primary" Title="Login"
+                    OnClick="@(() => Gui.NavigateToAsync(ApplicationPages.Essential.LoginPage))"
+                ></MudIconButton>
+            }
+        }
+    </MudToolBar>
+    
     <MudPaper Class="d-flex flex-column flex-fill flex-grow-1 gap-4" Elevation="0" Style="margin: 5px">
         @Body
     </MudPaper>
@@ -21,28 +53,17 @@
 
 @code
 {
-    private bool showLoginButton;
-    private bool showLogoutButton;
-
-    protected override async Task OnInitializedAsync()
+    bool isAuthenticated;
+    
+     protected override async Task OnInitializedAsync()
     {
-        if (await ServiceData.IsAuthenticated())
-        {
-            showLoginButton = false;
-            showLogoutButton = true;
-        }
-        else
-        {
-            showLoginButton = true;
-            showLogoutButton = false;
-        }
-
-        var currentPageName = NavManager.Uri.Split("/").Last();
-        if (currentPageName is ApplicationPages.Essential.LoginPage)
-        {
-            showLoginButton = false;
-        }
-
+        isAuthenticated = await Security.IsAuthenticated();
         await base.OnInitializedAsync();
+    }
+
+    private async Task Logout()
+    {
+        await UserAuthorizationService.Logout();
+        StateHasChanged();
     }
 }

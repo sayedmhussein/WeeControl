@@ -9,11 +9,13 @@ using WeeControl.Host.WebApiService.DeviceInterfaces;
 
 namespace WeeControl.Frontend.Wasm.Services;
 
-public class DeviceDataService : IGui
+public class DeviceDataService : ICommunication, IFeature, IGui, IMedia, ISharing, IStorage
 {
     private readonly IJSRuntime jsRuntime;
     private readonly NavigationManager navigationManager;
     private readonly IConfiguration configuration;
+
+    private string lastPageName;
     public string ServerUrl => configuration["ApiBaseAddress"];
     public HttpClient HttpClient { get; init; }
 
@@ -79,6 +81,11 @@ public class DeviceDataService : IGui
         return Task.FromResult(true);
     }
 
+    public string CurrentPageName()
+    {
+        return lastPageName;
+    }
+
     public Task DisplayAlert(string message)
     {
         jsRuntime.InvokeVoidAsync("alert", message);
@@ -89,6 +96,7 @@ public class DeviceDataService : IGui
 
     public Task NavigateToAsync(string pageName, bool forceLoad = false)
     {
+        lastPageName = pageName;
         navigationManager.NavigateTo($"/{pageName}", forceLoad: forceLoad);
         return Task.CompletedTask;
     }

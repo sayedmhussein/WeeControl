@@ -34,11 +34,7 @@
     <MudSpacer></MudSpacer>
     @if (ShowLogin)
     {
-        <MudIconButton 
-            Icon="@Icons.Material.Outlined.Login" 
-            Color="Color.Primary" Title="Login"
-            OnClick="@(() => Navigation.NavigateToAsync(ApplicationPages.Essential.LoginPage))"
-        ></MudIconButton>
+        
     }
     @if (ShowLogout)
     {
@@ -64,10 +60,5 @@
         //await UserService.Sync();
     }
 
-    private async Task Logout()
-    {
-        await UserAuthorizationService.Logout();
-        ShowLogin = true;
-        StateHasChanged();
-    }
+    
 }
