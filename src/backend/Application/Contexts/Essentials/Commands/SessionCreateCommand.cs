@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading;
@@ -46,15 +47,16 @@ public class SessionCreateCommand : IRequest<ResponseDto<TokenResponseDto>>
 
         public async Task<ResponseDto<TokenResponseDto>> Handle(SessionCreateCommand request, CancellationToken cancellationToken)
         {
-            if (string.IsNullOrWhiteSpace(request.dto.Payload.UsernameOrEmail) ||
-                string.IsNullOrWhiteSpace(request.dto.Payload.Password))
+            if (request.dto.Payload.GetModelValidationError().Any())
+            {
                 throw new BadRequestException("Invalid request query parameters.");
-            
+            }
+
             var usernameOrEmail = request.dto.Payload.UsernameOrEmail.Trim().ToLower();
             var password = passwordSecurity.Hash(request.dto.Payload.Password);
 
             var user = await context.Users
-                .Include(x => x.Person)
+                //.Include(x => x.Person)
                 .FirstOrDefaultAsync(x => 
                     x.Username == usernameOrEmail || x.Email == usernameOrEmail 
                     , cancellationToken);
@@ -91,6 +93,11 @@ public class SessionCreateCommand : IRequest<ResponseDto<TokenResponseDto>>
             var ci = new ClaimsIdentity("custom");
             ci.AddClaim(new Claim(ClaimsValues.ClaimTypes.Session, session.SessionId.ToString()));
 
+            if (configuration["Jwt:Key"] is null)
+            {
+                throw new NullReferenceException();
+            }
+            
             var key = Encoding.ASCII.GetBytes(configuration["Jwt:Key"]);
 
             var descriptor = new SecurityTokenDescriptor()
@@ -102,8 +109,7 @@ public class SessionCreateCommand : IRequest<ResponseDto<TokenResponseDto>>
             };
             var token = jwtService.GenerateToken(descriptor);
 
-            return ResponseDto.Create(TokenResponseDto.Create(token, user.Person?.FirstName + " " + user.Person?.LastName));
-
+            return ResponseDto.Create(TokenResponseDto.Create(token));
         }
     }
 }

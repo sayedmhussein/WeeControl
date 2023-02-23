@@ -6,9 +6,7 @@ using WeeControl.ApiApp.Persistence;
 using WeeControl.Core.Application.Interfaces;
 using WeeControl.Core.DataTransferObject.Contexts.Essentials;
 using WeeControl.Host.Test.ApiService;
-using WeeControl.Host.WebApiService;
 using WeeControl.Host.WebApiService.Contexts.Essentials;
-using WeeControl.Host.WebApiService.DeviceInterfaces;
 
 namespace WeeControl.Integration.Test;
 

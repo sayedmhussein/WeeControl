@@ -35,7 +35,7 @@ public class SessionCreateCommandTests
     {
         using var testHelper = new CoreTestHelper();
         testHelper.SeedDatabase();
-        var user = await testHelper.EssentialDb.Users.FirstOrDefaultAsync(x => x.Username == CoreTestHelper.Username);
+        var user = await testHelper.EssentialDb.Users.FirstAsync(x => x.Username == CoreTestHelper.Username);
         user.SetTemporaryPassword(testHelper.PasswordSecurity.Hash("temporary"));
         await testHelper.EssentialDb.SaveChangesAsync(default);
         
@@ -121,7 +121,7 @@ public class SessionCreateCommandTests
     }
     #endregion
 
-    private SessionCreateCommand.SessionCreateHandler GetHandler(CoreTestHelper coreTestHelper)
+    private static SessionCreateCommand.SessionCreateHandler  GetHandler(CoreTestHelper coreTestHelper)
     {
         coreTestHelper.ConfigurationMock.Setup(x => x["Jwt:Key"]).Returns(new string('a', 30));
 
@@ -132,7 +132,7 @@ public class SessionCreateCommandTests
             coreTestHelper.PasswordSecurity);
     }
 
-    private SessionCreateCommand GetQuery(string emailOrUsername, string password, string device = "device")
+    private static SessionCreateCommand GetQuery(string emailOrUsername, string password, string device = "device")
     {
         return new SessionCreateCommand(RequestDto.Create(
             LoginRequestDto.Create(emailOrUsername, password), device, 0, 0));

@@ -1,14 +1,18 @@
 using MediatR;
+using WeeControl.Core.DataTransferObject.BodyObjects;
+using WeeControl.Core.DataTransferObject.Contexts.Essentials;
 
 namespace WeeControl.Core.Test.Application.Behaviours;
 
 public class TestExampleQuery : IRequest
 {
     private int delay;
+    private RequestDto<LoginRequestDto>? dto;
 
-    public TestExampleQuery(int delay)
+    public TestExampleQuery(int delay, RequestDto<LoginRequestDto>? dto = null)
     {
         this.delay = delay;
+        this.dto = dto;
     }
 
     public class TestExampleHandler : IRequestHandler<TestExampleQuery, Unit>

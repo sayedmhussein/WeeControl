@@ -15,6 +15,11 @@ public static class DependencyInjection
 
     public static IDictionary<string, string[]> GetModelValidationError(this IEntityModel entity)
     {
+        return GetErrors(entity);
+    }
+
+    private static IDictionary<string, string[]> GetErrors(object entity)
+    {
         var list = new Dictionary<string, string[]>();
         
         var validationResults = new List<ValidationResult>();

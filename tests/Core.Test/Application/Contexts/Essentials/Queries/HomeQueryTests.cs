@@ -3,7 +3,6 @@ using WeeControl.Core.Application.Contexts.Essentials.Queries;
 using WeeControl.Core.Application.Exceptions;
 using WeeControl.Core.DataTransferObject.BodyObjects;
 using WeeControl.Core.DataTransferObject.Contexts.Essentials;
-using WeeControl.Core.Domain.Contexts.Essentials;
 
 namespace WeeControl.Core.Test.Application.Contexts.Essentials.Queries;
 

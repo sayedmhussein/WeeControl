@@ -1,17 +1,15 @@
 // using System;
 // using System.Collections.Generic;
-// using System.Linq;
 // using System.Threading;
 // using System.Threading.Tasks;
 // using MediatR;
 // using Microsoft.EntityFrameworkCore;
-// using WeeControl.Application.Interfaces;
-// using WeeControl.Domain.Contexts.Essential;
-// using WeeControl.SharedKernel;
-// using WeeControl.SharedKernel.Essential.DataTransferObjects;
-// using WeeControl.SharedKernel.RequestsResponses;
+// using WeeControl.Core.Application.Interfaces;
+// using WeeControl.Core.DataTransferObject.BodyObjects;
+// using WeeControl.Core.Domain.Contexts.Essentials;
+// using WeeControl.Core.Domain.Interfaces;
 //
-// namespace WeeControl.Application.Contexts.Essential.Queries;
+// namespace WeeControl.Core.Application.Contexts.Essentials.Queries;
 //
 // public class UserQuery : IRequest<ResponseDto<IEnumerable<UserDtoV1>>>
 // {

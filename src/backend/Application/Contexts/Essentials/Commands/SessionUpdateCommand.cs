@@ -102,6 +102,11 @@ public class SessionUpdateCommand : IRequest<ResponseDto<TokenResponseDto>>
                     ci.AddClaim(new Claim(c.ClaimType, c.ClaimValue));
                 }
 
+                if (configuration["Jwt:Key"] is null)
+                {
+                    throw new NullReferenceException();
+                }
+                
                 var key = Encoding.ASCII.GetBytes(configuration["Jwt:Key"]);
 
                 var descriptor = new SecurityTokenDescriptor()
@@ -113,7 +118,7 @@ public class SessionUpdateCommand : IRequest<ResponseDto<TokenResponseDto>>
                 };
                 var token = jwtService.GenerateToken(descriptor);
 
-                return ResponseDto.Create(TokenResponseDto.Create(token, session.User.Person?.FirstName + " " + session.User.Person?.LastName));
+                return ResponseDto.Create(TokenResponseDto.Create(token));
             }
 
             throw new BadRequestException("Invalid request query parameters.");

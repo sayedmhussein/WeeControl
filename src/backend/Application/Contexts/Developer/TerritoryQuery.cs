@@ -8,7 +8,7 @@ using WeeControl.Core.DataTransferObject.BodyObjects;
 using WeeControl.Core.DataTransferObject.Contexts.Temporary.DataTransferObjects;
 using WeeControl.Core.Domain.Interfaces;
 
-namespace WeeControl.Core.Application.Contexts.Essentials.Queries;
+namespace WeeControl.Core.Application.Contexts.Developer;
 
 public class TerritoryQuery : IRequest<ResponseDto<IEnumerable<TerritoryDto>>>
 {

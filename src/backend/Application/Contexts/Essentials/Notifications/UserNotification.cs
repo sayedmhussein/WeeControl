@@ -8,14 +8,14 @@ using WeeControl.Core.Domain.Interfaces;
 
 namespace WeeControl.Core.Application.Contexts.Essentials.Notifications;
 
-public class UserNotificationNotification : INotification
+public class UserNotification : INotification
 {
     private readonly string username;
     private readonly string subject;
     private readonly string details;
     private readonly string uri;
 
-    public UserNotificationNotification(string username, string subject, string details, string uri)
+    public UserNotification(string username, string subject, string details, string uri)
     {
         this.username = username;
         this.subject = subject;
@@ -23,7 +23,7 @@ public class UserNotificationNotification : INotification
         this.uri = uri;
     }
 
-    public class UserNotificationHandler : INotificationHandler<UserNotificationNotification>
+    public class UserNotificationHandler : INotificationHandler<UserNotification>
     {
         private readonly IEssentialDbContext essentialDbContext;
 
@@ -32,7 +32,7 @@ public class UserNotificationNotification : INotification
             this.essentialDbContext = essentialDbContext;
         }
 
-        public async Task Handle(UserNotificationNotification notification, CancellationToken cancellationToken)
+        public async Task Handle(UserNotification notification, CancellationToken cancellationToken)
         {
             var user = await essentialDbContext.Users.FirstOrDefaultAsync(x => x.Username == notification.username, cancellationToken);
             if (user is null)

@@ -8,18 +8,18 @@ using WeeControl.Core.Domain.Interfaces;
 
 namespace WeeControl.Core.Application.Contexts.Essentials.Notifications;
 
-public class UserActivityNotification : INotification
+public class UserSessionLog : INotification
 {
     private readonly string logContext;
     private readonly string logDetails;
 
-    public UserActivityNotification(string logContext, string logDetails)
+    public UserSessionLog(string logContext, string logDetails)
     {
         this.logContext = logContext;
         this.logDetails = logDetails;
     }
 
-    public class UserActivityNotificationHandler : INotificationHandler<UserActivityNotification>
+    public class UserActivityNotificationHandler : INotificationHandler<UserSessionLog>
     {
         private readonly IEssentialDbContext context;
         private readonly ICurrentUserInfo currentUserInfo;
@@ -30,7 +30,7 @@ public class UserActivityNotification : INotification
             this.currentUserInfo = currentUserInfo;
         }
 
-        public async Task Handle(UserActivityNotification notif, CancellationToken cancellationToken)
+        public async Task Handle(UserSessionLog notif, CancellationToken cancellationToken)
         {
             try
             {

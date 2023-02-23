@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -7,6 +8,7 @@ using WeeControl.Core.Application.Exceptions;
 using WeeControl.Core.DataTransferObject.BodyObjects;
 using WeeControl.Core.DataTransferObject.Contexts.Essentials;
 using WeeControl.Core.Domain.Interfaces;
+using WeeControl.Core.SharedKernel;
 using WeeControl.Core.SharedKernel.Interfaces;
 
 namespace WeeControl.Core.Application.Contexts.Essentials.Commands;
@@ -35,9 +37,7 @@ public class UserForgotMyPasswordCommand : IRequest
 
         public async Task<Unit> Handle(UserForgotMyPasswordCommand request, CancellationToken cancellationToken)
         {
-            if (string.IsNullOrWhiteSpace(request.dto.DeviceId) ||
-                string.IsNullOrWhiteSpace(request.dto.Payload.Email) ||
-                string.IsNullOrWhiteSpace(request.dto.Payload.Username))
+            if (request.dto.GetModelValidationError().Any() || request.dto.Payload.GetModelValidationError().Any())
             {
                 throw new BadRequestException("Invalid device or email or username");
             }

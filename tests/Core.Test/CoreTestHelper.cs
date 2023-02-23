@@ -70,25 +70,25 @@ public class CoreTestHelper : IDisposable
         CurrentUserInfoMock = null;
     }
     
-    public (PersonModel Person, UserModel User, Guid personId, Guid userId, Guid sessionId) SeedDatabase()
+    public (PersonModel Person, UserModel User, Guid personId, Guid userId, Guid sessionId) SeedDatabase(string? username = null)
     {
-        return SeedDatabase(EssentialDb);
+        return SeedDatabase(EssentialDb, username);
     }
     
-    public static (PersonModel Person, UserModel User, Guid personId, Guid userId, Guid sessionId) SeedDatabase(IEssentialDbContext dbContext)
+    public static (PersonModel Person, UserModel User, Guid personId, Guid userId, Guid sessionId) SeedDatabase(IEssentialDbContext dbContext, string? username = null)
     {
-        var person = CreatePerson(dbContext);
-        var user = CreateUser(dbContext, person.PersonId);
+        var person = CreatePerson(dbContext, username);
+        var user = CreateUser(dbContext, person.PersonId, username);
         var session = CreateSession(dbContext, user.UserId);
 
         return (person, user, person.PersonId, user.UserId, session.SessionId);
     }
 
-    private static PersonDbo CreatePerson(IEssentialDbContext dbContext)
+    private static PersonDbo CreatePerson(IEssentialDbContext dbContext, string? username)
     {
         var personModel = new PersonModel()
         {
-            FirstName = "First Name", SecondName = "Father Name", ThirdName = "Third Name", LastName = "Last Name",
+            FirstName = username ?? "First Name", SecondName = "Father Name", ThirdName = "Third Name", LastName = username ?? "Last Name",
             NationalityCode = "EGP", DateOfBirth = new DateOnly(1999, 12, 31)
         };
         var person = PersonDbo.Create(personModel);
@@ -98,13 +98,19 @@ public class CoreTestHelper : IDisposable
         return person;
     }
 
-    private static UserDbo CreateUser(IEssentialDbContext dbContext, Guid personId)
+    private static UserDbo CreateUser(IEssentialDbContext dbContext, Guid personId, string? username)
     {
         var userModel = new UserModel()
         {
-            Email = Email, Username = Username,
-            MobileNo = MobileNo, Password = new PasswordSecurity().Hash(Password)
+            Email = Email, Username = username ?? Username,
+            MobileNo = MobileNo, Password = new PasswordSecurity().Hash(username ?? Password)
         };
+
+        if (username is not null)
+        {
+            userModel.Email = $"{username}@{username}.com";
+            userModel.MobileNo = new Random().NextInt64(100000, 9999999).ToString();
+        }
         
         var user = UserDbo.Create(personId, userModel);
         dbContext.Users.Add(user);
@@ -113,9 +119,12 @@ public class CoreTestHelper : IDisposable
         dbContext.UserNotifications.Add(UserNotificationDbo.Create(user.UserId, "Subject 1", $"Created at {DateTime.Now}",""));
         dbContext.UserNotifications.Add(UserNotificationDbo.Create(user.UserId, "Subject 2", $"Created at {DateTime.Now}", ""));
         dbContext.UserNotifications.Add(UserNotificationDbo.Create(user.UserId, "Subject 3", $"Created at {DateTime.Now}", ""));
-        
-        dbContext.Feeds.Add(UserFeedsDbo.Create("Feed Subject 1", "Feed body 1", ""));
-        dbContext.Feeds.Add(UserFeedsDbo.Create("Feed Subject 2", "Feed body 2", ""));
+
+        if (username is null)
+        {
+            dbContext.Feeds.Add(UserFeedsDbo.Create("Feed Subject 1", "Feed body 1", ""));
+            dbContext.Feeds.Add(UserFeedsDbo.Create("Feed Subject 2", "Feed body 2", ""));
+        }
         
         dbContext.SaveChanges();
         return user;

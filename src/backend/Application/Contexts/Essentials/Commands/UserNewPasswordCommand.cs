@@ -60,8 +60,6 @@ public class UserNewPasswordCommand : IRequest
             session.User.UpdatePassword(passwordSecurity.Hash(request.NewPassword));
             context.Users.Attach(session.User);
             context.Users.Entry(session.User).Property(x => x.Password).IsModified = true;
-            //context.Users.Entry(session.User).State = EntityState.Modified;
-            //context.Users.Update(session.User);
 
             await context.SaveChangesAsync(cancellationToken);
 

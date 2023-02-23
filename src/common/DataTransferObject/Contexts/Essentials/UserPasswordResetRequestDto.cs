@@ -1,8 +1,9 @@
 using System.ComponentModel.DataAnnotations;
+using WeeControl.Core.SharedKernel.Interfaces;
 
 namespace WeeControl.Core.DataTransferObject.Contexts.Essentials;
 
-public class UserPasswordResetRequestDto
+public class UserPasswordResetRequestDto : IEntityModel
 {
     public static UserPasswordResetRequestDto Create(string email, string username)
     {
