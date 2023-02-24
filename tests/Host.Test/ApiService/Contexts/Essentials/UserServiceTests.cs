@@ -15,7 +15,7 @@ public class UserServiceTests
         {
             FullName = "Full Name", Notifications = new []{ new HomeNotificationModel()}
         };
-        var service = helper.GetService<IUserService>(HttpStatusCode.OK, responseDto);
+        var service = helper.GetService<IHomeService>(HttpStatusCode.OK, responseDto);
 
         var success = await service.Refresh();
         
@@ -28,7 +28,7 @@ public class UserServiceTests
     public async void WhenNotSuccess(HttpStatusCode httpStatusCode)
     {
         using var helper = new HostTestHelper();
-        var service = helper.GetService<IUserService>(httpStatusCode);
+        var service = helper.GetService<IHomeService>(httpStatusCode);
 
         var success = await service.Refresh();
         

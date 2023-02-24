@@ -3,7 +3,7 @@
 @using WeeControl.Core.SharedKernel.Contexts.Essentials
 @using WeeControl.Host.WebApiService
 @using WeeControl.Host.WebApiService.Contexts.Essentials
-@inject IUserService User
+@inject IHomeService Home
 @inject ISecurity Security
 
 <p class="align-self-center">Here we put company introduction and required views for unregistered and registered customers.</p>
@@ -63,17 +63,12 @@
     
     protected override async Task OnInitializedAsync()
     {
-        feeds = await User.GetFeeds();
+        feeds = await Home.GetFeeds();
         await GetClaims();
     }
 
     private async Task GetClaims()
     {
-        // foreach (var claim in (await AuthState).User.Claims)
-        // {
-        //     claims.Add(claim);  
-        // }
-        
         foreach (var claim in (await Security.GetClaimsPrincipal()).Claims)
         {
             claims.Add(claim);  

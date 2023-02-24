@@ -25,6 +25,8 @@ public class DeviceDataService : ICommunication, IFeature, IGui, IMedia, ISharin
         this.navigationManager = navigationManager;
         this.configuration = configuration;
         HttpClient = new HttpClient();
+        
+        
     }
 
     public async Task SendAnEmail(IEnumerable<string> to, string subject, string body)
@@ -67,11 +69,6 @@ public class DeviceDataService : ICommunication, IFeature, IGui, IMedia, ISharin
 
     public async Task<(double? Latitude, double? Longitude, double? Elevation)> GetDeviceLocation(bool accurate = false)
     {
-        // var locationAvailable = await jsRuntime.InvokeAsync<bool>("position.coords.latitude");
-        // if (locationAvailable)
-        // {
-        //     return (null, null, null);
-        // }
         await Task.Delay(10);
         return (null, null, null);
     }

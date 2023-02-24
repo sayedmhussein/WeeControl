@@ -11,7 +11,7 @@
     <h4>Please enter your username and password</h4>
 </MudCardHeader>
 
-<MudCardContent Style="max-width: 600px">
+<MudCardContent Style="max-width: 600px; align-content: center; align-self: center; justify-content: center">
     <EditForm Model="@loginModel" OnValidSubmit="@(() => { isLoading = true;
                                                              AuthorizationService.Login(loginModel); 
                                                              isLoading = false; })">

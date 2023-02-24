@@ -1,11 +1,13 @@
+﻿using WeeControl.Core.DataTransferObject.Contexts.Essentials;
 using WeeControl.Core.SharedKernel.Contexts.Essentials;
 
 namespace WeeControl.Host.WebApiService.Contexts.Essentials;
 
 public interface IUserService
 {
-    Task<bool> Refresh();
-    Task<IEnumerable<HomeNotificationModel>> GetNotifications();
-    Task<IEnumerable<HomeFeedModel>> GetFeeds();
-    Task<string> GetFullName();
+    Task Register(EmployeeRegisterDto dto);
+    Task<UserModel> GetUser();
+    Task EditUser(object dto);
+    Task ChangePassword(UserPasswordChangeRequestDto dto);
+    Task RequestPasswordReset(UserPasswordResetRequestDto dto);
 }

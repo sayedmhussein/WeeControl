@@ -1,62 +1,47 @@
-using WeeControl.Core.DataTransferObject.Contexts.Essentials;
+﻿using WeeControl.Core.DataTransferObject.Contexts.Essentials;
 using WeeControl.Core.SharedKernel.Contexts.Essentials;
-using WeeControl.Host.WebApiService.DeviceInterfaces;
-using WeeControl.Host.WebApiService.Internals.Interfaces;
 
 namespace WeeControl.Host.WebApiService.Contexts.Essentials.Services;
 
 internal class UserService : IUserService
 {
-    private readonly IServerOperation server;
-    private readonly IGui gui;
-    private HomeResponseDto? dto;
-
-    public UserService(IServerOperation server, IGui gui)
+    public Task RegisterCustomer(CustomerRegisterDto dto)
     {
-        this.server = server;
-        this.gui = gui;
-    }
-    
-    public async Task<bool> Refresh()
-    {
-        var response = await server
-            .GetResponseMessage(HttpMethod.Get, new Version("1.0"), ControllerApi.Essentials.User.Route);
-
-        if (response.IsSuccessStatusCode)
-        {
-            var serverDto = await server.ReadFromContent<HomeResponseDto>(response.Content);
-            if (serverDto is not null)
-            {
-                dto = serverDto;
-                return true;
-            }
-        }
-
-        await gui.DisplayAlert("Unexpected error occured when communicating with server!");
-        return false;
+        throw new NotImplementedException();
     }
 
-    public async Task<IEnumerable<HomeNotificationModel>> GetNotifications()
+    public Task Register(EmployeeRegisterDto dto)
     {
-        if (dto == null)
-            await Refresh();
-
-        return dto?.Notifications ?? new List<HomeNotificationModel>();
+        throw new NotImplementedException();
     }
 
-    public async Task<IEnumerable<HomeFeedModel>> GetFeeds()
+    public Task<UserModel> GetUser()
     {
-        if (dto == null)
-            await Refresh();
-
-        return dto?.Feeds ?? new List<HomeFeedModel>();
+        throw new NotImplementedException();
     }
 
-    public async Task<string> GetFullName()
+    public Task Login(LoginRequestDto dto)
     {
-        if (dto == null)
-            await Refresh();
+        throw new NotImplementedException();
+    }
 
-        return dto?.FullName ?? string.Empty;
+    public Task Logout()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task EditUser(object dto)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task ChangePassword(UserPasswordChangeRequestDto dto)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task RequestPasswordReset(UserPasswordResetRequestDto dto)
+    {
+        throw new NotImplementedException();
     }
 }

@@ -1,6 +1,6 @@
 @using WeeControl.Host.WebApiService.Contexts.Essentials
 @using WeeControl.Core.SharedKernel.Contexts.Essentials
-@inject IUserService User
+@inject IHomeService Home
 
 @foreach (var n in notifications)
 {
@@ -19,7 +19,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        notifications = await User.GetNotifications();
+        notifications = await Home.GetNotifications();
         await base.OnInitializedAsync();
     }
 }

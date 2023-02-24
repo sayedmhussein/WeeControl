@@ -8,7 +8,7 @@
 @inject ISecurity Security
 @inject IGui Gui
 @inject IAuthenticationService UserAuthorizationService
-@inject IUserService User;
+@inject IHomeService Home;
 
 <MudThemeProvider/>
 <MudDialogProvider/>
@@ -21,8 +21,11 @@
         </MudLink>
         @if (isAuthenticated)
         {
-            <MudText Align="Align.Start">@fullName</MudText>
+            <MudMenu Label="Choose Page">
+                <MenuOfCustomerComponent></MenuOfCustomerComponent>
+            </MudMenu>
             <MudSpacer></MudSpacer>
+            <MudText Align="Align.Start">@fullName</MudText>
             <MudMenu Icon="@Icons.Material.Outlined.Notifications" AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight" MaxHeight="300">
                 <MenuOfNotificationComponent></MenuOfNotificationComponent>
             </MudMenu>
@@ -60,8 +63,8 @@
     
      protected override async Task OnInitializedAsync()
     {
-        isAuthenticated = await Security.IsAuthenticated();
-         fullName = "Hello " + await User.GetFullName();
+         isAuthenticated = await Security.IsAuthenticated();
+         fullName = isAuthenticated ? "Hello " + await Home.GetFullName() : string.Empty;
          await base.OnInitializedAsync();
     }
 

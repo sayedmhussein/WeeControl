@@ -20,7 +20,7 @@ public class UserTests: IClassFixture<CustomWebApplicationFactory<Startup>>
     public async void TestHome()
     {
         using var hostTestHelper = new HostTestHelper();
-        var service = hostTestHelper.GetService<IUserService>(factory.WithWebHostBuilder(builder =>
+        var service = hostTestHelper.GetService<IHomeService>(factory.WithWebHostBuilder(builder =>
         {
             builder.ConfigureServices(services =>
             {

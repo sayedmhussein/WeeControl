@@ -1,7 +1,14 @@
-
+@using WeeControl.Host.WebApiService
+@using System.Security.Claims
+@inject ISecurity Security
 
 <MudMenuItem>My Units</MudMenuItem>
 <MudMenuItem>Request Service</MudMenuItem>
 <MudSpacer></MudSpacer>
 <MudMenuItem>Complain</MudMenuItem>
 
+@code
+{
+    [Parameter]
+    public IEnumerable<Claim> Claims { get; init; }
+}
