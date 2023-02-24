@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Microsoft.AspNetCore.Http.HttpResults;
 using WeeControl.Core.DataTransferObject.Contexts.Essentials;
 using WeeControl.Host.WebApiService.Internals.Interfaces;
 
@@ -56,5 +57,26 @@ public class ServerOperationTests
         Assert.False(await service.RefreshToken());
     }
     #endregion
+
+    #region CoffeBrewingTests
+
+    [Fact]
+    public async void WhenServerRespond418_RefreshToken()
+    {
+        using var testingHelper = new HostTestHelper();
+        testingHelper.StorageMock.Setup(x => x.GetKeyValue(It.IsAny<string>())).ReturnsAsync("Token");
+        var service = testingHelper.GetService<IServerOperation>( new List<(HttpStatusCode statusCode, object? dto)>()
+        {
+            ((HttpStatusCode)418, null), 
+            (HttpStatusCode.OK, TokenResponseDto.Create("Token")),
+            (HttpStatusCode.OK, TokenResponseDto.Create("Token"))
+        });
+
+        var response = await service
+            .GetResponseMessage(HttpMethod.Get, new Version("1.0"), "API/Test");
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+    }
     
+    #endregion
 }

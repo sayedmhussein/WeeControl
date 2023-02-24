@@ -68,4 +68,19 @@ internal class HomeService : IHomeService
 
         return dto?.FullName ?? string.Empty;
     }
+
+    public Task MarkNotificationAsViewed(Guid id)
+    {
+        if (id == Guid.Empty)
+            throw new ArgumentOutOfRangeException(nameof(id));
+        
+        var response = server
+            .GetResponseMessage(HttpMethod.Delete, 
+                new Version("1.0"), 
+                ControllerApi.Essentials.User.Route,
+                endpoint:ControllerApi.Essentials.User.NotificationEndpoint,
+                query: new []{"id", id.ToString()});
+
+        return response;
+    }
 }

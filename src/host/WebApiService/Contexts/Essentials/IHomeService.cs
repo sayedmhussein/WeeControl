@@ -8,4 +8,5 @@ public interface IHomeService
     Task<IEnumerable<HomeNotificationModel>> GetNotifications();
     Task<IEnumerable<HomeFeedModel>> GetFeeds();
     Task<string> GetFullName();
+    Task MarkNotificationAsViewed(Guid id);
 }

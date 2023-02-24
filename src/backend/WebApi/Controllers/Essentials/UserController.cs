@@ -68,8 +68,7 @@ namespace WeeControl.Host.WebApi.Controllers.Essentials;
      public async Task<ActionResult> SetNewPasswordV1([FromBody] RequestDto<UserPasswordChangeRequestDto> dto)
      {
          var command = new UserNewPasswordCommand(dto, dto.Payload.OldPassword, dto.Payload.NewPassword);
-         var response = await mediator.Send(command);
-
+         await mediator.Send(command);
          return Ok();
      }
 
@@ -88,14 +87,18 @@ namespace WeeControl.Host.WebApi.Controllers.Essentials;
      
      #endregion
 
-     
-     [HttpDelete(ControllerApi.Essentials.User.NotificationEndpoint + "/{id:guid}")]
+     #region NotificationEndpoint Delete
+
+     [HttpDelete(ControllerApi.Essentials.User.NotificationEndpoint)]
      [MapToApiVersion("1.0")]
-     public async Task<ActionResult> MuteNotificationV1(Guid id)
+     public async Task<ActionResult> MuteNotificationV1([FromQuery] Guid id)
      {
          var command = new NotificationViewedCommand(id);
          await mediator.Send(command);
          return Ok();
      }
+
+     #endregion
+     
 
  }

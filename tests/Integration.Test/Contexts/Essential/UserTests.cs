@@ -36,4 +36,30 @@ public class UserTests: IClassFixture<CustomWebApplicationFactory<Startup>>
         Assert.NotEmpty(await service.GetFullName());
         Assert.NotEmpty(await service.GetNotifications());
     }
+
+    [Fact]
+    public async void WhenNotificationIsViewed_ItGetViewedInDatabase()
+    {
+        using var helper = new HostTestHelper();
+        var service = helper.GetService<IHomeService>(factory.WithWebHostBuilder(builder =>
+        {
+            builder.ConfigureServices(services =>
+            {
+                using var scope = services.BuildServiceProvider().CreateScope();
+                var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
+                CoreTestHelper.SeedDatabase(db);
+            });
+        }).CreateClient());
+        
+        await factory.Authorize(helper, CoreTestHelper.Username, CoreTestHelper.Password);
+
+        var unreadNotifications1 = (await service.GetNotifications())
+            .Where(x => x.ReadTs == null);
+        await service.MarkNotificationAsViewed(unreadNotifications1.First().NotificationId);
+        await service.Refresh();
+        var unreadNotifications2 = (await service.GetNotifications())
+            .Where(x => x.ReadTs == null);
+        
+        Assert.Equal(unreadNotifications1.Count(), unreadNotifications2.Count() + 1);
+    }
 }

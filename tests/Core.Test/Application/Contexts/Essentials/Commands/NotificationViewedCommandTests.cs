@@ -9,7 +9,7 @@ namespace WeeControl.Core.Test.Application.Contexts.Essentials.Commands;
 
 public class NotificationViewedCommandTests
 {
-    private Mock<IMediator> mediatorMock = new Mock<IMediator>();
+    private readonly Mock<IMediator> mediatorMock = new();
     
     [Fact]
     public async void WhenNotificationGetViewedBySameUser()

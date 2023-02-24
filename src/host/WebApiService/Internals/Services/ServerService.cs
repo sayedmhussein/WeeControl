@@ -101,10 +101,24 @@ internal class ServerService : IServerOperation
         {
             Method = method, Version = version, RequestUri = uri, Content = content
         };
+        
+        var requestMessageBackup = new HttpRequestMessage()
+        {
+            Method = method, Version = version, RequestUri = uri, Content = content
+        };
 
         await UpdateHttpAuthorizationHeader();
 
         var responseMessage = await communication.HttpClient.SendAsync(requestMessage);
+        if (responseMessage.StatusCode == (HttpStatusCode)418)
+        {
+            if (await RefreshToken())
+            {
+                await UpdateHttpAuthorizationHeader();
+                var response2 = await communication.HttpClient.SendAsync(requestMessageBackup);
+                return response2;
+            }
+        }
 
         return responseMessage;
     }

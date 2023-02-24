@@ -1,10 +1,11 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using WeeControl.Core.SharedKernel.Interfaces;
 
 namespace WeeControl.Core.DataTransferObject.Contexts.Essentials;
 
-public class UserPasswordChangeRequestDto
+public class UserPasswordChangeRequestDto : IEntityModel
 {
     [Required(ErrorMessage = "Old Password is required")]
     [StringLength(128, MinimumLength = 3, ErrorMessage = "Password length is between 3 and 128 letters.")]
