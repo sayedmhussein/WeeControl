@@ -5,7 +5,7 @@
 <MudMenuItem>My Units</MudMenuItem>
 @foreach (var p in Pages)
 {
-    <MudMenuItem>p</MudMenuItem>
+    <MudMenuItem>@p</MudMenuItem>
 }
 
 
@@ -18,4 +18,9 @@
 {
     [Parameter]
     public IEnumerable<string> Pages { get; set; }
+
+    private void Nav(string pageName)
+    {
+        
+    }
 }

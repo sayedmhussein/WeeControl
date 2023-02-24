@@ -16,7 +16,7 @@ internal class AppSecurityService : ISecurity
         this.security = security;
         this.gui = gui;
         security.TokenChanged += (sender, s) =>
-        AuthenticationChanged?.Invoke(this, !string.IsNullOrEmpty(s));
+            AuthenticationChanged?.Invoke(this, !string.IsNullOrEmpty(s));
     }
     
     public Task<ClaimsPrincipal> GetClaimsPrincipal()
@@ -42,6 +42,20 @@ internal class AppSecurityService : ISecurity
         }
         
         return false;
+    }
+
+    public async Task<IEnumerable<string>> GetAllowedPages()
+    {
+        var list = new List<string>();
+        foreach (var p in ApplicationPages.Elevator.GetListOfPages())
+        {
+            if (await PageExistInClaims(p.Value, null))
+            {
+                list.Add(p.Value);
+            }
+        }
+        
+        return list;
     }
 
     public Task<bool> IsAuthenticated()

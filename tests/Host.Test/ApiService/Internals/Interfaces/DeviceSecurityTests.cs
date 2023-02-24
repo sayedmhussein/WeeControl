@@ -88,6 +88,23 @@ public class DeviceSecurityTests
 
         Assert.Equal(exist, result);
     }
+    
+    [Fact]
+    public async void TestGetAllowedPages()
+    {
+        using var helper = new HostTestHelper();
+        var service = helper.GetService<IDeviceSecurity>();
+        await service.UpdateToken(GenerateToken(helper, new List<Claim>()
+        {
+            new (ClaimsValues.ClaimTypes.Field, ClaimsValues.ClaimValues.Auditor),
+            new (ClaimsValues.ClaimTypes.Field, ClaimsValues.ClaimValues.Executive),
+            new (ClaimsValues.ClaimTypes.Sales, ClaimsValues.ClaimValues.Auditor)
+        }));
+        
+        var result = await helper.GetService<ISecurity>().GetAllowedPages();
+        
+        Assert.Equal(2, result.Count());
+    }
 
     private static string GenerateToken(HostTestHelper testingService, IEnumerable<Claim>? claims = null)
     {
