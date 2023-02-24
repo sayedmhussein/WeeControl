@@ -30,7 +30,7 @@ public class SessionTerminateCommand : IRequest
             this.currentUserInfo = currentUserInfo;
         }
 
-        public async Task<Unit> Handle(SessionTerminateCommand request, CancellationToken cancellationToken)
+        public async Task Handle(SessionTerminateCommand request, CancellationToken cancellationToken)
         {
             if (currentUserInfo.SessionId is null)
             {
@@ -55,7 +55,7 @@ public class SessionTerminateCommand : IRequest
 
             await context.SaveChangesAsync(cancellationToken);
 
-            return Unit.Value;
+            //return Unit.Value;
         }
     }
 }

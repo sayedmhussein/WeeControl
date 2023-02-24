@@ -15,12 +15,12 @@ public class TestExampleQuery : IRequest
         this.dto = dto;
     }
 
-    public class TestExampleHandler : IRequestHandler<TestExampleQuery, Unit>
-    {
-        public async Task<Unit> Handle(TestExampleQuery request, CancellationToken cancellationToken)
-        {
-            await Task.Delay(request.delay, cancellationToken);
-            return Unit.Value;
-        }
-    }
+    // public class TestExampleHandler : IRequestHandler<TestExampleQuery, Unit>
+    // {
+    //     public async Task<Unit> Handle(TestExampleQuery request, CancellationToken cancellationToken)
+    //     {
+    //         await Task.Delay(request.delay, cancellationToken);
+    //         return Unit.Value;
+    //     }
+    // }
 }

@@ -1,8 +1,14 @@
 @using WeeControl.Host.WebApiService
 @using System.Security.Claims
+@using WeeControl.Host.WebApiService.DeviceInterfaces
 @inject ISecurity Security
+@inject IGui Gui
 
-<MudMenuItem>Always Appearing</MudMenuItem>
+<MudMenuItem>
+    <MudLink OnClick="@(() => Gui.NavigateToAsync(ApplicationPages.Essential.HomePage))">Home</MudLink>
+</MudMenuItem>
+
+<MudDivider />
 
 @if (IsCustomer)
 {
@@ -11,18 +17,23 @@
 
 @if (IsEmployee)
 {
-    <MudMenuItem>Request Service</MudMenuItem>
     @foreach (var p in Pages)
     {
-        <MudMenuItem>@p</MudMenuItem>
+        <MudMenuItem>
+            <MudLink OnClick="@(() => Gui.NavigateToAsync(p))">@p</MudLink>
+        </MudMenuItem>
     }
 }
 
-<MudSpacer></MudSpacer>
+<MudDivider />
 @if (IsEmployee || IsCustomer)
 {
-    <MudMenuItem>Edit My Profile</MudMenuItem>
-    <MudMenuItem>Send Feedback</MudMenuItem>
+    <MudMenuItem>
+        <MudLink OnClick="@(() => Gui.NavigateToAsync(ApplicationPages.Essential.UserPage))">My Profile</MudLink>
+    </MudMenuItem>
+    <MudMenuItem>
+        <MudLink>Send Feedback</MudLink>
+    </MudMenuItem>
 }
 
 @code
@@ -35,4 +46,5 @@
     
     [Parameter]
     public bool IsCustomer { get; set; }
+    
 }

@@ -8,17 +8,17 @@ using System.Linq;
 using WeeControl.ApiApp.Persistence.DbContexts;
 using WeeControl.Core.Domain.Interfaces;
 
+
 namespace WeeControl.ApiApp.Persistence
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddPersistenceAsPostgres(this IServiceCollection services,
-            IConfiguration configuration, string migrationAssemblyName)
+        public static IServiceCollection AddPersistence(this IServiceCollection services,
+            string dbName, string migrationAssemblyName)
         {
-            var options = GetPostgresOptions<EssentialDbContext>(
-                configuration.GetConnectionString("EssentialDbProvider"),
+            var options = GetOptions<EssentialDbContext>(
+                dbName,
                 migrationAssemblyName);
-            //services.AddScoped(p => options);
 
             services.AddScoped<IEssentialDbContext>(p =>
                 new EssentialDbContext(options));
@@ -38,15 +38,17 @@ namespace WeeControl.ApiApp.Persistence
             return services;
         }
 
-        private static DbContextOptions<T> GetPostgresOptions<T>(string dbName, string migrationAssemblyName)
+        private static DbContextOptions<T> GetOptions<T>(string dbName, string migrationAssemblyName)
             where T : DbContext
         {
             var options = new DbContextOptionsBuilder<T>();
 #if DEBUG
             options.EnableSensitiveDataLogging();
 #endif
-            options.UseNpgsql(dbName, b => b.MigrationsAssembly(migrationAssemblyName));
+            //options.UseNpgsql(dbName, b => b.MigrationsAssembly(migrationAssemblyName));
 
+            options.UseMySQL(dbName, b => b.MigrationsAssembly(migrationAssemblyName));
+            
             return options.Options;
         }
 

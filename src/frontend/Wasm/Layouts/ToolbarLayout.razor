@@ -23,7 +23,7 @@
         </MudLink>
         @if (isAuthenticated)
         {
-            <MudMenu Label="Choose Page">
+            <MudMenu Label="Open Menu" ActivationEvent="@MouseEvent.MouseOver">
                 <MenuOfCustomerComponent Pages="pages" IsEmployee="@IsEmployee(claims)" IsCustomer="@IsCustomer(claims)"></MenuOfCustomerComponent>
             </MudMenu>
             <MudSpacer></MudSpacer>

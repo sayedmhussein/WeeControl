@@ -32,7 +32,7 @@ public class NotificationViewedCommand : IRequest
             this.mediator = mediator;
         }
 
-        public async Task<Unit> Handle(NotificationViewedCommand request, CancellationToken cancellationToken)
+        public async Task Handle(NotificationViewedCommand request, CancellationToken cancellationToken)
         {
             var notification = await essentialDbContext.UserNotifications.FirstOrDefaultAsync(
                 x => x.NotificationId == request.notificationId, cancellationToken);
@@ -57,7 +57,7 @@ public class NotificationViewedCommand : IRequest
             notification.ReadTs = DateTime.UtcNow;
             await essentialDbContext.SaveChangesAsync(default);
 
-            return Unit.Value;
+            //return Unit.Value;
         }
     }
 }

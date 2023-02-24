@@ -14,9 +14,10 @@ public class UserDuplicationQueryTests
 
         var handler = GetHandler(testHelper);
 
-        Assert.Equal(Unit.Value, await handler.Handle(new UserDuplicationQuery(UserDuplicationQuery.Parameter.Username, "username1"), default));
-        Assert.Equal(Unit.Value, await handler.Handle(new UserDuplicationQuery(UserDuplicationQuery.Parameter.Email, "email@email.com"), default));
-        Assert.Equal(Unit.Value, await handler.Handle(new UserDuplicationQuery(UserDuplicationQuery.Parameter.Mobile, "+33"), default));
+        await handler.Handle(new UserDuplicationQuery(UserDuplicationQuery.Parameter.Username, "username1"), default);
+        await handler.Handle(new UserDuplicationQuery(UserDuplicationQuery.Parameter.Email, "email@email.com"),
+            default);
+        await handler.Handle(new UserDuplicationQuery(UserDuplicationQuery.Parameter.Mobile, "+33"), default);
     }
 
     [Theory]

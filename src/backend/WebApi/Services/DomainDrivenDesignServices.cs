@@ -9,13 +9,13 @@ namespace WeeControl.Host.WebApi.Services;
 
 public static class DomainDrivenDesignServices
 {
-    public static IServiceCollection AddDomainDrivenDesignService(this IServiceCollection services, IConfiguration Configuration)
+    public static IServiceCollection AddDomainDrivenDesignService(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddApplication();
-        services.AddInfrastructure(Configuration);
+        services.AddInfrastructure(configuration);
 
-        _ = Configuration["UseInMemoryDb"] == false.ToString() ?
-            services.AddPersistenceAsPostgres(Configuration, Assembly.GetExecutingAssembly().GetName().Name) :
+        _ = configuration["UseInMemoryDb"] == false.ToString() ?
+            services.AddPersistence(configuration.GetConnectionString("MySqlDbProvider"), Assembly.GetExecutingAssembly().GetName().Name) :
             //services.AddPersistenceAsPostgres("MyDB") :
             services.AddPersistenceAsInMemory();
 

@@ -37,7 +37,7 @@ public class UserNewPasswordCommand : IRequest
             this.passwordSecurity = passwordSecurity;
         }
 
-        public async Task<Unit> Handle(UserNewPasswordCommand request, CancellationToken cancellationToken)
+        public async Task Handle(UserNewPasswordCommand request, CancellationToken cancellationToken)
         {
             if (string.IsNullOrWhiteSpace(request.OldPassword) || string.IsNullOrWhiteSpace(request.NewPassword))
             {
@@ -63,7 +63,7 @@ public class UserNewPasswordCommand : IRequest
 
             await context.SaveChangesAsync(cancellationToken);
 
-            return Unit.Value;
+            //return Unit.Value;
         }
     }
 }

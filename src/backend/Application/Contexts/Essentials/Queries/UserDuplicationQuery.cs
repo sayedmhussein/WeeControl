@@ -37,7 +37,7 @@ public class UserDuplicationQuery : IRequest
             this.essentialDbContext = essentialDbContext;
         }
 
-        public async Task<Unit> Handle(UserDuplicationQuery request, CancellationToken cancellationToken)
+        public async Task Handle(UserDuplicationQuery request, CancellationToken cancellationToken)
         {
             switch (request.parameter)
             {
@@ -66,7 +66,7 @@ public class UserDuplicationQuery : IRequest
                     throw new ArgumentOutOfRangeException();
             }
 
-            return Unit.Value;
+            //return Unit.Value;
         }
     }
 }

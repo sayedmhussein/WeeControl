@@ -27,11 +27,11 @@ public class SeedEssentialDatabaseCommand : IRequest
             this.passwordSecurity = passwordSecurity;
         }
 
-        public async Task<Unit> Handle(SeedEssentialDatabaseCommand request, CancellationToken cancellationToken)
+        public async Task Handle(SeedEssentialDatabaseCommand request, CancellationToken cancellationToken)
         {
-            
+
             if (await context.Person.AnyAsync(cancellationToken))
-                return Unit.Value;
+                return;
 
             await context.Feeds.AddAsync(UserFeedsDbo.Create(
                 "This is was injected from Seed (1)", 
@@ -71,7 +71,7 @@ public class SeedEssentialDatabaseCommand : IRequest
             
             await AddCustomer(customerId, "EGP", cancellationToken);
 
-            return Unit.Value;
+            //return Unit.Value;
         }
 
         private IEnumerable<TerritoryDbo> GetTerritories()

@@ -33,6 +33,7 @@ public class Program
         var context = (EssentialDbContext)scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
         if (context.Database.IsRelational())
         {
+            await context.Database.EnsureCreatedAsync();
             await context.Database.MigrateAsync();
         }
         else

@@ -28,16 +28,6 @@ internal static class UserSecurityServices
 
     private static void Configure(AuthorizationOptions options)
     {
-        // var types = Assembly
-        //     .GetExecutingAssembly()
-        //     .GetTypes()
-        //     .Where(t => t.BaseType == typeof(PolicyBuilderBase));
-        //
-        // foreach (var t in types)
-        // {
-        //     options.AddPolicy(t.Name, t.GetPolicy());
-        // }
-
         options.AddPolicy(DeveloperWithDatabaseOperationPolicy.Name, new DeveloperWithDatabaseOperationPolicy().GetPolicy());
 
         options.AddPolicy(nameof(CanEditUserPolicy), new CanEditUserPolicy().GetPolicy());

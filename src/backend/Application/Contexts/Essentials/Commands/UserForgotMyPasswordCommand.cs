@@ -35,7 +35,7 @@ public class UserForgotMyPasswordCommand : IRequest
             this.passwordSecurity = passwordSecurity;
         }
 
-        public async Task<Unit> Handle(UserForgotMyPasswordCommand request, CancellationToken cancellationToken)
+        public async Task Handle(UserForgotMyPasswordCommand request, CancellationToken cancellationToken)
         {
             if (request.dto.GetModelValidationError().Any() || request.dto.Payload.GetModelValidationError().Any())
             {
@@ -54,10 +54,10 @@ public class UserForgotMyPasswordCommand : IRequest
 
                 await mediator.Publish(new PasswordResetNotification(user.UserId, password), cancellationToken);
 
-                return Unit.Value;
+                return;
             }
 
-            return Unit.Value;
+            //return Unit.Value;
         }
     }
 }

@@ -1,0 +1,56 @@
+﻿@using WeeControl.Host.WebApiService
+@using WeeControl.Host.WebApiService.Contexts.Essentials
+@using WeeControl.Core.DataTransferObject.Contexts.Essentials
+@attribute [Route(ApplicationPages.Essential.UserPage)]
+@inject IUserService UserService
+
+<MudPaper Style="align-content: center; align-self: center; justify-content: center">
+    <MudCard>
+        <p>Here user details</p>
+    </MudCard>
+    <MudCard>
+        <MudCardContent>
+            <EditForm Model="@changePasswordModel" OnValidSubmit="@(() => {
+                                                                              isLoading = true;
+                                                                              UserService.ChangePassword(changePasswordModel); 
+                                                                              isLoading = false; })">
+                <DataAnnotationsValidator/>
+                <div class="form-group">
+                    <label>Old Password</label>
+                    <InputText @bind-Value="changePasswordModel.OldPassword" readonly="@isLoading" type="password" class="form-control"/>
+                    <ValidationMessage For="@(() => changePasswordModel.OldPassword)"/>
+                </div>
+                <div class="form-group">
+                    <label>New Password</label>
+                    <InputText @bind-Value="changePasswordModel.NewPassword" readonly="@isLoading" type="password" class="form-control"/>
+                    <ValidationMessage For="@(() => changePasswordModel.NewPassword)"/>
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <InputText @bind-Value="changePasswordModel.ConfirmPassword" readonly="@isLoading" type="password" class="form-control"/>
+                    <ValidationMessage For="@(() => changePasswordModel.ConfirmPassword)"/>
+                </div>
+
+                <MudButton
+                    ButtonType="ButtonType.Submit"
+                    Variant="Variant.Filled"
+                    Color="Color.Primary"
+                    Disabled="@isLoading"
+                    Class="ml-auto">
+                    @if (isLoading)
+                    {
+                        <span class="spinner-border spinner-border-sm mr-1"></span>
+                    }
+                    Login
+                </MudButton>
+            </EditForm>
+        </MudCardContent>
+    </MudCard>
+</MudPaper>
+
+@code {
+    private readonly UserPasswordChangeRequestDto changePasswordModel = new ();
+    private bool isLoading;
+
+
+}

@@ -46,7 +46,6 @@ public class AuthorizationController : Controller
     }
 
     [Authorize]
-    //[HttpPut("{otp}")]
     [HttpPut]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(typeof(ResponseDto<TokenResponseDto>), (int)HttpStatusCode.OK)]
@@ -75,7 +74,7 @@ public class AuthorizationController : Controller
     [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
     public async Task<ActionResult<ResponseDto>> LogoutV1([FromBody] RequestDto dto)
     {
-        var response = await mediator.Send(new SessionTerminateCommand(dto));
-        return Ok(response);
+         await mediator.Send(new SessionTerminateCommand(dto));
+        return Ok();
     }
 }
