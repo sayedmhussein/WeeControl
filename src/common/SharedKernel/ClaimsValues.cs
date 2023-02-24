@@ -21,7 +21,7 @@ public static class ClaimsValues
     public static class ClaimTypes
     {
         public const string Session = "e_s";
-        public const string Territory = "e_r";
+        public const string CustomerTerritory = "e_r";
         public const string Country = "e_c";
 
         public const string Developer = "e_dv";

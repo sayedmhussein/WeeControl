@@ -14,7 +14,7 @@ public class UserInfoServiceTests : IDisposable
     public UserInfoServiceTests()
     {
         sessionClaim = new Claim(ClaimsValues.ClaimTypes.Session, Guid.NewGuid().ToString());
-        var territoryClaim = new Claim(ClaimsValues.ClaimTypes.Territory, Guid.NewGuid().ToString());
+        var territoryClaim = new Claim(ClaimsValues.ClaimTypes.CustomerTerritory, Guid.NewGuid().ToString());
 
         var claims = new List<Claim>()
         {

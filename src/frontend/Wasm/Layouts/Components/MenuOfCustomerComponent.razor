@@ -2,25 +2,37 @@
 @using System.Security.Claims
 @inject ISecurity Security
 
-<MudMenuItem>My Units</MudMenuItem>
-@foreach (var p in Pages)
+<MudMenuItem>Always Appearing</MudMenuItem>
+
+@if (IsCustomer)
 {
-    <MudMenuItem>@p</MudMenuItem>
+    <MudMenuItem>Customer Appearing</MudMenuItem>
 }
 
+@if (IsEmployee)
+{
+    <MudMenuItem>Request Service</MudMenuItem>
+    @foreach (var p in Pages)
+    {
+        <MudMenuItem>@p</MudMenuItem>
+    }
+}
 
-<MudMenuItem>My Units</MudMenuItem>
-<MudMenuItem>Request Service</MudMenuItem>
 <MudSpacer></MudSpacer>
-<MudMenuItem>Complain</MudMenuItem>
+@if (IsEmployee || IsCustomer)
+{
+    <MudMenuItem>Edit My Profile</MudMenuItem>
+    <MudMenuItem>Send Feedback</MudMenuItem>
+}
 
 @code
 {
     [Parameter]
     public IEnumerable<string> Pages { get; set; }
 
-    private void Nav(string pageName)
-    {
-        
-    }
+    [Parameter]
+    public bool IsEmployee { get; set; }
+    
+    [Parameter]
+    public bool IsCustomer { get; set; }
 }

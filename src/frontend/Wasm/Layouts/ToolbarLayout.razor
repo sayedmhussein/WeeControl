@@ -2,6 +2,8 @@
 @using WeeControl.Host.WebApiService
 @using WeeControl.Host.WebApiService.Contexts.Essentials
 @using WeeControl.Host.WebApiService.DeviceInterfaces
+@using System.Security.Claims
+@using WeeControl.Core.SharedKernel
 @inherits LayoutComponentBase
 @attribute [AllowAnonymous]
 
@@ -22,7 +24,7 @@
         @if (isAuthenticated)
         {
             <MudMenu Label="Choose Page">
-                <MenuOfCustomerComponent Pages="pages"></MenuOfCustomerComponent>
+                <MenuOfCustomerComponent Pages="pages" IsEmployee="@IsEmployee(claims)" IsCustomer="@IsCustomer(claims)"></MenuOfCustomerComponent>
             </MudMenu>
             <MudSpacer></MudSpacer>
             <MudText Align="Align.Start">@fullName</MudText>
@@ -61,6 +63,7 @@
     bool isAuthenticated;
     string fullName;
     IEnumerable<string> pages;
+    IEnumerable<Claim> claims;
 
      protected override async Task OnInitializedAsync()
     {
@@ -68,6 +71,17 @@
          fullName = isAuthenticated ? "Hello " + await Home.GetFullName() : string.Empty;
          pages = await Security.GetAllowedPages();
          StateHasChanged();
+         claims = (await Security.GetClaimsPrincipal()).Claims;
          await base.OnInitializedAsync();
+    }
+
+    private static bool IsEmployee(IEnumerable<Claim> claims)
+    {
+        return !claims.Select(x => x.Type).Contains(ClaimsValues.ClaimTypes.CustomerTerritory);
+    }
+    
+    private static bool IsCustomer(IEnumerable<Claim> claims)
+    {
+        return claims.Select(x => x.Type).Contains(ClaimsValues.ClaimTypes.CustomerTerritory);
     }
 }
