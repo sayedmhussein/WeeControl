@@ -15,14 +15,16 @@ internal class ServerService : IServerOperation
     private readonly ICommunication communication;
     private readonly IDeviceSecurity security;
     private readonly IFeature feature;
+    private readonly IGui gui;
     private readonly HttpClient httpClient;
 
-    public ServerService(ICommunication communication, IDeviceSecurity security, IFeature feature)
+    public ServerService(ICommunication communication, IDeviceSecurity security, IFeature feature, IGui gui)
     {
         httpClient = communication.HttpClient;
         this.communication = communication;
         this.security = security;
         this.feature = feature;
+        this.gui = gui;
     }
     
     public Task<HttpResponseMessage> GetResponseMessage(HttpMethod method, Version version, string route, string? endpoint = null,
@@ -77,9 +79,19 @@ internal class ServerService : IServerOperation
             }
         }
 
-        if (response.StatusCode != HttpStatusCode.BadGateway)
-            await security.DeleteToken();
-        
+        if ((int) response.StatusCode < 500)
+        {
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                await security.DeleteToken();
+                await gui.DisplayAlert("Please login again.");
+                await gui.NavigateToAsync(ApplicationPages.Essential.LoginPage, forceLoad:true);
+                return false;
+            }
+            
+            await gui.DisplayAlert($"Unexpected error no. {response.StatusCode}");
+        }
+
         return false;
     }
 

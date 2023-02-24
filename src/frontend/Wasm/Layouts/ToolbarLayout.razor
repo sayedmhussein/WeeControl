@@ -22,7 +22,7 @@
         @if (isAuthenticated)
         {
             <MudMenu Label="Choose Page">
-                <MenuOfCustomerComponent></MenuOfCustomerComponent>
+                <MenuOfCustomerComponent Pages="pages"></MenuOfCustomerComponent>
             </MudMenu>
             <MudSpacer></MudSpacer>
             <MudText Align="Align.Start">@fullName</MudText>
@@ -60,12 +60,28 @@
 {
     bool isAuthenticated;
     string fullName;
-    
+    IEnumerable<string> pages;
+
      protected override async Task OnInitializedAsync()
     {
          isAuthenticated = await Security.IsAuthenticated();
          fullName = isAuthenticated ? "Hello " + await Home.GetFullName() : string.Empty;
+         pages = await GetAllowedPages();
+         StateHasChanged();
          await base.OnInitializedAsync();
     }
 
+    private async Task<IEnumerable<string>> GetAllowedPages()
+    {
+        var list = new List<string>();
+        foreach (var p in ApplicationPages.Elevator.GetListOfPages())
+        {
+            if (await Security.PageExistInClaims(p.Value))
+            {
+                list.Add(p.Value);
+            }
+        }
+
+        return list;
+    }
 }

@@ -3,6 +3,13 @@
 @inject ISecurity Security
 
 <MudMenuItem>My Units</MudMenuItem>
+@foreach (var p in Pages)
+{
+    <MudMenuItem>p</MudMenuItem>
+}
+
+
+<MudMenuItem>My Units</MudMenuItem>
 <MudMenuItem>Request Service</MudMenuItem>
 <MudSpacer></MudSpacer>
 <MudMenuItem>Complain</MudMenuItem>
@@ -10,5 +17,5 @@
 @code
 {
     [Parameter]
-    public IEnumerable<Claim> Claims { get; init; }
+    public IEnumerable<string> Pages { get; set; }
 }

@@ -33,6 +33,16 @@ public class SeedEssentialDatabaseCommand : IRequest
             if (await context.Person.AnyAsync(cancellationToken))
                 return Unit.Value;
 
+            await context.Feeds.AddAsync(UserFeedsDbo.Create(
+                "This is was injected from Seed (1)", 
+                "Body of feed", "/"), cancellationToken);
+            await context.Feeds.AddAsync(UserFeedsDbo.Create(
+                "This is was injected from Seed (2)", 
+                context.ToString(), "/"), cancellationToken);
+            await context.Feeds.AddAsync(UserFeedsDbo.Create(
+                "This is was injected from Seed(3)", 
+                "Body of feed", "/"), cancellationToken);
+
             //await context.Territories.AddRangeAsync(GetTerritories(), cancellationToken);
 
             var developerId = await AddPerson("developer", "EGP", cancellationToken);

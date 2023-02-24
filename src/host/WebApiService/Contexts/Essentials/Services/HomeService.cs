@@ -32,7 +32,7 @@ internal class HomeService : IHomeService
                 return true;
             }
         }
-        else if (response.StatusCode is HttpStatusCode.Forbidden or HttpStatusCode.Unauthorized)
+        else if (response.StatusCode is HttpStatusCode.Forbidden or HttpStatusCode.Unauthorized or HttpStatusCode.NotFound)
         {
             if (await server.RefreshToken())
             {
@@ -41,7 +41,7 @@ internal class HomeService : IHomeService
             }
         }
 
-        await gui.DisplayAlert("Unexpected error occured when communicating with server!");
+        await gui.DisplayAlert($"Unexpected error occured when communicating with server! {response.StatusCode}");
         return false;
     }
 

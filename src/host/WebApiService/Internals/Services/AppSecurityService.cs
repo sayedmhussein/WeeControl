@@ -1,4 +1,6 @@
+using System.Security.AccessControl;
 using System.Security.Claims;
+using WeeControl.Core.SharedKernel;
 using WeeControl.Host.WebApiService.DeviceInterfaces;
 using WeeControl.Host.WebApiService.Internals.Interfaces;
 
@@ -20,6 +22,26 @@ internal class AppSecurityService : ISecurity
     public Task<ClaimsPrincipal> GetClaimsPrincipal()
     {
         return security.GetClaimsPrincipal();
+    }
+
+    public async Task<bool> PageExistInClaims(string pageName, string? authority)
+    {
+        if (ClaimsValues.GetClaimTypes().TryGetValue(pageName, out var val))
+        {
+            var foundClaim = (await security.GetClaimsPrincipal()).Claims.Where(x => x.Type == val);
+            if (foundClaim.Any())
+            {
+                if (string.IsNullOrEmpty(authority))
+                    return true;
+
+                if (foundClaim.FirstOrDefault(x => x.Value == authority) != null)
+                {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
     }
 
     public Task<bool> IsAuthenticated()
