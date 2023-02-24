@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace WeeControl.Core.Domain.Exceptions;
 
+[Obsolete("Use WeeControl.Core.SharedKernel.EntityModelValidationException")]
 public class DomainValidationException : DomainOutOfRangeException
 {
     public static void ValidateEntity(object entity)

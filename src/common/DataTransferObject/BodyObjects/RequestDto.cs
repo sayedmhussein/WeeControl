@@ -3,7 +3,7 @@ using WeeControl.Core.SharedKernel.Interfaces;
 
 namespace WeeControl.Core.DataTransferObject.BodyObjects;
 
-public class RequestDto
+public class RequestDto : IEntityModel
 {
     public static RequestDto Create(string device, double? latitude, double? longitude)
     {
@@ -44,7 +44,7 @@ public class RequestDto
     }
 }
 
-public class RequestDto<T> : RequestDto, IEntityModel where T : class
+public class RequestDto<T> : RequestDto where T : class
 {
     public T Payload { get; init; }
 

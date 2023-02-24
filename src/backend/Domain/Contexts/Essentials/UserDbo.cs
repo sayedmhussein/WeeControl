@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WeeControl.Core.Domain.Exceptions;
+using WeeControl.Core.SharedKernel;
 using WeeControl.Core.SharedKernel.Contexts.Essentials;
 
 namespace WeeControl.Core.Domain.Contexts.Essentials;
@@ -22,8 +23,8 @@ public class UserDbo : UserModel
         if (personId == Guid.Empty)
             throw new DomainOutOfRangeException("Person ID can't be empty GUID");
         
-        DomainValidationException.ValidateEntity(model);
-        
+        model.ThrowExceptionIfEntityModelNotValid();
+
         return new UserDbo()
         {
             PersonId = personId, 
@@ -109,9 +110,9 @@ public class UserEntityTypeConfig : IEntityTypeConfiguration<UserDbo>
             .HasForeignKey<UserDbo>(x => x.PersonId)
             .IsRequired();
 
-        builder.HasOne<EmployeeDbo>()
-            .WithOne()
-            .HasForeignKey<EmployeeDbo>(x => x.PersonId);
+        // builder.HasOne<EmployeeDbo>()
+        //     .WithOne()
+        //     .HasForeignKey<EmployeeDbo>(x => x.PersonId);
 
         builder.HasOne<CustomerDbo>()
             .WithOne(x => x.User)

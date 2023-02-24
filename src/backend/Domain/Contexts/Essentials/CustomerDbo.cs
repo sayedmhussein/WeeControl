@@ -11,6 +11,14 @@ namespace WeeControl.Core.Domain.Contexts.Essentials;
 [Table("Customer", Schema = nameof(Essentials))]
 public class CustomerDbo : CustomerModel
 {
+    public static CustomerDbo Create(Guid userId, CustomerModel model)
+    {
+        return new CustomerDbo()
+        {
+            UserId = userId, CountryCode = model.CountryCode
+        };
+    }
+    
     [Key]
     public Guid CustomerId { get; }
     

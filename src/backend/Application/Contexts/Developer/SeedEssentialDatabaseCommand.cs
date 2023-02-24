@@ -9,6 +9,7 @@ using WeeControl.Core.Domain.Contexts.Business;
 using WeeControl.Core.Domain.Contexts.Essentials;
 using WeeControl.Core.Domain.Interfaces;
 using WeeControl.Core.SharedKernel;
+using WeeControl.Core.SharedKernel.Contexts.Essentials;
 using WeeControl.Core.SharedKernel.Interfaces;
 
 namespace WeeControl.Core.Application.Contexts.Developer;
@@ -111,7 +112,7 @@ public class SeedEssentialDatabaseCommand : IRequest
 
         private async Task AddEmployee(Guid userId, CancellationToken cancellationToken)
         {
-            var employee = new EmployeeDbo(userId, "12345");
+            var employee = EmployeeDbo.Create(userId,null, new EmployeeModel() { EmployeeNo = "12345"});
             await context.Employees.AddAsync(employee, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
         }

@@ -4,12 +4,21 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using WeeControl.Core.SharedKernel.Contexts.Essentials;
 
 namespace WeeControl.Core.Domain.Contexts.Essentials;
 
 [Table("Employee", Schema = nameof(Essentials))]
-public class EmployeeDbo
+public class EmployeeDbo : EmployeeModel
 {
+    public static EmployeeDbo Create(Guid personId, Guid? supervisorId, EmployeeModel model)
+    {
+        return new EmployeeDbo()
+        {
+            PersonId = personId, EmployeeNo = model.EmployeeNo
+        };
+    }
+    
     [Key]
     public Guid EmployeeId { get; }
     
@@ -20,20 +29,8 @@ public class EmployeeDbo
     public Guid PersonId { get; set; }
     public PersonDbo Person { get; set; }
 
-    //public Guid TerritoryId { get; set; }
-
-    [Required]
-    [StringLength(45)]
-    public string EmployeeNo { get; set; } = string.Empty;
-
     private EmployeeDbo()
     {
-    }
-
-    public EmployeeDbo(Guid userId, string employeeNo)
-    {
-        PersonId = userId;
-        EmployeeNo = employeeNo;
     }
 }
 
@@ -53,5 +50,11 @@ public class EmployeeEntityTypeConfig : IEntityTypeConfiguration<EmployeeDbo>
             .WithOne()
             .HasForeignKey<EmployeeDbo>(x => x.PersonId)
             .IsRequired();
+
+        builder.HasIndex(x => x.EmployeeId).IsUnique();
+
+        builder.HasOne(x => x.Person)
+            .WithOne()
+            .HasForeignKey<EmployeeDbo>(x => x.PersonId);
     }
 }

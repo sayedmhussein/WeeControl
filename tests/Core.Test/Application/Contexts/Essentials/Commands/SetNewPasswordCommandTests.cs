@@ -44,7 +44,7 @@ public class SetNewPasswordCommandTests
             ExecuteHandler(testHelper, oldPassword, newPassword));
     }
 
-    private Task ExecuteHandler(CoreTestHelper helper, string oldPassword, string newPassword)
+    private static Task ExecuteHandler(CoreTestHelper helper, string oldPassword, string newPassword)
     {
         var requestDto = RequestDto.Create(CoreTestHelper.DeviceId, 0, 0);
         

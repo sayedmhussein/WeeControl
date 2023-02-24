@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WeeControl.Core.Domain.Exceptions;
+using WeeControl.Core.SharedKernel;
 using WeeControl.Core.SharedKernel.Contexts.Essentials;
 
 namespace WeeControl.Core.Domain.Contexts.Essentials;
@@ -14,8 +15,8 @@ public class PersonDbo : PersonModel
 {
     public static PersonDbo Create(PersonModel model)
     {
-        DomainValidationException.ValidateEntity(model);
-        
+        model.ThrowExceptionIfEntityModelNotValid();
+
         return new PersonDbo
         {
             FirstName = model.FirstName,
