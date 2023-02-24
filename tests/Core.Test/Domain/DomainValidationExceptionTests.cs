@@ -1,4 +1,5 @@
 ﻿using WeeControl.Core.Domain.Exceptions;
+using WeeControl.Core.SharedKernel;
 using WeeControl.Core.SharedKernel.Contexts.Essentials;
 
 namespace WeeControl.Core.Test.Domain;
@@ -13,7 +14,7 @@ public class DomainValidationExceptionTests
             FirstName = "FirstName", LastName = "LastName", NationalityCode = "EGP", DateOfBirth = new DateOnly(2000, 12, 31)
         };
 
-        DomainValidationException.ValidateEntity(model);
+        model.ThrowExceptionIfEntityModelNotValid();
     }
 
     [Theory]
@@ -28,7 +29,7 @@ public class DomainValidationExceptionTests
             FirstName = firstName, LastName = lastName, NationalityCode = nationality, DateOfBirth = new DateOnly(2000, 12, 31)
         };
 
-        var ex = Assert.Throws<DomainValidationException>(() => DomainValidationException.ValidateEntity(model));
+        var ex = Assert.Throws<EntityModelValidationException>(() => model.ThrowExceptionIfEntityModelNotValid());
         
         Assert.Equal(errorCount, ex.Failures.Count);
     }

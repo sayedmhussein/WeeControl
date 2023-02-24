@@ -6,11 +6,13 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WeeControl.Core.Domain.Exceptions;
+using WeeControl.Core.SharedKernel;
+using WeeControl.Core.SharedKernel.Contexts.Essentials;
 
 namespace WeeControl.Core.Domain.Contexts.Essentials;
 
 [Table(nameof(UserSessionDbo), Schema = nameof(Essentials))]
-public class UserSessionDbo
+public class UserSessionDbo : SessionModel
 {
     public static UserSessionDbo Create(Guid userid, string deviceid, string otp)
     {
@@ -28,7 +30,8 @@ public class UserSessionDbo
             UserId = userid, DeviceId = deviceid.Trim(), CreatedTs = DateTime.UtcNow, OneTimePassword = otp.Trim()
         };
         
-        DomainValidationException.ValidateEntity(dbo);
+        
+        dbo.ThrowExceptionIfEntityModelNotValid();
 
         return dbo;
     }
@@ -46,9 +49,6 @@ public class UserSessionDbo
     [AllowNull]
     [StringLength(4, MinimumLength = 4)]
     public string OneTimePassword { get; set; }
-
-    public DateTime CreatedTs { get; set; }
-    public DateTime? TerminationTs { get; set; }
 
     public virtual IEnumerable<UserSessionLogDbo> Logs { get; set; }
 

@@ -6,7 +6,7 @@ using WeeControl.Core.SharedKernel.Services;
 
 namespace WeeControl.Core.Test.SharedKernel;
 
-public class JwtServiceTests : IDisposable
+public class JwtServiceTests
 {
     private IJwtService service;
     private readonly string securityKey = new string('a', 30);
@@ -14,11 +14,6 @@ public class JwtServiceTests : IDisposable
     public JwtServiceTests()
     {
         service = new JwtService();
-    }
-
-    public void Dispose()
-    {
-        service = null;
     }
 
     [Theory]

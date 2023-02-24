@@ -7,7 +7,7 @@ namespace WeeControl.Host.Test.Api.DependencyInjections;
 
 public class PersistenceTests
 {
-    private IServiceCollection services;
+    private readonly IServiceCollection services;
     public PersistenceTests()
     {
         var configMock = new Mock<IConfiguration>();
@@ -15,12 +15,7 @@ public class PersistenceTests
 
         services = new ServiceCollection();
     }
-
-    public void Dispose()
-    {
-        services = null;
-    }
-
+    
     [Fact]
     public void WhenAddingPersistenceInMemory_ReturnEssentialDbContextObjectAsNotNull()
     {

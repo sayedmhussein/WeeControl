@@ -9,7 +9,7 @@ public class UserInfoServiceTests : IDisposable
 {
     private readonly Claim sessionClaim;
 
-    private Mock<IHttpContextAccessor> httpContextMock;
+    private Mock<IHttpContextAccessor>? httpContextMock;
 
     public UserInfoServiceTests()
     {
@@ -23,7 +23,7 @@ public class UserInfoServiceTests : IDisposable
         };
 
         httpContextMock = new Mock<IHttpContextAccessor>();
-        httpContextMock.Setup(x => x.HttpContext.User.Claims).Returns(claims);
+        httpContextMock.Setup(x => x.HttpContext!.User.Claims).Returns(claims);
     }
 
     public void Dispose()
@@ -34,7 +34,7 @@ public class UserInfoServiceTests : IDisposable
     [Fact]
     public void WhenThereAreClaimsInContext_CountMustNotBeZero()
     {
-        var service = new UserInfoServices.UserInfoService(httpContextMock.Object);
+        var service = new UserInfoServices.UserInfoService(httpContextMock!.Object);
 
         var claims = service.Claims;
 
@@ -44,7 +44,7 @@ public class UserInfoServiceTests : IDisposable
     [Fact]
     public void WhenSessionClaimInTheContext_SessionMustNotBeNull()
     {
-        var service = new UserInfoServices.UserInfoService(httpContextMock.Object);
+        var service = new UserInfoServices.UserInfoService(httpContextMock!.Object);
 
         var session = service.SessionId;
 
@@ -55,8 +55,8 @@ public class UserInfoServiceTests : IDisposable
     [Fact]
     public void WhenSessionClaimInTheContextNotExist_SessionMustBeNull()
     {
-        httpContextMock.Setup(x => x.HttpContext.User.Claims).Returns(new List<Claim>());
-        var service = new UserInfoServices.UserInfoService(httpContextMock.Object);
+        httpContextMock?.Setup(x => x.HttpContext!.User.Claims).Returns(new List<Claim>());
+        var service = new UserInfoServices.UserInfoService(httpContextMock!.Object);
 
         var session = service.SessionId;
 

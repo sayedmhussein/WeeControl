@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace WeeControl.Core.Domain.Exceptions;
 
-[Obsolete("Use WeeControl.Core.SharedKernel.EntityModelValidationException")]
+[Obsolete("Use WeeControl.Core.SharedKernel.EntityModelValidationException", error:true)]
 public class DomainValidationException : DomainOutOfRangeException
 {
     public static void ValidateEntity(object entity)

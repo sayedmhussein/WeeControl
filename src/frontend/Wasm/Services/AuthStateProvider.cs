@@ -43,7 +43,7 @@ public class AuthStateProvider : AuthenticationStateProvider
         return new AuthenticationState(cp);
     }
 
-    private void NotifyUserAuthentication(ClaimsPrincipal? claimsPrincipal)
+    private void NotifyUserAuthentication(ClaimsPrincipal claimsPrincipal)
     {
         if (claimsPrincipal != null)
         {

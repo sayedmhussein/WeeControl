@@ -29,9 +29,9 @@ internal class SecurityService : IDeviceSecurity
         return storage.SaveKeyValue(IDeviceSecurity.TokenKeyName, token);
     }
 
-    public Task<string?> GetToken()
+    public async Task<string?> GetToken()
     {
-        return storage.GetKeyValue(IDeviceSecurity.TokenKeyName);
+        return await storage.GetKeyValue(IDeviceSecurity.TokenKeyName);
     }
 
     public Task DeleteToken()
@@ -45,7 +45,7 @@ internal class SecurityService : IDeviceSecurity
         if (string.IsNullOrEmpty(token))
             return new ClaimsPrincipal();
 
-        const string key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
+        //const string key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
 
         var validationParameters = new TokenValidationParameters()
         {
@@ -55,9 +55,9 @@ internal class SecurityService : IDeviceSecurity
             LogValidationExceptions = true,
             ValidateIssuerSigningKey = false,
             //IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(key)),
-            SignatureValidator = delegate (string token, TokenValidationParameters parameters)
+            SignatureValidator = delegate (string tkn, TokenValidationParameters parameters)
             {
-                var jwt = new JwtSecurityToken(token);
+                var jwt = new JwtSecurityToken(tkn);
 
                 return jwt;
             },

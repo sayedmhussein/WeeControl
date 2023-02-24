@@ -105,7 +105,8 @@ public class HostTestHelper : IDisposable
 
     public T GetService<T>(IEnumerable<(HttpStatusCode statusCode, object? dto)> responses) where T : class
     {
-        var res = responses.Select(v => new ValueTuple<HttpStatusCode, HttpContent>(v.statusCode, new StringContent(JsonConvert.SerializeObject(ResponseDto.Create(v.dto)), Encoding.UTF8, "application/json"))).ToList();
+        var res = responses.Select(v => 
+            new ValueTuple<HttpStatusCode, HttpContent>(v.statusCode, new StringContent(JsonConvert.SerializeObject(ResponseDto.Create(v.dto)), Encoding.UTF8, "application/json"))).ToList();
         
         var client = GetHttpClientWithHttpMessageHandlerSequenceResponseMock(res);
 

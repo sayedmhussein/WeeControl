@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using WeeControl.Core.Application.Exceptions;
 using WeeControl.Core.Domain.Exceptions;
+using WeeControl.Core.SharedKernel;
 
 namespace WeeControl.Host.WebApi.Middlewares;
 
@@ -35,13 +36,13 @@ public class CustomExceptionHandlerMiddleware
         context.Response.ContentType = "application/json";
 
         HttpStatusCode code;
-        string result = string.Empty;
+        var result = string.Empty;
 
         switch (exception)
         {
-            case DomainValidationException validationException:
+            case EntityModelValidationException entityException:
                 context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return context.Response.WriteAsync(JsonConvert.SerializeObject(validationException.Failures));
+                return context.Response.WriteAsync(JsonConvert.SerializeObject(entityException.Failures));
             case BadRequestException badRequestException:
                 code = HttpStatusCode.BadRequest;
                 result = badRequestException.Message;

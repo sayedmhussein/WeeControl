@@ -31,8 +31,8 @@ public class ExampleTests : IClassFixture<CustomWebApplicationFactory<Startup>>
             });
         }).CreateClient());
 
-        // await factory.Authorize(hostTestHelper, CoreTestHelper.Username, CoreTestHelper.Password);
-        //
-        // Assert.True(await service.IsAuthenticated());
+        await factory.Authorize(hostTestHelper, CoreTestHelper.Username, CoreTestHelper.Password);
+        
+        Assert.True(await service.IsAuthenticated());
     }
 }
