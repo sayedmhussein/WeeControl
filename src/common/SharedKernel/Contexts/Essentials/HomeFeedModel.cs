@@ -6,10 +6,10 @@ namespace WeeControl.Core.SharedKernel.Contexts.Essentials;
 public class HomeFeedModel : IEntityModel
 {
     [Required] 
-    [StringLength(25)]
+    [StringLength(55)]
     public string FeedSubject { get; init; } = string.Empty;
     
-    [StringLength(25)]
+    [StringLength(55)]
     public string FeedBody { get; init; } = string.Empty;
 
     [StringLength(255)]

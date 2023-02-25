@@ -71,7 +71,7 @@ public class UserSessionEntityTypeConfig : IEntityTypeConfiguration<UserSessionD
 {
     public void Configure(EntityTypeBuilder<UserSessionDbo> builder)
     {
-        builder.Property(p => p.SessionId).ValueGeneratedOnAdd().HasDefaultValue(Guid.NewGuid());
+        builder.Property(p => p.SessionId).ValueGeneratedOnAdd();//.HasDefaultValue(Guid.NewGuid());
 
         builder.HasOne(x => x.User)
             .WithMany()
@@ -80,7 +80,7 @@ public class UserSessionEntityTypeConfig : IEntityTypeConfiguration<UserSessionD
 
         builder.Property(x => x.DeviceId);
 
-        builder.Property(p => p.CreatedTs).HasDefaultValue(DateTime.UtcNow);
+        builder.Property(p => p.CreatedTs).ValueGeneratedOnAdd();
 
         builder.HasMany(x => x.Logs)
             .WithOne().HasForeignKey(x => x.SessionId);

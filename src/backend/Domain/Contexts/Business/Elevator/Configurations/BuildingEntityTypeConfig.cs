@@ -7,7 +7,7 @@ public class BuildingEntityTypeConfig : IEntityTypeConfiguration<BuildingDbo>
 {
     public void Configure(EntityTypeBuilder<BuildingDbo> builder)
     {
-        builder.ToTable(nameof(BuildingDbo), schema: nameof(Elevator));
+        builder.ToTable(nameof(BuildingDbo));
         builder.HasKey(x => x.BuildingId);
         builder.Property(x => x.BuildingId).ValueGeneratedOnAdd();
 

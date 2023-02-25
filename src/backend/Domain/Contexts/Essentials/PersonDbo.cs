@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using WeeControl.Core.Domain.Exceptions;
 using WeeControl.Core.SharedKernel;
 using WeeControl.Core.SharedKernel.Contexts.Essentials;
 
@@ -49,19 +48,8 @@ public class PersonEntityTypeConfig : IEntityTypeConfiguration<PersonDbo>
 {
     public void Configure(EntityTypeBuilder<PersonDbo> builder)
     {
-        builder.Property(x => x.PersonId).HasDefaultValue(Guid.NewGuid());
-        //builder.Property(x => x.PersonId).ValueGeneratedOnAdd();
+        builder.Property(x => x.PersonId).ValueGeneratedOnAdd();
         
-        builder.HasMany(x => x.Identities)
-            .WithOne().HasForeignKey(x => x.PersonId)
-            .OnDelete(DeleteBehavior.Restrict);
         
-        builder.HasMany(x => x.Addresses)
-            .WithOne().HasForeignKey(x => x.PersonId)
-            .OnDelete(DeleteBehavior.Restrict);
-
-        builder.HasMany(x => x.Contacts)
-            .WithOne().HasForeignKey(x => x.PersonId)
-            .OnDelete(DeleteBehavior.Restrict);
     }
 }

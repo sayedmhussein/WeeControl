@@ -27,12 +27,20 @@ internal class ServerService : IServerOperation
         this.gui = gui;
     }
     
-    public Task<HttpResponseMessage> GetResponseMessage(HttpMethod method, Version version, string route, string? endpoint = null,
-        string[]? query = null)
+    public async Task<HttpResponseMessage> GetResponseMessage(HttpMethod method, Version version, string route, string? endpoint = null,
+        string[]? query = null, bool includeRequestDto = false)
     {
         var address = GetFullAddress(route, endpoint, query);
+
+        if (includeRequestDto)
+        {
+            var location = await feature.GetDeviceLocation();
+            var payload = RequestDto.Create(await feature.GetDeviceId(), location.Latitude, location.Longitude);
+            var content = new StringContent(JsonConvert.SerializeObject(payload), Encoding.UTF8, "application/json");
+            return await Send(method, version, new Uri(address), content); 
+        }
         
-        return Send(method, version, new Uri(address));
+        return await Send(method, version, new Uri(address));
     }
 
     public async Task<HttpResponseMessage> GetResponseMessage<T>(HttpMethod method, Version version, T dto, string route, string? endpoint = null,

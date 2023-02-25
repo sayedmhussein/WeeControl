@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Globalization;
@@ -47,7 +46,13 @@ namespace WeeControl.ApiApp.Persistence
 #endif
             //options.UseNpgsql(dbName, b => b.MigrationsAssembly(migrationAssemblyName));
 
-            options.UseMySQL(dbName, b => b.MigrationsAssembly(migrationAssemblyName));
+            options.EnableDetailedErrors();
+
+            options.UseMySQL(dbName, b =>
+            {
+                b.MigrationsAssembly(migrationAssemblyName);
+                //b.SchemaBehavior(MySqlSchemaBehavior.Translate, (schema, table) => $"{schema}_{table}");
+            });
             
             return options.Options;
         }

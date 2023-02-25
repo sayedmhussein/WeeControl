@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using WeeControl.Core.Domain.Contexts.Business;
 using WeeControl.Core.Domain.Contexts.Essentials;
 using WeeControl.Core.Domain.Interfaces;
 using WeeControl.Core.SharedKernel;
@@ -38,7 +37,7 @@ public class SeedEssentialDatabaseCommand : IRequest
                 "Body of feed", "/"), cancellationToken);
             await context.Feeds.AddAsync(UserFeedsDbo.Create(
                 "This is was injected from Seed (2)", 
-                context.ToString(), "/"), cancellationToken);
+                "Body 2 of feeds", "/"), cancellationToken);
             await context.Feeds.AddAsync(UserFeedsDbo.Create(
                 "This is was injected from Seed(3)", 
                 "Body of feed", "/"), cancellationToken);
@@ -46,7 +45,7 @@ public class SeedEssentialDatabaseCommand : IRequest
             //await context.Territories.AddRangeAsync(GetTerritories(), cancellationToken);
 
             var developerId = await AddPerson("developer", "EGP", cancellationToken);
-             await AddUser(developerId, "developer", new List<(string Type, string Value)>()
+            await AddUser(developerId, "developer", new List<(string Type, string Value)>()
             {
                 (ClaimsValues.ClaimTypes.Developer, ClaimsValues.ClaimValues.SuperUser),
                 (ClaimsValues.ClaimTypes.Administrator, ClaimsValues.ClaimValues.Supervisor),
@@ -67,23 +66,9 @@ public class SeedEssentialDatabaseCommand : IRequest
             await AddEmployee(adminId, cancellationToken);
 
             var customerId = await AddPerson( "customer", "USA", cancellationToken);
-            await AddUser(customerId,"customer", null, cancellationToken);
+            var u =await AddUser(customerId,"customer", null, cancellationToken);
             
-            await AddCustomer(customerId, "EGP", cancellationToken);
-
-            //return Unit.Value;
-        }
-
-        private IEnumerable<TerritoryDbo> GetTerritories()
-        {
-            var usa = new TerritoryDbo("USA-HO", null, "USA");
-            var egp = new TerritoryDbo("EGP-HO", null, "EGP", usa.TerritoryId);
-            var cai = new TerritoryDbo("EGP-CAI", null, "EGP", egp.TerritoryId);
-            var sau = new TerritoryDbo("SAU-HO", null, "SAU", usa.TerritoryId);
-            var wst = new TerritoryDbo("SAU-WEST", null, "SAU", sau.TerritoryId);
-            var jed = new TerritoryDbo("SAU-JED", null, "SAU", wst.TerritoryId);
-
-            return new List<TerritoryDbo>() { usa, egp, cai, sau, wst, jed };
+            await AddCustomer(u, "EGP", cancellationToken);
         }
 
         private async Task<Guid> AddUser(Guid userId, string name, IEnumerable<(string Type, string Value)> claims, CancellationToken cancellationToken)
@@ -129,7 +114,7 @@ public class SeedEssentialDatabaseCommand : IRequest
 
         private async Task AddCustomer(Guid userId, string country, CancellationToken cancellationToken)
         {
-            var customer = new CustomerDbo(userId, country);
+            var customer =  CustomerDbo.Create(userId, new CustomerModel() {CountryCode = country});
             await context.Customers.AddAsync(customer, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
         }

@@ -1,5 +1,3 @@
-using MediatR;
-using WeeControl.Core.Application.Contexts.Developer;
 using WeeControl.Core.Application.Contexts.Essentials.Queries;
 using WeeControl.Core.Application.Exceptions;
 

@@ -22,5 +22,11 @@ public class PersonContactEntityTypeConfig : IEntityTypeConfiguration<PersonCont
     public void Configure(EntityTypeBuilder<PersonContactDbo> builder)
     {
         builder.Property(x => x.ContactId).ValueGeneratedOnAdd();
+        
+        builder
+            .HasOne(x => x.Person)
+            .WithMany(x => x.Contacts)
+            .HasForeignKey(x => x.PersonId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

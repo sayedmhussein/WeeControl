@@ -113,14 +113,6 @@ public class UserEntityTypeConfig : IEntityTypeConfiguration<UserDbo>
             .HasForeignKey<UserDbo>(x => x.PersonId)
             .IsRequired();
 
-        // builder.HasOne<EmployeeDbo>()
-        //     .WithOne()
-        //     .HasForeignKey<EmployeeDbo>(x => x.PersonId);
-
-        builder.HasOne<CustomerDbo>()
-            .WithOne(x => x.User)
-            .HasForeignKey<CustomerDbo>(x => x.UserId);
-
         builder.HasMany(x => x.Claims)
             .WithOne().HasForeignKey(x => x.UserId);
 

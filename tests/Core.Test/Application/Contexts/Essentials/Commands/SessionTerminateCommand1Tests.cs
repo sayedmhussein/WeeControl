@@ -2,6 +2,7 @@ using WeeControl.Core.Application.Contexts.Essentials.Commands;
 using WeeControl.Core.Application.Exceptions;
 using WeeControl.Core.DataTransferObject.BodyObjects;
 using WeeControl.Core.Domain.Contexts.Essentials;
+using WeeControl.Core.SharedKernel;
 
 namespace WeeControl.Core.Test.Application.Contexts.Essentials.Commands;
 
@@ -83,7 +84,7 @@ public class SessionTerminateCommand1Tests
         //
         var handler = new SessionTerminateCommand.LogoutHandler(testHelper.EssentialDb, testHelper.CurrentUserInfoMock.Object);
 
-        await Assert.ThrowsAsync<NotAllowedException>(() =>
+        await Assert.ThrowsAsync<EntityModelValidationException>(() =>
             handler.Handle(new SessionTerminateCommand(RequestDto.Create(string.Empty, 0, 0)), default));
     }
 

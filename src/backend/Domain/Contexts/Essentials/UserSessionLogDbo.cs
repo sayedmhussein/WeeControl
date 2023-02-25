@@ -30,8 +30,8 @@ public class UserSessionLogEntityTypeConfig : IEntityTypeConfiguration<UserSessi
 {
     public void Configure(EntityTypeBuilder<UserSessionLogDbo> builder)
     {
-        builder.Property(p => p.LogId).ValueGeneratedOnAdd().HasDefaultValue(Guid.NewGuid());
-        builder.Property(p => p.LogTs).HasDefaultValue(DateTime.UtcNow);
+        builder.Property(p => p.LogId).ValueGeneratedOnAdd();//.HasDefaultValue(Guid.NewGuid());
+        builder.Property(p => p.LogTs).ValueGeneratedOnAdd();
 
         builder.HasOne(x => x.UserSession)
             .WithMany()

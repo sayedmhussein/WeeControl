@@ -38,7 +38,7 @@ public class EmployeeEntityTypeConfig : IEntityTypeConfiguration<EmployeeDbo>
 {
     public void Configure(EntityTypeBuilder<EmployeeDbo> builder)
     {
-        builder.Property(x => x.EmployeeId).ValueGeneratedOnAdd().HasDefaultValue(Guid.NewGuid());
+        builder.Property(x => x.EmployeeId).ValueGeneratedOnAdd();//.HasDefaultValue(Guid.NewGuid());
         
         builder.HasOne(e => e.Supervisor).WithMany();
         builder.HasMany(x => x.Supervise)

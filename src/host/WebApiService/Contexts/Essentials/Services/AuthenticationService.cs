@@ -98,8 +98,15 @@ internal class AuthenticationService : IAuthenticationService
     {
         await security.DeleteToken();
         await storage.ClearKeysValues();
-        await server
-            .GetResponseMessage(HttpMethod.Delete, new Version("1.0"), ControllerApi.Essentials.Authorization.Route);
+        var response = await server.GetResponseMessage(
+            HttpMethod.Delete, new Version("1.0"),
+            ControllerApi.Essentials.Authorization.Route);
+
+        if (response.StatusCode == HttpStatusCode.BadRequest)
+        {
+            await gui.DisplayAlert(
+                "An issue was encountered while logging out, please report this case to the developer.");
+        }
 
         await gui.NavigateToAsync(ApplicationPages.Essential.LoginPage, forceLoad: true);
     }

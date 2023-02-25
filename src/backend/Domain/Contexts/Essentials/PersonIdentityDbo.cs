@@ -13,7 +13,7 @@ public class PersonIdentityDbo
     public Guid IdentityId { get; set; }
     
     public Guid PersonId { get; set; }
-    public PersonIdentityDbo Person { get; }
+    public PersonDbo Person { get; }
 
     [Required]
     [StringLength(25)]
@@ -38,5 +38,11 @@ public class UserIdentityEntityTypeConfig : IEntityTypeConfiguration<PersonIdent
     public void Configure(EntityTypeBuilder<PersonIdentityDbo> builder)
     {
         builder.Property(x => x.IdentityId).ValueGeneratedOnAdd();
+        
+        builder
+            .HasOne(x => x.Person)
+            .WithMany(x => x.Identities)
+            .HasForeignKey(x => x.PersonId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

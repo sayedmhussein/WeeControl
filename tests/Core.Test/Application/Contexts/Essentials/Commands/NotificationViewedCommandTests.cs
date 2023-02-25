@@ -1,5 +1,4 @@
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Moq;
 using WeeControl.Core.Application.Contexts.Essentials.Commands;
 using WeeControl.Core.Application.Exceptions;

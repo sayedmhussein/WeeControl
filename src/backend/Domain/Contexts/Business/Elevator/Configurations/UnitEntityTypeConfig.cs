@@ -7,7 +7,7 @@ public class UnitEntityTypeConfig : IEntityTypeConfiguration<UnitDbo>
 {
     public void Configure(EntityTypeBuilder<UnitDbo> builder)
     {
-        builder.ToTable(nameof(UnitDbo), schema: nameof(Elevator));
+        builder.ToTable(nameof(UnitDbo));
         builder.HasKey(x => x.UnitNumber);
         builder.Property(x => x.UnitNumber).HasMaxLength(10);
 

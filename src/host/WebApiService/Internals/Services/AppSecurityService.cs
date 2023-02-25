@@ -1,4 +1,3 @@
-using System.Security.AccessControl;
 using System.Security.Claims;
 using WeeControl.Core.SharedKernel;
 using WeeControl.Host.WebApiService.DeviceInterfaces;

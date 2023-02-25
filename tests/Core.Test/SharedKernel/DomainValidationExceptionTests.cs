@@ -1,5 +1,4 @@
-﻿using WeeControl.Core.Domain.Exceptions;
-using WeeControl.Core.SharedKernel;
+﻿using WeeControl.Core.SharedKernel;
 using WeeControl.Core.SharedKernel.Contexts.Essentials;
 
 namespace WeeControl.Core.Test.Domain;

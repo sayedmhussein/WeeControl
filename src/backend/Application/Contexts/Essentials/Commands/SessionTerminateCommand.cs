@@ -7,6 +7,7 @@ using WeeControl.Core.Application.Exceptions;
 using WeeControl.Core.Application.Interfaces;
 using WeeControl.Core.DataTransferObject.BodyObjects;
 using WeeControl.Core.Domain.Interfaces;
+using WeeControl.Core.SharedKernel;
 
 namespace WeeControl.Core.Application.Contexts.Essentials.Commands;
 
@@ -32,6 +33,8 @@ public class SessionTerminateCommand : IRequest
 
         public async Task Handle(SessionTerminateCommand request, CancellationToken cancellationToken)
         {
+            request.request.ThrowExceptionIfEntityModelNotValid();
+            
             if (currentUserInfo.SessionId is null)
             {
                 throw new ArgumentNullException(nameof(currentUserInfo));
@@ -54,8 +57,6 @@ public class SessionTerminateCommand : IRequest
             }
 
             await context.SaveChangesAsync(cancellationToken);
-
-            //return Unit.Value;
         }
     }
 }

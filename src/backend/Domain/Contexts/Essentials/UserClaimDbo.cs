@@ -32,15 +32,13 @@ public class UserClaimDbo
 
     public string ClaimValue { get; private set; }
 
-    public DateTime GrantedTs { get; } = DateTime.UtcNow;
-
+    public DateTime GrantedTs { get; }
     public Guid GrantedById { get; private set; }
-    public EmployeeDbo GrantedBy { get; private set; }
+    public UserDbo GrantedBy { get; private set; }
 
     public DateTime? RevokedTs { get; private set; }
-
     public Guid? RevokedById { get; private set; }
-    public EmployeeDbo RevokedBy { get; private set; }
+    public UserDbo RevokedBy { get; private set; }
 
     public void Revoke(Guid revokedById)
     {
@@ -57,9 +55,10 @@ public class UserClaimEntityTypeConfig : IEntityTypeConfiguration<UserClaimDbo>
 {
     public void Configure(EntityTypeBuilder<UserClaimDbo> builder)
     {
-        builder.Property(p => p.ClaimId).ValueGeneratedOnAdd().HasDefaultValue(Guid.NewGuid());
+        builder.Property(p => p.ClaimId).ValueGeneratedOnAdd();//.HasDefaultValue(Guid.NewGuid());
 
-        builder.Property(p => p.GrantedTs).HasDefaultValue(DateTime.UtcNow);
+        builder.Property(p => p.GrantedTs).ValueGeneratedOnAdd();
+        
         builder.HasIndex(i => new { i.ClaimType, i.ClaimValue }).IsUnique();
 
         builder.HasOne(x => x.User)

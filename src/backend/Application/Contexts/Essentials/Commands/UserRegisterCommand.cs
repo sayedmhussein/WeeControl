@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -9,12 +6,10 @@ using WeeControl.Core.Application.Exceptions;
 using WeeControl.Core.DataTransferObject.BodyObjects;
 using WeeControl.Core.DataTransferObject.Contexts.Essentials;
 using WeeControl.Core.Domain.Contexts.Essentials;
-using WeeControl.Core.Domain.Exceptions;
 using WeeControl.Core.Domain.Interfaces;
 using WeeControl.Core.SharedKernel;
 using WeeControl.Core.SharedKernel.Contexts.Essentials;
 using WeeControl.Core.SharedKernel.Interfaces;
-using ValidationException = WeeControl.Core.Application.Exceptions.ValidationException;
 
 namespace WeeControl.Core.Application.Contexts.Essentials.Commands;
 

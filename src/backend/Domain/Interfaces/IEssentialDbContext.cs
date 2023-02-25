@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WeeControl.Core.Domain.Contexts.Business;
 using WeeControl.Core.Domain.Contexts.Essentials;
 using CustomerDbo = WeeControl.Core.Domain.Contexts.Essentials.CustomerDbo;
 
@@ -16,8 +15,6 @@ public interface IEssentialDbContext : IDbContext
     DbSet<UserClaimDbo> UserClaims { get; set; }
     DbSet<UserSessionDbo> UserSessions { get; set; }
     DbSet<UserSessionLogDbo> SessionLogs { get; set; }
-    
-    DbSet<TerritoryDbo> Territories { get; set; }
     
     DbSet<EmployeeDbo> Employees { get; set; }
     DbSet<CustomerDbo> Customers { get; set; }

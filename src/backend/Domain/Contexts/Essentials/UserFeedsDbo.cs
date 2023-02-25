@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using WeeControl.Core.SharedKernel;
 using WeeControl.Core.SharedKernel.Contexts.Essentials;
 
 namespace WeeControl.Core.Domain.Contexts.Essentials;
@@ -12,10 +13,15 @@ public class UserFeedsDbo : HomeFeedModel
 {
     public static UserFeedsDbo Create(string subject, string body, string url)
     {
-        return new UserFeedsDbo()
+        
+        var model = new UserFeedsDbo()
         {
             FeedSubject = subject, FeedBody = body, FeedUrl = url, FeedTs = DateTime.UtcNow
         };
+        
+        model.ThrowExceptionIfEntityModelNotValid();
+
+        return model;
     }
     
     [Key]
@@ -33,6 +39,6 @@ public class UserFeedEntityTypeConfig : IEntityTypeConfiguration<UserFeedsDbo>
     public void Configure(EntityTypeBuilder<UserFeedsDbo> builder)
     {
         builder.Property(p => p.FeedId).ValueGeneratedOnAdd();
-        builder.Property(p => p.FeedTs).HasDefaultValue(DateTime.UtcNow);
+        builder.Property(p => p.FeedTs).ValueGeneratedOnAdd();
     }
 }

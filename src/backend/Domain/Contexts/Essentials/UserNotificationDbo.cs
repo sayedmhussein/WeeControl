@@ -41,12 +41,12 @@ public class UserNotificationEntityTypeConfig : IEntityTypeConfiguration<UserNot
     public void Configure(EntityTypeBuilder<UserNotificationDbo> builder)
     {
         builder.HasKey(x => x.NotificationId);
-        builder.Property(x => x.NotificationId).HasDefaultValue(Guid.NewGuid());
+        builder.Property(x => x.NotificationId).ValueGeneratedOnAdd();//.HasDefaultValue(Guid.NewGuid());
 
         builder.HasOne(x => x.User)
             .WithMany()
             .HasForeignKey(x => x.UserId);
         
-        builder.Property(x => x.PublishedTs).HasDefaultValue(DateTime.UtcNow);
+        builder.Property(x => x.PublishedTs).ValueGeneratedOnAdd();
     }
 }

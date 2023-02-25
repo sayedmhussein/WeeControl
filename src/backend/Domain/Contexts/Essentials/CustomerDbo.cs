@@ -25,16 +25,8 @@ public class CustomerDbo : CustomerModel
     public Guid UserId { get; set; }
     public UserDbo User { get; set; }
 
-    public IEnumerable<PersonDbo> Persons { get; set; }
-
     private CustomerDbo()
     {
-    }
-
-    public CustomerDbo(Guid userId, string country)
-    {
-        UserId = userId;
-        CountryCode = country.Trim();
     }
 }
 
@@ -44,6 +36,10 @@ public class CustomerEntityTypeConfig : IEntityTypeConfiguration<CustomerDbo>
     {
         builder.Property(x => x.CustomerId).ValueGeneratedOnAdd();
 
-        builder.HasMany<PersonDbo>(x => x.Persons).WithMany();
+        builder.HasOne(x => x.User)
+            .WithOne()
+            .HasForeignKey<CustomerDbo>(x => x.UserId)
+            .IsRequired();
+           
     }
 }
