@@ -34,7 +34,7 @@ public class UserSessionLogEntityTypeConfig : IEntityTypeConfiguration<UserSessi
         builder.Property(p => p.LogTs).ValueGeneratedOnAdd();
 
         builder.HasOne(x => x.UserSession)
-            .WithMany()
+            .WithMany(x=> x.Logs)
             .HasForeignKey(x => x.SessionId)
             .OnDelete(DeleteBehavior.Restrict);
     }

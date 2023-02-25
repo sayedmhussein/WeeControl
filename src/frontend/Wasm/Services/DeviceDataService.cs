@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 using Microsoft.JSInterop;
@@ -5,6 +6,8 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
+using MudBlazor;
 using WeeControl.Host.WebApiService.DeviceInterfaces;
 
 namespace WeeControl.Frontend.Wasm.Services;
@@ -14,16 +17,18 @@ public class DeviceDataService : ICommunication, IFeature, IGui, IMedia, ISharin
     private readonly IJSRuntime jsRuntime;
     private readonly NavigationManager navigationManager;
     private readonly IConfiguration configuration;
+    private readonly IServiceProvider  serviceProvider;
 
     private string lastPageName;
     public string ServerUrl => configuration["ApiBaseAddress"];
     public HttpClient HttpClient { get; init; }
 
-    public DeviceDataService(IJSRuntime jsRuntime, NavigationManager navigationManager, IConfiguration configuration)
+    public DeviceDataService(IJSRuntime jsRuntime, NavigationManager navigationManager, IConfiguration configuration, IServiceProvider  serviceProvider)
     {
         this.jsRuntime = jsRuntime;
         this.navigationManager = navigationManager;
         this.configuration = configuration;
+        this.serviceProvider = serviceProvider;
         HttpClient = new HttpClient();
         
         
@@ -89,6 +94,14 @@ public class DeviceDataService : ICommunication, IFeature, IGui, IMedia, ISharin
         return Task.CompletedTask;
         // bool = jsRuntime.InvokeAsync<bool>("confirm", message);
         // string = await jsRuntime.InvokeAsync<string>("prompt", message);
+    }
+
+    public Task DisplayQuickAlert(string message)
+    {
+        using var scope = serviceProvider.CreateScope();
+        var snackbar = scope.ServiceProvider.GetRequiredService<ISnackbar>();
+        snackbar.Add(message);
+        return Task.CompletedTask;
     }
 
     public Task NavigateToAsync(string pageName, bool forceLoad = false)

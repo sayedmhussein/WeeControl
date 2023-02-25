@@ -24,12 +24,12 @@
         @if (isAuthenticated)
         {
             <MudMenu Label="Open Menu" ActivationEvent="@MouseEvent.MouseOver">
-                <MenuOfCustomerComponent Pages="pages" IsEmployee="@IsEmployee(claims)" IsCustomer="@IsCustomer(claims)"></MenuOfCustomerComponent>
+                <MenuComponent Pages="pages" IsEmployee="@IsEmployee(claims)" IsCustomer="@IsCustomer(claims)"></MenuComponent>
             </MudMenu>
             <MudSpacer></MudSpacer>
             <MudText Align="Align.Start">@fullName</MudText>
             <MudMenu Icon="@Icons.Material.Outlined.Notifications" AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight" MaxHeight="300">
-                <MenuOfNotificationComponent></MenuOfNotificationComponent>
+                <NotificationComponent></NotificationComponent>
             </MudMenu>
             
             <MudIconButton 
@@ -42,12 +42,13 @@
         else
         {
             <MudSpacer></MudSpacer>
-            if (Gui.CurrentPageName() != ApplicationPages.Essential.LoginPage)
+            if (Gui.CurrentPageName() != ApplicationPages.Essential.LoginPage ||
+                Gui.CurrentPageName() != "/")
             {
                 <MudIconButton 
                     Icon="@Icons.Material.Outlined.Login" 
                     Color="Color.Primary" Title="Login"
-                    OnClick="@(() => Gui.NavigateToAsync(ApplicationPages.Essential.LoginPage))"
+                    OnClick="@(() => Gui.NavigateToAsync(ApplicationPages.Essential.LoginPage, forceLoad:true))"
                 ></MudIconButton>
             }
         }

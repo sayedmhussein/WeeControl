@@ -44,7 +44,7 @@ public class UserNotificationEntityTypeConfig : IEntityTypeConfiguration<UserNot
         builder.Property(x => x.NotificationId).ValueGeneratedOnAdd();//.HasDefaultValue(Guid.NewGuid());
 
         builder.HasOne(x => x.User)
-            .WithMany()
+            .WithMany(x => x.Notifications)
             .HasForeignKey(x => x.UserId);
         
         builder.Property(x => x.PublishedTs).ValueGeneratedOnAdd();

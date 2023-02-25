@@ -16,6 +16,7 @@ public class HomeNotificationModel : IEntityModel
     [StringLength(255)]
     public string Body { get; set; } = string.Empty;
     
+    [AllowNull]
     [StringLength(255)]
     public string NotificationUrl { get; set; } = string.Empty;
 

@@ -32,7 +32,7 @@
         <MudLink OnClick="@(() => Gui.NavigateToAsync(ApplicationPages.Essential.UserPage))">My Profile</MudLink>
     </MudMenuItem>
     <MudMenuItem>
-        <MudLink>Send Feedback</MudLink>
+        <MudLink OnClick="@(()=> Gui.DisplayQuickAlert("Hello World"))">Send Feedback</MudLink>
     </MudMenuItem>
 }
 

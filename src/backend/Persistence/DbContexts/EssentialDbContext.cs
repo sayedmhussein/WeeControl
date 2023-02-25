@@ -28,6 +28,7 @@ namespace WeeControl.ApiApp.Persistence.DbContexts
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(IDbContext).Assembly);
+            
 
             if (Database.IsMySql())
             {

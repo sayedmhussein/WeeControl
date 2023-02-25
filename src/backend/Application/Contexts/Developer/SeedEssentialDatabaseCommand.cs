@@ -93,7 +93,21 @@ public class SeedEssentialDatabaseCommand : IRequest
                 await context.SaveChangesAsync(cancellationToken);
             }
 
-            await context.UserNotifications.AddAsync(UserNotificationDbo.Create(user.UserId, "User was created", "Body", "Link"), cancellationToken);
+            await context.UserNotifications.AddRangeAsync( new List<UserNotificationDbo>()
+            {
+                UserNotificationDbo
+                    .Create(user.UserId, "User was created", "Body", "Link"),
+                UserNotificationDbo
+                    .Create(user.UserId, "Second Notification", "Body", "Link"),
+                UserNotificationDbo
+                    .Create(user.UserId, "Hello World", "Please confirm the visit", "www.github.com"),
+                UserNotificationDbo
+                    .Create(user.UserId, "Check you inbox", ":)", "Link"),
+                UserNotificationDbo
+                    .Create(user.UserId, "You have pending action", "You need to approve the job done.", "Link")
+            }, cancellationToken);
+            
+            
             await context.SaveChangesAsync(cancellationToken);
             return user.UserId;
         }

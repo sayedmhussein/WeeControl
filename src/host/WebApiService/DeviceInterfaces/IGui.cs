@@ -6,5 +6,7 @@ public interface IGui
     
     Task DisplayAlert(string message);
 
+    Task DisplayQuickAlert(string message);
+
     Task NavigateToAsync(string pageName, bool forceLoad = false);
 }

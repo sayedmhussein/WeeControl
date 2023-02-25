@@ -5,10 +5,17 @@
 @foreach (var n in notifications)
 {
     <MudMenuItem>
-        <MudCard>
-            <p>@n.Subject</p>
-            <p>@n.Body</p>
-            <p>@n.PublishedTs</p>
+        <MudCard Outlined="true">
+            <MudCardContent>
+                <MudText>@n.Subject</MudText>
+                <MudText Typo="Typo.body2">@n.Body</MudText>
+                <MudText Typo="Typo.body2">@n.PublishedTs</MudText>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton Variant="Variant.Text" Color="Color.Primary">
+                    <MudLink Href="@n.NotificationUrl">Learn More</MudLink>
+                </MudButton>
+            </MudCardActions>
         </MudCard>
     </MudMenuItem> 
 }

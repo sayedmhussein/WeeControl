@@ -71,10 +71,10 @@ public class UserSessionEntityTypeConfig : IEntityTypeConfiguration<UserSessionD
 {
     public void Configure(EntityTypeBuilder<UserSessionDbo> builder)
     {
-        builder.Property(p => p.SessionId).ValueGeneratedOnAdd();//.HasDefaultValue(Guid.NewGuid());
+        builder.Property(p => p.SessionId).ValueGeneratedOnAdd();
 
         builder.HasOne(x => x.User)
-            .WithMany()
+            .WithMany(x=> x.Sessions)
             .HasForeignKey(x => x.UserId)
             .OnDelete(DeleteBehavior.Restrict);
 
@@ -83,6 +83,6 @@ public class UserSessionEntityTypeConfig : IEntityTypeConfiguration<UserSessionD
         builder.Property(p => p.CreatedTs).ValueGeneratedOnAdd();
 
         builder.HasMany(x => x.Logs)
-            .WithOne().HasForeignKey(x => x.SessionId);
+            .WithOne(x=> x.UserSession).HasForeignKey(x => x.SessionId);
     }
 }
