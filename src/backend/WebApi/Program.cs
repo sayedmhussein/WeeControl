@@ -39,24 +39,25 @@ public class Program
         if (context.Database.IsRelational())
         {
             await context.Database.MigrateAsync();
+            
+            try
+            {
+                await context.Database.OpenConnectionAsync();
+                Console.WriteLine("Connection to database is OK.");
+                await context.Database.CloseConnectionAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                Console.WriteLine();
+                throw;
+            }
         }
         else
         {
             await context.Database.EnsureCreatedAsync();
         }
-
-        try
-        {
-            await context.Database.OpenConnectionAsync();
-            Console.WriteLine("Connection to database is OK.");
-            await context.Database.CloseConnectionAsync();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
-
+        
         try
         {
             var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();

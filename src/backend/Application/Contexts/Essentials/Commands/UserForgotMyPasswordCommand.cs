@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using WeeControl.Core.Application.Contexts.Essentials.Notifications;
 using WeeControl.Core.Application.Exceptions;
+using WeeControl.Core.Application.Interfaces;
 using WeeControl.Core.DataTransferObject.BodyObjects;
 using WeeControl.Core.DataTransferObject.Contexts.Essentials;
 using WeeControl.Core.Domain.Interfaces;

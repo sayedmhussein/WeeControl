@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
+using WeeControl.Core.Application.Interfaces;
+using WeeControl.Core.Application.Services;
 using WeeControl.Core.SharedKernel.Interfaces;
 using WeeControl.Core.SharedKernel.Services;
 using WeeControl.Host.WebApi.Services.Security.CustomHandlers.TokenRefreshment;

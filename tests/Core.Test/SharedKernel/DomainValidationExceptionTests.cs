@@ -1,7 +1,7 @@
 ﻿using WeeControl.Core.SharedKernel;
 using WeeControl.Core.SharedKernel.Contexts.Essentials;
 
-namespace WeeControl.Core.Test.Domain;
+namespace WeeControl.Core.Test.SharedKernel;
 
 public class DomainValidationExceptionTests
 {

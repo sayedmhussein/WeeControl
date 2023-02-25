@@ -1,7 +1,7 @@
-using WeeControl.Core.SharedKernel.Interfaces;
-using WeeControl.Core.SharedKernel.Services;
+using WeeControl.Core.Application.Interfaces;
+using WeeControl.Core.Application.Services;
 
-namespace WeeControl.Core.Test.SharedKernel;
+namespace WeeControl.Core.Test.Application.Services;
 
 public class PasswordSecurityTests
 {
