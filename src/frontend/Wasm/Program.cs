@@ -59,7 +59,7 @@ public class Program
         builder.Services.AddSingleton<DeviceDataService>();
         builder.Services.AddSingleton<ICommunication>(x => x.GetRequiredService<DeviceDataService>());
         builder.Services.AddSingleton<IFeature>(x => x.GetRequiredService<DeviceDataService>());
-        builder.Services.AddSingleton<IGui>(x => x.GetRequiredService<DeviceDataService>());
+        builder.Services.AddSingleton<IGui, GuiService>();
         builder.Services.AddSingleton<IMedia>(x => x.GetRequiredService<DeviceDataService>());
         builder.Services.AddSingleton<ISharing>(x => x.GetRequiredService<DeviceDataService>());
         builder.Services.AddSingleton<IStorage>(x => x.GetRequiredService<DeviceDataService>());

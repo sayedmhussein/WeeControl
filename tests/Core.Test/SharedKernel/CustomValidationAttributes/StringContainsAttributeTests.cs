@@ -53,12 +53,12 @@ public class StringContainsAttributeTests
 
 internal class TestObject : IEntityModel
 {
-    [StringContains]
+    [StandardString]
     public string TestString { get; set; } = string.Empty;
 }
 
 internal class TestObject2 : IEntityModel
 {
-    [StringContains(Accept = "@ ", Reject = "A")]
+    [StandardString(Accept = "@ ", Reject = "A")]
     public string TestString { get; set; } = string.Empty;
 }

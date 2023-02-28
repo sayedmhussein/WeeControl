@@ -4,8 +4,8 @@
 
 @foreach (var n in notifications)
 {
-    <MudMenuItem>
-        <MudCard Outlined="true">
+    <MudMenuItem OnClick="@(args => { Home.MarkNotificationAsViewed(n.NotificationId);})">
+        <MudCard Outlined="true" Square="true" Style="margin-outside: 0; background-color: #f8d7da">
             <MudCardContent>
                 <MudText>@n.Subject</MudText>
                 <MudText Typo="Typo.body2">@n.Body</MudText>

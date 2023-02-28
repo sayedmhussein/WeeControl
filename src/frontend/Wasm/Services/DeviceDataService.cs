@@ -12,14 +12,14 @@ using WeeControl.Host.WebApiService.DeviceInterfaces;
 
 namespace WeeControl.Frontend.Wasm.Services;
 
-public class DeviceDataService : ICommunication, IFeature, IGui, IMedia, ISharing, IStorage
+public class DeviceDataService : ICommunication, IFeature, IMedia, ISharing, IStorage
 {
     private readonly IJSRuntime jsRuntime;
     private readonly NavigationManager navigationManager;
     private readonly IConfiguration configuration;
     private readonly IServiceProvider  serviceProvider;
 
-    private string lastPageName;
+    
     public string ServerUrl => configuration["ApiBaseAddress"];
     public HttpClient HttpClient { get; init; }
 
@@ -30,8 +30,6 @@ public class DeviceDataService : ICommunication, IFeature, IGui, IMedia, ISharin
         this.configuration = configuration;
         this.serviceProvider = serviceProvider;
         HttpClient = new HttpClient();
-        
-        
     }
 
     public async Task SendAnEmail(IEnumerable<string> to, string subject, string body)
@@ -81,34 +79,6 @@ public class DeviceDataService : ICommunication, IFeature, IGui, IMedia, ISharin
     public Task<bool> IsMockedDeviceLocation()
     {
         return Task.FromResult(true);
-    }
-
-    public string CurrentPageName()
-    {
-        return lastPageName;
-    }
-
-    public Task DisplayAlert(string message)
-    {
-        jsRuntime.InvokeVoidAsync("alert", message);
-        return Task.CompletedTask;
-        // bool = jsRuntime.InvokeAsync<bool>("confirm", message);
-        // string = await jsRuntime.InvokeAsync<string>("prompt", message);
-    }
-
-    public Task DisplayQuickAlert(string message)
-    {
-        using var scope = serviceProvider.CreateScope();
-        var snackbar = scope.ServiceProvider.GetRequiredService<ISnackbar>();
-        snackbar.Add(message);
-        return Task.CompletedTask;
-    }
-
-    public Task NavigateToAsync(string pageName, bool forceLoad = false)
-    {
-        lastPageName = pageName;
-        navigationManager.NavigateTo($"/{pageName}", forceLoad: forceLoad);
-        return Task.CompletedTask;
     }
 
     public Task Speak(string message)

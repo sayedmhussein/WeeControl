@@ -7,6 +7,7 @@
 @using WeeControl.Host.WebApiService.Contexts.Essentials
 @inject IAuthenticationService AuthorizationService
 @inject IUserService UserService
+@inject ISecurity Security
 
 <MudCard Style="max-width: 600px; align-content: center; align-self: center; justify-content: center">
     @if (showForgotPassword)
@@ -93,4 +94,10 @@
     private readonly UserPasswordResetRequestDto forgotPassword = new();
     private bool isLoading = false;
     private bool showForgotPassword;
+
+    protected override async Task OnInitializedAsync()
+    {
+        //await Security.NavigateToNecessaryPage();
+        await base.OnInitializedAsync();
+    }
 }

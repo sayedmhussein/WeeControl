@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using WeeControl.Core.SharedKernel.CustomValidationAttributes;
 using WeeControl.Core.SharedKernel.Interfaces;
 
 namespace WeeControl.Core.SharedKernel.Contexts.Essentials;
@@ -17,6 +18,7 @@ public class UserModel : IEntityModel
 
     [Required]
     [StringLength(255)]
+    [StandardString]
     public string Username { get; set; } = string.Empty;
 
     [Required]

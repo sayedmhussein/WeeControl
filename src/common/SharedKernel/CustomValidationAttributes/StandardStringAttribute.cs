@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text;
+using Microsoft.Extensions.Primitives;
 
 namespace WeeControl.Core.SharedKernel.CustomValidationAttributes;
 
-public class StringContainsAttribute : ValidationAttribute
+public class StandardStringAttribute : ValidationAttribute
 {
-    private const string DefaultString = "abcdefghijklmnopqrstuvwxyz1234567890_";
+    private const string DefaultString = "abcdefghijklmnopqrstuvwxyz1234567890_.";
     private string? accept;
     private string? reject;
     
@@ -20,7 +22,7 @@ public class StringContainsAttribute : ValidationAttribute
         set => reject = value?.ToLower();
     }
 
-    public StringContainsAttribute(string? accept = null, string? reject = null)
+    public StandardStringAttribute(string? accept = null, string? reject = null)
     {
         this.accept = accept?.ToLower();
         this.reject = reject?.ToLower();
@@ -61,6 +63,32 @@ public class StringContainsAttribute : ValidationAttribute
 
     public override string FormatErrorMessage(string name)
     {
-        return "Must Contains.";
+        var sp = new StringBuilder();
+        sp.Append("Text should only contains letters, numbers");
+
+        if (string.IsNullOrEmpty(accept))
+        {
+            sp.Append(" and \"_\"");
+        }
+        else
+        {
+            sp.Append(", \"_\" and any of \"");
+            sp.Append(accept);
+            sp.Append("\"");
+        }
+
+        if (string.IsNullOrEmpty(reject))
+        {
+        }
+        else
+        {
+            sp.Append(", and not include \"");
+            sp.Append(reject);
+            sp.Append("\"");
+        }
+
+        sp.Append('.');
+        
+        return sp.ToString();
     }
 }
