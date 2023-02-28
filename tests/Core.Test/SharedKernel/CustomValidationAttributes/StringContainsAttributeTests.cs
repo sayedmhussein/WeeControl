@@ -7,28 +7,58 @@ namespace WeeControl.Core.Test.SharedKernel.CustomValidationAttributes;
 public class StringContainsAttributeTests
 {
     [Theory]
-    [InlineData("")]
-    [InlineData("NoSpace")]
-    [InlineData("AllowedOK")]
-    [InlineData("Allowed1234")]
-    public void WhenContainsValidValue_NoError(string str)
+    [InlineData("", true)]
+    [InlineData("NoSpace", true)]
+    [InlineData("AllowedOK", true)]
+    [InlineData("Allowed1234", true)]
+    [InlineData("Allowed 1234", false)]
+    [InlineData("Allowed1234!", false)]
+    [InlineData("Allowed1234@", false)]
+    public void WhenContainsDefaultValues(string str, bool success)
     {
         var test = new TestObject() {TestString = str};
 
-        Assert.True(test.IsValidEntityModel());
+        if (success)
+        {
+            Assert.True(test.IsValidEntityModel());
+        }
+        else
+        {
+            Assert.Throws<EntityModelValidationException>(() => test.ThrowExceptionIfEntityModelNotValid());
+        }
     }
     
-    [Fact]
-    public void WhenContainsInvalidValidValue_ThrowError()
+    [Theory]
+    [InlineData("", true)]
+    [InlineData("HelloWorld", true)]
+    [InlineData("OKBoss", true)]
+    [InlineData("Allowed1234", false)]
+    [InlineData("HiYOu 1234", true)]
+    [InlineData("Allowed1234!", false)]
+    [InlineData("HiYOu@", true)]
+    public void WhenContainsSpecialValues(string str, bool success)
     {
-        var test = new TestObject() { TestString = "Allowed ! OK"};
+        var test = new TestObject2() {TestString = str};
 
-        Assert.Throws<EntityModelValidationException>(() => test.ThrowExceptionIfEntityModelNotValid());
+        if (success)
+        {
+            Assert.True(test.IsValidEntityModel());
+        }
+        else
+        {
+            Assert.Throws<EntityModelValidationException>(() => test.ThrowExceptionIfEntityModelNotValid());
+        }
     }
 }
 
 internal class TestObject : IEntityModel
 {
     [StringContains]
+    public string TestString { get; set; } = string.Empty;
+}
+
+internal class TestObject2 : IEntityModel
+{
+    [StringContains(Accept = "@ ", Reject = "A")]
     public string TestString { get; set; } = string.Empty;
 }
