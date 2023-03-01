@@ -5,7 +5,7 @@ using WeeControl.Host.WebApiService.Contexts.Essentials;
 
 namespace WeeControl.Host.Test.ApiService.Contexts.Essentials;
 
-public class UserServiceTests
+public class HomeServiceTests
 {
     [Fact]
     public async void WhenSuccess_ReturnAllItems()

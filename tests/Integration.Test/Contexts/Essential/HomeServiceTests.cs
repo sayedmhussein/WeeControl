@@ -7,11 +7,11 @@ using WeeControl.Host.WebApiService.Contexts.Essentials;
 
 namespace WeeControl.Integration.Test.Contexts.Essential;
 
-public class UserTests: IClassFixture<CustomWebApplicationFactory<Startup>>
+public class HomeServiceTests: IClassFixture<CustomWebApplicationFactory<Startup>>
 {
     private readonly CustomWebApplicationFactory<Startup> factory;
 
-    public UserTests(CustomWebApplicationFactory<Startup> factory)
+    public HomeServiceTests(CustomWebApplicationFactory<Startup> factory)
     {
         this.factory = factory;
     }

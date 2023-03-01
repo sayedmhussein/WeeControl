@@ -17,8 +17,13 @@ internal class UserService : IUserService
         this.server = server;
         this.gui = gui;
     }
-    
-    public Task Register(EmployeeRegisterDto dto)
+
+    public Task AddCustomer(CustomerRegisterDto dto)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task AddEmployee(EmployeeRegisterDto dto)
     {
         throw new NotImplementedException();
     }
