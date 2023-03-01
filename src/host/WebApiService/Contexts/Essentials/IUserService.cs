@@ -9,5 +9,4 @@ public interface IUserService
     Task<UserModel> GetUser();
     Task EditUser(object dto);
     Task ChangePassword(UserPasswordChangeRequestDto dto);
-    Task RequestPasswordReset(UserPasswordResetRequestDto dto);
 }

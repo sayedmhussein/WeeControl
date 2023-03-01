@@ -6,7 +6,7 @@ namespace WeeControl.Core.SharedKernel.CustomValidationAttributes;
 
 public class StandardStringAttribute : ValidationAttribute
 {
-    private const string DefaultString = "abcdefghijklmnopqrstuvwxyz1234567890_.";
+    private const string DefaultString = "abcdefghijklmnopqrstuvwxyz1234567890_";
     private string? accept;
     private string? reject;
     

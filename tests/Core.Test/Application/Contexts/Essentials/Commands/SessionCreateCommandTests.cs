@@ -47,11 +47,11 @@ public class SessionCreateCommandTests
 
     [Theory]
     [InlineData("username@email.com", "not password")]
-    [InlineData("not email@email.com", "password")]
+    [InlineData("not_email@email.com", "password")]
     [InlineData("username", "not password")]
-    [InlineData("not username", "password")]
+    [InlineData("not_username", "password")]
     [InlineData("Username@email.com", " not temporary")]
-    [InlineData("not username", "temporary")]
+    [InlineData("not_username", "temporary")]
     public async void WhenUserNotExist_ThrowNotFoundException(string emailOrUsername, string password)
     {
         using var testHelper = new CoreTestHelper();

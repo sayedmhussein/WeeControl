@@ -63,24 +63,5 @@ internal class UserService : IUserService
         await gui.DisplayAlert($"Unexpected Error {response.StatusCode}");
     }
 
-    public async Task RequestPasswordReset(UserPasswordResetRequestDto dto)
-    {
-        if (dto.IsValidEntityModel() == false)
-        {
-            await gui.DisplayAlert("invalid data");
-            return;
-        }
-        
-        var response = await server
-                    .GetResponseMessage(HttpMethod.Post, 
-                        new Version("1.0"), dto,
-                        ControllerApi.Essentials.User.Route,
-                        endpoint:ControllerApi.Essentials.User.PasswordEndpoint);
-
-        if (response.IsSuccessStatusCode)
-        {
-            await gui.DisplayAlert("Please check your inbox for more instructions");
-            await gui.NavigateToAsync(ApplicationPages.Essential.HomePage);
-        }
-    }
+    
 }

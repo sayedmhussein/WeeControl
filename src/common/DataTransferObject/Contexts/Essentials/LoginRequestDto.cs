@@ -17,7 +17,7 @@ public class LoginRequestDto : IEntityModel
 
     [Required(ErrorMessage = "You must enter either your username or your email.")]
     [StringLength(45, MinimumLength = 3, ErrorMessage = "Username or email should be between 3 and 45 character.")]
-    [StandardString(accept: "@")]
+    [StandardString(accept: "@.-")]
     public string UsernameOrEmail { get; set; } = string.Empty;
 
     [Required]

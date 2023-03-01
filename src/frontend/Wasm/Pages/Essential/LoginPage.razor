@@ -6,7 +6,6 @@
 @using WeeControl.Host.WebApiService
 @using WeeControl.Host.WebApiService.Contexts.Essentials
 @inject IAuthenticationService AuthorizationService
-@inject IUserService UserService
 @inject ISecurity Security
 
 <MudCard Style="max-width: 600px; align-content: center; align-self: center; justify-content: center">
@@ -18,7 +17,7 @@
         
         <MudCardContent >
             <EditForm Model="@forgotPassword" OnValidSubmit="@(() => { isLoading = true;
-                                                                     UserService.RequestPasswordReset(forgotPassword); 
+                                                                         AuthorizationService.RequestPasswordReset(forgotPassword); 
                                                                      isLoading = false; })">
                 <DataAnnotationsValidator/>
                 <div class="form-group">

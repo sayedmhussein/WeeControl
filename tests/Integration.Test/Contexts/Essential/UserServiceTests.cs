@@ -88,72 +88,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
     }
     #endregion
 
-    #region RequestPasswordReset()
     
-    [Fact]
-    public async void RequestPasswordReset_WhenSuccess()
-    {
-        using var helper = new HostTestHelper();
-        var service = helper.GetService<IUserService>(GetHttpClient());
-
-        await service.RequestPasswordReset(new UserPasswordResetRequestDto()
-        {
-            Email = CoreTestHelper.Email,
-            Username = CoreTestHelper.Username
-        });
-
-        helper.GuiMock.Verify(x =>
-            x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Once);
-    }
-
-    [Theory]
-    [InlineData("", "")]
-    [InlineData("email@email.com", "")]
-    [InlineData("", "username")]
-    public async void RequestPasswordReset_WhenInvalidEmailAndUsernameMatchingOrNotExist(string email, string username)
-    {
-        using var helper = new HostTestHelper();
-        var service = helper.GetService<IUserService>();
-
-        await service.RequestPasswordReset(new UserPasswordResetRequestDto()
-        {
-            Email = email,
-            Username = username
-        });
-
-        helper.GuiMock.Verify(x =>
-            x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
-    }
-
-    [Fact]
-    public async void RequestPasswordReset_WhenBusinessNotAllow_IsLockedUser()
-    {
-        var httpClient = factory.WithWebHostBuilder(builder =>
-        {
-            builder.ConfigureServices(services =>
-            {
-                using var scope = services.BuildServiceProvider().CreateScope();
-                var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-                CoreTestHelper.SeedDatabase(db);
-                var user = db.Users.First();
-                user.Suspend("for testing");
-                db.SaveChanges();
-            });
-        }).CreateClient();
-
-        using var helper = new HostTestHelper();
-        var service = helper.GetService<IUserService>(httpClient);
-
-        await service.RequestPasswordReset(new UserPasswordResetRequestDto()
-        {
-            Email = CoreTestHelper.Email,
-            Username = CoreTestHelper.Username
-        });
-
-        helper.GuiMock.Verify(x =>
-            x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
-    }
-    #endregion
 
     // #region Register()
     // [Theory]
