@@ -10,14 +10,18 @@ internal class HomeService : IHomeService
 {
     private readonly IServerOperation server;
     private readonly IGui gui;
-    private HomeResponseDto? dto;
 
     public HomeService(IServerOperation server, IGui gui)
     {
         this.server = server;
         this.gui = gui;
     }
-    
+
+    public IEnumerable<HomeNotificationModel> Notifications { get; private set; } = new List<HomeNotificationModel>();
+    public IEnumerable<HomeFeedModel> Feeds { get; private set; } = new List<HomeFeedModel>();
+    public string Fullname { get; private set; } = string.Empty;
+    public string LastLoginTimestamp { get; private set; } = string.Empty;
+
     public async Task<bool> Refresh()
     {
         var response = await server
@@ -28,7 +32,10 @@ internal class HomeService : IHomeService
             var serverDto = await server.ReadFromContent<HomeResponseDto>(response.Content);
             if (serverDto is not null)
             {
-                dto = serverDto;
+                Notifications = serverDto.Notifications;
+                Feeds = serverDto.Feeds;
+                Fullname = serverDto.FullName;
+                LastLoginTimestamp = serverDto.PhotoUrl;
                 return true;
             }
         }
@@ -43,30 +50,6 @@ internal class HomeService : IHomeService
 
         await gui.DisplayAlert($"Unexpected error occured when communicating with server! {response.StatusCode}");
         return false;
-    }
-
-    public async Task<IEnumerable<HomeNotificationModel>> GetNotifications()
-    {
-        if (dto == null)
-            await Refresh();
-
-        return dto?.Notifications ?? new List<HomeNotificationModel>();
-    }
-
-    public async Task<IEnumerable<HomeFeedModel>> GetFeeds()
-    {
-        if (dto == null)
-            await Refresh();
-
-        return dto?.Feeds ?? new List<HomeFeedModel>();
-    }
-
-    public async Task<string> GetFullName()
-    {
-        if (dto == null)
-            await Refresh();
-
-        return dto?.FullName ?? string.Empty;
     }
 
     public Task MarkNotificationAsViewed(Guid id)

@@ -35,21 +35,7 @@ namespace WeeControl.Host.WebApi.Controllers.Essentials;
      [ProducesResponseType((int)HttpStatusCode.OK)]
      [ProducesResponseType((int)HttpStatusCode.BadRequest)]
      [ProducesResponseType((int)HttpStatusCode.Conflict)]
-     public async Task<ActionResult<ResponseDto<TokenResponseDto>>> RegisterCustomerV1([FromBody] RequestDto<CustomerRegisterDto> dto)
-     {
-         var command = new UserRegisterCommand(dto);
-         var response = await mediator.Send(command);
-
-         return Ok(response);
-     }
-     
-     [AllowAnonymous]
-     [HttpPost]
-     [MapToApiVersion("1.0")]
-     [ProducesResponseType((int)HttpStatusCode.OK)]
-     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-     [ProducesResponseType((int)HttpStatusCode.Conflict)]
-     public async Task<ActionResult<ResponseDto<TokenResponseDto>>> RegisterEmployeeV1([FromBody] RequestDto<EmployeeRegisterDto> dto)
+     public async Task<ActionResult<ResponseDto<TokenResponseDto>>> RegisterEmployeeV1([FromBody] RequestDto<UserProfileDto> dto)
      {
          var command = new UserRegisterCommand(dto);
          var response = await mediator.Send(command);

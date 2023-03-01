@@ -96,6 +96,9 @@ public class CoreTestHelper : IDisposable
         dbContext.Person.Add(person);
         dbContext.SaveChanges();
 
+        dbContext.PersonContacts.Add(PersonContactDbo.Create(person.PersonId, ContactModel.ContactTypeEnum.Mobile, MobileNo));
+        dbContext.SaveChanges();
+
         return person;
     }
 
@@ -103,14 +106,14 @@ public class CoreTestHelper : IDisposable
     {
         var userModel = new UserModel()
         {
-            Email = Email, Username = username ?? Username,
-            MobileNo = MobileNo, Password = new PasswordSecurity().Hash(username ?? Password)
+            Email = Email, Username = username ?? Username, 
+            Password = new PasswordSecurity().Hash(username ?? Password)
         };
 
         if (username is not null)
         {
             userModel.Email = $"{username}@{username}.com";
-            userModel.MobileNo = new Random().NextInt64(100000, 9999999).ToString();
+            
         }
         
         var user = UserDbo.Create(personId, userModel);

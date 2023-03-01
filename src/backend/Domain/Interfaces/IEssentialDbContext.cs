@@ -8,6 +8,7 @@ public interface IEssentialDbContext : IDbContext
 {
     DbSet<PersonDbo> Person { get; set; }
     DbSet<PersonIdentityDbo> PersonIdentities { get; set; }
+    DbSet<PersonContactDbo> PersonContacts { get; set; }
     DbSet<AddressDbo> PersonAddresses { get; set; }
 
     DbSet<UserDbo> Users { get; set; }

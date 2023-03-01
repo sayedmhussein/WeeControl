@@ -63,7 +63,8 @@
     
     protected override async Task OnInitializedAsync()
     {
-        feeds = await Home.GetFeeds();
+        await Home.Refresh();
+        feeds = Home.Feeds;
         await GetClaims();
     }
 

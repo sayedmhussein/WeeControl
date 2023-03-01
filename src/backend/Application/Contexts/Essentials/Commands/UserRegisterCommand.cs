@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿#nullable enable
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -19,37 +20,26 @@ public class UserRegisterCommand : IRequest<ResponseDto<TokenResponseDto>>
     private readonly RequestDto request;
     private readonly PersonModel person;
     private readonly UserModel user;
-    private readonly EmployeeModel employee;
-    private readonly CustomerModel customer;
-
-    public UserRegisterCommand(RequestDto<CustomerRegisterDto> dto) : this(dto, dto.Payload.Person, dto.Payload.User)
+    private readonly CustomerModel? customer;
+    
+    public UserRegisterCommand(RequestDto<UserProfileDto> dto)
     {
-        dto.Payload.Customer.ThrowExceptionIfEntityModelNotValid();
-        customer = dto.Payload.Customer;
-    }
-
-    public UserRegisterCommand(RequestDto<EmployeeRegisterDto> dto) : this(dto, dto.Payload.Person, dto.Payload.User)
-    {
-        dto.Payload.Employee.ThrowExceptionIfEntityModelNotValid();
-        employee = dto.Payload.Employee;
-    }
-
-    private UserRegisterCommand()
-    {
-    }
-
-    private UserRegisterCommand(RequestDto requestDto, PersonModel person, UserModel user)
-    {
-        requestDto.ThrowExceptionIfEntityModelNotValid();
-        request = requestDto;
+        dto.ThrowExceptionIfEntityModelNotValid();
+        request = dto;
         
-        person.ThrowExceptionIfEntityModelNotValid();
-        this.person = person;
+        dto.Payload.Person.ThrowExceptionIfEntityModelNotValid();
+        person = dto.Payload.Person;
 
-        user.ThrowExceptionIfEntityModelNotValid();
-        this.user = user;
+        dto.Payload.User.ThrowExceptionIfEntityModelNotValid();
+        user = dto.Payload.User;
+
+        if (dto.Payload.Customer is not null)
+        {
+            dto.Payload.Customer.ThrowExceptionIfEntityModelNotValid();
+            customer = dto.Payload.Customer;
+        }
     }
-
+    
     public class RegisterHandler : IRequestHandler<UserRegisterCommand, ResponseDto<TokenResponseDto>>
     {
         private readonly IEssentialDbContext context;
@@ -67,8 +57,7 @@ public class UserRegisterCommand : IRequest<ResponseDto<TokenResponseDto>>
         {
             if (context.Users.Any(x =>
                     x.Username == cmd.user.Username.ToLower() ||
-                    x.Email == cmd.user.Email.ToLower() ||
-                    x.MobileNo == cmd.user.MobileNo.ToLower()
+                    x.Email == cmd.user.Email.ToLower()
                 ))
             {
                 throw new ConflictFailureException();
@@ -78,17 +67,13 @@ public class UserRegisterCommand : IRequest<ResponseDto<TokenResponseDto>>
             await context.Person.AddAsync(person, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
 
-            var user = UserDbo.Create(person.PersonId, cmd.user.Email, cmd.user.Username, cmd.user.MobileNo, passwordSecurity.Hash(cmd.user.Password));
+            var user = UserDbo.Create(person.PersonId, cmd.user.Email, cmd.user.Username, passwordSecurity.Hash(cmd.user.Password));
             await context.Users.AddAsync(user, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
 
             if (cmd.customer is not null)
             {
                 await context.Customers.AddAsync(CustomerDbo.Create(user.UserId, cmd.customer), cancellationToken);
-            }
-            else
-            {
-                await context.Employees.AddAsync(EmployeeDbo.Create(person.PersonId, null, cmd.employee), cancellationToken);
             }
 
             await context.SaveChangesAsync(cancellationToken);

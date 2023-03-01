@@ -74,8 +74,7 @@ public class SeedEssentialDatabaseCommand : IRequest
 
         private async Task<Guid> AddUser(Guid userId, string name, IEnumerable<(string Type, string Value)> claims, CancellationToken cancellationToken)
         {
-            var user = UserDbo.Create(userId, $"{name}@WeeControl.com", name,
-                "+10" + new Random().NextInt64(minValue: 10000, maxValue: 19999), passwordSecurity.Hash(name));
+            var user = UserDbo.Create(userId, $"{name}@WeeControl.com", name, passwordSecurity.Hash(name));
             
             await context.Users.AddAsync(user, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
@@ -117,6 +116,11 @@ public class SeedEssentialDatabaseCommand : IRequest
             var person = PersonDbo.Create(name, name, nationality, new DateOnly(1999, 12, 31));
             await context.Person.AddAsync(person, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
+
+            await context.PersonContacts
+                .AddAsync(PersonContactDbo.Create(person.PersonId, ContactModel.ContactTypeEnum.Mobile, "+33567467646"),
+                    cancellationToken);
+                
             return person.PersonId;
         }
 

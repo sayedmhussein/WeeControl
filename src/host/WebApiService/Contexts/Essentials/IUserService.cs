@@ -5,8 +5,8 @@ namespace WeeControl.Host.WebApiService.Contexts.Essentials;
 
 public interface IUserService
 {
-    Task AddCustomer(CustomerRegisterDto dto);
-    Task AddEmployee(EmployeeRegisterDto dto);
+    Task AddCustomer(UserProfileUpdateDto dto);
+    Task AddEmployee(UserProfileDto dto);
     
     
     

@@ -14,9 +14,9 @@ namespace WeeControl.Core.Domain.Contexts.Essentials;
 [Table(nameof(UserDbo), Schema = nameof(Essentials))]
 public class UserDbo : UserModel
 {
-    public static UserDbo Create(Guid personId, string email, string username, string mobileNo, string password)
+    public static UserDbo Create(Guid personId, string email, string username, string password)
     {
-        return Create(personId, new UserModel(){ Email = email, Username = username, MobileNo = mobileNo, Password = password});
+        return Create(personId, new UserModel(){ Email = email, Username = username, Password = password});
     }
 
     public static UserDbo Create(Guid personId, UserModel model)
@@ -30,8 +30,7 @@ public class UserDbo : UserModel
         {
             PersonId = personId, 
             Email = model.Email.Trim().ToLower(), 
-            Username = model.Username.Trim().ToLower(), 
-            MobileNo = model.MobileNo.Trim().ToUpper(), 
+            Username = model.Username.Trim().ToLower(),
             Password = model.Password
         };
     }

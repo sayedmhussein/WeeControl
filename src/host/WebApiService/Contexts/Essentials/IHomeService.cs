@@ -4,9 +4,11 @@ namespace WeeControl.Host.WebApiService.Contexts.Essentials;
 
 public interface IHomeService
 {
+    IEnumerable<HomeNotificationModel> Notifications { get; }
+    IEnumerable<HomeFeedModel> Feeds { get; }
+    string Fullname { get; }
+    string LastLoginTimestamp { get; }
+    
     Task<bool> Refresh();
-    Task<IEnumerable<HomeNotificationModel>> GetNotifications();
-    Task<IEnumerable<HomeFeedModel>> GetFeeds();
-    Task<string> GetFullName();
     Task MarkNotificationAsViewed(Guid id);
 }

@@ -56,8 +56,12 @@ public class UserDuplicationQuery : IRequest
                     }
                     break;
                 case Parameter.Mobile:
-                    if (await essentialDbContext.Users.Select(x => x.MobileNo)
-                            .ContainsAsync(request.value.ToUpper(), cancellationToken))
+                    var bla = essentialDbContext.Users
+                        .Include(x => x.Person)
+                        .ThenInclude(x => x.Contacts)
+                        .Select(x => x.Person.Contacts.Select(y => y.ContactValue)
+                            .Contains(request.value.ToUpper()));
+                    if (await bla.ContainsAsync(true, cancellationToken: cancellationToken))
                     {
                         throw new ConflictFailureException("mobile already exist");
                     }

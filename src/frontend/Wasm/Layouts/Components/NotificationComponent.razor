@@ -26,7 +26,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        notifications = await Home.GetNotifications();
+        notifications = Home.Notifications;
         await base.OnInitializedAsync();
     }
 }

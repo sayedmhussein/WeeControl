@@ -33,8 +33,8 @@ public class HomeServiceTests: IClassFixture<CustomWebApplicationFactory<Startup
         await factory.Authorize(hostTestHelper, CoreTestHelper.Username, CoreTestHelper.Password);
 
         Assert.True(await service.Refresh());
-        Assert.NotEmpty(await service.GetFullName());
-        Assert.NotEmpty(await service.GetNotifications());
+        Assert.NotEmpty(service.Fullname);
+        Assert.NotEmpty(service.Notifications);
     }
 
     [Fact]
@@ -53,11 +53,12 @@ public class HomeServiceTests: IClassFixture<CustomWebApplicationFactory<Startup
         
         await factory.Authorize(helper, CoreTestHelper.Username, CoreTestHelper.Password);
 
-        var unreadNotifications1 = (await service.GetNotifications())
+       await service.Refresh();
+        var unreadNotifications1 = (service.Notifications)
             .Where(x => x.ReadTs == null);
         await service.MarkNotificationAsViewed(unreadNotifications1.First().NotificationId);
         await service.Refresh();
-        var unreadNotifications2 = (await service.GetNotifications())
+        var unreadNotifications2 = service.Notifications
             .Where(x => x.ReadTs == null);
         
         Assert.Equal(unreadNotifications1.Count(), unreadNotifications2.Count() + 1);
