@@ -18,17 +18,17 @@ internal class UserService : IUserService
         this.gui = gui;
     }
 
-    public Task AddCustomer(UserProfileUpdateDto dto)
+    public Task EditUserProfile(UserProfileUpdateDto dto)
     {
         throw new NotImplementedException();
     }
 
-    public Task AddEmployee(UserProfileDto dto)
+    public Task AddUser(UserProfileDto dto)
     {
         throw new NotImplementedException();
     }
 
-    public Task<UserModel> GetUser()
+    public Task<UserProfileDto> GetUserProfile()
     {
         throw new NotImplementedException();
     }

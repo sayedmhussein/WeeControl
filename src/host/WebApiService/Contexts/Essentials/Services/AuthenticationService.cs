@@ -47,7 +47,7 @@ internal class AuthenticationService : IAuthenticationService
         switch (response.StatusCode)
         {
             case HttpStatusCode.NotFound:
-                await gui.DisplayAlert("Ínvalid credentials, please try again.");
+                await gui.DisplayAlert("Invalid credentials, please try again.");
                 break;
             case HttpStatusCode.Forbidden:
                 await gui.DisplayAlert("Account is locked, please contact your admin.");

@@ -56,8 +56,6 @@ public class NotificationViewedCommand : IRequest
 
             notification.ReadTs = DateTime.UtcNow;
             await essentialDbContext.SaveChangesAsync(default);
-
-            //return Unit.Value;
         }
     }
 }
