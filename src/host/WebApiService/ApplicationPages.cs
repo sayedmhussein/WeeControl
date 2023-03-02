@@ -12,6 +12,7 @@ public static class ApplicationPages
         
         public const string HomePage = "Index";
         public const string UserPage = "User";
+        public const string UserEmailValidationPage = "verify";
     }
     
     public static class Elevator

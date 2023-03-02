@@ -10,7 +10,13 @@ internal interface IServerOperation
             bool includeRequestDto = false);
     
     Task<HttpResponseMessage>
-        GetResponseMessage<T>(HttpMethod method, Version version, T dto, string route, string? endpoint = null, string[]? query = null) where T : class;
+        GetResponseMessage<T>(
+            HttpMethod method, 
+            Version version, 
+            T dto, 
+            string route, 
+            string? endpoint = null, 
+            string[]? query = null) where T : class;
     
     Task<T?> ReadFromContent<T>(HttpContent content) where T : class;
 

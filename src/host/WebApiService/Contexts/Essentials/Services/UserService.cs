@@ -17,23 +17,39 @@ internal class UserService : IUserService
         this.server = server;
         this.gui = gui;
     }
+    
+    public async Task AddUser(UserProfileDto dto)
+    {
+        dto.ThrowExceptionIfEntityModelNotValid();
+        dto.Person.ThrowExceptionIfEntityModelNotValid();
+        dto.User.ThrowExceptionIfEntityModelNotValid();
+        
+        var response = await server
+            .GetResponseMessage(HttpMethod.Patch, 
+                new Version("1.0"), dto,
+                ControllerApi.Essentials.User.Route);
+
+        if (response.IsSuccessStatusCode)
+        {
+            await gui.NavigateToAsync(ApplicationPages.Essential.UserEmailValidationPage);
+            return;
+        }
+
+        if (response.StatusCode == HttpStatusCode.NotAcceptable)
+        {
+            await gui.DisplayAlert("Please choose another email or username as what you entered already exist");
+            return;
+        }
+        
+        throw new NotImplementedException();
+    }
 
     public Task EditUserProfile(UserProfileUpdateDto dto)
     {
         throw new NotImplementedException();
     }
 
-    public Task AddUser(UserProfileDto dto)
-    {
-        throw new NotImplementedException();
-    }
-
     public Task<UserProfileDto> GetUserProfile()
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task EditUser(object dto)
     {
         throw new NotImplementedException();
     }

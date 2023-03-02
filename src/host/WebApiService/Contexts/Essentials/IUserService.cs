@@ -5,10 +5,8 @@ namespace WeeControl.Host.WebApiService.Contexts.Essentials;
 
 public interface IUserService
 {
-    Task EditUserProfile(UserProfileUpdateDto dto);
     Task AddUser(UserProfileDto dto);
-
+    Task EditUserProfile(UserProfileUpdateDto dto);
     Task<UserProfileDto> GetUserProfile();
-    Task EditUser(object dto);
     Task ChangePassword(UserPasswordChangeRequestDto dto);
 }

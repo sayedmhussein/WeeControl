@@ -29,6 +29,7 @@
     <ItemGroup>
       <ProjectReference Include="..\..\src\backend\WebApi\WebApi.csproj" />
       <ProjectReference Include="..\..\src\host\WebApiService\WebApiService.csproj" />
+      <ProjectReference Include="..\Core.Test\Core.Test.csproj" />
     </ItemGroup>
 
     <ItemGroup>
