@@ -2,7 +2,7 @@ namespace WeeControl.Host.WebApiService.DeviceInterfaces;
 
 public interface IGui
 {
-    string CurrentPageName();
+    public string CurrentPageName { get; }
     
     Task DisplayAlert(string message);
 

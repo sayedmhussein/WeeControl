@@ -70,7 +70,8 @@ internal class AppSecurityService : ISecurity
             return;
         }
 
-        await gui.NavigateToAsync(ApplicationPages.Essential.LoginPage, forceLoad: true);
+        if (gui.CurrentPageName != ApplicationPages.Essential.LoginPage)
+            await gui.NavigateToAsync(ApplicationPages.Essential.LoginPage, forceLoad: true);
     }
 
     public event EventHandler<bool>? AuthenticationChanged;

@@ -8,6 +8,8 @@
         <IsPackable>false</IsPackable>
 
         <RootNamespace>WeeControl.Integration.Test</RootNamespace>
+
+        <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>

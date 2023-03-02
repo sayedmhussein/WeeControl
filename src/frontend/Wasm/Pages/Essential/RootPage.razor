@@ -9,8 +9,8 @@
 @code {
     protected override async Task OnInitializedAsync()
     {
+        await Security.NavigateToNecessaryPage();
         await base.OnInitializedAsync();
         await Task.Delay(2000);
-        await Security.NavigateToNecessaryPage();
     }
 }

@@ -14,6 +14,7 @@ public class GuiService : IGui
     private readonly NavigationManager navigationManager;
     private readonly IServiceProvider serviceProvider;
     private string lastPageName;
+    private string currentPageName;
 
     public GuiService(IJSRuntime jsRuntime, NavigationManager navigationManager, IServiceProvider serviceProvider)
     {
@@ -22,10 +23,7 @@ public class GuiService : IGui
         this.serviceProvider = serviceProvider;
     }
 
-    public string CurrentPageName()
-    {
-        return lastPageName;
-    }
+    string IGui.CurrentPageName => currentPageName;
 
     public Task DisplayAlert(string message)
     {

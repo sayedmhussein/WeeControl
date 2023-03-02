@@ -5,7 +5,7 @@
     <RootNamespace>WeeControl.Frontend.Wasm</RootNamespace>
     <Company>sayed.hussein@gmx.com</Company>
     <Product>WeeControl WebAssembly Application</Product>
-    <LangVersion>latestmajor</LangVersion>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'Wasm' ">
