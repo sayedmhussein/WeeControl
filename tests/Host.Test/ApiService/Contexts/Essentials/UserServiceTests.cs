@@ -1,6 +1,5 @@
 using System.Net;
 using WeeControl.Core.DataTransferObject.Contexts.Essentials;
-using WeeControl.Core.Domain.Contexts.Essentials;
 using WeeControl.Core.SharedKernel;
 using WeeControl.Core.SharedKernel.Contexts.Essentials;
 using WeeControl.Core.Test;
@@ -14,45 +13,51 @@ public class UserServiceTests
     #region AddUser
 
     [Fact]
-    public async void WhenInvalidDto_ThrowException()
+    public async void WhenInvalidDto_DisplayMessageAndNeverNavigate()
     {
         using var helper = new HostTestHelper();
         var service = helper.GetService<IUserService>();
+
+        var dto = GetUserProfileDto();
+        dto.Person.FirstName = string.Empty;
         
-        await Assert.ThrowsAsync<EntityModelValidationException>(() => 
-            service.AddUser(new UserProfileDto()));
+        await service.AddUser(dto);
+        
+        helper.GuiMock
+            .Verify(x=>x.DisplayAlert(It.IsAny<string>()), Times.Once);
+        helper.GuiMock
+            .Verify(x => 
+                x.NavigateToAsync(ApplicationPages.Essential.OtpPage, It.IsAny<bool>()), Times.Never);
     }
     
     [Fact]
-    public async void WhenSuccess_DisplayMessageAndNavigateToHome()
+    public async void WhenSuccess_NavigateToOtpPage()
     {
         using var helper = new HostTestHelper();
         var service = helper.GetService<IUserService>(HttpStatusCode.OK);
-
         var dto = GetUserProfileDto();
         
         await service.AddUser(dto);
 
         helper.GuiMock
             .Verify(x => 
-                x.NavigateToAsync(ApplicationPages.Essential.UserEmailValidationPage, It.IsAny<bool>()), Times.Once);
+                x.NavigateToAsync(ApplicationPages.Essential.OtpPage, It.IsAny<bool>()), Times.Once);
     }
     
     [Fact]
-    public async void WhenInvalidDublicateUser_ReturnNotAcceptable()
+    public async void WhenInvalidSameUserExist_DisplayMessageAndNotNavigate()
     {
         using var helper = new HostTestHelper();
         var service = helper.GetService<IUserService>(HttpStatusCode.NotAcceptable);
-
         var dto = GetUserProfileDto();
         
         await service.AddUser(dto);
         
-        helper.GuiMock.Verify(x=>x.DisplayAlert(It.IsAny<string>()), Times.Once);
-        
+        helper.GuiMock
+            .Verify(x=>x.DisplayAlert(It.IsAny<string>()), Times.Once);
         helper.GuiMock
             .Verify(x => 
-                x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
+                x.NavigateToAsync(It.IsAny<string>(), It.IsAny<bool>()), Times.Never);
     }
 
     private UserProfileDto GetUserProfileDto()
@@ -65,7 +70,7 @@ public class UserServiceTests
             Person =
             {
                 FirstName = "Firstname", LastName = "Lastname",
-                NationalityCode = "EGP", DateOfBirth = DateOnly.MaxValue
+                NationalityCode = "EGP", DateOfBirth = DateTime.MaxValue
             }, User =
             {
                 Email = CoreTestHelper.Email,

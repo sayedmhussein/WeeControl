@@ -1,0 +1,100 @@
+@using WeeControl.Host.WebApiService
+@using Microsoft.AspNetCore.Components
+@using WeeControl.Core.DataTransferObject.Contexts.Essentials
+@using WeeControl.Host.WebApiService.Contexts.Constants
+@using WeeControl.Host.WebApiService.Contexts.Essentials
+@using WeeControl.Frontend.Wasm.Pages.Essential.RegistrationComponents
+@attribute [Route(ApplicationPages.Essential.RegisterPage)]
+@attribute [AllowAnonymous]
+@inject IConstantValue ConstantValue
+@inject IUserService UserService
+
+<MudCard Style="align-content: center; align-self: center; justify-content: start">
+    
+    @if (isLoading)
+    {
+        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+    }
+    else
+    {
+        <MudCardHeader>
+        <h4>Please fill the below data</h4>
+    </MudCardHeader>
+    
+    <MudCardContent>
+        <MudForm Model="@model">
+            <PersonComponent IsLoading="@isLoading" Model="@model.Person" IsRegistration="@true"></PersonComponent>
+            <MudGrid Spacing="5">
+                <MudItem xs="6" sm="3">
+                    <MudTextField T="string" Label="Your Email"
+                                  @bind-Value="@model.User.Email"
+                                  InputType="InputType.Email"
+                                  For="@(() => model.User.Email)"
+                                  Disabled="@isLoading"></MudTextField>
+                </MudItem>
+                <MudItem xs="6" sm="3">
+                    <MudTextField T="string" Label="Username"
+                                  @bind-Value="@model.User.Username"
+                                  For="@(() => model.User.Username)"
+                                  Disabled="@isLoading"></MudTextField>
+
+                </MudItem>
+                <MudItem xs="6" sm="3">
+                    <MudTextField T="string" Label="Password"
+                                  @bind-Value="@model.User.Password"
+                                  InputType="InputType.Password"
+                                  HelperText="Choose a strong password."
+                                  For="@(() => model.User.Password)"
+                                  Disabled="@isLoading"></MudTextField>
+
+                </MudItem>
+                <MudItem xs="6" sm="3">
+                    @* <MudTextField T="string" Label="Confirm Password" *@
+                    @*               @bind-Value="@model.User.ConfirmPassword" *@
+                    @*               InputType="InputType.Password" *@
+                    @*               For="@(() => model.User.ConfirmPassword)" *@
+                    @*               Disabled="@isLoading"></MudTextField> *@
+
+                </MudItem>
+                <MudItem xs="6" sm="3">
+                    <MudRadioGroup T="string" Required="true" RequiredError="Account type is required!">
+                        <MudRadio Option="@("Personal")">Personal</MudRadio>
+                        <MudRadio Option="@("Professional")">Professional</MudRadio>
+                    </MudRadioGroup>
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudCheckBox T="bool" Required="true" RequiredError="You must agree" Label="I agree!"/>
+                    <MudButton Variant="Variant.Text" Disabled="@isLoading" OnClick="@Register">Register</MudButton>
+                </MudItem>
+
+            </MudGrid>
+        </MudForm>
+        @* <EditForm Model="@model.Person" OnValidSubmit="Register"> *@
+        @*     <DataAnnotationsValidator/> *@
+        @*     <div class="container"> *@
+        @*         <div class="row"> *@
+        @*              *@
+        @*              *@
+        @*         </div> *@
+        @*     </div> *@
+        @* *@
+        @*      *@
+        @* </EditForm> *@
+    </MudCardContent>
+    }
+    
+</MudCard>
+
+@code {
+    private bool isLoading;
+    private readonly UserProfileDto model = new();
+
+    private async Task Register()
+    {
+        isLoading = true;
+        await Task.Delay(3000);
+        await UserService.AddUser(model);
+        isLoading = false;
+    }
+}

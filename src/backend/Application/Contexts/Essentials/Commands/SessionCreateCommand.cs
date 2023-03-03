@@ -48,7 +48,7 @@ public class SessionCreateCommand : IRequest<ResponseDto<TokenResponseDto>>
 
         public async Task<ResponseDto<TokenResponseDto>> Handle(SessionCreateCommand request, CancellationToken cancellationToken)
         {
-            if (request.dto.Payload.GetModelValidationError().Any())
+            if (request.dto.Payload.GetModelValidationErrors().Any())
             {
                 throw new BadRequestException("Invalid request query parameters.");
             }

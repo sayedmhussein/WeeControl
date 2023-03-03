@@ -3,7 +3,7 @@ using WeeControl.Core.SharedKernel.Interfaces;
 
 namespace WeeControl.Core.DataTransferObject.Contexts.Essentials;
 
-public class UserProfileDto : IEntityModel
+public class UserProfileDto
 {
     public PersonModel Person { get; } = new();
     public UserModel User { get; } = new();

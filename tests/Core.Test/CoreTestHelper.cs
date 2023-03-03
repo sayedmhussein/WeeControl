@@ -90,7 +90,7 @@ public class CoreTestHelper : IDisposable
         var personModel = new PersonModel()
         {
             FirstName = username ?? "First Name", SecondName = "Father Name", ThirdName = "Third Name", LastName = username ?? "Last Name",
-            NationalityCode = "EGP", DateOfBirth = new DateOnly(1999, 12, 31)
+            NationalityCode = "EGP", DateOfBirth = new DateTime(1999, 12, 31)
         };
         var person = PersonDbo.Create(personModel);
         dbContext.Person.Add(person);

@@ -109,7 +109,7 @@ public class RegisterCommandTests
     {
         var dto = new UserProfileDto()
         {
-            Person = { FirstName = "FirstName", LastName = "LastName", NationalityCode = "EGP", DateOfBirth = DateOnly.MinValue},
+            Person = { FirstName = "FirstName", LastName = "LastName", NationalityCode = "EGP", DateOfBirth = DateTime.MinValue},
             User = { Username = "test", Email = "test@test.com", Password = "123456"},
             Customer = customerModel
         };

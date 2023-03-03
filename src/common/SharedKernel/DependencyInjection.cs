@@ -13,19 +13,28 @@ public static class DependencyInjection
         return services;
     }
 
-    public static IDictionary<string, string?[]> GetModelValidationError(this IEntityModel entity)
+    public static IDictionary<string, string?[]> GetModelValidationErrors(this IEntityModel entity)
     {
         return GetErrors(entity);
     }
 
+    public static string GetFirstValidationError(this IEntityModel entity)
+    {
+        var errors = GetErrors(entity);
+        if (!errors.Any()) return string.Empty;
+        
+        var pair = errors.First();
+        return pair.Key + " - " + pair.Value;
+    }
+
     public static bool IsValidEntityModel(this IEntityModel entity)
     {
-        return !GetModelValidationError(entity).Any();
+        return !GetModelValidationErrors(entity).Any();
     }
 
     public static void ThrowExceptionIfEntityModelNotValid(this IEntityModel entity)
     {
-        var errors = GetModelValidationError(entity);
+        var errors = GetModelValidationErrors(entity);
         if (errors.Any())
             throw new EntityModelValidationException(errors);
     }

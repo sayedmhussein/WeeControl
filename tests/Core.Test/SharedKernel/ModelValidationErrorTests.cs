@@ -10,10 +10,10 @@ public class ModelValidationErrorTests
     {
         var model = new PersonModel()
         {
-            FirstName = "FirstName", LastName = "LastName", NationalityCode = "EGP", DateOfBirth = new DateOnly(2000, 12, 31)
+            FirstName = "FirstName", LastName = "LastName", NationalityCode = "EGP", DateOfBirth = new DateTime(2000, 12, 31)
         };
 
-        Assert.Empty(model.GetModelValidationError());
+        Assert.Empty(model.GetModelValidationErrors());
     }
 
     [Theory]
@@ -25,10 +25,10 @@ public class ModelValidationErrorTests
     {
         var model = new PersonModel()
         {
-            FirstName = firstName, LastName = lastName, NationalityCode = nationality, DateOfBirth = new DateOnly(2000, 12, 31)
+            FirstName = firstName, LastName = lastName, NationalityCode = nationality, DateOfBirth = new DateTime(2000, 12, 31)
         };
 
-        var ex = model.GetModelValidationError();
+        var ex = model.GetModelValidationErrors();
         
         Assert.Equal(errorCount, ex.Count);
     }

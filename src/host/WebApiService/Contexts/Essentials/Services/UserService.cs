@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using WeeControl.Core.DataTransferObject.Contexts.Essentials;
 using WeeControl.Core.SharedKernel;
-using WeeControl.Core.SharedKernel.Contexts.Essentials;
 using WeeControl.Host.WebApiService.DeviceInterfaces;
 using WeeControl.Host.WebApiService.Internals.Interfaces;
 
@@ -20,18 +19,26 @@ internal class UserService : IUserService
     
     public async Task AddUser(UserProfileDto dto)
     {
-        dto.ThrowExceptionIfEntityModelNotValid();
-        dto.Person.ThrowExceptionIfEntityModelNotValid();
-        dto.User.ThrowExceptionIfEntityModelNotValid();
+        if (!dto.Person.IsValidEntityModel())
+        {
+            await gui.DisplayAlert(dto.Person.GetFirstValidationError());
+            return;
+        }
         
+        if (!dto.User.IsValidEntityModel())
+        {
+            await gui.DisplayAlert(dto.User.GetFirstValidationError());
+            return;
+        }
+
         var response = await server
-            .GetResponseMessage(HttpMethod.Patch, 
+            .GetResponseMessage(HttpMethod.Post, 
                 new Version("1.0"), dto,
                 ControllerApi.Essentials.User.Route);
 
         if (response.IsSuccessStatusCode)
         {
-            await gui.NavigateToAsync(ApplicationPages.Essential.UserEmailValidationPage);
+            await gui.NavigateToAsync(ApplicationPages.Essential.OtpPage);
             return;
         }
 

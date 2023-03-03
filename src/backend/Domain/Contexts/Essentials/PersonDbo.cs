@@ -27,7 +27,7 @@ public class PersonDbo : PersonModel
         };
     }
 
-    public static PersonDbo Create(string firstName, string lastName, string nationalityCode, DateOnly dob)
+    public static PersonDbo Create(string firstName, string lastName, string nationalityCode, DateTime dob)
     {
         return Create(new PersonModel { FirstName = firstName, LastName = lastName, NationalityCode = nationalityCode, DateOfBirth = dob});
     }

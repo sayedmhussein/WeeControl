@@ -5,8 +5,10 @@
 @using WeeControl.Core.DataTransferObject.Contexts.Essentials
 @using WeeControl.Host.WebApiService
 @using WeeControl.Host.WebApiService.Contexts.Essentials
+@using WeeControl.Host.WebApiService.DeviceInterfaces
 @inject IAuthenticationService AuthorizationService
 @inject ISecurity Security
+@inject IGui Gui
 
 <MudCard Style="max-width: 600px; align-content: center; align-self: center; justify-content: center">
     @if (showForgotPassword)
@@ -80,11 +82,11 @@
                     Login
                 </MudButton>
                 <MudButton Variant="Variant.Text" OnClick="@(() => showForgotPassword = true)">Forgot Password</MudButton>
+                <MudButton Variant="Variant.Text" OnClick="@(() => Gui.NavigateToAsync(ApplicationPages.Essential.RegisterPage))">Register</MudButton>
             </EditForm>
         </MudCardContent>
     }
 </MudCard>
-
 
 
 @code
@@ -96,7 +98,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        //await Security.NavigateToNecessaryPage();
         await base.OnInitializedAsync();
     }
 }

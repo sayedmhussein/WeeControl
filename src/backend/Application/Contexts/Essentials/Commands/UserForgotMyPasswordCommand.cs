@@ -10,7 +10,6 @@ using WeeControl.Core.DataTransferObject.BodyObjects;
 using WeeControl.Core.DataTransferObject.Contexts.Essentials;
 using WeeControl.Core.Domain.Interfaces;
 using WeeControl.Core.SharedKernel;
-using WeeControl.Core.SharedKernel.Interfaces;
 
 namespace WeeControl.Core.Application.Contexts.Essentials.Commands;
 
@@ -38,7 +37,7 @@ public class UserForgotMyPasswordCommand : IRequest
 
         public async Task Handle(UserForgotMyPasswordCommand request, CancellationToken cancellationToken)
         {
-            if (request.dto.GetModelValidationError().Any() || request.dto.Payload.GetModelValidationError().Any())
+            if (request.dto.GetModelValidationErrors().Any() || request.dto.Payload.GetModelValidationErrors().Any())
             {
                 throw new BadRequestException("Invalid device or email or username");
             }

@@ -23,7 +23,7 @@ internal class AuthenticationService : IAuthenticationService
     
     public async Task Login(LoginRequestDto dto)
     {
-        var errors = dto.GetModelValidationError();
+        var errors = dto.GetModelValidationErrors();
         if (errors.Any())
         {
             await gui.DisplayAlert(errors.Keys.First());

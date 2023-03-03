@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text;
-using Microsoft.Extensions.Primitives;
 
 namespace WeeControl.Core.SharedKernel.CustomValidationAttributes;
 

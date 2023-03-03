@@ -68,12 +68,16 @@
 
      protected override async Task OnInitializedAsync()
      {
-         await Home.Refresh();
          isAuthenticated = await Security.IsAuthenticated();
-         fullName = isAuthenticated ? "Hello " + Home.Fullname : string.Empty;
-         pages = await Security.GetAllowedPages();
-         StateHasChanged();
-         claims = (await Security.GetClaimsPrincipal()).Claims;
+         if (isAuthenticated)
+         {
+             await Home.Refresh();
+             fullName = isAuthenticated ? "Hello " + Home.Fullname : string.Empty;
+             pages = await Security.GetAllowedPages();
+             StateHasChanged();
+             claims = (await Security.GetClaimsPrincipal()).Claims;
+         }
+         
          await base.OnInitializedAsync();
     }
 

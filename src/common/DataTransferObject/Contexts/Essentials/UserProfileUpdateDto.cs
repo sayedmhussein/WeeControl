@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using WeeControl.Core.SharedKernel.Contexts.Essentials;
 
 namespace WeeControl.Core.DataTransferObject.Contexts.Essentials;
 

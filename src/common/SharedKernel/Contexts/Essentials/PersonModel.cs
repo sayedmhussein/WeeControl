@@ -22,7 +22,10 @@ public class PersonModel : IEntityModel
     [StringLength(45, MinimumLength = 1)]
     public string LastName { get; set; } = string.Empty;
 
+    [Required]
     [StringLength(3, MinimumLength = 3)]
     public string NationalityCode { get; set; } = string.Empty;
-    public DateOnly DateOfBirth { get; set; }
+    
+    [Required]
+    public DateTime? DateOfBirth { get; set; }
 }

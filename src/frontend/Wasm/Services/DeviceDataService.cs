@@ -6,8 +6,6 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
-using MudBlazor;
 using WeeControl.Host.WebApiService.DeviceInterfaces;
 
 namespace WeeControl.Frontend.Wasm.Services;
