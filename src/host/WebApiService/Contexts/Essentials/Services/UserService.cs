@@ -10,11 +10,13 @@ internal class UserService : IUserService
 {
     private readonly IServerOperation server;
     private readonly IGui gui;
+    private readonly IDeviceSecurity security;
 
-    public UserService(IServerOperation server, IGui gui)
+    public UserService(IServerOperation server, IGui gui, IDeviceSecurity security)
     {
         this.server = server;
         this.gui = gui;
+        this.security = security;
     }
     
     public async Task AddUser(UserProfileDto dto)
@@ -38,7 +40,14 @@ internal class UserService : IUserService
 
         if (response.IsSuccessStatusCode)
         {
-            await gui.NavigateToAsync(ApplicationPages.Essential.OtpPage);
+            var read = await server.ReadFromContent<TokenResponseDto>(response.Content);
+            if (read != null && !string.IsNullOrEmpty(read.Token))
+            {
+                await security.UpdateToken(read.Token);
+                await gui.NavigateToAsync(ApplicationPages.Essential.OtpPage);
+            }
+            
+            await gui.DisplayAlert($"Unexpected Error:{response.StatusCode}");
             return;
         }
 
