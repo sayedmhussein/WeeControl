@@ -11,7 +11,7 @@ namespace WeeControl.Core.Test.Application.Contexts.Essentials.Commands;
 public class RegisterCommandTests
 {
     [Fact]
-    public async void WhenUserRegisterWithoutCustomer_ReturnSuccessAndToken()
+    public async void WhenUserRegisterWithCustomer_ReturnSuccessAndToken()
     {
         using var testHelper = new CoreTestHelper();
 
@@ -19,18 +19,8 @@ public class RegisterCommandTests
             .Handle(new UserRegisterCommand(GetUserProfileDto()), default);
         
         Assert.NotEmpty(tokenDto.Payload.Token);
-    }
-    
-    [Fact]
-    public async void WhenUserRegisterWithCustomer_ReturnSuccessAndToken()
-    {
-        using var testHelper = new CoreTestHelper();
-
-        var tokenDto = await GetHandler(testHelper)
-            .Handle(new UserRegisterCommand(GetUserProfileDto(new CustomerModel() {CustomerName = "Name", CountryCode = "EGP"})), default);
-        
-        Assert.NotEmpty(tokenDto.Payload.Token);
-        Assert.NotNull(testHelper.EssentialDb.Customers.FirstOrDefault());
+        Assert.NotNull(testHelper.EssentialDb.Person.FirstOrDefault());
+        Assert.NotNull(testHelper.EssentialDb.Users.FirstOrDefault());
     }
     
     [Fact]
@@ -105,13 +95,12 @@ public class RegisterCommandTests
         );
     }
 
-    private static RequestDto<UserProfileDto> GetUserProfileDto(CustomerModel? customerModel = null)
+    private static RequestDto<UserProfileDto> GetUserProfileDto()
     {
         var dto = new UserProfileDto()
         {
             Person = { FirstName = "FirstName", LastName = "LastName", NationalityCode = "EGP", DateOfBirth = DateTime.MinValue},
-            User = { Username = "test", Email = "test@test.com", Password = "123456"},
-            Customer = { CustomerName = "CustomerName", CountryCode = "EGP"}
+            User = { Username = "test", Email = "test@test.com", Password = "123456"}
         };
 
         return RequestDto.Create(dto, "device", 0, 0);

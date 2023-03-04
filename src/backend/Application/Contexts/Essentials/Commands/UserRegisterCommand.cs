@@ -19,11 +19,9 @@ public class UserRegisterCommand : IRequest<ResponseDto<TokenResponseDto>>
     private readonly RequestDto request;
     private readonly PersonModel person;
     private readonly UserModel user;
-    private readonly CustomerModel? customer;
     
     public UserRegisterCommand(RequestDto<UserProfileDto> dto)
     {
-        dto.ThrowExceptionIfEntityModelNotValid();
         request = dto;
         
         dto.Payload.Person.ThrowExceptionIfEntityModelNotValid();
@@ -31,12 +29,6 @@ public class UserRegisterCommand : IRequest<ResponseDto<TokenResponseDto>>
 
         dto.Payload.User.ThrowExceptionIfEntityModelNotValid();
         user = dto.Payload.User;
-
-        if (dto.Payload.Customer is not null)
-        {
-            dto.Payload.Customer.ThrowExceptionIfEntityModelNotValid();
-            customer = dto.Payload.Customer;
-        }
     }
     
     public class RegisterHandler : IRequestHandler<UserRegisterCommand, ResponseDto<TokenResponseDto>>
@@ -68,13 +60,6 @@ public class UserRegisterCommand : IRequest<ResponseDto<TokenResponseDto>>
 
             var user = UserDbo.Create(person.PersonId, cmd.user.Email, cmd.user.Username, passwordSecurity.Hash(cmd.user.Password));
             await context.Users.AddAsync(user, cancellationToken);
-            await context.SaveChangesAsync(cancellationToken);
-
-            if (cmd.customer is not null)
-            {
-                await context.Customers.AddAsync(CustomerDbo.Create(user.UserId, cmd.customer), cancellationToken);
-            }
-
             await context.SaveChangesAsync(cancellationToken);
 
             var request =

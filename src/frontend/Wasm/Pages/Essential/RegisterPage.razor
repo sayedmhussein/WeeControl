@@ -29,9 +29,6 @@
             <MudExpansionPanel Text="Credential Details" @bind-IsExpanded="@expandUser">
                 <UserComponent UserModelCallback="UserModelSubmitted"></UserComponent>
             </MudExpansionPanel>
-            <MudExpansionPanel Text="Other Details" @bind-IsExpanded="@expandCustomer">
-                <CustomerComponent Model="@model.Customer"></CustomerComponent>
-            </MudExpansionPanel>
             <MudExpansionPanel Text="Finalizing" @bind-IsExpanded="@expandFinal">
                 <MudGrid Spacing="5">
                                     <MudItem xs="12" sm="12">
