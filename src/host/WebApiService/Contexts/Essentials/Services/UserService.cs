@@ -45,6 +45,7 @@ internal class UserService : IUserService
             {
                 await security.UpdateToken(read.Token);
                 await gui.NavigateToAsync(ApplicationPages.Essential.OtpPage);
+                return;
             }
             
             await gui.DisplayAlert($"Unexpected Error:{response.StatusCode}");

@@ -44,7 +44,7 @@
                                         <MudLink OnClick="@(() => DialogService.Show<TermsComponent>("Terms"))">Read Terms</MudLink>
                                     </MudItem>
                                     <MudItem xs="12">
-                                        <MudButton Variant="Variant.Text" ButtonType="ButtonType.Submit" Disabled="@isLoading">Register</MudButton>
+                                        <MudButton Variant="Variant.Text" OnClick="@Register" Disabled="@isLoading">Register</MudButton>
                                     </MudItem>
                                 </MudGrid>
             </MudExpansionPanel>
@@ -58,7 +58,6 @@
     
     private bool expandPerson;
     private bool expandUser;
-    private bool expandCustomer;
     private bool expandFinal;
     
     private readonly UserProfileDto model = new();
@@ -89,10 +88,9 @@
         {
             model.User = obj;
             expandUser = false;
-            expandCustomer = true;
+            expandFinal = true;
         }
 
         return Task.CompletedTask;
     }
-
 }

@@ -1,5 +1,4 @@
 using WeeControl.Core.SharedKernel.Contexts.Essentials;
-using WeeControl.Core.SharedKernel.Interfaces;
 
 namespace WeeControl.Core.DataTransferObject.Contexts.Essentials;
 

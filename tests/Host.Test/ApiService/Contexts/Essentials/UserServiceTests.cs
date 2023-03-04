@@ -1,6 +1,5 @@
 using System.Net;
 using WeeControl.Core.DataTransferObject.Contexts.Essentials;
-using WeeControl.Core.SharedKernel;
 using WeeControl.Core.SharedKernel.Contexts.Essentials;
 using WeeControl.Core.Test;
 using WeeControl.Host.WebApiService;
