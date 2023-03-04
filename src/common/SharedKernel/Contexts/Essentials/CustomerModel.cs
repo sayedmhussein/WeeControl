@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using WeeControl.Core.SharedKernel.Interfaces;
 
 namespace WeeControl.Core.SharedKernel.Contexts.Essentials;
@@ -20,4 +21,7 @@ public class CustomerModel : IEntityModel
     
     [StringLength(255)]
     public string InvoiceAddress { get; set; } = string.Empty;
+    
+    [StringLength(128)]
+    public string? TaxingNumber { get; set; }
 }

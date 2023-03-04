@@ -14,6 +14,8 @@ public class ModelValidationErrorTests
         };
 
         Assert.Empty(model.GetModelValidationErrors());
+        Assert.True(model.IsValidEntityModel());
+        Assert.Empty(model.GetFirstValidationError());
     }
 
     [Theory]
@@ -31,6 +33,8 @@ public class ModelValidationErrorTests
         var ex = model.GetModelValidationErrors();
         
         Assert.Equal(errorCount, ex.Count);
+        Assert.False(model.IsValidEntityModel());
+        Assert.NotEmpty(model.GetFirstValidationError());
     }
 
 }

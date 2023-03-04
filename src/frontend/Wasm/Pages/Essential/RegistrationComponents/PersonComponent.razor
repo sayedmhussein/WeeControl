@@ -1,68 +1,67 @@
 @using WeeControl.Core.SharedKernel.Contexts.Essentials
 @using WeeControl.Host.WebApiService.Contexts.Constants
 @using Microsoft.AspNetCore.Components
+
 @inject IConstantValue ConstantValue
 
-<MudGrid Spacing="5">
-    <MudItem xs="6" sm="3">
-        <MudTextField T="string" Label="First Name"
-                      @bind-Value="@Model.FirstName"
-                      For="@(() => Model.FirstName)"
-                      Disabled="@(IsLoading || !IsRegistration)">
-        </MudTextField>
-    </MudItem>
-    <MudItem xs="6" sm="3">
-        <MudTextField T="string" Label="Second Name"
-                      @bind-Value="@Model.SecondName"
-                      For="@(() => Model.SecondName)"
-                      Disabled="@IsLoading">
-        </MudTextField>
-    </MudItem>
-    <MudItem xs="6" sm="3">
-        <MudTextField T="string" Label="Third Name"
-                      @bind-Value="@Model.ThirdName"
-                      For="@(() => Model.ThirdName)"
-                      Disabled="@IsLoading">
-        </MudTextField>
-    </MudItem>
-    <MudItem xs="6" sm="3">
-        <MudTextField T="string" Label="Last Name"
-                      @bind-Value="@Model.LastName"
-                      For="@(() => Model.LastName)"
-                      Disabled="@IsLoading">
-        </MudTextField>
-    </MudItem>
-    <MudItem xs="6" Style="max-width: 300px; align-self: start">
-        <MudSelect T="string" Label="Date of Birth" 
-                   bind-Value="@Model.NationalityCode" 
-                   For="@(() => Model.NationalityCode)">
-            @foreach (var country in ConstantValue.Countries)
-            {
-                <MudSelectItem Value="@country.CountryCode">@country.CountryName</MudSelectItem>
-            }
-        </MudSelect>
-    </MudItem>
-    <MudItem xs="6" Style="max-width: 300px; align-self: start">
-        <MudDatePicker Label="Date Of Birth"
-                       bind-Date="@Model.DateOfBirth"
-                       readonly="@IsLoading" 
-                       Editable="true"
-                       Mask="@(new DateMask("0000-00-00"))" 
-                       DateFormat="yyyy-MM-dd"
-                       For="@(() => Model.DateOfBirth)"/>
-    </MudItem>
-    <MudItem xs="12">
+<EditForm Model="@model" OnValidSubmit="@(() => PersonalModelCallback.InvokeAsync(model))">
+    <DataAnnotationsValidator/>
+    <MudGrid Spacing="2">
+        <MudItem xs="6" sm="3">
+            <MudTextField T="string" Label="First Name"
+                          @bind-Value="@model.FirstName"
+                          For="@(() => model.FirstName)">
+            </MudTextField>
+            <ValidationMessage For="@(() => model.FirstName)"/>
+        </MudItem>
+        <MudItem xs="6" sm="3">
+            <MudTextField T="string" Label="Second Name"
+                          @bind-Value="@model.SecondName"
+                          For="@(() => model.SecondName)">
+            </MudTextField>
+        </MudItem>
+        <MudItem xs="6" sm="3">
+            <MudTextField T="string" Label="Third Name"
+                          @bind-Value="@model.ThirdName"
+                          For="@(() => model.ThirdName)">
+            </MudTextField>
+        </MudItem>
+        <MudItem xs="6" sm="3">
+            <MudTextField T="string" Label="Last Name"
+                          @bind-Value="@model.LastName"
+                          For="@(() => model.LastName)">
+            </MudTextField>
+        </MudItem>
+        <MudItem xs="3" Style="max-width: 300px; align-self: start">
+            <MudSelect T="string" Label="Nationality"
+                       @bind-Value="@model.NationalityCode"
+                       For="@(() => model.NationalityCode)">
+                @foreach (var country in ConstantValue.Countries)
+                {
+                    <MudSelectItem Value="@country.CountryCode">@country.CountryName</MudSelectItem>
+                }
+            </MudSelect>
+        </MudItem>
+        <MudItem xs="3" Style="max-width: 300px; align-self: start">
+            <MudDatePicker Label="Date Of Birth"
+                           @bind-Date="@model.DateOfBirth"
+                           Editable="true"
+                           Mask="@(new DateMask("0000-00-00"))"
+                           DateFormat="yyyy-MM-dd"
+                           For="@(() => model.DateOfBirth)"/>
+        </MudItem>
+    </MudGrid>
+    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Text">Save</MudButton>
+    <MudItem xs="6">
         <MudDivider></MudDivider>
     </MudItem>
-</MudGrid>
+</EditForm>
+
+
 
 @code {
-    [Parameter]
-    public PersonModel Model { get; set; }
+    private PersonModel model = new();
     
     [Parameter]
-    public bool IsLoading { get; set; }
-    
-    [Parameter]
-    public bool IsRegistration { get; set; }
+    public EventCallback<PersonModel> PersonalModelCallback { get; set; }
 }

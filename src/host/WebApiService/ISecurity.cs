@@ -8,6 +8,6 @@ public interface ISecurity
      Task<bool> PageExistInClaims(string pageName, string? authority = null);
      Task<IEnumerable<string>> GetAllowedPages();
      Task<bool> IsAuthenticated();
-     Task NavigateToNecessaryPage();
+     //Task NavigateToNecessaryPage();
      event EventHandler<bool> AuthenticationChanged;
 }

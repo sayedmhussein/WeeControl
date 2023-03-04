@@ -24,7 +24,7 @@ public static class DependencyInjection
         if (!errors.Any()) return string.Empty;
         
         var pair = errors.First();
-        return pair.Key + " - " + pair.Value;
+        return pair.Key + " - " + pair.Value.FirstOrDefault();
     }
 
     public static bool IsValidEntityModel(this IEntityModel entity)

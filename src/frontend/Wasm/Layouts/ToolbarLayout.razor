@@ -42,8 +42,7 @@
         else
         {
             <MudSpacer></MudSpacer>
-            if (Gui.CurrentPageName != ApplicationPages.Essential.LoginPage ||
-                Gui.CurrentPageName != "/")
+            if (Gui.CurrentPageName is not ApplicationPages.Essential.LoginPage or ApplicationPages.Essential.RegisterPage)
             {
                 <MudIconButton 
                     Icon="@Icons.Material.Outlined.Login" 

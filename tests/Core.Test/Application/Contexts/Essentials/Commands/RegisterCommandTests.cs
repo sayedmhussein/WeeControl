@@ -111,7 +111,7 @@ public class RegisterCommandTests
         {
             Person = { FirstName = "FirstName", LastName = "LastName", NationalityCode = "EGP", DateOfBirth = DateTime.MinValue},
             User = { Username = "test", Email = "test@test.com", Password = "123456"},
-            Customer = customerModel
+            Customer = { CustomerName = "CustomerName", CountryCode = "EGP"}
         };
 
         return RequestDto.Create(dto, "device", 0, 0);

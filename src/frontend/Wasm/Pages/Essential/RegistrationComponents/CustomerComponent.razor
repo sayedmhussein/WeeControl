@@ -1,0 +1,69 @@
+@using WeeControl.Core.SharedKernel.Contexts.Essentials
+@using WeeControl.Host.WebApiService.Contexts.Constants
+@inject IConstantValue ConstantValue
+
+<MudGrid Spacing="5">
+    <MudItem xs="6" sm="4">
+        <MudTextField T="string" Label="Company Name"
+                      @bind-Value="@Model.CustomerName"
+                      HelperText="If individual you can put your name."
+                      For="@(() => Model.CustomerName)"
+                      Disabled="@IsLoading"></MudTextField>
+    </MudItem>
+    <MudItem xs="6" sm="4">
+        <MudTextField T="string" Label="Local Language Name"
+                      @bind-Value="@Model.CustomerLocalName"
+                      For="@(() => Model.CustomerLocalName)"
+                      Disabled="@IsLoading"></MudTextField>
+                
+    </MudItem>
+    <MudItem xs="6" sm="4">
+            <MudSelect T="string" Label="Location" 
+                               bind-Value="@Model.CountryCode" 
+                               For="@(() => Model.CountryCode)">
+                        @foreach (var country in ConstantValue.Countries)
+                        {
+                            <MudSelectItem Value="@country.CountryCode">@country.CountryName</MudSelectItem>
+                        }
+                    </MudSelect>
+                    
+    </MudItem>
+    <MudItem xs="6" sm="6">
+        <MudTextField T="string" Label="Address"
+                      @bind-Value="@Model.CustomerAddress"
+                      InputType="InputType.Text"
+                      Lines="5"
+                      HelperText="Choose a strong password."
+                      For="@(() => Model.CustomerAddress)"
+                      Disabled="@IsLoading"></MudTextField>
+                
+    </MudItem>
+    <MudItem xs="6" sm="6">
+        <MudTextField T="string" Label="Invoice Address"
+                      @bind-Value="@Model.InvoiceAddress"
+                      InputType="InputType.Text"
+                      Lines="5"
+                      For="@(() => Model.InvoiceAddress)"
+                      Disabled="@IsLoading"></MudTextField>
+        
+    </MudItem>
+    <MudItem xs="6" sm="12">
+        <MudTextField T="string" Label="Taxing Number"
+                      @bind-Value="@Model.TaxingNumber"
+                      InputType="InputType.Text"
+                      For="@(() => Model.TaxingNumber)"
+                      Disabled="@IsLoading"></MudTextField>
+                        
+    </MudItem>
+    <MudItem xs="12">
+        <MudDivider></MudDivider>
+    </MudItem>
+</MudGrid>
+
+@code {
+    [Parameter]
+    public CustomerModel Model { get; set; }
+    
+    [Parameter]
+    public bool IsLoading { get; set; }
+}

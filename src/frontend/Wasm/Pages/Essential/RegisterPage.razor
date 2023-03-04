@@ -1,13 +1,18 @@
 @using WeeControl.Host.WebApiService
 @using Microsoft.AspNetCore.Components
 @using WeeControl.Core.DataTransferObject.Contexts.Essentials
+@using WeeControl.Core.SharedKernel
+@using WeeControl.Core.SharedKernel.Contexts.Essentials
 @using WeeControl.Host.WebApiService.Contexts.Constants
 @using WeeControl.Host.WebApiService.Contexts.Essentials
 @using WeeControl.Frontend.Wasm.Pages.Essential.RegistrationComponents
+
 @attribute [Route(ApplicationPages.Essential.RegisterPage)]
 @attribute [AllowAnonymous]
+
 @inject IConstantValue ConstantValue
 @inject IUserService UserService
+@inject IDialogService DialogService
 
 <MudCard Style="align-content: center; align-self: center; justify-content: start">
     
@@ -17,77 +22,48 @@
     }
     else
     {
-        <MudCardHeader>
-        <h4>Please fill the below data</h4>
-    </MudCardHeader>
-    
-    <MudCardContent>
-        <MudForm Model="@model">
-            <PersonComponent IsLoading="@isLoading" Model="@model.Person" IsRegistration="@true"></PersonComponent>
-            <MudGrid Spacing="5">
-                <MudItem xs="6" sm="3">
-                    <MudTextField T="string" Label="Your Email"
-                                  @bind-Value="@model.User.Email"
-                                  InputType="InputType.Email"
-                                  For="@(() => model.User.Email)"
-                                  Disabled="@isLoading"></MudTextField>
-                </MudItem>
-                <MudItem xs="6" sm="3">
-                    <MudTextField T="string" Label="Username"
-                                  @bind-Value="@model.User.Username"
-                                  For="@(() => model.User.Username)"
-                                  Disabled="@isLoading"></MudTextField>
-
-                </MudItem>
-                <MudItem xs="6" sm="3">
-                    <MudTextField T="string" Label="Password"
-                                  @bind-Value="@model.User.Password"
-                                  InputType="InputType.Password"
-                                  HelperText="Choose a strong password."
-                                  For="@(() => model.User.Password)"
-                                  Disabled="@isLoading"></MudTextField>
-
-                </MudItem>
-                <MudItem xs="6" sm="3">
-                    @* <MudTextField T="string" Label="Confirm Password" *@
-                    @*               @bind-Value="@model.User.ConfirmPassword" *@
-                    @*               InputType="InputType.Password" *@
-                    @*               For="@(() => model.User.ConfirmPassword)" *@
-                    @*               Disabled="@isLoading"></MudTextField> *@
-
-                </MudItem>
-                <MudItem xs="6" sm="3">
-                    <MudRadioGroup T="string" Required="true" RequiredError="Account type is required!">
-                        <MudRadio Option="@("Personal")">Personal</MudRadio>
-                        <MudRadio Option="@("Professional")">Professional</MudRadio>
-                    </MudRadioGroup>
-                </MudItem>
-
-                <MudItem xs="12">
-                    <MudCheckBox T="bool" Required="true" RequiredError="You must agree" Label="I agree!"/>
-                    <MudButton Variant="Variant.Text" Disabled="@isLoading" OnClick="@Register">Register</MudButton>
-                </MudItem>
-
-            </MudGrid>
-        </MudForm>
-        @* <EditForm Model="@model.Person" OnValidSubmit="Register"> *@
-        @*     <DataAnnotationsValidator/> *@
-        @*     <div class="container"> *@
-        @*         <div class="row"> *@
-        @*              *@
-        @*              *@
-        @*         </div> *@
-        @*     </div> *@
-        @* *@
-        @*      *@
-        @* </EditForm> *@
-    </MudCardContent>
+        <MudExpansionPanels>
+            <MudExpansionPanel Text="Personal Details"  @bind-IsExpanded="@expandPerson" IsInitiallyExpanded="@true">
+                <PersonComponent PersonalModelCallback="PersonalModelSubmitted"></PersonComponent>
+            </MudExpansionPanel>
+            <MudExpansionPanel Text="Credential Details" @bind-IsExpanded="@expandUser">
+                <UserComponent UserModelCallback="UserModelSubmitted"></UserComponent>
+            </MudExpansionPanel>
+            <MudExpansionPanel Text="Other Details" @bind-IsExpanded="@expandCustomer">
+                <CustomerComponent Model="@model.Customer"></CustomerComponent>
+            </MudExpansionPanel>
+            <MudExpansionPanel Text="Finalizing" @bind-IsExpanded="@expandFinal">
+                <MudGrid Spacing="5">
+                                    <MudItem xs="12" sm="12">
+                                        <MudRadioGroup T="string" Required="true" RequiredError="Account type is required!">
+                                            <MudRadio Option="@("Personal")">Personal</MudRadio>
+                                            <MudRadio Option="@("Professional")">Professional</MudRadio>
+                                        </MudRadioGroup>
+                                    </MudItem>
+                                    <MudItem xs="6">
+                                        <MudCheckBox T="bool" Required="true" RequiredError="You must agree" Label="I agree!"/>
+                                    </MudItem>
+                                    <MudItem xs="6">
+                                        <MudLink OnClick="@(() => DialogService.Show<TermsComponent>("Terms"))">Read Terms</MudLink>
+                                    </MudItem>
+                                    <MudItem xs="12">
+                                        <MudButton Variant="Variant.Text" ButtonType="ButtonType.Submit" Disabled="@isLoading">Register</MudButton>
+                                    </MudItem>
+                                </MudGrid>
+            </MudExpansionPanel>
+        </MudExpansionPanels>
     }
     
 </MudCard>
 
 @code {
     private bool isLoading;
+    
+    private bool expandPerson;
+    private bool expandUser;
+    private bool expandCustomer;
+    private bool expandFinal;
+    
     private readonly UserProfileDto model = new();
 
     private async Task Register()
@@ -97,4 +73,29 @@
         await UserService.AddUser(model);
         isLoading = false;
     }
+
+    private Task PersonalModelSubmitted(PersonModel obj)
+    {
+        if (obj.IsValidEntityModel())
+        {
+            model.Person = obj;
+            expandPerson = false;
+            expandUser = true;
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private Task UserModelSubmitted(UserModel obj)
+    {
+        if (obj.IsValidEntityModel())
+        {
+            model.User = obj;
+            expandUser = false;
+            expandCustomer = true;
+        }
+
+        return Task.CompletedTask;
+    }
+
 }

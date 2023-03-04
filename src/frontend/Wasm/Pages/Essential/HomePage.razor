@@ -1,10 +1,23 @@
 @using WeeControl.Host.WebApiService
+@page "/"
 @attribute [Route(ApplicationPages.Essential.HomePage)]
+@attribute [AllowAnonymous]
+@inject ISecurity Security
 
+@if (isAuthenticated)
+{
+    <HomePageComponent></HomePageComponent>
+}
 
 <h3>HomeNewsComponent</h3>
 
-<HomePageComponent></HomePageComponent>
-
 @code {
+    private bool isAuthenticated;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        isAuthenticated = await Security.IsAuthenticated();
+        await base.OnInitializedAsync();
+    }
+
 }

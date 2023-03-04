@@ -5,10 +5,10 @@ namespace WeeControl.Core.DataTransferObject.Contexts.Essentials;
 
 public class UserProfileDto
 {
-    public PersonModel Person { get; } = new();
-    public UserModel User { get; } = new();
-    public CustomerModel? Customer { get; set; } = null;
+    public PersonModel Person { get; set; } = new();
+    public UserModel User { get; set; } = new();
+    public CustomerModel Customer { get; set; } = new();
 
-    public ICollection<AddressModel> Addresses { get; } = new List<AddressModel>();
-    public ICollection<ContactModel> Contact { get; } = new List<ContactModel>();
+    public ICollection<AddressModel> Addresses { get; set; } = new List<AddressModel>();
+    public ICollection<ContactModel> Contact { get; set; } = new List<ContactModel>();
 }
