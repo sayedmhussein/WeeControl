@@ -22,33 +22,116 @@
     }
     else
     {
-        <MudExpansionPanels>
-            <MudExpansionPanel Text="Personal Details"  @bind-IsExpanded="@expandPerson" IsInitiallyExpanded="@true">
-                <PersonComponent PersonalModelCallback="PersonalModelSubmitted"></PersonComponent>
-            </MudExpansionPanel>
-            <MudExpansionPanel Text="Credential Details" @bind-IsExpanded="@expandUser">
-                <UserComponent UserModelCallback="UserModelSubmitted"></UserComponent>
-            </MudExpansionPanel>
-            <MudExpansionPanel Text="Finalizing" @bind-IsExpanded="@expandFinal">
-                <MudGrid Spacing="5">
-                                    <MudItem xs="12" sm="12">
-                                        <MudRadioGroup T="string" Required="true" RequiredError="Account type is required!">
-                                            <MudRadio Option="@("Personal")">Personal</MudRadio>
-                                            <MudRadio Option="@("Professional")">Professional</MudRadio>
-                                        </MudRadioGroup>
-                                    </MudItem>
-                                    <MudItem xs="6">
-                                        <MudCheckBox T="bool" Required="true" RequiredError="You must agree" Label="I agree!"/>
-                                    </MudItem>
-                                    <MudItem xs="6">
-                                        <MudLink OnClick="@(() => DialogService.Show<TermsComponent>("Terms"))">Read Terms</MudLink>
-                                    </MudItem>
-                                    <MudItem xs="12">
-                                        <MudButton Variant="Variant.Text" OnClick="@Register" Disabled="@isLoading">Register</MudButton>
-                                    </MudItem>
-                                </MudGrid>
-            </MudExpansionPanel>
-        </MudExpansionPanels>
+        <EditForm Model="@model" OnValidSubmit="@Register">
+            <ObjectGraphDataAnnotationsValidator />
+            <MudGrid Spacing="2">
+                <MudItem xs="6" sm="3">
+                    <MudTextField T="string" Label="First Name"
+                                  @bind-Value="@model.Person.FirstName"
+                                  For="@(() => model.Person.FirstName)">
+                    </MudTextField>
+                    <ValidationMessage For="@(() => model.Person.FirstName)"/>
+                </MudItem>
+                <MudItem xs="6" sm="3">
+                    <MudTextField T="string" Label="Second Name"
+                                  @bind-Value="@model.Person.SecondName"
+                                  For="@(() => model.Person.SecondName)">
+                    </MudTextField>
+                </MudItem>
+                <MudItem xs="6" sm="3">
+                    <MudTextField T="string" Label="Third Name"
+                                  @bind-Value="@model.Person.ThirdName"
+                                  For="@(() => model.Person.ThirdName)">
+                    </MudTextField>
+                </MudItem>
+                <MudItem xs="6" sm="3">
+                    <MudTextField T="string" Label="Last Name"
+                                  @bind-Value="@model.Person.LastName"
+                                  For="@(() => model.Person.LastName)">
+                    </MudTextField>
+                </MudItem>
+                <MudItem xs="3" Style="max-width: 300px; align-self: start">
+                    <MudSelect T="string" Label="Nationality"
+                               @bind-Value="@model.Person.NationalityCode"
+                               For="@(() => model.Person.NationalityCode)">
+                        @foreach (var country in ConstantValue.Countries)
+                        {
+                            <MudSelectItem Value="@country.CountryCode">@country.CountryName</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+                <MudItem xs="3" Style="max-width: 300px; align-self: start">
+                    <MudDatePicker Label="Date Of Birth"
+                                   @bind-Date="@model.Person.DateOfBirth"
+                                   Editable="true"
+                                   Mask="@(new DateMask("0000-00-00"))"
+                                   DateFormat="yyyy-MM-dd"
+                                   For="@(() => model.Person.DateOfBirth)"/>
+                </MudItem>
+            </MudGrid>
+            <MudGrid Spacing="5">
+                <MudItem xs="6" sm="3">
+                    <MudTextField T="string" Label="Your Email"
+                                  @bind-Value="@model.User.Email"
+                                  InputType="InputType.Email"
+                                  For="@(() => model.User.Email)"></MudTextField>
+                </MudItem>
+                <MudItem xs="6" sm="3">
+                    <MudTextField T="string" Label="Username"
+                                  @bind-Value="@model.User.Username"
+                                  For="@(() => model.User.Username)"></MudTextField>
+
+                </MudItem>
+                <MudItem xs="6" sm="3">
+                    <MudTextField T="string" Label="Password"
+                                  @bind-Value="@model.User.Password"
+                                  InputType="InputType.Password"
+                                  HelperText="Choose a strong password."
+                                  For="@(() => model.User.Password)"></MudTextField>
+
+                </MudItem>
+                <MudItem xs="6" sm="3">
+                    @* <MudTextField T="string" Label="Confirm Password" *@
+                    @*               @bind-Value="@model.User.ConfirmPassword" *@
+                    @*               InputType="InputType.Password" *@
+                    @*               For="@(() => model.User.ConfirmPassword)"></MudTextField> *@
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudDivider></MudDivider>
+                </MudItem>
+            </MudGrid>
+
+            <MudButton Variant="Variant.Text" ButtonType="ButtonType.Submit">Register</MudButton>
+        </EditForm>
+        
+        @* <MudExpansionPanels> *@
+        @*     <MudExpansionPanel Text="Personal Details"  @bind-IsExpanded="@expandPerson" IsInitiallyExpanded="@true"> *@
+        @*         <PersonComponent PersonalModelCallback="PersonalModelSubmitted"></PersonComponent> *@
+        @*     </MudExpansionPanel> *@
+        @*     <MudExpansionPanel Text="Credential Details" @bind-IsExpanded="@expandUser"> *@
+        @*         <UserComponent UserModelCallback="UserModelSubmitted"></UserComponent> *@
+        @*     </MudExpansionPanel> *@
+        @*     <MudExpansionPanel Text="Finalizing" @bind-IsExpanded="@expandFinal"> *@
+        @*         <MudGrid Spacing="5"> *@
+        @*                             <MudItem xs="12" sm="12"> *@
+        @*                                 <MudRadioGroup T="string" Required="true" RequiredError="Account type is required!"> *@
+        @*                                     <MudRadio Option="@("Personal")">Personal</MudRadio> *@
+        @*                                     <MudRadio Option="@("Professional")">Professional</MudRadio> *@
+        @*                                 </MudRadioGroup> *@
+        @*                             </MudItem> *@
+        @*                             <MudItem xs="6"> *@
+        @*                                 <MudCheckBox T="bool" Required="true" RequiredError="You must agree" Label="I agree!"/> *@
+        @*                             </MudItem> *@
+        @*                             <MudItem xs="6"> *@
+        @*                                 <MudLink OnClick="@(() => DialogService.Show<TermsComponent>("Terms"))">Read Terms</MudLink> *@
+        @*                             </MudItem> *@
+        @*                             <MudItem xs="12"> *@
+        @*                                 <MudButton Variant="Variant.Text" OnClick="@Register" Disabled="@isLoading">Register</MudButton> *@
+        @*                             </MudItem> *@
+        @*                         </MudGrid> *@
+        @*     </MudExpansionPanel> *@
+        @* </MudExpansionPanels> *@
     }
     
 </MudCard>

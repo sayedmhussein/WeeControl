@@ -52,13 +52,13 @@ internal class UserService : IUserService
             return;
         }
 
-        if (response.StatusCode == HttpStatusCode.NotAcceptable)
+        if (response.StatusCode == HttpStatusCode.Conflict)
         {
             await gui.DisplayAlert("Please choose another email or username as what you entered already exist");
             return;
         }
-        
-        throw new NotImplementedException();
+
+        await gui.DisplayAlert($"Unexpected error: {response.StatusCode}");
     }
 
     public Task EditUserProfile(UserProfileUpdateDto dto)
@@ -99,7 +99,6 @@ internal class UserService : IUserService
         }
 
         await gui.DisplayAlert($"Unexpected Error {response.StatusCode}");
+        throw new ArgumentOutOfRangeException();
     }
-
-    
 }
