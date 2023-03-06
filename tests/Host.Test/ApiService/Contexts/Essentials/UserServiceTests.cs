@@ -33,7 +33,7 @@ public class UserServiceTests
     public async void WhenSuccess_NavigateToOtpPage()
     {
         using var helper = new HostTestHelper();
-        var service = helper.GetService<IUserService>(HttpStatusCode.OK);
+        var service = helper.GetService<IUserService>(HttpStatusCode.OK, TokenResponseDto.Create("token"));
         var dto = GetUserProfileDto();
         
         await service.AddUser(dto);
