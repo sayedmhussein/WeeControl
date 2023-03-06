@@ -117,18 +117,32 @@ internal class ServerService : IServerOperation
 
         await UpdateHttpAuthorizationHeader();
 
-        var responseMessage = await communication.HttpClient.SendAsync(requestMessage);
+        var responseMessage = await CommunicateWithServer(requestMessage);
         if (responseMessage.StatusCode == (HttpStatusCode)418)
         {
             if (await RefreshToken())
             {
                 await UpdateHttpAuthorizationHeader();
-                var response2 = await communication.HttpClient.SendAsync(requestMessageBackup);
+                var response2 = await CommunicateWithServer(requestMessageBackup);
                 return response2;
             }
         }
 
         return responseMessage;
+    }
+
+    private async Task<HttpResponseMessage> CommunicateWithServer(HttpRequestMessage message)
+    {
+        try
+        {
+            var response = await communication.HttpClient.SendAsync(message);
+            return response;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     private async Task UpdateHttpAuthorizationHeader()

@@ -19,7 +19,7 @@ public class RegistrationTests : IClassFixture<CustomWebApplicationFactory<Start
     }
 
     [Fact]
-    public async void Test()
+    public async void TestWhenSuccess()
     {
         using var hostTestHelper = new HostTestHelper();
         var client = factory.CreateClient();
