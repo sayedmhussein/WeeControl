@@ -13,7 +13,6 @@ public class GuiService : IGui
     private readonly IJSRuntime jsRuntime;
     private readonly NavigationManager navigationManager;
     private readonly IServiceProvider serviceProvider;
-    private string lastPageName;
     private string currentPageName;
 
     public GuiService(IJSRuntime jsRuntime, NavigationManager navigationManager, IServiceProvider serviceProvider)
@@ -37,13 +36,15 @@ public class GuiService : IGui
     {
         using var scope = serviceProvider.CreateScope();
         var snackbar = scope.ServiceProvider.GetRequiredService<ISnackbar>();
+        snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomStart;
         snackbar.Add(message);
+        
         return Task.CompletedTask;
     }
 
     public Task NavigateToAsync(string pageName, bool forceLoad = false)
     {
-        lastPageName = pageName;
+        currentPageName = pageName;
         navigationManager.NavigateTo($"/{pageName}", forceLoad: forceLoad);
         return Task.CompletedTask;
     }

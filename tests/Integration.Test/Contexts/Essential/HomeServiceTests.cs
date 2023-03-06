@@ -62,5 +62,6 @@ public class HomeServiceTests: IClassFixture<CustomWebApplicationFactory<Startup
             .Where(x => x.ReadTs == null);
         
         Assert.Equal(unreadNotifications1.Count(), unreadNotifications2.Count() + 1);
+        Assert.NotEqual(unreadNotifications2.First().PublishedTs, DateTime.MinValue);
     }
 }

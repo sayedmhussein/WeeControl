@@ -6,7 +6,6 @@
 @inject IHomeService Home
 @inject ISecurity Security
 
-<p class="align-self-center">Here we put company introduction and required views for unregistered and registered customers.</p>
 
 <MudPaper>
     <MudGrid>
@@ -30,21 +29,7 @@
             </MudStack>
         </MudItem>
         <MudItem xs="6">
-            <h1>List of Claims embidded in token</h1>
-            <MudTable Items="@claims" Hover="true" Breakpoint="Breakpoint.Sm" LoadingProgressColor="Color.Info">
-                <HeaderContent>
-                    <MudTh>Type</MudTh>
-                    <MudTh>Type Meaning</MudTh>
-                    <MudTh>Value</MudTh>
-                    <MudTh>Value Meaning</MudTh>
-                </HeaderContent>
-                <RowTemplate>
-                    <MudTd DataLabel="Type">@context.Type</MudTd>
-                    <MudTd DataLabel="Type Meaning">@ClaimsValues.GetClaimTypes().FirstOrDefault(x => x.Value == context.Type).Key</MudTd>
-                    <MudTd DataLabel="Value">@context.Value</MudTd>
-                    <MudTd DataLabel="Value Meaning">@ClaimsValues.GetClaimValues().FirstOrDefault(x => x.Value == context.Value).Key</MudTd>
-                </RowTemplate>
-            </MudTable>
+
         </MudItem>
     </MudGrid>
 </MudPaper>
@@ -53,26 +38,11 @@
 
 @code
 {
-    [CascadingParameter]
-    public Task<AuthenticationState> AuthState { get; set; }
-
-    private readonly ICollection<Claim> claims = new List<Claim>();
     private IEnumerable<HomeFeedModel> feeds = new List<HomeFeedModel>();
-    private IDictionary<string,string> claimTypes = new Dictionary<string, string>();
-    private IDictionary<string,string> claimTags = new Dictionary<string, string>();
-    
+
     protected override async Task OnInitializedAsync()
     {
         await Home.Refresh();
         feeds = Home.Feeds;
-        await GetClaims();
-    }
-
-    private async Task GetClaims()
-    {
-        foreach (var claim in (await Security.GetClaimsPrincipal()).Claims)
-        {
-            claims.Add(claim);  
-        }
     }
 }

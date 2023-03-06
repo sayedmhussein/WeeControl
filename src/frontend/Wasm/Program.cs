@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MudBlazor.Services;
 using System.Net.Http;
 using System.Threading.Tasks;
+using MudBlazor;
 using WeeControl.Core.SharedKernel;
 using WeeControl.Frontend.Wasm.Services;
 using WeeControl.Host.WebApiService;
@@ -30,6 +31,8 @@ public class Program
         builder.Services.AddAuthorizationCore();
 
         builder.Services.AddMudServices();
+        builder.Services.AddSingleton<ISnackbar, SnackbarService>();
+        builder.Services.AddSingleton<IDialogService, DialogService>();
 
         // builder.Services.AddHttpClient("UnSecured", 
         //     client => client.BaseAddress = new Uri("https://localhost:5001/"));

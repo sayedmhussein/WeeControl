@@ -2,23 +2,43 @@
 @using WeeControl.Core.SharedKernel.Contexts.Essentials
 @inject IHomeService Home
 
-@foreach (var n in notifications)
-{
-    <MudMenuItem OnClick="@(args => { Home.MarkNotificationAsViewed(n.NotificationId);})">
-        <MudCard Outlined="true" Square="true" Style="margin-outside: 0; background-color: #f8d7da">
-            <MudCardContent>
-                <MudText>@n.Subject</MudText>
-                <MudText Typo="Typo.body2">@n.Body</MudText>
+<MudStack>
+    @if (notifications.Any())
+    {
+        @foreach (var n in notifications)
+        {
+            <MudPaper>
+                <MudButton Variant="Variant.Text" FullWidth="@true">@n.Subject</MudButton>
+                <MudText Typo="Typo.subtitle1">@n.Body</MudText>
                 <MudText Typo="Typo.body2">@n.PublishedTs</MudText>
-            </MudCardContent>
-            <MudCardActions>
-                <MudButton Variant="Variant.Text" Color="Color.Primary">
-                    <MudLink Href="@n.NotificationUrl">Learn More</MudLink>
-                </MudButton>
-            </MudCardActions>
-        </MudCard>
-    </MudMenuItem> 
-}
+            </MudPaper>
+        }
+    }
+    else
+    {
+        <MudPaper>
+            <p>There is no notification right now.</p>
+        </MudPaper>
+    }
+</MudStack>
+
+@* @foreach (var n in notifications) *@
+@* { *@
+@*     <MudMenuItem OnClick="@(args => { Home.MarkNotificationAsViewed(n.NotificationId);})"> *@
+@*         <MudCard Outlined="true" Square="true" Style="margin-outside: 0; background-color: #f8d7da"> *@
+@*             <MudCardContent> *@
+@*                 <MudText>@n.Subject</MudText> *@
+@*                 <MudText Typo="Typo.body2">@n.Body</MudText> *@
+@*                 <MudText Typo="Typo.body2">@n.PublishedTs</MudText> *@
+@*             </MudCardContent> *@
+@*             <MudCardActions> *@
+@*                 <MudButton Variant="Variant.Text" Color="Color.Primary"> *@
+@*                     <MudLink Href="@n.NotificationUrl">Learn More</MudLink> *@
+@*                 </MudButton> *@
+@*             </MudCardActions> *@
+@*         </MudCard> *@
+@*     </MudMenuItem>  *@
+@* } *@
 
 @code
 {
@@ -28,5 +48,10 @@
     {
         notifications = Home.Notifications;
         await base.OnInitializedAsync();
+    }
+
+    private Task MarkAsViewed(Guid id)
+    {
+     return   Task.CompletedTask;
     }
 }

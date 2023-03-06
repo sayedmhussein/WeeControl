@@ -117,8 +117,11 @@ internal class ServerService : IServerOperation
 
         await UpdateHttpAuthorizationHeader();
 
+        //todo: take action for other expected http responses
+        var refreshStatusCodes = new[] { 418, (int)HttpStatusCode.Forbidden };
+        
         var responseMessage = await CommunicateWithServer(requestMessage);
-        if (responseMessage.StatusCode == (HttpStatusCode)418)
+        if (refreshStatusCodes.Contains((int)responseMessage.StatusCode))
         {
             if (await RefreshToken())
             {

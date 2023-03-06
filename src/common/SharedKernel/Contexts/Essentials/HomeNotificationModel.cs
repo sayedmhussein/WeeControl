@@ -20,7 +20,7 @@ public class HomeNotificationModel : IEntityModel
     [StringLength(255)]
     public string NotificationUrl { get; set; } = string.Empty;
 
-    public DateTime PublishedTs { get; set; }
+    public DateTime PublishedTs { get; set; } = DateTime.UtcNow;
     
     public DateTime? ReadTs { get; set; }
 }

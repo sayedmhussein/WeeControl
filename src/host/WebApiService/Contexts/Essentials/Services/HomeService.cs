@@ -10,11 +10,13 @@ internal class HomeService : IHomeService
 {
     private readonly IServerOperation server;
     private readonly IGui gui;
+    private readonly IDeviceSecurity security;
 
-    public HomeService(IServerOperation server, IGui gui)
+    public HomeService(IServerOperation server, IGui gui, IDeviceSecurity security)
     {
         this.server = server;
         this.gui = gui;
+        this.security = security;
     }
 
     public IEnumerable<HomeNotificationModel> Notifications { get; private set; } = new List<HomeNotificationModel>();
@@ -39,15 +41,15 @@ internal class HomeService : IHomeService
                 return true;
             }
         }
-        else if (response.StatusCode is HttpStatusCode.Forbidden or HttpStatusCode.Unauthorized or HttpStatusCode.NotFound)
-        {
-            if (await server.RefreshToken())
-            {
-                await gui.NavigateToAsync(ApplicationPages.Essential.LoginPage, forceLoad:true);
-                return false;
-            }
-        }
 
+        if (response.StatusCode is HttpStatusCode.NotFound or HttpStatusCode.Unauthorized)
+        {
+            await security.DeleteToken();
+            await gui.DisplayAlert("Please login again");
+            await gui.NavigateToAsync(ApplicationPages.Essential.LoginPage, forceLoad: true);
+            return false;
+        }
+        
         await gui.DisplayAlert($"Unexpected error occured when communicating with server! {response.StatusCode}");
         return false;
     }
