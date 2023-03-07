@@ -33,7 +33,7 @@ public class PersonIdentityDbo
 
 }
 
-public class UserIdentityEntityTypeConfig : IEntityTypeConfiguration<PersonIdentityDbo>
+public class PersonIdentityEntityTypeConfig : IEntityTypeConfiguration<PersonIdentityDbo>
 {
     public void Configure(EntityTypeBuilder<PersonIdentityDbo> builder)
     {

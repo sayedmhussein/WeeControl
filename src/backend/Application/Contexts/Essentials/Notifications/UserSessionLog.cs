@@ -40,11 +40,15 @@ public class UserSessionLog : INotification
                     return;
                 }
 
-                var session = await context.UserSessions.FirstAsync(x => x.SessionId == id, cancellationToken);
-                var log = session.CreateLog(notif.logContext, notif.logDetails);
+                var session = await context.UserSessions.FirstOrDefaultAsync(x => x.SessionId == id, cancellationToken);
+                if (session is not null)
+                {
+                    var log = session.CreateLog(notif.logContext, notif.logDetails);
 
-                await context.SessionLogs.AddAsync(log, cancellationToken);
-                await context.SaveChangesAsync(cancellationToken);
+                    await context.SessionLogs.AddAsync(log, cancellationToken);
+                    await context.SaveChangesAsync(cancellationToken);
+                }
+                
             }
             catch (Exception e)
             {

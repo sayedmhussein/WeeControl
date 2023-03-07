@@ -4,8 +4,8 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using WeeControl.Core.SharedKernel;
 using WeeControl.Core.SharedKernel.Contexts.Essentials;
+using WeeControl.Core.SharedKernel.ExtensionMethods;
 
 namespace WeeControl.Core.Domain.Contexts.Essentials;
 
@@ -18,18 +18,13 @@ public class PersonDbo : PersonModel
 
         return new PersonDbo
         {
-            FirstName = model.FirstName,
-            SecondName = model.SecondName,
-            ThirdName = model.ThirdName,
-            LastName = model.LastName,
+            FirstName = model.FirstName.ToUpperFirstLetter(),
+            SecondName = model.SecondName?.ToUpperFirstLetter(),
+            ThirdName = model.ThirdName?.ToUpperFirstLetter(),
+            LastName = model.LastName.ToUpperFirstLetter(),
             NationalityCode = model.NationalityCode.ToUpper(),
             DateOfBirth = model.DateOfBirth
         };
-    }
-
-    public static PersonDbo Create(string firstName, string lastName, string nationalityCode, DateTime dob)
-    {
-        return Create(new PersonModel { FirstName = firstName, LastName = lastName, NationalityCode = nationalityCode, DateOfBirth = dob});
     }
 
     [Key]
@@ -49,7 +44,5 @@ public class PersonEntityTypeConfig : IEntityTypeConfiguration<PersonDbo>
     public void Configure(EntityTypeBuilder<PersonDbo> builder)
     {
         builder.Property(x => x.PersonId).ValueGeneratedOnAdd();
-        
-        
     }
 }

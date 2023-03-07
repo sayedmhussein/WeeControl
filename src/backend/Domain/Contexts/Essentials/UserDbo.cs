@@ -105,8 +105,6 @@ public class UserEntityTypeConfig : IEntityTypeConfiguration<UserDbo>
 
         builder.Property(p => p.SuspendArgs).HasMaxLength(255);
 
-        builder.Property(p => p.PhotoUrl).HasMaxLength(255);
-
         builder.HasOne(x => x.Person)
             .WithOne()
             .HasForeignKey<UserDbo>(x => x.PersonId)

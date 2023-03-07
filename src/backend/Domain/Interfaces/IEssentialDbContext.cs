@@ -6,6 +6,8 @@ namespace WeeControl.Core.Domain.Interfaces;
 
 public interface IEssentialDbContext : IDbContext
 {
+    DbSet<UserFeedsDbo> Feeds { get; set; }
+    
     DbSet<PersonDbo> Person { get; set; }
     DbSet<PersonIdentityDbo> PersonIdentities { get; set; }
     DbSet<PersonContactDbo> PersonContacts { get; set; }
@@ -19,6 +21,4 @@ public interface IEssentialDbContext : IDbContext
     
     DbSet<EmployeeDbo> Employees { get; set; }
     DbSet<CustomerDbo> Customers { get; set; }
-    
-    DbSet<UserFeedsDbo> Feeds { get; set; }
 }

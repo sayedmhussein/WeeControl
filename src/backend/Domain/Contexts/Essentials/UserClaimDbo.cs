@@ -23,7 +23,7 @@ public class UserClaimDbo
     [Key]
     public Guid ClaimId { get; }
 
-    public Guid? UserId { get; private set; }
+    [Required] public Guid? UserId { get; private set; } = null;
     public UserDbo User { get; }
 
     [Required]
@@ -31,8 +31,10 @@ public class UserClaimDbo
     public string ClaimType { get; private set; }
 
     public string ClaimValue { get; private set; }
-
-    public DateTime GrantedTs { get; }
+    
+    public DateTime GrantedTs { get; } = DateTime.UtcNow;
+    
+    [Required]
     public Guid GrantedById { get; private set; }
     public UserDbo GrantedBy { get; private set; }
 
@@ -62,18 +64,21 @@ public class UserClaimEntityTypeConfig : IEntityTypeConfiguration<UserClaimDbo>
         builder.HasIndex(i => new { i.ClaimType, i.ClaimValue }).IsUnique();
 
         builder.HasOne(x => x.User)
-            .WithMany()
+            .WithMany(x=> x.Claims)
             .HasForeignKey(x => x.UserId)
+            .IsRequired()
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(x => x.GrantedBy)
             .WithMany()
             .HasForeignKey(x => x.GrantedById)
+            .IsRequired()
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(x => x.RevokedBy)
             .WithMany()
             .HasForeignKey(x => x.RevokedById)
+            .IsRequired(false)
             .OnDelete(DeleteBehavior.Restrict);
     }
 }

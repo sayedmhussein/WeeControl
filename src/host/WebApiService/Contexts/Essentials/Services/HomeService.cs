@@ -26,6 +26,7 @@ internal class HomeService : IHomeService
 
     public async Task<bool> Refresh()
     {
+        await server.RefreshToken();
         var response = await server
             .GetResponseMessage(HttpMethod.Get, new Version("1.0"), ControllerApi.Essentials.User.Route);
 

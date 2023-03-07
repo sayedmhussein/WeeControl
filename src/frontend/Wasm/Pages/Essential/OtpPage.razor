@@ -6,17 +6,38 @@
 @inject IAuthenticationService UserAuthorizationService
 
 <MudPaper Style="max-width: 650px; align-content: center; align-self: center; justify-content: center">
-    <MudCard>
-        <MudCardContent>
-            <MudTextField @bind-Value="@otp" Label="One Time Password" InputType="InputType.Password"></MudTextField>
-        </MudCardContent>
-        <MudCardActions>
-            <MudButton OnClick="@(() => UserAuthorizationService.UpdateToken(otp))">Send</MudButton>
-        </MudCardActions>
-    </MudCard>
+    @if (isLoading)
+    {
+        <MudSkeleton />
+        <MudSkeleton SkeletonType="SkeletonType.Circle" Width="50px" Height="50px" />
+        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="200px" Height="110px" />
+    }
+    else
+    {
+        <MudCard>
+            <MudCardContent>
+                <MudTextField @bind-Value="@otp" Label="One Time Password" InputType="InputType.Password"></MudTextField>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton OnClick="@SendOtp">Send</MudButton>
+            </MudCardActions>
+        </MudCard>
+    }
+    
+    
 </MudPaper>
 
 
 @code {
+    private bool isLoading;
     private string otp = "0000";
+
+    private async Task SendOtp()
+    {
+        isLoading = true;
+        await UserAuthorizationService.UpdateToken(otp);
+        await Task.Delay(3000);
+        otp = string.Empty;
+        isLoading = false;
+    }
 }

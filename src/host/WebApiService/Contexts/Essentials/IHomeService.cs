@@ -7,8 +7,7 @@ public interface IHomeService
     IEnumerable<HomeNotificationModel> Notifications { get; }
     IEnumerable<HomeFeedModel> Feeds { get; }
     string Fullname { get; }
-    string LastLoginTimestamp { get; }
-    
+
     Task<bool> Refresh();
     Task MarkNotificationAsViewed(Guid id);
 }
