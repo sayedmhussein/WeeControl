@@ -110,10 +110,10 @@ internal class ServerService : IServerOperation
 
         if ((int) response.StatusCode < 500)
         {
-            if (response.StatusCode == HttpStatusCode.Unauthorized)
+            if (response.StatusCode is HttpStatusCode.Unauthorized or HttpStatusCode.Forbidden)
             {
                 await security.DeleteToken();
-                await gui.DisplayAlert("Please login again.");
+                await gui.DisplayAlert("Session expired, please login again.");
                 await gui.NavigateToAsync(ApplicationPages.Essential.LoginPage, forceLoad:true);
                 return false;
             }
