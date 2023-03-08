@@ -61,7 +61,7 @@ public class UserClaimEntityTypeConfig : IEntityTypeConfiguration<UserClaimDbo>
 
         builder.Property(p => p.GrantedTs).ValueGeneratedOnAdd();
         
-        builder.HasIndex(i => new { i.ClaimType, i.ClaimValue }).IsUnique();
+        builder.HasIndex(i => new {i.UserId, i.ClaimType, i.ClaimValue }).IsUnique();
 
         builder.HasOne(x => x.User)
             .WithMany(x=> x.Claims)

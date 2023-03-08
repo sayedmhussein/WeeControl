@@ -19,6 +19,48 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
     }
 
     [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async void WhenLoginWithoutOtp_ShouldAdminShouldNotHave(bool refresh)
+    {
+        using var hostTestHelper = new HostTestHelper();
+        var client = factory.WithWebHostBuilder(builder =>
+        {
+            builder.ConfigureServices(services =>
+            {
+                using var scope = services.BuildServiceProvider().CreateScope();
+                var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
+                CoreTestHelper.SeedDatabase(db);
+            });
+        }).CreateClient();
+        
+        var service = hostTestHelper.GetService<IAuthenticationService>(client);
+        await service.Login(LoginRequestDto.Create(CoreTestHelper.Username, CoreTestHelper.Password));
+
+        if (refresh)
+        {
+            await service.UpdateToken("0000");
+        }
+
+        var bla = hostTestHelper.GetService<ISecurity>(client);
+        var claims = (await bla.GetClaimsPrincipal()).Claims;
+        
+        Assert.NotEmpty(claims);
+
+        if (refresh)
+        {
+            Assert.Contains(CoreTestHelper.ClaimTypeExample, claims.Select(x => x.Type));
+            Assert.Contains(CoreTestHelper.ClaimValueExample, claims.Select(x => x.Value));
+        }
+        else
+        {
+            Assert.DoesNotContain(CoreTestHelper.ClaimTypeExample, claims.Select(x => x.Type));
+            Assert.DoesNotContain(CoreTestHelper.ClaimValueExample, claims.Select(x => x.Value));
+        }
+        
+    }
+
+    [Theory]
     [InlineData(CoreTestHelper.Username, CoreTestHelper.Password, true)]
     [InlineData(CoreTestHelper.Email, CoreTestHelper.Password, true)]
     [InlineData("username", "passwordX", false)]

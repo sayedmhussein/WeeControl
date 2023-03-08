@@ -24,6 +24,8 @@ public class CoreTestHelper : IDisposable
     public const string Password = "password";
     public const string DeviceId = "DeviceId";
     public const string MobileNo = "+1234567890";
+    public const string ClaimTypeExample = "ClaimTypeExample";
+    public const string ClaimValueExample = "ClaimValueExample";
     
     public readonly IJwtService JwtService;
     public readonly IPasswordSecurity PasswordSecurity;
@@ -129,6 +131,8 @@ public class CoreTestHelper : IDisposable
             dbContext.Feeds.Add(UserFeedsDbo.Create("Feed Subject 1", "Feed body 1", ""));
             dbContext.Feeds.Add(UserFeedsDbo.Create("Feed Subject 2", "Feed body 2", ""));
         }
+
+        dbContext.UserClaims.Add(UserClaimDbo.Create(user.UserId, ClaimTypeExample, ClaimValueExample, user.UserId));
         
         dbContext.SaveChanges();
         return user;
