@@ -43,8 +43,14 @@ internal class ServerService : IServerOperation
         return await Send(method, version, new Uri(address));
     }
 
-    public async Task<HttpResponseMessage> GetResponseMessage<T>(HttpMethod method, Version version, T dto, string route, string? endpoint = null,
-        string[]? query = null) where T : class
+    public async Task<HttpResponseMessage> GetResponseMessage<T>(
+        HttpMethod method, 
+        Version version, 
+        T dto, 
+        string route, 
+        string? endpoint = null,
+        string[]? query = null
+        ) where T : class
     {
         var address = GetFullAddress(route, endpoint, query);
         
@@ -75,7 +81,22 @@ internal class ServerService : IServerOperation
         if (await security.IsAuthenticated() == false)
             return false;
 
-        var response = await GetResponseMessage(HttpMethod.Put, new Version("1.0"), ControllerApi.Essentials.Authorization.Route);
+        await UpdateHttpAuthorizationHeader();
+        
+        var location = await feature.GetDeviceLocation();
+        var payload = RequestDto.Create(await feature.GetDeviceId(), location.Latitude, location.Longitude);
+        var content = new StringContent(JsonConvert.SerializeObject(payload), Encoding.UTF8, "application/json");
+        
+        var requestMessage = new HttpRequestMessage()
+        {
+            Method = HttpMethod.Patch, 
+            Version = new Version("1.0"), 
+            RequestUri = new Uri(GetFullAddress(ControllerApi.Essentials.Authorization.Route, null, null)),
+            Content = content
+        };
+
+        var response = await CommunicateWithServer(requestMessage);
+        
         if (response.IsSuccessStatusCode)
         {
             var dto = await ReadFromContent<TokenResponseDto>(response.Content);
@@ -97,7 +118,7 @@ internal class ServerService : IServerOperation
                 return false;
             }
             
-            await gui.DisplayAlert($"Unexpected error no. {response.StatusCode}");
+            await gui.DisplayAlert($"1001 Unexpected error no. {response.StatusCode}");
         }
 
         return false;
@@ -198,8 +219,6 @@ internal class ServerService : IServerOperation
             }
         }
         
-        
-
         return address.ToString();
     }
 }

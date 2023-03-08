@@ -60,9 +60,8 @@ internal class AuthenticationService : IAuthenticationService
 
     public async Task UpdateToken()
     {
-        if (await security.IsAuthenticated())
+        if (await server.RefreshToken())
         {
-            await server.RefreshToken();
             return;
         }
 
