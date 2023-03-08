@@ -2,9 +2,10 @@ using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using WeeControl.Core.Domain.Exceptions;
 using WeeControl.Core.SharedKernel;
 using WeeControl.Core.SharedKernel.Contexts.Essentials;
+using WeeControl.Core.SharedKernel.Exceptions;
+using WeeControl.Core.SharedKernel.ExtensionMethods;
 
 namespace WeeControl.Core.Domain.Contexts.Essentials;
 
@@ -14,7 +15,7 @@ public class UserNotificationDbo : HomeNotificationModel
     public static UserNotificationDbo Create(Guid userid, string subject, string details, string link)
     {
         if (userid == Guid.Empty)
-            throw new DomainOutOfRangeException("User ID must not be empty GUID");
+            throw new EntityDomainValidationException("User ID must not be empty GUID");
         
         var notification = new UserNotificationDbo()
         {

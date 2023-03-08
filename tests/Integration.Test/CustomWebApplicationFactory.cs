@@ -37,5 +37,6 @@ public class CustomWebApplicationFactory<TStartup>
 
         await service.Login(LoginRequestDto.Create(username, password));
         await service.UpdateToken("0000");
+        await service.UpdateToken();
     }
 }

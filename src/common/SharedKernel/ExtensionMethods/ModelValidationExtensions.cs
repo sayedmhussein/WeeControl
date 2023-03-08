@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using WeeControl.Core.SharedKernel.Exceptions;
 using WeeControl.Core.SharedKernel.Interfaces;
 
 namespace WeeControl.Core.SharedKernel.ExtensionMethods;

@@ -10,6 +10,7 @@ using WeeControl.ApiApp.Persistence.DbContexts;
 using WeeControl.Core.Application.Contexts.Developer;
 using WeeControl.Core.Domain.Interfaces;
 using WeeControl.Core.SharedKernel;
+using WeeControl.Core.SharedKernel.Exceptions;
 
 namespace WeeControl.Host.WebApi;
 
@@ -76,6 +77,5 @@ public class Program
             Console.WriteLine(e);
             throw;
         }
-        
     }
 }

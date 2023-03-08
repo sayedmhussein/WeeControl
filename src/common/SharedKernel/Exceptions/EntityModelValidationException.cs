@@ -1,4 +1,4 @@
-﻿namespace WeeControl.Core.SharedKernel;
+﻿namespace WeeControl.Core.SharedKernel.Exceptions;
 
 public class EntityModelValidationException : ArgumentException
 {

@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using WeeControl.Core.Application.Exceptions;
-using WeeControl.Core.Domain.Exceptions;
 using WeeControl.Core.SharedKernel;
+using WeeControl.Core.SharedKernel.Exceptions;
 
 namespace WeeControl.Host.WebApi.Middlewares;
 
@@ -47,7 +47,7 @@ public class CustomExceptionHandlerMiddleware
                 code = HttpStatusCode.BadRequest;
                 result = badRequestException.Message;
                 break;
-            case DomainOutOfRangeException domainOutOfRanceException:
+            case EntityDomainValidationException domainOutOfRanceException:
                 code = HttpStatusCode.BadRequest;
                 result = domainOutOfRanceException.Message;
                 break;

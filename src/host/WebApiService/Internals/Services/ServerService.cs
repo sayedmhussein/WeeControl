@@ -162,10 +162,10 @@ internal class ServerService : IServerOperation
             var response = await communication.HttpClient.SendAsync(message);
             return response;
         }
-        catch (System.Net.Http.HttpRequestException e)
+        catch (System.Net.Http.HttpRequestException)
         {
             await gui.DisplayQuickAlert("Unable to connect to server, please check your connection!");
-            return null;
+            return new HttpResponseMessage(HttpStatusCode.BadGateway);
         }
         catch (Exception e)
         {

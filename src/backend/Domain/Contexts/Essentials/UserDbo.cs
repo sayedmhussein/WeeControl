@@ -5,9 +5,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using WeeControl.Core.Domain.Exceptions;
 using WeeControl.Core.SharedKernel;
 using WeeControl.Core.SharedKernel.Contexts.Essentials;
+using WeeControl.Core.SharedKernel.Exceptions;
+using WeeControl.Core.SharedKernel.ExtensionMethods;
 
 namespace WeeControl.Core.Domain.Contexts.Essentials;
 
@@ -22,7 +23,7 @@ public class UserDbo : UserModel
     public static UserDbo Create(Guid personId, UserModel model)
     {
         if (personId == Guid.Empty)
-            throw new DomainOutOfRangeException("Person ID can't be empty GUID");
+            throw new EntityDomainValidationException("Person ID can't be empty GUID");
         
         model.ThrowExceptionIfEntityModelNotValid();
 

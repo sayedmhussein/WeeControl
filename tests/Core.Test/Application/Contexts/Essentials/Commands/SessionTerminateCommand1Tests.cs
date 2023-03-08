@@ -3,6 +3,7 @@ using WeeControl.Core.Application.Exceptions;
 using WeeControl.Core.DataTransferObject.BodyObjects;
 using WeeControl.Core.Domain.Contexts.Essentials;
 using WeeControl.Core.SharedKernel;
+using WeeControl.Core.SharedKernel.Exceptions;
 
 namespace WeeControl.Core.Test.Application.Contexts.Essentials.Commands;
 

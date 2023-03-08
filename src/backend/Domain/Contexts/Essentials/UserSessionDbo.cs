@@ -5,9 +5,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using WeeControl.Core.Domain.Exceptions;
 using WeeControl.Core.SharedKernel;
 using WeeControl.Core.SharedKernel.Contexts.Essentials;
+using WeeControl.Core.SharedKernel.Exceptions;
+using WeeControl.Core.SharedKernel.ExtensionMethods;
 
 namespace WeeControl.Core.Domain.Contexts.Essentials;
 
@@ -17,10 +18,10 @@ public class UserSessionDbo : SessionModel
     public static UserSessionDbo Create(Guid userid, string deviceid, string otp)
     {
         if (userid == Guid.Empty)
-            throw new DomainOutOfRangeException("User ID can't but empty GUID.");
+            throw new EntityDomainValidationException("User ID can't but empty GUID.");
         
         if (string.IsNullOrWhiteSpace(deviceid))
-            throw new DomainOutOfRangeException("Device ID must be supplied.");
+            throw new EntityDomainValidationException("Device ID must be supplied.");
         
         if (string.IsNullOrWhiteSpace(otp))
             throw new ArgumentException("OTP must be supplied by application logic when creating new session.");
