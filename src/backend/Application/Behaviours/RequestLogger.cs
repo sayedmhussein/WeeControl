@@ -19,6 +19,6 @@ public class RequestLogger<TRequest> : IRequestPreProcessor<TRequest>
     {
         var name = typeof(TRequest).Name;
 
-        await mediator.Publish(new UserSessionLog(name, ""), cancellationToken);
+        await mediator.Publish(new UserSessionLog("Application Mediator Log", name), cancellationToken);
     }
 }

@@ -3,7 +3,7 @@ using WeeControl.Core.SharedKernel.Interfaces;
 
 namespace WeeControl.Core.DataTransferObject.BodyObjects;
 
-public class RequestDto : IEntityModel
+public class RequestDto : IRequestDto, IEntityModel
 {
     public static RequestDto Create(string device, double? latitude, double? longitude)
     {
@@ -23,8 +23,10 @@ public class RequestDto : IEntityModel
     [Required]
     public string DeviceId { get; init; }
 
+    [Range(-90.0, 90.0)]
     public double? Latitude { get; init; }
 
+    [Range(-180.0, 180.0)]
     public double? Longitude { get; init; }
 
     internal RequestDto()
@@ -44,7 +46,7 @@ public class RequestDto : IEntityModel
     }
 }
 
-public class RequestDto<T> : RequestDto where T : class
+public class RequestDto<T> : RequestDto, IRequestDto<T> where T : class
 {
     public T Payload { get; init; }
 

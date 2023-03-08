@@ -4,15 +4,13 @@ using WeeControl.Core.DataTransferObject.Contexts.Essentials;
 
 namespace WeeControl.Core.Test.Application.Behaviours;
 
-public class TestExampleQuery : IRequest
+public class TestExampleQuery : RequestDto, IRequest
 {
     private int delay;
-    private RequestDto<LoginRequestDto>? dto;
 
-    public TestExampleQuery(int delay, RequestDto<LoginRequestDto>? dto = null)
+    public TestExampleQuery(int delay, RequestDto<LoginRequestDto>? dto = null) : base(dto)
     {
         this.delay = delay;
-        this.dto = dto;
     }
 
     // public class TestExampleHandler : IRequestHandler<TestExampleQuery, Unit>

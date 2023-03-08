@@ -21,7 +21,7 @@ public class PasswordSecurity : IPasswordSecurity
 
     public string GenerateRandomPassword(int length = 8)
     {
-        var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         var stringChars = new char[length];
         var random = new Random();
 
