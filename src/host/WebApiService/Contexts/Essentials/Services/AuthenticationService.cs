@@ -53,7 +53,7 @@ internal class AuthenticationService : IAuthenticationService
                 await gui.DisplayAlert("Account is locked, please contact your admin.");
                 break;
             default:
-                await gui.DisplayAlert("Unexpected Error, please try again.");
+                await gui.DisplayAlert($"Unexpected Error, please try again: {response.StatusCode}");
                 break;
         }
     }

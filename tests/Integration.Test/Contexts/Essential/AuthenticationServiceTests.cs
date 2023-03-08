@@ -19,9 +19,11 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
     }
 
     [Theory]
-    [InlineData(false)]
-    [InlineData(true)]
-    public async void WhenLoginWithoutOtp_ShouldAdminShouldNotHave(bool refresh)
+    [InlineData(false, false)]
+    [InlineData(true, false)]
+    [InlineData(false, true)]
+    [InlineData(true, true)]
+    public async void WhenLoginWithoutOtp_ShouldAdminShouldNotHave(bool otpFunc, bool refreshFunc)
     {
         using var hostTestHelper = new HostTestHelper();
         var client = factory.WithWebHostBuilder(builder =>
@@ -37,23 +39,37 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
         var service = hostTestHelper.GetService<IAuthenticationService>(client);
         await service.Login(LoginRequestDto.Create(CoreTestHelper.Username, CoreTestHelper.Password));
 
-        if (refresh)
+        if (otpFunc)
         {
             await service.UpdateToken("0000");
+        }
+        
+        if (refreshFunc)
+        {
+            await service.UpdateToken();
+            await service.UpdateToken();
+            await service.UpdateToken();
         }
 
         var bla = hostTestHelper.GetService<ISecurity>(client);
         var claims = (await bla.GetClaimsPrincipal()).Claims;
-        
-        Assert.NotEmpty(claims);
 
-        if (refresh)
+        if (otpFunc)
         {
+            Assert.NotEmpty(claims);
             Assert.Contains(CoreTestHelper.ClaimTypeExample, claims.Select(x => x.Type));
             Assert.Contains(CoreTestHelper.ClaimValueExample, claims.Select(x => x.Value));
         }
         else
         {
+            if (refreshFunc)
+            {
+                Assert.Empty(claims);
+            }
+            else
+            {
+                Assert.NotEmpty(claims);
+            }
             Assert.DoesNotContain(CoreTestHelper.ClaimTypeExample, claims.Select(x => x.Type));
             Assert.DoesNotContain(CoreTestHelper.ClaimValueExample, claims.Select(x => x.Value));
         }
