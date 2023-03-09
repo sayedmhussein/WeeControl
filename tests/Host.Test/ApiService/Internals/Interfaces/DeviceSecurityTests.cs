@@ -1,3 +1,4 @@
+using System.Net;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
@@ -16,7 +17,7 @@ public class DeviceSecurityTests
     [InlineData("", false)]
     public async void IsAuthenticatedTests(string token, bool isTrue)
     {
-        using var service = new HostTestHelper();
+        using var service = new HostTestHelper(HttpStatusCode.OK);
         service.StorageMock.Setup(x => x.GetKeyValue(IDeviceSecurity.TokenKeyName)).ReturnsAsync(token);
         
         Assert.Equal(isTrue, await service.GetService<IDeviceSecurity>().IsAuthenticated());
@@ -25,7 +26,7 @@ public class DeviceSecurityTests
     [Fact]
     public async void TokenSettingAndGetting()
     {
-        using var testingService = new HostTestHelper();
+        using var testingService = new HostTestHelper(HttpStatusCode.OK);
         testingService.StorageMock.Setup(x => x.SaveKeyValue(It.IsAny<string>(), It.IsAny<string>()))
             .Callback((string k, string v) => testingService.StorageMock.Setup(x => x.GetKeyValue(k)).ReturnsAsync(v));
 
@@ -39,7 +40,7 @@ public class DeviceSecurityTests
     [Fact]
     public async void DeletingTokenTest()
     {
-        using var testService = new HostTestHelper();
+        using var testService = new HostTestHelper(HttpStatusCode.OK);
         testService.StorageMock.Setup(x => x.SaveKeyValue(It.IsAny<string>(), It.IsAny<string>()))
             .Callback((string k, string v) => testService.StorageMock.Setup(x => x.GetKeyValue(k)).ReturnsAsync(v));
         const string token = "This should contains Token String";
@@ -54,7 +55,7 @@ public class DeviceSecurityTests
     [Fact]
     public async void GettingClaimPrincipleTest()
     {
-        using var testingService = new HostTestHelper();
+        using var testingService = new HostTestHelper(HttpStatusCode.OK);
         testingService.StorageMock.Setup(x => x.SaveKeyValue(It.IsAny<string>(), It.IsAny<string>()))
             .Callback((string k, string v) => testingService.StorageMock.Setup(x => x.GetKeyValue(k)).ReturnsAsync(v));
         
@@ -76,7 +77,7 @@ public class DeviceSecurityTests
     [InlineData(ApplicationPages.Elevator.FieldPage, ClaimsValues.ClaimValues.Auditor, true)]
     public async void TestPageExistInClaims(string pageName, string authority, bool exist)
     {
-        using var helper = new HostTestHelper();
+        using var helper = new HostTestHelper(HttpStatusCode.OK);
         var service = helper.GetService<IDeviceSecurity>();
         await service.UpdateToken(GenerateToken(helper, new List<Claim>()
         {
@@ -92,7 +93,7 @@ public class DeviceSecurityTests
     [Fact]
     public async void TestGetAllowedPages()
     {
-        using var helper = new HostTestHelper();
+        using var helper = new HostTestHelper(HttpStatusCode.OK);
         var service = helper.GetService<IDeviceSecurity>();
         await service.UpdateToken(GenerateToken(helper, new List<Claim>()
         {

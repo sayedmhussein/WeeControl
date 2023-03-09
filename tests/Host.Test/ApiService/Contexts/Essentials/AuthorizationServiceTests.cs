@@ -13,14 +13,13 @@ public class AuthorizationServiceTests
     [Fact]
     public async void WhenSuccessUsernameAndPasswordAndOtp()
     {
-        using var helper = new HostTestHelper();
-        var service = helper.GetService<IAuthenticationService>(
-            new (HttpStatusCode statusCode, object? dto)[]
+        using var helper = new HostTestHelper(new (HttpStatusCode statusCode, object? dto)[]
         {
             (HttpStatusCode.OK, TokenResponseDto.Create("token")),
             (HttpStatusCode.OK, TokenResponseDto.Create("token")),
             (HttpStatusCode.OK, TokenResponseDto.Create("token"))
         });
+        var service = helper.GetService<IAuthenticationService>();
 
         await service.Login(LoginRequestDto.Create("username", "password"));
         await service.UpdateToken("0000");
@@ -36,14 +35,13 @@ public class AuthorizationServiceTests
     [InlineData(HttpStatusCode.InternalServerError)]
     public async void Login_ExpectedResponsesBehaviorTests(HttpStatusCode code)
     {
-        using var helper = new HostTestHelper();
-        var service = helper.GetService<IAuthenticationService>(
-            new (HttpStatusCode statusCode, object? dto)[]
+        using var helper = new HostTestHelper(new (HttpStatusCode statusCode, object? dto)[]
         {
             new (code, TokenResponseDto.Create("token")),
             new (code, TokenResponseDto.Create("token")),
             new (code, TokenResponseDto.Create("token"))
         });
+        var service = helper.GetService<IAuthenticationService>();
 
         await service.Login(LoginRequestDto.Create("username", "password"));
 
@@ -62,8 +60,8 @@ public class AuthorizationServiceTests
     [InlineData("   ", "    ")]
     public async void Login_DataTransferObjectDefensiveValues(string username, string password)
     {
-        using var helper = new HostTestHelper();
-        var service = helper.GetService<IAuthenticationService>(HttpStatusCode.OK, TokenResponseDto.Create("token"));
+        using var helper = new HostTestHelper(HttpStatusCode.OK, TokenResponseDto.Create("token"));
+        var service = helper.GetService<IAuthenticationService>();
 
         await service.Login(LoginRequestDto.Create(username, password));
 
@@ -84,8 +82,8 @@ public class AuthorizationServiceTests
     [InlineData(HttpStatusCode.InternalServerError)]
     public async void UpdateToken_ExpectedResponsesBehaviorTests(HttpStatusCode code)
     {
-        using var helper = new HostTestHelper();
-        var service = helper.GetService<IAuthenticationService>(code, TokenResponseDto.Create("token"));
+        using var helper = new HostTestHelper(code, TokenResponseDto.Create("token"));
+        var service = helper.GetService<IAuthenticationService>();
         helper.StorageMock.Setup(x => x.GetKeyValue(IDeviceSecurity.TokenKeyName))
             .ReturnsAsync("value");
 
@@ -108,8 +106,8 @@ public class AuthorizationServiceTests
     [InlineData("123")]
     public async void UpdateToken_DataTransferObjectDefensiveValues(string value)
     {
-        using var helper = new HostTestHelper();
-        var service = helper.GetService<IAuthenticationService>(HttpStatusCode.OK, TokenResponseDto.Create("token"));
+        using var helper = new HostTestHelper(HttpStatusCode.OK, TokenResponseDto.Create("token"));
+        var service = helper.GetService<IAuthenticationService>();
 
         await service.UpdateToken(value);
 
@@ -127,8 +125,8 @@ public class AuthorizationServiceTests
     [InlineData(HttpStatusCode.BadRequest)]
     public async void Logout_WhenNotFound_OrSuccess(HttpStatusCode httpStatusCode)
     {
-        using var helper = new HostTestHelper();
-        var service = helper.GetService<IAuthenticationService>(httpStatusCode);
+        using var helper = new HostTestHelper(httpStatusCode);
+        var service = helper.GetService<IAuthenticationService>();
 
         await service.Logout();
         

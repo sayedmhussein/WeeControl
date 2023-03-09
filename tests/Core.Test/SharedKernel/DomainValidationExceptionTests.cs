@@ -1,5 +1,4 @@
-﻿using WeeControl.Core.SharedKernel;
-using WeeControl.Core.SharedKernel.Contexts.Essentials;
+﻿using WeeControl.Core.SharedKernel.Contexts.Essentials;
 using WeeControl.Core.SharedKernel.Exceptions;
 using WeeControl.Core.SharedKernel.ExtensionMethods;
 

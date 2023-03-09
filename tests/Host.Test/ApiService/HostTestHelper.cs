@@ -5,7 +5,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq.Protected;
 using Newtonsoft.Json;
 using WeeControl.Core.DataTransferObject.BodyObjects;
+using WeeControl.Core.DataTransferObject.Contexts.Essentials;
+using WeeControl.Core.Test;
 using WeeControl.Host.WebApiService;
+using WeeControl.Host.WebApiService.Contexts.Essentials;
 using WeeControl.Host.WebApiService.DeviceInterfaces;
 
 namespace WeeControl.Host.Test.ApiService;
@@ -18,8 +21,8 @@ public class HostTestHelper : IDisposable
     public Mock<IMedia> MediaMock { get; private set; }
     public Mock<ISharing> SharingMock { get; private set; }
     public Mock<IStorage> StorageMock { get; private set; }
-
-    public HostTestHelper()
+    
+    private HostTestHelper()
     {
         CommunicationMock = new Mock<ICommunication>();
         CommunicationMock.Setup(x => x.ServerUrl).Returns(GetLocalIpAddress());
@@ -49,6 +52,42 @@ public class HostTestHelper : IDisposable
             .Callback((string a, string b) => StorageMock.Setup(x => x.GetKeyValue(a)).ReturnsAsync(b));
     }
 
+    public HostTestHelper(HttpClient httpClient) : this()
+    {
+        CommunicationMock.Setup(x => x.HttpClient).Returns(httpClient);
+    }
+
+    public HostTestHelper(HttpStatusCode statusCode, object? dto = null) : this()
+    {
+        var response = new HttpResponseMessage();
+        response.StatusCode = statusCode;
+        if (dto is not null)
+        {
+            response.Content = new StringContent(JsonConvert.SerializeObject(ResponseDto.Create(dto)), Encoding.UTF8, "application/json");
+        }
+        
+        var handlerMock = new Mock<HttpMessageHandler>();
+
+        handlerMock.Protected()
+            .Setup<Task<HttpResponseMessage>>(
+                "SendAsync",
+                ItExpr.IsAny<HttpRequestMessage>(),
+                ItExpr.IsAny<CancellationToken>())
+            .ReturnsAsync(response);
+        
+        CommunicationMock.Setup(x => x.HttpClient).Returns(new HttpClient(handlerMock.Object));
+    }
+
+    public HostTestHelper(IEnumerable<(HttpStatusCode statusCode, object? dto)> responses) : this()
+    {
+        var res = responses.Select(v => 
+            new ValueTuple<HttpStatusCode, HttpContent>(v.statusCode, new StringContent(JsonConvert.SerializeObject(ResponseDto.Create(v.dto)), Encoding.UTF8, "application/json"))).ToList();
+        
+        var client = GetHttpClientWithHttpMessageHandlerSequenceResponseMock(res);
+        
+        CommunicationMock.Setup(x => x.HttpClient).Returns(client);
+    }
+    
     public void Dispose()
     {
         CommunicationMock = new Mock<ICommunication>();
@@ -76,41 +115,13 @@ public class HostTestHelper : IDisposable
         return scope.ServiceProvider.GetRequiredService<T>();
     }
 
-    public T GetService<T>(HttpClient httpClient) where T : class
+    public async Task Authenticate(string username = CoreTestHelper.Username, string password = CoreTestHelper.Password)
     {
-        CommunicationMock.Setup(x => x.HttpClient).Returns(httpClient);
-        return GetService<T>();
-    }
+        var service = GetService<IAuthenticationService>();
 
-    public T GetService<T>(HttpStatusCode statusCode, object? dto = null) where T : class
-    {
-        var response = new HttpResponseMessage();
-        response.StatusCode = statusCode;
-        if (dto is not null)
-        {
-            response.Content = new StringContent(JsonConvert.SerializeObject(ResponseDto.Create(dto)), Encoding.UTF8, "application/json");
-        }
-        
-        var handlerMock = new Mock<HttpMessageHandler>();
-
-        handlerMock.Protected()
-            .Setup<Task<HttpResponseMessage>>(
-                "SendAsync",
-                ItExpr.IsAny<HttpRequestMessage>(),
-                ItExpr.IsAny<CancellationToken>())
-            .ReturnsAsync(response);
-
-        return GetService<T>(new HttpClient(handlerMock.Object));
-    }
-
-    public T GetService<T>(IEnumerable<(HttpStatusCode statusCode, object? dto)> responses) where T : class
-    {
-        var res = responses.Select(v => 
-            new ValueTuple<HttpStatusCode, HttpContent>(v.statusCode, new StringContent(JsonConvert.SerializeObject(ResponseDto.Create(v.dto)), Encoding.UTF8, "application/json"))).ToList();
-        
-        var client = GetHttpClientWithHttpMessageHandlerSequenceResponseMock(res);
-
-        return GetService<T>(client);
+        await service.Login(LoginRequestDto.Create(username, password));
+        await service.UpdateToken("0000");
+        await service.UpdateToken();
     }
 
     private HttpClient GetHttpClientWithHttpMessageHandlerSequenceResponseMock(IEnumerable<(HttpStatusCode, HttpContent)> returns)

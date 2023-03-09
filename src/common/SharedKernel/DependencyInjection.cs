@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using Microsoft.Extensions.DependencyInjection;
 using WeeControl.Core.SharedKernel.Interfaces;
 using WeeControl.Core.SharedKernel.Services;

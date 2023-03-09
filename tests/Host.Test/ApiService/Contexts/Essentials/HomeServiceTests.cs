@@ -10,12 +10,11 @@ public class HomeServiceTests
     [Fact]
     public async void WhenSuccess_ReturnAllItems()
     {
-        using var helper = new HostTestHelper();
-        var responseDto = new HomeResponseDto()
+        using var helper = new HostTestHelper(HttpStatusCode.OK, new HomeResponseDto()
         {
             FullName = "Full Name", Notifications = new []{ new HomeNotificationModel()}
-        };
-        var service = helper.GetService<IHomeService>(HttpStatusCode.OK, responseDto);
+        });
+        var service = helper.GetService<IHomeService>();
 
         var success = await service.Refresh();
         
@@ -27,8 +26,8 @@ public class HomeServiceTests
     [InlineData(HttpStatusCode.BadRequest)]
     public async void WhenNotSuccess(HttpStatusCode httpStatusCode)
     {
-        using var helper = new HostTestHelper();
-        var service = helper.GetService<IHomeService>(httpStatusCode);
+        using var helper = new HostTestHelper(httpStatusCode);
+        var service = helper.GetService<IHomeService>();
 
         var success = await service.Refresh();
         

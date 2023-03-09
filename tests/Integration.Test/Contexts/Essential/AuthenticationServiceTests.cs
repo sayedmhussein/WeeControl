@@ -1,6 +1,4 @@
-using Microsoft.Extensions.DependencyInjection;
 using WeeControl.Core.DataTransferObject.Contexts.Essentials;
-using WeeControl.Core.Domain.Interfaces;
 using WeeControl.Core.Test;
 using WeeControl.Host.Test.ApiService;
 using WeeControl.Host.WebApi;
@@ -12,13 +10,11 @@ namespace WeeControl.Integration.Test.Contexts.Essential;
 public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFactory<Startup>>
 {
     private readonly CustomWebApplicationFactory<Startup> factory;
-    private readonly HttpClient client;
 
     public AuthenticationServiceTests(CustomWebApplicationFactory<Startup> factory)
     {
         this.factory = factory;
         
-        client = this.factory.CreateCustomClient(factory);
     }
 
     [Theory]
@@ -28,9 +24,9 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
     [InlineData(true, true)]
     public async void WhenLoginWithoutOtp_ShouldAdminShouldNotHave(bool otpFunc, bool refreshFunc)
     {
-        using var hostTestHelper = new HostTestHelper();
+        using var hostTestHelper = new HostTestHelper(factory.CreateCustomClient());
 
-        var service = hostTestHelper.GetService<IAuthenticationService>(client);
+        var service = hostTestHelper.GetService<IAuthenticationService>();
         await service.Login(LoginRequestDto.Create(CoreTestHelper.Username, CoreTestHelper.Password));
 
         if (otpFunc)
@@ -45,7 +41,7 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
             await service.UpdateToken();
         }
 
-        var bla = hostTestHelper.GetService<ISecurity>(client);
+        var bla = hostTestHelper.GetService<ISecurity>();
         var claims = (await bla.GetClaimsPrincipal()).Claims;
 
         if (otpFunc)
@@ -78,8 +74,8 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
     [InlineData("usernameX", "passwordX", false)]
     public async void LoginTest(string usernameOrEmail, string password, bool success)
     {
-        using var hostTestHelper = new HostTestHelper();
-        var service = hostTestHelper.GetService<IAuthenticationService>(client);
+        using var hostTestHelper = new HostTestHelper(factory.CreateCustomClient());
+        var service = hostTestHelper.GetService<IAuthenticationService>();
 
         await service.Login(LoginRequestDto.Create(usernameOrEmail, password));
         await service.UpdateToken("0000");
@@ -98,8 +94,8 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
     [InlineData("1234")]
     public async void UpdateTokenTests(string otp)
     {
-        using var h = new HostTestHelper();
-        var service = h.GetService<IAuthenticationService>(client);
+        using var h = new HostTestHelper(factory.CreateCustomClient());
+        var service = h.GetService<IAuthenticationService>();
 
         await service.Login(LoginRequestDto.Create(CoreTestHelper.Username, CoreTestHelper.Password));
         await service.UpdateToken(otp);
@@ -116,19 +112,13 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
     [Fact]
     public async void WhenUserIsLocked()
     {
-        using var helper = new HostTestHelper();
-        var service = helper.GetService<IAuthenticationService>(factory.WithWebHostBuilder(builder =>
+        using var helper = new HostTestHelper(factory.CreateCustomClient(db =>
         {
-            builder.ConfigureServices(services =>
-            {
-                using var scope = services.BuildServiceProvider().CreateScope();
-                var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-                // var user = factory.GetUserDboWithEncryptedPassword("username", "password");
-                // db.Users.Add(user);
-                // user.Suspend("for testing");
-                // db.SaveChanges();
-            });
-        }).CreateClient());
+            var user =db.Users.First();
+            user.Suspend("For Testing");
+            db.SaveChanges();
+        }));
+        var service = helper.GetService<IAuthenticationService>();
 
 
         await service.Login(LoginRequestDto.Create("username", "password"));
@@ -146,8 +136,8 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
     [InlineData(false)]
     public async void LogoutTests(bool isLoggedIn)
     {
-        using var hostTestHelper = new HostTestHelper();
-        var service = hostTestHelper.GetService<IAuthenticationService>(client);
+        using var hostTestHelper = new HostTestHelper(factory.CreateCustomClient());
+        var service = hostTestHelper.GetService<IAuthenticationService>();
 
         if (isLoggedIn)
         {
@@ -165,18 +155,8 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
     [Fact]
     public async void RequestPasswordReset_WhenSuccess()
     {
-        var httpClient = factory.WithWebHostBuilder(builder =>
-        {
-            builder.ConfigureServices(services =>
-            {
-                using var scope = services.BuildServiceProvider().CreateScope();
-                var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-                CoreTestHelper.SeedDatabase(db);
-            });
-        }).CreateClient();
-        
-        using var helper = new HostTestHelper();
-        var service = helper.GetService<IAuthenticationService>(client);
+        using var helper = new HostTestHelper(factory.CreateCustomClient());
+        var service = helper.GetService<IAuthenticationService>();
 
         await service.RequestPasswordReset(new UserPasswordResetRequestDto()
         {
@@ -194,7 +174,7 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
     [InlineData("", "username")]
     public async void RequestPasswordReset_WhenInvalidEmailAndUsernameMatchingOrNotExist(string email, string username)
     {
-        using var helper = new HostTestHelper();
+        using var helper = new HostTestHelper(factory.CreateCustomClient());
         var service = helper.GetService<IAuthenticationService>();
 
         await service.RequestPasswordReset(new UserPasswordResetRequestDto()
@@ -210,21 +190,13 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
     [Fact]
     public async void RequestPasswordReset_WhenBusinessNotAllow_IsLockedUser()
     {
-        var httpClient = factory.WithWebHostBuilder(builder =>
+        using var helper = new HostTestHelper(factory.CreateCustomClient(e =>
         {
-            builder.ConfigureServices(services =>
-            {
-                using var scope = services.BuildServiceProvider().CreateScope();
-                var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-                CoreTestHelper.SeedDatabase(db);
-                var user = db.Users.First();
-                user.Suspend("for testing");
-                db.SaveChanges();
-            });
-        }).CreateClient();
-
-        using var helper = new HostTestHelper();
-        var service = helper.GetService<IAuthenticationService>(httpClient);
+            var user = e.Users.First();
+            user.Suspend("for testing");
+            e.SaveChanges();
+        }));
+        var service = helper.GetService<IAuthenticationService>();
 
         await service.RequestPasswordReset(new UserPasswordResetRequestDto()
         {

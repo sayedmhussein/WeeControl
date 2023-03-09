@@ -1,6 +1,4 @@
-using Microsoft.Extensions.DependencyInjection;
 using WeeControl.Core.DataTransferObject.Contexts.Essentials;
-using WeeControl.Core.Domain.Interfaces;
 using WeeControl.Core.Test;
 using WeeControl.Host.Test.ApiService;
 using WeeControl.Host.WebApi;
@@ -21,9 +19,10 @@ public class RegistrationTests : IClassFixture<CustomWebApplicationFactory<Start
     [Fact]
     public async void TestWhenSuccess()
     {
-        using var hostTestHelper = new HostTestHelper();
-        var client = factory.CreateClient();
-        var service = hostTestHelper.GetService<IUserService>(client);
+        
+        using var hostTestHelper = new HostTestHelper(factory.CreateClient());
+        
+        var service = hostTestHelper.GetService<IUserService>();
         var dto = new UserProfileDto()
         {
             Person =
@@ -34,7 +33,7 @@ public class RegistrationTests : IClassFixture<CustomWebApplicationFactory<Start
         };
 
         await service.AddUser(dto);
-        await hostTestHelper.GetService<IAuthenticationService>(client).UpdateToken("0000");
+        await hostTestHelper.GetService<IAuthenticationService>().UpdateToken("0000");
         
         hostTestHelper.GuiMock.Verify(x => 
             x.NavigateToAsync(ApplicationPages.Essential.OtpPage, It.IsAny<bool>()), Times.Once);
@@ -47,18 +46,9 @@ public class RegistrationTests : IClassFixture<CustomWebApplicationFactory<Start
     [InlineData(CoreTestHelper.Email, "SomeOtherUsername")]
     public async void TestWhenSameEmailOrUsername(string email, string username)
     {
-        using var hostTestHelper = new HostTestHelper();
-        var client = factory.WithWebHostBuilder(builder =>
-        {
-            builder.ConfigureServices(services =>
-            {
-                using var scope = services.BuildServiceProvider().CreateScope();
-                var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-                CoreTestHelper.SeedDatabase(db);
-            });
-        }).CreateClient();
-        
-        var service = hostTestHelper.GetService<IUserService>(factory.CreateCustomClient(factory));
+        using var hostTestHelper = new HostTestHelper(factory.CreateCustomClient());
+
+        var service = hostTestHelper.GetService<IUserService>();
         var dto = new UserProfileDto()
         {
             Person =

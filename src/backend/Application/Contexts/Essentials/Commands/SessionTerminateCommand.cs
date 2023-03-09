@@ -7,7 +7,6 @@ using WeeControl.Core.Application.Exceptions;
 using WeeControl.Core.Application.Interfaces;
 using WeeControl.Core.DataTransferObject.BodyObjects;
 using WeeControl.Core.Domain.Interfaces;
-using WeeControl.Core.SharedKernel;
 using WeeControl.Core.SharedKernel.ExtensionMethods;
 
 namespace WeeControl.Core.Application.Contexts.Essentials.Commands;

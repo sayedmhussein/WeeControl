@@ -1,6 +1,3 @@
-using Microsoft.Extensions.DependencyInjection;
-using WeeControl.Core.Domain.Interfaces;
-using WeeControl.Core.Test;
 using WeeControl.Host.Test.ApiService;
 using WeeControl.Host.WebApi;
 using WeeControl.Host.WebApiService.Contexts.Essentials;
@@ -17,35 +14,32 @@ public class HomeServiceTests: IClassFixture<CustomWebApplicationFactory<Startup
     }
 
     [Fact]
-    public async void TestHome()
+    public async void WhenRefreshIsCalled_HomeResponseDtoHasData()
     {
-        using var hostTestHelper = new HostTestHelper();
-        var service = hostTestHelper.GetService<IHomeService>(factory.CreateCustomClient(factory));
+        using var hostTestHelper = new HostTestHelper(factory.CreateCustomClient());
+        await hostTestHelper.Authenticate();
+        var service = hostTestHelper.GetService<IHomeService>();
 
-        await factory.Authorize(hostTestHelper, CoreTestHelper.Username, CoreTestHelper.Password);
-
-        Assert.True(await service.Refresh());
+        await service.Refresh();
+            
         Assert.NotEmpty(service.Fullname);
         Assert.NotEmpty(service.Notifications);
+        Assert.NotEmpty(service.Feeds);
     }
 
     [Fact]
     public async void WhenNotificationIsViewed_ItGetViewedInDatabase()
     {
-        using var helper = new HostTestHelper();
-        var service = helper.GetService<IHomeService>(factory.CreateCustomClient(factory));
+        using var helper = new HostTestHelper(factory.CreateCustomClient());
+        await helper.Authenticate();
+        var service = helper.GetService<IHomeService>();
         
-        await factory.Authorize(helper, CoreTestHelper.Username, CoreTestHelper.Password);
-
-       await service.Refresh();
-        var unreadNotifications1 = (service.Notifications)
-            .Where(x => x.ReadTs == null);
-        await service.MarkNotificationAsViewed(unreadNotifications1.First().NotificationId);
         await service.Refresh();
-        var unreadNotifications2 = service.Notifications
-            .Where(x => x.ReadTs == null);
+        var id = service.Notifications.First(x => x.ReadTs == null).NotificationId;
         
-        Assert.Equal(unreadNotifications1.Count(), unreadNotifications2.Count() + 1);
-        Assert.NotEqual(unreadNotifications2.First().PublishedTs, DateTime.MinValue);
+        await service.MarkNotificationAsViewed(id);
+        await service.Refresh();
+        
+        Assert.NotNull(service.Notifications.First(x => x.NotificationId == id).ReadTs);
     }
 }

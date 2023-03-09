@@ -1,5 +1,4 @@
-﻿using WeeControl.Core.SharedKernel;
-using WeeControl.Core.SharedKernel.CustomValidationAttributes;
+﻿using WeeControl.Core.SharedKernel.CustomValidationAttributes;
 using WeeControl.Core.SharedKernel.Exceptions;
 using WeeControl.Core.SharedKernel.ExtensionMethods;
 using WeeControl.Core.SharedKernel.Interfaces;

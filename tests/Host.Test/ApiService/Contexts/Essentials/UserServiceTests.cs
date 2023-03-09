@@ -14,7 +14,7 @@ public class UserServiceTests
     [Fact]
     public async void WhenInvalidDto_DisplayMessageAndNeverNavigate()
     {
-        using var helper = new HostTestHelper();
+        using var helper = new HostTestHelper(HttpStatusCode.OK);
         var service = helper.GetService<IUserService>();
 
         var dto = GetUserProfileDto();
@@ -32,8 +32,8 @@ public class UserServiceTests
     [Fact]
     public async void WhenSuccess_NavigateToOtpPage()
     {
-        using var helper = new HostTestHelper();
-        var service = helper.GetService<IUserService>(HttpStatusCode.OK, TokenResponseDto.Create("token"));
+        using var helper = new HostTestHelper(HttpStatusCode.OK, TokenResponseDto.Create("token"));
+        var service = helper.GetService<IUserService>();
         var dto = GetUserProfileDto();
         
         await service.AddUser(dto);
@@ -46,8 +46,8 @@ public class UserServiceTests
     [Fact]
     public async void WhenInvalidSameUserExist_DisplayMessageAndNotNavigate()
     {
-        using var helper = new HostTestHelper();
-        var service = helper.GetService<IUserService>(HttpStatusCode.NotAcceptable);
+        using var helper = new HostTestHelper(HttpStatusCode.NotAcceptable);
+        var service = helper.GetService<IUserService>();
         var dto = GetUserProfileDto();
         
         await service.AddUser(dto);

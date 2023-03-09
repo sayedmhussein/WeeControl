@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using WeeControl.Core.Application.Exceptions;
-using WeeControl.Core.SharedKernel;
 using WeeControl.Core.SharedKernel.Exceptions;
 
 namespace WeeControl.Host.WebApi.Middlewares;
