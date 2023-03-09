@@ -58,7 +58,7 @@ public class RegistrationTests : IClassFixture<CustomWebApplicationFactory<Start
             });
         }).CreateClient();
         
-        var service = hostTestHelper.GetService<IUserService>(client);
+        var service = hostTestHelper.GetService<IUserService>(factory.CreateCustomClient(factory));
         var dto = new UserProfileDto()
         {
             Person =

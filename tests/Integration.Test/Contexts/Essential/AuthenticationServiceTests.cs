@@ -12,10 +12,13 @@ namespace WeeControl.Integration.Test.Contexts.Essential;
 public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFactory<Startup>>
 {
     private readonly CustomWebApplicationFactory<Startup> factory;
+    private readonly HttpClient client;
 
     public AuthenticationServiceTests(CustomWebApplicationFactory<Startup> factory)
     {
         this.factory = factory;
+        
+        client = this.factory.CreateCustomClient(factory);
     }
 
     [Theory]
@@ -26,16 +29,7 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
     public async void WhenLoginWithoutOtp_ShouldAdminShouldNotHave(bool otpFunc, bool refreshFunc)
     {
         using var hostTestHelper = new HostTestHelper();
-        var client = factory.WithWebHostBuilder(builder =>
-        {
-            builder.ConfigureServices(services =>
-            {
-                using var scope = services.BuildServiceProvider().CreateScope();
-                var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-                CoreTestHelper.SeedDatabase(db);
-            });
-        }).CreateClient();
-        
+
         var service = hostTestHelper.GetService<IAuthenticationService>(client);
         await service.Login(LoginRequestDto.Create(CoreTestHelper.Username, CoreTestHelper.Password));
 
@@ -85,15 +79,7 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
     public async void LoginTest(string usernameOrEmail, string password, bool success)
     {
         using var hostTestHelper = new HostTestHelper();
-        var service = hostTestHelper.GetService<IAuthenticationService>(factory.WithWebHostBuilder(builder =>
-        {
-            builder.ConfigureServices(services =>
-            {
-                using var scope = services.BuildServiceProvider().CreateScope();
-                var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-                CoreTestHelper.SeedDatabase(db);
-            });
-        }).CreateClient());
+        var service = hostTestHelper.GetService<IAuthenticationService>(client);
 
         await service.Login(LoginRequestDto.Create(usernameOrEmail, password));
         await service.UpdateToken("0000");
@@ -113,15 +99,7 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
     public async void UpdateTokenTests(string otp)
     {
         using var h = new HostTestHelper();
-        var service = h.GetService<IAuthenticationService>(factory.WithWebHostBuilder(builder =>
-        {
-            builder.ConfigureServices(services =>
-            {
-                using var scope = services.BuildServiceProvider().CreateScope();
-                var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-                CoreTestHelper.SeedDatabase(db);
-            });
-        }).CreateClient());
+        var service = h.GetService<IAuthenticationService>(client);
 
         await service.Login(LoginRequestDto.Create(CoreTestHelper.Username, CoreTestHelper.Password));
         await service.UpdateToken(otp);
@@ -169,15 +147,7 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
     public async void LogoutTests(bool isLoggedIn)
     {
         using var hostTestHelper = new HostTestHelper();
-        var service = hostTestHelper.GetService<IAuthenticationService>(factory.WithWebHostBuilder(builder =>
-        {
-            builder.ConfigureServices(services =>
-            {
-                using var scope = services.BuildServiceProvider().CreateScope();
-                var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-                CoreTestHelper.SeedDatabase(db);
-            });
-        }).CreateClient());
+        var service = hostTestHelper.GetService<IAuthenticationService>(client);
 
         if (isLoggedIn)
         {
@@ -206,7 +176,7 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
         }).CreateClient();
         
         using var helper = new HostTestHelper();
-        var service = helper.GetService<IAuthenticationService>(httpClient);
+        var service = helper.GetService<IAuthenticationService>(client);
 
         await service.RequestPasswordReset(new UserPasswordResetRequestDto()
         {

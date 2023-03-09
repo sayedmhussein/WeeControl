@@ -86,6 +86,29 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
         helper.GuiMock.Verify(x =>
             x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
     }
+    
+    [Fact]
+    public async void ChangeMyPassword_WhenUserIsLocked2()
+    {
+        using var helper = new HostTestHelper();
+        var service = helper.GetService<IUserService>(factory.CreateCustomClient(factory, db =>
+        {
+            db.Users.First().Suspend("SomeReason");
+            db.SaveChanges();
+        }));
+        
+        await factory.Authorize(helper, CoreTestHelper.Username, CoreTestHelper.Password);
+
+        await service.ChangePassword(new UserPasswordChangeRequestDto()
+        {
+            OldPassword = CoreTestHelper.Password, NewPassword = "NewPassword"
+        });
+        
+
+        helper.GuiMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
+        helper.GuiMock.Verify(x =>
+            x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
+    }
     #endregion
 
     private HttpClient GetHttpClient(bool lockUser = false)

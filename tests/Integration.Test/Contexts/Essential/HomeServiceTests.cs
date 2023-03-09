@@ -20,15 +20,7 @@ public class HomeServiceTests: IClassFixture<CustomWebApplicationFactory<Startup
     public async void TestHome()
     {
         using var hostTestHelper = new HostTestHelper();
-        var service = hostTestHelper.GetService<IHomeService>(factory.WithWebHostBuilder(builder =>
-        {
-            builder.ConfigureServices(services =>
-            {
-                using var scope = services.BuildServiceProvider().CreateScope();
-                var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-                CoreTestHelper.SeedDatabase(db);
-            });
-        }).CreateClient());
+        var service = hostTestHelper.GetService<IHomeService>(factory.CreateCustomClient(factory));
 
         await factory.Authorize(hostTestHelper, CoreTestHelper.Username, CoreTestHelper.Password);
 
@@ -41,15 +33,7 @@ public class HomeServiceTests: IClassFixture<CustomWebApplicationFactory<Startup
     public async void WhenNotificationIsViewed_ItGetViewedInDatabase()
     {
         using var helper = new HostTestHelper();
-        var service = helper.GetService<IHomeService>(factory.WithWebHostBuilder(builder =>
-        {
-            builder.ConfigureServices(services =>
-            {
-                using var scope = services.BuildServiceProvider().CreateScope();
-                var db = scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-                CoreTestHelper.SeedDatabase(db);
-            });
-        }).CreateClient());
+        var service = helper.GetService<IHomeService>(factory.CreateCustomClient(factory));
         
         await factory.Authorize(helper, CoreTestHelper.Username, CoreTestHelper.Password);
 
