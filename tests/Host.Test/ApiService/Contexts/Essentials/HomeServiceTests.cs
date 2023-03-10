@@ -2,6 +2,7 @@
 using WeeControl.Core.DataTransferObject.Contexts.Essentials;
 using WeeControl.Core.SharedKernel.Contexts.Essentials;
 using WeeControl.Host.WebApiService.Contexts.Essentials;
+using WeeControl.Host.WebApiService.DeviceInterfaces;
 
 namespace WeeControl.Host.Test.ApiService.Contexts.Essentials;
 
@@ -32,6 +33,6 @@ public class HomeServiceTests
         var success = await service.Refresh();
 
         Assert.False(success);
-        helper.GuiMock.Verify(x => x.DisplayAlert(It.IsAny<string>()), Times.Once);
+        helper.GuiMock.Verify(x => x.DisplayAlert(It.IsAny<string>(), It.IsAny<IGui.Severity>()), Times.Once);
     }
 }

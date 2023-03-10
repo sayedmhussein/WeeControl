@@ -4,6 +4,7 @@ using WeeControl.Host.Test.ApiService;
 using WeeControl.Host.WebApi;
 using WeeControl.Host.WebApiService.Contexts.Essentials;
 using WeeControl.Host.WebApiService.Data;
+using WeeControl.Host.WebApiService.DeviceInterfaces;
 
 namespace WeeControl.Integration.Test.Contexts.Essential;
 
@@ -45,7 +46,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
             OldPassword = CoreTestHelper.Password, NewPassword = "NewPassword"
         });
 
-        helper.GuiMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
+        helper.GuiMock.Verify(x => x.DisplayAlert(It.IsAny<string>(),It.IsAny<IGui.Severity>()));
         helper.GuiMock.Verify(x =>
             x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
     }
@@ -62,7 +63,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
             OldPassword = "Invalid Password", NewPassword = "NewPassword", ConfirmPassword = "NewPassword"
         });
 
-        helper.GuiMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
+        helper.GuiMock.Verify(x => x.DisplayAlert(It.IsAny<string>(), It.IsAny<IGui.Severity>()));
         helper.GuiMock.Verify(x =>
             x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.AtMostOnce);
     }
@@ -85,7 +86,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
         });
 
 
-        helper.GuiMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
+        helper.GuiMock.Verify(x => x.DisplayAlert(It.IsAny<string>(), It.IsAny<IGui.Severity>()));
         helper.GuiMock.Verify(x =>
             x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
     }

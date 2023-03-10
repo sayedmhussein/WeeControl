@@ -24,20 +24,40 @@ public class GuiService : IGui
 
     string IGui.CurrentPageName => currentPageName;
 
-    public Task DisplayAlert(string message)
+    public Task DisplayAlert(string message, IGui.Severity severity = IGui.Severity.Normal)
     {
         jsRuntime.InvokeVoidAsync("alert", message);
         return Task.CompletedTask;
         // bool = jsRuntime.InvokeAsync<bool>("confirm", message);
         // string = await jsRuntime.InvokeAsync<string>("prompt", message);
     }
-
-    public Task DisplayQuickAlert(string message)
+    
+    public Task DisplayQuickAlert(string message, IGui.Severity severity = IGui.Severity.Normal)
     {
         using var scope = serviceProvider.CreateScope();
         var snackbar = scope.ServiceProvider.GetRequiredService<ISnackbar>();
         snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomStart;
-        snackbar.Add(message);
+
+        switch (severity)
+        {
+            case IGui.Severity.Normal:
+                snackbar.Add(message);
+                break;
+            case IGui.Severity.Info:
+                snackbar.Add(message, Severity.Info);
+                break;
+            case IGui.Severity.Success:
+                snackbar.Add(message, Severity.Success);
+                break;
+            case IGui.Severity.Warning:
+                snackbar.Add(message, Severity.Warning);
+                break;
+            case IGui.Severity.Error:
+                snackbar.Add(message, Severity.Error);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(severity), severity, null);
+        }
 
         return Task.CompletedTask;
     }

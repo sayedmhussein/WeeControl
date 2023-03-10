@@ -2,6 +2,7 @@ using System.Net;
 using WeeControl.Core.DataTransferObject.Contexts.Essentials;
 using WeeControl.Host.WebApiService.Contexts.Essentials;
 using WeeControl.Host.WebApiService.Data;
+using WeeControl.Host.WebApiService.DeviceInterfaces;
 using WeeControl.Host.WebApiService.Internals.Interfaces;
 
 namespace WeeControl.Host.Test.ApiService.Contexts.Essentials;
@@ -65,7 +66,7 @@ public class AuthorizationServiceTests
         await service.Login(LoginRequestDto.Create("username", "password"));
 
         helper.GuiMock.Verify(x =>
-            x.DisplayAlert(It.IsAny<string>()), Times.Once);
+            x.DisplayAlert(It.IsAny<string>(), It.IsAny<IGui.Severity>()), Times.Once);
         helper.GuiMock.Verify(x =>
             x.NavigateToAsync(ApplicationPages.Essential.HomePage, true), Times.Never);
     }
@@ -85,7 +86,7 @@ public class AuthorizationServiceTests
         await service.Login(LoginRequestDto.Create(username, password));
 
         helper.GuiMock.Verify(x =>
-            x.DisplayAlert(It.IsAny<string>()), Times.Once);
+            x.DisplayAlert(It.IsAny<string>(), It.IsAny<IGui.Severity>()), Times.Once);
         helper.GuiMock.Verify(x =>
             x.NavigateToAsync(ApplicationPages.Essential.HomePage, true), Times.Never);
     }
@@ -111,7 +112,7 @@ public class AuthorizationServiceTests
         await service.UpdateToken("value");
 
         helper.GuiMock.Verify(x =>
-                x.DisplayAlert(It.IsAny<string>()),
+                x.DisplayAlert(It.IsAny<string>(), It.IsAny<IGui.Severity>()),
             code == HttpStatusCode.OK ? Times.Never : Times.Once);
 
         helper.GuiMock.Verify(x =>
@@ -133,7 +134,7 @@ public class AuthorizationServiceTests
         await service.UpdateToken(value);
 
         helper.GuiMock.Verify(x =>
-            x.DisplayAlert(It.IsAny<string>()), Times.AtLeastOnce);
+            x.DisplayAlert(It.IsAny<string>(), It.IsAny<IGui.Severity>()), Times.AtLeastOnce);
 
         helper.GuiMock.Verify(x =>
             x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Never);

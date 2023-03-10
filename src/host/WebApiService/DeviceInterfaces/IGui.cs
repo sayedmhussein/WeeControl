@@ -2,11 +2,16 @@ namespace WeeControl.Host.WebApiService.DeviceInterfaces;
 
 public interface IGui
 {
-    public string CurrentPageName { get; }
+    enum Severity
+    {
+        Normal, Success, Info, Warning, Error
+    }
+    
+    string CurrentPageName { get; }
 
-    Task DisplayAlert(string message);
+    Task DisplayAlert(string message, Severity severity = Severity.Normal);
 
-    Task DisplayQuickAlert(string message);
+    Task DisplayQuickAlert(string message, Severity severity = Severity.Normal);
 
     Task NavigateToAsync(string pageName, bool forceLoad = false);
 }

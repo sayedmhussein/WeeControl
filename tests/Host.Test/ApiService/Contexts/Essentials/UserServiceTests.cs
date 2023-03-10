@@ -4,6 +4,7 @@ using WeeControl.Core.SharedKernel.Contexts.Essentials;
 using WeeControl.Core.Test;
 using WeeControl.Host.WebApiService.Contexts.Essentials;
 using WeeControl.Host.WebApiService.Data;
+using WeeControl.Host.WebApiService.DeviceInterfaces;
 
 namespace WeeControl.Host.Test.ApiService.Contexts.Essentials;
 
@@ -23,7 +24,7 @@ public class UserServiceTests
         await service.AddUser(dto);
 
         helper.GuiMock
-            .Verify(x => x.DisplayAlert(It.IsAny<string>()), Times.Once);
+            .Verify(x => x.DisplayAlert(It.IsAny<string>(), It.IsAny<IGui.Severity>()), Times.Once);
         helper.GuiMock
             .Verify(x =>
                 x.NavigateToAsync(ApplicationPages.Essential.OtpPage, It.IsAny<bool>()), Times.Never);
@@ -53,7 +54,7 @@ public class UserServiceTests
         await service.AddUser(dto);
 
         helper.GuiMock
-            .Verify(x => x.DisplayAlert(It.IsAny<string>()), Times.Once);
+            .Verify(x => x.DisplayAlert(It.IsAny<string>(), It.IsAny<IGui.Severity>()), Times.Once);
         helper.GuiMock
             .Verify(x =>
                 x.NavigateToAsync(It.IsAny<string>(), It.IsAny<bool>()), Times.Never);

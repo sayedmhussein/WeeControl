@@ -81,7 +81,8 @@ public class DeviceDataService : ICommunication, IFeature, IMedia, ISharing, ISt
 
     public Task Speak(string message)
     {
-        throw new NotImplementedException();
+        Console.WriteLine($"TTS: {message}.");
+        return Task.CompletedTask;
     }
 
     public Task CopyToClipboard(string text)

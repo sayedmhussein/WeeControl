@@ -5,6 +5,7 @@ using WeeControl.Host.WebApi;
 using WeeControl.Host.WebApiService;
 using WeeControl.Host.WebApiService.Contexts.Essentials;
 using WeeControl.Host.WebApiService.Data;
+using WeeControl.Host.WebApiService.DeviceInterfaces;
 
 namespace WeeControl.Integration.Test.Contexts.Essential;
 
@@ -120,7 +121,7 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
             x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
 
         helper.GuiMock.Verify(x =>
-            x.DisplayAlert(It.IsAny<string>()), Times.Once);
+            x.DisplayAlert(It.IsAny<string>(), It.IsAny<IGui.Severity>()), Times.Once);
     }
 
     #endregion
