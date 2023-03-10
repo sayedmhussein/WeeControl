@@ -18,28 +18,27 @@ public class Program
     public static async Task Main(string[] args)
     {
         var host = CreateHostBuilder(args).Build();
-        
+
         using var scope = host.Services.CreateScope();
         await PrepareDatabase(scope);
-        
+
         await host.RunAsync();
     }
 
-    private static IHostBuilder CreateHostBuilder(string[] args) =>
-        Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
-            .ConfigureWebHostDefaults(webBuilder =>
-            {
-                webBuilder.UseStartup<Startup>();
-            });
+    private static IHostBuilder CreateHostBuilder(string[] args)
+    {
+        return Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
+            .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
+    }
 
     private static async Task PrepareDatabase(IServiceScope scope)
     {
-        var context = (EssentialDbContext)scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
-        
+        var context = (EssentialDbContext) scope.ServiceProvider.GetRequiredService<IEssentialDbContext>();
+
         if (context.Database.IsRelational())
         {
             await context.Database.MigrateAsync();
-            
+
             try
             {
                 await context.Database.OpenConnectionAsync();
@@ -57,7 +56,7 @@ public class Program
         {
             await context.Database.EnsureCreatedAsync();
         }
-        
+
         try
         {
             var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();

@@ -10,14 +10,14 @@ public class HomeServiceTests
     [Fact]
     public async void WhenSuccess_ReturnAllItems()
     {
-        using var helper = new HostTestHelper(HttpStatusCode.OK, new HomeResponseDto()
+        using var helper = new HostTestHelper(HttpStatusCode.OK, new HomeResponseDto
         {
-            FullName = "Full Name", Notifications = new []{ new HomeNotificationModel()}
+            FullName = "Full Name", Notifications = new[] {new HomeNotificationModel()}
         });
         var service = helper.GetService<IHomeService>();
 
         var success = await service.Refresh();
-        
+
         Assert.True(success);
     }
 
@@ -30,7 +30,7 @@ public class HomeServiceTests
         var service = helper.GetService<IHomeService>();
 
         var success = await service.Refresh();
-        
+
         Assert.False(success);
         helper.GuiMock.Verify(x => x.DisplayAlert(It.IsAny<string>()), Times.Once);
     }

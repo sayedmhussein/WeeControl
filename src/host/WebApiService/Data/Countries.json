@@ -1,0 +1,40 @@
+﻿[
+  {
+    "Name": "Egypt",
+    "Code2": "EG",
+    "Code3": "EGY",
+    "Numeric": 818,
+    "Local": "مصر",
+    "Cities": [
+      {
+        "Name": "Cairo",
+        "Code3": "CAI",
+        "Local": "القاهرة"
+      },
+      {
+        "Name": "Alexandria",
+        "Code3": "ALX",
+        "Local": "الإسكندرية"
+      }
+    ]
+  },
+  {
+    "Name": "Saudi Arabia",
+    "Code2": "SA",
+    "Code3": "SAU",
+    "Numeric": 682,
+    "Local": "السعودية",
+    "Cities": [
+      {
+        "Name": "Jeddah",
+        "Code3": "JED",
+        "Local": "جدة"
+      },
+      {
+        "Name": "Riyadh",
+        "Code3": "RUH",
+        "Local": "الرياض"
+      }
+    ]
+  }
+]

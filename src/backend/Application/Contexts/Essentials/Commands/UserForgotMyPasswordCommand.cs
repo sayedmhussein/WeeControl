@@ -28,7 +28,8 @@ public class UserForgotMyPasswordCommand : IRequest
         private readonly IMediator mediator;
         private readonly IPasswordSecurity passwordSecurity;
 
-        public ForgotMyPasswordHandler(IEssentialDbContext context, IMediator mediator, IPasswordSecurity passwordSecurity)
+        public ForgotMyPasswordHandler(IEssentialDbContext context, IMediator mediator,
+            IPasswordSecurity passwordSecurity)
         {
             this.context = context;
             this.mediator = mediator;
@@ -38,11 +39,11 @@ public class UserForgotMyPasswordCommand : IRequest
         public async Task Handle(UserForgotMyPasswordCommand request, CancellationToken cancellationToken)
         {
             if (request.dto.GetModelValidationErrors().Any() || request.dto.Payload.GetModelValidationErrors().Any())
-            {
                 throw new BadRequestException("Invalid device or email or username");
-            }
 
-            var user = await context.Users.FirstOrDefaultAsync(x => x.Username == request.dto.Payload.Username.ToLower() && x.Email == request.dto.Payload.Email.ToLower(), cancellationToken);
+            var user = await context.Users.FirstOrDefaultAsync(
+                x => x.Username == request.dto.Payload.Username.ToLower() &&
+                     x.Email == request.dto.Payload.Email.ToLower(), cancellationToken);
             if (user is not null)
             {
                 if (string.IsNullOrEmpty(user.SuspendArgs) == false)
@@ -53,8 +54,6 @@ public class UserForgotMyPasswordCommand : IRequest
                 await context.SaveChangesAsync(cancellationToken);
 
                 await mediator.Publish(new PasswordResetNotification(user.UserId, password), cancellationToken);
-
-                return;
             }
 
             //return Unit.Value;

@@ -1,16 +1,15 @@
+@using WeeControl.Host.WebApiService.Contexts.Essentials
+@using WeeControl.Host.WebApiService.Data
 @attribute [Route(ApplicationPages.Essential.OtpPage)]
 @attribute [AllowAnonymous]
-
-@using WeeControl.Host.WebApiService
-@using WeeControl.Host.WebApiService.Contexts.Essentials
 @inject IAuthenticationService UserAuthorizationService
 
 <MudPaper Style="max-width: 650px; align-content: center; align-self: center; justify-content: center">
     @if (isLoading)
     {
-        <MudSkeleton />
-        <MudSkeleton SkeletonType="SkeletonType.Circle" Width="50px" Height="50px" />
-        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="200px" Height="110px" />
+        <MudSkeleton/>
+        <MudSkeleton SkeletonType="SkeletonType.Circle" Width="50px" Height="50px"/>
+        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="200px" Height="110px"/>
     }
     else
     {
@@ -23,8 +22,8 @@
             </MudCardActions>
         </MudCard>
     }
-    
-    
+
+
 </MudPaper>
 
 
@@ -40,4 +39,5 @@
         otp = string.Empty;
         isLoading = false;
     }
+
 }

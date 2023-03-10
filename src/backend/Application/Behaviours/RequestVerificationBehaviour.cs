@@ -1,6 +1,6 @@
-﻿using MediatR.Pipeline;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using MediatR.Pipeline;
 using WeeControl.Core.DataTransferObject.BodyObjects;
 using WeeControl.Core.SharedKernel.ExtensionMethods;
 
@@ -10,10 +10,7 @@ public class RequestVerificationBehaviour<TRequest> : IRequestPreProcessor<TRequ
 {
     public Task Process(TRequest request, CancellationToken cancellationToken)
     {
-        if (request is IRequestDto dto)
-        {
-            dto.ThrowExceptionIfEntityModelNotValid();
-        }
+        if (request is IRequestDto dto) dto.ThrowExceptionIfEntityModelNotValid();
 
         return Task.CompletedTask;
     }

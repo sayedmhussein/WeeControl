@@ -12,6 +12,16 @@ namespace WeeControl.Core.Domain.Contexts.Essentials;
 [Table("Person", Schema = nameof(Essentials))]
 public class PersonDbo : PersonModel
 {
+    private PersonDbo()
+    {
+    }
+
+    [Key] public Guid PersonId { get; init; }
+
+    public virtual IEnumerable<PersonIdentityDbo> Identities { get; }
+    public virtual IEnumerable<AddressDbo> Addresses { get; }
+    public virtual IEnumerable<PersonContactDbo> Contacts { get; }
+
     public static PersonDbo Create(PersonModel model)
     {
         model.ThrowExceptionIfEntityModelNotValid();
@@ -25,17 +35,6 @@ public class PersonDbo : PersonModel
             NationalityCode = model.NationalityCode.ToUpper(),
             DateOfBirth = model.DateOfBirth
         };
-    }
-
-    [Key]
-    public Guid PersonId { get; init; }
-
-    public virtual IEnumerable<PersonIdentityDbo> Identities { get; }
-    public virtual IEnumerable<AddressDbo> Addresses { get; }
-    public virtual IEnumerable<PersonContactDbo> Contacts { get; }
-    
-    private PersonDbo()
-    {
     }
 }
 

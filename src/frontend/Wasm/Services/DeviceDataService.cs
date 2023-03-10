@@ -1,27 +1,24 @@
 using System;
-using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Configuration;
-using Microsoft.JSInterop;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Configuration;
+using Microsoft.JSInterop;
 using WeeControl.Host.WebApiService.DeviceInterfaces;
 
 namespace WeeControl.Frontend.Wasm.Services;
 
 public class DeviceDataService : ICommunication, IFeature, IMedia, ISharing, IStorage
 {
+    private readonly IConfiguration configuration;
     private readonly IJSRuntime jsRuntime;
     private readonly NavigationManager navigationManager;
-    private readonly IConfiguration configuration;
-    private readonly IServiceProvider  serviceProvider;
+    private readonly IServiceProvider serviceProvider;
 
-    
-    public string ServerUrl => configuration["ApiBaseAddress"];
-    public HttpClient HttpClient { get; init; }
-
-    public DeviceDataService(IJSRuntime jsRuntime, NavigationManager navigationManager, IConfiguration configuration, IServiceProvider  serviceProvider)
+    public DeviceDataService(IJSRuntime jsRuntime, NavigationManager navigationManager, IConfiguration configuration,
+        IServiceProvider serviceProvider)
     {
         this.jsRuntime = jsRuntime;
         this.navigationManager = navigationManager;
@@ -29,6 +26,10 @@ public class DeviceDataService : ICommunication, IFeature, IMedia, ISharing, ISt
         this.serviceProvider = serviceProvider;
         HttpClient = new HttpClient();
     }
+
+
+    public string ServerUrl => configuration["ApiBaseAddress"];
+    public HttpClient HttpClient { get; init; }
 
     public async Task SendAnEmail(IEnumerable<string> to, string subject, string body)
     {
@@ -47,14 +48,13 @@ public class DeviceDataService : ICommunication, IFeature, IMedia, ISharing, ISt
 
     public Task<bool> IsConnectedToInternet()
     {
-
         return Task.FromResult(true);
         //return await jsRuntime.InvokeAsync<bool>("window.navigator.onLine");
     }
 
     public async Task<bool> PhoneDial(string phoneNo)
     {
-        await jsRuntime.InvokeAsync<bool>($"Phone Call", $"Please call the following number from your mobile {phoneNo}");
+        await jsRuntime.InvokeAsync<bool>("Phone Call", $"Please call the following number from your mobile {phoneNo}");
         return true;
     }
 
@@ -81,17 +81,17 @@ public class DeviceDataService : ICommunication, IFeature, IMedia, ISharing, ISt
 
     public Task Speak(string message)
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 
     public Task CopyToClipboard(string text)
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 
     public Task<string> ReadFromClipboard()
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 
     public Task ClearClipboard()

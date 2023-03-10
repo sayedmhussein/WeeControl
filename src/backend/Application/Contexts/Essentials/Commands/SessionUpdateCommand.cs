@@ -37,11 +37,11 @@ public class SessionUpdateCommand : IRequest<ResponseDto<TokenResponseDto>>
 
     public class UserTokenHandler : IRequestHandler<SessionUpdateCommand, ResponseDto<TokenResponseDto>>
     {
+        private readonly IConfiguration configuration;
         private readonly IEssentialDbContext context;
+        private readonly ICurrentUserInfo currentUserInfo;
         private readonly IJwtService jwtService;
         private readonly IMediator mediator;
-        private readonly IConfiguration configuration;
-        private readonly ICurrentUserInfo currentUserInfo;
         private readonly IPasswordSecurity passwordSecurity;
 
         public UserTokenHandler(
@@ -60,22 +60,23 @@ public class SessionUpdateCommand : IRequest<ResponseDto<TokenResponseDto>>
             this.passwordSecurity = passwordSecurity;
         }
 
-        public async Task<ResponseDto<TokenResponseDto>> Handle(SessionUpdateCommand request, CancellationToken cancellationToken)
+        public async Task<ResponseDto<TokenResponseDto>> Handle(SessionUpdateCommand request,
+            CancellationToken cancellationToken)
         {
             if (currentUserInfo.SessionId is not null)
             {
                 var session = await context.UserSessions
                     .Include(x => x.User)
                     .ThenInclude(x => x.Claims)
-                    .FirstOrDefaultAsync(x => x.SessionId == currentUserInfo.SessionId && x.TerminationTs == null && x.DeviceId == request.dto.DeviceId, cancellationToken);
+                    .FirstOrDefaultAsync(
+                        x => x.SessionId == currentUserInfo.SessionId && x.TerminationTs == null &&
+                             x.DeviceId == request.dto.DeviceId, cancellationToken);
                 if (session is null) throw new NotAllowedException("Different Device!!! or session expired");
 
                 if (session.OneTimePassword is not null)
                 {
                     if (string.IsNullOrWhiteSpace(request.otp) || request.otp != session.OneTimePassword)
-                    {
                         throw new NotAllowedException("Otp Isn't matching the recorded.");
-                    }
 
                     session.DisableOtpRequirement();
                     await context.SaveChangesAsync(cancellationToken);
@@ -84,37 +85,29 @@ public class SessionUpdateCommand : IRequest<ResponseDto<TokenResponseDto>>
                 var ci = new ClaimsIdentity("custom");
                 ci.AddClaim(new Claim(ClaimsValues.ClaimTypes.Session, session.SessionId.ToString()));
 
-                var employee = await context.Employees.FirstOrDefaultAsync(x => x.PersonId == session.UserId, cancellationToken);
+                var employee =
+                    await context.Employees.FirstOrDefaultAsync(x => x.PersonId == session.UserId, cancellationToken);
                 if (employee is not null)
-                {
                     ci.AddClaim(new Claim(ClaimsValues.ClaimTypes.CustomerTerritory, Guid.Empty.ToString()));
-                }
 
                 var customer =
                     await context.Customers.FirstOrDefaultAsync(x => x.UserId == session.UserId, cancellationToken);
-                if (customer is not null)
-                {
-                    ci.AddClaim(new Claim(ClaimsValues.ClaimTypes.Country, customer.CountryCode));
-                }
+                if (customer is not null) ci.AddClaim(new Claim(ClaimsValues.ClaimTypes.Country, customer.CountryCode));
 
                 foreach (var c in session?.User.Claims?.Where(x => x.RevokedTs == null)?.ToList())
-                {
                     ci.AddClaim(new Claim(c.ClaimType, c.ClaimValue));
-                }
 
-                if (configuration["Jwt:Key"] is null)
-                {
-                    throw new NullReferenceException();
-                }
-                
+                if (configuration["Jwt:Key"] is null) throw new NullReferenceException();
+
                 var key = Encoding.ASCII.GetBytes(configuration["Jwt:Key"]);
 
-                var descriptor = new SecurityTokenDescriptor()
+                var descriptor = new SecurityTokenDescriptor
                 {
                     Subject = ci,
                     IssuedAt = DateTime.UtcNow,
                     Expires = DateTime.UtcNow.AddDays(5),
-                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
+                        SecurityAlgorithms.HmacSha256Signature)
                 };
                 var token = jwtService.GenerateToken(descriptor);
 

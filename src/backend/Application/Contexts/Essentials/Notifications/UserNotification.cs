@@ -10,10 +10,10 @@ namespace WeeControl.Core.Application.Contexts.Essentials.Notifications;
 
 public class UserNotification : INotification
 {
-    private readonly string username;
-    private readonly string subject;
     private readonly string details;
+    private readonly string subject;
     private readonly string uri;
+    private readonly string username;
 
     public UserNotification(string username, string subject, string details, string uri)
     {
@@ -34,15 +34,13 @@ public class UserNotification : INotification
 
         public async Task Handle(UserNotification notification, CancellationToken cancellationToken)
         {
-            var user = await essentialDbContext.Users.FirstOrDefaultAsync(x => x.Username == notification.username, cancellationToken);
-            if (user is null)
-            {
-                throw new NotFoundException("User not found!");
-            }
+            var user = await essentialDbContext.Users.FirstOrDefaultAsync(x => x.Username == notification.username,
+                cancellationToken);
+            if (user is null) throw new NotFoundException("User not found!");
 
             await essentialDbContext.UserNotifications.AddAsync(
                 UserNotificationDbo
-                    .Create(user.UserId, notification.subject, notification.details, notification.uri), 
+                    .Create(user.UserId, notification.subject, notification.details, notification.uri),
                 cancellationToken);
 
             await essentialDbContext.SaveChangesAsync(cancellationToken);

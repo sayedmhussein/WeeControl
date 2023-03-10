@@ -15,7 +15,7 @@ public static class ModelValidationExtensions
     {
         var errors = GetErrors(entity);
         if (!errors.Any()) return string.Empty;
-        
+
         var pair = errors.First();
         return pair.Key + " - " + pair.Value.FirstOrDefault();
     }
@@ -35,9 +35,9 @@ public static class ModelValidationExtensions
     private static IDictionary<string, string?[]> GetErrors(object entity)
     {
         var list = new Dictionary<string, string?[]>();
-        
+
         var validationResults = new List<ValidationResult>();
-        
+
         var result = Validator.TryValidateObject(
             entity,
             new ValidationContext(entity),
@@ -45,11 +45,11 @@ public static class ModelValidationExtensions
             true);
 
         if (result) return list;
-        
+
         var propertyNames = validationResults
             .Select(e => e.MemberNames)
             .Distinct();
-            
+
         foreach (var propertyName in propertyNames)
         {
             var propertyFailures = validationResults

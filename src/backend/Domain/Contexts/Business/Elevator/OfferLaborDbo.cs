@@ -5,8 +5,7 @@ namespace WeeControl.Core.Domain.Contexts.Business.Elevator;
 
 public class OfferLaborDbo
 {
-    [Key]
-    public Guid OfferLaborId { get; set; }
+    [Key] public Guid OfferLaborId { get; set; }
 
     public Guid OfferId { get; set; }
     public OfferDbo Offer { get; set; }

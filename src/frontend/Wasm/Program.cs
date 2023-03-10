@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Components.Authorization;
+﻿using System.Net.Http;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using MudBlazor.Services;
-using System.Net.Http;
-using System.Threading.Tasks;
 using MudBlazor;
+using MudBlazor.Services;
 using WeeControl.Core.SharedKernel;
 using WeeControl.Frontend.Wasm.Services;
 using WeeControl.Host.WebApiService;
@@ -22,7 +22,7 @@ public class Program
         builder.RootComponents.Add<App>("#app");
 
         builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
-        
+
         builder.Services.AddWebApiService();
 
         builder.Services.AddUserSecurityService();
@@ -50,7 +50,6 @@ public class Program
 
         builder.Services.AddApiAuthorization(options =>
         {
-
             //options.AuthenticationPaths.LogInPath = ApplicationService.Pages.Essential.Authentication.LoginPage;
         });
 

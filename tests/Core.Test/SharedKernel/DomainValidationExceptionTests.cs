@@ -9,9 +9,10 @@ public class DomainValidationExceptionTests
     [Fact]
     public void TestWhenPersonIsValidatedAndOK_NoException()
     {
-        var model = new PersonModel()
+        var model = new PersonModel
         {
-            FirstName = "FirstName", LastName = "LastName", NationalityCode = "EGP", DateOfBirth = new DateTime(2000, 12, 31)
+            FirstName = "FirstName", LastName = "LastName", NationalityCode = "EGP",
+            DateOfBirth = new DateTime(2000, 12, 31)
         };
 
         model.ThrowExceptionIfEntityModelNotValid();
@@ -24,14 +25,14 @@ public class DomainValidationExceptionTests
     [InlineData("FirstName", "LastName", "EG", 1)]
     public void TestWhenFailures_ExceptionThrown(string firstName, string lastName, string nationality, int errorCount)
     {
-        var model = new PersonModel()
+        var model = new PersonModel
         {
-            FirstName = firstName, LastName = lastName, NationalityCode = nationality, DateOfBirth = new DateTime(2000, 12, 31)
+            FirstName = firstName, LastName = lastName, NationalityCode = nationality,
+            DateOfBirth = new DateTime(2000, 12, 31)
         };
 
         var ex = Assert.Throws<EntityModelValidationException>(() => model.ThrowExceptionIfEntityModelNotValid());
-        
+
         Assert.Equal(errorCount, ex.Failures.Count);
     }
-    
 }

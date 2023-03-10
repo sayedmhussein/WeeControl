@@ -23,7 +23,7 @@ public class VerifyRequestHandlerTests
 
         await handler.Process(query, CancellationToken.None);
     }
-    
+
     [Fact]
     //[Fact(Skip = "Later")]
     public async void WhenRequestDeviceIsEmptyOrNull_ThrownException()
@@ -32,9 +32,10 @@ public class VerifyRequestHandlerTests
         var query = new TestRequestAsRequestDto(dto);
         var handler = new RequestVerificationBehaviour<TestRequestAsRequestDto>();
 
-        await Assert.ThrowsAsync<EntityModelValidationException>(() => handler.Process(query, default)); ;
+        await Assert.ThrowsAsync<EntityModelValidationException>(() => handler.Process(query, default));
+        ;
     }
-    
+
     [Fact]
     public async void WhenNotRequestDto_PassNormal()
     {
@@ -44,7 +45,7 @@ public class VerifyRequestHandlerTests
 
         await handler.Process(query, CancellationToken.None);
     }
-    
+
     [Theory]
     [InlineData(-90.1, 0)]
     [InlineData(90.1, 0)]
@@ -56,7 +57,8 @@ public class VerifyRequestHandlerTests
         var query = new TestRequestAsRequestDto(dto);
         var handler = new RequestVerificationBehaviour<TestRequestAsRequestDto>();
 
-        await Assert.ThrowsAsync<EntityModelValidationException>(() => handler.Process(query, default)); ;
+        await Assert.ThrowsAsync<EntityModelValidationException>(() => handler.Process(query, default));
+        ;
     }
 }
 
@@ -70,6 +72,7 @@ internal class TestRequestAsRequestDto : RequestDto, IRequest
 internal class TestRequestAsNotRequestDto : IRequest
 {
     private LoginRequestDto login;
+
     public TestRequestAsNotRequestDto(LoginRequestDto dto)
     {
         login = dto;

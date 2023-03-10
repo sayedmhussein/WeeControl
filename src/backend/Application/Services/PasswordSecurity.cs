@@ -25,10 +25,7 @@ public class PasswordSecurity : IPasswordSecurity
         var stringChars = new char[length];
         var random = new Random();
 
-        for (var i = 0; i < stringChars.Length; i++)
-        {
-            stringChars[i] = chars[random.Next(chars.Length)];
-        }
+        for (var i = 0; i < stringChars.Length; i++) stringChars[i] = chars[random.Next(chars.Length)];
 
         return new string(stringChars);
     }

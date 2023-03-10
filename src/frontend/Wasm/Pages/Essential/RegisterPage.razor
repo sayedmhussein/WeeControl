@@ -1,10 +1,8 @@
-@using WeeControl.Host.WebApiService
-@using Microsoft.AspNetCore.Components
-@using WeeControl.Core.DataTransferObject.Contexts.Essentials
 @using WeeControl.Host.WebApiService.Contexts.Constants
 @using WeeControl.Host.WebApiService.Contexts.Essentials
+@using WeeControl.Host.WebApiService.Data
+@using WeeControl.Core.DataTransferObject.Contexts.Essentials
 @using System.ComponentModel.DataAnnotations.Schema
-
 @attribute [Route(ApplicationPages.Essential.RegisterPage)]
 @attribute [AllowAnonymous]
 
@@ -13,15 +11,15 @@
 @inject IDialogService DialogService
 
 <MudCard Style="align-content: center; align-self: center; justify-content: start">
-    
+
     @if (isLoading)
     {
-        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+        <MudProgressCircular Color="Color.Default" Indeterminate="true"/>
     }
     else
     {
         <EditForm Model="@model" OnValidSubmit="@Register">
-            <ObjectGraphDataAnnotationsValidator />
+            <ObjectGraphDataAnnotationsValidator/>
             <MudGrid Spacing="2">
                 <MudItem xs="6" sm="3">
                     <MudTextField T="string" Label="First Name"
@@ -54,7 +52,7 @@
                                For="@(() => model.Person.NationalityCode)">
                         @foreach (var country in ConstantValue.Countries)
                         {
-                            <MudSelectItem Value="@country.CountryCode">@country.CountryName</MudSelectItem>
+                            <MudSelectItem Value="@country.Code3">@country.Name</MudSelectItem>
                         }
                     </MudSelect>
                 </MudItem>
@@ -72,12 +70,14 @@
                     <MudTextField T="string" Label="Your Email"
                                   @bind-Value="@model.User.Email"
                                   InputType="InputType.Email"
-                                  For="@(() => model.User.Email)"></MudTextField>
+                                  For="@(() => model.User.Email)">
+                    </MudTextField>
                 </MudItem>
                 <MudItem xs="6" sm="3">
                     <MudTextField T="string" Label="Username"
                                   @bind-Value="@model.User.Username"
-                                  For="@(() => model.User.Username)"></MudTextField>
+                                  For="@(() => model.User.Username)">
+                    </MudTextField>
 
                 </MudItem>
                 <MudItem xs="6" sm="3">
@@ -85,16 +85,18 @@
                                   @bind-Value="@model.User.Password"
                                   InputType="InputType.Password"
                                   HelperText="Choose a strong password."
-                                  For="@(() => model.User.Password)"></MudTextField>
+                                  For="@(() => model.User.Password)">
+                    </MudTextField>
 
                 </MudItem>
                 <MudItem xs="6" sm="3">
                     <MudTextField T="string" Label="Confirm Password"
                                   @bind-Value="@model.ConfirmPassword"
                                   InputType="InputType.Password"
-                                  For="@(() => model.ConfirmPassword)"></MudTextField>
+                                  For="@(() => model.ConfirmPassword)">
+                    </MudTextField>
                 </MudItem>
-                
+
                 <MudItem xs="4">
                     <MudCheckBox T="bool" @bind-Checked="@model.Acknowledgment">Agree To Terms</MudCheckBox>
                 </MudItem>
@@ -105,10 +107,10 @@
             </MudGrid>
 
             <MudButton Variant="Variant.Text" ButtonType="ButtonType.Submit" Disabled="@(!model.Acknowledgment)">Register</MudButton>
-            
+
         </EditForm>
     }
-    
+
 </MudCard>
 
 @code {
@@ -130,6 +132,7 @@
         public string ConfirmPassword { get; set; }
 
         [NotMapped]
-        public bool Acknowledgment { get; set; } = false;
+        public bool Acknowledgment { get; set; }
     }
+
 }

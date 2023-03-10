@@ -8,7 +8,13 @@ public class StandardStringAttribute : ValidationAttribute
     private const string DefaultString = "abcdefghijklmnopqrstuvwxyz1234567890_";
     private string? accept;
     private string? reject;
-    
+
+    public StandardStringAttribute(string? accept = null, string? reject = null)
+    {
+        this.accept = accept?.ToLower();
+        this.reject = reject?.ToLower();
+    }
+
     public string? Accept
     {
         get => accept;
@@ -21,42 +27,26 @@ public class StandardStringAttribute : ValidationAttribute
         set => reject = value?.ToLower();
     }
 
-    public StandardStringAttribute(string? accept = null, string? reject = null)
-    {
-        this.accept = accept?.ToLower();
-        this.reject = reject?.ToLower();
-    }
-
     public override bool IsValid(object? value)
     {
         var str = value as string;
-        
+
         if (string.IsNullOrEmpty(str) == false)
         {
             var allowed = DefaultString;
 
-            if (string.IsNullOrEmpty(accept) == false)
-            {
-                allowed += accept;
-            }
+            if (string.IsNullOrEmpty(accept) == false) allowed += accept;
 
             foreach (var c in str.ToLower())
             {
-                if (allowed.Contains(c) == false)
-                {
-                    return false;
-                }
+                if (allowed.Contains(c) == false) return false;
 
                 if (string.IsNullOrEmpty(reject) == false)
-                {
                     if (reject.Contains(c))
-                    {
                         return false;
-                    }
-                }
             }
         }
-        
+
         return true;
     }
 
@@ -87,7 +77,7 @@ public class StandardStringAttribute : ValidationAttribute
         }
 
         sp.Append('.');
-        
+
         return sp.ToString();
     }
 }

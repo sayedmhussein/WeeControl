@@ -8,9 +8,10 @@ public class ModelValidationErrorTests
     [Fact]
     public void TestWhenPersonIsValidatedAndOK_NoException()
     {
-        var model = new PersonModel()
+        var model = new PersonModel
         {
-            FirstName = "FirstName", LastName = "LastName", NationalityCode = "EGP", DateOfBirth = new DateTime(2000, 12, 31)
+            FirstName = "FirstName", LastName = "LastName", NationalityCode = "EGP",
+            DateOfBirth = new DateTime(2000, 12, 31)
         };
 
         Assert.Empty(model.GetModelValidationErrors());
@@ -25,16 +26,16 @@ public class ModelValidationErrorTests
     [InlineData("FirstName", "LastName", "EG", 1)]
     public void TestWhenFailures_ExceptionThrown(string firstName, string lastName, string nationality, int errorCount)
     {
-        var model = new PersonModel()
+        var model = new PersonModel
         {
-            FirstName = firstName, LastName = lastName, NationalityCode = nationality, DateOfBirth = new DateTime(2000, 12, 31)
+            FirstName = firstName, LastName = lastName, NationalityCode = nationality,
+            DateOfBirth = new DateTime(2000, 12, 31)
         };
 
         var ex = model.GetModelValidationErrors();
-        
+
         Assert.Equal(errorCount, ex.Count);
         Assert.False(model.IsValidEntityModel());
         Assert.NotEmpty(model.GetFirstValidationError());
     }
-
 }

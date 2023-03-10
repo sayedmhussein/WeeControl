@@ -7,7 +7,7 @@ namespace WeeControl.Host.WebApiService.Internals.Services;
 internal class DatabaseService : IDatabaseService
 {
     private readonly SQLiteAsyncConnection database;
-    
+
     public DatabaseService(IStorage deviceStorage)
     {
         if (database is not null) return;
@@ -16,11 +16,13 @@ internal class DatabaseService : IDatabaseService
                                       SQLiteOpenFlags.Create |
                                       SQLiteOpenFlags.SharedCache;
 
-        database = string.IsNullOrEmpty(deviceStorage.AppDataDirectory) ?
-            new SQLiteAsyncConnection(":memory:", flags) :
-            new SQLiteAsyncConnection(Path.Combine(deviceStorage.AppDataDirectory, "AppDb.db3"), flags);
+        Directory.CreateDirectory(deviceStorage.AppDataDirectory);
+
+        database = string.IsNullOrEmpty(deviceStorage.AppDataDirectory)
+            ? new SQLiteAsyncConnection(":memory:", flags)
+            : new SQLiteAsyncConnection(Path.Combine(deviceStorage.AppDataDirectory, "AppDb.db3"), flags);
     }
-    
+
     public async Task ClearAllTables()
     {
         try
@@ -58,7 +60,7 @@ internal class DatabaseService : IDatabaseService
         await Init<T>();
         return await database.Table<T>().ToListAsync();
     }
-    
+
     private Task Init<T>() where T : new()
     {
         return database.CreateTableAsync<T>();

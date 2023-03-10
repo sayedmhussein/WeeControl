@@ -1,9 +1,10 @@
-﻿@using WeeControl.Frontend.Wasm.Layouts.Components
-@using WeeControl.Host.WebApiService
+﻿@using WeeControl.Host.WebApiService
 @using WeeControl.Host.WebApiService.Contexts.Essentials
+@using WeeControl.Host.WebApiService.Data
 @using WeeControl.Host.WebApiService.DeviceInterfaces
 @using System.Security.Claims
 @using WeeControl.Core.SharedKernel
+@using WeeControl.Frontend.Wasm.Layouts.Components
 @inherits LayoutComponentBase
 @attribute [AllowAnonymous]
 
@@ -31,28 +32,27 @@
             <MudMenu Icon="@Icons.Material.Outlined.Notifications" AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight" ActivationEvent="@MouseEvent.MouseOver" MaxHeight="300">
                 <NotificationComponent></NotificationComponent>
             </MudMenu>
-            
-            <MudIconButton 
-                Icon="@Icons.Material.Outlined.Logout" 
+
+            <MudIconButton
+                Icon="@Icons.Material.Outlined.Logout"
                 Color="Color.Primary" Title="Logout"
-                OnClick="@UserAuthorizationService.Logout"
-            ></MudIconButton>
-            
+                OnClick="@UserAuthorizationService.Logout">
+            </MudIconButton>
         }
         else
         {
             <MudSpacer></MudSpacer>
             if (Gui.CurrentPageName is not ApplicationPages.Essential.LoginPage or ApplicationPages.Essential.RegisterPage)
             {
-                <MudIconButton 
-                    Icon="@Icons.Material.Outlined.Login" 
+                <MudIconButton
+                    Icon="@Icons.Material.Outlined.Login"
                     Color="Color.Primary" Title="Login"
-                    OnClick="@(() => Gui.NavigateToAsync(ApplicationPages.Essential.LoginPage, forceLoad:true))"
-                ></MudIconButton>
+                    OnClick="@(() => Gui.NavigateToAsync(ApplicationPages.Essential.LoginPage, true))">
+                </MudIconButton>
             }
         }
     </MudToolBar>
-    
+
     <MudPaper Class="d-flex flex-column flex-fill flex-grow-1 gap-4" Elevation="0" Style="margin: 5px">
         @Body
     </MudPaper>
@@ -65,26 +65,26 @@
     IEnumerable<string> pages;
     IEnumerable<Claim> claims;
 
-     protected override async Task OnInitializedAsync()
-     {
-         isAuthenticated = await Security.IsAuthenticated();
-         if (isAuthenticated)
-         {
-             await Home.Refresh();
-             fullName = isAuthenticated ? "Hello " + Home.Fullname : string.Empty;
-             pages = await Security.GetAllowedPages();
-             StateHasChanged();
-             claims = (await Security.GetClaimsPrincipal()).Claims;
-         }
-         
-         await base.OnInitializedAsync();
+    protected override async Task OnInitializedAsync()
+    {
+        isAuthenticated = await Security.IsAuthenticated();
+        if (isAuthenticated)
+        {
+            await Home.Refresh();
+            fullName = isAuthenticated ? "Hello " + Home.Fullname : string.Empty;
+            pages = await Security.GetAllowedPages();
+            StateHasChanged();
+            claims = (await Security.GetClaimsPrincipal()).Claims;
+        }
+
+        await base.OnInitializedAsync();
     }
 
     private static bool IsEmployee(IEnumerable<Claim> claims)
     {
         return !claims.Select(x => x.Type).Contains(ClaimsValues.ClaimTypes.CustomerTerritory);
     }
-    
+
     private static bool IsCustomer(IEnumerable<Claim> claims)
     {
         return claims.Select(x => x.Type).Contains(ClaimsValues.ClaimTypes.CustomerTerritory);

@@ -10,7 +10,7 @@ public class UserModel : IEntityModel
     [StringLength(500, MinimumLength = 3)]
     [EmailAddress]
     public string Email { get; set; } = string.Empty;
-    
+
     [Required]
     [StringLength(255)]
     [StandardString]

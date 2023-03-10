@@ -18,9 +18,9 @@ public class ExampleTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         using var testHelper = new HostTestHelper(factory.CreateCustomClient());
         await testHelper.Authenticate();
-        
+
         var service = testHelper.GetService<ISecurity>();
-        
+
         Assert.True(await service.IsAuthenticated());
     }
 }

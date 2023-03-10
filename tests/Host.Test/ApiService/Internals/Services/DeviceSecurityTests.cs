@@ -5,9 +5,10 @@ using Microsoft.IdentityModel.Tokens;
 using WeeControl.Core.SharedKernel;
 using WeeControl.Core.SharedKernel.Interfaces;
 using WeeControl.Host.WebApiService;
+using WeeControl.Host.WebApiService.Data;
 using WeeControl.Host.WebApiService.Internals.Interfaces;
 
-namespace WeeControl.Host.Test.ApiService.Internals.Interfaces;
+namespace WeeControl.Host.Test.ApiService.Internals.Services;
 
 public class DeviceSecurityTests
 {
@@ -19,7 +20,7 @@ public class DeviceSecurityTests
     {
         using var service = new HostTestHelper(HttpStatusCode.OK);
         service.StorageMock.Setup(x => x.GetKeyValue(IDeviceSecurity.TokenKeyName)).ReturnsAsync(token);
-        
+
         Assert.Equal(isTrue, await service.GetService<IDeviceSecurity>().IsAuthenticated());
     }
 
@@ -58,10 +59,10 @@ public class DeviceSecurityTests
         using var testingService = new HostTestHelper(HttpStatusCode.OK);
         testingService.StorageMock.Setup(x => x.SaveKeyValue(It.IsAny<string>(), It.IsAny<string>()))
             .Callback((string k, string v) => testingService.StorageMock.Setup(x => x.GetKeyValue(k)).ReturnsAsync(v));
-        
+
 
         var service = testingService.GetService<IDeviceSecurity>();
-        
+
         await service.UpdateToken(GenerateToken(testingService));
         var cp = await service.GetClaimsPrincipal();
 
@@ -79,9 +80,9 @@ public class DeviceSecurityTests
     {
         using var helper = new HostTestHelper(HttpStatusCode.OK);
         var service = helper.GetService<IDeviceSecurity>();
-        await service.UpdateToken(GenerateToken(helper, new List<Claim>()
+        await service.UpdateToken(GenerateToken(helper, new List<Claim>
         {
-            new Claim(ClaimsValues.ClaimTypes.Field, ClaimsValues.ClaimValues.Auditor)
+            new(ClaimsValues.ClaimTypes.Field, ClaimsValues.ClaimValues.Auditor)
         }));
 
         var testingService = helper.GetService<ISecurity>();
@@ -89,21 +90,21 @@ public class DeviceSecurityTests
 
         Assert.Equal(exist, result);
     }
-    
+
     [Fact]
     public async void TestGetAllowedPages()
     {
         using var helper = new HostTestHelper(HttpStatusCode.OK);
         var service = helper.GetService<IDeviceSecurity>();
-        await service.UpdateToken(GenerateToken(helper, new List<Claim>()
+        await service.UpdateToken(GenerateToken(helper, new List<Claim>
         {
-            new (ClaimsValues.ClaimTypes.Field, ClaimsValues.ClaimValues.Auditor),
-            new (ClaimsValues.ClaimTypes.Field, ClaimsValues.ClaimValues.Executive),
-            new (ClaimsValues.ClaimTypes.Sales, ClaimsValues.ClaimValues.Auditor)
+            new(ClaimsValues.ClaimTypes.Field, ClaimsValues.ClaimValues.Auditor),
+            new(ClaimsValues.ClaimTypes.Field, ClaimsValues.ClaimValues.Executive),
+            new(ClaimsValues.ClaimTypes.Sales, ClaimsValues.ClaimValues.Auditor)
         }));
-        
+
         var result = await helper.GetService<ISecurity>().GetAllowedPages();
-        
+
         Assert.Equal(2, result.Count());
     }
 
@@ -111,19 +112,16 @@ public class DeviceSecurityTests
     {
         var ci = new ClaimsIdentity("xxx");
         if (claims is null)
-        {
             ci.AddClaim(new Claim("bla1", "bla2"));
-        }
         else
-        {
             ci.AddClaims(claims);
-        }
-            
+
         var key = Encoding.ASCII.GetBytes(new string('x', 30));
-        var token = testingService.GetService<IJwtService>().GenerateToken(new SecurityTokenDescriptor()
+        var token = testingService.GetService<IJwtService>().GenerateToken(new SecurityTokenDescriptor
         {
             Subject = ci,
-            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            SigningCredentials =
+                new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         });
 
         return token;

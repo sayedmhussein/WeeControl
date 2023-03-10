@@ -4,6 +4,7 @@ using WeeControl.Host.Test.ApiService;
 using WeeControl.Host.WebApi;
 using WeeControl.Host.WebApiService;
 using WeeControl.Host.WebApiService.Contexts.Essentials;
+using WeeControl.Host.WebApiService.Data;
 
 namespace WeeControl.Integration.Test.Contexts.Essential;
 
@@ -14,7 +15,6 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
     public AuthenticationServiceTests(CustomWebApplicationFactory<Startup> factory)
     {
         this.factory = factory;
-        
     }
 
     [Theory]
@@ -29,11 +29,8 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
         var service = hostTestHelper.GetService<IAuthenticationService>();
         await service.Login(LoginRequestDto.Create(CoreTestHelper.Username, CoreTestHelper.Password));
 
-        if (otpFunc)
-        {
-            await service.UpdateToken("0000");
-        }
-        
+        if (otpFunc) await service.UpdateToken("0000");
+
         if (refreshFunc)
         {
             await service.UpdateToken();
@@ -53,17 +50,12 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
         else
         {
             if (refreshFunc)
-            {
                 Assert.Empty(claims);
-            }
             else
-            {
                 Assert.NotEmpty(claims);
-            }
             Assert.DoesNotContain(CoreTestHelper.ClaimTypeExample, claims.Select(x => x.Type));
             Assert.DoesNotContain(CoreTestHelper.ClaimValueExample, claims.Select(x => x.Value));
         }
-        
     }
 
     [Theory]
@@ -79,10 +71,10 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
 
         await service.Login(LoginRequestDto.Create(usernameOrEmail, password));
         await service.UpdateToken("0000");
-        
-        hostTestHelper.GuiMock.Verify(x => 
-            x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), 
-            success? Times.Once : Times.Never);
+
+        hostTestHelper.GuiMock.Verify(x =>
+                x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()),
+            success ? Times.Once : Times.Never);
     }
 
     [Theory]
@@ -99,22 +91,23 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
 
         await service.Login(LoginRequestDto.Create(CoreTestHelper.Username, CoreTestHelper.Password));
         await service.UpdateToken(otp);
-        
-        h.GuiMock.Verify(x => 
-                x.NavigateToAsync(ApplicationPages.Essential.OtpPage, It.IsAny<bool>()), 
-                Times.Once);
-        h.GuiMock.Verify(x => 
-                x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), 
+
+        h.GuiMock.Verify(x =>
+                x.NavigateToAsync(ApplicationPages.Essential.OtpPage, It.IsAny<bool>()),
+            Times.Once);
+        h.GuiMock.Verify(x =>
+                x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()),
             Times.Never);
     }
 
     #region BusinessLogic
+
     [Fact]
     public async void WhenUserIsLocked()
     {
         using var helper = new HostTestHelper(factory.CreateCustomClient(db =>
         {
-            var user =db.Users.First();
+            var user = db.Users.First();
             user.Suspend("For Testing");
             db.SaveChanges();
         }));
@@ -129,6 +122,7 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
         helper.GuiMock.Verify(x =>
             x.DisplayAlert(It.IsAny<string>()), Times.Once);
     }
+
     #endregion
 
     [Theory]
@@ -146,19 +140,19 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
         }
 
         await service.Logout();
-        
+
         hostTestHelper.StorageMock.Verify(x => x.ClearKeysValues(), Times.AtLeastOnce);
     }
-    
+
     #region RequestPasswordReset()
-    
+
     [Fact]
     public async void RequestPasswordReset_WhenSuccess()
     {
         using var helper = new HostTestHelper(factory.CreateCustomClient());
         var service = helper.GetService<IAuthenticationService>();
 
-        await service.RequestPasswordReset(new UserPasswordResetRequestDto()
+        await service.RequestPasswordReset(new UserPasswordResetRequestDto
         {
             Email = CoreTestHelper.Email,
             Username = CoreTestHelper.Username
@@ -177,7 +171,7 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
         using var helper = new HostTestHelper(factory.CreateCustomClient());
         var service = helper.GetService<IAuthenticationService>();
 
-        await service.RequestPasswordReset(new UserPasswordResetRequestDto()
+        await service.RequestPasswordReset(new UserPasswordResetRequestDto
         {
             Email = email,
             Username = username
@@ -198,7 +192,7 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
         }));
         var service = helper.GetService<IAuthenticationService>();
 
-        await service.RequestPasswordReset(new UserPasswordResetRequestDto()
+        await service.RequestPasswordReset(new UserPasswordResetRequestDto
         {
             Email = CoreTestHelper.Email,
             Username = CoreTestHelper.Username
@@ -207,5 +201,6 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
         helper.GuiMock.Verify(x =>
             x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
     }
+
     #endregion
 }

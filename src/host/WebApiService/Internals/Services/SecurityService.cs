@@ -9,15 +9,15 @@ namespace WeeControl.Host.WebApiService.Internals.Services;
 
 internal class SecurityService : IDeviceSecurity
 {
-    private readonly IStorage storage;
     private readonly IJwtService jwtService;
+    private readonly IStorage storage;
 
     public SecurityService(IStorage storage, IJwtService jwtService)
     {
         this.storage = storage;
         this.jwtService = jwtService;
     }
-    
+
     public async Task<bool> IsAuthenticated()
     {
         return !string.IsNullOrWhiteSpace(await storage.GetKeyValue(IDeviceSecurity.TokenKeyName));
@@ -47,7 +47,7 @@ internal class SecurityService : IDeviceSecurity
 
         //const string key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
 
-        var validationParameters = new TokenValidationParameters()
+        var validationParameters = new TokenValidationParameters
         {
             RequireSignedTokens = false,
             RequireAudience = false,
@@ -55,7 +55,7 @@ internal class SecurityService : IDeviceSecurity
             LogValidationExceptions = true,
             ValidateIssuerSigningKey = false,
             //IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(key)),
-            SignatureValidator = delegate (string tkn, TokenValidationParameters parameters)
+            SignatureValidator = delegate(string tkn, TokenValidationParameters parameters)
             {
                 var jwt = new JwtSecurityToken(tkn);
 

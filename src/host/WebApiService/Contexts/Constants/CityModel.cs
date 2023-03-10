@@ -4,15 +4,10 @@ namespace WeeControl.Host.WebApiService.Contexts.Constants;
 
 public class CityModel
 {
-    [Key]
-    public string CityCode { get; }
-    public string CityName { get; }
-    public string LocalName { get; }
-
-    public CityModel(string code, string name, string localName)
-    {
-        CityCode = code;
-        CityName = name;
-        LocalName = localName;
-    }
+    public string Name { get; init; }
+    
+    [StringLength(3, MinimumLength = 3)]
+    public string Code3 { get; init; }
+    
+    public string Local { get; init; }
 }

@@ -15,7 +15,7 @@ public static class AuthenticationServices
     {
         services.AddAuthentication("Bearer").AddJwtBearer(options =>
         {
-            options.TokenValidationParameters = new TokenValidationParameters()
+            options.TokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtKey)),
@@ -34,10 +34,12 @@ public static class AuthenticationServices
                         var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
                         context.Token = token;
                     }
-                    catch { }
+                    catch
+                    {
+                    }
 
                     return Task.CompletedTask;
-                },
+                }
             };
         });
         return services;

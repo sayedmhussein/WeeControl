@@ -5,30 +5,6 @@ namespace WeeControl.Core.DataTransferObject.BodyObjects;
 
 public class RequestDto : IRequestDto, IEntityModel
 {
-    public static RequestDto Create(string device, double? latitude, double? longitude)
-    {
-        return new RequestDto(device, latitude, longitude);
-    }
-
-    public static RequestDto<T> Create<T>(T payload, string device, double? latitude, double? longitude) where T : class
-    {
-        return new RequestDto<T>(payload, new RequestDto(device, latitude, longitude));
-    }
-
-    public static RequestDto<T> Create<T>(T payload, RequestDto dto) where T : class
-    {
-        return new RequestDto<T>(payload, dto);
-    }
-
-    [Required]
-    public string DeviceId { get; init; }
-
-    [Range(-90.0, 90.0)]
-    public double? Latitude { get; init; }
-
-    [Range(-180.0, 180.0)]
-    public double? Longitude { get; init; }
-
     internal RequestDto()
     {
         DeviceId = string.Empty;
@@ -44,12 +20,31 @@ public class RequestDto : IRequestDto, IEntityModel
         Latitude = latitude;
         Longitude = longitude;
     }
+
+    [Required] public string DeviceId { get; init; }
+
+    [Range(-90.0, 90.0)] public double? Latitude { get; init; }
+
+    [Range(-180.0, 180.0)] public double? Longitude { get; init; }
+
+    public static RequestDto Create(string device, double? latitude, double? longitude)
+    {
+        return new RequestDto(device, latitude, longitude);
+    }
+
+    public static RequestDto<T> Create<T>(T payload, string device, double? latitude, double? longitude) where T : class
+    {
+        return new RequestDto<T>(payload, new RequestDto(device, latitude, longitude));
+    }
+
+    public static RequestDto<T> Create<T>(T payload, RequestDto dto) where T : class
+    {
+        return new RequestDto<T>(payload, dto);
+    }
 }
 
 public class RequestDto<T> : RequestDto, IRequestDto<T> where T : class
 {
-    public T Payload { get; init; }
-
     internal RequestDto()
     {
         Payload = null!;
@@ -59,4 +54,6 @@ public class RequestDto<T> : RequestDto, IRequestDto<T> where T : class
     {
         Payload = payload;
     }
+
+    public T Payload { get; init; }
 }

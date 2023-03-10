@@ -14,37 +14,16 @@ namespace WeeControl.Core.Domain.Contexts.Essentials;
 [Table(nameof(UserSessionDbo), Schema = nameof(Essentials))]
 public class UserSessionDbo : SessionModel
 {
-    public static UserSessionDbo Create(Guid userid, string deviceid, string otp)
+    private UserSessionDbo()
     {
-        if (userid == Guid.Empty)
-            throw new EntityDomainValidationException("User ID can't but empty GUID.");
-        
-        if (string.IsNullOrWhiteSpace(deviceid))
-            throw new EntityDomainValidationException("Device ID must be supplied.");
-        
-        if (string.IsNullOrWhiteSpace(otp))
-            throw new ArgumentException("OTP must be supplied by application logic when creating new session.");
-
-        var dbo = new UserSessionDbo()
-        {
-            UserId = userid, DeviceId = deviceid.Trim(), CreatedTs = DateTime.UtcNow, OneTimePassword = otp.Trim()
-        };
-        
-        
-        dbo.ThrowExceptionIfEntityModelNotValid();
-
-        return dbo;
     }
 
-    [Key]
-    public Guid SessionId { get; init; }
-    
+    [Key] public Guid SessionId { get; init; }
+
     public Guid UserId { get; set; }
     public UserDbo User { get; set; }
 
-    [Required]
-    [StringLength(128)]
-    public string DeviceId { get; set; }
+    [Required] [StringLength(128)] public string DeviceId { get; set; }
 
     [AllowNull]
     [StringLength(4, MinimumLength = 4)]
@@ -52,13 +31,32 @@ public class UserSessionDbo : SessionModel
 
     public virtual IEnumerable<UserSessionLogDbo> Logs { get; set; }
 
-    public UserSessionLogDbo CreateLog(string context, string details)
+    public static UserSessionDbo Create(Guid userid, string deviceid, string otp)
     {
-        return new UserSessionLogDbo() { SessionId = SessionId, LogTs = DateTime.UtcNow, Context = context, Details = details };
+        if (userid == Guid.Empty)
+            throw new EntityDomainValidationException("User ID can't but empty GUID.");
+
+        if (string.IsNullOrWhiteSpace(deviceid))
+            throw new EntityDomainValidationException("Device ID must be supplied.");
+
+        if (string.IsNullOrWhiteSpace(otp))
+            throw new ArgumentException("OTP must be supplied by application logic when creating new session.");
+
+        var dbo = new UserSessionDbo
+        {
+            UserId = userid, DeviceId = deviceid.Trim(), CreatedTs = DateTime.UtcNow, OneTimePassword = otp.Trim()
+        };
+
+
+        dbo.ThrowExceptionIfEntityModelNotValid();
+
+        return dbo;
     }
 
-    private UserSessionDbo()
+    public UserSessionLogDbo CreateLog(string context, string details)
     {
+        return new UserSessionLogDbo
+            {SessionId = SessionId, LogTs = DateTime.UtcNow, Context = context, Details = details};
     }
 
     public void DisableOtpRequirement()
@@ -74,7 +72,7 @@ public class UserSessionEntityTypeConfig : IEntityTypeConfiguration<UserSessionD
         builder.Property(p => p.SessionId).ValueGeneratedOnAdd();
 
         builder.HasOne(x => x.User)
-            .WithMany(x=> x.Sessions)
+            .WithMany(x => x.Sessions)
             .HasForeignKey(x => x.UserId)
             .OnDelete(DeleteBehavior.Restrict);
 
@@ -83,6 +81,6 @@ public class UserSessionEntityTypeConfig : IEntityTypeConfiguration<UserSessionD
         builder.Property(p => p.CreatedTs).ValueGeneratedOnAdd();
 
         builder.HasMany(x => x.Logs)
-            .WithOne(x=> x.UserSession).HasForeignKey(x => x.SessionId);
+            .WithOne(x => x.UserSession).HasForeignKey(x => x.SessionId);
     }
 }

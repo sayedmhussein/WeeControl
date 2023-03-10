@@ -8,6 +8,7 @@ using WeeControl.Host.WebApiService.Internals.Interfaces;
 using WeeControl.Host.WebApiService.Internals.Services;
 
 [assembly: InternalsVisibleTo("Host.Test")]
+
 namespace WeeControl.Host.WebApiService;
 
 public static class ServiceExtension
@@ -27,7 +28,7 @@ public static class ServiceExtension
         services.AddSingleton<IAuthenticationService, AuthenticationService>();
         services.AddSingleton<IHomeService, HomeService>();
         services.AddSingleton<IUserService, UserService>();
-        
+
         return services;
     }
 
@@ -38,7 +39,7 @@ public static class ServiceExtension
         services.AddSingleton<IDeviceSecurity, SecurityService>();
         services.AddSingleton<IServerOperation, ServerService>();
         services.AddSingleton<ISecurity, AppSecurityService>();
-        
+
         return services;
     }
 }

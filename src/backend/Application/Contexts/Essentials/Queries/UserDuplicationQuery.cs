@@ -13,8 +13,10 @@ public class UserDuplicationQuery : IRequest
 {
     public enum Parameter
     {
-        Username, Email, Mobile
-    };
+        Username,
+        Email,
+        Mobile
+    }
 
     private readonly Parameter parameter;
     private readonly string value;
@@ -23,7 +25,7 @@ public class UserDuplicationQuery : IRequest
     {
         if (string.IsNullOrWhiteSpace(value))
             throw new BadRequestException("Must provide value");
-        
+
         this.parameter = parameter;
         this.value = value.Trim();
     }
@@ -44,16 +46,12 @@ public class UserDuplicationQuery : IRequest
                 case Parameter.Username:
                     if (await essentialDbContext.Users.Select(x => x.Username)
                             .ContainsAsync(request.value.ToLower(), cancellationToken))
-                    {
                         throw new ConflictFailureException("username already exist");
-                    }
                     break;
                 case Parameter.Email:
                     if (await essentialDbContext.Users.Select(x => x.Email)
                             .ContainsAsync(request.value.ToLower(), cancellationToken))
-                    {
                         throw new ConflictFailureException("email already exist");
-                    }
                     break;
                 case Parameter.Mobile:
                     var bla = essentialDbContext.Users
@@ -61,10 +59,8 @@ public class UserDuplicationQuery : IRequest
                         .ThenInclude(x => x.Contacts)
                         .Select(x => x.Person.Contacts.Select(y => y.ContactValue)
                             .Contains(request.value.ToUpper()));
-                    if (await bla.ContainsAsync(true, cancellationToken: cancellationToken))
-                    {
+                    if (await bla.ContainsAsync(true, cancellationToken))
                         throw new ConflictFailureException("mobile already exist");
-                    }
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

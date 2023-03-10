@@ -1,8 +1,9 @@
-﻿using MailKit.Net.Smtp;
-using MimeKit;
-using Org.BouncyCastle.Security;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using MailKit.Net.Smtp;
+using MimeKit;
+using MimeKit.Text;
+using Org.BouncyCastle.Security;
 using WeeControl.Core.Application.Contexts;
 using WeeControl.Core.Application.Interfaces;
 
@@ -10,12 +11,12 @@ namespace WeeControl.ApiApp.Infrastructure.Notifications;
 
 public class EmailService : IEmailNotificationService
 {
-    private readonly string host;
-    private readonly int port;
-    private readonly bool useSsl;
-    private readonly string username;
-    private readonly string password;
     private readonly string email;
+    private readonly string host;
+    private readonly string password;
+    private readonly int port;
+    private readonly string username;
+    private readonly bool useSsl;
 
     public EmailService(string configurationString)
     {
@@ -62,32 +63,27 @@ public class EmailService : IEmailNotificationService
         return SendAsync(message.From, message.To, message.Subject, message.Body);
     }
 
+    public async Task SendAsync(IEnumerable<MessageDto> messages)
+    {
+        foreach (var message in messages) await SendAsync(message);
+    }
+
     public async Task SendAsync(string from, string to, string subject, string body)
     {
         var msg = new MimeMessage();
         msg.From.Add(MailboxAddress.Parse(from ?? email));
         msg.To.Add(MailboxAddress.Parse(to));
         msg.Subject = subject;
-        msg.Body = new TextPart(MimeKit.Text.TextFormat.Plain) { Text = body };
+        msg.Body = new TextPart(TextFormat.Plain) {Text = body};
 
         using var client = new SmtpClient();
         await client.ConnectAsync(host, port, useSsl);
 
         // Note: only needed if the SMTP server requires authentication
         if (string.IsNullOrEmpty(username) == false && string.IsNullOrEmpty(password) == false)
-        {
             await client.AuthenticateAsync(username, password);
-        }
 
         await client.SendAsync(msg);
         await client.DisconnectAsync(true);
-    }
-
-    public async Task SendAsync(IEnumerable<MessageDto> messages)
-    {
-        foreach (var message in messages)
-        {
-            await SendAsync(message);
-        }
     }
 }

@@ -2,8 +2,8 @@ using WeeControl.Core.DataTransferObject.Contexts.Essentials;
 using WeeControl.Core.Test;
 using WeeControl.Host.Test.ApiService;
 using WeeControl.Host.WebApi;
-using WeeControl.Host.WebApiService;
 using WeeControl.Host.WebApiService.Contexts.Essentials;
+using WeeControl.Host.WebApiService.Data;
 
 namespace WeeControl.Integration.Test.Contexts.Essential;
 
@@ -17,7 +17,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
     }
 
     #region ChangeMyPassword()
-    
+
     [Fact]
     public async void ChangeMyPassword_WhenSuccess()
     {
@@ -25,7 +25,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
         var service = helper.GetService<IUserService>();
         await helper.Authenticate();
 
-        await service.ChangePassword(new UserPasswordChangeRequestDto()
+        await service.ChangePassword(new UserPasswordChangeRequestDto
         {
             OldPassword = CoreTestHelper.Password, NewPassword = "NewPassword"
         });
@@ -40,7 +40,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
         using var helper = new HostTestHelper(factory.CreateCustomClient());
         var service = helper.GetService<IUserService>();
 
-        await service.ChangePassword(new UserPasswordChangeRequestDto()
+        await service.ChangePassword(new UserPasswordChangeRequestDto
         {
             OldPassword = CoreTestHelper.Password, NewPassword = "NewPassword"
         });
@@ -56,8 +56,8 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
         using var helper = new HostTestHelper(factory.CreateCustomClient());
         await helper.Authenticate();
         var service = helper.GetService<IUserService>();
-        
-        await service.ChangePassword(new UserPasswordChangeRequestDto()
+
+        await service.ChangePassword(new UserPasswordChangeRequestDto
         {
             OldPassword = "Invalid Password", NewPassword = "NewPassword", ConfirmPassword = "NewPassword"
         });
@@ -79,15 +79,16 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
 
         await helper.Authenticate();
 
-        await service.ChangePassword(new UserPasswordChangeRequestDto()
+        await service.ChangePassword(new UserPasswordChangeRequestDto
         {
             OldPassword = CoreTestHelper.Password, NewPassword = "NewPassword"
         });
-        
+
 
         helper.GuiMock.Verify(x => x.DisplayAlert(It.IsAny<string>()));
         helper.GuiMock.Verify(x =>
             x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
     }
+
     #endregion
 }

@@ -9,9 +9,32 @@ namespace WeeControl.Core.Domain.Contexts.Essentials;
 [Table("UserClaim", Schema = nameof(Essentials))]
 public class UserClaimDbo
 {
+    private UserClaimDbo()
+    {
+    }
+
+    [Key] public Guid ClaimId { get; }
+
+    [Required] public Guid? UserId { get; private set; }
+    public UserDbo User { get; }
+
+    [Required] [StringLength(5)] public string ClaimType { get; private set; }
+
+    public string ClaimValue { get; private set; }
+
+    public DateTime GrantedTs { get; } = DateTime.UtcNow;
+
+    [Required] public Guid GrantedById { get; private set; }
+
+    public UserDbo GrantedBy { get; private set; }
+
+    public DateTime? RevokedTs { get; private set; }
+    public Guid? RevokedById { get; private set; }
+    public UserDbo RevokedBy { get; private set; }
+
     public static UserClaimDbo Create(Guid userId, string type, string tag, Guid grantedById)
     {
-        return new UserClaimDbo()
+        return new UserClaimDbo
         {
             UserId = userId,
             ClaimType = type,
@@ -20,36 +43,10 @@ public class UserClaimDbo
         };
     }
 
-    [Key]
-    public Guid ClaimId { get; }
-
-    [Required] public Guid? UserId { get; private set; } = null;
-    public UserDbo User { get; }
-
-    [Required]
-    [StringLength(5)]
-    public string ClaimType { get; private set; }
-
-    public string ClaimValue { get; private set; }
-    
-    public DateTime GrantedTs { get; } = DateTime.UtcNow;
-    
-    [Required]
-    public Guid GrantedById { get; private set; }
-    public UserDbo GrantedBy { get; private set; }
-
-    public DateTime? RevokedTs { get; private set; }
-    public Guid? RevokedById { get; private set; }
-    public UserDbo RevokedBy { get; private set; }
-
     public void Revoke(Guid revokedById)
     {
         RevokedById = revokedById;
         RevokedTs = DateTime.UtcNow;
-    }
-
-    private UserClaimDbo()
-    {
     }
 }
 
@@ -57,14 +54,14 @@ public class UserClaimEntityTypeConfig : IEntityTypeConfiguration<UserClaimDbo>
 {
     public void Configure(EntityTypeBuilder<UserClaimDbo> builder)
     {
-        builder.Property(p => p.ClaimId).ValueGeneratedOnAdd();//.HasDefaultValue(Guid.NewGuid());
+        builder.Property(p => p.ClaimId).ValueGeneratedOnAdd(); //.HasDefaultValue(Guid.NewGuid());
 
         builder.Property(p => p.GrantedTs).ValueGeneratedOnAdd();
-        
-        builder.HasIndex(i => new {i.UserId, i.ClaimType, i.ClaimValue }).IsUnique();
+
+        builder.HasIndex(i => new {i.UserId, i.ClaimType, i.ClaimValue}).IsUnique();
 
         builder.HasOne(x => x.User)
-            .WithMany(x=> x.Claims)
+            .WithMany(x => x.Claims)
             .HasForeignKey(x => x.UserId)
             .IsRequired()
             .OnDelete(DeleteBehavior.Restrict);

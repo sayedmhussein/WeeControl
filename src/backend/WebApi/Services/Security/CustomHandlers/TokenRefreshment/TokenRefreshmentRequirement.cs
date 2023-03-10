@@ -5,10 +5,10 @@ namespace WeeControl.Host.WebApi.Services.Security.CustomHandlers.TokenRefreshme
 
 public class TokenRefreshmentRequirement : IAuthorizationRequirement
 {
-    public TimeSpan Period { get; }
-
     public TokenRefreshmentRequirement(TimeSpan maximumPeriod)
     {
         Period = maximumPeriod;
     }
+
+    public TimeSpan Period { get; }
 }

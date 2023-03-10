@@ -1,13 +1,31 @@
+using Newtonsoft.Json;
 using WeeControl.Host.WebApiService.Contexts.Constants;
+using WeeControl.Host.WebApiService.Data;
 
 namespace WeeControl.Host.WebApiService.Internals.Services;
 
 internal class ConstantValueService : IConstantValue
 {
-    public IEnumerable<CountryModel> Countries => new List<CountryModel>()
+    private static IEnumerable<CountryModel>? _countryModels;
+
+    public IEnumerable<CountryModel> Countries
     {
-        new ("USA", "United States", "United States", new []{ new CityModel("CAI", "Cairo", "القاهرة")}),
-        new ("EGP", "Egypt", "مصر" , new []{ new CityModel("CAI", "Cairo", "القاهرة")}),
-        new ("SAU", "Saudi", "السعودية", new []{ new CityModel("CAI", "Cairo", "القاهرة")})
-    };
+        get { return _countryModels ??= ReadFromJson(); }
+    }
+
+    private static IEnumerable<CountryModel> ReadFromJson()
+    {
+        var ns = typeof(ApplicationPages).Namespace!.Split(".").Last();
+        if (ns is null) throw new NullReferenceException();
+
+        var file = Path.Combine(ns, "Countries.json");
+
+        using var sr = new StreamReader(file);
+        var json = sr.ReadToEnd();
+        if (string.IsNullOrEmpty(json)) throw new FileNotFoundException();
+
+        var array = JsonConvert.DeserializeObject<IEnumerable<CountryModel>>(json);
+
+        return array!;
+    }
 }

@@ -23,7 +23,27 @@ public class SessionUpdateCommandTests
         await Assert.ThrowsAsync<NotAllowedException>(() => handler.Handle(query, default));
     }
 
+    private SessionUpdateCommand.UserTokenHandler GetHandler(CoreTestHelper coreTestHelper)
+    {
+        coreTestHelper.ConfigurationMock.Setup(x => x["Jwt:Key"]).Returns(new string('a', 30));
+        return new SessionUpdateCommand.UserTokenHandler(
+            coreTestHelper.EssentialDb,
+            coreTestHelper.JwtService,
+            coreTestHelper.MediatorMock.Object,
+            coreTestHelper.ConfigurationMock.Object,
+            coreTestHelper.CurrentUserInfoMock.Object,
+            coreTestHelper.PasswordSecurity);
+    }
+
+    private SessionUpdateCommand GetQuery(string device, string otp)
+    {
+        return otp is null
+            ? new SessionUpdateCommand(RequestDto.Create(device, 0, 0))
+            : new SessionUpdateCommand(RequestDto.Create(otp, device, 0, 0));
+    }
+
     #region Using SessionId
+
     [Fact]
     public async void WhenSessionIsActive_ReturnToken()
     {
@@ -69,24 +89,6 @@ public class SessionUpdateCommandTests
         var query = GetQuery("device2", "0000");
         await Assert.ThrowsAsync<NotAllowedException>(() => GetHandler(testHelper).Handle(query, default));
     }
+
     #endregion
-
-    private SessionUpdateCommand.UserTokenHandler GetHandler(CoreTestHelper coreTestHelper)
-    {
-        coreTestHelper.ConfigurationMock.Setup(x => x["Jwt:Key"]).Returns(new string('a', 30));
-        return new SessionUpdateCommand.UserTokenHandler(
-            coreTestHelper.EssentialDb,
-            coreTestHelper.JwtService,
-            coreTestHelper.MediatorMock.Object,
-            coreTestHelper.ConfigurationMock.Object,
-            coreTestHelper.CurrentUserInfoMock.Object,
-            coreTestHelper.PasswordSecurity);
-    }
-
-    private SessionUpdateCommand GetQuery(string device, string otp)
-    {
-        return otp is null
-            ? new SessionUpdateCommand(RequestDto.Create(device, 0, 0)) :
-            new SessionUpdateCommand(RequestDto.Create(otp, device, 0, 0));
-    }
 }

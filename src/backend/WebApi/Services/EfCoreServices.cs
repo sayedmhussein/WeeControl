@@ -9,19 +9,19 @@ namespace WeeControl.Host.WebApi.Services;
 
 public static class EfCoreServices
 {
-    public static IServiceCollection AddDomainDrivenDesignService(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddDomainDrivenDesignService(this IServiceCollection services,
+        IConfiguration configuration)
     {
-        
-        _ = configuration["UseInMemoryDb"] == false.ToString() ?
-            services.AddPersistence(configuration.GetConnectionString("MySqlDbProvider"), Assembly.GetExecutingAssembly().GetName().Name) :
+        _ = configuration["UseInMemoryDb"] == false.ToString()
+            ? services.AddPersistence(configuration.GetConnectionString("MySqlDbProvider"),
+                Assembly.GetExecutingAssembly().GetName().Name)
+            :
             //services.AddPersistenceAsPostgres("MyDB") :
             services.AddPersistenceAsInMemory();
-        
-        
+
+
         services.AddApplication();
         services.AddInfrastructure(configuration);
-
-        
 
 
         return services;

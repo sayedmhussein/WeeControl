@@ -6,10 +6,7 @@ namespace WeeControl.Core.SharedKernel.Contexts.Essentials;
 
 public class EmployeeModel : IEntityModel
 {
-    [Required]
-    [StringLength(45)]
-    public string EmployeeNo { get; set; } = string.Empty;
-    
-    [NotMapped] 
-    public string SupervisorEmployeeNo { get; set; } = string.Empty;
+    [Required] [StringLength(45)] public string EmployeeNo { get; set; } = string.Empty;
+
+    [NotMapped] public string SupervisorEmployeeNo { get; set; } = string.Empty;
 }

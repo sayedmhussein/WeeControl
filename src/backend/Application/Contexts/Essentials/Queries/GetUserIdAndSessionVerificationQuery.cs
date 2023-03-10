@@ -22,13 +22,11 @@ public class GetUserIdAndSessionVerificationQuery : IRequest<Guid>
             this.currentUserInfo = currentUserInfo;
             this.dbContext = dbContext;
         }
-        
-        public async Task<Guid> Handle(GetUserIdAndSessionVerificationQuery request, CancellationToken cancellationToken)
+
+        public async Task<Guid> Handle(GetUserIdAndSessionVerificationQuery request,
+            CancellationToken cancellationToken)
         {
-            if (currentUserInfo.SessionId is null)
-            {
-                throw new NotAllowedException("Session Isn't found");
-            }
+            if (currentUserInfo.SessionId is null) throw new NotAllowedException("Session Isn't found");
 
             var user = await dbContext.UserSessions
                 .Where(x => x.SessionId == currentUserInfo.SessionId)
@@ -38,10 +36,7 @@ public class GetUserIdAndSessionVerificationQuery : IRequest<Guid>
                 .Select(x => x.UserId)
                 .FirstOrDefaultAsync(cancellationToken);
 
-            if (user == Guid.Empty)
-            {
-                throw new NotFoundException("Session is either terminated or user is locked");
-            }
+            if (user == Guid.Empty) throw new NotFoundException("Session is either terminated or user is locked");
 
             return user;
         }

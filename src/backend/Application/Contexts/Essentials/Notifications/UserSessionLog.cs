@@ -35,10 +35,7 @@ public class UserSessionLog : INotification
             try
             {
                 var id = currentUserInfo.SessionId;
-                if (id is null)
-                {
-                    return;
-                }
+                if (id is null) return;
 
                 var session = await context.UserSessions.FirstOrDefaultAsync(x => x.SessionId == id, cancellationToken);
                 if (session is not null)
@@ -48,7 +45,6 @@ public class UserSessionLog : INotification
                     await context.SessionLogs.AddAsync(log, cancellationToken);
                     await context.SaveChangesAsync(cancellationToken);
                 }
-                
             }
             catch (Exception e)
             {

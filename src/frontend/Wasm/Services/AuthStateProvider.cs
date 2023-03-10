@@ -1,14 +1,14 @@
-using Microsoft.AspNetCore.Components.Authorization;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components.Authorization;
 using WeeControl.Host.WebApiService;
 
 namespace WeeControl.Frontend.Wasm.Services;
 
 public class AuthStateProvider : AuthenticationStateProvider
 {
-    private readonly ISecurity security;
     private readonly AuthenticationState anonymous;
+    private readonly ISecurity security;
 
     public AuthStateProvider(ISecurity security)
     {
@@ -34,10 +34,7 @@ public class AuthStateProvider : AuthenticationStateProvider
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
-        if (await security.IsAuthenticated() == false)
-        {
-            return anonymous;
-        }
+        if (await security.IsAuthenticated() == false) return anonymous;
 
         var cp = await security.GetClaimsPrincipal();
         return new AuthenticationState(cp);

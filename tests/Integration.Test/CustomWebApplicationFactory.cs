@@ -23,9 +23,8 @@ public class CustomWebApplicationFactory<TStartup>
             if (descriptor is not null)
                 services.Remove(descriptor);
 
-            services.AddSingleton<IEmailNotificationService>(p => 
+            services.AddSingleton<IEmailNotificationService>(p =>
                 new Mock<IEmailNotificationService>().Object);
-
         });
     }
 }

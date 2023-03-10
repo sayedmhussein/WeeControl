@@ -2,8 +2,6 @@ namespace WeeControl.Core.DataTransferObject.Contexts.Temporary.DataTransferObje
 
 public class TerritoryDto : TerritoryEntity
 {
-    public string? ReportToName { get; set; } = string.Empty;
-
     public TerritoryDto()
     {
     }
@@ -15,4 +13,6 @@ public class TerritoryDto : TerritoryEntity
         AlternativeName = territory.AlternativeName;
         CountryCode = territory.CountryCode;
     }
+
+    public string? ReportToName { get; set; } = string.Empty;
 }

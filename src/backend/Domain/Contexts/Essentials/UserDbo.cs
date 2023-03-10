@@ -14,52 +14,47 @@ namespace WeeControl.Core.Domain.Contexts.Essentials;
 [Table(nameof(UserDbo), Schema = nameof(Essentials))]
 public class UserDbo : UserModel
 {
+    private UserDbo()
+    {
+    }
+
+    [Key] public Guid UserId { get; }
+
+    public Guid PersonId { get; private set; }
+    public PersonDbo Person { get; set; }
+
+
+    [AllowNull] [StringLength(255)] public string SuspendArgs { get; private set; }
+
+    public string TempPassword { get; private set; }
+    public DateTime? TempPasswordTs { get; private set; }
+
+
+    [AllowNull] [StringLength(255)] public string PhotoUrl { get; set; }
+
+    public virtual IEnumerable<UserSessionDbo> Sessions { get; }
+    public virtual ICollection<UserClaimDbo> Claims { get; }
+    public virtual IEnumerable<UserNotificationDbo> Notifications { get; }
+
     public static UserDbo Create(Guid personId, string email, string username, string password)
     {
-        return Create(personId, new UserModel(){ Email = email, Username = username, Password = password});
+        return Create(personId, new UserModel {Email = email, Username = username, Password = password});
     }
 
     public static UserDbo Create(Guid personId, UserModel model)
     {
         if (personId == Guid.Empty)
             throw new EntityDomainValidationException("Person ID can't be empty GUID");
-        
+
         model.ThrowExceptionIfEntityModelNotValid();
 
-        return new UserDbo()
+        return new UserDbo
         {
-            PersonId = personId, 
-            Email = model.Email.Trim().ToLower(), 
+            PersonId = personId,
+            Email = model.Email.Trim().ToLower(),
             Username = model.Username.Trim().ToLower(),
             Password = model.Password
         };
-    }
-    
-    [Key]
-    public Guid UserId { get; }
-
-    public Guid PersonId { get; private set; }
-    public PersonDbo Person { get; set; }
-    
-    
-    [AllowNull]
-    [StringLength(255)]
-    public string SuspendArgs { get; private set; }
-
-    public string TempPassword { get; private set; }
-    public DateTime? TempPasswordTs { get; private set; }
-
-    
-    [AllowNull]
-    [StringLength(255)]
-    public string PhotoUrl { get; set; }
-
-    public virtual IEnumerable<UserSessionDbo> Sessions { get; }
-    public virtual ICollection<UserClaimDbo> Claims { get; }
-    public virtual IEnumerable<UserNotificationDbo> Notifications { get; }
-
-    private UserDbo()
-    {
     }
 
     public void UpdatePassword(string newPassword)
@@ -100,7 +95,7 @@ public class UserEntityTypeConfig : IEntityTypeConfiguration<UserDbo>
 
         builder.HasIndex(x => x.Username).IsUnique();
 
-        builder.HasIndex(x => new { x.Username, x.Password }).IsUnique(false);
+        builder.HasIndex(x => new {x.Username, x.Password}).IsUnique(false);
         builder.Property(p => p.TempPassword).HasMaxLength(128);
 
         builder.Property(p => p.SuspendArgs).HasMaxLength(255);
@@ -115,7 +110,5 @@ public class UserEntityTypeConfig : IEntityTypeConfiguration<UserDbo>
 
         builder.HasMany(x => x.Notifications)
             .WithOne().HasForeignKey(x => x.UserId);
-
-        
     }
 }

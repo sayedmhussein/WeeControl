@@ -23,7 +23,7 @@ public class UserActivityNotificationTests
 
         Assert.Equal(count1 + 1, count2);
     }
-    
+
     [Fact]
     public async void WhenNotificationWasPublishedWithInvalidUsername_NotFoundExceptionGetThrown()
     {
@@ -31,7 +31,7 @@ public class UserActivityNotificationTests
 
         var n = new UserNotification("UsernameNotExist", "subject", "details", "uri");
 
-        await Assert.ThrowsAsync<NotFoundException>(() => 
+        await Assert.ThrowsAsync<NotFoundException>(() =>
             new UserNotification.UserNotificationHandler(helper.EssentialDb).Handle(n, default));
     }
 }

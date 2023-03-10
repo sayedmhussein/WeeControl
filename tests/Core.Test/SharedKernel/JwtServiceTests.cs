@@ -8,8 +8,8 @@ namespace WeeControl.Core.Test.SharedKernel;
 
 public class JwtServiceTests
 {
-    private IJwtService service;
-    private readonly string securityKey = new string('a', 30);
+    private readonly string securityKey = new('a', 30);
+    private readonly IJwtService service;
 
     public JwtServiceTests()
     {
@@ -23,9 +23,9 @@ public class JwtServiceTests
     {
         var key = Encoding.ASCII.GetBytes(securityKey);
         var claim = new Claim(type, value);
-        var list = new List<Claim>() { claim };
+        var list = new List<Claim> {claim};
 
-        var descriptor = new SecurityTokenDescriptor()
+        var descriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(list),
             IssuedAt = DateTime.UtcNow,
@@ -37,7 +37,7 @@ public class JwtServiceTests
 
         Assert.NotEmpty(token);
 
-        var parameters = new TokenValidationParameters()
+        var parameters = new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(key),

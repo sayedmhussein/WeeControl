@@ -34,11 +34,8 @@ public class SessionTerminateCommand : IRequest
         public async Task Handle(SessionTerminateCommand request, CancellationToken cancellationToken)
         {
             request.request.ThrowExceptionIfEntityModelNotValid();
-            
-            if (currentUserInfo.SessionId is null)
-            {
-                throw new ArgumentNullException(nameof(currentUserInfo));
-            }
+
+            if (currentUserInfo.SessionId is null) throw new ArgumentNullException(nameof(currentUserInfo));
 
             var session =
                 await context.UserSessions.FirstOrDefaultAsync(
@@ -49,7 +46,8 @@ public class SessionTerminateCommand : IRequest
             if (session is not null)
             {
                 session.TerminationTs = DateTime.UtcNow;
-                await context.SessionLogs.AddAsync(session.CreateLog("Logout", "Terminating session id:" + session.SessionId), cancellationToken);
+                await context.SessionLogs.AddAsync(
+                    session.CreateLog("Logout", "Terminating session id:" + session.SessionId), cancellationToken);
             }
             else
             {

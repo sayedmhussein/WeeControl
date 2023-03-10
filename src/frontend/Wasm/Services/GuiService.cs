@@ -38,14 +38,14 @@ public class GuiService : IGui
         var snackbar = scope.ServiceProvider.GetRequiredService<ISnackbar>();
         snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomStart;
         snackbar.Add(message);
-        
+
         return Task.CompletedTask;
     }
 
     public Task NavigateToAsync(string pageName, bool forceLoad = false)
     {
         currentPageName = pageName;
-        navigationManager.NavigateTo($"/{pageName}", forceLoad: forceLoad);
+        navigationManager.NavigateTo($"/{pageName}", forceLoad);
         return Task.CompletedTask;
     }
 }

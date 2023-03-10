@@ -23,7 +23,7 @@ public class HomeQuery : IRequest<ResponseDto<HomeResponseDto>>
             this.essentialDbContext = essentialDbContext;
             this.userInfo = userInfo;
         }
-        
+
         public async Task<ResponseDto<HomeResponseDto>> Handle(HomeQuery request, CancellationToken cancellationToken)
         {
             var user = await essentialDbContext.UserSessions
@@ -34,28 +34,25 @@ public class HomeQuery : IRequest<ResponseDto<HomeResponseDto>>
                 .Where(x => x.User.SuspendArgs == null)
                 .Select(x => new
                 {
-                    x.User.UserId, 
+                    x.User.UserId,
                     x.User.Person.FirstName, x.User.Person.LastName,
                     x.User.PhotoUrl
                 })
                 .FirstOrDefaultAsync(cancellationToken);
-            
-            if (user is null)
-            {
-                throw new NotFoundException("No valid session was found");
-            }
+
+            if (user is null) throw new NotFoundException("No valid session was found");
 
             var notifications = await essentialDbContext.UserNotifications
-                    .Where(x => x.UserId == user.UserId)
-                    .ToListAsync(cancellationToken);
+                .Where(x => x.UserId == user.UserId)
+                .ToListAsync(cancellationToken);
 
             var feeds = await essentialDbContext.Feeds
                 .Where(x => x.HideTs == null)
                 .ToListAsync(cancellationToken);
 
-            var dto = ResponseDto.Create(new HomeResponseDto()
+            var dto = ResponseDto.Create(new HomeResponseDto
             {
-                FullName = user.FirstName + " " + user.LastName, 
+                FullName = user.FirstName + " " + user.LastName,
                 PhotoUrl = user.PhotoUrl,
                 Notifications = notifications,
                 Feeds = feeds

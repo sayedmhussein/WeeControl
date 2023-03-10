@@ -1,15 +1,34 @@
 using System.Net;
 using WeeControl.Core.DataTransferObject.Contexts.Essentials;
-using WeeControl.Host.WebApiService;
 using WeeControl.Host.WebApiService.Contexts.Essentials;
+using WeeControl.Host.WebApiService.Data;
 using WeeControl.Host.WebApiService.Internals.Interfaces;
 
 namespace WeeControl.Host.Test.ApiService.Contexts.Essentials;
 
 public class AuthorizationServiceTests
 {
+    #region Logout()
+
+    [Theory]
+    [InlineData(HttpStatusCode.OK)]
+    [InlineData(HttpStatusCode.BadRequest)]
+    public async void Logout_WhenNotFound_OrSuccess(HttpStatusCode httpStatusCode)
+    {
+        using var helper = new HostTestHelper(httpStatusCode);
+        var service = helper.GetService<IAuthenticationService>();
+
+        await service.Logout();
+
+        helper.GuiMock
+            .Verify(x =>
+                x.NavigateToAsync(ApplicationPages.Essential.LoginPage, It.IsAny<bool>()), Times.Once);
+    }
+
+    #endregion
+
     #region LoginTests
-    
+
     [Fact]
     public async void WhenSuccessUsernameAndPasswordAndOtp()
     {
@@ -23,7 +42,7 @@ public class AuthorizationServiceTests
 
         await service.Login(LoginRequestDto.Create("username", "password"));
         await service.UpdateToken("0000");
-        
+
         helper.GuiMock.Verify(x =>
             x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Once);
     }
@@ -37,9 +56,9 @@ public class AuthorizationServiceTests
     {
         using var helper = new HostTestHelper(new (HttpStatusCode statusCode, object? dto)[]
         {
-            new (code, TokenResponseDto.Create("token")),
-            new (code, TokenResponseDto.Create("token")),
-            new (code, TokenResponseDto.Create("token"))
+            new(code, TokenResponseDto.Create("token")),
+            new(code, TokenResponseDto.Create("token")),
+            new(code, TokenResponseDto.Create("token"))
         });
         var service = helper.GetService<IAuthenticationService>();
 
@@ -70,9 +89,11 @@ public class AuthorizationServiceTests
         helper.GuiMock.Verify(x =>
             x.NavigateToAsync(ApplicationPages.Essential.HomePage, true), Times.Never);
     }
+
     #endregion
-    
+
     #region UpdateToken()
+
     [Theory]
     [InlineData(HttpStatusCode.OK)]
     [InlineData(HttpStatusCode.Unauthorized)]
@@ -88,13 +109,13 @@ public class AuthorizationServiceTests
             .ReturnsAsync("value");
 
         await service.UpdateToken("value");
-        
+
         helper.GuiMock.Verify(x =>
-            x.DisplayAlert(It.IsAny<string>()), 
+                x.DisplayAlert(It.IsAny<string>()),
             code == HttpStatusCode.OK ? Times.Never : Times.Once);
-        
+
         helper.GuiMock.Verify(x =>
-            x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), 
+                x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()),
             code == HttpStatusCode.OK ? Times.Once : Times.Never);
     }
 
@@ -117,22 +138,6 @@ public class AuthorizationServiceTests
         helper.GuiMock.Verify(x =>
             x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
     }
-    #endregion
 
-    #region Logout()
-    [Theory]
-    [InlineData(HttpStatusCode.OK)]
-    [InlineData(HttpStatusCode.BadRequest)]
-    public async void Logout_WhenNotFound_OrSuccess(HttpStatusCode httpStatusCode)
-    {
-        using var helper = new HostTestHelper(httpStatusCode);
-        var service = helper.GetService<IAuthenticationService>();
-
-        await service.Logout();
-        
-        helper.GuiMock
-            .Verify(x => 
-                x.NavigateToAsync(ApplicationPages.Essential.LoginPage, It.IsAny<bool>()), Times.Once);
-    }
     #endregion
 }

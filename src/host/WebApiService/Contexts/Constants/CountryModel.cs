@@ -4,19 +4,18 @@ namespace WeeControl.Host.WebApiService.Contexts.Constants;
 
 public class CountryModel
 {
-    [Key]
+    public string Name { get; init; }
+    
+    [StringLength(2, MinimumLength = 2)]
+    public string Code2 { get; init; }
+    
     [StringLength(3, MinimumLength = 3)]
-    public string CountryCode { get; }
-    public string CountryName { get; }
-    public string LocalName { get; }
+    public string Code3 { get; init; }
+    
+    [Range(1, 999)]
+    public int Numeric { get; init; } 
+    
+    public string Local { get; }
 
-    public IEnumerable<CityModel> Cities { get; }
-
-    public CountryModel(string code, string name, string localName, IEnumerable<CityModel> cities)
-    {
-        CountryCode = code;
-        CountryName = name;
-        LocalName = localName;
-        Cities = cities;
-    }
+    public IEnumerable<CityModel> Cities { get; init; }
 }

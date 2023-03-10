@@ -19,8 +19,10 @@ internal static class UserSecurityServices
 
         services.AddAuthorizationCore(options =>
         {
-            options.DefaultPolicy = new AuthorizationPolicyBuilder().AddAuthenticationSchemes("Bearer").RequireAuthenticatedUser().Build();
-            options.FallbackPolicy = new AuthorizationPolicyBuilder().AddAuthenticationSchemes("Bearer").RequireAuthenticatedUser().Build();
+            options.DefaultPolicy = new AuthorizationPolicyBuilder().AddAuthenticationSchemes("Bearer")
+                .RequireAuthenticatedUser().Build();
+            options.FallbackPolicy = new AuthorizationPolicyBuilder().AddAuthenticationSchemes("Bearer")
+                .RequireAuthenticatedUser().Build();
 
             Configure(options);
         });
@@ -30,7 +32,8 @@ internal static class UserSecurityServices
 
     private static void Configure(AuthorizationOptions options)
     {
-        options.AddPolicy(DeveloperWithDatabaseOperationPolicy.Name, new DeveloperWithDatabaseOperationPolicy().GetPolicy());
+        options.AddPolicy(DeveloperWithDatabaseOperationPolicy.Name,
+            new DeveloperWithDatabaseOperationPolicy().GetPolicy());
 
         options.AddPolicy(nameof(CanEditUserPolicy), new CanEditUserPolicy().GetPolicy());
         options.AddPolicy(CanEditTerritoriesPolicy.Name, new CanEditTerritoriesPolicy().GetPolicy());

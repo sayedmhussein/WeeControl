@@ -16,12 +16,12 @@ public class RegisterCommandTests
 
         var tokenDto = await GetHandler(testHelper)
             .Handle(new UserRegisterCommand(GetUserProfileDto()), default);
-        
+
         Assert.NotEmpty(tokenDto.Payload.Token);
         Assert.NotNull(testHelper.EssentialDb.Person.FirstOrDefault());
         Assert.NotNull(testHelper.EssentialDb.Users.FirstOrDefault());
     }
-    
+
     [Fact]
     public async void WhenRegisterNewUserWithCapital_DataInDbAreSmallLetters()
     {
@@ -31,14 +31,14 @@ public class RegisterCommandTests
         cmdDto.Payload.User.Username = cmdDto.Payload.User.Username.ToUpper();
 
         await GetHandler(testHelper).Handle(new UserRegisterCommand(cmdDto), default);
-        
+
         var email = testHelper.EssentialDb.Users.First().Email.Where(char.IsLetter);
         Assert.True(email.All(char.IsLower));
-        
+
         var username = testHelper.EssentialDb.Users.First().Username.Where(char.IsLetter);
         Assert.True(username.All(char.IsLower));
     }
-    
+
     [Fact]
     public async void WhenRegisterNewUser_PasswordIsEncrypted()
     {
@@ -60,7 +60,8 @@ public class RegisterCommandTests
 
         await GetHandler(testHelper).Handle(new UserRegisterCommand(cmdDto), default);
 
-        await Assert.ThrowsAsync<ConflictFailureException>(() => GetHandler(testHelper).Handle(new UserRegisterCommand(cmdDto), default));
+        await Assert.ThrowsAsync<ConflictFailureException>(() =>
+            GetHandler(testHelper).Handle(new UserRegisterCommand(cmdDto), default));
     }
 
     [Theory]
@@ -75,17 +76,18 @@ public class RegisterCommandTests
         cmdDto.Payload.User.Username = username;
         cmdDto.Payload.User.Password = password;
 
-        await Assert.ThrowsAnyAsync<EntityModelValidationException>(() => GetHandler(testHelper).Handle(new UserRegisterCommand(cmdDto), default));
+        await Assert.ThrowsAnyAsync<EntityModelValidationException>(() =>
+            GetHandler(testHelper).Handle(new UserRegisterCommand(cmdDto), default));
     }
 
     private static UserRegisterCommand.RegisterHandler GetHandler(CoreTestHelper testHelper)
     {
         testHelper.MediatorMock
             .Setup(x => x.Send(
-                It.IsAny<SessionCreateCommand>(), 
+                It.IsAny<SessionCreateCommand>(),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(ResponseDto.Create(TokenResponseDto.Create("token")));
-        
+
         return new UserRegisterCommand.RegisterHandler
         (
             testHelper.EssentialDb,
@@ -96,10 +98,13 @@ public class RegisterCommandTests
 
     private static RequestDto<UserProfileDto> GetUserProfileDto()
     {
-        var dto = new UserProfileDto()
+        var dto = new UserProfileDto
         {
-            Person = { FirstName = "FirstName", LastName = "LastName", NationalityCode = "EGP", DateOfBirth = DateTime.MinValue},
-            User = { Username = "test", Email = "test@test.com", Password = "123456"}
+            Person =
+            {
+                FirstName = "FirstName", LastName = "LastName", NationalityCode = "EGP", DateOfBirth = DateTime.MinValue
+            },
+            User = {Username = "test", Email = "test@test.com", Password = "123456"}
         };
 
         return RequestDto.Create(dto, "device", 0, 0);

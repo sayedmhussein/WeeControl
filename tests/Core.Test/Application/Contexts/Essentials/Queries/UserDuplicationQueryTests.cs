@@ -25,7 +25,7 @@ public class UserDuplicationQueryTests
     public async void TestsForFailures(string email, string username, string mobileNo)
     {
         using var testHelper = new CoreTestHelper();
-        
+
         var handler = GetHandler(testHelper);
 
         await Assert.ThrowsAsync<ConflictFailureException>(async () =>

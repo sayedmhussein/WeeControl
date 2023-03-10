@@ -1,11 +1,10 @@
+@using WeeControl.Host.WebApiService.Contexts.Essentials
+@using WeeControl.Host.WebApiService.Data
+@using WeeControl.Host.WebApiService.DeviceInterfaces
+@using WeeControl.Host.WebApiService
+@using WeeControl.Core.DataTransferObject.Contexts.Essentials
 @attribute [Route(ApplicationPages.Essential.LoginPage)]
 @attribute [AllowAnonymous]
-
-@using Microsoft.AspNetCore.Components
-@using WeeControl.Core.DataTransferObject.Contexts.Essentials
-@using WeeControl.Host.WebApiService
-@using WeeControl.Host.WebApiService.Contexts.Essentials
-@using WeeControl.Host.WebApiService.DeviceInterfaces
 @inject IAuthenticationService AuthorizationService
 @inject ISecurity Security
 @inject IGui Gui
@@ -16,11 +15,9 @@
         <MudCardHeader>
             <h4>Please fill the below data</h4>
         </MudCardHeader>
-        
+
         <MudCardContent >
-            <EditForm Model="@forgotPassword" OnValidSubmit="@(() => { isLoading = true;
-                                                                         AuthorizationService.RequestPasswordReset(forgotPassword); 
-                                                                     isLoading = false; })">
+            <EditForm Model="@forgotPassword" OnValidSubmit="@(() => { isLoading = true; AuthorizationService.RequestPasswordReset(forgotPassword); isLoading = false; })">
                 <DataAnnotationsValidator/>
                 <div class="form-group">
                     <label>Username or Email</label>
@@ -29,7 +26,7 @@
                 </div>
                 <div class="form-group">
                     <label>Password</label>
-                    <InputText @bind-Value="forgotPassword.Username" readonly="@isLoading"  class="form-control"/>
+                    <InputText @bind-Value="forgotPassword.Username" readonly="@isLoading" class="form-control"/>
                     <ValidationMessage For="@(() => forgotPassword.Username)"/>
                 </div>
                 <MudButton
@@ -55,9 +52,7 @@
         </MudCardHeader>
 
         <MudCardContent >
-            <EditForm Model="@loginModel" OnValidSubmit="@(() => { isLoading = true;
-                                                                     AuthorizationService.Login(loginModel); 
-                                                                     isLoading = false; })">
+            <EditForm Model="@loginModel" OnValidSubmit="@(() => { isLoading = true; AuthorizationService.Login(loginModel); isLoading = false; })">
                 <DataAnnotationsValidator/>
                 <div class="form-group">
                     <label>Username or Email</label>
@@ -93,7 +88,7 @@
 {
     private readonly LoginRequestDto loginModel = new();
     private readonly UserPasswordResetRequestDto forgotPassword = new();
-    private bool isLoading = false;
+    private bool isLoading;
     private bool showForgotPassword;
 
     protected override async Task OnInitializedAsync()

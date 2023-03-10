@@ -10,8 +10,7 @@ namespace WeeControl.Core.Domain.Contexts.Essentials;
 [Table("Address", Schema = nameof(Essentials))]
 public class AddressDbo : AddressModel
 {
-    [Key] 
-    public Guid AddressId { get; set; }
+    [Key] public Guid AddressId { get; set; }
 
     public Guid PersonId { get; set; }
     public PersonDbo Person { get; set; }
@@ -22,7 +21,7 @@ public class PersonAddressEntityTypeConfig : IEntityTypeConfiguration<AddressDbo
     public void Configure(EntityTypeBuilder<AddressDbo> builder)
     {
         builder.Property(x => x.AddressId).ValueGeneratedOnAdd();
-        
+
         builder
             .HasOne(x => x.Person)
             .WithMany(x => x.Addresses)

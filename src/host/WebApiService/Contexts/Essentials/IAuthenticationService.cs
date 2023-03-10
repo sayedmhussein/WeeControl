@@ -8,6 +8,6 @@ public interface IAuthenticationService
     Task UpdateToken();
     Task UpdateToken(string otp);
     Task Logout();
-    
+
     Task RequestPasswordReset(UserPasswordResetRequestDto dto);
 }

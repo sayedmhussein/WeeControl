@@ -1,6 +1,7 @@
 using System.Net;
 using WeeControl.Core.DataTransferObject.Contexts.Essentials;
 using WeeControl.Core.SharedKernel.Contexts.Essentials;
+using WeeControl.Host.WebApiService.Data;
 using WeeControl.Host.WebApiService.DeviceInterfaces;
 using WeeControl.Host.WebApiService.Internals.Interfaces;
 
@@ -8,9 +9,9 @@ namespace WeeControl.Host.WebApiService.Contexts.Essentials.Services;
 
 internal class HomeService : IHomeService
 {
-    private readonly IServerOperation server;
     private readonly IGui gui;
     private readonly IDeviceSecurity security;
+    private readonly IServerOperation server;
 
     public HomeService(IServerOperation server, IGui gui, IDeviceSecurity security)
     {
@@ -19,10 +20,11 @@ internal class HomeService : IHomeService
         this.security = security;
     }
 
+    public string LastLoginTimestamp { get; private set; } = string.Empty;
+
     public IEnumerable<HomeNotificationModel> Notifications { get; private set; } = new List<HomeNotificationModel>();
     public IEnumerable<HomeFeedModel> Feeds { get; private set; } = new List<HomeFeedModel>();
     public string Fullname { get; private set; } = string.Empty;
-    public string LastLoginTimestamp { get; private set; } = string.Empty;
 
     public async Task<bool> Refresh()
     {
@@ -47,10 +49,10 @@ internal class HomeService : IHomeService
         {
             await security.DeleteToken();
             await gui.DisplayAlert("Please login again");
-            await gui.NavigateToAsync(ApplicationPages.Essential.LoginPage, forceLoad: true);
+            await gui.NavigateToAsync(ApplicationPages.Essential.LoginPage, true);
             return false;
         }
-        
+
         await gui.DisplayAlert($"Unexpected error occured when communicating with server! {response.StatusCode}");
         return false;
     }
@@ -59,13 +61,13 @@ internal class HomeService : IHomeService
     {
         if (id == Guid.Empty)
             throw new ArgumentOutOfRangeException(nameof(id));
-        
+
         var response = server
-            .GetResponseMessage(HttpMethod.Delete, 
-                new Version("1.0"), 
+            .GetResponseMessage(HttpMethod.Delete,
+                new Version("1.0"),
                 ControllerApi.Essentials.User.Route,
-                endpoint:ControllerApi.Essentials.User.NotificationEndpoint,
-                query: new []{"id", id.ToString()});
+                ControllerApi.Essentials.User.NotificationEndpoint,
+                new[] {"id", id.ToString()});
 
         return response;
     }

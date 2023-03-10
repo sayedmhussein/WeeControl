@@ -13,9 +13,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
-        <PackageReference Include="Moq" Version="4.18.4" />
-        <PackageReference Include="xunit" Version="2.4.2" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0"/>
+        <PackageReference Include="Moq" Version="4.18.4"/>
+        <PackageReference Include="xunit" Version="2.4.2"/>
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
@@ -27,15 +27,15 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\backend\Application\Application.csproj" />
-      <ProjectReference Include="..\..\src\backend\Domain\Domain.csproj" />
-      <ProjectReference Include="..\..\src\backend\Persistence\Persistence.csproj" />
-      <ProjectReference Include="..\..\src\common\DataTransferObject\DataTransferObject.csproj" />
-      <ProjectReference Include="..\..\src\common\SharedKernel\SharedKernel.csproj" />
+        <ProjectReference Include="..\..\src\backend\Application\Application.csproj"/>
+        <ProjectReference Include="..\..\src\backend\Domain\Domain.csproj"/>
+        <ProjectReference Include="..\..\src\backend\Persistence\Persistence.csproj"/>
+        <ProjectReference Include="..\..\src\common\DataTransferObject\DataTransferObject.csproj"/>
+        <ProjectReference Include="..\..\src\common\SharedKernel\SharedKernel.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Application\Contexts\Essentials" />
+        <Folder Include="Application\Contexts\Essentials"/>
     </ItemGroup>
 
 </Project>

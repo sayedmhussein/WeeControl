@@ -1,5 +1,6 @@
-@using WeeControl.Host.WebApiService
 @page "/"
+@using WeeControl.Host.WebApiService
+@using WeeControl.Host.WebApiService.Data
 @attribute [Route(ApplicationPages.Essential.HomePage)]
 @attribute [AllowAnonymous]
 @inject ISecurity Security
@@ -19,4 +20,5 @@
         isAuthenticated = await Security.IsAuthenticated();
         await base.OnInitializedAsync();
     }
+
 }

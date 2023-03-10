@@ -1,29 +1,29 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <RootNamespace>WeeControl.Core.Application</RootNamespace>
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="MediatR" Version="12.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.3" />
-    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
-    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.27.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="BoundContexts\Credentials\" />
-    <None Remove="BoundContexts\Credentials\Commands\" />
-    <None Remove="BoundContexts\Credentials\Queries\" />
-    <None Remove="BoundContexts\Credentials\Notifications\" />
-    <None Remove="BoundContexts\Shared\" />
-    <None Remove="BoundContexts\Shared\Commands\" />
-    <None Remove="BoundContexts\Shared\Queries\" />
-    <None Remove="BoundContexts\Shared\Notifications\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\common\DataTransferObject\DataTransferObject.csproj" />
-    <ProjectReference Include="..\Domain\Domain.csproj" />
-  </ItemGroup>
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <RootNamespace>WeeControl.Core.Application</RootNamespace>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="MediatR" Version="12.0.1"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.3"/>
+        <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0"/>
+        <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.27.0"/>
+    </ItemGroup>
+    <ItemGroup>
+        <None Remove="BoundContexts\Credentials\"/>
+        <None Remove="BoundContexts\Credentials\Commands\"/>
+        <None Remove="BoundContexts\Credentials\Queries\"/>
+        <None Remove="BoundContexts\Credentials\Notifications\"/>
+        <None Remove="BoundContexts\Shared\"/>
+        <None Remove="BoundContexts\Shared\Commands\"/>
+        <None Remove="BoundContexts\Shared\Queries\"/>
+        <None Remove="BoundContexts\Shared\Notifications\"/>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\..\common\DataTransferObject\DataTransferObject.csproj"/>
+        <ProjectReference Include="..\Domain\Domain.csproj"/>
+    </ItemGroup>
 </Project>

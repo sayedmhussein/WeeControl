@@ -17,18 +17,14 @@ public class StringContainsAttributeTests
     [InlineData("Allowed1234@", false)]
     public void WhenContainsDefaultValues(string str, bool success)
     {
-        var test = new TestObject() {TestString = str};
+        var test = new TestObject {TestString = str};
 
         if (success)
-        {
             Assert.True(test.IsValidEntityModel());
-        }
         else
-        {
             Assert.Throws<EntityModelValidationException>(() => test.ThrowExceptionIfEntityModelNotValid());
-        }
     }
-    
+
     [Theory]
     [InlineData("", true)]
     [InlineData("HelloWorld", true)]
@@ -39,23 +35,18 @@ public class StringContainsAttributeTests
     [InlineData("HiYOu@", true)]
     public void WhenContainsSpecialValues(string str, bool success)
     {
-        var test = new TestObject2() {TestString = str};
+        var test = new TestObject2 {TestString = str};
 
         if (success)
-        {
             Assert.True(test.IsValidEntityModel());
-        }
         else
-        {
             Assert.Throws<EntityModelValidationException>(() => test.ThrowExceptionIfEntityModelNotValid());
-        }
     }
 }
 
 internal class TestObject : IEntityModel
 {
-    [StandardString]
-    public string TestString { get; set; } = string.Empty;
+    [StandardString] public string TestString { get; set; } = string.Empty;
 }
 
 internal class TestObject2 : IEntityModel

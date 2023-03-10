@@ -28,7 +28,7 @@ public class ResetPasswordCommandTests
     {
         using var testHelper = new CoreTestHelper();
         testHelper.SeedDatabase();
-        
+
         await Assert.ThrowsAsync<BadRequestException>(() =>
             GetHandler(testHelper).Handle(
                 GetCommand(CoreTestHelper.Email, CoreTestHelper.Username, string.Empty),

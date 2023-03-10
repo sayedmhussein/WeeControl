@@ -16,21 +16,21 @@ namespace WeeControl.Core.Application.Contexts.Essentials.Commands;
 
 public class UserRegisterCommand : IRequest<ResponseDto<TokenResponseDto>>
 {
-    private readonly RequestDto request;
     private readonly PersonModel person;
+    private readonly RequestDto request;
     private readonly UserModel user;
-    
+
     public UserRegisterCommand(RequestDto<UserProfileDto> dto)
     {
         request = dto;
-        
+
         dto.Payload.Person.ThrowExceptionIfEntityModelNotValid();
         person = dto.Payload.Person;
 
         dto.Payload.User.ThrowExceptionIfEntityModelNotValid();
         user = dto.Payload.User;
     }
-    
+
     public class RegisterHandler : IRequestHandler<UserRegisterCommand, ResponseDto<TokenResponseDto>>
     {
         private readonly IEssentialDbContext context;
@@ -44,21 +44,21 @@ public class UserRegisterCommand : IRequest<ResponseDto<TokenResponseDto>>
             this.passwordSecurity = passwordSecurity;
         }
 
-        public async Task<ResponseDto<TokenResponseDto>> Handle(UserRegisterCommand cmd, CancellationToken cancellationToken)
+        public async Task<ResponseDto<TokenResponseDto>> Handle(UserRegisterCommand cmd,
+            CancellationToken cancellationToken)
         {
             if (context.Users.Any(x =>
                     x.Username == cmd.user.Username.ToLower() ||
                     x.Email == cmd.user.Email.ToLower()
                 ))
-            {
                 throw new ConflictFailureException();
-            }
 
             var person = PersonDbo.Create(cmd.person);
             await context.Person.AddAsync(person, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
 
-            var user = UserDbo.Create(person.PersonId, cmd.user.Email, cmd.user.Username, passwordSecurity.Hash(cmd.user.Password));
+            var user = UserDbo.Create(person.PersonId, cmd.user.Email, cmd.user.Username,
+                passwordSecurity.Hash(cmd.user.Password));
             await context.Users.AddAsync(user, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
 

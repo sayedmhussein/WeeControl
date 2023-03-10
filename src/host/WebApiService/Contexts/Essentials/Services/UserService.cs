@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using WeeControl.Core.DataTransferObject.Contexts.Essentials;
 using WeeControl.Core.SharedKernel.ExtensionMethods;
+using WeeControl.Host.WebApiService.Data;
 using WeeControl.Host.WebApiService.DeviceInterfaces;
 using WeeControl.Host.WebApiService.Internals.Interfaces;
 
@@ -8,9 +9,9 @@ namespace WeeControl.Host.WebApiService.Contexts.Essentials.Services;
 
 internal class UserService : IUserService
 {
-    private readonly IServerOperation server;
     private readonly IGui gui;
     private readonly IDeviceSecurity security;
+    private readonly IServerOperation server;
 
     public UserService(IServerOperation server, IGui gui, IDeviceSecurity security)
     {
@@ -18,7 +19,7 @@ internal class UserService : IUserService
         this.gui = gui;
         this.security = security;
     }
-    
+
     public async Task AddUser(UserProfileDto dto)
     {
         if (!dto.Person.IsValidEntityModel())
@@ -26,7 +27,7 @@ internal class UserService : IUserService
             await gui.DisplayAlert(dto.Person.GetFirstValidationError());
             return;
         }
-        
+
         if (!dto.User.IsValidEntityModel())
         {
             await gui.DisplayAlert(dto.User.GetFirstValidationError());
@@ -34,7 +35,7 @@ internal class UserService : IUserService
         }
 
         var response = await server
-            .GetResponseMessage(HttpMethod.Post, 
+            .GetResponseMessage(HttpMethod.Post,
                 new Version("1.0"), dto,
                 ControllerApi.Essentials.User.Route);
 
@@ -47,7 +48,7 @@ internal class UserService : IUserService
                 await gui.NavigateToAsync(ApplicationPages.Essential.OtpPage);
                 return;
             }
-            
+
             await gui.DisplayAlert($"Unexpected Error:{response.StatusCode}");
             return;
         }
@@ -78,12 +79,12 @@ internal class UserService : IUserService
             await gui.DisplayAlert("invalid data");
             return;
         }
-        
+
         var response = await server
-            .GetResponseMessage(HttpMethod.Patch, 
+            .GetResponseMessage(HttpMethod.Patch,
                 new Version("1.0"), dto,
                 ControllerApi.Essentials.User.Route,
-                endpoint:ControllerApi.Essentials.User.PasswordEndpoint);
+                ControllerApi.Essentials.User.PasswordEndpoint);
 
         if (response.IsSuccessStatusCode)
         {

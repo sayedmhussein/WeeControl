@@ -1,14 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WeeControl.Core.Domain.Contexts.Essentials;
-using CustomerDbo = WeeControl.Core.Domain.Contexts.Essentials.CustomerDbo;
 
 namespace WeeControl.Core.Domain.Interfaces;
 
 public interface IEssentialDbContext : IDbContext
 {
-    DbSet<UserFeedsDbo> Feeds { get;  }
-    
-    DbSet<PersonDbo> Person { get;  }
+    DbSet<UserFeedsDbo> Feeds { get; }
+
+    DbSet<PersonDbo> Person { get; }
     DbSet<PersonIdentityDbo> PersonIdentities { get; }
     DbSet<PersonContactDbo> PersonContacts { get; }
     DbSet<AddressDbo> PersonAddresses { get; }
@@ -18,7 +17,7 @@ public interface IEssentialDbContext : IDbContext
     DbSet<UserClaimDbo> UserClaims { get; }
     DbSet<UserSessionDbo> UserSessions { get; }
     DbSet<UserSessionLogDbo> SessionLogs { get; }
-    
+
     DbSet<EmployeeDbo> Employees { get; }
     DbSet<CustomerDbo> Customers { get; }
 }

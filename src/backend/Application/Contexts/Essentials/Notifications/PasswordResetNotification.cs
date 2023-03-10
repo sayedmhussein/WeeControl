@@ -10,8 +10,8 @@ namespace WeeControl.Core.Application.Contexts.Essentials.Notifications;
 
 public class PasswordResetNotification : INotification
 {
-    private readonly Guid userId;
     private readonly string newPassword;
+    private readonly Guid userId;
 
     public PasswordResetNotification(Guid userid, string newPassword)
     {
@@ -19,10 +19,20 @@ public class PasswordResetNotification : INotification
         this.newPassword = newPassword;
     }
 
+    private static MessageDto GetMessage(string to, string newPassword)
+    {
+        return new MessageDto
+        {
+            To = to,
+            Subject = "WeeControl - A New Password Has Been Created for You",
+            Body = "Your new password is: " + newPassword
+        };
+    }
+
     public class PasswordResetHandler : INotificationHandler<PasswordResetNotification>
     {
-        private readonly IEmailNotificationService notification;
         private readonly IEssentialDbContext context;
+        private readonly IEmailNotificationService notification;
 
         public PasswordResetHandler(IEmailNotificationService notification, IEssentialDbContext context)
         {
@@ -33,10 +43,7 @@ public class PasswordResetNotification : INotification
         public async Task Handle(PasswordResetNotification notif, CancellationToken cancellationToken)
         {
             var user = await context.Users.FirstOrDefaultAsync(x => x.UserId == notif.userId, cancellationToken);
-            if (user == null)
-            {
-                throw new NullReferenceException();
-            }
+            if (user == null) throw new NullReferenceException();
 
             var message = GetMessage(user.Email, notif.newPassword);
             Console.WriteLine("From: {0}", message.From);
@@ -53,15 +60,5 @@ public class PasswordResetNotification : INotification
                 Console.WriteLine(e);
             }
         }
-    }
-
-    private static MessageDto GetMessage(string to, string newPassword)
-    {
-        return new MessageDto()
-        {
-            To = to,
-            Subject = "WeeControl - A New Password Has Been Created for You",
-            Body = "Your new password is: " + newPassword
-        };
     }
 }

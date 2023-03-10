@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 
 [assembly: InternalsVisibleTo("WeeControl.Server.WebApi.Test")]
+
 namespace WeeControl.Host.WebApi.Services.Security.CustomHandlers.TokenRefreshment;
 
 public class TokenRefreshmentHandler : AuthorizationHandler<TokenRefreshmentRequirement>
@@ -19,10 +20,7 @@ public class TokenRefreshmentHandler : AuthorizationHandler<TokenRefreshmentRequ
             var savedDate = DateTime.UnixEpoch.AddSeconds(__savedDate);
 
             var diff = DateTime.UtcNow - savedDate;
-            if (diff < requirement.Period)
-            {
-                context.Succeed(requirement);
-            }
+            if (diff < requirement.Period) context.Succeed(requirement);
         }
 
         return Task.CompletedTask;

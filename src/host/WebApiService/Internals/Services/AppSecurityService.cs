@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using WeeControl.Core.SharedKernel;
+using WeeControl.Host.WebApiService.Data;
 using WeeControl.Host.WebApiService.DeviceInterfaces;
 using WeeControl.Host.WebApiService.Internals.Interfaces;
 
@@ -7,8 +8,8 @@ namespace WeeControl.Host.WebApiService.Internals.Services;
 
 internal class AppSecurityService : ISecurity
 {
-    private readonly IDeviceSecurity security;
     private readonly IGui gui;
+    private readonly IDeviceSecurity security;
 
     public AppSecurityService(IDeviceSecurity security, IGui gui)
     {
@@ -17,7 +18,7 @@ internal class AppSecurityService : ISecurity
         security.TokenChanged += (sender, s) =>
             AuthenticationChanged?.Invoke(this, !string.IsNullOrEmpty(s));
     }
-    
+
     public Task<ClaimsPrincipal> GetClaimsPrincipal()
     {
         return security.GetClaimsPrincipal();
@@ -33,13 +34,10 @@ internal class AppSecurityService : ISecurity
                 if (string.IsNullOrEmpty(authority))
                     return true;
 
-                if (foundClaim.FirstOrDefault(x => x.Value == authority) != null)
-                {
-                    return true;
-                }
+                if (foundClaim.FirstOrDefault(x => x.Value == authority) != null) return true;
             }
         }
-        
+
         return false;
     }
 
@@ -47,13 +45,9 @@ internal class AppSecurityService : ISecurity
     {
         var list = new List<string>();
         foreach (var p in ApplicationPages.Elevator.GetListOfPages())
-        {
             if (await PageExistInClaims(p.Value, null))
-            {
                 list.Add(p.Value);
-            }
-        }
-        
+
         return list;
     }
 
@@ -62,17 +56,17 @@ internal class AppSecurityService : ISecurity
         return security.IsAuthenticated();
     }
 
+    public event EventHandler<bool>? AuthenticationChanged;
+
     public async Task NavigateToNecessaryPage()
     {
         if (await IsAuthenticated())
         {
-            await gui.NavigateToAsync(ApplicationPages.Essential.HomePage, forceLoad: true);
+            await gui.NavigateToAsync(ApplicationPages.Essential.HomePage, true);
             return;
         }
 
         if (gui.CurrentPageName != ApplicationPages.Essential.LoginPage)
-            await gui.NavigateToAsync(ApplicationPages.Essential.LoginPage, forceLoad: true);
+            await gui.NavigateToAsync(ApplicationPages.Essential.LoginPage, true);
     }
-
-    public event EventHandler<bool>? AuthenticationChanged;
 }

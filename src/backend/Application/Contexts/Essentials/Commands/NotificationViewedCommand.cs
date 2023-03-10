@@ -22,10 +22,11 @@ public class NotificationViewedCommand : IRequest
     public class NotificationViewedHandler : IRequestHandler<NotificationViewedCommand>
     {
         private readonly IEssentialDbContext essentialDbContext;
-        private readonly ICurrentUserInfo userInfo;
         private readonly IMediator mediator;
+        private readonly ICurrentUserInfo userInfo;
 
-        public NotificationViewedHandler(IEssentialDbContext essentialDbContext, ICurrentUserInfo userInfo, IMediator mediator)
+        public NotificationViewedHandler(IEssentialDbContext essentialDbContext, ICurrentUserInfo userInfo,
+            IMediator mediator)
         {
             this.essentialDbContext = essentialDbContext;
             this.userInfo = userInfo;
@@ -37,22 +38,14 @@ public class NotificationViewedCommand : IRequest
             var notification = await essentialDbContext.UserNotifications.FirstOrDefaultAsync(
                 x => x.NotificationId == request.notificationId, cancellationToken);
 
-            if (notification is null)
-            {
-                throw new NotFoundException("No notification with this ID was found!");
-            }
+            if (notification is null) throw new NotFoundException("No notification with this ID was found!");
 
             var userId = await mediator.Send(new GetUserIdAndSessionVerificationQuery(), cancellationToken);
-            
-            if (userInfo.SessionId == null || notification.UserId != userId)
-            {
-                throw new NotAllowedException("User Not Found!");
-            }
 
-            if (notification.ReadTs is not null)
-            {
-                throw new NotAllowedException("Already was read");
-            }
+            if (userInfo.SessionId == null || notification.UserId != userId)
+                throw new NotAllowedException("User Not Found!");
+
+            if (notification.ReadTs is not null) throw new NotAllowedException("Already was read");
 
             notification.ReadTs = DateTime.UtcNow;
             await essentialDbContext.SaveChangesAsync(default);

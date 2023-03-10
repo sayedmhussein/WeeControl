@@ -1,7 +1,6 @@
+@using WeeControl.Host.WebApiService
 @using System.Security.Claims
 @using WeeControl.Core.SharedKernel
-@using WeeControl.Host.WebApiService
-
 @inject ISecurity Security
 
 <MudPaper xs="6">
@@ -24,19 +23,20 @@
 
 @code {
     private readonly ICollection<Claim> claims = new List<Claim>();
-    private IDictionary<string,string> claimTypes = new Dictionary<string, string>();
-    private IDictionary<string,string> claimTags = new Dictionary<string, string>();
-    
+    private IDictionary<string, string> claimTypes = new Dictionary<string, string>();
+    private IDictionary<string, string> claimTags = new Dictionary<string, string>();
+
     protected override async Task OnInitializedAsync()
     {
         await GetClaims();
     }
-    
+
     private async Task GetClaims()
     {
         foreach (var claim in (await Security.GetClaimsPrincipal()).Claims)
         {
-            claims.Add(claim);  
+            claims.Add(claim);
         }
     }
+
 }

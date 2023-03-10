@@ -9,8 +9,11 @@ namespace WeeControl.Core.Domain.Contexts.Essentials;
 [Table(nameof(UserSessionLogDbo), Schema = nameof(Essentials))]
 public class UserSessionLogDbo
 {
-    [Key]
-    public Guid LogId { get; }
+    internal UserSessionLogDbo()
+    {
+    }
+
+    [Key] public Guid LogId { get; }
 
     public Guid SessionId { get; set; }
     public UserSessionDbo UserSession { get; set; }
@@ -20,21 +23,17 @@ public class UserSessionLogDbo
     public string Context { get; set; }
 
     public string Details { get; set; }
-
-    internal UserSessionLogDbo()
-    {
-    }
 }
 
 public class UserSessionLogEntityTypeConfig : IEntityTypeConfiguration<UserSessionLogDbo>
 {
     public void Configure(EntityTypeBuilder<UserSessionLogDbo> builder)
     {
-        builder.Property(p => p.LogId).ValueGeneratedOnAdd();//.HasDefaultValue(Guid.NewGuid());
+        builder.Property(p => p.LogId).ValueGeneratedOnAdd(); //.HasDefaultValue(Guid.NewGuid());
         builder.Property(p => p.LogTs).ValueGeneratedOnAdd();
 
         builder.HasOne(x => x.UserSession)
-            .WithMany(x=> x.Logs)
+            .WithMany(x => x.Logs)
             .HasForeignKey(x => x.SessionId)
             .OnDelete(DeleteBehavior.Restrict);
     }

@@ -40,7 +40,7 @@ public class CustomExceptionHandlerMiddleware
         switch (exception)
         {
             case EntityModelValidationException entityException:
-                context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                context.Response.StatusCode = (int) HttpStatusCode.BadRequest;
                 return context.Response.WriteAsync(JsonConvert.SerializeObject(entityException.Failures));
             case BadRequestException badRequestException:
                 code = HttpStatusCode.BadRequest;
@@ -66,16 +66,13 @@ public class CustomExceptionHandlerMiddleware
 #else
                 result = exception.Message;
 #endif
-                
+
                 break;
         }
-        
-        if (result == string.Empty)
-        {
-            result = "Check statues code";
-        }
-        
-        context.Response.StatusCode = (int)code;
+
+        if (result == string.Empty) result = "Check statues code";
+
+        context.Response.StatusCode = (int) code;
         return context.Response.WriteAsync(GetSingleLineErrorSerialized(result));
     }
 

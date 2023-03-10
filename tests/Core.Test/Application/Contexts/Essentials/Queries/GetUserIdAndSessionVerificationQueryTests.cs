@@ -14,22 +14,27 @@ public class GetUserIdAndSessionVerificationQueryTests
         helper.CurrentUserInfoMock.Setup(x => x.SessionId)
             .Returns(seed.sessionId);
 
-        var handler = new GetUserIdAndSessionVerificationQuery.UserIdVerificationHandler(helper.EssentialDb, helper.CurrentUserInfoMock.Object);
-        
+        var handler =
+            new GetUserIdAndSessionVerificationQuery.UserIdVerificationHandler(helper.EssentialDb,
+                helper.CurrentUserInfoMock.Object);
+
         Assert.Equal(seed.userId, await handler.Handle(new GetUserIdAndSessionVerificationQuery(), default));
     }
-    
+
     [Fact]
     public async void WhenNoSession_ThrowNotAllowedException()
     {
         using var helper = new CoreTestHelper();
         var seed = helper.SeedDatabase();
 
-        var handler = new GetUserIdAndSessionVerificationQuery.UserIdVerificationHandler(helper.EssentialDb, helper.CurrentUserInfoMock.Object);
-        
-        await Assert.ThrowsAsync<NotAllowedException>(() => handler.Handle(new GetUserIdAndSessionVerificationQuery(), default));
+        var handler =
+            new GetUserIdAndSessionVerificationQuery.UserIdVerificationHandler(helper.EssentialDb,
+                helper.CurrentUserInfoMock.Object);
+
+        await Assert.ThrowsAsync<NotAllowedException>(() =>
+            handler.Handle(new GetUserIdAndSessionVerificationQuery(), default));
     }
-    
+
     [Fact]
     public async void WhenSessionIsTerminated_ThrowNotAllowedException()
     {
@@ -41,11 +46,14 @@ public class GetUserIdAndSessionVerificationQueryTests
         session.TerminationTs = DateTime.UtcNow;
         await helper.EssentialDb.SaveChangesAsync(default);
 
-        var handler = new GetUserIdAndSessionVerificationQuery.UserIdVerificationHandler(helper.EssentialDb, helper.CurrentUserInfoMock.Object);
-        
-        await Assert.ThrowsAsync<NotFoundException>(() => handler.Handle(new GetUserIdAndSessionVerificationQuery(), default));
+        var handler =
+            new GetUserIdAndSessionVerificationQuery.UserIdVerificationHandler(helper.EssentialDb,
+                helper.CurrentUserInfoMock.Object);
+
+        await Assert.ThrowsAsync<NotFoundException>(() =>
+            handler.Handle(new GetUserIdAndSessionVerificationQuery(), default));
     }
-    
+
     [Fact]
     public async void WhenUserAccountIsLocked_ThrowNotAllowedException()
     {
@@ -57,8 +65,11 @@ public class GetUserIdAndSessionVerificationQueryTests
         user.Suspend("Test");
         await helper.EssentialDb.SaveChangesAsync(default);
 
-        var handler = new GetUserIdAndSessionVerificationQuery.UserIdVerificationHandler(helper.EssentialDb, helper.CurrentUserInfoMock.Object);
-        
-        await Assert.ThrowsAsync<NotFoundException>(() => handler.Handle(new GetUserIdAndSessionVerificationQuery(), default));
+        var handler =
+            new GetUserIdAndSessionVerificationQuery.UserIdVerificationHandler(helper.EssentialDb,
+                helper.CurrentUserInfoMock.Object);
+
+        await Assert.ThrowsAsync<NotFoundException>(() =>
+            handler.Handle(new GetUserIdAndSessionVerificationQuery(), default));
     }
 }

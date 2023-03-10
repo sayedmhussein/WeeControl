@@ -17,12 +17,12 @@ public class CustomExceptionHandlerMiddlewareTests
                 StatusCode = 200
             }
         };
-        var requestDelegate = new RequestDelegate((innerContext) => Task.FromResult(0));
+        var requestDelegate = new RequestDelegate(innerContext => Task.FromResult(0));
         var middleware = new CustomExceptionHandlerMiddleware(requestDelegate);
 
         await middleware.Invoke(httpContext);
 
-        Assert.Equal(HttpStatusCode.OK, (HttpStatusCode)httpContext.Response.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, (HttpStatusCode) httpContext.Response.StatusCode);
     }
 
     [Fact]
@@ -35,12 +35,12 @@ public class CustomExceptionHandlerMiddlewareTests
                 StatusCode = 200
             }
         };
-        var requestDelegate = new RequestDelegate((innerContext) => throw new Exception());
+        var requestDelegate = new RequestDelegate(innerContext => throw new Exception());
         var middleware = new CustomExceptionHandlerMiddleware(requestDelegate);
 
         await middleware.Invoke(httpContext);
 
-        Assert.Equal(HttpStatusCode.InternalServerError, (HttpStatusCode)httpContext.Response.StatusCode);
+        Assert.Equal(HttpStatusCode.InternalServerError, (HttpStatusCode) httpContext.Response.StatusCode);
     }
 
     [Fact]
@@ -53,11 +53,11 @@ public class CustomExceptionHandlerMiddlewareTests
                 StatusCode = 200
             }
         };
-        var requestDelegate = new RequestDelegate((innerContext) => throw new NotFoundException("Unit testing"));
+        var requestDelegate = new RequestDelegate(innerContext => throw new NotFoundException("Unit testing"));
         var middleware = new CustomExceptionHandlerMiddleware(requestDelegate);
 
         await middleware.Invoke(httpContext);
 
-        Assert.Equal(HttpStatusCode.NotFound, (HttpStatusCode)httpContext.Response.StatusCode);
+        Assert.Equal(HttpStatusCode.NotFound, (HttpStatusCode) httpContext.Response.StatusCode);
     }
 }

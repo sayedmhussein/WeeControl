@@ -1,4 +1,4 @@
-﻿using WeeControl.Host.WebApiService;
+﻿using WeeControl.Host.WebApiService.Data;
 
 namespace WeeControl.Host.Test.ApiService.Internals;
 
@@ -8,7 +8,7 @@ public class ApplicationPagesTests
     public void WhenGettingListOfPages_ShouldHaveValue()
     {
         var list = ApplicationPages.Elevator.GetListOfPages();
-        
+
         Assert.NotEmpty(list);
     }
 }

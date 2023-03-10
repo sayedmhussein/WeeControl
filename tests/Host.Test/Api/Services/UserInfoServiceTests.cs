@@ -16,7 +16,7 @@ public class UserInfoServiceTests : IDisposable
         sessionClaim = new Claim(ClaimsValues.ClaimTypes.Session, Guid.NewGuid().ToString());
         var territoryClaim = new Claim(ClaimsValues.ClaimTypes.CustomerTerritory, Guid.NewGuid().ToString());
 
-        var claims = new List<Claim>()
+        var claims = new List<Claim>
         {
             sessionClaim,
             territoryClaim
@@ -49,7 +49,7 @@ public class UserInfoServiceTests : IDisposable
         var session = service.SessionId;
 
         Assert.NotNull(session);
-        Assert.Equal(sessionClaim.Value, ((Guid)session).ToString());
+        Assert.Equal(sessionClaim.Value, ((Guid) session).ToString());
     }
 
     [Fact]
