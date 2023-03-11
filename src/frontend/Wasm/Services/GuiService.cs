@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using MudBlazor;
+using WeeControl.Frontend.Wasm.Layouts.Components;
 using WeeControl.Host.WebApiService.DeviceInterfaces;
 
 namespace WeeControl.Frontend.Wasm.Services;
@@ -24,12 +25,23 @@ public class GuiService : IGui
 
     string IGui.CurrentPageName => currentPageName;
 
-    public Task DisplayAlert(string message, IGui.Severity severity = IGui.Severity.Normal)
+    public async Task DisplayAlert(string message, IGui.Severity severity = IGui.Severity.Normal)
     {
-        jsRuntime.InvokeVoidAsync("alert", message);
-        return Task.CompletedTask;
+        
+        //await jsRuntime.InvokeVoidAsync("alert", message);
         // bool = jsRuntime.InvokeAsync<bool>("confirm", message);
         // string = await jsRuntime.InvokeAsync<string>("prompt", message);
+        
+        using var scope = serviceProvider.CreateScope();
+        var dialog = scope.ServiceProvider.GetRequiredService<IDialogService>();
+        
+        var parameters = new DialogParameters
+        {
+            {nameof(AlertComponent.Message), message},
+            {nameof(AlertComponent.ShowCancel), false}
+        };
+        var d = await dialog.ShowAsync<AlertComponent>("Alert!", parameters);
+        var response = d.Result;
     }
     
     public Task DisplayQuickAlert(string message, IGui.Severity severity = IGui.Severity.Normal)

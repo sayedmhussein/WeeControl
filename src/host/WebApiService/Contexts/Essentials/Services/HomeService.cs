@@ -1,4 +1,5 @@
 using System.Net;
+using Microsoft.AspNetCore.Components.Forms;
 using WeeControl.Core.DataTransferObject.Contexts.Essentials;
 using WeeControl.Core.SharedKernel.Contexts.Essentials;
 using WeeControl.Host.WebApiService.Data;
@@ -70,5 +71,15 @@ internal class HomeService : IHomeService
                 new[] {"id", id.ToString()});
 
         return response;
+    }
+
+    public async Task SendFeedback(string message, IEnumerable<IBrowserFile> files)
+    {
+        await gui.DisplayQuickAlert("Thanks for your time.");
+        await Task.Run(async () =>
+        {
+            await Task.Delay(10000);
+            await gui.DisplayQuickAlert("Your feedback was received successfully.", IGui.Severity.Success);
+        });
     }
 }

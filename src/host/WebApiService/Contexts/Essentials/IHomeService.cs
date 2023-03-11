@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Components.Forms;
 using WeeControl.Core.SharedKernel.Contexts.Essentials;
 
 namespace WeeControl.Host.WebApiService.Contexts.Essentials;
@@ -10,4 +11,6 @@ public interface IHomeService
 
     Task<bool> Refresh();
     Task MarkNotificationAsViewed(Guid id);
+
+    Task SendFeedback(string message, IEnumerable<IBrowserFile> files);
 }

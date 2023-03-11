@@ -1,8 +1,10 @@
 @using WeeControl.Host.WebApiService
 @using WeeControl.Host.WebApiService.Data
 @using WeeControl.Host.WebApiService.DeviceInterfaces
+@using WeeControl.Frontend.Wasm.Pages.Essential.Components
 @inject ISecurity Security
 @inject IGui Gui
+@inject IDialogService DialogService
 
 <MudMenuItem>
     <MudLink OnClick="@(() => Gui.NavigateToAsync(ApplicationPages.Essential.HomePage))">Home</MudLink>
@@ -32,7 +34,7 @@
         <MudLink OnClick="@(() => Gui.NavigateToAsync(ApplicationPages.Essential.UserPage))">My Profile</MudLink>
     </MudMenuItem>
     <MudMenuItem>
-        <MudLink OnClick="@(() => Gui.DisplayQuickAlert("Hello World"))">Send Feedback</MudLink>
+        <MudLink OnClick="@SendFeedbackClicked">Send Feedback</MudLink>
     </MudMenuItem>
 }
 
@@ -47,4 +49,15 @@
     [Parameter]
     public bool IsCustomer { get; set; }
 
+    private Task SendFeedbackClicked()
+    {
+        var options = new DialogOptions
+        {
+            CloseOnEscapeKey = true, CloseButton = true
+        };
+        
+        DialogService.Show<UserFeedbackComponent>("Sending Feedback", options);
+        
+        return Task.CompletedTask;
+    }
 }

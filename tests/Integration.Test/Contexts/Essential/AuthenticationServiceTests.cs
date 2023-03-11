@@ -17,7 +17,7 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
     {
         this.factory = factory;
     }
-
+    
     [Theory]
     [InlineData(false, false)]
     [InlineData(true, false)]
@@ -202,6 +202,5 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
         helper.GuiMock.Verify(x =>
             x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
     }
-
     #endregion
 }
