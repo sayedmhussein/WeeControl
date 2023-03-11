@@ -11,40 +11,40 @@
         <NoWarn>$(NoWarn);1591</NoWarn>
     </PropertyGroup>
 
-    <PropertyGroup Condition=" '$(RunConfiguration)' == 'MySystem.Api' "/>
+    <PropertyGroup Condition=" '$(RunConfiguration)' == 'MySystem.Api' " />
     <ItemGroup>
-        <PackageReference Include="MySql.EntityFrameworkCore" Version="7.0.0"/>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.3"/>
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0"/>
+        <PackageReference Include="MySql.EntityFrameworkCore" Version="7.0.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.3" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.3">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
-        <PackageReference Include="MediatR" Version="12.0.1"/>
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.3"/>
+        <PackageReference Include="MediatR" Version="12.0.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.3" />
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Services\"/>
-        <Folder Include="Controllers\Essentials\"/>
+        <Folder Include="Services\" />
+        <Folder Include="Controllers\Essentials\" />
     </ItemGroup>
     <ItemGroup>
-        <None Remove="Security\Policy\Employee\"/>
-        <None Remove="Security\Policy\Territory\"/>
-        <None Remove="System.Collections.Immutable"/>
-        <None Remove="Options\"/>
-        <None Remove="Security\CustomHandlers\"/>
-        <None Remove="Security\CustomHandlers\TokenRefreshment\"/>
-        <None Remove="Microsoft.IdentityModel.Tokens"/>
-        <None Remove="Controllers\Employee\"/>
-        <None Remove="Controllers\Territory\"/>
-        <None Remove="Controllers\Custom\"/>
-        <None Remove="Controllers\Credentials\"/>
+        <None Remove="Security\Policy\Employee\" />
+        <None Remove="Security\Policy\Territory\" />
+        <None Remove="System.Collections.Immutable" />
+        <None Remove="Options\" />
+        <None Remove="Security\CustomHandlers\" />
+        <None Remove="Security\CustomHandlers\TokenRefreshment\" />
+        <None Remove="Microsoft.IdentityModel.Tokens" />
+        <None Remove="Controllers\Employee\" />
+        <None Remove="Controllers\Territory\" />
+        <None Remove="Controllers\Custom\" />
+        <None Remove="Controllers\Credentials\" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\..\common\SharedKernel\SharedKernel.csproj"/>
-        <ProjectReference Include="..\..\host\WebApiService\WebApiService.csproj"/>
+        <ProjectReference Include="..\..\common\SharedKernel\SharedKernel.csproj" />
+        <ProjectReference Include="..\..\host\WebApiService\WebApiService.csproj" />
         <ProjectReference Include="..\Application\Application.csproj">
             <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
         </ProjectReference>

@@ -15,7 +15,7 @@ namespace WeeControl.Host.WebApi.Controllers.Essentials;
 
 [ApiController]
 [Authorize]
-[Route(ControllerApi.Essentials.User.Route)]
+[Route(ApiRouting.Essentials.User.Route)]
 [Consumes(MediaTypeNames.Application.Json)]
 [Produces(MediaTypeNames.Application.Json)]
 public class UserController : Controller
@@ -29,7 +29,7 @@ public class UserController : Controller
 
     #region NotificationEndpoint Delete
 
-    [HttpDelete(ControllerApi.Essentials.User.NotificationEndpoint)]
+    [HttpDelete(ApiRouting.Essentials.User.NotificationEndpoint)]
     [MapToApiVersion("1.0")]
     public async Task<ActionResult> MuteNotificationV1([FromQuery] Guid id)
     {
@@ -73,7 +73,7 @@ public class UserController : Controller
     #region PasswordEndpoint Post+Patch
 
     [Authorize]
-    [HttpPatch(ControllerApi.Essentials.User.PasswordEndpoint)]
+    [HttpPatch(ApiRouting.Essentials.User.PasswordEndpoint)]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(typeof(ResponseDto), (int) HttpStatusCode.OK)]
     [ProducesResponseType((int) HttpStatusCode.NotFound)]
@@ -87,7 +87,7 @@ public class UserController : Controller
     }
 
     [AllowAnonymous]
-    [HttpPost(ControllerApi.Essentials.User.PasswordEndpoint)]
+    [HttpPost(ApiRouting.Essentials.User.PasswordEndpoint)]
     [MapToApiVersion("1.0")]
     [ProducesResponseType((int) HttpStatusCode.OK)]
     [ProducesResponseType((int) HttpStatusCode.BadRequest)]

@@ -6,6 +6,7 @@ using WeeControl.Core.SharedKernel;
 using WeeControl.Core.SharedKernel.Interfaces;
 using WeeControl.Host.WebApiService;
 using WeeControl.Host.WebApiService.Data;
+using WeeControl.Host.WebApiService.Interfaces;
 using WeeControl.Host.WebApiService.Internals.Interfaces;
 
 namespace WeeControl.Host.Test.ApiService.Internals.Services;

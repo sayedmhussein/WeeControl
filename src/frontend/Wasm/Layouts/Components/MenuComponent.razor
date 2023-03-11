@@ -2,12 +2,13 @@
 @using WeeControl.Host.WebApiService.Data
 @using WeeControl.Host.WebApiService.DeviceInterfaces
 @using WeeControl.Frontend.Wasm.Pages.Essential.Components
+@using WeeControl.Host.WebApiService.Interfaces
 @inject ISecurity Security
 @inject IGui Gui
 @inject IDialogService DialogService
 
 <MudMenuItem>
-    <MudLink OnClick="@(() => Gui.NavigateToAsync(ApplicationPages.Essential.HomePage))">Home</MudLink>
+    <MudLink OnClick="@(() => Gui.NavigateTo(ApplicationPages.Essential.HomePage))">Home</MudLink>
 </MudMenuItem>
 
 <MudDivider/>
@@ -22,7 +23,7 @@
     @foreach (var p in Pages)
     {
         <MudMenuItem>
-            <MudLink OnClick="@(() => Gui.NavigateToAsync(p))">@p</MudLink>
+            <MudLink OnClick="@(() => Gui.NavigateTo(p))">@p</MudLink>
         </MudMenuItem>
     }
 }
@@ -31,7 +32,7 @@
 @if (IsEmployee || IsCustomer)
 {
     <MudMenuItem>
-        <MudLink OnClick="@(() => Gui.NavigateToAsync(ApplicationPages.Essential.UserPage))">My Profile</MudLink>
+        <MudLink OnClick="@(() => Gui.NavigateTo(ApplicationPages.Essential.UserPage))">My Profile</MudLink>
     </MudMenuItem>
     <MudMenuItem>
         <MudLink OnClick="@SendFeedbackClicked">Send Feedback</MudLink>

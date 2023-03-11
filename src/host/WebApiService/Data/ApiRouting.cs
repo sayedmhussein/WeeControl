@@ -1,10 +1,10 @@
 ﻿namespace WeeControl.Host.WebApiService.Data;
 
-public static class ControllerApi
+public static class ApiRouting
 {
     public static class Essentials
     {
-        public static class Authorization
+        public static class Session
         {
             public const string Route = "Api/Authorization";
         }

@@ -1,6 +1,6 @@
 using System.Security.Claims;
 
-namespace WeeControl.Host.WebApiService;
+namespace WeeControl.Host.WebApiService.Interfaces;
 
 public interface ISecurity
 {

@@ -74,7 +74,7 @@ public class GuiService : IGui
         return Task.CompletedTask;
     }
 
-    public Task NavigateToAsync(string pageName, bool forceLoad = false)
+    public Task NavigateTo(string pageName, bool forceLoad = false)
     {
         currentPageName = pageName;
         navigationManager.NavigateTo($"/{pageName}", forceLoad);

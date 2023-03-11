@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace WeeControl.Host.WebApiService.Contexts.Constants;
+namespace WeeControl.Host.WebApiService.Models;
 
 public class CityModel
 {

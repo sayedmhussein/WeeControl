@@ -1,13 +1,13 @@
-@using WeeControl.Host.WebApiService.Contexts.Constants
 @using WeeControl.Host.WebApiService.Contexts.Essentials
 @using WeeControl.Host.WebApiService.Data
 @using WeeControl.Core.DataTransferObject.Contexts.Essentials
 @using System.ComponentModel.DataAnnotations.Schema
+@using WeeControl.Host.WebApiService.Interfaces
 @attribute [Route(ApplicationPages.Essential.RegisterPage)]
 @attribute [AllowAnonymous]
 
 @inject IConstantValue ConstantValue
-@inject IUserService UserService
+@inject IAuthenticationService UserService
 @inject IDialogService DialogService
 
 <MudCard Style="align-content: center; align-self: center; justify-content: start">
@@ -122,7 +122,7 @@
     {
         isLoading = true;
         await Task.Delay(3000);
-        await UserService.AddUser(model);
+        await UserService.Register(model);
         isLoading = false;
     }
 

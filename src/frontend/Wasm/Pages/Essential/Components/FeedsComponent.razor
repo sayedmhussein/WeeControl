@@ -55,7 +55,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await Home.Refresh();
+        await Home.PullData();
         feeds = Home.Feeds;
     }
 

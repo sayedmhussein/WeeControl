@@ -1,6 +1,7 @@
 using WeeControl.Host.Test.ApiService;
 using WeeControl.Host.WebApi;
 using WeeControl.Host.WebApiService;
+using WeeControl.Host.WebApiService.Interfaces;
 
 namespace WeeControl.Integration.Test;
 

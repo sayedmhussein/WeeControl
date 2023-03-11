@@ -23,7 +23,7 @@ public class AuthorizationServiceTests
 
         helper.GuiMock
             .Verify(x =>
-                x.NavigateToAsync(ApplicationPages.Essential.LoginPage, It.IsAny<bool>()), Times.Once);
+                x.NavigateTo(ApplicationPages.Essential.LoginPage, It.IsAny<bool>()), Times.Once);
     }
 
     #endregion
@@ -45,7 +45,7 @@ public class AuthorizationServiceTests
         await service.UpdateToken("0000");
 
         helper.GuiMock.Verify(x =>
-            x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Once);
+            x.NavigateTo(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Once);
     }
 
     [Theory]
@@ -68,7 +68,7 @@ public class AuthorizationServiceTests
         helper.GuiMock.Verify(x =>
             x.DisplayAlert(It.IsAny<string>(), It.IsAny<IGui.Severity>()), Times.Once);
         helper.GuiMock.Verify(x =>
-            x.NavigateToAsync(ApplicationPages.Essential.HomePage, true), Times.Never);
+            x.NavigateTo(ApplicationPages.Essential.HomePage, true), Times.Never);
     }
 
     [Theory]
@@ -88,7 +88,7 @@ public class AuthorizationServiceTests
         helper.GuiMock.Verify(x =>
             x.DisplayAlert(It.IsAny<string>(), It.IsAny<IGui.Severity>()), Times.Once);
         helper.GuiMock.Verify(x =>
-            x.NavigateToAsync(ApplicationPages.Essential.HomePage, true), Times.Never);
+            x.NavigateTo(ApplicationPages.Essential.HomePage, true), Times.Never);
     }
 
     #endregion
@@ -116,7 +116,7 @@ public class AuthorizationServiceTests
             code == HttpStatusCode.OK ? Times.Never : Times.Once);
 
         helper.GuiMock.Verify(x =>
-                x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()),
+                x.NavigateTo(ApplicationPages.Essential.HomePage, It.IsAny<bool>()),
             code == HttpStatusCode.OK ? Times.Once : Times.Never);
     }
 
@@ -137,7 +137,7 @@ public class AuthorizationServiceTests
             x.DisplayAlert(It.IsAny<string>(), It.IsAny<IGui.Severity>()), Times.AtLeastOnce);
 
         helper.GuiMock.Verify(x =>
-            x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
+            x.NavigateTo(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
     }
 
     #endregion

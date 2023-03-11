@@ -16,48 +16,48 @@ public class UserServiceTests
     public async void WhenInvalidDto_DisplayMessageAndNeverNavigate()
     {
         using var helper = new HostTestHelper(HttpStatusCode.OK);
-        var service = helper.GetService<IUserService>();
+        var service = helper.GetService<IAuthenticationService>();
 
         var dto = GetUserProfileDto();
         dto.Person.FirstName = string.Empty;
 
-        await service.AddUser(dto);
+        await service.Register(dto);
 
         helper.GuiMock
             .Verify(x => x.DisplayAlert(It.IsAny<string>(), It.IsAny<IGui.Severity>()), Times.Once);
         helper.GuiMock
             .Verify(x =>
-                x.NavigateToAsync(ApplicationPages.Essential.OtpPage, It.IsAny<bool>()), Times.Never);
+                x.NavigateTo(ApplicationPages.Essential.OtpPage, It.IsAny<bool>()), Times.Never);
     }
 
     [Fact]
     public async void WhenSuccess_NavigateToOtpPage()
     {
         using var helper = new HostTestHelper(HttpStatusCode.OK, TokenResponseDto.Create("token"));
-        var service = helper.GetService<IUserService>();
+        var service = helper.GetService<IAuthenticationService>();
         var dto = GetUserProfileDto();
 
-        await service.AddUser(dto);
+        await service.Register(dto);
 
         helper.GuiMock
             .Verify(x =>
-                x.NavigateToAsync(ApplicationPages.Essential.OtpPage, It.IsAny<bool>()), Times.Once);
+                x.NavigateTo(ApplicationPages.Essential.OtpPage, It.IsAny<bool>()), Times.Once);
     }
 
     [Fact]
     public async void WhenInvalidSameUserExist_DisplayMessageAndNotNavigate()
     {
         using var helper = new HostTestHelper(HttpStatusCode.NotAcceptable);
-        var service = helper.GetService<IUserService>();
+        var service = helper.GetService<IAuthenticationService>();
         var dto = GetUserProfileDto();
 
-        await service.AddUser(dto);
+        await service.Register(dto);
 
         helper.GuiMock
             .Verify(x => x.DisplayAlert(It.IsAny<string>(), It.IsAny<IGui.Severity>()), Times.Once);
         helper.GuiMock
             .Verify(x =>
-                x.NavigateToAsync(It.IsAny<string>(), It.IsAny<bool>()), Times.Never);
+                x.NavigateTo(It.IsAny<string>(), It.IsAny<bool>()), Times.Never);
     }
 
     private UserProfileDto GetUserProfileDto()

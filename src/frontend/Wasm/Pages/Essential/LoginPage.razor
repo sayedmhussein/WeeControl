@@ -3,6 +3,7 @@
 @using WeeControl.Host.WebApiService.DeviceInterfaces
 @using WeeControl.Host.WebApiService
 @using WeeControl.Core.DataTransferObject.Contexts.Essentials
+@using WeeControl.Host.WebApiService.Interfaces
 @attribute [Route(ApplicationPages.Essential.LoginPage)]
 @attribute [AllowAnonymous]
 @inject IAuthenticationService AuthorizationService
@@ -77,7 +78,7 @@
                     Login
                 </MudButton>
                 <MudButton Variant="Variant.Text" OnClick="@(() => showForgotPassword = true)">Forgot Password</MudButton>
-                <MudButton Variant="Variant.Text" OnClick="@(() => Gui.NavigateToAsync(ApplicationPages.Essential.RegisterPage))">Register</MudButton>
+                <MudButton Variant="Variant.Text" OnClick="@(() => Gui.NavigateTo(ApplicationPages.Essential.RegisterPage))">Register</MudButton>
             </EditForm>
         </MudCardContent>
     }

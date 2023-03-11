@@ -5,10 +5,12 @@ namespace WeeControl.Core.DataTransferObject.Contexts.Essentials;
 
 public class UserProfileDto
 {
-    [ValidateComplexType] public PersonModel Person { get; } = new();
+    [ValidateComplexType] 
+    public PersonModel Person { get; } = new();
 
-    [ValidateComplexType] public UserModel User { get; } = new();
+    [ValidateComplexType] 
+    public UserModel User { get; } = new();
 
-    public ICollection<AddressModel> Addresses { get; set; } = new List<AddressModel>();
-    public ICollection<ContactModel> Contact { get; set; } = new List<ContactModel>();
+    public ICollection<AddressModel> Addresses { get; } = new List<AddressModel>();
+    public ICollection<ContactModel> Contact { get; } = new List<ContactModel>();
 }
