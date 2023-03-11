@@ -1,4 +1,4 @@
-﻿namespace WeeControl.ApiApp.Application.Interfaces;
+﻿namespace WeeControl.Core.Application.Interfaces;
 
 public interface IMessage
 {

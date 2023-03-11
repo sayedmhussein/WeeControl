@@ -1,30 +1,36 @@
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
-using System.Text.Json;
 using Microsoft.Extensions.Configuration;
-using WeeControl.Frontend.AppService;
+using Microsoft.JSInterop;
+using WeeControl.Host.WebApiService.DeviceInterfaces;
 
 namespace WeeControl.Frontend.Wasm.Services;
 
-public class DeviceDataService : IDeviceData
+public class DeviceDataService : ICommunication, IFeature, IMedia, ISharing, IStorage
 {
+    private readonly IConfiguration configuration;
     private readonly IJSRuntime jsRuntime;
     private readonly NavigationManager navigationManager;
-    private readonly IConfiguration configuration;
-    public string ServerUrl => configuration["ApiBaseAddress"];
-    public HttpClient HttpClient { get; init; }
+    private readonly IServiceProvider serviceProvider;
 
-    public DeviceDataService(IJSRuntime jsRuntime, NavigationManager navigationManager, IConfiguration configuration)
+    public DeviceDataService(IJSRuntime jsRuntime, NavigationManager navigationManager, IConfiguration configuration,
+        IServiceProvider serviceProvider)
     {
         this.jsRuntime = jsRuntime;
         this.navigationManager = navigationManager;
         this.configuration = configuration;
+        this.serviceProvider = serviceProvider;
         HttpClient = new HttpClient();
     }
-    
+
+
+    public string ServerUrl => configuration["ApiBaseAddress"];
+    public HttpClient HttpClient { get; init; }
+
     public async Task SendAnEmail(IEnumerable<string> to, string subject, string body)
     {
         await jsRuntime.InvokeAsync<bool>($"Sending Email to {to}", body);
@@ -42,14 +48,13 @@ public class DeviceDataService : IDeviceData
 
     public Task<bool> IsConnectedToInternet()
     {
-        
         return Task.FromResult(true);
         //return await jsRuntime.InvokeAsync<bool>("window.navigator.onLine");
     }
 
     public async Task<bool> PhoneDial(string phoneNo)
     {
-        await jsRuntime.InvokeAsync<bool>($"Phone Call", $"Please call the following number from your mobile {phoneNo}");
+        await jsRuntime.InvokeAsync<bool>("Phone Call", $"Please call the following number from your mobile {phoneNo}");
         return true;
     }
 
@@ -65,11 +70,6 @@ public class DeviceDataService : IDeviceData
 
     public async Task<(double? Latitude, double? Longitude, double? Elevation)> GetDeviceLocation(bool accurate = false)
     {
-        // var locationAvailable = await jsRuntime.InvokeAsync<bool>("position.coords.latitude");
-        // if (locationAvailable)
-        // {
-        //     return (null, null, null);
-        // }
         await Task.Delay(10);
         return (null, null, null);
     }
@@ -79,33 +79,20 @@ public class DeviceDataService : IDeviceData
         return Task.FromResult(true);
     }
 
-    public Task DisplayAlert(string message)
-    {
-        jsRuntime.InvokeVoidAsync("alert", message);
-        return Task.CompletedTask;
-        // bool = jsRuntime.InvokeAsync<bool>("confirm", message);
-        // string = await jsRuntime.InvokeAsync<string>("prompt", message);
-    }
-
-    public Task NavigateToAsync(string pageName, bool forceLoad = false)
-    {
-        navigationManager.NavigateTo($"/{pageName}", forceLoad: forceLoad);
-        return Task.CompletedTask;
-    }
-
     public Task Speak(string message)
     {
-        throw new System.NotImplementedException();
+        Console.WriteLine($"TTS: {message}.");
+        return Task.CompletedTask;
     }
 
     public Task CopyToClipboard(string text)
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 
     public Task<string> ReadFromClipboard()
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 
     public Task ClearClipboard()
@@ -115,7 +102,7 @@ public class DeviceDataService : IDeviceData
 
     public string CashDirectory { get; }
     public string AppDataDirectory { get; }
-    
+
     public Task SaveKeyValue(string key, string value)
     {
         jsRuntime.InvokeVoidAsync("localStorage.setItem", key, JsonSerializer.Serialize(value)).ConfigureAwait(false);

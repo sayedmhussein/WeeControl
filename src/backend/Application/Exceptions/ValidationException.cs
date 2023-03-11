@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace WeeControl.ApiApp.Application.Exceptions;
+namespace WeeControl.Core.Application.Exceptions;
 
+[Obsolete("Use inside domain")]
 public class ValidationException : Exception
 {
-    public IDictionary<string, string[]> Failures { get; }
-
     public ValidationException() : base("One or more validation failures have occurred.")
     {
         Failures = new Dictionary<string, string[]>();
@@ -17,7 +16,6 @@ public class ValidationException : Exception
     public ValidationException(ICollection<ValidationResult> failures)
         : this()
     {
-            
         var propertyNames = failures
             .Select(e => e.MemberNames)
             .Distinct();
@@ -36,4 +34,6 @@ public class ValidationException : Exception
     public ValidationException(object property) : this()
     {
     }
+
+    public IDictionary<string, string[]> Failures { get; }
 }

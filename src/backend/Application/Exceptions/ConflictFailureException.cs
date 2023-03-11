@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace WeeControl.ApiApp.Application.Exceptions;
+namespace WeeControl.Core.Application.Exceptions;
 
 public class ConflictFailureException : Exception
 {
-    public ConflictFailureException() : base()
+    public ConflictFailureException()
     {
     }
 

@@ -11,6 +11,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\common\DataTransferObject\DataTransferObject.csproj" />
       <ProjectReference Include="..\..\common\SharedKernel\SharedKernel.csproj" />
     </ItemGroup>
 

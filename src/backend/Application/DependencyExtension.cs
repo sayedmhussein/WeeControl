@@ -1,18 +1,21 @@
 ﻿using System.Reflection;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.ApiApp.Application.Behaviours;
+using WeeControl.Core.Application.Behaviours;
+using WeeControl.Core.Application.Interfaces;
+using WeeControl.Core.Application.Services;
 
-namespace WeeControl.ApiApp.Application;
+namespace WeeControl.Core.Application;
 
 public static class DependencyExtension
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        services.AddMediatR(Assembly.GetExecutingAssembly());
-        
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPerformanceBehaviour<,>));
-        //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
+
+        services.AddSingleton<IPasswordSecurity, PasswordSecurity>();
         return services;
     }
 }

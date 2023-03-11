@@ -1,0 +1,63 @@
+@using WeeControl.Host.WebApiService
+@using WeeControl.Host.WebApiService.Data
+@using WeeControl.Host.WebApiService.DeviceInterfaces
+@using WeeControl.Frontend.Wasm.Pages.Essential.Components
+@inject ISecurity Security
+@inject IGui Gui
+@inject IDialogService DialogService
+
+<MudMenuItem>
+    <MudLink OnClick="@(() => Gui.NavigateToAsync(ApplicationPages.Essential.HomePage))">Home</MudLink>
+</MudMenuItem>
+
+<MudDivider/>
+
+@if (IsCustomer)
+{
+    <MudMenuItem>Customer Appearing</MudMenuItem>
+}
+
+@if (IsEmployee)
+{
+    @foreach (var p in Pages)
+    {
+        <MudMenuItem>
+            <MudLink OnClick="@(() => Gui.NavigateToAsync(p))">@p</MudLink>
+        </MudMenuItem>
+    }
+}
+
+<MudDivider/>
+@if (IsEmployee || IsCustomer)
+{
+    <MudMenuItem>
+        <MudLink OnClick="@(() => Gui.NavigateToAsync(ApplicationPages.Essential.UserPage))">My Profile</MudLink>
+    </MudMenuItem>
+    <MudMenuItem>
+        <MudLink OnClick="@SendFeedbackClicked">Send Feedback</MudLink>
+    </MudMenuItem>
+}
+
+@code
+{
+    [Parameter]
+    public IEnumerable<string> Pages { get; set; }
+
+    [Parameter]
+    public bool IsEmployee { get; set; }
+
+    [Parameter]
+    public bool IsCustomer { get; set; }
+
+    private Task SendFeedbackClicked()
+    {
+        var options = new DialogOptions
+        {
+            CloseOnEscapeKey = true, CloseButton = true
+        };
+        
+        DialogService.Show<UserFeedbackComponent>("Sending Feedback", options);
+        
+        return Task.CompletedTask;
+    }
+}

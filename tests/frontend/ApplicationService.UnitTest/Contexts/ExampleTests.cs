@@ -1,6 +1,6 @@
 using System;
 using System.Net;
-using WeeControl.Common.SharedKernel.Contexts.Authentication;
+using WeeControl.Core.DataTransferObject.Contexts.User;
 using WeeControl.Frontend.AppService;
 using WeeControl.Frontend.AppService.GuiInterfaces.Authorization;
 
@@ -20,15 +20,15 @@ public class ExampleTests
         var service = helper.GetService<IAuthorizationService>(code, TokenResponseDto.Create("token", "name"));
 
         service.Login("username", "password");
-        
+
         switch (code)
         {
             case HttpStatusCode.OK:
                 // helper.DeviceMock.Verify(x => 
                 //     x.DisplayAlert(It.IsAny<string>()), Times.Never);
-                helper.DeviceMock.Verify(x => 
-                    x.NavigateToAsync(ApplicationPages.SplashPage,It.IsAny<bool>()), Times.Never);
-                
+                helper.DeviceMock.Verify(x =>
+                    x.NavigateToAsync(ApplicationPages.SplashPage, It.IsAny<bool>()), Times.Never);
+
                 // helper.DeviceMock.Verify(x => 
                 //     x.UpdateTokenAsync("token"), Times.Never);
                 break;
@@ -37,9 +37,9 @@ public class ExampleTests
             case HttpStatusCode.InternalServerError:
             case HttpStatusCode.BadRequest:
             case HttpStatusCode.BadGateway:
-                helper.DeviceMock.Verify(x => 
-                    x.NavigateToAsync(ApplicationPages.HomePage,true), Times.Never);
-                
+                helper.DeviceMock.Verify(x =>
+                    x.NavigateToAsync(ApplicationPages.HomePage, true), Times.Never);
+
                 // helper.DeviceMock.Verify(x => 
                 //     x.UpdateTokenAsync("token"), Times.Never);
                 break;

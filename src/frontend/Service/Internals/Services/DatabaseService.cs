@@ -1,5 +1,5 @@
-using System.Runtime.CompilerServices;
 using SQLite;
+using System.Runtime.CompilerServices;
 using WeeControl.Frontend.AppService.DeviceInterfaces;
 using WeeControl.Frontend.AppService.Internals.Interfaces;
 
@@ -13,16 +13,16 @@ internal class DatabaseService : IDatabaseService
     public DatabaseService(IStorage deviceStorage)
     {
         if (database is not null) return;
-        
+
         const SQLiteOpenFlags flags = SQLiteOpenFlags.ReadWrite |
                                       SQLiteOpenFlags.Create |
                                       SQLiteOpenFlags.SharedCache;
 
-        database = string.IsNullOrEmpty(deviceStorage.AppDataDirectory) ? 
-            new SQLiteAsyncConnection(":memory:", flags) : 
+        database = string.IsNullOrEmpty(deviceStorage.AppDataDirectory) ?
+            new SQLiteAsyncConnection(":memory:", flags) :
             new SQLiteAsyncConnection(Path.Combine(deviceStorage.AppDataDirectory, "AppDb.db3"), flags);
     }
-    
+
     private Task Init<T>() where T : new()
     {
         return database.CreateTableAsync<T>();

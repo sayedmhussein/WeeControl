@@ -4,7 +4,7 @@ namespace WeeControl.Frontend.AppService.Models;
 
 public class CityModel
 {
-    [Key] 
+    [Key]
     public string CityCode { get; }
     public string CityName { get; }
     public string LocalName { get; }

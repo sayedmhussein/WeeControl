@@ -1,9 +1,9 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
-using WeeControl.Common.SharedKernel.Interfaces;
+using WeeControl.Core.SharedKernel.Interfaces;
 
-namespace WeeControl.Common.SharedKernel.Services;
+namespace WeeControl.Core.SharedKernel.Services;
 
 public class JwtService : IJwtService
 {
@@ -20,10 +20,7 @@ public class JwtService : IJwtService
 
     public ClaimsPrincipal GetClaimPrincipal(string token, TokenValidationParameters? parameters)
     {
-        if (string.IsNullOrEmpty(token))
-        {
-            return new ClaimsPrincipal();
-        }
+        if (string.IsNullOrEmpty(token)) return new ClaimsPrincipal();
 
         if (parameters != null)
         {

@@ -1,0 +1,62 @@
+﻿@using WeeControl.Host.WebApiService.DeviceInterfaces
+@using WeeControl.Host.WebApiService.Contexts.Essentials
+@inject IGui Gui
+@inject IHomeService HomeService
+
+
+<MudDialog>
+    <DialogContent>
+        <MudStack>
+            <MudText Typo="Typo.subtitle1">You feedback is highly appreciated, please write below all your feelings and suggestions and we'll take it as a reference during the development of this application.</MudText>
+            <MudTextField T="string" Label="Please write your feedback here" Text="@feedbackText" Lines="5" Immediate="@true" Clearable="@true" FullWidth="@true" Variant="Variant.Outlined"></MudTextField>
+            <MudFileUpload T="IReadOnlyList<IBrowserFile>" FilesChanged="UploadFiles">
+                <ButtonTemplate>
+                    <MudButton HtmlTag="label"
+                               Variant="Variant.Filled"
+                               Color="Color.Primary"
+                               StartIcon="@Icons.Material.Filled.CloudUpload"
+                               for="@context">
+                        Multiple Files
+                    </MudButton>
+                </ButtonTemplate>
+            </MudFileUpload>
+            @if (files != null)
+            {
+                <MudList>
+                    @foreach (var file in files)
+                    {
+                        <MudListItem Icon="@Icons.Material.Filled.AttachFile">
+                            @file.Name <code>@file.Size bytes</code>
+                        </MudListItem>
+                    }
+                </MudList>
+            }
+        </MudStack>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    private readonly string feedbackText = string.Empty;
+    private readonly IList<IBrowserFile> files = new List<IBrowserFile>();
+    
+    private void UploadFiles(IReadOnlyList<IBrowserFile> files)
+    {
+        foreach (var file in files)
+        {
+            this.files.Add(file);
+        }
+    }
+
+    private async Task Submit()
+    {
+        MudDialog.Close(DialogResult.Ok(true));
+        await HomeService.SendFeedback(feedbackText, files);
+    }
+    
+    void Cancel() => MudDialog.Cancel();
+}

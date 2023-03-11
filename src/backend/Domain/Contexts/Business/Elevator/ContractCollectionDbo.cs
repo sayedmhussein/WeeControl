@@ -1,6 +1,6 @@
 using System;
 
-namespace WeeControl.ApiApp.Domain.Contexts.Business.Elevator;
+namespace WeeControl.Core.Domain.Contexts.Business.Elevator;
 
 public class ContractCollectionDbo
 {

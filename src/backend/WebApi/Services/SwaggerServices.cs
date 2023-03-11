@@ -4,10 +4,11 @@ using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
-namespace WeeControl.ApiApp.WebApi.Services;
+namespace WeeControl.Host.WebApi.Services;
 
 public static class SwaggerServices
 {
@@ -16,7 +17,7 @@ public static class SwaggerServices
         services.AddSwaggerGen(ConfigureSwaggerGen);
         return services;
     }
-    
+
     public static void ConfigureSwaggerGen(SwaggerGenOptions swaggerOptions)
     {
         swaggerOptions.SwaggerDoc("v1", new OpenApiInfo
@@ -24,12 +25,12 @@ public static class SwaggerServices
             Title = "WeeControl.Api",
             Version = "v1",
             Description = "WeeControl is an API to serve customers as needed, for more information please contact us.",
-            Contact = new OpenApiContact()
+            Contact = new OpenApiContact
             {
                 Name = "Sayed M. Hussein",
                 Email = "Sayed.Hussein@gmx.com"
             },
-            License = new OpenApiLicense()
+            License = new OpenApiLicense
             {
                 Name = "MIT License",
                 Url = new Uri("https://en.wikipedia.org/wiki/MIT_License")
@@ -66,14 +67,14 @@ public static class SwaggerServices
         });
     }
 
-    public static void ConfigureSwagger(Swashbuckle.AspNetCore.Swagger.SwaggerOptions swaggerOptions)
+    public static void ConfigureSwagger(SwaggerOptions swaggerOptions)
     {
         swaggerOptions.RouteTemplate = "api-docs/{documentName}/swagger.json";
     }
 
     public static void ConfigureSwaggerUi(SwaggerUIOptions swaggerUiOptions)
     {
-        swaggerUiOptions.SwaggerEndpoint($"/swagger/v1/swagger.json", "MySystem.Api v1");
+        swaggerUiOptions.SwaggerEndpoint("/swagger/v1/swagger.json", "MySystem.Api v1");
         // swaggerUiOptions.RoutePrefix = "api-docs";
     }
 }

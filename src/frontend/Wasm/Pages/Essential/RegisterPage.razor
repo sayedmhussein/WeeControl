@@ -1,0 +1,138 @@
+@using WeeControl.Host.WebApiService.Contexts.Constants
+@using WeeControl.Host.WebApiService.Contexts.Essentials
+@using WeeControl.Host.WebApiService.Data
+@using WeeControl.Core.DataTransferObject.Contexts.Essentials
+@using System.ComponentModel.DataAnnotations.Schema
+@attribute [Route(ApplicationPages.Essential.RegisterPage)]
+@attribute [AllowAnonymous]
+
+@inject IConstantValue ConstantValue
+@inject IUserService UserService
+@inject IDialogService DialogService
+
+<MudCard Style="align-content: center; align-self: center; justify-content: start">
+
+    @if (isLoading)
+    {
+        <MudProgressCircular Color="Color.Default" Indeterminate="true"/>
+    }
+    else
+    {
+        <EditForm Model="@model" OnValidSubmit="@Register">
+            <ObjectGraphDataAnnotationsValidator/>
+            <MudGrid Spacing="2">
+                <MudItem xs="6" sm="3">
+                    <MudTextField T="string" Label="First Name"
+                                  @bind-Value="@model.Person.FirstName"
+                                  For="@(() => model.Person.FirstName)">
+                    </MudTextField>
+                    <ValidationMessage For="@(() => model.Person.FirstName)"/>
+                </MudItem>
+                <MudItem xs="6" sm="3">
+                    <MudTextField T="string" Label="Second Name"
+                                  @bind-Value="@model.Person.SecondName"
+                                  For="@(() => model.Person.SecondName)">
+                    </MudTextField>
+                </MudItem>
+                <MudItem xs="6" sm="3">
+                    <MudTextField T="string" Label="Third Name"
+                                  @bind-Value="@model.Person.ThirdName"
+                                  For="@(() => model.Person.ThirdName)">
+                    </MudTextField>
+                </MudItem>
+                <MudItem xs="6" sm="3">
+                    <MudTextField T="string" Label="Last Name"
+                                  @bind-Value="@model.Person.LastName"
+                                  For="@(() => model.Person.LastName)">
+                    </MudTextField>
+                </MudItem>
+                <MudItem xs="3" Style="max-width: 300px; align-self: start">
+                    <MudSelect T="string" Label="Nationality"
+                               @bind-Value="@model.Person.NationalityCode"
+                               For="@(() => model.Person.NationalityCode)">
+                        @foreach (var country in ConstantValue.Countries)
+                        {
+                            <MudSelectItem Value="@country.Code3">@country.Name</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+                <MudItem xs="3" Style="max-width: 300px; align-self: start">
+                    <MudDatePicker Label="Date Of Birth"
+                                   @bind-Date="@model.Person.DateOfBirth"
+                                   Editable="true"
+                                   Mask="@(new DateMask("0000-00-00"))"
+                                   DateFormat="yyyy-MM-dd"
+                                   For="@(() => model.Person.DateOfBirth)"/>
+                </MudItem>
+            </MudGrid>
+            <MudGrid Spacing="5">
+                <MudItem xs="6" sm="3">
+                    <MudTextField T="string" Label="Your Email"
+                                  @bind-Value="@model.User.Email"
+                                  InputType="InputType.Email"
+                                  For="@(() => model.User.Email)">
+                    </MudTextField>
+                </MudItem>
+                <MudItem xs="6" sm="3">
+                    <MudTextField T="string" Label="Username"
+                                  @bind-Value="@model.User.Username"
+                                  For="@(() => model.User.Username)">
+                    </MudTextField>
+
+                </MudItem>
+                <MudItem xs="6" sm="3">
+                    <MudTextField T="string" Label="Password"
+                                  @bind-Value="@model.User.Password"
+                                  InputType="InputType.Password"
+                                  HelperText="Choose a strong password."
+                                  For="@(() => model.User.Password)">
+                    </MudTextField>
+
+                </MudItem>
+                <MudItem xs="6" sm="3">
+                    <MudTextField T="string" Label="Confirm Password"
+                                  @bind-Value="@model.ConfirmPassword"
+                                  InputType="InputType.Password"
+                                  For="@(() => model.ConfirmPassword)">
+                    </MudTextField>
+                </MudItem>
+
+                <MudItem xs="4">
+                    <MudCheckBox T="bool" @bind-Checked="@model.Acknowledgment">Agree To Terms</MudCheckBox>
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudDivider></MudDivider>
+                </MudItem>
+            </MudGrid>
+
+            <MudButton Variant="Variant.Text" ButtonType="ButtonType.Submit" Disabled="@(!model.Acknowledgment)">Register</MudButton>
+
+        </EditForm>
+    }
+
+</MudCard>
+
+@code {
+    private bool isLoading;
+
+    private readonly ModifiedModel model = new();
+
+    private async Task Register()
+    {
+        isLoading = true;
+        await Task.Delay(3000);
+        await UserService.AddUser(model);
+        isLoading = false;
+    }
+
+    private class ModifiedModel : UserProfileDto
+    {
+        [NotMapped]
+        public string ConfirmPassword { get; set; }
+
+        [NotMapped]
+        public bool Acknowledgment { get; set; }
+    }
+
+}

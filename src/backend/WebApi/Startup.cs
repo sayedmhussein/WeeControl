@@ -3,11 +3,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using WeeControl.ApiApp.WebApi.Middlewares;
-using WeeControl.ApiApp.WebApi.Services;
-using WeeControl.ApiApp.WebApi.Services.Security;
+using Newtonsoft.Json;
+using WeeControl.Host.WebApi.Middlewares;
+using WeeControl.Host.WebApi.Services;
+using WeeControl.Host.WebApi.Services.Security;
 
-namespace WeeControl.ApiApp.WebApi;
+namespace WeeControl.Host.WebApi;
 
 public class Startup
 {
@@ -21,7 +22,7 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddControllers().AddNewtonsoftJson(options =>
-            options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
         // services.AddControllers(
         //     options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
@@ -57,16 +58,13 @@ public class Startup
         app.UseCustomExceptionHandler();
 
         app.UseRouting();
-            
+
         app.UseCors("AllowAny");
 
         app.UseAuthentication();
 
         app.UseAuthorization();
 
-        app.UseEndpoints(endpoints =>
-        {
-            endpoints.MapControllers();
-        });
+        app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
     }
 }

@@ -1,49 +1,46 @@
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Authorization;
-using WeeControl.Frontend.AppService;
+using WeeControl.Host.WebApiService;
 
 namespace WeeControl.Frontend.Wasm.Services;
 
 public class AuthStateProvider : AuthenticationStateProvider
 {
-    private readonly IServiceData serviceData;
     private readonly AuthenticationState anonymous;
+    private readonly ISecurity security;
 
-    public AuthStateProvider(IServiceData serviceData)
+    public AuthStateProvider(ISecurity security)
     {
-        this.serviceData = serviceData;
+        this.security = security;
 
         var identity = new ClaimsIdentity();
         var cp = new ClaimsPrincipal(identity);
         anonymous = new AuthenticationState(cp);
 
-        serviceData.AuthenticationChanged += ServiceDataOnAuthenticationChanged;
+        security.AuthenticationChanged += ServiceDataOnAuthenticationChanged;
     }
 
     private async void ServiceDataOnAuthenticationChanged(object sender, bool e)
     {
         if (e)
         {
-            NotifyUserAuthentication(await serviceData.GetClaimPrincipal());
+            NotifyUserAuthentication(await security.GetClaimsPrincipal());
             return;
         }
-        
+
         NotifyUserAuthentication(null);
     }
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
-        if (await serviceData.IsAuthenticated())
-        {
-            return anonymous;
-        }
+        if (await security.IsAuthenticated() == false) return anonymous;
 
-        var cp = await serviceData.GetClaimPrincipal();
+        var cp = await security.GetClaimsPrincipal();
         return new AuthenticationState(cp);
     }
 
-    private void NotifyUserAuthentication(ClaimsPrincipal? claimsPrincipal)
+    private void NotifyUserAuthentication(ClaimsPrincipal claimsPrincipal)
     {
         if (claimsPrincipal != null)
         {

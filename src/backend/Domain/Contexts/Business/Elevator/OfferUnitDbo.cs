@@ -1,13 +1,11 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace WeeControl.ApiApp.Domain.Contexts.Business.Elevator;
+namespace WeeControl.Core.Domain.Contexts.Business.Elevator;
 
 public class OfferUnitDbo
 {
-    [Key]
-    public Guid OfferId { get; set; }
+    [Key] public Guid OfferId { get; set; }
 
-    [Key]
-    public string UnitNumber { get; set; }
+    [Key] public string UnitNumber { get; set; }
 }

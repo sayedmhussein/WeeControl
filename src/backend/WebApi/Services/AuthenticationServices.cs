@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
-namespace WeeControl.ApiApp.WebApi.Services;
+namespace WeeControl.Host.WebApi.Services;
 
 public static class AuthenticationServices
 {
@@ -15,7 +15,7 @@ public static class AuthenticationServices
     {
         services.AddAuthentication("Bearer").AddJwtBearer(options =>
         {
-            options.TokenValidationParameters = new TokenValidationParameters()
+            options.TokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtKey)),
@@ -24,7 +24,7 @@ public static class AuthenticationServices
                 ValidateLifetime = true,
                 ClockSkew = TimeSpan.Zero
             };
-                
+
             options.Events = new JwtBearerEvents
             {
                 OnMessageReceived = context =>
@@ -34,15 +34,17 @@ public static class AuthenticationServices
                         var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
                         context.Token = token;
                     }
-                    catch { }
+                    catch
+                    {
+                    }
 
                     return Task.CompletedTask;
-                },
+                }
             };
         });
         return services;
     }
-    
+
     public static void ConfigureAuthorizationService(AuthenticationOptions options)
     {
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace WeeControl.ApiApp.WebApi.Services;
+namespace WeeControl.Host.WebApi.Services;
 
 public static class ApiVersionServices
 {
@@ -11,7 +11,7 @@ public static class ApiVersionServices
         services.AddApiVersioning(ConfigureApiVersioning);
         return services;
     }
-    
+
     private static void ConfigureApiVersioning(ApiVersioningOptions options)
     {
         options.DefaultApiVersion = new ApiVersion(1, 0);

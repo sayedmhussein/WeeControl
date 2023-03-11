@@ -1,0 +1,41 @@
+@using WeeControl.Host.WebApiService.Contexts.Essentials
+@using WeeControl.Core.SharedKernel.Contexts.Essentials
+@inject IHomeService Home
+
+<MudStack>
+    @if (notifications.Any())
+    {
+        @foreach (var n in notifications)
+        {
+            <MudPaper>
+                <MudButton Variant="Variant.Text" OnClick="@(() => MarkAsViewed(n.NotificationId))" FullWidth="@true">@n.Subject</MudButton>
+                <MudText Color="@(n.ReadTs == null ? Color.Secondary : Color.Default)" Typo="Typo.subtitle1">@n.Body</MudText>
+                <MudText Typo="Typo.body2">@n.PublishedTs</MudText>
+            </MudPaper>
+        }
+    }
+    else
+    {
+        <MudPaper>
+            <p>There is no notification right now.</p>
+        </MudPaper>
+    }
+</MudStack>
+
+
+@code
+{
+    private IEnumerable<HomeNotificationModel> notifications = new List<HomeNotificationModel>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        notifications = Home.Notifications;
+        await base.OnInitializedAsync();
+    }
+
+    private Task MarkAsViewed(Guid id)
+    {
+        notifications.First(x => x.NotificationId == id).ReadTs = DateTime.Now;
+        return Home.MarkNotificationAsViewed(id);
+    }
+}

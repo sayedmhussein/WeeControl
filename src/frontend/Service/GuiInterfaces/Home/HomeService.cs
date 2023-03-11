@@ -1,10 +1,9 @@
 using System.Net;
 using System.Net.Http.Json;
-using WeeControl.Common.SharedKernel;
-using WeeControl.Common.SharedKernel.Contexts.Authentication;
-using WeeControl.Common.SharedKernel.Contexts.Home;
-using WeeControl.Common.SharedKernel.Contexts.Temporary.User;
-using WeeControl.Common.SharedKernel.RequestsResponses;
+using WeeControl.Core.DataTransferObject.BodyObjects;
+using WeeControl.Core.DataTransferObject.Contexts.User;
+using WeeControl.Core.SharedKernel;
+using WeeControl.Core.SharedKernel.Contexts.User;
 using WeeControl.Frontend.AppService.Internals.Interfaces;
 using WeeControl.Frontend.AppService.Models;
 
@@ -18,16 +17,16 @@ internal class HomeService : IHomeService
     private readonly IDeviceSecurity security;
     private readonly IServiceData serviceData;
     private const string UserRoute = ApiRouting.UserRoute;
-    
+
     public List<MenuItemModel> MenuItems { get; }
     public IEnumerable<CountryModel> Countries { get; }
     public string GreetingMessage { get; private set; }
 
     public HomeService(
-        IDeviceData device, 
-        IServerOperation server, 
-        IDatabaseService db, 
-        IDeviceSecurity security, 
+        IDeviceData device,
+        IServerOperation server,
+        IDatabaseService db,
+        IDeviceSecurity security,
         IPersistedLists persistedLists, IServiceData serviceData)
     {
         this.device = device;
@@ -39,16 +38,16 @@ internal class HomeService : IHomeService
         MenuItems = new List<MenuItemModel>();
         GreetingMessage = "Hello";
     }
-    
+
     public async Task<bool> VerifyAuthentication()
     {
-        if (((await device.IsConnectedToInternet() && await serviceData.IsConnectedToServer())== true && await server.RefreshToken()) ||
-            ((await device.IsConnectedToInternet() || await serviceData.IsConnectedToServer())== false && await security.IsAuthenticatedAsync()))
+        if (((await device.IsConnectedToInternet() && await serviceData.IsConnectedToServer()) == true && await server.RefreshToken()) ||
+            ((await device.IsConnectedToInternet() || await serviceData.IsConnectedToServer()) == false && await security.IsAuthenticatedAsync()))
         {
             await device.NavigateToAsync(ApplicationPages.HomePage);
             return true;
         }
-        
+
         await device.NavigateToAsync(ApplicationPages.AuthenticationPage);
         return false;
     }
@@ -60,7 +59,7 @@ internal class HomeService : IHomeService
         {
             //IsEmployee = true;
         }
-            
+
         if (claims.Claims.FirstOrDefault(x => x.Type == ClaimsValues.ClaimTypes.Country)?.Value is not null)
         {
             //IsCustomer = true;
@@ -71,7 +70,7 @@ internal class HomeService : IHomeService
         if (response.IsSuccessStatusCode)
         {
             var dto = await server.ReadFromContent<HomeResponseDto>(response.Content);
-            
+
         }
 
         return false;
@@ -92,7 +91,7 @@ internal class HomeService : IHomeService
         return db.ReadFromTable<HomeNotificationModel>();
     }
 
-    public async Task Register(RegisterCustomerDto registerModel)
+    public async Task Register(CustomerRegisterDto registerModel)
     {
         await RegisterAsync(registerModel);
     }
@@ -104,7 +103,7 @@ internal class HomeService : IHomeService
             await device.DisplayAlert("Please enter your email and username first!");
             return;
         }
-        
+
         await ProcessPasswordReset(passwordResetModel);
     }
 
@@ -118,7 +117,7 @@ internal class HomeService : IHomeService
             await device.DisplayAlert("Invalid Properties");
             return;
         }
-        
+
         await ProcessChangingPassword(passwordChangeModel);
     }
 
@@ -130,22 +129,22 @@ internal class HomeService : IHomeService
     {
         var s = new string[] { "", "" };
         var response = await server.GetResponseMessage(
-            HttpMethod.Post, new Version("1.0"), new [] {
+            HttpMethod.Post, new Version("1.0"), new[] {
             ApiRouting.UserRoute, ApiRouting.UserPasswordEndpoint
         }, dtoV1);
-        
+
         if (response.IsSuccessStatusCode)
         {
             await device.DisplayAlert("New Password was created, please check your email.");
-            await device.NavigateToAsync(ApplicationPages.Essential.UserPage, forceLoad:true);
+            await device.NavigateToAsync(ApplicationPages.Essential.UserPage, forceLoad: true);
             return;
         }
-        
+
         Console.WriteLine("Invalid message: " + response.ReasonPhrase);
         await device.DisplayAlert("Something went wrong!");
     }
-    
-    private async Task RegisterAsync(RegisterCustomerDto model)
+
+    private async Task RegisterAsync(CustomerRegisterDto model)
     {
         var response = await server.GetResponseMessage(
             HttpMethod.Post, new Version("1.0"), ApiRouting.UserRoute, model);
@@ -166,14 +165,14 @@ internal class HomeService : IHomeService
             HttpStatusCode.BadGateway => "Please check your internet connection then try again.",
             _ => throw new ArgumentOutOfRangeException(response.StatusCode.ToString())
         };
-        
+
         await device.DisplayAlert(displayString);
     }
-    
+
     private async Task ProcessChangingPassword(UserPasswordChangeRequestDto dto)
     {
         var response = await server.GetResponseMessage(
-            HttpMethod.Patch, new Version("1.0"), new [] {
+            HttpMethod.Patch, new Version("1.0"), new[] {
                 ApiRouting.UserRoute, ApiRouting.UserPasswordEndpoint }, dto);
 
         switch (response.StatusCode)
@@ -190,7 +189,7 @@ internal class HomeService : IHomeService
                 await device.DisplayAlert("DeveloperMinorBug");
                 break;
         }
-        
+
         await device.NavigateToAsync(ApplicationPages.Essential.UserPage, forceLoad: true);
     }
 }

@@ -1,10 +1,24 @@
-@using WeeControl.Frontend.AppService
-@attribute [Route(ApplicationPages.HomePage)]
+@page "/"
+@using WeeControl.Host.WebApiService
+@using WeeControl.Host.WebApiService.Data
+@attribute [Route(ApplicationPages.Essential.HomePage)]
+@attribute [AllowAnonymous]
+@inject ISecurity Security
 
-<h3>HomeNewsComponent</h3>
+@if (isAuthenticated)
+{
+    <FeedsComponent></FeedsComponent>
+}
 
-<HomePageComponent></HomePageComponent>
+<p class="align-self-center">Here we put company introduction and required views for unregistered and registered customers.</p>
 
 @code {
+    private bool isAuthenticated;
+
+    protected override async Task OnInitializedAsync()
+    {
+        isAuthenticated = await Security.IsAuthenticated();
+        await base.OnInitializedAsync();
+    }
 
 }

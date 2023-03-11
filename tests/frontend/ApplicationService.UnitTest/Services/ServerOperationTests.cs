@@ -1,13 +1,13 @@
+using System;
 using System.Net;
-using Moq.Protected;
-using WeeControl.Common.SharedKernel.Contexts.Authentication;
+using WeeControl.Core.DataTransferObject.Contexts.User;
 using WeeControl.Frontend.AppService;
-using WeeControl.Frontend.AppService.GuiInterfaces.Authorization;
 using WeeControl.Frontend.AppService.Internals.Interfaces;
 using WeeControl.Frontend.AppService.Internals.Services;
 
 namespace WeeControl.Frontend.Service.UnitTest.Services;
 
+[Obsolete]
 public class ServerOperationTests
 {
     private Mock<IDeviceData> deviceDataMock;
@@ -17,7 +17,7 @@ public class ServerOperationTests
     {
         deviceDataMock = new Mock<IDeviceData>();
         deviceDataMock.SetupAllProperties();
-        
+
         deviceSecurityMock = new Mock<IDeviceSecurity>();
         deviceSecurityMock.SetupAllProperties();
         deviceSecurityMock.Setup(x => x.IsAuthenticatedAsync()).ReturnsAsync(true);
@@ -27,9 +27,9 @@ public class ServerOperationTests
     public async void WhenNoTokenIsSaved_ReturnFalse()
     {
         deviceSecurityMock.Setup(x => x.IsAuthenticatedAsync()).ReturnsAsync(false);
-        
+
         var service = new ServerOperationService(deviceDataMock.Object, deviceSecurityMock.Object);
-        
+
         Assert.False(await service.RefreshToken());
     }
 
@@ -38,9 +38,9 @@ public class ServerOperationTests
     {
         var helper = new TestHelper(nameof(RefreshTokenTest));
         helper.DeviceMock.Setup(x => x.GetKeyValue(It.IsAny<string>())).ReturnsAsync("token");
-        
-        var service = helper.GetService<IServerOperation>(HttpStatusCode.OK, TokenResponseDto.Create("token", "fullname"));
-        
+
+        var service = helper.GetService<IServerOperation>(HttpStatusCode.OK, TokenResponseDto.Create("token"));
+
         Assert.True(await service.RefreshToken());
     }
 }

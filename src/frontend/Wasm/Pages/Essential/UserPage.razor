@@ -1,75 +1,18 @@
-﻿@using WeeControl.Frontend.AppService
-
+﻿@using WeeControl.Host.WebApiService.Contexts.Essentials
+@using WeeControl.Host.WebApiService.Data
+@using WeeControl.Frontend.Wasm.Pages.Essential.UserPageComponents
 @attribute [Route(ApplicationPages.Essential.UserPage)]
-@inject IServiceData UserAuthorizationService
+@inject IUserService UserService
 
-@if (isAuthorized)
-{
-    <PasswordChangeComponent></PasswordChangeComponent>
-}
-else
-{
-    <MudCard Class="flex-fill" Style="max-width: 650px; align-content: center; align-self: center; justify-content: center">
-        @switch (currentView)
-        {
-            case CurrentViews.Login:
-                <LoginComponent></LoginComponent>
-                break;
-            case CurrentViews.Register:
-                <RegisterComponent></RegisterComponent>
-                break;
-            case CurrentViews.ForgotPassword:
-                <PasswordResetComponent></PasswordResetComponent>
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
-    
-        <MudCardActions>
-            <MudList>
-                <MudListItem>
-                    <MudLink
-                        @onclick="@(() => currentView = CurrentViews.Login)"
-                        hidden="@(currentView == CurrentViews.Login)">Login</MudLink>
-                </MudListItem>
-                <MudListItem>
-                    <MudLink
-                        @onclick="@(() => currentView = CurrentViews.Register)"
-                        hidden="@(currentView == CurrentViews.Register)">Register</MudLink>
-                </MudListItem>
-                <MudListItem>
-                    <MudLink
-                        @onclick="@(() => currentView = CurrentViews.ForgotPassword)"
-                        hidden="@(currentView == CurrentViews.ForgotPassword)">Reset Password</MudLink>
-                </MudListItem>
-            </MudList>
-        </MudCardActions>
+<MudPaper Style="align-content: center; align-self: center; justify-content: center">
+    <MudCard>
+        <p>Here user details</p>
     </MudCard>
-}
+    <ChangePasswordComponent></ChangePasswordComponent>
+    <MudDivider></MudDivider>
+    <UserClaimsComponent></UserClaimsComponent>
+</MudPaper>
 
+@code {
 
-@code
-{
-    private bool isAuthorized;
-    private CurrentViews currentView;
-
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-
-        if (await UserAuthorizationService.IsAuthenticated())
-        {
-            isAuthorized = true;
-        }
-        else
-        {
-            isAuthorized = false;
-            currentView = CurrentViews.Login;
-        }
-    }
-
-    enum CurrentViews
-    {
-        Login, Register, ForgotPassword
-    }
 }

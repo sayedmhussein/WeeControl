@@ -1,0 +1,98 @@
+@using WeeControl.Host.WebApiService.Contexts.Essentials
+@using WeeControl.Host.WebApiService.Data
+@using WeeControl.Host.WebApiService.DeviceInterfaces
+@using WeeControl.Host.WebApiService
+@using WeeControl.Core.DataTransferObject.Contexts.Essentials
+@attribute [Route(ApplicationPages.Essential.LoginPage)]
+@attribute [AllowAnonymous]
+@inject IAuthenticationService AuthorizationService
+@inject ISecurity Security
+@inject IGui Gui
+
+<MudCard Style="max-width: 600px; align-content: center; align-self: center; justify-content: center">
+    @if (showForgotPassword)
+    {
+        <MudCardHeader>
+            <h4>Please fill the below data</h4>
+        </MudCardHeader>
+
+        <MudCardContent >
+            <EditForm Model="@forgotPassword" OnValidSubmit="@(() => { isLoading = true; AuthorizationService.RequestPasswordReset(forgotPassword); isLoading = false; })">
+                <DataAnnotationsValidator/>
+                <div class="form-group">
+                    <label>Username or Email</label>
+                    <InputText @bind-Value="forgotPassword.Email" readonly="@isLoading" type="email" class="form-control"/>
+                    <ValidationMessage For="@(() => forgotPassword.Email)"/>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <InputText @bind-Value="forgotPassword.Username" readonly="@isLoading" class="form-control"/>
+                    <ValidationMessage For="@(() => forgotPassword.Username)"/>
+                </div>
+                <MudButton
+                    ButtonType="ButtonType.Submit"
+                    Variant="Variant.Filled"
+                    Color="Color.Primary"
+                    Disabled="@isLoading"
+                    Class="ml-auto">
+                    @if (isLoading)
+                    {
+                        <span class="spinner-border spinner-border-sm mr-1"></span>
+                    }
+                    Login
+                </MudButton>
+                <MudButton Variant="Variant.Text" OnClick="@(() => showForgotPassword = false)">Login Instead</MudButton>
+            </EditForm>
+        </MudCardContent>
+    }
+    else
+    {
+        <MudCardHeader>
+            <h4>Please enter your username and password</h4>
+        </MudCardHeader>
+
+        <MudCardContent >
+            <EditForm Model="@loginModel" OnValidSubmit="@(() => { isLoading = true; AuthorizationService.Login(loginModel); isLoading = false; })">
+                <DataAnnotationsValidator/>
+                <div class="form-group">
+                    <label>Username or Email</label>
+                    <InputText @bind-Value="loginModel.UsernameOrEmail" readonly="@isLoading" class="form-control"/>
+                    <ValidationMessage For="@(() => loginModel.UsernameOrEmail)"/>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <InputText @bind-Value="loginModel.Password" readonly="@isLoading" type="password" class="form-control"/>
+                    <ValidationMessage For="@(() => loginModel.Password)"/>
+                </div>
+                <MudButton
+                    ButtonType="ButtonType.Submit"
+                    Variant="Variant.Filled"
+                    Color="Color.Primary"
+                    Disabled="@isLoading"
+                    Class="ml-auto">
+                    @if (isLoading)
+                    {
+                        <span class="spinner-border spinner-border-sm mr-1"></span>
+                    }
+                    Login
+                </MudButton>
+                <MudButton Variant="Variant.Text" OnClick="@(() => showForgotPassword = true)">Forgot Password</MudButton>
+                <MudButton Variant="Variant.Text" OnClick="@(() => Gui.NavigateToAsync(ApplicationPages.Essential.RegisterPage))">Register</MudButton>
+            </EditForm>
+        </MudCardContent>
+    }
+</MudCard>
+
+
+@code
+{
+    private readonly LoginRequestDto loginModel = new();
+    private readonly UserPasswordResetRequestDto forgotPassword = new();
+    private bool isLoading;
+    private bool showForgotPassword;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+    }
+}

@@ -1,19 +1,17 @@
 using System;
-using WeeControl.Common.SharedKernel.Contexts.Business.Elevator.Enums;
-using WeeControl.Common.SharedKernel.Contexts.Business.Elevator.Interfaces;
 
-namespace WeeControl.ApiApp.Domain.Contexts.Business.Elevator;
+namespace WeeControl.Core.Domain.Contexts.Business.Elevator;
 
-public class UnitDbo : IUnitModel
+public class UnitDbo
 {
     public string UnitNumber { get; set; }
-    public UnitBrandEnum UnitBrand { get; set; }
+    public int UnitBrand { get; set; }
 
-    public UnitStateTypeEnum UnitState { get; set; }
+    public int UnitState { get; set; }
 
     public Guid BuildingId { get; set; }
     public BuildingDbo Building { get; set; }
 
-    public UnitTypeEnum UnitType { get; set; }
+    public int UnitType { get; set; }
     public string UnitIdentification { get; set; }
 }
