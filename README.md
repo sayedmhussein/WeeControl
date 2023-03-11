@@ -9,7 +9,7 @@ a business need.
 
 * Continuous refactoring to increase code readability and performance.
 * Separation of concerns by applying SOLID principles to the limit before creating too much abstraction.
-* Functional and Unit testing are important during development.
+* Unit testing are important during development.
 
 ### Technologies:
 
