@@ -5,6 +5,7 @@
 @using System.Security.Claims
 @using WeeControl.Core.SharedKernel
 @using WeeControl.Frontend.Wasm.Layouts.Components
+@using WeeControl.Host.WebApiService.Interfaces
 @inherits LayoutComponentBase
 @attribute [AllowAnonymous]
 
@@ -47,7 +48,7 @@
                 <MudIconButton
                     Icon="@Icons.Material.Outlined.Login"
                     Color="Color.Primary" Title="Login"
-                    OnClick="@(() => Gui.NavigateToAsync(ApplicationPages.Essential.LoginPage, true))">
+                    OnClick="@(() => Gui.NavigateTo(ApplicationPages.Essential.LoginPage, true))">
                 </MudIconButton>
             }
         }
@@ -70,8 +71,8 @@
         isAuthenticated = await Security.IsAuthenticated();
         if (isAuthenticated)
         {
-            await Home.Refresh();
-            fullName = isAuthenticated ? "Hello " + Home.Fullname : string.Empty;
+            await Home.PullData();
+            fullName = isAuthenticated ? "Hello " + Home.UserData.FullName : string.Empty;
             pages = await Security.GetAllowedPages();
             StateHasChanged();
             claims = (await Security.GetClaimsPrincipal()).Claims;

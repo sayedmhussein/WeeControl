@@ -13,5 +13,5 @@ public interface IGui
 
     Task DisplayQuickAlert(string message, Severity severity = Severity.Normal);
 
-    Task NavigateToAsync(string pageName, bool forceLoad = false);
+    Task NavigateTo(string pageName, bool forceLoad = false);
 }

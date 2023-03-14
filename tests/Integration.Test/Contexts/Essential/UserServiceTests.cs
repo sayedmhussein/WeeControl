@@ -23,7 +23,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
     public async void ChangeMyPassword_WhenSuccess()
     {
         using var helper = new HostTestHelper(factory.CreateCustomClient());
-        var service = helper.GetService<IUserService>();
+        var service = helper.GetService<IHomeService>();
         await helper.Authenticate();
 
         await service.ChangePassword(new UserPasswordChangeRequestDto
@@ -32,14 +32,14 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
         });
 
         helper.GuiMock.Verify(x =>
-            x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Once);
+            x.NavigateTo(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Once);
     }
 
     [Fact]
     public async void ChangeMyPassword_WhenUnauthorized()
     {
         using var helper = new HostTestHelper(factory.CreateCustomClient());
-        var service = helper.GetService<IUserService>();
+        var service = helper.GetService<IHomeService>();
 
         await service.ChangePassword(new UserPasswordChangeRequestDto
         {
@@ -48,7 +48,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
 
         helper.GuiMock.Verify(x => x.DisplayAlert(It.IsAny<string>(),It.IsAny<IGui.Severity>()));
         helper.GuiMock.Verify(x =>
-            x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
+            x.NavigateTo(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
     }
 
     [Fact]
@@ -56,7 +56,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
     {
         using var helper = new HostTestHelper(factory.CreateCustomClient());
         await helper.Authenticate();
-        var service = helper.GetService<IUserService>();
+        var service = helper.GetService<IHomeService>();
 
         await service.ChangePassword(new UserPasswordChangeRequestDto
         {
@@ -65,7 +65,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
 
         helper.GuiMock.Verify(x => x.DisplayAlert(It.IsAny<string>(), It.IsAny<IGui.Severity>()));
         helper.GuiMock.Verify(x =>
-            x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.AtMostOnce);
+            x.NavigateTo(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.AtMostOnce);
     }
 
     [Fact]
@@ -76,7 +76,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
             db.Users.First().Suspend("SomeReason");
             db.SaveChanges();
         }));
-        var service = helper.GetService<IUserService>();
+        var service = helper.GetService<IHomeService>();
 
         await helper.Authenticate();
 
@@ -88,7 +88,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
 
         helper.GuiMock.Verify(x => x.DisplayAlert(It.IsAny<string>(), It.IsAny<IGui.Severity>()));
         helper.GuiMock.Verify(x =>
-            x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
+            x.NavigateTo(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
     }
 
     #endregion

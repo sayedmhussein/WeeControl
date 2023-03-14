@@ -9,7 +9,7 @@ a business need.
 
 * Continuous refactoring to increase code readability and performance.
 * Separation of concerns by applying SOLID principles to the limit before creating too much abstraction.
-* Functional and Unit testing are important during development.
+* Unit testing are important during development.
 
 ### Technologies:
 
@@ -29,11 +29,11 @@ This is open source project, while you need to read and accept each nuget packag
 
 In order to use this application you need to do the following:
 
-1. Edit values in \"/src/WebApi/appsettings.json\" including:
+1. Edit values in \"~/WebApi/appsettings.json\" including:
     1. Change "UseInMemoryDb" to false if you didn't want to use in memory database.
-    2. Database connection string (recommended to use postgres as backend database).
+    2. Database connection string.
     3. <del>File storage connection string, you can use your own server directory</del>.
-3. Edit values in \"/src/user/Wasm/wwwroot/appsettings.json\" including:
+3. Edit values in \"~/Wasm/wwwroot/appsettings.json\" including:
     1. Api base address of WebApi server.
 4. Run WebApi server.
 5. Run Wasm (Blazor App).
@@ -52,8 +52,6 @@ database then the application will create new one with the default values, or mi
 2. On Blazor webpage using credentials:
    Username : developer
    Password : developer
-3. If you face any issues and using database on your device then try to migrate the db or drop the old database and try
-   to run the projects again.
 
 ## What is this?
 
@@ -102,7 +100,6 @@ Appreciate the opensoure community for inspiring and supporting such project:
   channels [IAmTimCorey](https://www.youtube.com/user/IAmTimCorey), [Nick Chapsas](https://www.youtube.com/c/Elfocrash)
   and [VoidRealms](https://www.youtube.com/channel/UCYP0nk48grsMwO3iL8YaAKA) gave the courage to start getting a
   workable programming application.
-* Jetbrains for approving licence to use [Rider](https://www.jetbrains.com/rider/) to develop this opensource project.
 
 [//]: # (**<mark>List not Completed Yet</mark>**)
 

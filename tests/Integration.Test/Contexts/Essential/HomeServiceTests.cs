@@ -20,9 +20,9 @@ public class HomeServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
         await hostTestHelper.Authenticate();
         var service = hostTestHelper.GetService<IHomeService>();
 
-        await service.Refresh();
+        await service.PullData();
 
-        Assert.NotEmpty(service.Fullname);
+        Assert.NotEmpty(service.UserData.FullName);
         Assert.NotEmpty(service.Notifications);
         Assert.NotEmpty(service.Feeds);
     }
@@ -34,11 +34,11 @@ public class HomeServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
         await helper.Authenticate();
         var service = helper.GetService<IHomeService>();
 
-        await service.Refresh();
+        await service.PullData();
         var id = service.Notifications.First(x => x.ReadTs == null).NotificationId;
 
         await service.MarkNotificationAsViewed(id);
-        await service.Refresh();
+        await service.PullData();
 
         Assert.NotNull(service.Notifications.First(x => x.NotificationId == id).ReadTs);
     }

@@ -1,14 +1,13 @@
 ﻿using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using WeeControl.Core.SharedKernel;
-using WeeControl.Host.WebApiService.Contexts.Constants;
 using WeeControl.Host.WebApiService.Contexts.Essentials;
 using WeeControl.Host.WebApiService.Contexts.Essentials.Services;
+using WeeControl.Host.WebApiService.Interfaces;
 using WeeControl.Host.WebApiService.Internals.Interfaces;
 using WeeControl.Host.WebApiService.Internals.Services;
 
 [assembly: InternalsVisibleTo("Host.Test")]
-
 namespace WeeControl.Host.WebApiService;
 
 public static class ServiceExtension
@@ -27,7 +26,6 @@ public static class ServiceExtension
     {
         services.AddSingleton<IAuthenticationService, AuthenticationService>();
         services.AddSingleton<IHomeService, HomeService>();
-        services.AddSingleton<IUserService, UserService>();
 
         return services;
     }

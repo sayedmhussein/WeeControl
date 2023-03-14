@@ -21,6 +21,48 @@ internal class AuthenticationService : IAuthenticationService
         this.security = security;
         this.storage = storage;
     }
+    
+    public async Task Register(UserProfileDto dto)
+    {
+        if (!dto.Person.IsValidEntityModel())
+        {
+            await gui.DisplayAlert(dto.Person.GetFirstValidationError());
+            return;
+        }
+
+        if (!dto.User.IsValidEntityModel())
+        {
+            await gui.DisplayAlert(dto.User.GetFirstValidationError());
+            return;
+        }
+
+        var response = await server
+            .GetResponseMessage(HttpMethod.Post,
+                new Version("1.0"), dto,
+                ApiRouting.Essentials.User.Route);
+
+        if (response.IsSuccessStatusCode)
+        {
+            var read = await server.ReadFromContent<TokenResponseDto>(response.Content);
+            if (read != null && !string.IsNullOrEmpty(read.Token))
+            {
+                await security.UpdateToken(read.Token);
+                await gui.NavigateTo(ApplicationPages.Essential.OtpPage);
+                return;
+            }
+
+            await gui.DisplayAlert($"Unexpected Error:{response.StatusCode}");
+            return;
+        }
+
+        if (response.StatusCode == HttpStatusCode.Conflict)
+        {
+            await gui.DisplayAlert("Please choose another email or username as what you entered already exist");
+            return;
+        }
+
+        await gui.DisplayAlert($"Unexpected error: {response.StatusCode}");
+    }
 
     public async Task Login(LoginRequestDto dto)
     {
@@ -32,7 +74,7 @@ internal class AuthenticationService : IAuthenticationService
         }
 
         var response = await server
-            .GetResponseMessage(HttpMethod.Post, new Version("1.0"), dto, ControllerApi.Essentials.Authorization.Route);
+            .GetResponseMessage(HttpMethod.Post, new Version("1.0"), dto, ApiRouting.Essentials.Session.Route);
 
         if (response.IsSuccessStatusCode)
         {
@@ -40,7 +82,7 @@ internal class AuthenticationService : IAuthenticationService
             if (token?.Token is not null)
             {
                 await security.UpdateToken(token.Token);
-                await gui.NavigateToAsync(ApplicationPages.Essential.OtpPage);
+                await gui.NavigateTo(ApplicationPages.Essential.OtpPage);
                 return;
             }
         }
@@ -64,7 +106,7 @@ internal class AuthenticationService : IAuthenticationService
         if (await server.RefreshToken()) return;
 
         await gui.DisplayAlert("Please login.");
-        await gui.NavigateToAsync(ApplicationPages.Essential.LoginPage, true);
+        await gui.NavigateTo(ApplicationPages.Essential.LoginPage, true);
     }
 
     public async Task UpdateToken(string otp)
@@ -73,7 +115,7 @@ internal class AuthenticationService : IAuthenticationService
         {
             var response = await server
                 .GetResponseMessage(HttpMethod.Put, new Version("1.0"), new object(),
-                    ControllerApi.Essentials.Authorization.Route,
+                    ApiRouting.Essentials.Session.Route,
                     query: new[] {"otp", otp});
 
             if (response.IsSuccessStatusCode)
@@ -82,14 +124,14 @@ internal class AuthenticationService : IAuthenticationService
                 if (token?.Token is not null)
                 {
                     await security.UpdateToken(token.Token);
-                    await gui.NavigateToAsync(ApplicationPages.Essential.HomePage, true);
+                    await gui.NavigateTo(ApplicationPages.Essential.HomePage, true);
                     return;
                 }
             }
         }
 
         await gui.DisplayAlert("Please login.");
-        await gui.NavigateToAsync(ApplicationPages.Essential.LoginPage);
+        await gui.NavigateTo(ApplicationPages.Essential.LoginPage);
     }
 
     public async Task Logout()
@@ -98,13 +140,13 @@ internal class AuthenticationService : IAuthenticationService
         await storage.ClearKeysValues();
         var response = await server.GetResponseMessage(
             HttpMethod.Delete, new Version("1.0"),
-            ControllerApi.Essentials.Authorization.Route);
+            ApiRouting.Essentials.Session.Route);
 
         if (response.StatusCode == HttpStatusCode.BadRequest)
             await gui.DisplayAlert(
                 "An issue was encountered while logging out, please report this case to the developer.");
 
-        await gui.NavigateToAsync(ApplicationPages.Essential.LoginPage, true);
+        await gui.NavigateTo(ApplicationPages.Essential.LoginPage, true);
     }
 
     public async Task RequestPasswordReset(UserPasswordResetRequestDto dto)
@@ -118,13 +160,13 @@ internal class AuthenticationService : IAuthenticationService
         var response = await server
             .GetResponseMessage(HttpMethod.Post,
                 new Version("1.0"), dto,
-                ControllerApi.Essentials.User.Route,
-                ControllerApi.Essentials.User.PasswordEndpoint);
+                ApiRouting.Essentials.User.Route,
+                ApiRouting.Essentials.User.PasswordEndpoint);
 
         if (response.IsSuccessStatusCode)
         {
             await gui.DisplayAlert("Please check your inbox for more instructions");
-            await gui.NavigateToAsync(ApplicationPages.Essential.HomePage);
+            await gui.NavigateTo(ApplicationPages.Essential.HomePage);
         }
     }
 }

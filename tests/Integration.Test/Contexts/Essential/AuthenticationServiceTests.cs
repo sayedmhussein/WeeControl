@@ -6,6 +6,7 @@ using WeeControl.Host.WebApiService;
 using WeeControl.Host.WebApiService.Contexts.Essentials;
 using WeeControl.Host.WebApiService.Data;
 using WeeControl.Host.WebApiService.DeviceInterfaces;
+using WeeControl.Host.WebApiService.Interfaces;
 
 namespace WeeControl.Integration.Test.Contexts.Essential;
 
@@ -74,7 +75,7 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
         await service.UpdateToken("0000");
 
         hostTestHelper.GuiMock.Verify(x =>
-                x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()),
+                x.NavigateTo(ApplicationPages.Essential.HomePage, It.IsAny<bool>()),
             success ? Times.Once : Times.Never);
     }
 
@@ -94,10 +95,10 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
         await service.UpdateToken(otp);
 
         h.GuiMock.Verify(x =>
-                x.NavigateToAsync(ApplicationPages.Essential.OtpPage, It.IsAny<bool>()),
+                x.NavigateTo(ApplicationPages.Essential.OtpPage, It.IsAny<bool>()),
             Times.Once);
         h.GuiMock.Verify(x =>
-                x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()),
+                x.NavigateTo(ApplicationPages.Essential.HomePage, It.IsAny<bool>()),
             Times.Never);
     }
 
@@ -118,7 +119,7 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
         await service.Login(LoginRequestDto.Create("username", "password"));
 
         helper.GuiMock.Verify(x =>
-            x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
+            x.NavigateTo(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
 
         helper.GuiMock.Verify(x =>
             x.DisplayAlert(It.IsAny<string>(), It.IsAny<IGui.Severity>()), Times.Once);
@@ -160,7 +161,7 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
         });
 
         helper.GuiMock.Verify(x =>
-            x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Once);
+            x.NavigateTo(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Once);
     }
 
     [Theory]
@@ -179,7 +180,7 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
         });
 
         helper.GuiMock.Verify(x =>
-            x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
+            x.NavigateTo(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
     }
 
     [Fact]
@@ -200,7 +201,7 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
         });
 
         helper.GuiMock.Verify(x =>
-            x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
+            x.NavigateTo(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
     }
     #endregion
 }

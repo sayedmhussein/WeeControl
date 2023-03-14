@@ -93,7 +93,7 @@ internal class ServerService : IServerOperation
         {
             Method = HttpMethod.Patch,
             Version = new Version("1.0"),
-            RequestUri = new Uri(GetFullAddress(ControllerApi.Essentials.Authorization.Route, null, null)),
+            RequestUri = new Uri(GetFullAddress(ApiRouting.Essentials.Session.Route, null, null)),
             Content = content
         };
 
@@ -116,7 +116,7 @@ internal class ServerService : IServerOperation
             {
                 await security.DeleteToken();
                 await gui.DisplayAlert("Session expired, please login again.");
-                await gui.NavigateToAsync(ApplicationPages.Essential.LoginPage, true);
+                await gui.NavigateTo(ApplicationPages.Essential.LoginPage, true);
                 return false;
             }
 

@@ -17,7 +17,7 @@ public class HomeServiceTests
         });
         var service = helper.GetService<IHomeService>();
 
-        var success = await service.Refresh();
+        var success = await service.PullData();
 
         Assert.True(success);
     }
@@ -30,7 +30,7 @@ public class HomeServiceTests
         using var helper = new HostTestHelper(httpStatusCode);
         var service = helper.GetService<IHomeService>();
 
-        var success = await service.Refresh();
+        var success = await service.PullData();
 
         Assert.False(success);
         helper.GuiMock.Verify(x => x.DisplayAlert(It.IsAny<string>(), It.IsAny<IGui.Severity>()), Times.Once);

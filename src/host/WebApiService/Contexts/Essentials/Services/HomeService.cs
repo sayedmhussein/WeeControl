@@ -2,6 +2,7 @@ using System.Net;
 using Microsoft.AspNetCore.Components.Forms;
 using WeeControl.Core.DataTransferObject.Contexts.Essentials;
 using WeeControl.Core.SharedKernel.Contexts.Essentials;
+using WeeControl.Core.SharedKernel.ExtensionMethods;
 using WeeControl.Host.WebApiService.Data;
 using WeeControl.Host.WebApiService.DeviceInterfaces;
 using WeeControl.Host.WebApiService.Internals.Interfaces;
@@ -25,13 +26,13 @@ internal class HomeService : IHomeService
 
     public IEnumerable<HomeNotificationModel> Notifications { get; private set; } = new List<HomeNotificationModel>();
     public IEnumerable<HomeFeedModel> Feeds { get; private set; } = new List<HomeFeedModel>();
-    public string Fullname { get; private set; } = string.Empty;
+    public UserDataModel UserData { get; private set; } = new UserDataModel();
 
-    public async Task<bool> Refresh()
+    public async Task<bool> PullData()
     {
         await server.RefreshToken();
         var response = await server
-            .GetResponseMessage(HttpMethod.Get, new Version("1.0"), ControllerApi.Essentials.User.Route);
+            .GetResponseMessage(HttpMethod.Get, new Version("1.0"), ApiRouting.Essentials.User.Route);
 
         if (response.IsSuccessStatusCode)
         {
@@ -40,7 +41,7 @@ internal class HomeService : IHomeService
             {
                 Notifications = serverDto.Notifications;
                 Feeds = serverDto.Feeds;
-                Fullname = serverDto.FullName;
+                UserData.FullName = serverDto.FullName;
                 LastLoginTimestamp = serverDto.PhotoUrl;
                 return true;
             }
@@ -50,7 +51,7 @@ internal class HomeService : IHomeService
         {
             await security.DeleteToken();
             await gui.DisplayAlert("Please login again");
-            await gui.NavigateToAsync(ApplicationPages.Essential.LoginPage, true);
+            await gui.NavigateTo(ApplicationPages.Essential.LoginPage, true);
             return false;
         }
 
@@ -66,11 +67,42 @@ internal class HomeService : IHomeService
         var response = server
             .GetResponseMessage(HttpMethod.Delete,
                 new Version("1.0"),
-                ControllerApi.Essentials.User.Route,
-                ControllerApi.Essentials.User.NotificationEndpoint,
+                ApiRouting.Essentials.User.Route,
+                ApiRouting.Essentials.User.NotificationEndpoint,
                 new[] {"id", id.ToString()});
 
         return response;
+    }
+    
+    public async Task ChangePassword(UserPasswordChangeRequestDto dto)
+    {
+        if (dto.IsValidEntityModel() == false)
+        {
+            await gui.DisplayAlert("invalid data");
+            return;
+        }
+
+        var response = await server
+            .GetResponseMessage(HttpMethod.Patch,
+                new Version("1.0"), dto,
+                ApiRouting.Essentials.User.Route,
+                ApiRouting.Essentials.User.PasswordEndpoint);
+
+        if (response.IsSuccessStatusCode)
+        {
+            await gui.DisplayAlert("Password was changed successfully");
+            await gui.NavigateTo(ApplicationPages.Essential.HomePage);
+            return;
+        }
+
+        if (response.StatusCode == HttpStatusCode.NotFound)
+        {
+            await gui.DisplayAlert("Old password isn't matching, please try again.");
+            return;
+        }
+
+        await gui.DisplayAlert($"Unexpected Error {response.StatusCode}");
+        throw new ArgumentOutOfRangeException();
     }
 
     public async Task SendFeedback(string message, IEnumerable<IBrowserFile> files)

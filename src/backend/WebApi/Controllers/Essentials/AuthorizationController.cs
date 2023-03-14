@@ -12,7 +12,7 @@ using WeeControl.Host.WebApiService.Data;
 namespace WeeControl.Host.WebApi.Controllers.Essentials;
 
 [ApiController]
-[Route(ControllerApi.Essentials.Authorization.Route)]
+[Route(ApiRouting.Essentials.Session.Route)]
 [ProducesResponseType((int) HttpStatusCode.BadRequest)]
 [Consumes(MediaTypeNames.Application.Json)]
 [Produces(MediaTypeNames.Application.Json)]

@@ -22,7 +22,7 @@ public class RegistrationTests : IClassFixture<CustomWebApplicationFactory<Start
     {
         using var hostTestHelper = new HostTestHelper(factory.CreateClient());
 
-        var service = hostTestHelper.GetService<IUserService>();
+        var service = hostTestHelper.GetService<IAuthenticationService>();
         var dto = new UserProfileDto
         {
             Person =
@@ -32,13 +32,13 @@ public class RegistrationTests : IClassFixture<CustomWebApplicationFactory<Start
             User = {Email = "email@email.com", Username = "username", Password = "Password"}
         };
 
-        await service.AddUser(dto);
+        await service.Register(dto);
         await hostTestHelper.GetService<IAuthenticationService>().UpdateToken("0000");
 
         hostTestHelper.GuiMock.Verify(x =>
-            x.NavigateToAsync(ApplicationPages.Essential.OtpPage, It.IsAny<bool>()), Times.Once);
+            x.NavigateTo(ApplicationPages.Essential.OtpPage, It.IsAny<bool>()), Times.Once);
         hostTestHelper.GuiMock.Verify(x =>
-            x.NavigateToAsync(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Once);
+            x.NavigateTo(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Once);
     }
 
     [Theory]
@@ -48,7 +48,7 @@ public class RegistrationTests : IClassFixture<CustomWebApplicationFactory<Start
     {
         using var hostTestHelper = new HostTestHelper(factory.CreateCustomClient());
 
-        var service = hostTestHelper.GetService<IUserService>();
+        var service = hostTestHelper.GetService<IAuthenticationService>();
         var dto = new UserProfileDto
         {
             Person =
@@ -58,10 +58,10 @@ public class RegistrationTests : IClassFixture<CustomWebApplicationFactory<Start
             User = {Email = email, Username = username, Password = "Password"}
         };
 
-        await service.AddUser(dto);
+        await service.Register(dto);
 
         hostTestHelper.GuiMock.Verify(x =>
-            x.NavigateToAsync(ApplicationPages.Essential.OtpPage, It.IsAny<bool>()), Times.Never);
+            x.NavigateTo(ApplicationPages.Essential.OtpPage, It.IsAny<bool>()), Times.Never);
         hostTestHelper.GuiMock.Verify(x =>
             x.DisplayAlert(It.IsAny<string>(), It.IsAny<IGui.Severity>()), Times.Once);
     }

@@ -67,10 +67,10 @@ public class CoreTestHelper : IDisposable
     {
         connection.Dispose();
         context.Dispose();
-        EssentialDb = null;
-        MediatorMock = null;
-        ConfigurationMock = null;
-        CurrentUserInfoMock = null;
+        EssentialDb = null!;
+        MediatorMock = null!;
+        ConfigurationMock = null!;
+        CurrentUserInfoMock = null!;
     }
 
     public (PersonModel Person, UserModel User, Guid personId, Guid userId, Guid sessionId) SeedDatabase(

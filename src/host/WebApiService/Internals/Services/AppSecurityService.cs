@@ -2,6 +2,7 @@ using System.Security.Claims;
 using WeeControl.Core.SharedKernel;
 using WeeControl.Host.WebApiService.Data;
 using WeeControl.Host.WebApiService.DeviceInterfaces;
+using WeeControl.Host.WebApiService.Interfaces;
 using WeeControl.Host.WebApiService.Internals.Interfaces;
 
 namespace WeeControl.Host.WebApiService.Internals.Services;
@@ -62,11 +63,11 @@ internal class AppSecurityService : ISecurity
     {
         if (await IsAuthenticated())
         {
-            await gui.NavigateToAsync(ApplicationPages.Essential.HomePage, true);
+            await gui.NavigateTo(ApplicationPages.Essential.HomePage, true);
             return;
         }
 
         if (gui.CurrentPageName != ApplicationPages.Essential.LoginPage)
-            await gui.NavigateToAsync(ApplicationPages.Essential.LoginPage, true);
+            await gui.NavigateTo(ApplicationPages.Essential.LoginPage, true);
     }
 }
