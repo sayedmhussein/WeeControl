@@ -10,12 +10,12 @@ public class VerifyRequestHandlerTests
 {
     [Theory]
     [InlineData(null, null)]
-    [InlineData(0, 0)]
-    [InlineData(-90, 0)]
-    [InlineData(90, 0)]
-    [InlineData(0, 180)]
-    [InlineData(0, -180)]
-    public async void WhenRequestIsValid_NoErrorBeThrown(double latitude, double longitude)
+    [InlineData(0.0, 0.0)]
+    [InlineData(-90.0, 0.0)]
+    [InlineData(90.0, 0.0)]
+    [InlineData(0.0, 180.0)]
+    [InlineData(0.0, -180.0)]
+    public async void WhenRequestIsValid_NoErrorBeThrown(double? latitude, double? longitude)
     {
         var dto = RequestDto.Create("device", latitude, longitude);
         var query = new TestRequestAsRequestDto(dto);
@@ -25,7 +25,6 @@ public class VerifyRequestHandlerTests
     }
 
     [Fact]
-    //[Fact(Skip = "Later")]
     public async void WhenRequestDeviceIsEmptyOrNull_ThrownException()
     {
         var dto = RequestDto.Create("", null, null);
@@ -47,11 +46,11 @@ public class VerifyRequestHandlerTests
     }
 
     [Theory]
-    [InlineData(-90.1, 0)]
-    [InlineData(90.1, 0)]
-    [InlineData(0, -180.1)]
-    [InlineData(0, 180.1)]
-    public async void WhenRequestGeoAreOutOfRange_ThrownException(double latitude, double longitude)
+    [InlineData(-90.1, 0.0)]
+    [InlineData(90.1, 0.0)]
+    [InlineData(0.0, -180.1)]
+    [InlineData(0.0, 180.1)]
+    public async void WhenRequestGeoAreOutOfRange_ThrownException(double? latitude, double? longitude)
     {
         var dto = RequestDto.Create("device", latitude, longitude);
         var query = new TestRequestAsRequestDto(dto);
