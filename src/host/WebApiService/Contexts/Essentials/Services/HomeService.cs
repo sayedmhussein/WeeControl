@@ -22,8 +22,6 @@ internal class HomeService : IHomeService
         this.security = security;
     }
 
-    public string LastLoginTimestamp { get; private set; } = string.Empty;
-
     public IEnumerable<HomeNotificationModel> Notifications { get; private set; } = new List<HomeNotificationModel>();
     public IEnumerable<HomeFeedModel> Feeds { get; private set; } = new List<HomeFeedModel>();
     public UserDataModel UserData { get; private set; } = new UserDataModel();
@@ -33,7 +31,7 @@ internal class HomeService : IHomeService
         await server.RefreshToken();
         var response = await server
             .GetResponseMessage(HttpMethod.Get, new Version("1.0"), ApiRouting.Essentials.User.Route);
-
+        if (response is null) return false;
         if (response.IsSuccessStatusCode)
         {
             var serverDto = await server.ReadFromContent<HomeResponseDto>(response.Content);
@@ -42,7 +40,6 @@ internal class HomeService : IHomeService
                 Notifications = serverDto.Notifications;
                 Feeds = serverDto.Feeds;
                 UserData.FullName = serverDto.FullName;
-                LastLoginTimestamp = serverDto.PhotoUrl;
                 return true;
             }
         }
@@ -70,7 +67,7 @@ internal class HomeService : IHomeService
                 ApiRouting.Essentials.User.Route,
                 ApiRouting.Essentials.User.NotificationEndpoint,
                 new[] {"id", id.ToString()});
-
+        
         return response;
     }
     

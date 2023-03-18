@@ -40,6 +40,8 @@ internal class AuthenticationService : IAuthenticationService
             .GetResponseMessage(HttpMethod.Post,
                 new Version("1.0"), dto,
                 ApiRouting.Essentials.User.Route);
+        
+        if (response is null) return;
 
         if (response.IsSuccessStatusCode)
         {
@@ -75,7 +77,7 @@ internal class AuthenticationService : IAuthenticationService
 
         var response = await server
             .GetResponseMessage(HttpMethod.Post, new Version("1.0"), dto, ApiRouting.Essentials.Session.Route);
-
+        if (response is null) return;
         if (response.IsSuccessStatusCode)
         {
             var token = await server.ReadFromContent<TokenResponseDto>(response.Content);
@@ -117,7 +119,7 @@ internal class AuthenticationService : IAuthenticationService
                 .GetResponseMessage(HttpMethod.Put, new Version("1.0"), new object(),
                     ApiRouting.Essentials.Session.Route,
                     query: new[] {"otp", otp});
-
+            if (response is null) return;
             if (response.IsSuccessStatusCode)
             {
                 var token = await server.ReadFromContent<TokenResponseDto>(response.Content);
@@ -141,7 +143,7 @@ internal class AuthenticationService : IAuthenticationService
         var response = await server.GetResponseMessage(
             HttpMethod.Delete, new Version("1.0"),
             ApiRouting.Essentials.Session.Route);
-
+        if (response is null) return;
         if (response.StatusCode == HttpStatusCode.BadRequest)
             await gui.DisplayAlert(
                 "An issue was encountered while logging out, please report this case to the developer.");
