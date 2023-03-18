@@ -28,7 +28,7 @@ internal class ServerService : IServerOperation
         this.gui = gui;
     }
 
-    public async Task<HttpResponseMessage> GetResponseMessage(HttpMethod method, Version version, string route,
+    public async Task<HttpResponseMessage?> GetResponseMessage(HttpMethod method, Version version, string route,
         string? endpoint = null,
         string[]? query = null, bool includeRequestDto = false)
     {
@@ -45,7 +45,7 @@ internal class ServerService : IServerOperation
         return await Send(method, version, new Uri(address));
     }
 
-    public async Task<HttpResponseMessage> GetResponseMessage<T>(
+    public async Task<HttpResponseMessage?> GetResponseMessage<T>(
         HttpMethod method,
         Version version,
         T dto,
@@ -99,6 +99,8 @@ internal class ServerService : IServerOperation
 
         var response = await CommunicateWithServer(requestMessage);
 
+        if (response is null) return false;
+
         if (response.IsSuccessStatusCode)
         {
             var dto = await ReadFromContent<TokenResponseDto>(response.Content);
@@ -126,7 +128,7 @@ internal class ServerService : IServerOperation
         return false;
     }
 
-    private async Task<HttpResponseMessage> Send(HttpMethod method, Version version, Uri uri,
+    private async Task<HttpResponseMessage?> Send(HttpMethod method, Version version, Uri uri,
         HttpContent? content = null)
     {
         var requestMessage = new HttpRequestMessage
@@ -145,6 +147,9 @@ internal class ServerService : IServerOperation
         var refreshStatusCodes = new[] {418, (int) HttpStatusCode.Forbidden};
 
         var responseMessage = await CommunicateWithServer(requestMessage);
+        
+        if (responseMessage is null) return null;
+        
         if (refreshStatusCodes.Contains((int) responseMessage.StatusCode))
             if (await RefreshToken())
             {
@@ -156,7 +161,7 @@ internal class ServerService : IServerOperation
         return responseMessage;
     }
 
-    private async Task<HttpResponseMessage> CommunicateWithServer(HttpRequestMessage message)
+    private async Task<HttpResponseMessage?> CommunicateWithServer(HttpRequestMessage message)
     {
         try
         {
@@ -166,7 +171,7 @@ internal class ServerService : IServerOperation
         catch (HttpRequestException)
         {
             await gui.DisplayQuickAlert("Unable to connect to server, please check your connection!");
-            return new HttpResponseMessage(HttpStatusCode.BadGateway);
+            return null;
         }
         catch (Exception e)
         {
