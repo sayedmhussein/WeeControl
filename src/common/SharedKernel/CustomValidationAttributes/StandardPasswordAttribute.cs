@@ -4,7 +4,7 @@ namespace WeeControl.Core.SharedKernel.CustomValidationAttributes;
 
 public class StandardPasswordAttribute : ValidationAttribute
 {
-    private const string SpecialLetters = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
+    private const string SpecialLetters = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~ ";
     private const string Numbers = "1234567890";
     private const string Letters = "abcdefghijklmnopqrstuvwxyz";
     
