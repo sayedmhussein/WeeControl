@@ -17,10 +17,4 @@
         <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
     </ItemGroup>
 
-    <ItemGroup>
-        <None Update="Data\Countries.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-    </ItemGroup>
-
 </Project>

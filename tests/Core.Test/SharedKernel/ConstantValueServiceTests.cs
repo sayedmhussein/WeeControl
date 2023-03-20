@@ -1,6 +1,6 @@
-using WeeControl.Host.WebApiService.Internals.Services;
+using WeeControl.Core.SharedKernel.Services;
 
-namespace WeeControl.Host.Test.ApiService.Contexts;
+namespace WeeControl.Core.Test.SharedKernel;
 
 public class ConstantValueServiceTests
 {

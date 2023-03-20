@@ -1,6 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using WeeControl.Core.SharedKernel;
+using WeeControl.Core.SharedKernel.Interfaces;
 using WeeControl.Host.WebApiService.Contexts.Essentials;
 using WeeControl.Host.WebApiService.Contexts.Essentials.Services;
 using WeeControl.Host.WebApiService.Interfaces;
@@ -32,7 +33,7 @@ public static class ServiceExtension
 
     private static IServiceCollection AddInternals(this IServiceCollection services)
     {
-        services.AddSingleton<IConstantValue, ConstantValueService>();
+        
         services.AddSingleton<IDatabaseService, DatabaseService>();
         services.AddSingleton<IDeviceSecurity, SecurityService>();
         services.AddSingleton<IServerOperation, ServerService>();

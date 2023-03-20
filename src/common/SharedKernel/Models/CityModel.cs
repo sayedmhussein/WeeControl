@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace WeeControl.Host.WebApiService.Models;
+namespace WeeControl.Core.SharedKernel.Models;
 
 public class CityModel
 {
