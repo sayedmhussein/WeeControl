@@ -1,5 +1,6 @@
 using System.Net;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Http;
 using WeeControl.Core.DataTransferObject.Contexts.Essentials;
 using WeeControl.Core.SharedKernel.Contexts.Essentials;
 using WeeControl.Core.SharedKernel.ExtensionMethods;
@@ -85,6 +86,8 @@ internal class HomeService : IHomeService
                 ApiRouting.Essentials.User.Route,
                 ApiRouting.Essentials.User.PasswordEndpoint);
 
+        if (response is null) return;
+        
         if (response.IsSuccessStatusCode)
         {
             await gui.DisplayAlert("Password was changed successfully");
@@ -105,8 +108,13 @@ internal class HomeService : IHomeService
     public async Task SendFeedback(string message, IEnumerable<IBrowserFile> files)
     {
         await gui.DisplayQuickAlert("Thanks for your time.");
+        var dto = new FeedbackDto();
+        dto.FeedbackString = message;
+        dto.Files = new List<IFormFile>();
+        
         await Task.Run(async () =>
         {
+            await server.GetResponseMessage(HttpMethod.Post, new Version("1.0"), ApiRouting.Essentials.User.Route);
             await Task.Delay(10000);
             await gui.DisplayQuickAlert("Your feedback was received successfully.", IGui.Severity.Success);
         });

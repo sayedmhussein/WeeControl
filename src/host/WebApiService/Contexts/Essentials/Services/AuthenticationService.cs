@@ -165,6 +165,8 @@ internal class AuthenticationService : IAuthenticationService
                 ApiRouting.Essentials.User.Route,
                 ApiRouting.Essentials.User.PasswordEndpoint);
 
+        if (response is null) return;
+        
         if (response.IsSuccessStatusCode)
         {
             await gui.DisplayAlert("Please check your inbox for more instructions");

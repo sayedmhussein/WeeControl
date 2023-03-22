@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WeeControl.Core.Application.Contexts.Essentials.Commands;
 using WeeControl.Core.Application.Contexts.Essentials.Queries;
@@ -16,7 +19,7 @@ namespace WeeControl.Host.WebApi.Controllers.Essentials;
 [ApiController]
 [Authorize]
 [Route(ApiRouting.Essentials.User.Route)]
-[Consumes(MediaTypeNames.Application.Json)]
+//[Consumes(MediaTypeNames.Application.Json)]
 [Produces(MediaTypeNames.Application.Json)]
 public class UserController : Controller
 {
@@ -98,6 +101,20 @@ public class UserController : Controller
 
         return Ok();
     }
+
+    #endregion
+
+    #region FeedbackEndpoint Post+Put
+
+    [AllowAnonymous]
+    [HttpPost(ApiRouting.Essentials.User.FeedbackEndPoint)]
+    [MapToApiVersion("1.0")]
+    public async Task<ActionResult> UploadDocsV1([FromForm] FeedbackDto dto)
+    {
+        
+        return Ok(dto.FeedbackString + dto.Files.First().FileName + "Size: " + dto.Files.First().Length);
+    }
+    
 
     #endregion
 }

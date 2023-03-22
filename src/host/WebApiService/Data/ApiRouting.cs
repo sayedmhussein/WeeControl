@@ -17,6 +17,7 @@ public static class ApiRouting
             public const string PasswordEndpoint = "Password";
             public const string HomeEndpoint = "Register";
             public const string NotificationEndpoint = "Notification";
+            public const string FeedbackEndPoint = "feedback";
         }
     }
 }
