@@ -1,7 +1,5 @@
 using System.Net;
 using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
 using WeeControl.Core.DataTransferObject.Contexts.Essentials;
 using WeeControl.Core.SharedKernel.Contexts.Essentials;
 using WeeControl.Core.SharedKernel.ExtensionMethods;
@@ -111,13 +109,11 @@ internal class HomeService : IHomeService
         await gui.DisplayQuickAlert("Thanks for your time.");
         var dto = new FeedbackDto();
         dto.FeedbackString = message;
-        dto.Files = new List<IFormFile>();
+        dto.Files = new List<Stream>();
 
         foreach (var f in files)
         {
-            using var ms = new MemoryStream();
-            f.OpenReadStream().CopyTo(ms);
-            dto.Files.Add(new FormFile(ms, 0, ms.Length, "name", "fileName"));
+            dto.Files.Add(f.OpenReadStream());
         }
         
         

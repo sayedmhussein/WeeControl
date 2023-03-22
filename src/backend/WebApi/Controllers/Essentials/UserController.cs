@@ -111,8 +111,7 @@ public class UserController : Controller
     [MapToApiVersion("1.0")]
     public async Task<ActionResult> UploadDocsV1([FromForm] FeedbackDto dto)
     {
-        
-        return Ok(dto.FeedbackString + dto.Files.First().FileName + "Size: " + dto.Files.First().Length);
+        return Ok(dto.FeedbackString + "Count: " + dto.Files.First().Length);
     }
     
 

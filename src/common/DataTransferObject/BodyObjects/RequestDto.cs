@@ -7,7 +7,6 @@ public class RequestDto : IRequestDto, IEntityModel
 {
     internal RequestDto()
     {
-        DeviceId = string.Empty;
     }
 
     protected RequestDto(RequestDto dto) : this(dto.DeviceId, dto.Latitude, dto.Longitude)
@@ -21,7 +20,7 @@ public class RequestDto : IRequestDto, IEntityModel
         Longitude = longitude;
     }
 
-    [Required] public string DeviceId { get; init; }
+    [Required] public string DeviceId { get; init; } = string.Empty;
 
     [Range(-90.0, 90.0)] public double? Latitude { get; init; }
 
