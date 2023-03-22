@@ -29,7 +29,7 @@ internal class AppSecurityService : ISecurity
     {
         if (ClaimsValues.GetClaimTypes().TryGetValue(pageName, out var val))
         {
-            var foundClaim = (await security.GetClaimsPrincipal()).Claims.Where(x => x.Type == val);
+            var foundClaim = (await security.GetClaimsPrincipal()).Claims.Where(x => x.Type == val).ToList();
             if (foundClaim.Any())
             {
                 if (string.IsNullOrEmpty(authority))
@@ -58,16 +58,4 @@ internal class AppSecurityService : ISecurity
     }
 
     public event EventHandler<bool>? AuthenticationChanged;
-
-    public async Task NavigateToNecessaryPage()
-    {
-        if (await IsAuthenticated())
-        {
-            await gui.NavigateTo(ApplicationPages.Essential.HomePage, true);
-            return;
-        }
-
-        if (gui.CurrentPageName != ApplicationPages.Essential.LoginPage)
-            await gui.NavigateTo(ApplicationPages.Essential.LoginPage, true);
-    }
 }
