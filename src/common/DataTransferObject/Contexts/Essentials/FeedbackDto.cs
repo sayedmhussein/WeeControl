@@ -1,10 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Http;
+using WeeControl.Core.DataTransferObject.BodyObjects;
 
 namespace WeeControl.Core.DataTransferObject.Contexts.Essentials;
 
-public class FeedbackDto
+public class FeedbackDto : RequestDto
 {
     [Required]
     public string FeedbackString { get; set; } = string.Empty;

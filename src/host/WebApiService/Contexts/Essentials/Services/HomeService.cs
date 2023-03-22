@@ -1,6 +1,7 @@
 using System.Net;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 using WeeControl.Core.DataTransferObject.Contexts.Essentials;
 using WeeControl.Core.SharedKernel.Contexts.Essentials;
 using WeeControl.Core.SharedKernel.ExtensionMethods;
@@ -111,10 +112,19 @@ internal class HomeService : IHomeService
         var dto = new FeedbackDto();
         dto.FeedbackString = message;
         dto.Files = new List<IFormFile>();
+
+        foreach (var f in files)
+        {
+            using var ms = new MemoryStream();
+            f.OpenReadStream().CopyTo(ms);
+            dto.Files.Add(new FormFile(ms, 0, ms.Length, "name", "fileName"));
+        }
+        
         
         await Task.Run(async () =>
         {
-            await server.GetResponseMessage(HttpMethod.Post, new Version("1.0"), ApiRouting.Essentials.User.Route);
+            var r = await server.GetResponseMessage(HttpMethod.Post, new Version("1.0"), dto, ApiRouting.Essentials.User.Route);
+            await gui.DisplayAlert(await r.Content.ReadAsStringAsync());
             await Task.Delay(10000);
             await gui.DisplayQuickAlert("Your feedback was received successfully.", IGui.Severity.Success);
         });

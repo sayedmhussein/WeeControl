@@ -57,6 +57,12 @@ internal class ServerService : IServerOperation
         var address = GetFullAddress(route, endpoint, query);
 
         var location = await feature.GetDeviceLocation();
+        if (dto is RequestDto)
+        {
+            var content1 = new StringContent(JsonConvert.SerializeObject(dto), Encoding.UTF8, "application/json");
+            return await Send(method, version, new Uri(address), content1);
+        }
+        
         var payload = RequestDto.Create(dto, await feature.GetDeviceId(), location.Latitude, location.Longitude);
         var content = new StringContent(JsonConvert.SerializeObject(payload), Encoding.UTF8, "application/json");
 
