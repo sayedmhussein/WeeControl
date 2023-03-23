@@ -57,10 +57,12 @@ internal class ServerService : IServerOperation
         var address = GetFullAddress(route, endpoint, query);
 
         var location = await feature.GetDeviceLocation();
-        if (dto is RequestDto)
+        if (dto is RequestDto requestDto)
         {
-            var t = dto as RequestDto;
-            //t.DeviceId = await feature.GetDeviceId();
+            requestDto.DeviceId = await feature.GetDeviceId();
+            requestDto.Latitude = location.Latitude;
+            requestDto.Longitude = location.Longitude;
+            
             var content1 = new StringContent(JsonConvert.SerializeObject(dto), Encoding.UTF8, "application/json");
             return await Send(method, version, new Uri(address), content1);
         }

@@ -4,11 +4,11 @@ namespace WeeControl.Core.DataTransferObject.BodyObjects;
 
 public interface IRequestDto : IEntityModel
 {
-    string DeviceId { get; init; }
+    string DeviceId { get; set; }
 
-    double? Latitude { get; init; }
+    double? Latitude { get; set; }
 
-    double? Longitude { get; init; }
+    double? Longitude { get; set; }
 }
 
 public interface IRequestDto<T> : IRequestDto where T : class

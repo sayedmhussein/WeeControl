@@ -20,11 +20,11 @@ public class RequestDto : IRequestDto, IEntityModel
         Longitude = longitude;
     }
 
-    [Required] public string DeviceId { get; init; } = string.Empty;
+    [Required] public string DeviceId { get; set; } = string.Empty;
 
-    [Range(-90.0, 90.0)] public double? Latitude { get; init; }
+    [Range(-90.0, 90.0)] public double? Latitude { get; set; }
 
-    [Range(-180.0, 180.0)] public double? Longitude { get; init; }
+    [Range(-180.0, 180.0)] public double? Longitude { get; set; }
 
     public static RequestDto Create(string device, double? latitude, double? longitude)
     {

@@ -119,10 +119,22 @@ internal class HomeService : IHomeService
         
         await Task.Run(async () =>
         {
-            var r = await server.GetResponseMessage(HttpMethod.Post, new Version("1.0"), dto, ApiRouting.Essentials.User.Route);
+            var r = await server.GetResponseMessage(
+                HttpMethod.Post, 
+                new Version("1.0"), 
+                dto, 
+                ApiRouting.Essentials.User.Route, 
+                ApiRouting.Essentials.User.FeedbackEndPoint);
+            
+            if (r is null) return;
+
+            if (r.IsSuccessStatusCode)
+            {
+                await gui.DisplayQuickAlert("Your feedback was received successfully.", IGui.Severity.Success);
+                return;
+            }
+            
             await gui.DisplayAlert(await r.Content.ReadAsStringAsync());
-            await Task.Delay(10000);
-            await gui.DisplayQuickAlert("Your feedback was received successfully.", IGui.Severity.Success);
         });
     }
 }

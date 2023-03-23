@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Components.Forms;
 using WeeControl.Core.DataTransferObject.Contexts.Essentials;
 using WeeControl.Core.Test;
 using WeeControl.Host.Test.ApiService;
@@ -89,6 +90,21 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
         helper.GuiMock.Verify(x => x.DisplayAlert(It.IsAny<string>(), It.IsAny<IGui.Severity>()));
         helper.GuiMock.Verify(x =>
             x.NavigateTo(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
+    }
+
+    #endregion
+
+    #region SendFeedback
+
+    [Fact]
+    public async void WhenSendingFeedbackWithoutAttachment_Success()
+    {
+        using var helper = new HostTestHelper(factory.CreateCustomClient());
+        var service = helper.GetService<IHomeService>();
+
+        await service.SendFeedback("Message", Enumerable.Empty<IBrowserFile>());
+        
+        helper.GuiMock.Verify(x => x.DisplayAlert(It.IsAny<string>(), It.IsAny<IGui.Severity>()), Times.Never);
     }
 
     #endregion
