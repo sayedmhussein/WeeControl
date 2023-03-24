@@ -109,11 +109,11 @@ internal class HomeService : IHomeService
         await gui.DisplayQuickAlert("Thanks for your time.");
         var dto = new FeedbackDto();
         dto.FeedbackString = message;
-        dto.Files = new List<Stream>();
 
         foreach (var f in files)
         {
-            dto.Files.Add(f.OpenReadStream());
+            // var fs = new FileStream();
+            // dto.Files.Add();
         }
         
         
@@ -133,8 +133,9 @@ internal class HomeService : IHomeService
                 await gui.DisplayQuickAlert("Your feedback was received successfully.", IGui.Severity.Success);
                 return;
             }
-            
-            await gui.DisplayAlert(await r.Content.ReadAsStringAsync());
+
+            var b = await r.Content.ReadAsStringAsync();
+            await gui.DisplayAlert(b);
         });
     }
 }

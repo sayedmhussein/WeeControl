@@ -9,7 +9,7 @@ public class RequestDto : IRequestDto, IEntityModel
     {
     }
 
-    protected RequestDto(RequestDto dto) : this(dto.DeviceId, dto.Latitude, dto.Longitude)
+    protected RequestDto(IRequestDto dto) : this(dto.DeviceId, dto.Latitude, dto.Longitude)
     {
     }
 
@@ -49,7 +49,7 @@ public class RequestDto<T> : RequestDto, IRequestDto<T> where T : class
         Payload = null!;
     }
 
-    internal RequestDto(T payload, RequestDto dto) : base(dto)
+    internal RequestDto(T payload, IRequestDto dto) : base(dto)
     {
         Payload = payload;
     }
