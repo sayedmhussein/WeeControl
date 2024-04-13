@@ -3,9 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using System;
-using WeeControl.ApiApp.Domain.Essential;
 using WeeControl.ApiApp.Persistence;
-using WeeControl.Common.SharedKernel.Services;
 using WeeControl.Core.Application.Interfaces;
 using WeeControl.Core.SharedKernel.Interfaces;
 

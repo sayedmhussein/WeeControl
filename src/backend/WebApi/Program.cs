@@ -5,11 +5,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Threading.Tasks;
-using WeeControl.ApiApp.Application.Contexts.Essential.Commands;
 using WeeControl.ApiApp.Persistence.DbContexts;
 using WeeControl.Core.Application.Interfaces;
 
-namespace WeeControl.ApiApp.WebApi;
+namespace WeeControl.Host.WebApi;
 
 public class Program
 {

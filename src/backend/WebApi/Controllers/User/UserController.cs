@@ -6,10 +6,9 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Mime;
 using System.Threading.Tasks;
-using WeeControl.ApiApp.Application.Contexts.Essential.Commands;
 using WeeControl.Core.SharedKernel;
 
-namespace WeeControl.ApiApp.WebApi.Controllers.User;
+namespace WeeControl.Host.WebApi.Controllers.User;
 
 [ApiController]
 [Route(ApiRouting.UserRoute)]

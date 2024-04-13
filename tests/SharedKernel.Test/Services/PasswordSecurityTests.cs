@@ -1,4 +1,3 @@
-using WeeControl.Common.SharedKernel.Services;
 using WeeControl.Core.SharedKernel.Interfaces;
 using Xunit;
 

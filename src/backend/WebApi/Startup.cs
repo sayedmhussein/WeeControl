@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using WeeControl.ApiApp.WebApi.Middlewares;
-using WeeControl.ApiApp.WebApi.Services;
-using WeeControl.ApiApp.WebApi.Services.Security;
+using WeeControl.Host.WebApi.Middlewares;
+using WeeControl.Host.WebApi.Services;
+using WeeControl.Host.WebApi.Services.Security;
 
-namespace WeeControl.ApiApp.WebApi;
+namespace WeeControl.Host.WebApi;
 
 public class Startup
 {

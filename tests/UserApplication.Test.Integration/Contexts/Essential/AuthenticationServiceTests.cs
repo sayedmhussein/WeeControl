@@ -1,10 +1,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using WeeControl.ApiApp.WebApi;
 using WeeControl.Core.Application.Interfaces;
 using WeeControl.Frontend.AppService;
 using WeeControl.Frontend.AppService.GuiInterfaces.Authorization;
 using WeeControl.Frontend.Service.UnitTest;
+using WeeControl.Host.WebApi;
 using Xunit;
 
 namespace WeeControl.User.UserApplication.Test.Integration.Contexts.Essential;

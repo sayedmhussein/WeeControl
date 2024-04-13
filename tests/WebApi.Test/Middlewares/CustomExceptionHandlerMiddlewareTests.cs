@@ -2,7 +2,6 @@
 using System;
 using System.Net;
 using System.Threading.Tasks;
-using WeeControl.ApiApp.Application.Exceptions;
 using WeeControl.ApiApp.WebApi.Middlewares;
 using Xunit;
 

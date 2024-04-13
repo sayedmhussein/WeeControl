@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WeeControl.Core.Domain.WeeControl.ApiApp.Domain.Business;
-using WeeControl.Core.Domain.WeeControl.ApiApp.Domain.User;
 
 namespace WeeControl.Core.Application.Interfaces;
 

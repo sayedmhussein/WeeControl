@@ -2,7 +2,6 @@
 using MediatR.Pipeline;
 using System.Threading;
 using System.Threading.Tasks;
-using WeeControl.ApiApp.Application.Contexts.Essential.Notifications;
 
 namespace WeeControl.Core.Application.Behaviours;
 

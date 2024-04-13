@@ -4,10 +4,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using System.Linq;
 using System.Threading.Tasks;
-using WeeControl.ApiApp.Domain.Essential;
 using WeeControl.ApiApp.Infrastructure.Notifications;
 using WeeControl.ApiApp.Persistence;
-using WeeControl.Common.SharedKernel.Services;
 using WeeControl.Frontend.AppService.GuiInterfaces.Authorization;
 using WeeControl.Frontend.Service.UnitTest;
 

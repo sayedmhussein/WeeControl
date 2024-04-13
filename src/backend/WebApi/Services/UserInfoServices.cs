@@ -7,7 +7,7 @@ using System.Security.Claims;
 using WeeControl.Core.Application.Interfaces;
 using WeeControl.Core.SharedKernel;
 
-namespace WeeControl.ApiApp.WebApi.Services;
+namespace WeeControl.Host.WebApi.Services;
 
 public static class UserInfoServices
 {

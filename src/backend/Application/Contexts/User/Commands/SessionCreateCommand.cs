@@ -7,7 +7,6 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using WeeControl.ApiApp.Application.Exceptions;
 using WeeControl.Core.Application.Interfaces;
 using WeeControl.Core.DataTransferObject.User;
 

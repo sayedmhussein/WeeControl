@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
-using WeeControl.ApiApp.WebApi.Services.Security.CustomHandlers.TokenRefreshment;
-using WeeControl.ApiApp.WebApi.Services.Security.Policies;
 using WeeControl.Core.SharedKernel.Interfaces;
 using WeeControl.Core.SharedKernel.Services;
+using WeeControl.Host.WebApi.Services.Security.CustomHandlers.TokenRefreshment;
+using WeeControl.Host.WebApi.Services.Security.Policies;
 
-namespace WeeControl.ApiApp.WebApi.Services.Security;
+namespace WeeControl.Host.WebApi.Services.Security;
 
 internal static class UserSecurityServices
 {

@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using WeeControl.ApiApp.Application.Exceptions;
 using WeeControl.Core.Application.Interfaces;
 
 namespace WeeControl.Core.Application.Contexts.User.Commands;

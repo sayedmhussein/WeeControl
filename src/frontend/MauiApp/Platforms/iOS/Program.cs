@@ -1,6 +1,6 @@
 ﻿using UIKit;
 
-namespace WeeControl.Frontend.MauiApp;
+namespace WeeControl.Frontend.MauiApp.Platforms.iOS;
 
 public class Program
 {

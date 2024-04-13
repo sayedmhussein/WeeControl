@@ -4,8 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using WeeControl.ApiApp.Application.Contexts.Essential.Commands;
-using WeeControl.ApiApp.Domain.Essential;
 using WeeControl.Core.Application.Exceptions;
 using WeeControl.Core.Application.Interfaces;
 using WeeControl.Core.DataTransferObject.Temporary.Entities;

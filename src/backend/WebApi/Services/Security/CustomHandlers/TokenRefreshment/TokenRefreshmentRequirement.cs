@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using System;
 
-namespace WeeControl.ApiApp.WebApi.Services.Security.CustomHandlers.TokenRefreshment;
+namespace WeeControl.Host.WebApi.Services.Security.CustomHandlers.TokenRefreshment;
 
 public class TokenRefreshmentRequirement : IAuthorizationRequirement
 {

@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 [assembly: InternalsVisibleTo("WeeControl.Server.WebApi.Test")]
-namespace WeeControl.ApiApp.WebApi.Services.Security.CustomHandlers.TokenRefreshment;
+namespace WeeControl.Host.WebApi.Services.Security.CustomHandlers.TokenRefreshment;
 
 public class TokenRefreshmentHandler : AuthorizationHandler<TokenRefreshmentRequirement>
 {

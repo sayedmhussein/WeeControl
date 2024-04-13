@@ -4,7 +4,6 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using WeeControl.ApiApp.Application.Exceptions;
 using WeeControl.Core.Application.Interfaces;
 using WeeControl.Core.DataTransferObject.Temporary.User;
 

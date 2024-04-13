@@ -3,7 +3,6 @@ using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using WeeControl.Common.SharedKernel.Services;
 using WeeControl.Core.SharedKernel.Interfaces;
 using WeeControl.Frontend.AppService.DeviceInterfaces;
 using WeeControl.Frontend.AppService.Internals.Services;

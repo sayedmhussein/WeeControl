@@ -6,7 +6,7 @@ using System.Net;
 using System.Threading.Tasks;
 using WeeControl.Core.Application.Exceptions;
 
-namespace WeeControl.ApiApp.WebApi.Middlewares;
+namespace WeeControl.Host.WebApi.Middlewares;
 
 public class CustomExceptionHandlerMiddleware
 {
