@@ -1,5 +1,5 @@
-using WeeControl.Core.DataTransferObject.Contexts.User;
-using WeeControl.Core.SharedKernel.Contexts.User;
+using WeeControl.Core.DataTransferObject.Contexts.Essentials;
+using WeeControl.Core.SharedKernel.Contexts.Essentials;
 using WeeControl.Frontend.AppService.Models;
 
 namespace WeeControl.Frontend.AppService.GuiInterfaces.Home;

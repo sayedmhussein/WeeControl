@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
         <RootNamespace>WeeControl.Frontend.Wasm</RootNamespace>
         <Company>sayed.hussein@gmx.com</Company>
         <Product>WeeControl WebAssembly Application</Product>
         <LangVersion>latest</LangVersion>
+        <TargetFramework>net8.0</TargetFramework>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(RunConfiguration)' == 'Wasm' ">

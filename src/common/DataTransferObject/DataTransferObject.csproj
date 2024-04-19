@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <RootNamespace>WeeControl.Core.DataTransferObject</RootNamespace>
@@ -9,15 +9,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Folder Include="Contexts"/>
+        <Folder Include="Contexts" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\SharedKernel\SharedKernel.csproj"/>
+        <ProjectReference Include="..\SharedKernel\SharedKernel.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Components.DataAnnotations.Validation" Version="3.2.0-rc1.20223.4"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.DataAnnotations.Validation" Version="3.2.0-rc1.20223.4" />
     </ItemGroup>
 
 </Project>

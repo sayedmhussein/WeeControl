@@ -6,9 +6,9 @@ using System.Net.Http.Json;
 using System.Runtime.CompilerServices;
 using System.Text;
 using WeeControl.Core.DataTransferObject.BodyObjects;
-using WeeControl.Core.DataTransferObject.Contexts.User;
-using WeeControl.Core.SharedKernel;
+using WeeControl.Core.DataTransferObject.Contexts.Essentials;
 using WeeControl.Frontend.AppService.Internals.Interfaces;
+using WeeControl.Host.WebApiService.Data;
 
 [assembly: InternalsVisibleTo("ApplicationService.UnitTest")]
 namespace WeeControl.Frontend.AppService.Internals.Services;

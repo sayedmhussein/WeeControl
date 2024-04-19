@@ -13,6 +13,7 @@
     <ItemGroup>
       <ProjectReference Include="..\..\common\DataTransferObject\DataTransferObject.csproj" />
       <ProjectReference Include="..\..\common\SharedKernel\SharedKernel.csproj" />
+      <ProjectReference Include="..\..\host\WebApiService\WebApiService.csproj" />
     </ItemGroup>
 
     <ItemGroup>

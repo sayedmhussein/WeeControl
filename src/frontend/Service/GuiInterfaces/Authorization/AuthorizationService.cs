@@ -1,7 +1,7 @@
 using System.Net;
-using WeeControl.Core.DataTransferObject.Contexts.User;
-using WeeControl.Core.SharedKernel;
+using WeeControl.Core.DataTransferObject.Contexts.Essentials;
 using WeeControl.Frontend.AppService.Internals.Interfaces;
+using WeeControl.Host.WebApiService.Data;
 
 namespace WeeControl.Frontend.AppService.GuiInterfaces.Authorization;
 

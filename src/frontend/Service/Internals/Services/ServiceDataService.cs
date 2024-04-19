@@ -1,6 +1,6 @@
 using System.Security.Claims;
-using WeeControl.Core.SharedKernel;
 using WeeControl.Frontend.AppService.Internals.Interfaces;
+using WeeControl.Host.WebApiService.Data;
 
 namespace WeeControl.Frontend.AppService.Internals.Services;
 

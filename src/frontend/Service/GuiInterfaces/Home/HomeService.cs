@@ -1,11 +1,12 @@
 using System.Net;
 using System.Net.Http.Json;
 using WeeControl.Core.DataTransferObject.BodyObjects;
-using WeeControl.Core.DataTransferObject.Contexts.User;
+using WeeControl.Core.DataTransferObject.Contexts.Essentials;
 using WeeControl.Core.SharedKernel;
-using WeeControl.Core.SharedKernel.Contexts.User;
+using WeeControl.Core.SharedKernel.Contexts.Essentials;
 using WeeControl.Frontend.AppService.Internals.Interfaces;
 using WeeControl.Frontend.AppService.Models;
+using WeeControl.Host.WebApiService.Data;
 
 namespace WeeControl.Frontend.AppService.GuiInterfaces.Home;
 
