@@ -12,13 +12,13 @@
         <ExternalConsole>true</ExternalConsole>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Components.DataAnnotations.Validation" Version="3.2.0-rc1.20223.4" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.4" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="8.0.4" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.4" PrivateAssets="all" />
-        <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
-        <PackageReference Include="MudBlazor" Version="6.19.1" />
-        <PackageReference Include="System.Net.Http.Json" Version="8.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.DataAnnotations.Validation" Version="3.2.0-rc1.20223.4"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.4"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="8.0.4"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.4" PrivateAssets="all"/>
+        <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0"/>
+        <PackageReference Include="MudBlazor" Version="6.19.1"/>
+        <PackageReference Include="System.Net.Http.Json" Version="8.0.0"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -27,29 +27,29 @@
         </EmbeddedResource>
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\..\common\SharedKernel\SharedKernel.csproj" />
-        <ProjectReference Include="..\..\host\WebApiService\WebApiService.csproj" />
+        <ProjectReference Include="..\..\common\SharedKernel\SharedKernel.csproj"/>
+        <ProjectReference Include="..\..\host\WebApiService\WebApiService.csproj"/>
     </ItemGroup>
     <ItemGroup>
-        <AdditionalFiles Include="Pages\Elevator\_Imports.razor" />
-        <AdditionalFiles Include="Pages\Elevator\Admin\Components\TerritoryComponent.razor" />
-        <AdditionalFiles Include="Pages\Elevator\Admin\Components\UsersComponent.razor" />
+        <AdditionalFiles Include="Pages\Elevator\_Imports.razor"/>
+        <AdditionalFiles Include="Pages\Elevator\Admin\Components\TerritoryComponent.razor"/>
+        <AdditionalFiles Include="Pages\Elevator\Admin\Components\UsersComponent.razor"/>
     </ItemGroup>
     <ItemGroup>
-        <_ContentIncludedByDefault Remove="Pages\Business\Admin\AdminPage.razor" />
-        <_ContentIncludedByDefault Remove="Pages\Business\Admin\ListOfTerritories.razor" />
-        <_ContentIncludedByDefault Remove="Pages\Business\Admin\TerritoryEditComponent.razor" />
-        <_ContentIncludedByDefault Remove="Pages\Business\Admin\TerritoryListComponent.razor" />
-        <_ContentIncludedByDefault Remove="Pages\Business\Admin\UserData.razor" />
-        <_ContentIncludedByDefault Remove="Pages\Customer\Authentication\LogoutPage.razor" />
-        <_ContentIncludedByDefault Remove="Pages\Customer\Authentication\_Imports.razor" />
-        <_ContentIncludedByDefault Remove="Pages\Customer\Admin\AdminPage.razor" />
-        <_ContentIncludedByDefault Remove="Pages\Customer\Admin\TerritoryComponent.razor" />
-        <_ContentIncludedByDefault Remove="Pages\Customer\Admin\UsersComponent.razor" />
+        <_ContentIncludedByDefault Remove="Pages\Business\Admin\AdminPage.razor"/>
+        <_ContentIncludedByDefault Remove="Pages\Business\Admin\ListOfTerritories.razor"/>
+        <_ContentIncludedByDefault Remove="Pages\Business\Admin\TerritoryEditComponent.razor"/>
+        <_ContentIncludedByDefault Remove="Pages\Business\Admin\TerritoryListComponent.razor"/>
+        <_ContentIncludedByDefault Remove="Pages\Business\Admin\UserData.razor"/>
+        <_ContentIncludedByDefault Remove="Pages\Customer\Authentication\LogoutPage.razor"/>
+        <_ContentIncludedByDefault Remove="Pages\Customer\Authentication\_Imports.razor"/>
+        <_ContentIncludedByDefault Remove="Pages\Customer\Admin\AdminPage.razor"/>
+        <_ContentIncludedByDefault Remove="Pages\Customer\Admin\TerritoryComponent.razor"/>
+        <_ContentIncludedByDefault Remove="Pages\Customer\Admin\UsersComponent.razor"/>
     </ItemGroup>
     <ItemGroup>
-        <Content Remove="Pages\Essentials\UserPage.razor" />
-        <Content Remove="Pages\Essentials\Components\PasswordForgotComponent.razor" />
-        <Content Remove="Pages\Essentials\Components\PasswordChangeComponent.razor" />
+        <Content Remove="Pages\Essentials\UserPage.razor"/>
+        <Content Remove="Pages\Essentials\Components\PasswordForgotComponent.razor"/>
+        <Content Remove="Pages\Essentials\Components\PasswordChangeComponent.razor"/>
     </ItemGroup>
 </Project>

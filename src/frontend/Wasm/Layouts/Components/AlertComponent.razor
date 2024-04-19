@@ -1,6 +1,4 @@
-﻿
-
-<MudDialog>
+﻿<MudDialog>
     <DialogContent>
         @Message
     </DialogContent>
@@ -14,16 +12,21 @@
 </MudDialog>
 
 @code {
-    [CascadingParameter] 
-    MudDialogInstance MudDialog { get; set; }
-    
-    [Parameter]
-    public string Message { get; set; }
-    
-    [Parameter]
-    public bool ShowCancel { get; set; }
 
-    void Submit() => MudDialog.Close(DialogResult.Ok(true));
-    void Cancel() => MudDialog.Cancel();
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Parameter] public string Message { get; set; }
+
+    [Parameter] public bool ShowCancel { get; set; }
+
+    void Submit()
+    {
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+
+    void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
 }
-

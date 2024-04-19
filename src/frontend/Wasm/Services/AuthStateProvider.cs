@@ -1,7 +1,6 @@
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Authorization;
-using WeeControl.Host.WebApiService;
 using WeeControl.Host.WebApiService.Interfaces;
 
 namespace WeeControl.Frontend.Wasm.Services;

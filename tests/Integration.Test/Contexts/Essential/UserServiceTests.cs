@@ -46,7 +46,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
             OldPassword = CoreTestHelper.Password, NewPassword = "NewPassword"
         });
 
-        helper.GuiMock.Verify(x => x.DisplayAlert(It.IsAny<string>(),It.IsAny<IGui.Severity>()));
+        helper.GuiMock.Verify(x => x.DisplayAlert(It.IsAny<string>(), It.IsAny<IGui.Severity>()));
         helper.GuiMock.Verify(x =>
             x.NavigateTo(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
     }

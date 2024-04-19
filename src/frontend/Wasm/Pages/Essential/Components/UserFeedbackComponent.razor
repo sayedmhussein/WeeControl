@@ -1,5 +1,5 @@
-﻿@using WeeControl.Host.WebApiService.DeviceInterfaces
-@using WeeControl.Host.WebApiService.Contexts.Essentials
+﻿@using WeeControl.Host.WebApiService.Contexts.Essentials
+@using WeeControl.Host.WebApiService.DeviceInterfaces
 @inject IGui Gui
 @inject IHomeService HomeService
 
@@ -43,7 +43,7 @@
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     private readonly string feedbackText = string.Empty;
     private readonly IList<IBrowserFile> files = new List<IBrowserFile>();
-    
+
     private void UploadFiles(IReadOnlyList<IBrowserFile> files)
     {
         foreach (var file in files)
@@ -57,6 +57,10 @@
         MudDialog.Close(DialogResult.Ok(true));
         await HomeService.SendFeedback(feedbackText, files);
     }
-    
-    void Cancel() => MudDialog.Cancel();
+
+    void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
 }

@@ -21,7 +21,7 @@ internal class AuthenticationService : IAuthenticationService
         this.security = security;
         this.storage = storage;
     }
-    
+
     public async Task Register(UserProfileDto dto)
     {
         if (!dto.Person.IsValidEntityModel())

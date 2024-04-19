@@ -29,7 +29,6 @@ public class StandardPasswordAttributeTests
 
     private class TestObject : IEntityModel
     {
-        [StandardPassword] 
-        public string TestString { get; set; } = string.Empty;
+        [StandardPassword] public string TestString { get; set; } = string.Empty;
     }
 }

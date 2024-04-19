@@ -2,7 +2,6 @@ using WeeControl.Core.DataTransferObject.Contexts.Essentials;
 using WeeControl.Core.Test;
 using WeeControl.Host.Test.ApiService;
 using WeeControl.Host.WebApi;
-using WeeControl.Host.WebApiService;
 using WeeControl.Host.WebApiService.Contexts.Essentials;
 using WeeControl.Host.WebApiService.Data;
 using WeeControl.Host.WebApiService.DeviceInterfaces;
@@ -18,7 +17,7 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
     {
         this.factory = factory;
     }
-    
+
     [Theory]
     [InlineData(false, false)]
     [InlineData(true, false)]
@@ -203,5 +202,6 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
         helper.GuiMock.Verify(x =>
             x.NavigateTo(ApplicationPages.Essential.HomePage, It.IsAny<bool>()), Times.Never);
     }
+
     #endregion
 }

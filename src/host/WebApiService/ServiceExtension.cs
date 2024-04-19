@@ -8,6 +8,7 @@ using WeeControl.Host.WebApiService.Internals.Interfaces;
 using WeeControl.Host.WebApiService.Internals.Services;
 
 [assembly: InternalsVisibleTo("Host.Test")]
+
 namespace WeeControl.Host.WebApiService;
 
 public static class ServiceExtension

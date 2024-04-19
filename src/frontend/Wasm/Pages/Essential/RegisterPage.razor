@@ -1,7 +1,7 @@
+@using System.ComponentModel.DataAnnotations.Schema
+@using WeeControl.Core.DataTransferObject.Contexts.Essentials
 @using WeeControl.Host.WebApiService.Contexts.Essentials
 @using WeeControl.Host.WebApiService.Data
-@using WeeControl.Core.DataTransferObject.Contexts.Essentials
-@using System.ComponentModel.DataAnnotations.Schema
 @using WeeControl.Host.WebApiService.Interfaces
 @attribute [Route(ApplicationPages.Essential.RegisterPage)]
 @attribute [AllowAnonymous]
@@ -128,11 +128,9 @@
 
     private class ModifiedModel : UserProfileDto
     {
-        [NotMapped]
-        public string ConfirmPassword { get; set; }
+        [NotMapped] public string ConfirmPassword { get; set; }
 
-        [NotMapped]
-        public bool Acknowledgment { get; set; }
+        [NotMapped] public bool Acknowledgment { get; set; }
     }
 
 }

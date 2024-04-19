@@ -13,9 +13,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
-        <PackageReference Include="Moq" Version="4.18.4" />
-        <PackageReference Include="xunit" Version="2.4.2" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0"/>
+        <PackageReference Include="Moq" Version="4.18.4"/>
+        <PackageReference Include="xunit" Version="2.4.2"/>
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
@@ -27,13 +27,13 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\backend\WebApi\WebApi.csproj" />
-        <ProjectReference Include="..\..\src\host\WebApiService\WebApiService.csproj" />
-        <ProjectReference Include="..\Core.Test\Core.Test.csproj" />
+        <ProjectReference Include="..\..\src\backend\WebApi\WebApi.csproj"/>
+        <ProjectReference Include="..\..\src\host\WebApiService\WebApiService.csproj"/>
+        <ProjectReference Include="..\Core.Test\Core.Test.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Api" />
+        <Folder Include="Api"/>
     </ItemGroup>
 
 </Project>

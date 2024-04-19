@@ -1,7 +1,6 @@
-@using WeeControl.Host.WebApiService
+@using WeeControl.Frontend.Wasm.Pages.Essential.Components
 @using WeeControl.Host.WebApiService.Data
 @using WeeControl.Host.WebApiService.DeviceInterfaces
-@using WeeControl.Frontend.Wasm.Pages.Essential.Components
 @using WeeControl.Host.WebApiService.Interfaces
 @inject ISecurity Security
 @inject IGui Gui
@@ -41,14 +40,11 @@
 
 @code
 {
-    [Parameter]
-    public IEnumerable<string> Pages { get; set; }
+    [Parameter] public IEnumerable<string> Pages { get; set; }
 
-    [Parameter]
-    public bool IsEmployee { get; set; }
+    [Parameter] public bool IsEmployee { get; set; }
 
-    [Parameter]
-    public bool IsCustomer { get; set; }
+    [Parameter] public bool IsCustomer { get; set; }
 
     private Task SendFeedbackClicked()
     {
@@ -56,9 +52,9 @@
         {
             CloseOnEscapeKey = true, CloseButton = true
         };
-        
+
         DialogService.Show<UserFeedbackComponent>("Sending Feedback", options);
-        
+
         return Task.CompletedTask;
     }
 }

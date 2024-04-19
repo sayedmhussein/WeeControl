@@ -26,7 +26,7 @@ internal class HomeService : IHomeService
 
     public IEnumerable<HomeNotificationModel> Notifications { get; private set; } = new List<HomeNotificationModel>();
     public IEnumerable<HomeFeedModel> Feeds { get; private set; } = new List<HomeFeedModel>();
-    public UserDataModel UserData { get; private set; } = new UserDataModel();
+    public UserDataModel UserData { get; } = new();
 
     public async Task<bool> PullData()
     {
@@ -73,7 +73,7 @@ internal class HomeService : IHomeService
 
         return response;
     }
-    
+
     public async Task ChangePassword(UserPasswordChangeRequestDto dto)
     {
         if (dto.IsValidEntityModel() == false)

@@ -4,9 +4,13 @@ public interface IGui
 {
     enum Severity
     {
-        Normal, Success, Info, Warning, Error
+        Normal,
+        Success,
+        Info,
+        Warning,
+        Error
     }
-    
+
     string CurrentPageName { get; }
 
     Task DisplayAlert(string message, Severity severity = Severity.Normal);

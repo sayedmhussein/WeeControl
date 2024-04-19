@@ -9,7 +9,7 @@ public interface IHomeService
     UserDataModel UserData { get; }
     IEnumerable<HomeNotificationModel> Notifications { get; }
     IEnumerable<HomeFeedModel> Feeds { get; }
-    
+
     Task<bool> PullData();
     Task MarkNotificationAsViewed(Guid id);
     Task ChangePassword(UserPasswordChangeRequestDto dto);

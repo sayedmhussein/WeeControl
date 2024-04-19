@@ -14,7 +14,7 @@ public class ConstantValueServiceTests
         Assert.NotNull(countries);
         Assert.NotEmpty(countries);
     }
-    
+
     [Fact]
     public void CitiesListShouldNotBeEmptyOrNull()
     {
