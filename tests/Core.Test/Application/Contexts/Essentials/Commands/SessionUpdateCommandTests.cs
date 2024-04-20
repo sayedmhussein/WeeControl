@@ -25,7 +25,7 @@ public class SessionUpdateCommandTests
 
     private SessionUpdateCommand.UserTokenHandler GetHandler(CoreTestHelper coreTestHelper)
     {
-        coreTestHelper.ConfigurationMock.Setup(x => x["Jwt:Key"]).Returns(new string('a', 30));
+        coreTestHelper.ConfigurationMock.Setup(x => x["Jwt:Key"]).Returns(new string('a', 40));
         return new SessionUpdateCommand.UserTokenHandler(
             coreTestHelper.EssentialDb,
             coreTestHelper.JwtService,

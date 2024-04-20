@@ -116,7 +116,7 @@ public class DeviceSecurityTests
         else
             ci.AddClaims(claims);
 
-        var key = Encoding.ASCII.GetBytes(new string('x', 30));
+        var key = Encoding.ASCII.GetBytes(new string('x', 40));
         var token = testingService.GetService<IJwtService>().GenerateToken(new SecurityTokenDescriptor
         {
             Subject = ci,

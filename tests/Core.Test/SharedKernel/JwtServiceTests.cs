@@ -8,7 +8,7 @@ namespace WeeControl.Core.Test.SharedKernel;
 
 public class JwtServiceTests
 {
-    private readonly string securityKey = new('a', 30);
+    private readonly string securityKey = new('a', 40);
     private readonly IJwtService service;
 
     public JwtServiceTests()
