@@ -30,7 +30,6 @@
         <ProjectReference Include="..\..\src\backend\Application\Application.csproj"/>
         <ProjectReference Include="..\..\src\backend\Domain\Domain.csproj"/>
         <ProjectReference Include="..\..\src\backend\Persistence\Persistence.csproj"/>
-        <ProjectReference Include="..\..\src\common\DataTransferObject\DataTransferObject.csproj"/>
         <ProjectReference Include="..\..\src\common\SharedKernel\SharedKernel.csproj"/>
     </ItemGroup>
 

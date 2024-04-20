@@ -1,7 +1,7 @@
 using System.Net;
 using Microsoft.AspNetCore.Components.Forms;
-using WeeControl.Core.DataTransferObject.Contexts.Essentials;
-using WeeControl.Core.SharedKernel.Contexts.Essentials;
+using WeeControl.Core.DomainModel.Essentials;
+using WeeControl.Core.DomainModel.Essentials.Dto;
 using WeeControl.Core.SharedKernel.ExtensionMethods;
 using WeeControl.Host.WebApiService.Data;
 using WeeControl.Host.WebApiService.DeviceInterfaces;

@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WeeControl.Core.Application.Contexts.Essentials.Commands;
 using WeeControl.Core.Application.Contexts.Essentials.Queries;
-using WeeControl.Core.DataTransferObject.BodyObjects;
-using WeeControl.Core.DataTransferObject.Contexts.Essentials;
+using WeeControl.Core.DomainModel.Essentials.Dto;
+using WeeControl.Core.SharedKernel.DtoParent;
 using WeeControl.Host.WebApiService.Data;
 
 namespace WeeControl.Host.WebApi.Controllers.Essentials;

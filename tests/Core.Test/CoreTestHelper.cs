@@ -8,7 +8,7 @@ using WeeControl.Core.Application.Interfaces;
 using WeeControl.Core.Application.Services;
 using WeeControl.Core.Domain.Contexts.Essentials;
 using WeeControl.Core.Domain.Interfaces;
-using WeeControl.Core.SharedKernel.Contexts.Essentials;
+using WeeControl.Core.DomainModel.Essentials;
 using WeeControl.Core.SharedKernel.Interfaces;
 using WeeControl.Core.SharedKernel.Services;
 

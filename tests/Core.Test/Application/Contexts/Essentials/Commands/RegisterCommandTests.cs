@@ -1,8 +1,8 @@
 ﻿using Moq;
 using WeeControl.Core.Application.Contexts.Essentials.Commands;
 using WeeControl.Core.Application.Exceptions;
-using WeeControl.Core.DataTransferObject.BodyObjects;
-using WeeControl.Core.DataTransferObject.Contexts.Essentials;
+using WeeControl.Core.DomainModel.Essentials.Dto;
+using WeeControl.Core.SharedKernel.DtoParent;
 using WeeControl.Core.SharedKernel.Exceptions;
 
 namespace WeeControl.Core.Test.Application.Contexts.Essentials.Commands;

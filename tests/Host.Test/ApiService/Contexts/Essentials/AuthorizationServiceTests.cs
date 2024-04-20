@@ -1,5 +1,5 @@
 using System.Net;
-using WeeControl.Core.DataTransferObject.Contexts.Essentials;
+using WeeControl.Core.DomainModel.Essentials.Dto;
 using WeeControl.Host.WebApiService.Contexts.Essentials;
 using WeeControl.Host.WebApiService.Data;
 using WeeControl.Host.WebApiService.DeviceInterfaces;

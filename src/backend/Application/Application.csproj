@@ -23,7 +23,6 @@
         <None Remove="BoundContexts\Shared\Notifications\"/>
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\..\common\DataTransferObject\DataTransferObject.csproj"/>
         <ProjectReference Include="..\Domain\Domain.csproj"/>
     </ItemGroup>
 </Project>

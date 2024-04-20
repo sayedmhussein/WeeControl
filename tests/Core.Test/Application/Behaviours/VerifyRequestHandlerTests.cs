@@ -1,7 +1,7 @@
 using MediatR;
 using WeeControl.Core.Application.Behaviours;
-using WeeControl.Core.DataTransferObject.BodyObjects;
-using WeeControl.Core.DataTransferObject.Contexts.Essentials;
+using WeeControl.Core.DomainModel.Essentials.Dto;
+using WeeControl.Core.SharedKernel.DtoParent;
 using WeeControl.Core.SharedKernel.Exceptions;
 
 namespace WeeControl.Core.Test.Application.Behaviours;

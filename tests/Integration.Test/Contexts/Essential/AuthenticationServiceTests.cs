@@ -1,4 +1,4 @@
-using WeeControl.Core.DataTransferObject.Contexts.Essentials;
+using WeeControl.Core.DomainModel.Essentials.Dto;
 using WeeControl.Core.Test;
 using WeeControl.Host.Test.ApiService;
 using WeeControl.Host.WebApi;

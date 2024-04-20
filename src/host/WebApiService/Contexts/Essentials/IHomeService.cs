@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components.Forms;
-using WeeControl.Core.DataTransferObject.Contexts.Essentials;
-using WeeControl.Core.SharedKernel.Contexts.Essentials;
+using WeeControl.Core.DomainModel.Essentials;
+using WeeControl.Core.DomainModel.Essentials.Dto;
 
 namespace WeeControl.Host.WebApiService.Contexts.Essentials;
 

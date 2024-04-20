@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using MediatR.Pipeline;
-using WeeControl.Core.DataTransferObject.BodyObjects;
+using WeeControl.Core.SharedKernel.DtoParent;
 using WeeControl.Core.SharedKernel.ExtensionMethods;
 
 namespace WeeControl.Core.Application.Behaviours;
