@@ -10,7 +10,7 @@ using WeeControl.Core.Domain.Interfaces;
 using WeeControl.Core.DomainModel.Essentials;
 using WeeControl.Core.DomainModel.Essentials.Dto;
 using WeeControl.Core.SharedKernel.DtoParent;
-using WeeControl.Core.SharedKernel.ExtensionMethods;
+using WeeControl.Core.SharedKernel.ExtensionHelpers;
 
 namespace WeeControl.Core.Application.Contexts.Essentials.Commands;
 

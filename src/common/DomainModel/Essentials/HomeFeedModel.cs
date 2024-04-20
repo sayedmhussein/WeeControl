@@ -3,7 +3,7 @@ using WeeControl.Core.SharedKernel.Interfaces;
 
 namespace WeeControl.Core.DomainModel.Essentials;
 
-public class HomeFeedModel : IEntityModel
+public class HomeFeedModel : IValidatableModel
 {
     [Required] [StringLength(55)] public string FeedSubject { get; init; } = string.Empty;
 

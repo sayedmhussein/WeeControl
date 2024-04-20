@@ -5,7 +5,7 @@ using WeeControl.Core.SharedKernel.Interfaces;
 
 namespace WeeControl.Core.DomainModel.Essentials.Dto;
 
-public class UserPasswordChangeRequestDto : IEntityModel
+public class UserPasswordChangeRequestDto : IValidatableModel
 {
     [Required(ErrorMessage = "Old Password is required")]
     [StringLength(128, MinimumLength = 3, ErrorMessage = "Password length is between 3 and 128 letters.")]

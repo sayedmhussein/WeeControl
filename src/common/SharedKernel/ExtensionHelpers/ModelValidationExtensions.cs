@@ -2,32 +2,32 @@
 using WeeControl.Core.SharedKernel.Exceptions;
 using WeeControl.Core.SharedKernel.Interfaces;
 
-namespace WeeControl.Core.SharedKernel.ExtensionMethods;
+namespace WeeControl.Core.SharedKernel.ExtensionHelpers;
 
 public static class ModelValidationExtensions
 {
-    public static IDictionary<string, string?[]> GetModelValidationErrors(this IEntityModel entity)
+    public static IDictionary<string, string?[]> GetModelValidationErrors(this IValidatableModel validatable)
     {
-        return GetErrors(entity);
+        return GetErrors(validatable);
     }
 
-    public static string GetFirstValidationError(this IEntityModel entity)
+    public static string GetFirstValidationError(this IValidatableModel validatable)
     {
-        var errors = GetErrors(entity);
+        var errors = GetErrors(validatable);
         if (!errors.Any()) return string.Empty;
 
         var pair = errors.First();
         return pair.Key + " - " + pair.Value.FirstOrDefault();
     }
 
-    public static bool IsValidEntityModel(this IEntityModel entity)
+    public static bool IsValidEntityModel(this IValidatableModel validatable)
     {
-        return !GetModelValidationErrors(entity).Any();
+        return !GetModelValidationErrors(validatable).Any();
     }
 
-    public static void ThrowExceptionIfEntityModelNotValid(this IEntityModel entity)
+    public static void ThrowExceptionIfEntityModelNotValid(this IValidatableModel validatable)
     {
-        var errors = GetModelValidationErrors(entity);
+        var errors = GetModelValidationErrors(validatable);
         if (errors.Any())
             throw new EntityModelValidationException(errors);
     }

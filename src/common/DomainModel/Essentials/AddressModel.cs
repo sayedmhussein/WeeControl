@@ -3,7 +3,7 @@ using WeeControl.Core.SharedKernel.Interfaces;
 
 namespace WeeControl.Core.DomainModel.Essentials;
 
-public class AddressModel : IEntityModel
+public class AddressModel : IValidatableModel
 {
     [StringLength(25)] public string Line1 { get; set; } = string.Empty;
 

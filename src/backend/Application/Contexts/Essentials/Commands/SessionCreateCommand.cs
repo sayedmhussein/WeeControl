@@ -15,7 +15,7 @@ using WeeControl.Core.Domain.Interfaces;
 using WeeControl.Core.DomainModel.Essentials.Dto;
 using WeeControl.Core.SharedKernel;
 using WeeControl.Core.SharedKernel.DtoParent;
-using WeeControl.Core.SharedKernel.ExtensionMethods;
+using WeeControl.Core.SharedKernel.ExtensionHelpers;
 using WeeControl.Core.SharedKernel.Interfaces;
 
 namespace WeeControl.Core.Application.Contexts.Essentials.Commands;

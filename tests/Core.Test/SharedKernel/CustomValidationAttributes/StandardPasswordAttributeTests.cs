@@ -1,6 +1,6 @@
 ﻿using WeeControl.Core.SharedKernel.CustomValidationAttributes;
 using WeeControl.Core.SharedKernel.Exceptions;
-using WeeControl.Core.SharedKernel.ExtensionMethods;
+using WeeControl.Core.SharedKernel.ExtensionHelpers;
 using WeeControl.Core.SharedKernel.Interfaces;
 
 namespace WeeControl.Core.Test.SharedKernel.CustomValidationAttributes;
@@ -27,7 +27,7 @@ public class StandardPasswordAttributeTests
             Assert.Throws<EntityModelValidationException>(() => test.ThrowExceptionIfEntityModelNotValid());
     }
 
-    private class TestObject : IEntityModel
+    private class TestObject : IValidatableModel
     {
         [StandardPassword] public string TestString { get; set; } = string.Empty;
     }

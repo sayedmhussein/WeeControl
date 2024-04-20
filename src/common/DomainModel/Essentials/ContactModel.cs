@@ -3,7 +3,7 @@ using WeeControl.Core.SharedKernel.Interfaces;
 
 namespace WeeControl.Core.DomainModel.Essentials;
 
-public class ContactModel : IEntityModel
+public class ContactModel : IValidatableModel
 {
     public enum ContactTypeEnum
     {

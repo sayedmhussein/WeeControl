@@ -4,7 +4,7 @@ using WeeControl.Core.SharedKernel.Interfaces;
 
 namespace WeeControl.Core.DomainModel.Essentials;
 
-public class HomeNotificationModel : IEntityModel
+public class HomeNotificationModel : IValidatableModel
 {
     public Guid NotificationId { get; set; }
 

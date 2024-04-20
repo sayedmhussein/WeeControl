@@ -3,7 +3,7 @@ using WeeControl.Core.SharedKernel.Interfaces;
 
 namespace WeeControl.Core.DomainModel.Essentials.Dto;
 
-public class UserPasswordResetRequestDto : IEntityModel
+public class UserPasswordResetRequestDto : IValidatableModel
 {
     [Required] [StringLength(255)] public string Username { get; set; } = string.Empty;
 

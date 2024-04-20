@@ -4,7 +4,7 @@ using WeeControl.Core.SharedKernel.Interfaces;
 
 namespace WeeControl.Core.DomainModel.Essentials;
 
-public class EmployeeModel : IEntityModel
+public class EmployeeModel : IValidatableModel
 {
     [Required] [StringLength(45)] public string EmployeeNo { get; set; } = string.Empty;
 

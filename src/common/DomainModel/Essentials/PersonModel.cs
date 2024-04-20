@@ -3,7 +3,7 @@ using WeeControl.Core.SharedKernel.Interfaces;
 
 namespace WeeControl.Core.DomainModel.Essentials;
 
-public class PersonModel : IEntityModel
+public class PersonModel : IValidatableModel
 {
     [Required]
     [StringLength(45, MinimumLength = 1)]

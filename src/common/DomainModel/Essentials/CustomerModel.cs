@@ -3,7 +3,7 @@ using WeeControl.Core.SharedKernel.Interfaces;
 
 namespace WeeControl.Core.DomainModel.Essentials;
 
-public class CustomerModel : IEntityModel
+public class CustomerModel : IValidatableModel
 {
     [Required] [StringLength(25)] public string CustomerName { get; set; } = string.Empty;
 

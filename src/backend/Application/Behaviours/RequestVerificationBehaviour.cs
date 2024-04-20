@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using MediatR.Pipeline;
 using WeeControl.Core.SharedKernel.DtoParent;
-using WeeControl.Core.SharedKernel.ExtensionMethods;
+using WeeControl.Core.SharedKernel.ExtensionHelpers;
 
 namespace WeeControl.Core.Application.Behaviours;
 

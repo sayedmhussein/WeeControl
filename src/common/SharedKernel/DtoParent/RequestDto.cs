@@ -3,7 +3,7 @@ using WeeControl.Core.SharedKernel.Interfaces;
 
 namespace WeeControl.Core.SharedKernel.DtoParent;
 
-public class RequestDto : IRequestDto, IEntityModel
+public class RequestDto : IRequestDto, IValidatableModel
 {
     internal RequestDto()
     {

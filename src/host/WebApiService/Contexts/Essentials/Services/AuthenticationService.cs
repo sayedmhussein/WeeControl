@@ -1,6 +1,6 @@
 using System.Net;
 using WeeControl.Core.DomainModel.Essentials.Dto;
-using WeeControl.Core.SharedKernel.ExtensionMethods;
+using WeeControl.Core.SharedKernel.ExtensionHelpers;
 using WeeControl.Host.WebApiService.Data;
 using WeeControl.Host.WebApiService.DeviceInterfaces;
 using WeeControl.Host.WebApiService.Internals.Interfaces;

@@ -4,7 +4,7 @@ using WeeControl.Core.SharedKernel.Interfaces;
 
 namespace WeeControl.Core.DomainModel.Essentials;
 
-public class UserModel : IEntityModel
+public class UserModel : IValidatableModel
 {
     [Required]
     [StringLength(500, MinimumLength = 3)]

@@ -2,7 +2,7 @@
 
 namespace WeeControl.Core.SharedKernel.DtoParent;
 
-public interface IRequestDto : IEntityModel
+public interface IRequestDto : IValidatableModel
 {
     string DeviceId { get; init; }
 

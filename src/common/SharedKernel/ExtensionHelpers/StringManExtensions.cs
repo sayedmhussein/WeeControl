@@ -1,4 +1,4 @@
-﻿namespace WeeControl.Core.SharedKernel.ExtensionMethods;
+﻿namespace WeeControl.Core.SharedKernel.ExtensionHelpers;
 
 public static class StringManExtensions
 {

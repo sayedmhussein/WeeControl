@@ -4,7 +4,7 @@ using WeeControl.Core.SharedKernel.Interfaces;
 
 namespace WeeControl.Core.DomainModel.Essentials.Dto;
 
-public class LoginRequestDto : IEntityModel
+public class LoginRequestDto : IValidatableModel
 {
     [Required(ErrorMessage = "You must enter either your username or your email.")]
     [StringLength(45, MinimumLength = 3, ErrorMessage = "Username or email should be between 3 and 45 character.")]

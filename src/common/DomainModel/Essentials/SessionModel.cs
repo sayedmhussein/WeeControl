@@ -3,7 +3,7 @@ using WeeControl.Core.SharedKernel.Interfaces;
 
 namespace WeeControl.Core.DomainModel.Essentials;
 
-public class SessionModel : IEntityModel
+public class SessionModel : IValidatableModel
 {
     [Required] public DateTime CreatedTs { get; set; } = DateTime.UtcNow;
 

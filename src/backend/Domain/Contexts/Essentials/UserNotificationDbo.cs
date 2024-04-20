@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WeeControl.Core.DomainModel.Essentials;
 using WeeControl.Core.SharedKernel.Exceptions;
-using WeeControl.Core.SharedKernel.ExtensionMethods;
+using WeeControl.Core.SharedKernel.ExtensionHelpers;
 
 namespace WeeControl.Core.Domain.Contexts.Essentials;
 
