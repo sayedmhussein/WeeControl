@@ -1,4 +1,4 @@
-namespace WeeControl.Core.DomainModel.Contexts.Business.Elevator.Interfaces;
+namespace WeeControl.Core.DomainModel.Business.Elevator.Interfaces;
 
 public interface IPortfolioModel : IFieldDataModel
 {

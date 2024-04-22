@@ -10,8 +10,8 @@ public class PersonModel : IValidatableModel
     [Display(Name = "First Name")]
     public string FirstName { get; set; } = string.Empty;
 
-    [Display(Name = "Second Name")]
     [StringLength(45)]
+    [Display(Name = "Second Name")]
     public string? SecondName { get; set; } = string.Empty;
 
     [StringLength(45)] public string? ThirdName { get; set; } = string.Empty;

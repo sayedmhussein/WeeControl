@@ -1,6 +1,6 @@
-using WeeControl.Core.DomainModel.Contexts.Business.Elevator.Enums;
+using WeeControl.Core.DomainModel.Business.Elevator.Enums;
 
-namespace WeeControl.Core.DomainModel.Contexts.Business.Elevator.Interfaces;
+namespace WeeControl.Core.DomainModel.Business.Elevator.Interfaces;
 
 public interface IBuildingModel
 {

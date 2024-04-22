@@ -1,6 +1,6 @@
-using WeeControl.Core.DomainModel.Contexts.Business.Elevator.Enums;
+using WeeControl.Core.DomainModel.Business.Elevator.Enums;
 
-namespace WeeControl.Core.DomainModel.Contexts.Business.FieldOperation;
+namespace WeeControl.Core.DomainModel.Business.FieldOperation;
 
 public class RouteSheetDto
 {

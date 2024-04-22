@@ -34,6 +34,11 @@ public class AuthorizationController : Controller
         return Ok();
     }
 
+    /// <summary>
+    /// Create Token using username/email + password
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <returns></returns>
     [AllowAnonymous]
     [HttpPost]
     [MapToApiVersion("1.0")]

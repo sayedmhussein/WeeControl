@@ -1,4 +1,4 @@
-namespace WeeControl.Core.DomainModel.Contexts.Business.Elevator.Enums;
+namespace WeeControl.Core.DomainModel.Business.Elevator.Enums;
 
 public enum UnitStateTypeEnum
 {

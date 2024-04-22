@@ -2,9 +2,4 @@
 
 namespace WeeControl.Core.Application.Exceptions;
 
-public class NotAllowedException : Exception
-{
-    public NotAllowedException(string msg) : base(msg)
-    {
-    }
-}
+public class NotAllowedException(string msg) : Exception(msg);

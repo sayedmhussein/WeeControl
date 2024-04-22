@@ -2,9 +2,4 @@
 
 namespace WeeControl.Core.Application.Exceptions;
 
-public class DeleteFailureException : Exception
-{
-    public DeleteFailureException(string message) : base(message)
-    {
-    }
-}
+public class DeleteFailureException(string message) : Exception(message);

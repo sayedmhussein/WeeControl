@@ -1,12 +1,7 @@
 ﻿namespace WeeControl.Core.SharedKernel.Exceptions;
 
-public class EntityModelValidationException : ArgumentException
+public class EntityModelValidationException(IDictionary<string, string?[]> errors)
+    : ArgumentException("Entity model has invalid data, check failures property.")
 {
-    public EntityModelValidationException(IDictionary<string, string?[]> errors) : base(
-        "Entity model has invalid data, check failures property.")
-    {
-        Failures = errors;
-    }
-
-    public IDictionary<string, string?[]> Failures { get; }
+    public IDictionary<string, string?[]> Failures { get; } = errors;
 }

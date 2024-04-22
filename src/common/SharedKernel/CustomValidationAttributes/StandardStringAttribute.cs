@@ -73,7 +73,7 @@ public class StandardStringAttribute : ValidationAttribute
         {
             sp.Append(", and not include \"");
             sp.Append(reject);
-            sp.Append("\"");
+            sp.Append('"');
         }
 
         sp.Append('.');

@@ -2,9 +2,4 @@
 
 namespace WeeControl.Core.Application.Exceptions;
 
-public class NotFoundException : Exception
-{
-    public NotFoundException(string reason) : base(reason)
-    {
-    }
-}
+public class NotFoundException(string reason) : Exception(reason);

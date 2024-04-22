@@ -6,15 +6,8 @@ using WeeControl.Core.Application.Contexts.Essentials.Notifications;
 
 namespace WeeControl.Core.Application.Behaviours;
 
-public class RequestLogger<TRequest> : IRequestPreProcessor<TRequest>
+public class RequestLogger<TRequest>(IMediator mediator) : IRequestPreProcessor<TRequest>
 {
-    private readonly IMediator mediator;
-
-    public RequestLogger(IMediator mediator)
-    {
-        this.mediator = mediator;
-    }
-
     public async Task Process(TRequest request, CancellationToken cancellationToken)
     {
         var name = typeof(TRequest).Name;
