@@ -17,7 +17,7 @@ public class CustomerDbo : CustomerModel
     [Key] public Guid CustomerId { get; }
 
     public Guid UserId { get; set; }
-    public UserDbo User { get; set; }
+    public PersonDbo User { get; set; }
 
     public static CustomerDbo Create(Guid userId, CustomerModel model)
     {

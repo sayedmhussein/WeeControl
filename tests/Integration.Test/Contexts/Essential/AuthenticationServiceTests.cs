@@ -108,7 +108,7 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
     {
         using var helper = new HostTestHelper(factory.CreateCustomClient(db =>
         {
-            var user = db.Users.First();
+            var user = db.Person.First();
             user.Suspend("For Testing");
             db.SaveChanges();
         }));
@@ -187,7 +187,7 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
     {
         using var helper = new HostTestHelper(factory.CreateCustomClient(e =>
         {
-            var user = e.Users.First();
+            var user = e.Person.First();
             user.Suspend("for testing");
             e.SaveChanges();
         }));

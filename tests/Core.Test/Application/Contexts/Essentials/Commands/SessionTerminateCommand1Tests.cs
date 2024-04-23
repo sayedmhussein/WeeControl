@@ -113,7 +113,7 @@ public class SessionTerminateCommand1Tests
     private Guid GetUserId(CoreTestHelper helper)
     {
         var domain = helper.SeedDatabase();
-        var user = helper.EssentialDb.Users.FirstOrDefault(x => x.Username == domain.User.Username);
-        return user.UserId;
+        var user = helper.EssentialDb.Person.FirstOrDefault(x => x.Username == domain.Person.Username);
+        return user.PersonId;
     }
 }

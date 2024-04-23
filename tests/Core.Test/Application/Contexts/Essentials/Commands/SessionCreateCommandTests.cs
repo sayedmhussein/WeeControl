@@ -54,7 +54,7 @@ public class SessionCreateCommandTests
     {
         using var testHelper = new CoreTestHelper();
         testHelper.SeedDatabase();
-        var user = await testHelper.EssentialDb.Users.FirstAsync(x => x.Username == CoreTestHelper.Username);
+        var user = await testHelper.EssentialDb.Person.FirstAsync(x => x.Username == CoreTestHelper.Username);
         user.SetTemporaryPassword(testHelper.PasswordSecurity.Hash("temporary"));
         await testHelper.EssentialDb.SaveChangesAsync(default);
 

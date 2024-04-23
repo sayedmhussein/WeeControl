@@ -10,8 +10,7 @@ public interface IEssentialDbContext : IDbContext
     DbSet<PersonIdentityDbo> PersonIdentities { get; }
     DbSet<PersonContactDbo> PersonContacts { get; }
     DbSet<AddressDbo> PersonAddresses { get; }
-
-    DbSet<UserDbo> Users { get; }
+    
     DbSet<UserNotificationDbo> UserNotifications { get; }
     DbSet<UserClaimDbo> UserClaims { get; }
     DbSet<UserSessionDbo> UserSessions { get; }

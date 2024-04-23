@@ -42,7 +42,7 @@ public class PasswordResetNotification : INotification
 
         public async Task Handle(PasswordResetNotification notif, CancellationToken cancellationToken)
         {
-            var user = await context.Users.FirstOrDefaultAsync(x => x.UserId == notif.userId, cancellationToken);
+            var user = await context.Person.FirstOrDefaultAsync(x => x.PersonId == notif.userId, cancellationToken);
             if (user == null) throw new NullReferenceException();
 
             var message = GetMessage(user.Email, notif.newPassword);

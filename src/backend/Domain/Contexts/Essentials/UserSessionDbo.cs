@@ -21,7 +21,7 @@ public class UserSessionDbo : SessionModel
     [Key] public Guid SessionId { get; init; }
 
     public Guid UserId { get; set; }
-    public UserDbo User { get; set; }
+    public PersonDbo User { get; set; }
 
     [Required] [StringLength(128)] public string DeviceId { get; set; }
 

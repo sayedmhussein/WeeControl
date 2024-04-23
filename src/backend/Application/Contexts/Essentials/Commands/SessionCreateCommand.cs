@@ -56,7 +56,7 @@ public class SessionCreateCommand : IRequest<ResponseDto<TokenResponseDto>>
             var usernameOrEmail = request.dto.Payload.UsernameOrEmail.Trim().ToLower();
             var password = passwordSecurity.Hash(request.dto.Payload.Password);
 
-            var user = await context.Users
+            var user = await context.Person
                 //.Include(x => x.Person)
                 .FirstOrDefaultAsync(x =>
                         x.Username == usernameOrEmail || x.Email == usernameOrEmail
@@ -76,11 +76,11 @@ public class SessionCreateCommand : IRequest<ResponseDto<TokenResponseDto>>
             await context.SaveChangesAsync(cancellationToken);
 
             var session = await context.UserSessions.FirstOrDefaultAsync(
-                x => x.UserId == user.UserId && x.DeviceId == request.dto.DeviceId && x.TerminationTs == null,
+                x => x.UserId == user.PersonId && x.DeviceId == request.dto.DeviceId && x.TerminationTs == null,
                 cancellationToken);
             if (session is null)
             {
-                session = UserSessionDbo.Create(user.UserId, request.dto.DeviceId, "0000");
+                session = UserSessionDbo.Create(user.PersonId, request.dto.DeviceId, "0000");
                 await context.UserSessions.AddAsync(session, cancellationToken);
                 await context.SaveChangesAsync(cancellationToken);
                 await context.SessionLogs.AddAsync(session.CreateLog("Login", "Created New Session."),

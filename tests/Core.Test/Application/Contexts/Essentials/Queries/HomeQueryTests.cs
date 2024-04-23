@@ -14,7 +14,7 @@ public class HomeQueryTests
         using var testHelper = new CoreTestHelper();
         var seed = testHelper.SeedDatabase();
 
-        var dto = await GetResponseFromHandler(testHelper, seed.userId, seed.sessionId);
+        var dto = await GetResponseFromHandler(testHelper, seed.personId, seed.sessionId);
 
         Assert.NotEmpty(dto.Payload.FullName);
         Assert.NotEmpty(dto.Payload.Notifications);
@@ -28,7 +28,7 @@ public class HomeQueryTests
         var seed = testHelper.SeedDatabase();
         await testHelper.EssentialDb.UserNotifications.ExecuteDeleteAsync();
 
-        var dto = await GetResponseFromHandler(testHelper, seed.userId, seed.sessionId);
+        var dto = await GetResponseFromHandler(testHelper, seed.personId, seed.sessionId);
 
         Assert.NotEmpty(dto.Payload.FullName);
         Assert.Empty(dto.Payload.Notifications);
@@ -41,7 +41,7 @@ public class HomeQueryTests
         var seed = testHelper.SeedDatabase();
 
         await Assert.ThrowsAsync<NotFoundException>(() =>
-            GetResponseFromHandler(testHelper, seed.userId, Guid.NewGuid()));
+            GetResponseFromHandler(testHelper, seed.personId, Guid.NewGuid()));
     }
 
     private static Task<ResponseDto<HomeResponseDto>> GetResponseFromHandler(CoreTestHelper coreTestHelper, Guid userId,

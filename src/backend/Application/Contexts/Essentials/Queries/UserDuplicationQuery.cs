@@ -44,20 +44,19 @@ public class UserDuplicationQuery : IRequest
             switch (request.parameter)
             {
                 case Parameter.Username:
-                    if (await essentialDbContext.Users.Select(x => x.Username)
+                    if (await essentialDbContext.Person.Select(x => x.Username)
                             .ContainsAsync(request.value.ToLower(), cancellationToken))
                         throw new ConflictFailureException("username already exist");
                     break;
                 case Parameter.Email:
-                    if (await essentialDbContext.Users.Select(x => x.Email)
+                    if (await essentialDbContext.Person.Select(x => x.Email)
                             .ContainsAsync(request.value.ToLower(), cancellationToken))
                         throw new ConflictFailureException("email already exist");
                     break;
                 case Parameter.Mobile:
-                    var bla = essentialDbContext.Users
-                        .Include(x => x.Person)
-                        .ThenInclude(x => x.Contacts)
-                        .Select(x => x.Person.Contacts.Select(y => y.ContactValue)
+                    var bla = essentialDbContext.Person
+                        .Include(x => x.Contacts)
+                        .Select(x => x.Contacts.Select(y => y.ContactValue)
                             .Contains(request.value.ToUpper()));
                     if (await bla.ContainsAsync(true, cancellationToken))
                         throw new ConflictFailureException("mobile already exist");

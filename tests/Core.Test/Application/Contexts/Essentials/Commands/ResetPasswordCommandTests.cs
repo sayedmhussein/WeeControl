@@ -17,7 +17,7 @@ public class ResetPasswordCommandTests
             GetCommand(CoreTestHelper.Email, CoreTestHelper.Username, CoreTestHelper.DeviceId),
             default);
 
-        var newPass = testHelper.EssentialDb.Users.First().TempPassword;
+        var newPass = testHelper.EssentialDb.Person.First().TempPassword;
         Assert.NotNull(newPass);
         Assert.NotEmpty(newPass);
         Assert.NotEqual("password", newPass);

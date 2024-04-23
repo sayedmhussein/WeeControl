@@ -73,7 +73,7 @@ public class UserServiceTests : IClassFixture<CustomWebApplicationFactory<Startu
     {
         using var helper = new HostTestHelper(factory.CreateCustomClient(db =>
         {
-            db.Users.First().Suspend("SomeReason");
+            db.Person.First().Suspend("SomeReason");
             db.SaveChanges();
         }));
         var service = helper.GetService<IHomeService>();

@@ -23,33 +23,33 @@
             <MudGrid Spacing="2">
                 <MudItem xs="6" sm="3">
                     <MudTextField T="string" Label="First Name"
-                                  @bind-Value="@model.Person.FirstName"
-                                  For="@(() => model.Person.FirstName)">
+                                  @bind-Value="@model.FirstName"
+                                  For="@(() => model.FirstName)">
                     </MudTextField>
-                    <ValidationMessage For="@(() => model.Person.FirstName)"/>
+                    <ValidationMessage For="@(() => model.FirstName)"/>
                 </MudItem>
                 <MudItem xs="6" sm="3">
                     <MudTextField T="string" Label="Second Name"
-                                  @bind-Value="@model.Person.SecondName"
-                                  For="@(() => model.Person.SecondName)">
+                                  @bind-Value="@model.SecondName"
+                                  For="@(() => model.SecondName)">
                     </MudTextField>
                 </MudItem>
                 <MudItem xs="6" sm="3">
                     <MudTextField T="string" Label="Third Name"
-                                  @bind-Value="@model.Person.ThirdName"
-                                  For="@(() => model.Person.ThirdName)">
+                                  @bind-Value="@model.ThirdName"
+                                  For="@(() => model.ThirdName)">
                     </MudTextField>
                 </MudItem>
                 <MudItem xs="6" sm="3">
                     <MudTextField T="string" Label="Last Name"
-                                  @bind-Value="@model.Person.LastName"
-                                  For="@(() => model.Person.LastName)">
+                                  @bind-Value="@model.LastName"
+                                  For="@(() => model.LastName)">
                     </MudTextField>
                 </MudItem>
                 <MudItem xs="3" Style="max-width: 300px; align-self: start">
                     <MudSelect T="string" Label="Nationality"
-                               @bind-Value="@model.Person.NationalityCode"
-                               For="@(() => model.Person.NationalityCode)">
+                               @bind-Value="@model.NationalityCode"
+                               For="@(() => model.NationalityCode)">
                         @foreach (var country in ConstantValue.Countries)
                         {
                             <MudSelectItem Value="@country.Code3">@country.Name</MudSelectItem>
@@ -58,34 +58,34 @@
                 </MudItem>
                 <MudItem xs="3" Style="max-width: 300px; align-self: start">
                     <MudDatePicker Label="Date Of Birth"
-                                   @bind-Date="@model.Person.DateOfBirth"
+                                   @bind-Date="@model.DateOfBirth"
                                    Editable="true"
                                    Mask="@(new DateMask("0000-00-00"))"
                                    DateFormat="yyyy-MM-dd"
-                                   For="@(() => model.Person.DateOfBirth)"/>
+                                   For="@(() => model.DateOfBirth)"/>
                 </MudItem>
             </MudGrid>
             <MudGrid Spacing="5">
                 <MudItem xs="6" sm="3">
                     <MudTextField T="string" Label="Your Email"
-                                  @bind-Value="@model.User.Email"
+                                  @bind-Value="@model.Email"
                                   InputType="InputType.Email"
-                                  For="@(() => model.User.Email)">
+                                  For="@(() => model.Email)">
                     </MudTextField>
                 </MudItem>
                 <MudItem xs="6" sm="3">
                     <MudTextField T="string" Label="Username"
-                                  @bind-Value="@model.User.Username"
-                                  For="@(() => model.User.Username)">
+                                  @bind-Value="@model.Username"
+                                  For="@(() => model.Username)">
                     </MudTextField>
 
                 </MudItem>
                 <MudItem xs="6" sm="3">
                     <MudTextField T="string" Label="Password"
-                                  @bind-Value="@model.User.Password"
+                                  @bind-Value="@model.Password"
                                   InputType="InputType.Password"
                                   HelperText="Choose a strong password."
-                                  For="@(() => model.User.Password)">
+                                  For="@(() => model.Password)">
                     </MudTextField>
 
                 </MudItem>

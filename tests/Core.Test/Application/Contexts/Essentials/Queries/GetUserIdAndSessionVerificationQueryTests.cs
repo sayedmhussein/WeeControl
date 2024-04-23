@@ -18,7 +18,7 @@ public class GetUserIdAndSessionVerificationQueryTests
             new GetUserIdAndSessionVerificationQuery.UserIdVerificationHandler(helper.EssentialDb,
                 helper.CurrentUserInfoMock.Object);
 
-        Assert.Equal(seed.userId, await handler.Handle(new GetUserIdAndSessionVerificationQuery(), default));
+        Assert.Equal(seed.personId, await handler.Handle(new GetUserIdAndSessionVerificationQuery(), default));
     }
 
     [Fact]
@@ -61,7 +61,7 @@ public class GetUserIdAndSessionVerificationQueryTests
         var seed = helper.SeedDatabase();
         helper.CurrentUserInfoMock.Setup(x => x.SessionId)
             .Returns(seed.sessionId);
-        var user = await helper.EssentialDb.Users.FirstAsync(x => x.UserId == seed.userId);
+        var user = await helper.EssentialDb.Person.FirstAsync(x => x.PersonId == seed.personId);
         user.Suspend("Test");
         await helper.EssentialDb.SaveChangesAsync(default);
 

@@ -53,8 +53,8 @@ public class UserNewPasswordCommand : IRequest
             if (session is null) throw new NotFoundException("User not found!");
 
             session.User.UpdatePassword(passwordSecurity.Hash(request.NewPassword));
-            context.Users.Attach(session.User);
-            context.Users.Entry(session.User).Property(x => x.Password).IsModified = true;
+            context.Person.Attach(session.User);
+            context.Person.Entry(session.User).Property(x => x.Password).IsModified = true;
 
             await context.SaveChangesAsync(cancellationToken);
 

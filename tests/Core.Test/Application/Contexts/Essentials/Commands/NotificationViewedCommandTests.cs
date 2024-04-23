@@ -16,13 +16,13 @@ public class NotificationViewedCommandTests
         using var helper = new CoreTestHelper();
         var seed = helper.SeedDatabase();
 
-        var notification = helper.EssentialDb.UserNotifications.First(x => x.UserId == seed.userId);
+        var notification = helper.EssentialDb.UserNotifications.First(x => x.UserId == seed.personId);
 
         Assert.Null(helper.EssentialDb.UserNotifications.First(x => x.NotificationId == notification.NotificationId)
             .ReadTs);
 
         await new NotificationViewedCommand.NotificationViewedHandler(helper.EssentialDb,
-                GetCurrentUserInfo(seed.userId), mediatorMock.Object)
+                GetCurrentUserInfo(seed.personId), mediatorMock.Object)
             .Handle(new NotificationViewedCommand(notification.NotificationId), default);
 
         Assert.NotNull(helper.EssentialDb.UserNotifications.First(x => x.NotificationId == notification.NotificationId)
@@ -35,15 +35,15 @@ public class NotificationViewedCommandTests
         using var helper = new CoreTestHelper();
         var seed = helper.SeedDatabase();
 
-        var notification = helper.EssentialDb.UserNotifications.First(x => x.UserId == seed.userId);
+        var notification = helper.EssentialDb.UserNotifications.First(x => x.UserId == seed.personId);
 
         await new NotificationViewedCommand.NotificationViewedHandler(helper.EssentialDb,
-                GetCurrentUserInfo(seed.userId), mediatorMock.Object)
+                GetCurrentUserInfo(seed.personId), mediatorMock.Object)
             .Handle(new NotificationViewedCommand(notification.NotificationId), default);
 
 
         await Assert.ThrowsAsync<NotAllowedException>(() =>
-            new NotificationViewedCommand.NotificationViewedHandler(helper.EssentialDb, GetCurrentUserInfo(seed.userId),
+            new NotificationViewedCommand.NotificationViewedHandler(helper.EssentialDb, GetCurrentUserInfo(seed.personId),
                     mediatorMock.Object)
                 .Handle(new NotificationViewedCommand(notification.NotificationId), default));
     }
@@ -56,11 +56,11 @@ public class NotificationViewedCommandTests
         var other = helper.SeedDatabase("AnotherUsername");
 
 
-        var notification = helper.EssentialDb.UserNotifications.First(x => x.UserId == seed.userId);
+        var notification = helper.EssentialDb.UserNotifications.First(x => x.UserId == seed.personId);
 
         await Assert.ThrowsAsync<NotAllowedException>(() =>
             new NotificationViewedCommand.NotificationViewedHandler(helper.EssentialDb,
-                    GetCurrentUserInfo(other.userId), mediatorMock.Object)
+                    GetCurrentUserInfo(other.personId), mediatorMock.Object)
                 .Handle(new NotificationViewedCommand(notification.NotificationId), default));
     }
 
@@ -71,7 +71,7 @@ public class NotificationViewedCommandTests
         var seed = helper.SeedDatabase();
 
         await Assert.ThrowsAsync<NotFoundException>(() =>
-            new NotificationViewedCommand.NotificationViewedHandler(helper.EssentialDb, GetCurrentUserInfo(seed.userId),
+            new NotificationViewedCommand.NotificationViewedHandler(helper.EssentialDb, GetCurrentUserInfo(seed.personId),
                     mediatorMock.Object)
                 .Handle(new NotificationViewedCommand(Guid.Empty), default));
     }

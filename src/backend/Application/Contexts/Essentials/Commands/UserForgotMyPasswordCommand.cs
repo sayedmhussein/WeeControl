@@ -41,7 +41,7 @@ public class UserForgotMyPasswordCommand : IRequest
             if (request.dto.GetModelValidationErrors().Any() || request.dto.Payload.GetModelValidationErrors().Any())
                 throw new BadRequestException("Invalid device or email or username");
 
-            var user = await context.Users.FirstOrDefaultAsync(
+            var user = await context.Person.FirstOrDefaultAsync(
                 x => x.Username == request.dto.Payload.Username.ToLower() &&
                      x.Email == request.dto.Payload.Email.ToLower(), cancellationToken);
             if (user is not null)
@@ -53,7 +53,7 @@ public class UserForgotMyPasswordCommand : IRequest
                 user.SetTemporaryPassword(passwordSecurity.Hash(password));
                 await context.SaveChangesAsync(cancellationToken);
 
-                await mediator.Publish(new PasswordResetNotification(user.UserId, password), cancellationToken);
+                await mediator.Publish(new PasswordResetNotification(user.PersonId, password), cancellationToken);
             }
 
             //return Unit.Value;

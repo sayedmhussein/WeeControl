@@ -19,7 +19,7 @@ public class UserServiceTests
         var service = helper.GetService<IAuthenticationService>();
 
         var dto = GetUserProfileDto();
-        dto.Person.FirstName = string.Empty;
+        dto.FirstName = string.Empty;
 
         await service.Register(dto);
 
@@ -67,17 +67,11 @@ public class UserServiceTests
 
         var dto = new UserProfileDto
         {
-            Person =
-            {
-                FirstName = "Firstname", LastName = "Lastname",
-                NationalityCode = "EGP", DateOfBirth = DateTime.MaxValue
-            },
-            User =
-            {
-                Email = CoreTestHelper.Email,
-                Username = CoreTestHelper.Username,
-                Password = CoreTestHelper.Password
-            },
+            FirstName = "Firstname", LastName = "Lastname",
+            NationalityCode = "EGP", DateOfBirth = DateTime.MaxValue,
+            Email = CoreTestHelper.Email,
+            Username = CoreTestHelper.Username,
+            Password = CoreTestHelper.Password,
             Contact =
             {
                 new ContactModel

@@ -16,10 +16,10 @@ public class UserActivityNotificationTests
 
         var count1 = await helper.EssentialDb.UserNotifications.CountAsync();
 
-        var n = new UserNotification(seed.User.Username, subject, details, uri);
+        var n = new UserNotification(seed.Person.Username, subject, details, uri);
         await new UserNotification.UserNotificationHandler(helper.EssentialDb).Handle(n, default);
 
-        var count2 = await helper.EssentialDb.UserNotifications.Where(x => x.UserId == seed.userId).CountAsync();
+        var count2 = await helper.EssentialDb.UserNotifications.Where(x => x.UserId == seed.personId).CountAsync();
 
         Assert.Equal(count1 + 1, count2);
     }

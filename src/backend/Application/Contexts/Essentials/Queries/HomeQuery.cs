@@ -30,12 +30,11 @@ public class HomeQuery : IRequest<ResponseDto<HomeResponseDto>>
                 .Where(x => x.SessionId == userInfo.SessionId)
                 .Where(x => x.TerminationTs == null)
                 .Include(x => x.User)
-                .ThenInclude(x => x.Person)
                 .Where(x => x.User.SuspendArgs == null)
                 .Select(x => new
                 {
-                    x.User.UserId,
-                    x.User.Person.FirstName, x.User.Person.LastName,
+                    x.User.PersonId,
+                    x.User.FirstName, x.User.LastName,
                     x.User.PhotoUrl
                 })
                 .FirstOrDefaultAsync(cancellationToken);
@@ -43,7 +42,7 @@ public class HomeQuery : IRequest<ResponseDto<HomeResponseDto>>
             if (user is null) throw new NotFoundException("No valid session was found");
 
             var notifications = await essentialDbContext.UserNotifications
-                .Where(x => x.UserId == user.UserId)
+                .Where(x => x.UserId == user.PersonId)
                 .ToListAsync(cancellationToken);
 
             var feeds = await essentialDbContext.Feeds

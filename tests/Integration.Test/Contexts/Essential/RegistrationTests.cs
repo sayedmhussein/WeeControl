@@ -25,11 +25,8 @@ public class RegistrationTests : IClassFixture<CustomWebApplicationFactory<Start
         var service = hostTestHelper.GetService<IAuthenticationService>();
         var dto = new UserProfileDto
         {
-            Person =
-            {
-                FirstName = "FirstName", LastName = "LastName", NationalityCode = "EGP", DateOfBirth = DateTime.Today
-            },
-            User = {Email = "email@email.com", Username = "username", Password = "Password"}
+            FirstName = "FirstName", LastName = "LastName", NationalityCode = "EGP", DateOfBirth = DateTime.Today,
+            Email = "email@email.com", Username = "username", Password = "Password"
         };
 
         await service.Register(dto);
@@ -51,11 +48,8 @@ public class RegistrationTests : IClassFixture<CustomWebApplicationFactory<Start
         var service = hostTestHelper.GetService<IAuthenticationService>();
         var dto = new UserProfileDto
         {
-            Person =
-            {
-                FirstName = "FirstName", LastName = "LastName", NationalityCode = "EGP", DateOfBirth = DateTime.Today
-            },
-            User = {Email = email, Username = username, Password = "Password"}
+            FirstName = "FirstName", LastName = "LastName", NationalityCode = "EGP", DateOfBirth = DateTime.Today,
+            Email = email, Username = username, Password = "Password"
         };
 
         await service.Register(dto);

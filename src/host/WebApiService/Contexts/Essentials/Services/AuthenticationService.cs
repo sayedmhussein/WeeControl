@@ -24,15 +24,15 @@ internal class AuthenticationService : IAuthenticationService
 
     public async Task Register(UserProfileDto dto)
     {
-        if (!dto.Person.IsValidEntityModel())
+        if (!dto.IsValidEntityModel())
         {
-            await gui.DisplayAlert(dto.Person.GetFirstValidationError());
+            await gui.DisplayAlert(dto.GetFirstValidationError());
             return;
         }
 
-        if (!dto.User.IsValidEntityModel())
+        if (!dto.IsValidEntityModel())
         {
-            await gui.DisplayAlert(dto.User.GetFirstValidationError());
+            await gui.DisplayAlert(dto.GetFirstValidationError());
             return;
         }
 

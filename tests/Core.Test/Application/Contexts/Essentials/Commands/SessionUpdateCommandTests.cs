@@ -12,7 +12,7 @@ public class SessionUpdateCommandTests
     {
         using var testHelper = new CoreTestHelper();
         var seed = testHelper.SeedDatabase();
-        var session = UserSessionDbo.Create(seed.userId, "device", "0000");
+        var session = UserSessionDbo.Create(seed.personId, "device", "0000");
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         testHelper.CurrentUserInfoMock.Setup(x => x.SessionId).Returns(session.SessionId);
@@ -49,7 +49,7 @@ public class SessionUpdateCommandTests
     {
         using var testHelper = new CoreTestHelper();
         var seed = testHelper.SeedDatabase();
-        var session = UserSessionDbo.Create(seed.userId, "device", "0000");
+        var session = UserSessionDbo.Create(seed.personId, "device", "0000");
         session.DisableOtpRequirement();
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
@@ -66,7 +66,7 @@ public class SessionUpdateCommandTests
     {
         using var testHelper = new CoreTestHelper();
         var seed = testHelper.SeedDatabase();
-        var session = UserSessionDbo.Create(seed.userId, "device", "0000");
+        var session = UserSessionDbo.Create(seed.personId, "device", "0000");
         session.TerminationTs = DateTime.UtcNow;
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
@@ -81,7 +81,7 @@ public class SessionUpdateCommandTests
     {
         using var testHelper = new CoreTestHelper();
         var seed = testHelper.SeedDatabase();
-        var session = UserSessionDbo.Create(seed.userId, "device", "0000");
+        var session = UserSessionDbo.Create(seed.personId, "device", "0000");
         await testHelper.EssentialDb.UserSessions.AddAsync(session);
         await testHelper.EssentialDb.SaveChangesAsync(default);
         testHelper.CurrentUserInfoMock.Setup(x => x.SessionId).Returns(session.SessionId);

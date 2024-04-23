@@ -16,7 +16,7 @@ public class UserNotificationDbo : HomeNotificationModel
     }
 
     public Guid UserId { get; set; }
-    public UserDbo User { get; set; }
+    public PersonDbo User { get; set; }
 
     public static UserNotificationDbo Create(Guid userid, string subject, string details, string link)
     {

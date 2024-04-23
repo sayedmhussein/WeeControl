@@ -16,7 +16,7 @@ public class UserClaimDbo
     [Key] public Guid ClaimId { get; }
 
     [Required] public Guid? UserId { get; private set; }
-    public UserDbo User { get; }
+    public PersonDbo User { get; }
 
     [Required] [StringLength(5)] public string ClaimType { get; private set; }
 
@@ -26,11 +26,11 @@ public class UserClaimDbo
 
     [Required] public Guid GrantedById { get; private set; }
 
-    public UserDbo GrantedBy { get; private set; }
+    public PersonDbo GrantedBy { get; private set; }
 
     public DateTime? RevokedTs { get; private set; }
     public Guid? RevokedById { get; private set; }
-    public UserDbo RevokedBy { get; private set; }
+    public PersonDbo RevokedBy { get; private set; }
 
     public static UserClaimDbo Create(Guid userId, string type, string tag, Guid grantedById)
     {

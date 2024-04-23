@@ -15,7 +15,7 @@ public class SetNewPasswordCommandTests
 
         await ExecuteHandler(testHelper, CoreTestHelper.Password, "NewPassword");
 
-        var storedPassword = testHelper.EssentialDb.Users.First(x => x.UserId == seed.userId).Password;
+        var storedPassword = testHelper.EssentialDb.Person.First(x => x.PersonId == seed.personId).Password;
         Assert.Equal(testHelper.PasswordSecurity.Hash("NewPassword"), storedPassword);
     }
 

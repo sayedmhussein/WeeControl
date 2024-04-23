@@ -18,17 +18,13 @@ public class UserRegisterCommand : IRequest<ResponseDto<TokenResponseDto>>
 {
     private readonly PersonModel person;
     private readonly RequestDto request;
-    private readonly UserModel user;
 
     public UserRegisterCommand(RequestDto<UserProfileDto> dto)
     {
         request = dto;
 
-        dto.Payload.Person.ThrowExceptionIfEntityModelNotValid();
-        person = dto.Payload.Person;
-
-        dto.Payload.User.ThrowExceptionIfEntityModelNotValid();
-        user = dto.Payload.User;
+        dto.Payload.ThrowExceptionIfEntityModelNotValid();
+        person = dto.Payload;
     }
 
     public class RegisterHandler : IRequestHandler<UserRegisterCommand, ResponseDto<TokenResponseDto>>
@@ -47,24 +43,20 @@ public class UserRegisterCommand : IRequest<ResponseDto<TokenResponseDto>>
         public async Task<ResponseDto<TokenResponseDto>> Handle(UserRegisterCommand cmd,
             CancellationToken cancellationToken)
         {
-            if (context.Users.Any(x =>
-                    x.Username == cmd.user.Username.ToLower() ||
-                    x.Email == cmd.user.Email.ToLower()
+            if (context.Person.Any(x =>
+                    x.Username == cmd.person.Username.ToLower() ||
+                    x.Email == cmd.person.Email.ToLower()
                 ))
                 throw new ConflictFailureException();
 
             var person = PersonDbo.Create(cmd.person);
+            person.Password = passwordSecurity.Hash(cmd.person.Password);
             await context.Person.AddAsync(person, cancellationToken);
-            await context.SaveChangesAsync(cancellationToken);
-
-            var user = UserDbo.Create(person.PersonId, cmd.user.Email, cmd.user.Username,
-                passwordSecurity.Hash(cmd.user.Password));
-            await context.Users.AddAsync(user, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
 
             var request =
                 new SessionCreateCommand(RequestDto.Create(
-                    LoginRequestDto.Create(user.Username, cmd.user.Password),
+                    LoginRequestDto.Create(person.Username, cmd.person.Password),
                     cmd.request));
             var response = await mediator.Send(request, cancellationToken);
             return response;
