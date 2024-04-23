@@ -43,7 +43,8 @@ public class NotificationViewedCommandTests
 
 
         await Assert.ThrowsAsync<NotAllowedException>(() =>
-            new NotificationViewedCommand.NotificationViewedHandler(helper.EssentialDb, GetCurrentUserInfo(seed.personId),
+            new NotificationViewedCommand.NotificationViewedHandler(helper.EssentialDb,
+                    GetCurrentUserInfo(seed.personId),
                     mediatorMock.Object)
                 .Handle(new NotificationViewedCommand(notification.NotificationId), default));
     }
@@ -71,7 +72,8 @@ public class NotificationViewedCommandTests
         var seed = helper.SeedDatabase();
 
         await Assert.ThrowsAsync<NotFoundException>(() =>
-            new NotificationViewedCommand.NotificationViewedHandler(helper.EssentialDb, GetCurrentUserInfo(seed.personId),
+            new NotificationViewedCommand.NotificationViewedHandler(helper.EssentialDb,
+                    GetCurrentUserInfo(seed.personId),
                     mediatorMock.Object)
                 .Handle(new NotificationViewedCommand(Guid.Empty), default));
     }

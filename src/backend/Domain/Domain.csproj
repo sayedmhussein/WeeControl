@@ -20,7 +20,7 @@
         <None Remove="BoundedContexts\Credentials\"/>
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\..\common\DomainModel\DomainModel.csproj" />
+        <ProjectReference Include="..\..\common\DomainModel\DomainModel.csproj"/>
         <ProjectReference Include="..\..\common\SharedKernel\SharedKernel.csproj"/>
     </ItemGroup>
     <ItemGroup>

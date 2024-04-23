@@ -35,7 +35,7 @@ public class AuthorizationController : Controller
     }
 
     /// <summary>
-    /// Create Token using username/email + password
+    ///     Create Token using username/email + password
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>

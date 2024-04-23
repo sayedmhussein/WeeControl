@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using System.Runtime.CompilerServices;
 using WeeControl.Core.SharedKernel.CustomValidationAttributes;
 using WeeControl.Core.SharedKernel.Interfaces;
 
@@ -28,15 +27,12 @@ public class PersonModel : IValidatableModel
     public string NationalityCode { get; set; } = string.Empty;
 
     [Required] public DateTime? DateOfBirth { get; set; }
-    
+
     [StringLength(500, MinimumLength = 3)]
     [EmailAddress]
     public string? Email { get; set; }
-    
-    [StringLength(255)]
-    [StandardString]
-    public string Username { get; set; } = string.Empty;
-    
-    [StringLength(128, MinimumLength = 6)]
-    public string? Password { get; set; }
+
+    [StringLength(255)] [StandardString] public string Username { get; set; } = string.Empty;
+
+    [StringLength(128, MinimumLength = 6)] public string? Password { get; set; }
 }

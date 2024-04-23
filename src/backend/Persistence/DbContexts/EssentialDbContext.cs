@@ -20,7 +20,7 @@ public class EssentialDbContext : DbContext, IEssentialDbContext
     public DbSet<PersonIdentityDbo> PersonIdentities { get; set; }
     public DbSet<PersonContactDbo> PersonContacts { get; set; }
     public DbSet<AddressDbo> PersonAddresses { get; set; }
-    
+
     public DbSet<UserClaimDbo> UserClaims { get; set; }
     public DbSet<UserNotificationDbo> UserNotifications { get; set; }
     public DbSet<UserSessionDbo> UserSessions { get; set; }
@@ -40,7 +40,7 @@ public class EssentialDbContext : DbContext, IEssentialDbContext
         modelBuilder.ApplyConfiguration(new PersonIdentityEntityTypeConfig());
         modelBuilder.ApplyConfiguration(new PersonAddressEntityTypeConfig());
         modelBuilder.ApplyConfiguration(new PersonContactEntityTypeConfig());
-        
+
         modelBuilder.ApplyConfiguration(new UserNotificationEntityTypeConfig());
         modelBuilder.ApplyConfiguration(new UserClaimEntityTypeConfig());
         modelBuilder.ApplyConfiguration(new UserSessionEntityTypeConfig());
@@ -79,7 +79,7 @@ public class EssentialDbContext : DbContext, IEssentialDbContext
         modelBuilder.Entity<PersonIdentityDbo>().ToTable(nameof(PersonIdentityDbo));
         modelBuilder.Entity<AddressDbo>().ToTable(nameof(AddressDbo));
         modelBuilder.Entity<PersonContactDbo>().ToTable(nameof(PersonContactDbo));
-        
+
         modelBuilder.Entity<UserClaimDbo>().ToTable(nameof(UserClaimDbo));
         modelBuilder.Entity<UserClaimDbo>().Property(x => x.GrantedTs)
             .ValueGeneratedOnAdd();

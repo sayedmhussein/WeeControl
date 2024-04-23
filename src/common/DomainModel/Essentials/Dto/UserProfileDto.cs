@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace WeeControl.Core.DomainModel.Essentials.Dto;
 
 public class UserProfileDto : PersonModel

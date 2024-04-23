@@ -13,6 +13,28 @@ namespace WeeControl.Core.Domain.Contexts.Essentials;
 [Table("Person", Schema = nameof(Essentials))]
 public class PersonDbo : PersonModel
 {
+    private PersonDbo()
+    {
+    }
+
+    [Key] public Guid PersonId { get; init; }
+
+    [AllowNull] [StringLength(255)] public string SuspendArgs { get; private set; }
+
+    public string TempPassword { get; private set; }
+    public DateTime? TempPasswordTs { get; private set; }
+
+
+    [AllowNull] [StringLength(255)] public string PhotoUrl { get; set; }
+
+    public virtual IEnumerable<PersonIdentityDbo> Identities { get; }
+    public virtual IEnumerable<AddressDbo> Addresses { get; }
+    public virtual IEnumerable<PersonContactDbo> Contacts { get; }
+
+    public virtual IEnumerable<UserSessionDbo> Sessions { get; }
+    public virtual ICollection<UserClaimDbo> Claims { get; }
+    public virtual IEnumerable<UserNotificationDbo> Notifications { get; }
+
     public static PersonDbo Create(PersonModel model)
     {
         model.ThrowExceptionIfEntityModelNotValid();
@@ -30,33 +52,7 @@ public class PersonDbo : PersonModel
             Password = model.Password
         };
     }
-    
-    private PersonDbo()
-    {
-    }
 
-    [Key] public Guid PersonId { get; init; }
-    
-    [AllowNull] 
-    [StringLength(255)] 
-    public string SuspendArgs { get; private set; }
-
-    public string TempPassword { get; private set; }
-    public DateTime? TempPasswordTs { get; private set; }
-
-
-    [AllowNull] 
-    [StringLength(255)] 
-    public string PhotoUrl { get; set; }
-
-    public virtual IEnumerable<PersonIdentityDbo> Identities { get; }
-    public virtual IEnumerable<AddressDbo> Addresses { get; }
-    public virtual IEnumerable<PersonContactDbo> Contacts { get; }
-
-    public virtual IEnumerable<UserSessionDbo> Sessions { get; }
-    public virtual ICollection<UserClaimDbo> Claims { get; }
-    public virtual IEnumerable<UserNotificationDbo> Notifications { get; }
-    
     public void UpdatePassword(string newPassword)
     {
         Password = newPassword;
@@ -90,7 +86,7 @@ public class PersonEntityTypeConfig : IEntityTypeConfiguration<PersonDbo>
     public void Configure(EntityTypeBuilder<PersonDbo> builder)
     {
         builder.Property(x => x.PersonId).ValueGeneratedOnAdd();
-        
+
         builder.HasIndex(x => x.Email).IsUnique();
 
         builder.HasIndex(x => x.Username).IsUnique();

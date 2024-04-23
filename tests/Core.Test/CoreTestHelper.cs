@@ -98,9 +98,9 @@ public class CoreTestHelper : IDisposable
             Email = Email, Username = username ?? Username,
             Password = new PasswordSecurity().Hash(username ?? Password)
         };
-        
+
         if (username is not null) personModel.Email = $"{username}@{username}.com";
-        
+
         var person = PersonDbo.Create(personModel);
         dbContext.Person.Add(person);
         dbContext.SaveChanges();
@@ -108,7 +108,7 @@ public class CoreTestHelper : IDisposable
         dbContext.PersonContacts.Add(PersonContactDbo.Create(person.PersonId, ContactModel.ContactTypeEnum.Mobile,
             MobileNo));
         dbContext.SaveChanges();
-        
+
         dbContext.UserNotifications.Add(UserNotificationDbo.Create(person.PersonId, "Subject 1",
             $"Created at {DateTime.Now}", ""));
         dbContext.UserNotifications.Add(UserNotificationDbo.Create(person.PersonId, "Subject 2",
@@ -122,7 +122,8 @@ public class CoreTestHelper : IDisposable
             dbContext.Feeds.Add(UserFeedsDbo.Create("Feed Subject 2", "Feed body 2", ""));
         }
 
-        dbContext.UserClaims.Add(UserClaimDbo.Create(person.PersonId, ClaimTypeExample, ClaimValueExample, person.PersonId));
+        dbContext.UserClaims.Add(UserClaimDbo.Create(person.PersonId, ClaimTypeExample, ClaimValueExample,
+            person.PersonId));
 
         dbContext.SaveChanges();
         return person;

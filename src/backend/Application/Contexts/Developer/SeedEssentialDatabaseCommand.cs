@@ -66,7 +66,8 @@ public class SeedEssentialDatabaseCommand : IRequest
             await AddCustomer(customerId, "EGP", cancellationToken);
         }
 
-        private async Task<Guid> AddPerson(string name, string nationality, IEnumerable<(string Type, string Value)> claims, CancellationToken cancellationToken)
+        private async Task<Guid> AddPerson(string name, string nationality,
+            IEnumerable<(string Type, string Value)> claims, CancellationToken cancellationToken)
         {
             //var person = PersonDbo.Create(name, name, nationality, new DateTime(1999, 12, 31));
             var person = PersonDbo.Create(new PersonModel
@@ -74,7 +75,7 @@ public class SeedEssentialDatabaseCommand : IRequest
                 FirstName = name,
                 LastName = name,
                 NationalityCode = nationality,
-                DateOfBirth = new DateTime(2019, 12, 10), 
+                DateOfBirth = new DateTime(2019, 12, 10),
                 Username = name,
                 Email = $"{name}@WeeControl.com",
                 Password = passwordSecurity.Hash(name)
@@ -86,19 +87,20 @@ public class SeedEssentialDatabaseCommand : IRequest
             await context.PersonContacts
                 .AddAsync(PersonContactDbo.Create(person.PersonId, ContactModel.ContactTypeEnum.Mobile, "+33567467646"),
                     cancellationToken);
-            
+
             if (claims is not null && claims.Any())
             {
                 var user1 = await context.Person.Include(x => x.Claims)
                     .FirstAsync(x => x.Username == name, cancellationToken);
 
                 foreach (var c in claims)
-                    await context.UserClaims.AddAsync(UserClaimDbo.Create(user1.PersonId, c.Type, c.Value, user1.PersonId),
+                    await context.UserClaims.AddAsync(
+                        UserClaimDbo.Create(user1.PersonId, c.Type, c.Value, user1.PersonId),
                         cancellationToken);
 
                 await context.SaveChangesAsync(cancellationToken);
             }
-            
+
             await context.UserNotifications.AddRangeAsync(new List<UserNotificationDbo>
             {
                 UserNotificationDbo
