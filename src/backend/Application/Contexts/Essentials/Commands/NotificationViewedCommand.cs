@@ -10,29 +10,16 @@ using WeeControl.Core.Domain.Interfaces;
 
 namespace WeeControl.Core.Application.Contexts.Essentials.Commands;
 
-public class NotificationViewedCommand : IRequest
+public class NotificationViewedCommand(Guid notificationId) : IRequest
 {
-    private readonly Guid notificationId;
+    private readonly Guid notificationId = notificationId;
 
-    public NotificationViewedCommand(Guid notificationId)
+    public class NotificationViewedHandler(
+        IEssentialDbContext essentialDbContext,
+        ICurrentUserInfo userInfo,
+        IMediator mediator)
+        : IRequestHandler<NotificationViewedCommand>
     {
-        this.notificationId = notificationId;
-    }
-
-    public class NotificationViewedHandler : IRequestHandler<NotificationViewedCommand>
-    {
-        private readonly IEssentialDbContext essentialDbContext;
-        private readonly IMediator mediator;
-        private readonly ICurrentUserInfo userInfo;
-
-        public NotificationViewedHandler(IEssentialDbContext essentialDbContext, ICurrentUserInfo userInfo,
-            IMediator mediator)
-        {
-            this.essentialDbContext = essentialDbContext;
-            this.userInfo = userInfo;
-            this.mediator = mediator;
-        }
-
         public async Task Handle(NotificationViewedCommand request, CancellationToken cancellationToken)
         {
             var notification = await essentialDbContext.UserNotifications.FirstOrDefaultAsync(

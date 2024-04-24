@@ -15,17 +15,9 @@ namespace WeeControl.Core.Application.Contexts.Developer;
 
 public class SeedEssentialDatabaseCommand : IRequest
 {
-    public class SeedEssentialDatabaseHandler : IRequestHandler<SeedEssentialDatabaseCommand>
+    public class SeedEssentialDatabaseHandler(IEssentialDbContext context, IPasswordSecurity passwordSecurity)
+        : IRequestHandler<SeedEssentialDatabaseCommand>
     {
-        private readonly IEssentialDbContext context;
-        private readonly IPasswordSecurity passwordSecurity;
-
-        public SeedEssentialDatabaseHandler(IEssentialDbContext context, IPasswordSecurity passwordSecurity)
-        {
-            this.context = context;
-            this.passwordSecurity = passwordSecurity;
-        }
-
         public async Task Handle(SeedEssentialDatabaseCommand request, CancellationToken cancellationToken)
         {
             if (await context.Person.AnyAsync(cancellationToken))

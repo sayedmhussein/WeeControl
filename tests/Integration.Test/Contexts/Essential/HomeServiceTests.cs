@@ -4,15 +4,9 @@ using WeeControl.Host.WebApiService.Contexts.Essentials;
 
 namespace WeeControl.Integration.Test.Contexts.Essential;
 
-public class HomeServiceTests : IClassFixture<CustomWebApplicationFactory<Startup>>
+public class HomeServiceTests(CustomWebApplicationFactory<Startup> factory)
+    : IClassFixture<CustomWebApplicationFactory<Startup>>
 {
-    private readonly CustomWebApplicationFactory<Startup> factory;
-
-    public HomeServiceTests(CustomWebApplicationFactory<Startup> factory)
-    {
-        this.factory = factory;
-    }
-
     [Fact]
     public async void WhenRefreshIsCalled_HomeResponseDtoHasData()
     {

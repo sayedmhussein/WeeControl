@@ -11,26 +11,13 @@ using WeeControl.Core.SharedKernel.ExtensionHelpers;
 
 namespace WeeControl.Core.Application.Contexts.Essentials.Commands;
 
-public class SessionTerminateCommand : IRequest
+public class SessionTerminateCommand(RequestDto request) : IRequest
 {
-    private readonly RequestDto request;
+    private readonly RequestDto request = request;
 
-    public SessionTerminateCommand(RequestDto request)
+    public class LogoutHandler(IEssentialDbContext context, ICurrentUserInfo currentUserInfo)
+        : IRequestHandler<SessionTerminateCommand>
     {
-        this.request = request;
-    }
-
-    public class LogoutHandler : IRequestHandler<SessionTerminateCommand>
-    {
-        private readonly IEssentialDbContext context;
-        private readonly ICurrentUserInfo currentUserInfo;
-
-        public LogoutHandler(IEssentialDbContext context, ICurrentUserInfo currentUserInfo)
-        {
-            this.context = context;
-            this.currentUserInfo = currentUserInfo;
-        }
-
         public async Task Handle(SessionTerminateCommand request, CancellationToken cancellationToken)
         {
             request.request.ThrowExceptionIfEntityModelNotValid();

@@ -20,33 +20,17 @@ using WeeControl.Core.SharedKernel.Interfaces;
 
 namespace WeeControl.Core.Application.Contexts.Essentials.Commands;
 
-public class SessionCreateCommand : IRequest<ResponseDto<TokenResponseDto>>
+public class SessionCreateCommand(RequestDto<LoginRequestDto> dto) : IRequest<ResponseDto<TokenResponseDto>>
 {
-    private readonly RequestDto<LoginRequestDto> dto;
+    private readonly RequestDto<LoginRequestDto> dto = dto;
 
-    public SessionCreateCommand(RequestDto<LoginRequestDto> dto)
+    public class SessionCreateHandler(
+        IEssentialDbContext context,
+        IJwtService jwtService,
+        IConfiguration configuration,
+        IPasswordSecurity passwordSecurity)
+        : IRequestHandler<SessionCreateCommand, ResponseDto<TokenResponseDto>>
     {
-        this.dto = dto;
-    }
-
-    public class SessionCreateHandler : IRequestHandler<SessionCreateCommand, ResponseDto<TokenResponseDto>>
-    {
-        private readonly IConfiguration configuration;
-        private readonly IEssentialDbContext context;
-        private readonly IJwtService jwtService;
-        private readonly IPasswordSecurity passwordSecurity;
-
-        public SessionCreateHandler(IEssentialDbContext context,
-            IJwtService jwtService,
-            IConfiguration configuration,
-            IPasswordSecurity passwordSecurity)
-        {
-            this.context = context;
-            this.jwtService = jwtService;
-            this.configuration = configuration;
-            this.passwordSecurity = passwordSecurity;
-        }
-
         public async Task<ResponseDto<TokenResponseDto>> Handle(SessionCreateCommand request,
             CancellationToken cancellationToken)
         {

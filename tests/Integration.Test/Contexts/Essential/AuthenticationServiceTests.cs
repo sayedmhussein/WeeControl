@@ -9,15 +9,9 @@ using WeeControl.Host.WebApiService.Interfaces;
 
 namespace WeeControl.Integration.Test.Contexts.Essential;
 
-public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFactory<Startup>>
+public class AuthenticationServiceTests(CustomWebApplicationFactory<Startup> factory)
+    : IClassFixture<CustomWebApplicationFactory<Startup>>
 {
-    private readonly CustomWebApplicationFactory<Startup> factory;
-
-    public AuthenticationServiceTests(CustomWebApplicationFactory<Startup> factory)
-    {
-        this.factory = factory;
-    }
-
     [Theory]
     [InlineData(false, false)]
     [InlineData(true, false)]
