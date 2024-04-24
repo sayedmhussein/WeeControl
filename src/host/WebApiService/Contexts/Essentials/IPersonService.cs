@@ -6,4 +6,5 @@ public interface IPersonService
 {
     Task Register(UserProfileDto dto);
     Task RequestPasswordReset(UserPasswordResetRequestDto dto);
+    Task ChangePassword(UserPasswordChangeRequestDto dto);
 }

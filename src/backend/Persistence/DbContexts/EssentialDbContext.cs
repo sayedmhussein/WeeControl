@@ -6,12 +6,8 @@ using WeeControl.Core.Domain.Interfaces;
 
 namespace WeeControl.ApiApp.Persistence.DbContexts;
 
-public class EssentialDbContext : DbContext, IEssentialDbContext
+public class EssentialDbContext(DbContextOptions<EssentialDbContext> options) : DbContext(options), IEssentialDbContext
 {
-    public EssentialDbContext(DbContextOptions<EssentialDbContext> options) : base(options)
-    {
-    }
-
     public DbSet<UserFeedsDbo> Feeds { get; set; }
 
     public DbSet<PersonDbo> Person { get; set; }

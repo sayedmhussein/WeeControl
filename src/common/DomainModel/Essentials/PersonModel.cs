@@ -21,10 +21,9 @@ public class PersonModel : IValidatableModel
     [Display(Name = "Last Name")]
     [StringLength(45, MinimumLength = 1)]
     public string LastName { get; set; } = string.Empty;
-
-    [Required]
+    
     [StringLength(3, MinimumLength = 3)]
-    public string NationalityCode { get; set; } = string.Empty;
+    public string? NationalityCode { get; set; }
 
     [Required] public DateTime? DateOfBirth { get; set; }
 
@@ -32,7 +31,7 @@ public class PersonModel : IValidatableModel
     [EmailAddress]
     public string? Email { get; set; }
 
-    [StringLength(255)] [StandardString] public string Username { get; set; } = string.Empty;
+    [StringLength(255)] [StandardString] public string? Username { get; set; }
 
     [StringLength(128, MinimumLength = 6)] public string? Password { get; set; }
 }

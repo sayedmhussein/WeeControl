@@ -71,4 +71,35 @@ internal class PersonService(IGui gui, IServerOperation server, IDeviceSecurity 
             await gui.NavigateTo(ApplicationPages.Essential.HomePage);
         }
     }
+    
+    public async Task ChangePassword(UserPasswordChangeRequestDto dto)
+    {
+        if (dto.IsValidEntityModel() == false)
+        {
+            await gui.DisplayAlert("invalid data");
+            return;
+        }
+
+        var response = await server
+            .GetResponseMessage(HttpMethod.Patch,
+                new Version("1.0"), dto,
+                ApiRouting.Essentials.User.Route,
+                ApiRouting.Essentials.User.PasswordEndpoint);
+
+        if (response.IsSuccessStatusCode)
+        {
+            await gui.DisplayAlert("Password was changed successfully");
+            await gui.NavigateTo(ApplicationPages.Essential.HomePage);
+            return;
+        }
+
+        if (response.StatusCode == HttpStatusCode.NotFound)
+        {
+            await gui.DisplayAlert("Old password isn't matching, please try again.");
+            return;
+        }
+
+        await gui.DisplayAlert($"Unexpected Error {response.StatusCode}");
+        throw new ArgumentOutOfRangeException();
+    }
 }

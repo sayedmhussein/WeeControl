@@ -16,15 +16,8 @@ namespace WeeControl.Host.WebApi.Controllers.Essentials;
 [ProducesResponseType((int) HttpStatusCode.BadRequest)]
 [Consumes(MediaTypeNames.Application.Json)]
 [Produces(MediaTypeNames.Application.Json)]
-public class AuthorizationController : Controller
+public class AuthorizationController(IMediator mediator) : Controller
 {
-    private readonly IMediator mediator;
-
-    public AuthorizationController(IMediator mediator)
-    {
-        this.mediator = mediator;
-    }
-
     [AllowAnonymous]
     [HttpHead]
     [MapToApiVersion("1.0")]

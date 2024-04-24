@@ -9,19 +9,9 @@ using WeeControl.Host.WebApiService.Internals.Interfaces;
 
 namespace WeeControl.Host.WebApiService.Contexts.Essentials.Services;
 
-internal class HomeService : IHomeService
+internal class HomeService(IServerOperation server, IGui gui, IDeviceSecurity security)
+    : IHomeService
 {
-    private readonly IGui gui;
-    private readonly IDeviceSecurity security;
-    private readonly IServerOperation server;
-
-    public HomeService(IServerOperation server, IGui gui, IDeviceSecurity security)
-    {
-        this.server = server;
-        this.gui = gui;
-        this.security = security;
-    }
-
     public string LastLoginTimestamp { get; private set; } = string.Empty;
 
     public IEnumerable<HomeNotificationModel> Notifications { get; private set; } = new List<HomeNotificationModel>();
@@ -72,37 +62,6 @@ internal class HomeService : IHomeService
                 new[] {"id", id.ToString()});
 
         return response;
-    }
-
-    public async Task ChangePassword(UserPasswordChangeRequestDto dto)
-    {
-        if (dto.IsValidEntityModel() == false)
-        {
-            await gui.DisplayAlert("invalid data");
-            return;
-        }
-
-        var response = await server
-            .GetResponseMessage(HttpMethod.Patch,
-                new Version("1.0"), dto,
-                ApiRouting.Essentials.User.Route,
-                ApiRouting.Essentials.User.PasswordEndpoint);
-
-        if (response.IsSuccessStatusCode)
-        {
-            await gui.DisplayAlert("Password was changed successfully");
-            await gui.NavigateTo(ApplicationPages.Essential.HomePage);
-            return;
-        }
-
-        if (response.StatusCode == HttpStatusCode.NotFound)
-        {
-            await gui.DisplayAlert("Old password isn't matching, please try again.");
-            return;
-        }
-
-        await gui.DisplayAlert($"Unexpected Error {response.StatusCode}");
-        throw new ArgumentOutOfRangeException();
     }
 
     public async Task SendFeedback(string message, IEnumerable<IBrowserFile> files)

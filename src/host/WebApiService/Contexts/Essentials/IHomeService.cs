@@ -12,6 +12,5 @@ public interface IHomeService
 
     Task<bool> PullData();
     Task MarkNotificationAsViewed(Guid id);
-    Task ChangePassword(UserPasswordChangeRequestDto dto);
     Task SendFeedback(string message, IEnumerable<IBrowserFile> files);
 }
