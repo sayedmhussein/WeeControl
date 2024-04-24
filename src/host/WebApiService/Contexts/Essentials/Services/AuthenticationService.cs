@@ -7,63 +7,9 @@ using WeeControl.Host.WebApiService.Internals.Interfaces;
 
 namespace WeeControl.Host.WebApiService.Contexts.Essentials.Services;
 
-internal class AuthenticationService : IAuthenticationService
+internal class AuthenticationService(IGui gui, IServerOperation server, IDeviceSecurity security, IStorage storage)
+    : IAuthenticationService
 {
-    private readonly IGui gui;
-    private readonly IDeviceSecurity security;
-    private readonly IServerOperation server;
-    private readonly IStorage storage;
-
-    public AuthenticationService(IGui gui, IServerOperation server, IDeviceSecurity security, IStorage storage)
-    {
-        this.gui = gui;
-        this.server = server;
-        this.security = security;
-        this.storage = storage;
-    }
-
-    public async Task Register(UserProfileDto dto)
-    {
-        if (!dto.IsValidEntityModel())
-        {
-            await gui.DisplayAlert(dto.GetFirstValidationError());
-            return;
-        }
-
-        if (!dto.IsValidEntityModel())
-        {
-            await gui.DisplayAlert(dto.GetFirstValidationError());
-            return;
-        }
-
-        var response = await server
-            .GetResponseMessage(HttpMethod.Post,
-                new Version("1.0"), dto,
-                ApiRouting.Essentials.User.Route);
-
-        if (response.IsSuccessStatusCode)
-        {
-            var read = await server.ReadFromContent<TokenResponseDto>(response.Content);
-            if (read != null && !string.IsNullOrEmpty(read.Token))
-            {
-                await security.UpdateToken(read.Token);
-                await gui.NavigateTo(ApplicationPages.Essential.OtpPage);
-                return;
-            }
-
-            await gui.DisplayAlert($"Unexpected Error:{response.StatusCode}");
-            return;
-        }
-
-        if (response.StatusCode == HttpStatusCode.Conflict)
-        {
-            await gui.DisplayAlert("Please choose another email or username as what you entered already exist");
-            return;
-        }
-
-        await gui.DisplayAlert($"Unexpected error: {response.StatusCode}");
-    }
-
     public async Task Login(LoginRequestDto dto)
     {
         var errors = dto.GetModelValidationErrors();
@@ -149,24 +95,5 @@ internal class AuthenticationService : IAuthenticationService
         await gui.NavigateTo(ApplicationPages.Essential.LoginPage, true);
     }
 
-    public async Task RequestPasswordReset(UserPasswordResetRequestDto dto)
-    {
-        if (dto.IsValidEntityModel() == false)
-        {
-            await gui.DisplayAlert("invalid data");
-            return;
-        }
-
-        var response = await server
-            .GetResponseMessage(HttpMethod.Post,
-                new Version("1.0"), dto,
-                ApiRouting.Essentials.User.Route,
-                ApiRouting.Essentials.User.PasswordEndpoint);
-
-        if (response.IsSuccessStatusCode)
-        {
-            await gui.DisplayAlert("Please check your inbox for more instructions");
-            await gui.NavigateTo(ApplicationPages.Essential.HomePage);
-        }
-    }
+    
 }

@@ -22,7 +22,7 @@ public class RegistrationTests : IClassFixture<CustomWebApplicationFactory<Start
     {
         using var hostTestHelper = new HostTestHelper(factory.CreateClient());
 
-        var service = hostTestHelper.GetService<IAuthenticationService>();
+        var service = hostTestHelper.GetService<IPersonService>();
         var dto = new UserProfileDto
         {
             FirstName = "FirstName", LastName = "LastName", NationalityCode = "EGP", DateOfBirth = DateTime.Today,
@@ -45,7 +45,7 @@ public class RegistrationTests : IClassFixture<CustomWebApplicationFactory<Start
     {
         using var hostTestHelper = new HostTestHelper(factory.CreateCustomClient());
 
-        var service = hostTestHelper.GetService<IAuthenticationService>();
+        var service = hostTestHelper.GetService<IPersonService>();
         var dto = new UserProfileDto
         {
             FirstName = "FirstName", LastName = "LastName", NationalityCode = "EGP", DateOfBirth = DateTime.Today,

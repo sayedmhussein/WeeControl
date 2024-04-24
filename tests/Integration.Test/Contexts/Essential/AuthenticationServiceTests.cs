@@ -151,7 +151,7 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
     public async void RequestPasswordReset_WhenSuccess()
     {
         using var helper = new HostTestHelper(factory.CreateCustomClient());
-        var service = helper.GetService<IAuthenticationService>();
+        var service = helper.GetService<IPersonService>();
 
         await service.RequestPasswordReset(new UserPasswordResetRequestDto
         {
@@ -170,7 +170,7 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
     public async void RequestPasswordReset_WhenInvalidEmailAndUsernameMatchingOrNotExist(string email, string username)
     {
         using var helper = new HostTestHelper(factory.CreateCustomClient());
-        var service = helper.GetService<IAuthenticationService>();
+        var service = helper.GetService<IPersonService>();
 
         await service.RequestPasswordReset(new UserPasswordResetRequestDto
         {
@@ -191,7 +191,7 @@ public class AuthenticationServiceTests : IClassFixture<CustomWebApplicationFact
             user.Suspend("for testing");
             e.SaveChanges();
         }));
-        var service = helper.GetService<IAuthenticationService>();
+        var service = helper.GetService<IPersonService>();
 
         await service.RequestPasswordReset(new UserPasswordResetRequestDto
         {

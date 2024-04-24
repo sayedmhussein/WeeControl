@@ -6,6 +6,7 @@
 @attribute [Route(ApplicationPages.Essential.LoginPage)]
 @attribute [AllowAnonymous]
 @inject IAuthenticationService AuthorizationService
+@inject IPersonService UserService
 @inject ISecurity Security
 @inject IGui Gui
 
@@ -17,7 +18,7 @@
         </MudCardHeader>
 
         <MudCardContent >
-            <EditForm Model="@forgotPassword" OnValidSubmit="@(() => { isLoading = true; AuthorizationService.RequestPasswordReset(forgotPassword); isLoading = false; })">
+            <EditForm Model="@forgotPassword" OnValidSubmit="@(() => { isLoading = true; UserService.RequestPasswordReset(forgotPassword); isLoading = false; })">
                 <DataAnnotationsValidator/>
                 <div class="form-group">
                     <label>Username or Email</label>
